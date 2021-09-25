@@ -1,0 +1,38 @@
+@{ 
+    string Prefix = "ProgramacionCitas";
+    string UrlClick = Url.Action("Edit", "ProgramacionCitas");
+    string UrlNew = Url.Action("New", "ProgramacionCitas");
+
+    var DataGridConfig = new DataGridConfiguration<ProgramacionCitas>(Prefix)
+        .OnClick(UrlClick, new { Id = "Id" })
+        .New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew))
+        .Exports(true,true).SetStorage()
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("ProgramacionCitas"), "mainPanel");
+} 
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<ProgramacionCitas>(DataGridConfig)
+    .ID("ProgramacionCitasDataGrid")
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProgramacionCitas").LoadAction("Get").Key("Id"))
+    .Columns(columns =>
+    {
+        columns.AddFor(m => m.Consecutivo).SortOrder(SortOrder.Desc);
+        columns.AddFor(m => m.Estados.Nombre);
+        columns.AddFor(m => m.CreationDate).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.FechaAsignacion"));
+        columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.DateFormat).SortOrder(SortOrder.Desc);
+        columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
+        columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
+        columns.AddFor(m => m.Pacientes.NombreCompleto);
+        columns.AddFor(m => m.Entidades.Nombre);
+        columns.AddFor(m => m.Consultorios.Nombre);
+        columns.AddFor(m => m.Empleados.NombreCompleto);
+        columns.AddFor(m => m.Sedes.Nombre);
+        columns.AddFor(m => m.Convenios.Nombre);
+        columns.AddFor(m => m.TiposCitas.Nombre);
+        columns.AddFor(m => m.Servicios.Nombre);
+        columns.AddFor(m => m.Observaciones);
+        columns.AddFor(m => m.MotivoCancelacion);
+        columns.AddFor(m => m.MotivoReprogramacion);
+    })
+) 
+</div> 

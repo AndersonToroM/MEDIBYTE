@@ -1,0 +1,8 @@
+obj
+bin
+.vs
+*.log
+/Mvc.WebApps/.vscode
+/Mvc.WebApps/.vscode
+ArchivosImagenesDiagnosticas
+/Mvc.WebApps/WebApp/Properties/PublishProfiles
