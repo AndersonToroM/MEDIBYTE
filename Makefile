@@ -12,3 +12,6 @@ publish:
 	echo ******* PROYECTO SIISO PUBLICADO PARA LINUX X64  *******
 
 build: gitPull publish
+
+up: 
+	chmod -R 777 publish && systemctl restart siisotest.service
