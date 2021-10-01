@@ -165,8 +165,9 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Pacientes.Generos)
                 .Include(x => x.Admisiones.Pacientes.Ciudades)
                 .Include(x => x.Admisiones.Pacientes.Ciudades.Departamentos)
-                .Where(x=>x.Facturas.EntidadesId == rips.EntidadesId)
-                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month).ToList();
+                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId)
+                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
+                .OrderBy(x=>x.Admisiones.Pacientes.TiposIdentificacion.Codigo).ThenBy(x=>x.Admisiones.Pacientes.NumeroIdentificacion).ToList();
 
             if (result == null || result.Count <= 0)
                 throw new Exception($"No existen facturas en el periodo {rips.Periodo.ToString("MMyyyy")} para la entidad {rips.Entidades.Alias}");
@@ -219,7 +220,7 @@ namespace Blazor.BusinessLogic
             }
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"US{rips.FechaRemision.ToString("MMyyyy")}{delimitador}" +
+                $"US{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
             File.WriteAllText(Path.Combine(this.PathArchivos, $"US{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
@@ -232,7 +233,7 @@ namespace Blazor.BusinessLogic
             List<string> registros = new List<string>();
             GenericBusinessLogic<Facturas> logicaFacturas = new GenericBusinessLogic<Facturas>(this.UnitOfWork.Settings);
             var result = logicaFacturas.Tabla(true)
-                .Where(x=>x.EntidadesId == rips.EntidadesId)
+                .Where(x => x.EntidadesId == rips.EntidadesId)
                 .Where(x => x.Fecha.Date.Year == rips.Periodo.Date.Year && x.Fecha.Date.Month == rips.Periodo.Date.Month).ToList();
 
             foreach (var item in result)
@@ -262,7 +263,7 @@ namespace Blazor.BusinessLogic
 
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"AF{rips.FechaRemision.ToString("MMyyyy")}{delimitador}" +
+                $"AF{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
             File.WriteAllText(Path.Combine(this.PathArchivos, $"AF{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
@@ -288,7 +289,8 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Atenciones.FinalidadConsulta)
                 .Include(x => x.Atenciones.CausasExternas)
                 .Where(x => x.Facturas.EntidadesId == rips.EntidadesId)
-                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month).ToList();
+                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
+                .OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
 
             foreach (var item in result)
             {
@@ -325,7 +327,7 @@ namespace Blazor.BusinessLogic
 
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"AC{rips.FechaRemision.ToString("MMyyyy")}{delimitador}" +
+                $"AC{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
             File.WriteAllText(Path.Combine(this.PathArchivos, $"AC{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
@@ -350,7 +352,8 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Atenciones.AmbitoRealizacionProcedimiento)
                 .Include(x => x.Atenciones.FinalidadProcedimiento)
                 .Where(x => x.Facturas.EntidadesId == rips.EntidadesId)
-                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month).ToList();
+                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
+                .OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
 
             foreach (var item in result)
             {
@@ -389,7 +392,7 @@ namespace Blazor.BusinessLogic
 
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"AP{rips.FechaRemision.ToString("MMyyyy")}{delimitador}" +
+                $"AP{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
             File.WriteAllText(Path.Combine(this.PathArchivos, $"AP{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
