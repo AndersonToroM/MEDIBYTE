@@ -6,3 +6,5 @@ bin
 /Mvc.WebApps/.vscode
 ArchivosImagenesDiagnosticas
 /Mvc.WebApps/WebApp/Properties/PublishProfiles
+PublishProfiles
+publish
