@@ -708,23 +708,23 @@ namespace Blazor.BusinessLogic
                     foreach (var item in admisiones)
                     {
                         SectorSalud ss = new SectorSalud();
-                        ss.CodPrestadorServicio = factura.Entidades.CodigoReps;
-                        ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion;
-                        ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo;
-                        ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido);
-                        ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido);
-                        ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre);
-                        ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre);
-                        ss.TipoUsuario = item.TiposUsuarios.Id.ToString();
+                        ss.CodPrestadorServicio = factura.Entidades.CodigoReps.TrimStart().TrimEnd();
+                        ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.TrimStart().TrimEnd();
+                        ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.TrimStart().TrimEnd();
+                        ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.TrimStart().TrimEnd());
+                        ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.TrimStart().TrimEnd());
+                        ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.TrimStart().TrimEnd());
+                        ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.TrimStart().TrimEnd());
+                        ss.TipoUsuario = item.TiposUsuarios.Id.ToString().TrimStart().TrimEnd();
 
                         ss.ModContratoPago = item.Convenios.ModalidadesContratacion.Id.ToString("D2");
                         ss.Cobertura = item.CoberturaPlanBeneficios.Id.ToString("D2");
 
-                        ss.NumAutorizacion = item.NroAutorizacion;
-                        ss.NumPrescripcion = item.NumeroPrescripcion;
-                        ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion;
-                        ss.Numcontrato = item.Convenios.Codigo;
-                        ss.NumPoliza = item.NumeroPoliza;
+                        ss.NumAutorizacion = item.NroAutorizacion.TrimStart().TrimEnd();
+                        ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
+                        ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.TrimStart().TrimEnd();
+                        ss.Numcontrato = item.Convenios.Codigo.TrimStart().TrimEnd();
+                        ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
                         ss.FechaInicio = factura.FehaInicial;
                         ss.FechaFinal = factura.FechaFinal;
                         if (item.ValorPagoEstadosId == 58)
