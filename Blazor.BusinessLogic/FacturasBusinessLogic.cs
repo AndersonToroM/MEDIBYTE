@@ -708,23 +708,45 @@ namespace Blazor.BusinessLogic
                     foreach (var item in admisiones)
                     {
                         SectorSalud ss = new SectorSalud();
-                        ss.CodPrestadorServicio = factura.Entidades.CodigoReps.TrimStart().TrimEnd();
-                        ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.TrimStart().TrimEnd();
-                        ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.TrimStart().TrimEnd();
-                        ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.TrimStart().TrimEnd());
-                        ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.TrimStart().TrimEnd());
-                        ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.TrimStart().TrimEnd());
-                        ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.TrimStart().TrimEnd());
-                        ss.TipoUsuario = item.TiposUsuarios.Id.ToString().TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(factura.Entidades.CodigoReps))
+                            ss.CodPrestadorServicio = factura.Entidades.CodigoReps.TrimStart().TrimEnd();
+
+                        if (!string.IsNullOrWhiteSpace(item.Pacientes.NumeroIdentificacion))
+                            ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.TrimStart().TrimEnd();
+                        
+                        if (!string.IsNullOrWhiteSpace(item.Pacientes.TiposIdentificacion.Codigo))
+                            ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.TrimStart().TrimEnd();
+                        
+                        if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerApellido))
+                            ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.TrimStart().TrimEnd());
+                        
+                        if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoApellido))
+                            ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.TrimStart().TrimEnd());
+                        
+                        if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerNombre))
+                            ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.TrimStart().TrimEnd());
+                        
+                        if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoNombre))
+                            ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.TrimStart().TrimEnd());
+                        
+                        if (item.TiposUsuarios!=null)
+                            ss.TipoUsuario = item.TiposUsuarios.Id.ToString().TrimStart().TrimEnd();
 
                         ss.ModContratoPago = item.Convenios.ModalidadesContratacion.Id.ToString("D2");
                         ss.Cobertura = item.CoberturaPlanBeneficios.Id.ToString("D2");
 
+                        if(!string.IsNullOrWhiteSpace(item.NroAutorizacion))
                         ss.NumAutorizacion = item.NroAutorizacion.TrimStart().TrimEnd();
-                        ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
-                        ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.TrimStart().TrimEnd();
-                        ss.Numcontrato = item.Convenios.Codigo.TrimStart().TrimEnd();
-                        ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
+
+                        if (!string.IsNullOrWhiteSpace(item.NumeroPrescripcion))
+                            ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(item.NumeroSuministroPrescripcion))
+                            ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(item.Convenios.Codigo))
+                            ss.Numcontrato = item.Convenios.Codigo.TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(item.NumeroPoliza))
+                            ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
+                        
                         ss.FechaInicio = factura.FehaInicial;
                         ss.FechaFinal = factura.FechaFinal;
                         if (item.ValorPagoEstadosId == 58)
