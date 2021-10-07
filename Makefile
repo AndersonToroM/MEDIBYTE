@@ -11,6 +11,9 @@ publish:
 	dotnet publish -r linux-x64 -c Release --self-contained true -p:PublishSingleFile=false -o ../publish && \
 	echo ******* PROYECTO SIISO PUBLICADO PARA LINUX X64  *******
 
+setVersion:
+	./version.sh
+
 build: gitPull publish
 
 up: 
