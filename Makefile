@@ -2,7 +2,7 @@ gitPull:
 	git pull --progress -v --no-rebase "origin" && \
 	echo ******* REPOSITORIO SIISO ACTUALIZADO  *******
 	
-publish:
+publicar:
 	cd ./WebApp && \
 	dotnet restore --force -s https://api.nuget.org/v3/index.json -s https://nexus.dbusiness.app/repository/nuget-group/ -s https://nuget.devexpress.com/nYVMfL2DHjdhvBeIVCLpdfJqwAjciBDPXo836DK6lFsCbB5gdz/api && \
 	echo ******* PROYECTO SIISO RESTAURADO  ******* && \
@@ -14,7 +14,10 @@ publish:
 setVersion:
 	./version.sh
 
-build: gitPull publish setVersion
+build: gitPull publicar
 
 up: 
 	chmod -R 777 publish && systemctl restart siisotest.service
+
+siiso:
+	build up
