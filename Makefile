@@ -14,7 +14,7 @@ publish:
 setVersion:
 	./version.sh
 
-build: gitPull publish
+build: gitPull publish setVersion
 
 up: 
 	chmod -R 777 publish && systemctl restart siisotest.service
