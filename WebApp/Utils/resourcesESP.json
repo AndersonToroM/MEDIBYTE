@@ -1953,7 +1953,7 @@
   },
   {
     "Id": "Facturas.Fecha",
-    "Description": "Fecha"
+    "Description": "Fecha de emisión"
   },
   {
     "Id": "Facturas.FechaFinal",

@@ -177,6 +177,7 @@
                      .Columns(columns =>
                      {
                          //columns.AddFor(m => m.Id);
+                         columns.AddFor(m => m.Fecha);
                          columns.AddFor(m => m.Documentos.Prefijo);
                          columns.AddFor(m => m.NroConsecutivo);
                          columns.AddFor(m => m.ValorSubtotal).Width(150);
