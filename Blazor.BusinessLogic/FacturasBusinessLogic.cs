@@ -713,30 +713,30 @@ namespace Blazor.BusinessLogic
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.NumeroIdentificacion))
                             ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.TrimStart().TrimEnd();
-                        
+
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.TiposIdentificacion.Codigo))
                             ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.TrimStart().TrimEnd();
-                        
+
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerApellido))
                             ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.TrimStart().TrimEnd());
-                        
+
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoApellido))
                             ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.TrimStart().TrimEnd());
-                        
+
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerNombre))
                             ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.TrimStart().TrimEnd());
-                        
+
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoNombre))
                             ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.TrimStart().TrimEnd());
-                        
-                        if (item.TiposUsuarios!=null)
+
+                        if (item.TiposUsuarios != null)
                             ss.TipoUsuario = item.TiposUsuarios.Id.ToString().TrimStart().TrimEnd();
 
                         ss.ModContratoPago = item.Convenios.ModalidadesContratacion.Id.ToString("D2");
                         ss.Cobertura = item.CoberturaPlanBeneficios.Id.ToString("D2");
 
-                        if(!string.IsNullOrWhiteSpace(item.NroAutorizacion))
-                        ss.NumAutorizacion = item.NroAutorizacion.TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(item.NroAutorizacion))
+                            ss.NumAutorizacion = item.NroAutorizacion.TrimStart().TrimEnd();
 
                         if (!string.IsNullOrWhiteSpace(item.NumeroPrescripcion))
                             ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
@@ -746,7 +746,7 @@ namespace Blazor.BusinessLogic
                             ss.Numcontrato = item.Convenios.Codigo.TrimStart().TrimEnd();
                         if (!string.IsNullOrWhiteSpace(item.NumeroPoliza))
                             ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
-                        
+
                         ss.FechaInicio = factura.FehaInicial;
                         ss.FechaFinal = factura.FechaFinal;
                         if (item.ValorPagoEstadosId == 58)
@@ -904,24 +904,55 @@ namespace Blazor.BusinessLogic
                 Directory.Delete(path, true);
             Directory.CreateDirectory(path);
 
-            List<VContabilizacionRegistro> documentos = new GenericBusinessLogic<VContabilizacionRegistro>(this.UnitOfWork).FindAll(x => ids.Contains(x.Id));
+            List<VContabilizacionRegistro> documentos = new GenericBusinessLogic<VContabilizacionRegistro>(this.UnitOfWork).FindAll(x => ids.Contains(x.Id)).OrderBy(x => x.Id).ToList();
             if (documentos.Count <= 0)
                 throw new Exception("No existen datos a generar con las facturas seleccionadas.");
 
-            List<IGrouping<string, VContabilizacionRegistro>> result = documentos.GroupBy(x => x.Documento).ToList();
-            int i = 0;
-            foreach (var registro in result)
+            //List<IGrouping<string, VContabilizacionRegistro>> result = documentos.GroupBy(x => x.Documento).ToList();
+            //int i = 0;
+            //foreach (var registro in result)
+            //{
+            //    string nombreArchivo = $"FIBATCH.{i.ToString("D3")}";
+            //    List<string> data = registro.Select(x => Regex.Replace(x.Registro.Normalize(NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "") ).ToList();
+            //    File.WriteAllLines(Path.Combine(path, nombreArchivo), data);
+            //    i++;
+            //}
+            string nombreArchivo = $"FIBATCH.{documentos.Count.ToString("D3")}";
+            List<string> data = new List<string>();
+            //foreach (var item in documentos)
+            //{
+            //    data.Add(item.Registro);
+            //}
+            for (int i = 0; i < documentos.Count; i++)
             {
-                string nombreArchivo = $"FIBATCH.{i.ToString("D3")}";
-                List<string> data = registro.Select(x => Regex.Replace(x.Registro.Normalize(NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "") ).ToList();
-                File.WriteAllLines(Path.Combine(path, nombreArchivo), data);
-                i++;
+                var datareg = (i+1).ToString("D9") + documentos[i].Registro.Substring(9);
+                data.Add(QutarTildes(datareg));
             }
+            File.WriteAllLines(Path.Combine(path, nombreArchivo), data);
+
             ZipArchive archive = new ZipArchive();
             archive.AddDirectory(path, "/");
             string pathZip = Path.GetTempFileName();
             archive.Save(pathZip);
             return pathZip;
         }
+
+        public string QutarTildes(string data)
+        {
+            data = data.Replace("á", "a");
+            data = data.Replace("Á", "A");
+            data = data.Replace("é", "e");
+            data = data.Replace("É", "E");
+            data = data.Replace("í", "i");
+            data = data.Replace("Í", "I");
+            data = data.Replace("ó", "o");
+            data = data.Replace("Ó", "O");
+            data = data.Replace("ú", "u");
+            data = data.Replace("Ú", "U");
+            data = data.Replace("ñ", "n");
+            data = data.Replace("Ñ", "N");
+            return data;
+        }
+        
     }
 }
