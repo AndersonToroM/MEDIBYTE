@@ -774,6 +774,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Update="appsettings.prod.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.dev.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Utils\resourcesESP.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
