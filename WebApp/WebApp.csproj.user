@@ -68,6 +68,9 @@
     <Compile Update="Reportes\IndicacionesMedicas\IndicacionesMedicasReporte.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Reportes\Notas\NotasReporte.cs">
       <SubType>Component</SubType>
     </Compile>
