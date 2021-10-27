@@ -46,8 +46,8 @@ namespace Blazor.BusinessLogic
                 .Where(x => x.Atenciones.FechaAtencion.Date >= liquidacion.FechaInicio.Date &&
                 x.Atenciones.FechaAtencion.Date <= liquidacion.FechaFinal.Date &&
                 x.Atenciones.Empleados.TipoEmpleados == 2 &&
-                !unitOfWork.Repository<LiquidacionHonorariosDetalle>().Table.Include(j=>j.LiquidacionHonorarios)
-                    .Where(j=>j.LiquidacionHonorarios.EstadosId != 10065)
+                !unitOfWork.Repository<LiquidacionHonorariosDetalle>().Table.Include(j => j.LiquidacionHonorarios)
+                    .Where(j => j.LiquidacionHonorarios.EstadosId != 10065)
                     .Select(j => j.AdmisionesServiciosPrestadosId).Contains(x.Id)
                 );
 
@@ -65,6 +65,7 @@ namespace Blazor.BusinessLogic
                 item.Empleados = servicioPrestado.Atenciones.Empleados;
                 item.AdmisionesServiciosPrestadosId = servicioPrestado.Id;
                 item.AdmisionesServiciosPrestados = servicioPrestado;
+                //item.AdmisionesServiciosPrestados.Cantidad = servicioPrestado.Cantidad;
                 item.EsLectura = false;
                 item.AtencionesResultadoId = null;
 
@@ -79,16 +80,16 @@ namespace Blazor.BusinessLogic
                     if (item.AdmisionesServiciosPrestados.Admisiones.ConveniosId != null)
                     {
                         if (config.TipoPagoConvenioEstadosId == 76)
-                            valorLiquidar = item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioConvenio / 100);
+                            valorLiquidar = (item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioConvenio / 100)) * item.AdmisionesServiciosPrestados.Cantidad;
                         else
-                            valorLiquidar = config.ValorHonorarioConvenio;
+                            valorLiquidar = config.ValorHonorarioConvenio * item.AdmisionesServiciosPrestados.Cantidad;
                     }
                     else
                     {
                         if (config.TipoPagoParticularEstadosId == 76)
-                            valorLiquidar = item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioParticular / 100);
+                            valorLiquidar = (item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioParticular / 100)) * item.AdmisionesServiciosPrestados.Cantidad;
                         else
-                            valorLiquidar = config.ValorHonorarioParticular;
+                            valorLiquidar = config.ValorHonorarioParticular * item.AdmisionesServiciosPrestados.Cantidad;
                     }
                 }
                 item.Valor = valorLiquidar;
@@ -133,7 +134,7 @@ namespace Blazor.BusinessLogic
                 AdministracionHonorariosLecturas config = unitOfWork.Repository<AdministracionHonorariosLecturas>().Table.Include(x => x.AdministracionHonorarios)
                     .FirstOrDefault(x => x.AdministracionHonorarios.EmpleadosId == item.EmpleadosId &&
                     x.ServiciosId == item.AdmisionesServiciosPrestados.ServiciosId);
-                
+
                 decimal valorLiquidar = 0;
                 if (config != null)
                 {
@@ -158,15 +159,16 @@ namespace Blazor.BusinessLogic
             try
             {
                 unitOfWork.BeginTransaction();
-                models.ForEach(x => {
+                models.ForEach(x =>
+                {
                     x.Id = 0;
                     x.UpdatedBy = user;
                     x.CreatedBy = user;
                     x = unitOfWork.Repository<LiquidacionHonorariosDetalle>().Add(x);
-                });                
-                var liquidacion = unitOfWork.Repository<LiquidacionHonorarios>().Table.FirstOrDefault(x=>x.Id == models[0].LiquidacionHonorariosId);                
+                });
+                var liquidacion = unitOfWork.Repository<LiquidacionHonorarios>().Table.FirstOrDefault(x => x.Id == models[0].LiquidacionHonorariosId);
                 liquidacion.EstadosId = 10062;
-                liquidacion.ValorTotal = models.Sum(x=>x.Valor);
+                liquidacion.ValorTotal = models.Sum(x => x.Valor);
                 unitOfWork.Repository<LiquidacionHonorarios>().Modify(liquidacion);
                 unitOfWork.CommitTransaction();
                 return liquidacion.Id;
