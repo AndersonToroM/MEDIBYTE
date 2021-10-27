@@ -11,19 +11,19 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Reportes\**\*.repx" />
+    <None Remove="Reportes\LiquidacionHonorariosReporte\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\**\*.repx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <Content Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <EmbeddedResource Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <TypeScriptCompile Remove="Reportes\LiquidacionHonorariosReporte\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="appsettings.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
-    <None Remove="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx~RF6404327f.TMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="appsettings.json">
@@ -742,12 +742,6 @@
     </Compile>
     <Compile Update="Reportes\IndicacionesMedicas\IndicacionesMedicasReporte.Designer.cs">
       <DependentUpon>IndicacionesMedicasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.cs">
-      <DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.Designer.cs">
-      <DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
     </Compile>
     <Compile Update="Reportes\Notas\NotasReporte.cs">
       <DependentUpon>NotasReporte.repx</DependentUpon>
