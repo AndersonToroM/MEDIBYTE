@@ -10,10 +10,10 @@
   <Bands>
     <Item1 Ref="8" ControlType="TopMarginBand" Name="TopMargin" HeightF="46">
       <Controls>
-        <Item1 Ref="9" ControlType="XRPageInfo" Name="pageInfo1" PageInfo="DateTime" TextAlignment="MiddleRight" SizeF="150.61615,23.0000038" LocationFloat="883.3333,22.9999962" StyleName="PageInfo" Font="Calibri, 8pt">
+        <Item1 Ref="9" ControlType="XRPageInfo" Name="pageInfo1" PageInfo="DateTime" TextAlignment="MiddleRight" SizeF="196.666687,23.0000038" LocationFloat="863.3333,22.9999924" StyleName="PageInfo" Font="Calibri, 8pt">
           <StylePriority Ref="10" UseFont="false" UseTextAlignment="false" />
         </Item1>
-        <Item2 Ref="11" ControlType="XRPageInfo" Name="pageInfo2" TextFormatString="Página {0} de {1}" TextAlignment="MiddleRight" SizeF="150.616272,23" LocationFloat="883.3333,0" StyleName="PageInfo" Font="Calibri, 8pt">
+        <Item2 Ref="11" ControlType="XRPageInfo" Name="pageInfo2" TextFormatString="Página {0} de {1}" TextAlignment="MiddleRight" SizeF="196.666687,23" LocationFloat="863.3333,0" StyleName="PageInfo" Font="Calibri, 8pt">
           <StylePriority Ref="12" UseFont="false" UseTextAlignment="false" />
         </Item2>
       </Controls>
@@ -21,7 +21,7 @@
     <Item2 Ref="13" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="109.527832" />
     <Item3 Ref="14" ControlType="DetailBand" Name="Detail" HeightF="25.2137241">
       <Controls>
-        <Item1 Ref="15" ControlType="XRTable" Name="table2" TextAlignment="MiddleCenter" SizeF="1060.00012,25" LocationFloat="0.000126838684,0.213724777" Font="Calibri, 6pt" Padding="2,2,0,0,96" Borders="All" BorderWidth="0.5">
+        <Item1 Ref="15" ControlType="XRTable" Name="table2" TextAlignment="MiddleCenter" SizeF="1060.00012,25" LocationFloat="0.000126838684,0.213724777" Font="Calibri, 6pt" Padding="2,2,0,0,96" BorderColor="Gray" Borders="Left, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
           <Rows>
             <Item1 Ref="16" ControlType="XRTableRow" Name="tableRow3" Weight="1">
               <Cells>
@@ -100,13 +100,13 @@
               </Cells>
             </Item1>
           </Rows>
-          <StylePriority Ref="47" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+          <StylePriority Ref="47" UseFont="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
         </Item1>
       </Controls>
     </Item3>
     <Item4 Ref="48" ControlType="PageHeaderBand" Name="PageHeader" HeightF="134.6073">
       <Controls>
-        <Item1 Ref="49" ControlType="XRTable" Name="table1" TextAlignment="MiddleCenter" SizeF="1060,31.6666641" LocationFloat="0,102.940636" Font="Calibri, 8pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,96" Borders="All" BorderWidth="0.5">
+        <Item1 Ref="49" ControlType="XRTable" Name="table1" TextAlignment="MiddleCenter" SizeF="1060,31.6666641" LocationFloat="0,102.940636" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,96" Borders="All" BorderWidth="0.5">
           <Rows>
             <Item1 Ref="50" ControlType="XRTableRow" Name="tableRow1" Weight="1">
               <Cells>
@@ -188,9 +188,9 @@
         </Item3>
       </Controls>
     </Item4>
-    <Item5 Ref="90" ControlType="GroupFooterBand" Name="GroupFooter1" HeightF="59.14181">
+    <Item5 Ref="90" ControlType="GroupFooterBand" Name="GroupFooter1" HeightF="69.58562">
       <Controls>
-        <Item1 Ref="91" ControlType="XRLine" Name="line1" SizeF="1060,23" LocationFloat="0.000128225118,0" />
+        <Item1 Ref="91" ControlType="XRLine" Name="line1" SizeF="1060,13.0000057" LocationFloat="2,0" />
         <Item2 Ref="92" ControlType="XRTable" Name="table10" SizeF="86.6028442,25.9087181" LocationFloat="973.3974,22.9999962" Padding="2,2,0,0,96">
           <Rows>
             <Item1 Ref="93" ControlType="XRTableRow" Name="tableRow26" Weight="0.48">
