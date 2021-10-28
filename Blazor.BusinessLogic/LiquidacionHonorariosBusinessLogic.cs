@@ -139,7 +139,7 @@ namespace Blazor.BusinessLogic
                 if (config != null)
                 {
                     if (config.TipoPagoLecturaEstadosId == 76)
-                        valorLiquidar = item.AdmisionesServiciosPrestados.Servicios.TarifaPlena * (config.ValorHonorarioLectura / 100);
+                        valorLiquidar = item.AdmisionesServiciosPrestados.ValorServicio * (config.ValorHonorarioLectura / 100);
                     else
                         valorLiquidar = config.ValorHonorarioLectura;
                 }
