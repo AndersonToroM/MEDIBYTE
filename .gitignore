@@ -9,3 +9,4 @@ ArchivosImagenesDiagnosticas
 PublishProfiles
 publish
 /WebApp/Properties/PublishProfiles
+/WebApp/*.user
