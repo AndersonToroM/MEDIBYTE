@@ -26,6 +26,12 @@
     <Content Remove="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="appsettings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
@@ -742,6 +748,12 @@
     </Compile>
     <Compile Update="Reportes\IndicacionesMedicas\IndicacionesMedicasReporte.Designer.cs">
       <DependentUpon>IndicacionesMedicasReporte.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.cs">
+      <DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.Designer.cs">
+      <DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
     </Compile>
     <Compile Update="Reportes\Notas\NotasReporte.cs">
       <DependentUpon>NotasReporte.repx</DependentUpon>
