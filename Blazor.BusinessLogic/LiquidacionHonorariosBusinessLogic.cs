@@ -65,7 +65,7 @@ namespace Blazor.BusinessLogic
                 item.Empleados = servicioPrestado.Atenciones.Empleados;
                 item.AdmisionesServiciosPrestadosId = servicioPrestado.Id;
                 item.AdmisionesServiciosPrestados = servicioPrestado;
-                //item.AdmisionesServiciosPrestados.Cantidad = servicioPrestado.Cantidad;
+                item.AdmisionesServiciosPrestados.Cantidad = servicioPrestado.Cantidad;
                 item.EsLectura = false;
                 item.AtencionesResultadoId = null;
 
@@ -80,7 +80,7 @@ namespace Blazor.BusinessLogic
                     if (item.AdmisionesServiciosPrestados.Admisiones.ConveniosId != null)
                     {
                         if (config.TipoPagoConvenioEstadosId == 76)
-                            valorLiquidar = (item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioConvenio / 100)) * item.AdmisionesServiciosPrestados.Cantidad;
+                            valorLiquidar = (item.AdmisionesServiciosPrestados.ValorTotal * item.AdmisionesServiciosPrestados.Cantidad * (config.ValorHonorarioConvenio / 100));
                         else
                             valorLiquidar = config.ValorHonorarioConvenio * item.AdmisionesServiciosPrestados.Cantidad;
                     }
