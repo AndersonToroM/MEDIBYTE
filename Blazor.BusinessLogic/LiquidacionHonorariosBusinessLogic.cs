@@ -80,14 +80,14 @@ namespace Blazor.BusinessLogic
                     if (item.AdmisionesServiciosPrestados.Admisiones.ConveniosId != null)
                     {
                         if (config.TipoPagoConvenioEstadosId == 76)
-                            valorLiquidar = (item.AdmisionesServiciosPrestados.ValorTotal * item.AdmisionesServiciosPrestados.Cantidad * (config.ValorHonorarioConvenio / 100));
+                            valorLiquidar = item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioConvenio / 100);
                         else
                             valorLiquidar = config.ValorHonorarioConvenio * item.AdmisionesServiciosPrestados.Cantidad;
                     }
                     else
                     {
                         if (config.TipoPagoParticularEstadosId == 76)
-                            valorLiquidar = (item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioParticular / 100)) * item.AdmisionesServiciosPrestados.Cantidad;
+                            valorLiquidar = item.AdmisionesServiciosPrestados.ValorTotal * (config.ValorHonorarioParticular / 100);
                         else
                             valorLiquidar = config.ValorHonorarioParticular * item.AdmisionesServiciosPrestados.Cantidad;
                     }

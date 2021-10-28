@@ -27,11 +27,11 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("LiquidacionHonorariosDetalle.EsLectura")]
        public virtual Boolean EsLectura { get; set; }
 
-       #endregion
+        #endregion
 
-       #region Columnas referenciales)
+        #region Columnas referenciales)
 
-       [Column("LiquidacionHonorariosId")]
+        [Column("LiquidacionHonorariosId")]
        [DDisplayName("LiquidacionHonorariosDetalle.LiquidacionHonorariosId")]
        [DRequired("LiquidacionHonorariosDetalle.LiquidacionHonorariosId")]
        [DRequiredFK("LiquidacionHonorariosDetalle.LiquidacionHonorariosId")]
@@ -53,14 +53,14 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("LiquidacionHonorariosDetalle.AtencionesResultadoId")]
        public virtual Int64? AtencionesResultadoId { get; set; }
 
-       #endregion
+        #endregion
 
-       #region Propiedades referencias de entrada)
+        #region Propiedades referencias de entrada)
 
-       [ForeignKey("AdmisionesServiciosPrestadosId")]
+        [ForeignKey("AdmisionesServiciosPrestadosId")]
        public virtual AdmisionesServiciosPrestados AdmisionesServiciosPrestados { get; set; }
 
-       [ForeignKey("AtencionesResultadoId")]
+        [ForeignKey("AtencionesResultadoId")]
        public virtual AtencionesResultado AtencionesResultado { get; set; }
 
        [ForeignKey("EmpleadosId")]
@@ -103,4 +103,7 @@ namespace Blazor.Infrastructure.Entities
 
        #endregion
     }
- }
+
+   
+}
+

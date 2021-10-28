@@ -77,6 +77,7 @@
                         columns.AddFor(m => m.Empleados.NombreCompleto).AllowEditing(false);
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Cantidad).AllowEditing(false);
                         columns.AddFor(m => m.Valor).AllowEditing(true);
+                        //columns.AddFor(m => m.AdmisionesServiciosPrestados.ValorTotal).AllowEditing(true);
                         columns.AddFor(m => m.EsLectura).AllowEditing(false);
                     })
                 )
@@ -106,6 +107,7 @@ else
                         columns.AddFor(m => m.Empleados.NombreCompleto);
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Cantidad).AllowEditing(false);
                         columns.AddFor(m => m.Valor);
+                        //columns.AddFor(m => m.AdmisionesServiciosPrestados.ValorTotal).AllowEditing(true);
                         columns.AddFor(m => m.EsLectura);
                     })
                 )
