@@ -541,6 +541,10 @@
   },
   {
     "Id": "Atenciones.VerCitasProgramadas",
+    "Description": "Mi agenda"
+  },
+  {
+    "Id": "Atenciones.VerListaCitasProgramadas",
     "Description": "Citas Programadas"
   },
   {

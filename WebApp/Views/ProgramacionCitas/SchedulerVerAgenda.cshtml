@@ -3,18 +3,21 @@
     string Prefix = "ProgramacionCitas";
 }
 
+<style>
+    .dx-scheduler-appointment {
+        width: 850px !important;
+    }
+
+        .dx-scheduler-appointment title {
+            visibility: hidden;
+        }
+</style>
+
 <script>
     function ApoinmentNull(item) {
         item.cancel = true;
         return false;
     }
-
-    var elements = $('.dx-scheduler-appointment');
-    for (var i = 0, len = elements.length; i < len; i++) {
-        elements[i].removeAttribute('title');
-    }
-
-
 </script>
 
 @(Html.DevExtreme().Scheduler()

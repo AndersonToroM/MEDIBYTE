@@ -1,6 +1,8 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.DataBase;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Blazor.Infrastructure
 {
@@ -159,6 +161,14 @@ namespace Blazor.Infrastructure
 
         public BlazorContext(DataBaseSetting setting) : base(setting)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+#if DEBUG
+            optionsBuilder.LogTo(Console.WriteLine);
+#endif
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
