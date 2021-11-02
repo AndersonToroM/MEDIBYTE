@@ -36,6 +36,8 @@ namespace Blazor.BusinessLogic
             if (liquidacion.EstadosId != 10064)
                 return new List<LiquidacionHonorariosDetalle>();
 
+            #region Atenciones
+
             var servicios = unitOfWork.Repository<AdmisionesServiciosPrestados>().Table
                 .Include(x => x.Servicios)
                 .Include(x => x.Atenciones)
@@ -46,6 +48,7 @@ namespace Blazor.BusinessLogic
                 .Where(x => x.Atenciones.FechaAtencion.Date >= liquidacion.FechaInicio.Date &&
                 x.Atenciones.FechaAtencion.Date <= liquidacion.FechaFinal.Date &&
                 x.Atenciones.Empleados.TipoEmpleados == 2 &&
+                x.Atenciones.EstadosId == 10076 &&
                 !unitOfWork.Repository<LiquidacionHonorariosDetalle>().Table.Include(j => j.LiquidacionHonorarios)
                     .Where(j => j.LiquidacionHonorarios.EstadosId != 10065)
                     .Select(j => j.AdmisionesServiciosPrestadosId).Contains(x.Id)
@@ -99,6 +102,10 @@ namespace Blazor.BusinessLogic
                 resultadoTotal.Add(item);
             }
 
+            #endregion
+
+            #region Lecturas
+
             var lecturas = unitOfWork.Repository<AtencionesResultado>().Table
                 .Include(x => x.Empleado)
                 .Include(x => x.AdmisionesServiciosPrestados)
@@ -149,6 +156,8 @@ namespace Blazor.BusinessLogic
 
                 resultadoTotal.Add(item);
             }
+
+            #endregion
 
             return resultadoTotal;
         }

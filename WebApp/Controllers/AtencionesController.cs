@@ -482,10 +482,7 @@ namespace Blazor.WebApp.Controllers
             {
                 Empleados empleado = Manager().GetBusinessLogic<Empleados>().FindById(x => x.UserId == this.ActualUsuarioId(), false);
                 if (empleado == null)
-                {
                     return new BadRequestObjectResult(DApp.GetResource("BLL.Atenciones.ErrorEmpleadoUsuario"));
-                }
-
                 SchedulerModel schedulerModel = Manager().AtencionesBusinessLogic().VerCitasProgramadas(empleado);
                 return PartialView("SchedulerVerCitas", schedulerModel);
             }
@@ -493,6 +490,33 @@ namespace Blazor.WebApp.Controllers
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
+        }
+
+        [HttpGet]
+        public ActionResult VerListaCitasProgramadas()
+        {
+            try
+            {
+                Empleados empleado = Manager().GetBusinessLogic<Empleados>().FindById(x => x.UserId == this.ActualUsuarioId(), false);
+                if (empleado == null)
+                    return new BadRequestObjectResult(DApp.GetResource("BLL.Atenciones.ErrorEmpleadoUsuario"));
+                return PartialView("ListProgramacionCitas");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpPost]
+        public LoadResult GetListaCitasProgramadas(DataSourceLoadOptions loadOptions)
+        {
+            Empleados empleado = Manager().GetBusinessLogic<Empleados>().FindById(x => x.UserId == this.ActualUsuarioId(), false);
+            if (empleado == null)
+                throw new Exception(DApp.GetResource("BLL.Atenciones.ErrorEmpleadoUsuario"));
+            List<long> estados = new List<long> { 3 };
+            var result = Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true).Where(x => x.EmpleadosId == empleado.Id && estados.Contains(x.EstadosId));
+            return DataSourceLoader.Load(result, loadOptions);
         }
 
         [HttpGet]

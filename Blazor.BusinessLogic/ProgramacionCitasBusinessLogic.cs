@@ -124,9 +124,9 @@ namespace Blazor.BusinessLogic
                           select programacionAgenda).ToList();
                 citaCruce = unitOfWork.Repository<ProgramacionCitas>().GetTable(true)
                     .Where(x=> x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId)
-                    && ((x.FechaInicio > fechaInicio && x.FechaInicio < fechaFinal)
+                    && ((x.FechaInicio >= fechaInicio && x.FechaInicio < fechaFinal)
                         || (x.FechaFinal > fechaInicio && x.FechaFinal < fechaFinal)
-                        || (fechaInicio > x.FechaInicio && fechaInicio < x.FechaFinal)
+                        || (fechaInicio >= x.FechaInicio && fechaInicio < x.FechaFinal)
                         || (fechaFinal > x.FechaInicio && fechaFinal < x.FechaFinal)
                     )).FirstOrDefault();
             }
@@ -139,9 +139,9 @@ namespace Blazor.BusinessLogic
                           select programacionAgenda).ToList();
                 citaCruce = unitOfWork.Repository<ProgramacionCitas>().GetTable(true)
                     .Where(x => x.ConsultoriosId == consultorioId && estados.Contains(x.EstadosId)
-                    && ((x.FechaInicio > fechaInicio && x.FechaInicio < fechaFinal)
+                    && ((x.FechaInicio >= fechaInicio && x.FechaInicio < fechaFinal)
                         || (x.FechaFinal > fechaInicio && x.FechaFinal < fechaFinal)
-                        || (fechaInicio > x.FechaInicio && fechaInicio < x.FechaFinal)
+                        || (fechaInicio >= x.FechaInicio && fechaInicio < x.FechaFinal)
                         || (fechaFinal > x.FechaInicio && fechaFinal < x.FechaFinal)
                     )).FirstOrDefault();
             }
