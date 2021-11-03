@@ -441,9 +441,9 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio)
+        public IActionResult ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio, long consultorioId)
         {
-            var data = Manager().ProgramacionCitasBusinessLogic().ConsultarDisponibilidadCitaAdicional(fechaInicio);
+            var data = Manager().ProgramacionCitasBusinessLogic().ConsultarDisponibilidadCitaAdicional(fechaInicio, consultorioId);
             return new OkObjectResult(data);
         }
 

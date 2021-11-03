@@ -57,7 +57,6 @@ namespace Blazor.BusinessLogic
                     column = 0;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.TiposIdentificacion.Codigo); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.NumeroIdentificacion); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.FechaNacimiento); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.FechaNacimiento.Date); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.Generos.Codigo); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerNombre); column++;
@@ -397,12 +396,13 @@ namespace Blazor.BusinessLogic
             return tarifaConvenio;
         }
 
-        public Dictionary<string, object> ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio)
+        public Dictionary<string, object> ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio, long consultorioId)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             List<long> estados = new List<long> { 3, 4, 5, 6 };
-            var totalCitas = unitOfWork.Repository<ProgramacionCitas>().Table.Count(x => x.FechaInicio == fechaInicio && estados.Contains(x.EstadosId));
+            var totalCitas = unitOfWork.Repository<ProgramacionCitas>().Table
+                .Count(x => x.FechaInicio == fechaInicio && estados.Contains(x.EstadosId) && x.ConsultoriosId == consultorioId);
             if (totalCitas >= 2)
             {
                 result.Add("Disponible", false);

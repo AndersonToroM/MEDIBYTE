@@ -104,6 +104,7 @@
     function @(Prefix)SchedulerVerAgendaOnAppointmentDblClick(item) {
         item.cancel = true;
         var TiposCitasId = $("#@(Prefix)TiposCitasId").dxSelectBox("instance").option("value");
+        console.log(item.appointmentData);
         var fechaInicio = JSON.parse(JSON.stringify(item.appointmentData.FechaInicio));
 
         if (TiposCitasId == 3) {
@@ -111,7 +112,7 @@
             showLoadIndicator();
             $.ajax({
                 url: '@Url.Action("ConsultarDisponibilidadCitaAdicional", "ProgramacionCitas")',
-                data: { fechaInicio: fechaInicio },
+                data: { fechaInicio: fechaInicio, consultorioId: item.appointmentData.ConsultoriosId },
                 type: 'GET',
                 success: function (data) {
                     hideLoadIndicator();
