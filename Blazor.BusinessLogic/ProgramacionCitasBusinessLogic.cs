@@ -1,9 +1,11 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Models;
+using DevExpress.Spreadsheet;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Backend.Security;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +21,64 @@ namespace Blazor.BusinessLogic
 
         public ProgramacionCitasBusinessLogic(DataBaseSetting configuracionBD) : base(configuracionBD)
         {
+        }
+
+        public byte[] DescargarXLSX0256(long sedeId, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.CreateNewDocument();
+                Worksheet worksheet = workbook.Worksheets.Add("0256");
+                List<ProgramacionCitas> data = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
+                    .Include(x => x.Pacientes)
+                    .Include(x => x.Pacientes.Generos)
+                    .Include(x => x.Pacientes.TiposIdentificacion)
+                    .Include(x => x.Sedes)
+                    .Where(x => x.EstadosId == 6 && x.FechaInicio.Date >= fechaDesde && x.FechaInicio.Date <= fechaHasta && x.SedesId == sedeId)
+                    .OrderBy(x => x.FechaInicio).ToList();
+
+                //Titulos
+                int column = 0;
+                worksheet.Rows[0][column].SetValue("T. DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("NO. DE DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA DE NACIMIENTO"); column++;
+                worksheet.Rows[0][column].SetValue("SEXO"); column++;
+                worksheet.Rows[0][column].SetValue("PRIMER NOMBRE"); column++;
+                worksheet.Rows[0][column].SetValue("SEGUNDO NOMBRE"); column++;
+                worksheet.Rows[0][column].SetValue("PRIMER APELLIDO"); column++;
+                worksheet.Rows[0][column].SetValue("SEGUNDO APELLIDO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA DE LA SOLICITUD DE LA CITA"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA DE LA CITA"); column++;
+                worksheet.Rows[0][column].SetValue("SEDE"); column++;
+
+                for (int row = 0; row < data.Count; row++)
+                {
+                    column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.TiposIdentificacion.Codigo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.NumeroIdentificacion); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.FechaNacimiento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.FechaNacimiento.Date); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.Generos.Codigo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerNombre); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.SegundoNombre); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerApellido); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.SegundoApellido); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].CreationDate.Date); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaInicio.Date); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Sedes.Nombre); column++;
+
+                }
+                worksheet.Columns.AutoFit(0, column);
+
+                byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
+                workbook.Dispose();
+                return book;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public bool VerificarAgendaDisponiblePorServicio(long servicioId)

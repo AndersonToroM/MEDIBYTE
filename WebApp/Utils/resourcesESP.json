@@ -3708,6 +3708,10 @@
     "Description": "Convenio"
   },
   {
+    "Id": "ProgramacionCitas.DescargarXLSX0256",
+    "Description": "Descargar 0256"
+  },
+  {
     "Id": "ProgramacionCitas.Duracion",
     "Description": "Duración"
   },
@@ -3774,6 +3778,18 @@
   {
     "Id": "ProgramacionCitas.Preparacion",
     "Description": "Preparación"
+  },
+  {
+    "Id": "ProgramacionCitas.ReporteFechaDesde",
+    "Description": "Fecha desde"
+  },
+  {
+    "Id": "ProgramacionCitas.ReporteFechaHasta",
+    "Description": "Fecha hasta"
+  },
+  {
+    "Id": "ProgramacionCitas.ReporteSedeId",
+    "Description": "Sede"
   },
   {
     "Id": "ProgramacionCitas.ReprogramarCita",
