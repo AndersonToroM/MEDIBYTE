@@ -256,7 +256,7 @@ namespace Blazor.BusinessLogic
                 data.Add(14, Convert.ToInt64(item.ValorCopagoCuotaModeradora).ToString()); // Valor total del pago compartido (copago)
                 data.Add(15, "0"); // Valor de la comisión
                 data.Add(16, Convert.ToInt64(item.ValorDescuentos).ToString()); // Valor total de descuentos
-                data.Add(17, Convert.ToInt64(item.ValorTotal).ToString()); // Valor neto a pagar por la entidad contratante
+                data.Add(17, Convert.ToInt64(item.ValorSubtotal).ToString()); // Valor neto a pagar por la entidad contratante (Valor bruto de la factura)
 
                 registros.Add(String.Join(delimitador, data.OrderBy(x => x.Key).Select(x => x.Value?.ToUpper())));
             }
