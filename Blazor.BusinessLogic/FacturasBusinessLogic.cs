@@ -950,7 +950,9 @@ namespace Blazor.BusinessLogic
             data = data.Replace("ú", "u");
             data = data.Replace("Ú", "U");
             data = data.Replace("ñ", "n");
-            data = data.Replace("Ñ", "N");
+            data = data.Replace("Ñ", "N"); 
+            data = data.Replace("ü", "u");
+            data = data.Replace("Ü", "U");
             return data;
         }
         

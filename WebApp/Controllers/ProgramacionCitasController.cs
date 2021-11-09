@@ -441,11 +441,29 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio)
+        public IActionResult ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio, long consultorioId)
         {
-            var data = Manager().ProgramacionCitasBusinessLogic().ConsultarDisponibilidadCitaAdicional(fechaInicio);
+            var data = Manager().ProgramacionCitasBusinessLogic().ConsultarDisponibilidadCitaAdicional(fechaInicio, consultorioId);
             return new OkObjectResult(data);
         }
 
+        [HttpGet]
+        public IActionResult DescargarXLSX0256(long sedeId, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+
+                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
+                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
+                byte[] book = Manager().ProgramacionCitasBusinessLogic().DescargarXLSX0256(sedeId, fechaDesde, fechaHasta);
+                return File(book, "application/octet-stream", $"R-0256_{sedeId}_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
     }
 }
