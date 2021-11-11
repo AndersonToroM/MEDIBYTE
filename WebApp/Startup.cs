@@ -140,10 +140,6 @@ namespace Blazor.WebApp
             //        .AllowAnyHeader());
             //});
 
-            services.ConfigureReportingServices(configurator => {
-                configurator.DisableCheckForCustomControllers();
-            });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
