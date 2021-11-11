@@ -320,8 +320,8 @@ namespace Blazor.BusinessLogic
 
                 data.Add(16, Convert.ToInt64(item.Admisiones.ValorCopago).ToString()); // Valor de la cuota moderadora
 
-                valorFinal = item.Admisiones.ValorPagarParticular - item.Admisiones.ValorCopago;
-                data.Add(17, Convert.ToInt64(valorFinal).ToString()); // Valor neto a pagar
+                valorFinal = item.Admisiones.ValorPagarParticular;// - item.Admisiones.ValorCopago;
+                data.Add(17, Convert.ToInt64(valorFinal).ToString()); // Valor bruto
 
                 registros.Add(String.Join(delimitador, data.OrderBy(x => x.Key).Select(x => x.Value?.ToUpper())));
             }
