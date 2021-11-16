@@ -26,9 +26,12 @@
     <Content Remove="appsettings.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Reportes\EntregaAdmisiones\Cartera.vsrepx" />
+    <None Remove="Reportes\Facturas\Cartera.vsrepx" />
     <None Remove="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\EntregaAdmisiones\Cartera.vsrepx" />
     <EmbeddedResource Include="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
   </ItemGroup>
   <ItemGroup>
@@ -624,6 +627,12 @@
     <Compile Update="Reportes\EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.Designer.cs">
       <DependentUpon>EntregaAdmisionesTotalesSubReporte.repx</DependentUpon>
     </Compile>
+    <Compile Update="Reportes\EntregaAdmisiones\Cartera.cs">
+      <DependentUpon>Cartera.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\EntregaAdmisiones\Cartera.Designer.cs">
+      <DependentUpon>Cartera.vsrepx</DependentUpon>
+    </Compile>
     <Compile Update="Reportes\FacturaDetalle\FacturaDetalleReporte.cs">
       <DependentUpon>FacturaDetalleReporte.repx</DependentUpon>
     </Compile>
@@ -654,6 +663,12 @@
     </Compile>
     <Compile Update="Reportes\Facturas\FacturasReporte.Designer.cs">
       <DependentUpon>FacturasReporte.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\Facturas\XtraReport1.cs">
+      <DependentUpon>XtraReport1.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\Facturas\XtraReport1.Designer.cs">
+      <DependentUpon>XtraReport1.vsrepx</DependentUpon>
     </Compile>
     <Compile Update="Reportes\HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.cs">
       <DependentUpon>HistoriaClinicasNotasAclaratoriasReporte.repx</DependentUpon>
