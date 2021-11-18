@@ -55,13 +55,13 @@ namespace Blazor.WebApp
                 });
             });
 
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                DevExpress.Printing.CrossPlatform.CustomEngineHelper.RegisterCustomDrawingEngine(
-                    typeof(
-                        DevExpress.CrossPlatform.Printing.DrawingEngine.PangoCrossPlatformEngine
-                    ));
-            }
+            //if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            //{
+            //    DevExpress.Printing.CrossPlatform.CustomEngineHelper.RegisterCustomDrawingEngine(
+            //        typeof(
+            //            DevExpress.CrossPlatform.Printing.DrawingEngine.PangoCrossPlatformEngine
+            //        ));
+            //}
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -139,6 +139,10 @@ namespace Blazor.WebApp
             //        .AllowAnyOrigin()
             //        .AllowAnyHeader());
             //});
+
+            services.ConfigureReportingServices(configurator => {
+                configurator.DisableCheckForCustomControllers();
+            });
 
         }
 
