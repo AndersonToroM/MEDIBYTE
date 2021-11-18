@@ -14,6 +14,8 @@ using System;
 using Dominus.Backend.Data;
 using System.Linq;
 using Dominus.Backend.Application;
+using WebApp.Reportes.Facturas;
+using DevExpress.XtraReports.UI;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -317,6 +319,33 @@ namespace Blazor.WebApp.Controllers
         }
 
         #endregion
+
+        [HttpPost]
+        public IActionResult ImprimirReporteCartera(long entidadId)
+        {
+            try
+            {
+                if (entidadId <= 0)
+                    throw new Exception("El parametro entidadId no fue enviado correctamente al servidor.");
+
+                InformacionReporte informacionReporte = new InformacionReporte();
+                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
+                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
+                var entidad = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == entidadId,false);
+                informacionReporte.ParametrosAdicionales.Add("p_Nit", entidad.NumeroIdentificacion);
+                informacionReporte.ParametrosAdicionales.Add("p_UsuarioGenero", User.Identity.Name);
+
+                CarteraReporte report = new CarteraReporte();
+                report.SetInformacionReporte(informacionReporte);
+                XtraReport xtraReport = report;
+                return PartialView("_ViewerReport", report);
+
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
 
     }
 }

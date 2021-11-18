@@ -51,5 +51,15 @@ namespace Blazor.Infrastructure.Entities
             return responsabilidades;
         }
 
+        [NotMapped]
+        public string NitYNombre
+        {
+            set { }
+            get
+            {
+                return $"{NumeroIdentificacion} | {Nombre}";
+            }
+        }
+
     }
  }

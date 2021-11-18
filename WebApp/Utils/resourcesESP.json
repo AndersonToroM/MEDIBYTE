@@ -192,6 +192,10 @@
     "Description": "Hora de inicio"
   },
   {
+    "Id": "Admisiones.ImprimirCartera",
+    "Description": "Imprimir Cartera"
+  },
+  {
     "Id": "Admisiones.ImprimirReporteEntregaProduccion",
     "Description": "Reporte Entrega Producción"
   },
@@ -230,6 +234,10 @@
   {
     "Id": "Admisiones.PorcDescAutorizado",
     "Description": "Porcentaje Desc Autorizado"
+  },
+  {
+    "Id": "Admisiones.ReporteEntidadId",
+    "Description": "Entidad"
   },
   {
     "Id": "Admisiones.ReporteFechaDesde",

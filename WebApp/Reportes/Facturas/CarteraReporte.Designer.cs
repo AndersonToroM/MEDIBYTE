@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApp.Reportes.EntregaAdmisiones {
+namespace WebApp.Reportes.Facturas {
     
-    public partial class XtraReport1 : DevExpress.XtraReports.UI.XtraReport {
+    public partial class CarteraReporte : DevExpress.XtraReports.UI.XtraReport {
         private void InitializeComponent() {
-            DevExpress.XtraReports.ReportInitializer reportInitializer = new DevExpress.XtraReports.ReportInitializer(this, "WebApp.Reportes.EntregaAdmisiones.Cartera.vsrepx");
+            DevExpress.XtraReports.ReportInitializer reportInitializer = new DevExpress.XtraReports.ReportInitializer(this, "WebApp.Reportes.Facturas.CarteraReporte.vsrepx");
 
             // Controls
             this.TopMargin = reportInitializer.GetControl<DevExpress.XtraReports.UI.TopMarginBand>("TopMargin");
@@ -49,7 +49,7 @@ namespace WebApp.Reportes.EntregaAdmisiones {
             this.label11 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label11");
             this.label13 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label13");
             this.label9 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label9");
-            this.pictureBox1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("pictureBox1");
+            this.logoEmpresa = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("logoEmpresa");
             this.label2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label2");
             this.label6 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label6");
             this.label1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label1");
@@ -78,8 +78,12 @@ namespace WebApp.Reportes.EntregaAdmisiones {
             this.label16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label16");
             this.label18 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label18");
 
+            // Parameters
+            this.p_Nit = reportInitializer.GetParameter("p_Nit");
+            this.p_UsuarioGenero = reportInitializer.GetParameter("p_UsuarioGenero");
+
             // Data Sources
-            this.sqlDataSource1 = reportInitializer.GetDataSource<DevExpress.DataAccess.Sql.SqlDataSource>("sqlDataSource1");
+            this.FuenteDatos = reportInitializer.GetDataSource<DevExpress.DataAccess.Sql.SqlDataSource>("FuenteDatos");
 
             // Calculated Fields
             this.SumaDias = reportInitializer.GetCalculatedField("SumaDias");
@@ -126,7 +130,7 @@ namespace WebApp.Reportes.EntregaAdmisiones {
         private DevExpress.XtraReports.UI.XRLabel label11;
         private DevExpress.XtraReports.UI.XRLabel label13;
         private DevExpress.XtraReports.UI.XRLabel label9;
-        private DevExpress.XtraReports.UI.XRPictureBox pictureBox1;
+        private DevExpress.XtraReports.UI.XRPictureBox logoEmpresa;
         private DevExpress.XtraReports.UI.XRLabel label2;
         private DevExpress.XtraReports.UI.XRLabel label6;
         private DevExpress.XtraReports.UI.XRLabel label1;
@@ -154,7 +158,7 @@ namespace WebApp.Reportes.EntregaAdmisiones {
         private DevExpress.XtraReports.UI.XRLabel label17;
         private DevExpress.XtraReports.UI.XRLabel label16;
         private DevExpress.XtraReports.UI.XRLabel label18;
-        private DevExpress.DataAccess.Sql.SqlDataSource sqlDataSource1;
+        private DevExpress.DataAccess.Sql.SqlDataSource FuenteDatos;
         private DevExpress.XtraReports.UI.XRControlStyle Title;
         private DevExpress.XtraReports.UI.XRControlStyle GroupCaption1;
         private DevExpress.XtraReports.UI.XRControlStyle GroupData1;
@@ -162,5 +166,7 @@ namespace WebApp.Reportes.EntregaAdmisiones {
         private DevExpress.XtraReports.UI.XRControlStyle PageInfo;
         private DevExpress.XtraReports.UI.CalculatedField SumaDias;
         private DevExpress.XtraReports.UI.CalculatedField calculatedField2;
+        private DevExpress.XtraReports.Parameters.Parameter p_Nit;
+        private DevExpress.XtraReports.Parameters.Parameter p_UsuarioGenero;
     }
 }

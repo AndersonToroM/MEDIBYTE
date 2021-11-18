@@ -7,6 +7,7 @@ using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebApp.Reportes.EntregaAdmisiones;
 using WebApp.Reportes.Facturas;
@@ -27,7 +28,7 @@ namespace Blazor.WebApp.Controllers
             model.ConsultoriosId = model.Entity.ProgramacionCitas.ConsultoriosId;
             model.Entity.IsNew = false;
 
-            var serviciosDetalle = Manager().GetBusinessLogic<AdmisionesServiciosPrestados>().FindById(x => x.AdmisionesId == Id && x.Facturado,false);
+            var serviciosDetalle = Manager().GetBusinessLogic<AdmisionesServiciosPrestados>().FindById(x => x.AdmisionesId == Id && x.Facturado, false);
             if (serviciosDetalle != null)
                 model.TieneServiciosFacturadosAEntidad = true;
 
@@ -50,6 +51,9 @@ namespace Blazor.WebApp.Controllers
                 var citaSeleccionada = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
                 var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
                     .FindById(x => x.NroAutorizacion == model.Entity.NroAutorizacion && x.EstadosId != 72 && x.Id != model.Entity.Id && x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId, true);
+                var oldAdmision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, false);
+                if (OnState == false && oldAdmision.EstadosId == 62)
+                    ModelState.AddModelError("Entity.Id", $"La admision {model.Entity.Id} ya fue atendida");
                 if (admisionautorizacion != null)
                 {
                     ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre}.");
@@ -59,6 +63,14 @@ namespace Blazor.WebApp.Controllers
             if (model.Entity.FechaAutorizacion > DateTime.Now)
             {
                 ModelState.AddModelError("Entity.Id", "La fecha de autorizacion no puede ser mayor que la fecha actual.");
+            }
+
+            if (!model.Entity.IsNew)
+            {
+                List<long> estados = new List<long> { 62, 72 };
+                var admision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, true);
+                if (estados.Contains(admision.EstadosId))
+                    ModelState.AddModelError("Entity.Id", $"La admision ya no se puede modificar porque se encuentra estado {admision.Estados.Nombre}.");
             }
 
             ModelState.Remove("CategoriasIngresosDetalles.CategoriasIngresosId");
