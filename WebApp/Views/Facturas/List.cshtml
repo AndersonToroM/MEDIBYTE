@@ -1,15 +1,15 @@
 @{
-    string Prefix = "Facturas";
-    string UrlClick = Url.Action("Edit", "Facturas");
-    string UrlNew = Url.Action("New", "Facturas");
-    string ImprimirReporteCartera = Url.Action("ImprimirReporteCartera", "Facturas");
+        string Prefix = "Facturas";
+        string UrlClick = Url.Action("Edit", "Facturas");
+        string UrlNew = Url.Action("New", "Facturas");
+        string ImprimirReporteCartera = Url.Action("ImprimirReporteCartera", "Facturas");
 
-    var DataGridConfig = new DataGridConfiguration<Facturas>(Prefix)
-        .OnClick(UrlClick, new { Id = "Id" })
-        //.New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew))
-        .Exports(true, true).SetStorage()
-        .AddButtons(new List<ButtonToolbar>
-        {
+        var DataGridConfig = new DataGridConfiguration<Facturas>(Prefix)
+            .OnClick(UrlClick, new { Id = "Id" })
+            //.New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew))
+            .Exports(true, true).SetStorage()
+            .AddButtons(new List<ButtonToolbar>
+            {
             new ButtonToolbar
             {
                 Action = $"{Prefix}MostrarModalImImprimirCartera",
@@ -17,8 +17,20 @@
                 Text = DApp.DefaultLanguage.GetResource("Admisiones.ImprimirCartera"),
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
-            }
-                        })
+            },
+
+                
+    
+                new ButtonToolbar
+                {
+                    Action = $"{Prefix}MostrarModalImprimirTotalCartera",
+                    Icon = "doc",
+                    Text = DApp.DefaultLanguage.GetResource("Admisiones.ImprimirTotalCartera"),
+                    LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                    Location = ToolbarItemLocation.Before
+                }
+               })
+
         .ToolbarTop(DApp.DefaultLanguage.GetResource("Facturas"), "mainPanel");
 }
 
@@ -117,6 +129,61 @@
 
             <div class="row d-flex justify-content-center">
                 <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ImprimirCartera()">IMPRIMIR</button>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        @(Html.DControls().Popup()
+            .ID($"{Prefix}PopupImprimirTotalCartera")
+            .Width(800)
+            .Height(300)
+            .ShowTitle(true)
+            .Title(DApp.DefaultLanguage.GetResource("Admisiones.ImprimirTotalCartera"))
+            .Visible(false)
+            .DragEnabled(false)
+            .CloseOnOutsideClick(false)
+            .ContentTemplate(new TemplateName($"{Prefix}TemplateImprimirTotalCartera"))
+        )
+
+        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateImprimirTotalCartera"))
+        {
+            <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="@($"{Prefix}ReporteSedeId")">@DApp.DefaultLanguage.GetResource("Admisiones.ReporteEntidadId"):</label>
+                    @(Html.DControls().SelectBox()
+                        .ID($"{Prefix}ReporteEntidadId").InputAttr("class", "form-control")
+                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller(Prefix).LoadAction("GetEntidadesId").Key("Id"))
+                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                        .ValueExpr("Id").DisplayExpr("NitYNombre").SearchExpr("NumeroIdentificacion", "Nombre")
+                        .SearchEnabled(true).ShowClearButton(true)
+                    )
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="@($"{Prefix}ReporteFechaDesde")">@DApp.DefaultLanguage.GetResource("Admisiones.ReporteFechaDesde"):</label>
+                    @(Html.DControls().DateBox().Value(DateTime.Now)
+                        .ID($"{Prefix}ReporteFechaDesde").InputAttr("class", "form-control")
+                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
+                    )
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("Admisiones.ReporteFechaHasta"):</label>
+                    @(Html.DControls().DateBox().Value(DateTime.Now)
+                        .ID($"{Prefix}ReporteFechaHasta").InputAttr("class", "form-control")
+                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
+                    )
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ImprimirTotalCartera()">IMPRIMIR</button>
             </div>
         }
     </div>
