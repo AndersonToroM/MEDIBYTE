@@ -165,7 +165,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Pacientes.Generos)
                 .Include(x => x.Admisiones.Pacientes.Ciudades)
                 .Include(x => x.Admisiones.Pacientes.Ciudades.Departamentos)
-                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId)
+                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
                 .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
                 .OrderBy(x=>x.Admisiones.Pacientes.TiposIdentificacion.Codigo).ThenBy(x=>x.Admisiones.Pacientes.NumeroIdentificacion).ToList();
 
@@ -233,7 +233,7 @@ namespace Blazor.BusinessLogic
             List<string> registros = new List<string>();
             GenericBusinessLogic<Facturas> logicaFacturas = new GenericBusinessLogic<Facturas>(this.UnitOfWork.Settings);
             var result = logicaFacturas.Tabla(true)
-                .Where(x => x.EntidadesId == rips.EntidadesId)
+                .Where(x => x.EntidadesId == rips.EntidadesId && x.Estadosid != 1087)
                 .Where(x => x.Fecha.Date.Year == rips.Periodo.Date.Year && x.Fecha.Date.Month == rips.Periodo.Date.Month).ToList();
 
             foreach (var item in result)
@@ -256,7 +256,7 @@ namespace Blazor.BusinessLogic
                 data.Add(14, Convert.ToInt64(item.ValorCopagoCuotaModeradora).ToString()); // Valor total del pago compartido (copago)
                 data.Add(15, "0"); // Valor de la comisión
                 data.Add(16, Convert.ToInt64(item.ValorDescuentos).ToString()); // Valor total de descuentos
-                data.Add(17, Convert.ToInt64(item.ValorTotal).ToString()); // Valor neto a pagar por la entidad contratante
+                data.Add(17, Convert.ToInt64(item.ValorSubtotal).ToString()); // Valor neto a pagar por la entidad contratante (Valor bruto de la factura)
 
                 registros.Add(String.Join(delimitador, data.OrderBy(x => x.Key).Select(x => x.Value?.ToUpper())));
             }
@@ -288,7 +288,8 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Diagnosticos)
                 .Include(x => x.Atenciones.FinalidadConsulta)
                 .Include(x => x.Atenciones.CausasExternas)
-                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId)
+                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
+                .Where(x => x.Servicios.TiposServiciosId == 1)
                 .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
                 .OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
 
@@ -319,8 +320,8 @@ namespace Blazor.BusinessLogic
 
                 data.Add(16, Convert.ToInt64(item.Admisiones.ValorCopago).ToString()); // Valor de la cuota moderadora
 
-                valorFinal = item.Admisiones.ValorPagarParticular - item.Admisiones.ValorCopago;
-                data.Add(17, Convert.ToInt64(valorFinal).ToString()); // Valor neto a pagar
+                valorFinal = item.Admisiones.ValorPagarParticular;// - item.Admisiones.ValorCopago;
+                data.Add(17, Convert.ToInt64(valorFinal).ToString()); // Valor bruto
 
                 registros.Add(String.Join(delimitador, data.OrderBy(x => x.Key).Select(x => x.Value?.ToUpper())));
             }
@@ -351,7 +352,8 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Pacientes.TiposIdentificacion)
                 .Include(x => x.Atenciones.AmbitoRealizacionProcedimiento)
                 .Include(x => x.Atenciones.FinalidadProcedimiento)
-                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId)
+                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
+                .Where(x=>x.Servicios.TiposServiciosId == 2)
                 .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
                 .OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
 

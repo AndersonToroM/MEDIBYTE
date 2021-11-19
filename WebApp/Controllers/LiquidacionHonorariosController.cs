@@ -13,6 +13,9 @@ using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using System.Collections.Generic;
+using Dominus.Backend.Application;
+using DevExpress.XtraReports.UI;
+using WebApp.Reportes.LiquidacionHonorarios;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -298,6 +301,30 @@ namespace Blazor.WebApp.Controllers
                 return BadRequest(e.Message);
             }
             
+        }
+
+        [HttpGet]
+        public IActionResult ImprimirLiquidacionHonorariosId(long Id)
+        {
+            try
+            {
+                InformacionReporte informacionReporte = new InformacionReporte();
+                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
+                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
+                informacionReporte.Ids = new long[] { Id };
+                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
+                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
+
+                LiquidacionHonorariosReporte report = new LiquidacionHonorariosReporte();
+                report.SetInformacionReporte(informacionReporte);
+                XtraReport xtraReport = report;
+
+                return PartialView("_ViewerReport", report);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
         }
     }
 }

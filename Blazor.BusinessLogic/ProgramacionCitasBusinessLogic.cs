@@ -1,9 +1,11 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Models;
+using DevExpress.Spreadsheet;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Backend.Security;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +21,63 @@ namespace Blazor.BusinessLogic
 
         public ProgramacionCitasBusinessLogic(DataBaseSetting configuracionBD) : base(configuracionBD)
         {
+        }
+
+        public byte[] DescargarXLSX0256(long sedeId, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.CreateNewDocument();
+                Worksheet worksheet = workbook.Worksheets.Add("0256");
+                List<ProgramacionCitas> data = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
+                    .Include(x => x.Pacientes)
+                    .Include(x => x.Pacientes.Generos)
+                    .Include(x => x.Pacientes.TiposIdentificacion)
+                    .Include(x => x.Sedes)
+                    .Where(x => x.EstadosId == 6 && x.FechaInicio.Date >= fechaDesde && x.FechaInicio.Date <= fechaHasta && x.SedesId == sedeId)
+                    .OrderBy(x => x.FechaInicio).ToList();
+
+                //Titulos
+                int column = 0;
+                worksheet.Rows[0][column].SetValue("T. DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("NO. DE DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA DE NACIMIENTO"); column++;
+                worksheet.Rows[0][column].SetValue("SEXO"); column++;
+                worksheet.Rows[0][column].SetValue("PRIMER NOMBRE"); column++;
+                worksheet.Rows[0][column].SetValue("SEGUNDO NOMBRE"); column++;
+                worksheet.Rows[0][column].SetValue("PRIMER APELLIDO"); column++;
+                worksheet.Rows[0][column].SetValue("SEGUNDO APELLIDO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA DE LA SOLICITUD DE LA CITA"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA DE LA CITA"); column++;
+                worksheet.Rows[0][column].SetValue("SEDE"); column++;
+
+                for (int row = 0; row < data.Count; row++)
+                {
+                    column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.TiposIdentificacion.Codigo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.NumeroIdentificacion); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.FechaNacimiento.Date); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.Generos.Codigo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerNombre); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.SegundoNombre); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerApellido); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.SegundoApellido); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].CreationDate.Date); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaInicio.Date); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Sedes.Nombre); column++;
+
+                }
+                worksheet.Columns.AutoFit(0, column);
+
+                byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
+                workbook.Dispose();
+                return book;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public bool VerificarAgendaDisponiblePorServicio(long servicioId)
@@ -124,9 +183,9 @@ namespace Blazor.BusinessLogic
                           select programacionAgenda).ToList();
                 citaCruce = unitOfWork.Repository<ProgramacionCitas>().GetTable(true)
                     .Where(x=> x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId)
-                    && ((x.FechaInicio > fechaInicio && x.FechaInicio < fechaFinal)
+                    && ((x.FechaInicio >= fechaInicio && x.FechaInicio < fechaFinal)
                         || (x.FechaFinal > fechaInicio && x.FechaFinal < fechaFinal)
-                        || (fechaInicio > x.FechaInicio && fechaInicio < x.FechaFinal)
+                        || (fechaInicio >= x.FechaInicio && fechaInicio < x.FechaFinal)
                         || (fechaFinal > x.FechaInicio && fechaFinal < x.FechaFinal)
                     )).FirstOrDefault();
             }
@@ -139,9 +198,9 @@ namespace Blazor.BusinessLogic
                           select programacionAgenda).ToList();
                 citaCruce = unitOfWork.Repository<ProgramacionCitas>().GetTable(true)
                     .Where(x => x.ConsultoriosId == consultorioId && estados.Contains(x.EstadosId)
-                    && ((x.FechaInicio > fechaInicio && x.FechaInicio < fechaFinal)
+                    && ((x.FechaInicio >= fechaInicio && x.FechaInicio < fechaFinal)
                         || (x.FechaFinal > fechaInicio && x.FechaFinal < fechaFinal)
-                        || (fechaInicio > x.FechaInicio && fechaInicio < x.FechaFinal)
+                        || (fechaInicio >= x.FechaInicio && fechaInicio < x.FechaFinal)
                         || (fechaFinal > x.FechaInicio && fechaFinal < x.FechaFinal)
                     )).FirstOrDefault();
             }
@@ -337,12 +396,13 @@ namespace Blazor.BusinessLogic
             return tarifaConvenio;
         }
 
-        public Dictionary<string, object> ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio)
+        public Dictionary<string, object> ConsultarDisponibilidadCitaAdicional(DateTime fechaInicio, long consultorioId)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             List<long> estados = new List<long> { 3, 4, 5, 6 };
-            var totalCitas = unitOfWork.Repository<ProgramacionCitas>().Table.Count(x => x.FechaInicio == fechaInicio && estados.Contains(x.EstadosId));
+            var totalCitas = unitOfWork.Repository<ProgramacionCitas>().Table
+                .Count(x => x.FechaInicio == fechaInicio && estados.Contains(x.EstadosId) && x.ConsultoriosId == consultorioId);
             if (totalCitas >= 2)
             {
                 result.Add("Disponible", false);

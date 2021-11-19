@@ -64,6 +64,7 @@
                     //)
                     .DataSource(Model.LiquidacionHonorariosDetalle)
                     .RemoteOperations(false)
+                    //.DataSourceOptions(d => d.Filter("['Estados.Tipo','=','ATENCIONES']"))
                     .Editing(x => x.AllowUpdating(true).AllowAdding(false).AllowDeleting(false).Mode(GridEditMode.Cell))
                     .Columns(columns =>
                     {
@@ -74,8 +75,10 @@
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Atenciones.FechaAtencion).AllowEditing(false);
                         columns.AddFor(m => m.AtencionesResultado.FechaLectura).AllowEditing(false);
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Servicios.Nombre).AllowEditing(false);
+                        columns.AddFor(m => m.AdmisionesServiciosPrestados.Cantidad).AllowEditing(false);
                         columns.AddFor(m => m.Empleados.NombreCompleto).AllowEditing(false);
                         columns.AddFor(m => m.Valor).AllowEditing(true);
+                        //columns.AddFor(m => m.AdmisionesServiciosPrestados.ValorTotal).AllowEditing(true);
                         columns.AddFor(m => m.EsLectura).AllowEditing(false);
                     })
                 )
@@ -102,8 +105,10 @@ else
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Atenciones.FechaAtencion);
                         columns.AddFor(m => m.AtencionesResultado.FechaLectura);
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Servicios.Nombre);
+                        columns.AddFor(m => m.AdmisionesServiciosPrestados.Cantidad).AllowEditing(false);
                         columns.AddFor(m => m.Empleados.NombreCompleto);
                         columns.AddFor(m => m.Valor);
+                        //columns.AddFor(m => m.AdmisionesServiciosPrestados.ValorTotal).AllowEditing(true);
                         columns.AddFor(m => m.EsLectura);
                     })
                 )

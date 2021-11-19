@@ -1,9 +1,28 @@
 @model LiquidacionHonorariosModel 
 @{
-    string Prefix = "LiquidacionHonorarios"; 
+    string Prefix = "LiquidacionHonorarios";
+    string UrlReport = Url.Action("ImprimirLiquidacionHonorariosId", "LiquidacionHonorarios", new { Id = Model.Entity.Id });
 }
 
 <script>
+
+    function @(Prefix)ImprimirLiquidacionHonorariosId() {
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlReport",
+            type: 'GET',
+            success: function (data) {
+                $("#VisorReporteria").dxPopup("instance").show();
+                $("#ContenidoReporte").html(data);
+                hideLoadIndicator();
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error inesperado " + xhr.statusText, "error");
+            }
+        });
+    }
 
     function @(Prefix)AnularLiquidacion() {
         $("#PopupAnularLiquidacion").dxPopup("instance").show();

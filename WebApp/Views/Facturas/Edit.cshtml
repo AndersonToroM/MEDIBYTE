@@ -34,6 +34,15 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "background"
             },
+               new ButtonToolbar
+            {
+                Action = "MostrarPopudModificarDatosFactura",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.Cartera"),
+                Disabled = Model.Entity.IsNew || !string.IsNullOrWhiteSpace(Model.Entity.CUFE),
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "background"
+            },
             new ButtonToolbar
             {
                 Action = "ImprimirFacturaPorId",
