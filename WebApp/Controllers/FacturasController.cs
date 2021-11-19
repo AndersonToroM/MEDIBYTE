@@ -320,7 +320,7 @@ namespace Blazor.WebApp.Controllers
 
         #endregion
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult ImprimirReporteCartera(long entidadId)
         {
             try
@@ -347,5 +347,29 @@ namespace Blazor.WebApp.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult ImprimirReporteTotalCartera()
+        {
+            try
+            {
+                InformacionReporte informacionReporte = new InformacionReporte();
+                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
+                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
+                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
+                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
+
+                TotalCarteraReporte report = new TotalCarteraReporte();
+                report.SetInformacionReporte(informacionReporte);
+                XtraReport xtraReport = report;
+
+                return PartialView("_ViewerReport", report);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
     }
 }
+
+
