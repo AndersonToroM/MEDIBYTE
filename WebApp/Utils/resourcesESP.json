@@ -200,6 +200,10 @@
     "Description": "Reporte Entrega Producción"
   },
   {
+    "Id": "Admisiones.ImprimirTotalCartera",
+    "Description": "Imprimir toda la cartera"
+  },
+  {
     "Id": "Admisiones.MedioPagosId",
     "Description": "Medio de pago"
   },

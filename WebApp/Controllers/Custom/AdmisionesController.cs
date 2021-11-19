@@ -65,14 +65,6 @@ namespace Blazor.WebApp.Controllers
                 ModelState.AddModelError("Entity.Id", "La fecha de autorizacion no puede ser mayor que la fecha actual.");
             }
 
-            if (!model.Entity.IsNew)
-            {
-                List<long> estados = new List<long> { 62, 72 };
-                var admision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, true);
-                if (estados.Contains(admision.EstadosId))
-                    ModelState.AddModelError("Entity.Id", $"La admision ya no se puede modificar porque se encuentra estado {admision.Estados.Nombre}.");
-            }
-
             ModelState.Remove("CategoriasIngresosDetalles.CategoriasIngresosId");
 
             var llaves = ModelState.Where(x => x.Key.Contains("Entity.ProgramacionCitas")).Select(x => x.Key).ToList();
@@ -103,8 +95,13 @@ namespace Blazor.WebApp.Controllers
                         model.Entity = Manager().GetBusinessLogic<Admisiones>().Add(model.Entity);
                         model.Entity.IsNew = false;
                     }
+
                     else
                     {
+                        var admision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, true);
+                        List<long> estados = new List<long> { 62, 72 };
+                        if (estados.Contains(admision.EstadosId))
+                            model.Entity.EstadosId = admision.EstadosId;
                         model.Entity = Manager().GetBusinessLogic<Admisiones>().Modify(model.Entity);
                     }
 
