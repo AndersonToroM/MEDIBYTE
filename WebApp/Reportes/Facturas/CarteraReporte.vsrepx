@@ -98,10 +98,10 @@
     </Item3>
     <Item4 Ref="50" ControlType="GroupHeaderBand" Name="GroupHeader1" HeightF="142.312042">
       <Controls>
-        <Item1 Ref="51" ControlType="XRLabel" Name="label30" Multiline="true" Text="Entidad:" TextAlignment="TopLeft" SizeF="35.4250679,10.4166641" LocationFloat="2.7046876,98.92139" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item1 Ref="51" ControlType="XRLabel" Name="label30" Multiline="true" Text="Entidad:" TextAlignment="TopLeft" SizeF="54.013958,10.4166641" LocationFloat="2.70468569,98.92139" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="52" UseFont="false" UseTextAlignment="false" />
         </Item1>
-        <Item2 Ref="53" ControlType="XRLabel" Name="label29" Multiline="true" Text="NIT:" TextAlignment="TopLeft" SizeF="28.674408,10.4166718" LocationFloat="281.387482,98.92141" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item2 Ref="53" ControlType="XRLabel" Name="label29" Multiline="true" Text="NIT:" TextAlignment="TopLeft" SizeF="40.3754272,10.4166718" LocationFloat="281.3875,98.92142" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="54" UseFont="false" UseTextAlignment="false" />
         </Item2>
         <Item3 Ref="55" ControlType="XRLabel" Name="label28" Multiline="true" TextAlignment="TopLeft" SizeF="245.035309,10.4166718" LocationFloat="453.964569,98.92139" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
@@ -110,13 +110,13 @@
           </ExpressionBindings>
           <StylePriority Ref="57" UseFont="false" UseTextAlignment="false" />
         </Item3>
-        <Item4 Ref="58" ControlType="XRLabel" Name="label27" Multiline="true" TextAlignment="TopLeft" SizeF="118.527786,10.4166641" LocationFloat="203.235184,109.338058" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item4 Ref="58" ControlType="XRLabel" Name="label27" Multiline="true" TextAlignment="TopLeft" SizeF="101.823,10.4166641" LocationFloat="219.939941,109.338051" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="59" EventName="BeforePrint" PropertyName="BackColor" Expression="'AliceBlue'" />
           </ExpressionBindings>
           <StylePriority Ref="60" UseFont="false" UseTextAlignment="false" />
         </Item4>
-        <Item5 Ref="61" ControlType="XRLabel" Name="label26" Multiline="true" SizeF="54.01405,10.4166641" LocationFloat="22.5186329,109.338058" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item5 Ref="61" ControlType="XRLabel" Name="label26" Multiline="true" SizeF="61.731514,10.4166641" LocationFloat="46.662468,109.338051" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="62" EventName="BeforePrint" PropertyName="BackColor" Expression="'AliceBlue'" />
           </ExpressionBindings>
@@ -222,22 +222,22 @@
         <Item16 Ref="119" ControlType="XRLabel" Name="label14" Multiline="true" Text="Dirección:" TextAlignment="TopLeft" SizeF="49.5180969,10.4166718" LocationFloat="404.446472,98.92139" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="120" UseFont="false" UseTextAlignment="false" />
         </Item16>
-        <Item17 Ref="121" ControlType="XRLabel" Name="label10" Multiline="true" Text="ANGIOGRAFIA DE OCCIDENTE SA" TextAlignment="TopLeft" SizeF="243.257721,10.4166641" LocationFloat="38.1297646,98.9214249" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item17 Ref="121" ControlType="XRLabel" Name="label10" Multiline="true" Text="ANGIOGRAFIA DE OCCIDENTE SA" TextAlignment="TopLeft" SizeF="224.668869,10.4166641" LocationFloat="56.7186432,98.92142" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="122" EventName="BeforePrint" PropertyName="Text" Expression="[RazonSocialEntidad]" />
           </ExpressionBindings>
           <StylePriority Ref="123" UseFont="false" UseTextAlignment="false" />
         </Item17>
-        <Item18 Ref="124" ControlType="XRLabel" Name="label12" Multiline="true" Text="800197601" TextAlignment="TopLeft" SizeF="94.38455,10.4166718" LocationFloat="310.0619,98.92139" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item18 Ref="124" ControlType="XRLabel" Name="label12" Multiline="true" Text="800197601" TextAlignment="TopLeft" SizeF="82.6835,10.4166718" LocationFloat="321.762939,98.92139" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="125" EventName="BeforePrint" PropertyName="Text" Expression="[NitEntidad]" />
           </ExpressionBindings>
           <StylePriority Ref="126" UseFont="false" UseTextAlignment="false" />
         </Item18>
-        <Item19 Ref="127" ControlType="XRLabel" Name="label11" Multiline="true" Text="Tel:" SizeF="19.814045,10.4166641" LocationFloat="2.704587,109.338058" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item19 Ref="127" ControlType="XRLabel" Name="label11" Multiline="true" Text="Tel:" SizeF="43.9578857,10.4166641" LocationFloat="2.70458364,109.338051" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="128" UseFont="false" />
         </Item19>
-        <Item20 Ref="129" ControlType="XRLabel" Name="label13" Multiline="true" Text="Ciudad:" TextAlignment="TopLeft" SizeF="32.1277924,10.4166641" LocationFloat="171.107376,109.338058" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
+        <Item20 Ref="129" ControlType="XRLabel" Name="label13" Multiline="true" Text="Ciudad:" TextAlignment="TopLeft" SizeF="48.83258,10.4166641" LocationFloat="171.107376,109.338051" Font="Times New Roman, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="130" UseFont="false" UseTextAlignment="false" />
         </Item20>
         <Item21 Ref="131" ControlType="XRLabel" Name="label9" Multiline="true" Text="[?NitP]" TextAlignment="TopCenter" SizeF="255.0256,12.4999924" LocationFloat="219.93988,63.8750267" Font="Times New Roman, 9pt, style=Bold" Padding="2,2,0,0,100">
