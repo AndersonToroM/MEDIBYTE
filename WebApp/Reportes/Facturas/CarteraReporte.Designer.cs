@@ -77,6 +77,9 @@ namespace WebApp.Reportes.Facturas {
             this.label17 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label17");
             this.label16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label16");
             this.label18 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label18");
+            this.tableCell25 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell25");
+            this.tableCell26 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell26");
+            this.label24 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label24");
 
             // Parameters
             this.p_Nit = reportInitializer.GetParameter("p_Nit");
@@ -168,5 +171,8 @@ namespace WebApp.Reportes.Facturas {
         private DevExpress.XtraReports.UI.CalculatedField calculatedField2;
         private DevExpress.XtraReports.Parameters.Parameter p_Nit;
         private DevExpress.XtraReports.Parameters.Parameter p_UsuarioGenero;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell25;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell26;
+        private DevExpress.XtraReports.UI.XRLabel label24;
     }
 }

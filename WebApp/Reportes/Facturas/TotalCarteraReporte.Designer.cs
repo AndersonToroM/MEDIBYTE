@@ -43,11 +43,6 @@ namespace WebApp.Reportes.Facturas {
             this.label5 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label5");
             this.table2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table2");
             this.table1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table1");
-            this.label14 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label14");
-            this.label10 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label10");
-            this.label12 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label12");
-            this.label11 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label11");
-            this.label13 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label13");
             this.logoEmpresa = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("logoEmpresa");
             this.label2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label2");
             this.label1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label1");
@@ -121,11 +116,6 @@ namespace WebApp.Reportes.Facturas {
         private DevExpress.XtraReports.UI.XRLabel label5;
         private DevExpress.XtraReports.UI.XRTable table2;
         private DevExpress.XtraReports.UI.XRTable table1;
-        private DevExpress.XtraReports.UI.XRLabel label14;
-        private DevExpress.XtraReports.UI.XRLabel label10;
-        private DevExpress.XtraReports.UI.XRLabel label12;
-        private DevExpress.XtraReports.UI.XRLabel label11;
-        private DevExpress.XtraReports.UI.XRLabel label13;
         private DevExpress.XtraReports.UI.XRPictureBox logoEmpresa;
         private DevExpress.XtraReports.UI.XRLabel label2;
         private DevExpress.XtraReports.UI.XRLabel label1;
