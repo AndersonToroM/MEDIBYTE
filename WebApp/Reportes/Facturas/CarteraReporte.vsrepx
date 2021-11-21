@@ -88,7 +88,7 @@
                 </Item11>
                 <Item12 Ref="47" ControlType="XRTableCell" Name="tableCell24" Weight="0.332091729737599" Multiline="true" TextAlignment="TopCenter" Font="Arial, 5.6pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
-                    <Item1 Ref="48" EventName="BeforePrint" PropertyName="Text" Expression="[Dias120]+[Dias30]+[Dias60]+[Dias90][[DiasMas120]]" />
+                    <Item1 Ref="48" EventName="BeforePrint" PropertyName="Text" Expression="Sum([Dias120]+[Dias30]+[Dias60]+[Dias90]+[DiasMas120])&#xA;" />
                   </ExpressionBindings>
                   <StylePriority Ref="49" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item12>
