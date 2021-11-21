@@ -223,7 +223,7 @@
     </Item4>
     <Item5 Ref="120" ControlType="GroupFooterBand" Name="GroupFooter1" Borders="Left, Right, Bottom">
       <Controls>
-        <Item1 Ref="121" ControlType="XRLabel" Name="label18" Multiline="true" Text="label18" TextAlignment="TopCenter" SizeF="58.2112732,12.6449862" LocationFloat="58.19905,9.999984" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
+        <Item1 Ref="121" ControlType="XRLabel" Name="label18" Multiline="true" Text="label18" TextAlignment="TopCenter" SizeF="58.2112732,12.6449862" LocationFloat="80.77804,9.999999" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
           <Summary Ref="122" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="123" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([ValorTotal])" />
@@ -237,7 +237,7 @@
           </ExpressionBindings>
           <StylePriority Ref="128" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item2>
-        <Item3 Ref="129" ControlType="XRLabel" Name="label17" Multiline="true" Text="TOTAL FACTURADO" SizeF="55.49451,22.6449585" LocationFloat="2.704542,0" Font="Arial, 5.6pt, style=Bold" Padding="2,2,4,0,100" Borders="None" BorderWidth="0.5">
+        <Item3 Ref="129" ControlType="XRLabel" Name="label17" Multiline="true" Text="TOTAL FACTURADO" SizeF="78.073494,22.6449585" LocationFloat="2.70453525,0" Font="Arial, 5.6pt, style=Bold" Padding="2,2,4,0,100" Borders="None" BorderWidth="0.5">
           <StylePriority Ref="130" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" />
         </Item3>
         <Item4 Ref="131" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales" TextAlignment="TopRight" SizeF="66.03195,12.6449471" LocationFloat="285.289,9.999973" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
