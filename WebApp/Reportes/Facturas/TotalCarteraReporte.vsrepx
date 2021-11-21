@@ -87,7 +87,7 @@
                 </Item11>
                 <Item12 Ref="45" ControlType="XRTableCell" Name="tableCell24" Weight="0.332091729737599" Multiline="true" TextAlignment="TopCenter" Font="Arial, 5.6pt" Padding="2,2,0,0,100" Borders="Left, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
-                    <Item1 Ref="46" EventName="BeforePrint" PropertyName="Text" Expression="Sum([Dias120]+[Dias30]+[Dias60]+[Dias90]+[DiasMas120])" />
+                    <Item1 Ref="46" EventName="BeforePrint" PropertyName="Text" Expression="([Dias120]+[Dias30]+[Dias60]+[Dias90]+[DiasMas120])" />
                   </ExpressionBindings>
                   <StylePriority Ref="47" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item12>
@@ -267,7 +267,7 @@
         <Item8 Ref="145" ControlType="XRLabel" Name="label23" TextFormatString="{0:#.00}" Multiline="true" Text="label16" TextAlignment="TopCenter" SizeF="50.6033936,12.644969" LocationFloat="648.3966,9.999999" Font="Arial, 5.6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5">
           <Summary Ref="146" Running="Report" />
           <ExpressionBindings>
-            <Item1 Ref="147" EventName="BeforePrint" PropertyName="Text" Expression="sumDSum([Dias30]+[Dias60]+[Dias90]+[Dias120]+[DiasMas120])" />
+            <Item1 Ref="147" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30]+[Dias60]+[Dias90]+[Dias120]+[DiasMas120])" />
           </ExpressionBindings>
           <StylePriority Ref="148" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item8>
