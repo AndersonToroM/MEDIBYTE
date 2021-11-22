@@ -32,13 +32,13 @@
                   </ExpressionBindings>
                   <StylePriority Ref="19" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="20" ControlType="XRTableCell" Name="tableCell16" Weight="0.4340720082854479" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item3 Ref="20" ControlType="XRTableCell" Name="tableCell16" Weight="0.3850445083074856" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="21" EventName="BeforePrint" PropertyName="Text" Expression="[FechaRadicacion]" />
                   </ExpressionBindings>
                   <StylePriority Ref="22" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="23" ControlType="XRTableCell" Name="tableCell17" Weight="0.43720224665780877" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item4 Ref="23" ControlType="XRTableCell" Name="tableCell17" Weight="0.48622974663577107" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="24" EventName="BeforePrint" PropertyName="Text" Expression="[FechaVencimiento]" />
                   </ExpressionBindings>
@@ -185,7 +185,7 @@
               <Cells>
                 <Item1 Ref="101" ControlType="XRTableCell" Name="tableCell1" Weight="0.83212183098677428" Multiline="true" BackColor="255,109,158,235" Borders="Left, Top, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <Controls>
-                    <Item1 Ref="102" ControlType="XRLabel" Name="label24" Multiline="true" Text="Facturación" SizeF="56.8021,7.99999237" LocationFloat="103.7618,2" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100" Borders="None">
+                    <Item1 Ref="102" ControlType="XRLabel" Name="label24" Multiline="true" Text="Facturación" SizeF="71.39698,7.99999237" LocationFloat="103.7618,2.00001526" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100" Borders="None">
                       <StylePriority Ref="103" UseFont="false" UseBackColor="false" UseBorders="false" />
                     </Item1>
                   </Controls>
@@ -214,10 +214,10 @@
                 <Item2 Ref="114" ControlType="XRTableCell" Name="tableCell4" Weight="0.33180795142655756" Multiline="true" Text="VALOR" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="115" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="116" ControlType="XRTableCell" Name="tableCell6" Weight="0.435758043374962" Multiline="true" Text="F. RADICADO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item3 Ref="116" ControlType="XRTableCell" Name="tableCell6" Weight="0.38654027152761922" Multiline="true" Text="F. RADICADO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="117" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="118" ControlType="XRTableCell" Name="tableCell5" Weight="0.43890010266634766" Multiline="true" Text=" F. VENCIMIENTO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item4 Ref="118" ControlType="XRTableCell" Name="tableCell5" Weight="0.48811787451369043" Multiline="true" Text=" F. VENCIMIENTO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="119" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item4>
                 <Item5 Ref="120" ControlType="XRTableCell" Name="tableCell7" Weight="0.24791948841476258" Multiline="true" Text="PLAZO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
@@ -304,31 +304,9 @@
         <Item24 Ref="170" ControlType="XRPageInfo" Name="pageInfo1" TextFormatString="Página {0} de {1}" TextAlignment="MiddleRight" SizeF="60.06952,14.6666517" LocationFloat="641.9305,0" StyleName="PageInfo" Font="Calibri, 6pt, style=Bold">
           <StylePriority Ref="171" UseFont="false" UseTextAlignment="false" />
         </Item24>
-		
-	  </Controls>
-          <StylePriority Ref="147" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-        <Item6 Ref="148" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales" TextAlignment="TopRight" SizeF="66.03195,12.6449471" LocationFloat="285.289,9.999973" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
-          <StylePriority Ref="149" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-        </Item6>
-        <Item7 Ref="150" ControlType="XRLabel" Name="label17" Multiline="true" Text="TOTAL FACTURADO" SizeF="78.07349,22.6449585" LocationFloat="2.70453525,0" Font="Arial, 5.6pt, style=Bold" Padding="2,2,4,0,100" Borders="None" BorderWidth="0.5">
-          <StylePriority Ref="151" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" />
-        </Item7>
-        <Item8 Ref="152" ControlType="XRLabel" Name="label16" Multiline="true" Text="label16" TextAlignment="TopCenter" SizeF="51.6959839,12.64497" LocationFloat="351.320953,9.999973" Font="Arial, 5.6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5">
-          <Summary Ref="153" Running="Group" />
-          <ExpressionBindings>
-            <Item1 Ref="154" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30])" />
-          </ExpressionBindings>
-          <StylePriority Ref="155" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-        </Item8>
-        <Item9 Ref="156" ControlType="XRLabel" Name="label18" Multiline="true" Text="label18" TextAlignment="TopCenter" SizeF="58.211277,12.6449881" LocationFloat="80.77802,9.999931" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
-          <Summary Ref="157" Running="Group" />
-          <ExpressionBindings>
-            <Item1 Ref="158" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([ValorTotal])" />
-          </ExpressionBindings>
-          <StylePriority Ref="159" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-        </Item9>
+      </Controls>
       <StylePriority Ref="172" UseFont="false" />
-	</Item5>
+    </Item5>
   </Bands>
   <StyleSheet>
     <Item1 Ref="173" Name="Title" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
