@@ -290,7 +290,6 @@
           <ExpressionBindings>
             <Item1 Ref="162" EventName="BeforePrint" PropertyName="Text" Expression="?p_UsuarioGenero" />
           </ExpressionBindings>
-<<<<<<< HEAD
           <StylePriority Ref="163" UseFont="false" UseTextAlignment="false" />
         </Item20>
         <Item21 Ref="164" ControlType="XRLabel" Name="label4" Multiline="true" Text="Fecha" TextAlignment="MiddleLeft" SizeF="59.918396,10.04394" LocationFloat="582.0121,23.6666775" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100">
@@ -305,7 +304,7 @@
         <Item24 Ref="170" ControlType="XRPageInfo" Name="pageInfo1" TextFormatString="Página {0} de {1}" TextAlignment="MiddleRight" SizeF="60.06952,14.6666517" LocationFloat="641.9305,0" StyleName="PageInfo" Font="Calibri, 6pt, style=Bold">
           <StylePriority Ref="171" UseFont="false" UseTextAlignment="false" />
         </Item24>
-=======
+	  </Controls>
           <StylePriority Ref="147" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item5>
         <Item6 Ref="148" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales" TextAlignment="TopRight" SizeF="66.03195,12.6449471" LocationFloat="285.289,9.999973" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
@@ -328,8 +327,7 @@
           </ExpressionBindings>
           <StylePriority Ref="159" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item9>
->>>>>>> e1aeed7ffb4a747ca6189ca26f571e1530836b31
-      </Controls>
+	 <Item5>
       <StylePriority Ref="172" UseFont="false" />
     </Item5>
   </Bands>
