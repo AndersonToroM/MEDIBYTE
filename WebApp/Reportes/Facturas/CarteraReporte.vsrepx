@@ -304,9 +304,9 @@
         <Item24 Ref="170" ControlType="XRPageInfo" Name="pageInfo1" TextFormatString="Página {0} de {1}" TextAlignment="MiddleRight" SizeF="60.06952,14.6666517" LocationFloat="641.9305,0" StyleName="PageInfo" Font="Calibri, 6pt, style=Bold">
           <StylePriority Ref="171" UseFont="false" UseTextAlignment="false" />
         </Item24>
+		
 	  </Controls>
           <StylePriority Ref="147" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-        </Item5>
         <Item6 Ref="148" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales" TextAlignment="TopRight" SizeF="66.03195,12.6449471" LocationFloat="285.289,9.999973" Font="Arial, 5.6pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
           <StylePriority Ref="149" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item6>
@@ -327,9 +327,8 @@
           </ExpressionBindings>
           <StylePriority Ref="159" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item9>
-	 <Item5>
       <StylePriority Ref="172" UseFont="false" />
-    </Item5>
+	</Item5>
   </Bands>
   <StyleSheet>
     <Item1 Ref="173" Name="Title" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
