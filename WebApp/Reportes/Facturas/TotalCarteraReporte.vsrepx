@@ -265,7 +265,7 @@
           <StylePriority Ref="144" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item7>
         <Item8 Ref="145" ControlType="XRLabel" Name="label23" TextFormatString="{0:#.00}" Multiline="true" Text="label16" TextAlignment="TopCenter" SizeF="50.6033936,12.644969" LocationFloat="648.3966,9.999999" Font="Arial, 5.6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5">
-          <Summary Ref="146" Running="Report" />
+          <Summary Ref="146" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="147" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30]+[Dias60]+[Dias90]+[Dias120]+[DiasMas120])" />
           </ExpressionBindings>
