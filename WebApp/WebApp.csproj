@@ -28,11 +28,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Reportes\EntregaAdmisiones\Cartera.vsrepx" />
+    <None Remove="Reportes\Facturas\CarteraGeneralReporte.vsrepx" />
     <None Remove="Reportes\Facturas\CarteraReporte.vsrepx" />
     <None Remove="Reportes\Facturas\TotalCarteraReporte.vsrepx" />
     <None Remove="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\Facturas\CarteraGeneralReporte.vsrepx" />
     <EmbeddedResource Include="Reportes\Facturas\TotalCarteraReporte.vsrepx" />
     <EmbeddedResource Include="Reportes\Facturas\CarteraReporte.vsrepx" />
     <EmbeddedResource Include="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
@@ -143,6 +145,12 @@
     </Compile>
     <Compile Update="Reportes\FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.Designer.cs">
       <DependentUpon>FacturaDetalleTotalCategoriasSubReporte.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\Facturas\CarteraGeneralReporte.cs">
+      <DependentUpon>CarteraGeneralReporte.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\Facturas\CarteraGeneralReporte.Designer.cs">
+      <DependentUpon>CarteraGeneralReporte.vsrepx</DependentUpon>
     </Compile>
     <Compile Update="Reportes\Facturas\CarteraReporte.cs">
       <DependentUpon>CarteraReporte.vsrepx</DependentUpon>

@@ -1,0 +1,388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="21.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v21.2, Version=21.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="CarteraGeneralReporte" PageWidth="850" PageHeight="1100" Version="21.2" DataMember="Query" DataSource="#Ref-0" Font="Arial, 9.75pt">
+  <Extensions>
+    <Item1 Ref="2" Key="VSReportExtInfo" Value=".vsrepx" />
+  </Extensions>
+  <Bands>
+    <Item1 Ref="3" ControlType="TopMarginBand" Name="TopMargin" />
+    <Item2 Ref="4" ControlType="BottomMarginBand" Name="BottomMargin">
+      <Controls>
+        <Item1 Ref="5" ControlType="XRPageInfo" Name="pageInfo1" PageInfo="DateTime" SizeF="325,23" LocationFloat="0,0" StyleName="PageInfo" />
+        <Item2 Ref="6" ControlType="XRPageInfo" Name="pageInfo2" TextFormatString="Page {0} of {1}" TextAlignment="TopRight" SizeF="325,23" LocationFloat="325,0" StyleName="PageInfo" />
+      </Controls>
+    </Item2>
+    <Item3 Ref="7" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="60">
+      <Controls>
+        <Item1 Ref="8" ControlType="XRLabel" Name="label1" Text="Genral de Cartera" SizeF="650,24.194334" LocationFloat="0,0" StyleName="Title" />
+      </Controls>
+    </Item3>
+    <Item4 Ref="9" ControlType="GroupHeaderBand" Name="GroupHeader1" GroupUnion="WithFirstDetail" Level="1" HeightF="27">
+      <GroupFields>
+        <Item1 Ref="10" FieldName="RazonSocialEntidad" />
+      </GroupFields>
+      <Controls>
+        <Item1 Ref="11" ControlType="XRTable" Name="table1" SizeF="650,25" LocationFloat="0,2">
+          <Rows>
+            <Item1 Ref="12" ControlType="XRTableRow" Name="tableRow1" Weight="1">
+              <Cells>
+                <Item1 Ref="13" ControlType="XRTableCell" Name="tableCell1" Weight="0.22971644474909855" Text="RAZON SOCIAL ENTIDAD" StyleName="GroupCaption1" />
+                <Item2 Ref="14" ControlType="XRTableCell" Name="tableCell2" Weight="0.77028357872596154" StyleName="GroupData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[RazonSocialEntidad]" />
+                  </ExpressionBindings>
+                </Item2>
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item1>
+      </Controls>
+    </Item4>
+    <Item5 Ref="16" ControlType="GroupHeaderBand" Name="GroupHeader2" GroupUnion="WithFirstDetail" Level="2" HeightF="27">
+      <GroupFields>
+        <Item1 Ref="17" FieldName="NitEntidad" />
+      </GroupFields>
+      <Controls>
+        <Item1 Ref="18" ControlType="XRTable" Name="table2" SizeF="650,25" LocationFloat="0,2">
+          <Rows>
+            <Item1 Ref="19" ControlType="XRTableRow" Name="tableRow2" Weight="1">
+              <Cells>
+                <Item1 Ref="20" ControlType="XRTableCell" Name="tableCell3" Weight="0.12394723745492789" Text="NIT ENTIDAD" StyleName="GroupCaption1" />
+                <Item2 Ref="21" ControlType="XRTableCell" Name="tableCell4" Weight="0.87605280949519226" StyleName="GroupData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="22" EventName="BeforePrint" PropertyName="Text" Expression="[NitEntidad]" />
+                  </ExpressionBindings>
+                </Item2>
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item1>
+      </Controls>
+    </Item5>
+    <Item6 Ref="23" ControlType="GroupHeaderBand" Name="GroupHeader3" GroupUnion="WithFirstDetail" Level="3" HeightF="28">
+      <Controls>
+        <Item1 Ref="24" ControlType="XRTable" Name="table3" SizeF="650,28" LocationFloat="0,0">
+          <Rows>
+            <Item1 Ref="25" ControlType="XRTableRow" Name="tableRow3" Weight="1">
+              <Cells>
+                <Item1 Ref="26" ControlType="XRTableCell" Name="tableCell5" Weight="0.0947450901911809" Text="Fecha Generacion" StyleName="DetailCaption1" Borders="None">
+                  <StylePriority Ref="27" UseBorders="false" />
+                </Item1>
+                <Item2 Ref="28" ControlType="XRTableCell" Name="tableCell6" Weight="0.02452227519108699" Text="Nit" StyleName="DetailCaption1" />
+                <Item3 Ref="29" ControlType="XRTableCell" Name="tableCell7" Weight="0.071331258920522833" Text="Razon Social" StyleName="DetailCaption1" />
+                <Item4 Ref="30" ControlType="XRTableCell" Name="tableCell8" Weight="0.046337802593524637" Text="Factura" StyleName="DetailCaption1" />
+                <Item5 Ref="31" ControlType="XRTableCell" Name="tableCell9" Weight="0.06122264568622296" Text="Valor Total" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="32" UseTextAlignment="false" />
+                </Item5>
+                <Item6 Ref="33" ControlType="XRTableCell" Name="tableCell10" Weight="0.036761961716871995" Text="Plazo" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="34" UseTextAlignment="false" />
+                </Item6>
+                <Item7 Ref="35" ControlType="XRTableCell" Name="tableCell11" Weight="0.076658959021935091" Text="Fecha Factura" StyleName="DetailCaption1" />
+                <Item8 Ref="36" ControlType="XRTableCell" Name="tableCell12" Weight="0.09314678485576923" Text="Fecha Radicacion" StyleName="DetailCaption1" />
+                <Item9 Ref="37" ControlType="XRTableCell" Name="tableCell13" Weight="0.0989932368351863" Text="Fecha Vencimiento" StyleName="DetailCaption1" />
+                <Item10 Ref="38" ControlType="XRTableCell" Name="tableCell14" Weight="0.042627105712890627" Text="Dias30" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="39" UseTextAlignment="false" />
+                </Item10>
+                <Item11 Ref="40" ControlType="XRTableCell" Name="tableCell15" Weight="0.042627105712890627" Text="Dias60" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="41" UseTextAlignment="false" />
+                </Item11>
+                <Item12 Ref="42" ControlType="XRTableCell" Name="tableCell16" Weight="0.042627105712890627" Text="Dias90" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="43" UseTextAlignment="false" />
+                </Item12>
+                <Item13 Ref="44" ControlType="XRTableCell" Name="tableCell17" Weight="0.047950134277343751" Text="Dias120" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="45" UseTextAlignment="false" />
+                </Item13>
+                <Item14 Ref="46" ControlType="XRTableCell" Name="tableCell18" Weight="0.069228216317983773" Text="Dias Mas120" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                  <StylePriority Ref="47" UseTextAlignment="false" />
+                </Item14>
+                <Item15 Ref="48" ControlType="XRTableCell" Name="tableCell19" Weight="0.051642133272611176" Text="Telefono" StyleName="DetailCaption1" />
+                <Item16 Ref="49" ControlType="XRTableCell" Name="tableCell20" Weight="0.055380871112530046" Text="Direccion" StyleName="DetailCaption1" />
+                <Item17 Ref="50" ControlType="XRTableCell" Name="tableCell21" Weight="0.04419737302339994" Text="Ciudad" StyleName="DetailCaption1" />
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item1>
+      </Controls>
+    </Item6>
+    <Item7 Ref="51" ControlType="DetailBand" Name="Detail" HeightF="25">
+      <Controls>
+        <Item1 Ref="52" ControlType="XRTable" Name="table4" SizeF="650,25" LocationFloat="0,0" OddStyleName="DetailData3_Odd">
+          <Rows>
+            <Item1 Ref="53" ControlType="XRTableRow" Name="tableRow4" Weight="11.5">
+              <Cells>
+                <Item1 Ref="54" ControlType="XRTableCell" Name="tableCell22" Weight="0.094745084322415865" StyleName="DetailData1" Borders="None">
+                  <ExpressionBindings>
+                    <Item1 Ref="55" EventName="BeforePrint" PropertyName="Text" Expression="[FechaGeneracion]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="56" UseBorders="false" />
+                </Item1>
+                <Item2 Ref="57" ControlType="XRTableCell" Name="tableCell23" Weight="0.024522273723895732" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="58" EventName="BeforePrint" PropertyName="Text" Expression="[Nit]" />
+                  </ExpressionBindings>
+                </Item2>
+                <Item3 Ref="59" ControlType="XRTableCell" Name="tableCell24" Weight="0.071331253051757817" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="60" EventName="BeforePrint" PropertyName="Text" Expression="[RazonSocial]" />
+                  </ExpressionBindings>
+                </Item3>
+                <Item4 Ref="61" ControlType="XRTableCell" Name="tableCell25" Weight="0.046337799659142129" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="62" EventName="BeforePrint" PropertyName="Text" Expression="[Factura]" />
+                  </ExpressionBindings>
+                </Item4>
+                <Item5 Ref="63" ControlType="XRTableCell" Name="tableCell26" Weight="0.06122263981745793" TextFormatString="{0:C2}" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="64" EventName="BeforePrint" PropertyName="Text" Expression="[ValorTotal]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="65" UseTextAlignment="false" />
+                </Item5>
+                <Item6 Ref="66" ControlType="XRTableCell" Name="tableCell27" Weight="0.03676195878248948" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="67" EventName="BeforePrint" PropertyName="Text" Expression="[Plazo]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="68" UseTextAlignment="false" />
+                </Item6>
+                <Item7 Ref="69" ControlType="XRTableCell" Name="tableCell28" Weight="0.076658953153170076" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="70" EventName="BeforePrint" PropertyName="Text" Expression="[FechaFactura]" />
+                  </ExpressionBindings>
+                </Item7>
+                <Item8 Ref="71" ControlType="XRTableCell" Name="tableCell29" Weight="0.0931467789870042" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="72" EventName="BeforePrint" PropertyName="Text" Expression="[FechaRadicacion]" />
+                  </ExpressionBindings>
+                </Item8>
+                <Item9 Ref="73" ControlType="XRTableCell" Name="tableCell30" Weight="0.098993225097656248" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="74" EventName="BeforePrint" PropertyName="Text" Expression="[FechaVencimiento]" />
+                  </ExpressionBindings>
+                </Item9>
+                <Item10 Ref="75" ControlType="XRTableCell" Name="tableCell31" Weight="0.042627102778508112" TextFormatString="{0:C2}" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="76" EventName="BeforePrint" PropertyName="Text" Expression="[Dias30]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="77" UseTextAlignment="false" />
+                </Item10>
+                <Item11 Ref="78" ControlType="XRTableCell" Name="tableCell32" Weight="0.042627102778508112" TextFormatString="{0:C2}" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="79" EventName="BeforePrint" PropertyName="Text" Expression="[Dias60]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="80" UseTextAlignment="false" />
+                </Item11>
+                <Item12 Ref="81" ControlType="XRTableCell" Name="tableCell33" Weight="0.042627102778508112" TextFormatString="{0:C2}" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="82" EventName="BeforePrint" PropertyName="Text" Expression="[Dias90]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="83" UseTextAlignment="false" />
+                </Item12>
+                <Item13 Ref="84" ControlType="XRTableCell" Name="tableCell34" Weight="0.047950131342961236" TextFormatString="{0:C2}" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="85" EventName="BeforePrint" PropertyName="Text" Expression="[Dias120]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="86" UseTextAlignment="false" />
+                </Item13>
+                <Item14 Ref="87" ControlType="XRTableCell" Name="tableCell35" Weight="0.069228210449218744" TextFormatString="{0:C2}" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="88" EventName="BeforePrint" PropertyName="Text" Expression="[DiasMas120]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="89" UseTextAlignment="false" />
+                </Item14>
+                <Item15 Ref="90" ControlType="XRTableCell" Name="tableCell36" Weight="0.051642127403846154" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="91" EventName="BeforePrint" PropertyName="Text" Expression="[Telefono]" />
+                  </ExpressionBindings>
+                </Item15>
+                <Item16 Ref="92" ControlType="XRTableCell" Name="tableCell37" Weight="0.055380865243765023" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="93" EventName="BeforePrint" PropertyName="Text" Expression="[Direccion]" />
+                  </ExpressionBindings>
+                </Item16>
+                <Item17 Ref="94" ControlType="XRTableCell" Name="tableCell38" Weight="0.044197434645432694" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="95" EventName="BeforePrint" PropertyName="Text" Expression="[Ciudad]" />
+                  </ExpressionBindings>
+                </Item17>
+              </Cells>
+            </Item1>
+          </Rows>
+        </Item1>
+      </Controls>
+    </Item7>
+    <Item8 Ref="96" ControlType="GroupFooterBand" Name="GroupFooter1" GroupUnion="WithLastDetail" HeightF="6">
+      <Controls>
+        <Item1 Ref="97" ControlType="XRLabel" Name="label2" SizeF="650,2.08" LocationFloat="0,0" StyleName="GroupFooterBackground3" Borders="None">
+          <StylePriority Ref="98" UseBorders="false" />
+        </Item1>
+      </Controls>
+    </Item8>
+    <Item9 Ref="99" ControlType="GroupFooterBand" Name="GroupFooter2" Level="1" HeightF="56.1688766">
+      <Controls>
+        <Item1 Ref="100" ControlType="XRPanel" Name="panel1" SizeF="650,56.1688766" LocationFloat="0,0" StyleName="TotalBackground1">
+          <Controls>
+            <Item1 Ref="101" ControlType="XRLabel" Name="label3" Text="SUM" SizeF="14,14.8844376" LocationFloat="392.417969,3.4" StyleName="TotalCaption1" />
+            <Item2 Ref="102" ControlType="XRLabel" Name="label4" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="406.417969,3.4" StyleName="TotalData1">
+              <Summary Ref="103" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="104" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30])" />
+              </ExpressionBindings>
+              <StylePriority Ref="105" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="106" ControlType="XRLabel" Name="label5" Text="SUM" SizeF="14,14.8844376" LocationFloat="420.12558,3.4" StyleName="TotalCaption1" />
+            <Item4 Ref="107" ControlType="XRLabel" Name="label6" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="434.12558,3.4" StyleName="TotalData1">
+              <Summary Ref="108" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="109" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias60])" />
+              </ExpressionBindings>
+              <StylePriority Ref="110" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="111" ControlType="XRLabel" Name="label7" Text="SUM" SizeF="14,14.8844376" LocationFloat="447.8332,3.4" StyleName="TotalCaption1" />
+            <Item6 Ref="112" ControlType="XRLabel" Name="label8" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="461.8332,3.4" StyleName="TotalData1">
+              <Summary Ref="113" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="114" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias90])" />
+              </ExpressionBindings>
+              <StylePriority Ref="115" UseTextAlignment="false" />
+            </Item6>
+            <Item7 Ref="116" ControlType="XRLabel" Name="label9" Text="SUM" SizeF="15.5,14.8844376" LocationFloat="475.5408,3.4" StyleName="TotalCaption1" />
+            <Item8 Ref="117" ControlType="XRLabel" Name="label10" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="15.667572,14.8844376" LocationFloat="491.0408,3.4" StyleName="TotalData1">
+              <Summary Ref="118" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="119" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias120])" />
+              </ExpressionBindings>
+              <StylePriority Ref="120" UseTextAlignment="false" />
+            </Item8>
+            <Item9 Ref="121" ControlType="XRLabel" Name="label11" Text="SUM" SizeF="22.5,14.8844376" LocationFloat="506.708374,3.4" StyleName="TotalCaption1" />
+            <Item10 Ref="122" ControlType="XRLabel" Name="label12" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="22.4983521,14.8844376" LocationFloat="529.2084,3.4" StyleName="TotalData1">
+              <Summary Ref="123" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="124" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([DiasMas120])" />
+              </ExpressionBindings>
+              <StylePriority Ref="125" UseTextAlignment="false" />
+            </Item10>
+            <Item11 Ref="126" ControlType="XRLabel" Name="label13" Text="RazonSocialEntidad [RazonSocialEntidad]" TextAlignment="MiddleRight" SizeF="650,14.8844376" LocationFloat="0,29.7844372" StyleName="TotalCaption1">
+              <StylePriority Ref="127" UseTextAlignment="false" />
+            </Item11>
+          </Controls>
+        </Item1>
+      </Controls>
+    </Item9>
+    <Item10 Ref="128" ControlType="GroupFooterBand" Name="GroupFooter3" Level="2" HeightF="56.1688766">
+      <Controls>
+        <Item1 Ref="129" ControlType="XRPanel" Name="panel2" SizeF="650,56.1688766" LocationFloat="0,0" StyleName="TotalBackground1">
+          <Controls>
+            <Item1 Ref="130" ControlType="XRLabel" Name="label14" Text="SUM" SizeF="14,14.8844376" LocationFloat="392.417969,3.4" StyleName="TotalCaption1" />
+            <Item2 Ref="131" ControlType="XRLabel" Name="label15" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="406.417969,3.4" StyleName="TotalData1">
+              <Summary Ref="132" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="133" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30])" />
+              </ExpressionBindings>
+              <StylePriority Ref="134" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="135" ControlType="XRLabel" Name="label16" Text="SUM" SizeF="14,14.8844376" LocationFloat="420.12558,3.4" StyleName="TotalCaption1" />
+            <Item4 Ref="136" ControlType="XRLabel" Name="label17" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="434.12558,3.4" StyleName="TotalData1">
+              <Summary Ref="137" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="138" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias60])" />
+              </ExpressionBindings>
+              <StylePriority Ref="139" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="140" ControlType="XRLabel" Name="label18" Text="SUM" SizeF="14,14.8844376" LocationFloat="447.8332,3.4" StyleName="TotalCaption1" />
+            <Item6 Ref="141" ControlType="XRLabel" Name="label19" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="461.8332,3.4" StyleName="TotalData1">
+              <Summary Ref="142" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="143" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias90])" />
+              </ExpressionBindings>
+              <StylePriority Ref="144" UseTextAlignment="false" />
+            </Item6>
+            <Item7 Ref="145" ControlType="XRLabel" Name="label20" Text="SUM" SizeF="15.5,14.8844376" LocationFloat="475.5408,3.4" StyleName="TotalCaption1" />
+            <Item8 Ref="146" ControlType="XRLabel" Name="label21" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="15.667572,14.8844376" LocationFloat="491.0408,3.4" StyleName="TotalData1">
+              <Summary Ref="147" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="148" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias120])" />
+              </ExpressionBindings>
+              <StylePriority Ref="149" UseTextAlignment="false" />
+            </Item8>
+            <Item9 Ref="150" ControlType="XRLabel" Name="label22" Text="SUM" SizeF="22.5,14.8844376" LocationFloat="506.708374,3.4" StyleName="TotalCaption1" />
+            <Item10 Ref="151" ControlType="XRLabel" Name="label23" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="22.4983521,14.8844376" LocationFloat="529.2084,3.4" StyleName="TotalData1">
+              <Summary Ref="152" Running="Group" />
+              <ExpressionBindings>
+                <Item1 Ref="153" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([DiasMas120])" />
+              </ExpressionBindings>
+              <StylePriority Ref="154" UseTextAlignment="false" />
+            </Item10>
+            <Item11 Ref="155" ControlType="XRLabel" Name="label24" Text="NitEntidad [NitEntidad]" TextAlignment="MiddleRight" SizeF="650,14.8844376" LocationFloat="0,29.7844372" StyleName="TotalCaption1">
+              <StylePriority Ref="156" UseTextAlignment="false" />
+            </Item11>
+          </Controls>
+        </Item1>
+      </Controls>
+    </Item10>
+    <Item11 Ref="157" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="49.3844376">
+      <Controls>
+        <Item1 Ref="158" ControlType="XRPanel" Name="panel3" SizeF="650,49.3844376" LocationFloat="0,0" StyleName="GrandTotalBackground1">
+          <Controls>
+            <Item1 Ref="159" ControlType="XRLabel" Name="label25" Text="SUM" SizeF="14,14.8844376" LocationFloat="392.417969,11.5" StyleName="GrandTotalCaption1" />
+            <Item2 Ref="160" ControlType="XRLabel" Name="label26" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="406.417969,11.5" StyleName="GrandTotalData1">
+              <Summary Ref="161" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="162" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30])" />
+              </ExpressionBindings>
+              <StylePriority Ref="163" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="164" ControlType="XRLabel" Name="label27" Text="SUM" SizeF="14,14.8844376" LocationFloat="420.12558,11.5" StyleName="GrandTotalCaption1" />
+            <Item4 Ref="165" ControlType="XRLabel" Name="label28" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="434.12558,11.5" StyleName="GrandTotalData1">
+              <Summary Ref="166" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="167" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias60])" />
+              </ExpressionBindings>
+              <StylePriority Ref="168" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="169" ControlType="XRLabel" Name="label29" Text="SUM" SizeF="14,14.8844376" LocationFloat="447.8332,11.5" StyleName="GrandTotalCaption1" />
+            <Item6 Ref="170" ControlType="XRLabel" Name="label30" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="13.7076111,14.8844376" LocationFloat="461.8332,11.5" StyleName="GrandTotalData1">
+              <Summary Ref="171" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="172" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias90])" />
+              </ExpressionBindings>
+              <StylePriority Ref="173" UseTextAlignment="false" />
+            </Item6>
+            <Item7 Ref="174" ControlType="XRLabel" Name="label31" Text="SUM" SizeF="15.5,14.8844376" LocationFloat="475.5408,11.5" StyleName="GrandTotalCaption1" />
+            <Item8 Ref="175" ControlType="XRLabel" Name="label32" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="15.667572,14.8844376" LocationFloat="491.0408,11.5" StyleName="GrandTotalData1">
+              <Summary Ref="176" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="177" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias120])" />
+              </ExpressionBindings>
+              <StylePriority Ref="178" UseTextAlignment="false" />
+            </Item8>
+            <Item9 Ref="179" ControlType="XRLabel" Name="label33" Text="SUM" SizeF="22.5,14.8844376" LocationFloat="506.708374,11.5" StyleName="GrandTotalCaption1" />
+            <Item10 Ref="180" ControlType="XRLabel" Name="label34" TextFormatString="{0:C2}" CanGrow="false" TextAlignment="MiddleRight" WordWrap="false" SizeF="22.4983521,14.8844376" LocationFloat="529.2084,11.5" StyleName="GrandTotalData1">
+              <Summary Ref="181" Running="Report" />
+              <ExpressionBindings>
+                <Item1 Ref="182" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([DiasMas120])" />
+              </ExpressionBindings>
+              <StylePriority Ref="183" UseTextAlignment="false" />
+            </Item10>
+          </Controls>
+        </Item1>
+      </Controls>
+    </Item11>
+  </Bands>
+  <StyleSheet>
+    <Item1 Ref="184" Name="Title" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
+    <Item2 Ref="185" Name="GroupCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,228,228,228" BackColor="255,75,75,75" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item3 Ref="186" Name="GroupData1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item4 Ref="187" Name="DetailCaption1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item5 Ref="188" Name="DetailData1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BorderColor="Transparent" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item6 Ref="189" Name="GroupFooterBackground3" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,228,228,228" BackColor="255,131,131,131" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item7 Ref="190" Name="DetailData3_Odd" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BackColor="255,231,231,231" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="1" />
+    <Item8 Ref="191" Name="TotalCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,206,206,206" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item9 Ref="192" Name="TotalData1" BorderStyle="Inset" Padding="2,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item10 Ref="193" Name="TotalBackground1" BorderStyle="Inset" BackColor="255,231,231,231" BorderColor="White" Sides="Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
+    <Item11 Ref="194" Name="GrandTotalCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,147,147,147" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item12 Ref="195" Name="GrandTotalData1" BorderStyle="Inset" Padding="2,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item13 Ref="196" Name="GrandTotalBackground1" BorderStyle="Inset" BackColor="White" BorderColor="255,75,75,75" Sides="Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
+    <Item14 Ref="197" Name="PageInfo" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" StringFormat="Near;Near;0;None;Character;Default" />
+  </StyleSheet>
+  <ComponentStorage>
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.Sql.SqlDataSource,DevExpress.DataAccess.v21.2" Name="sqlDataSource1" Base64="PFNxbERhdGFTb3VyY2UgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxDb25uZWN0aW9uIE5hbWU9IkNPTkVYSU9OX1JFUE9SVEVSSUEiIEZyb21BcHBDb25maWc9InRydWUiIC8+PFF1ZXJ5IFR5cGU9IkN1c3RvbVNxbFF1ZXJ5IiBOYW1lPSJRdWVyeSI+PFNxbD5zZWxlY3QgYS5GZWNoYUdlbmVyYWNpb24sIGEuTml0LCBhLlJhem9uU29jaWFsLCBhLk5pdEVudGlkYWQsIGEuUmF6b25Tb2NpYWxFbnRpZGFkLCBhLkZhY3R1cmEsIGEuVmFsb3JUb3RhbCwgYS5QbGF6bywgYS5GZWNoYUZhY3R1cmEsIGEuRmVjaGFSYWRpY2FjaW9uLCBhLkZlY2hhVmVuY2ltaWVudG8sIA0KICAgICAgIGNhc2Ugd2hlbiBhLkRpYXNNb3JhJmd0OzAgYW5kICBhLkRpYXNNb3JhICZsdDs9MzAgdGhlbiBhLnNhbGRvIGVsc2UgMCBlbmQgRGlhczMwLA0KICAgICAgIGNhc2Ugd2hlbiBhLkRpYXNNb3JhJmd0OzMwIGFuZCAgYS5EaWFzTW9yYSAmbHQ7PTYwIHRoZW4gYS5zYWxkbyBlbHNlIDAgZW5kIERpYXM2MCwNCgkgICBjYXNlIHdoZW4gYS5EaWFzTW9yYSZndDs2MCBhbmQgIGEuRGlhc01vcmEgJmx0Oz05MCB0aGVuIGEuc2FsZG8gZWxzZSAwIGVuZCBEaWFzOTAsDQoJICAgY2FzZSB3aGVuIGEuRGlhc01vcmEmZ3Q7OTAgYW5kICBhLkRpYXNNb3JhICZsdDs9MTIwIHRoZW4gYS5zYWxkbyBlbHNlIDAgZW5kIERpYXMxMjAsDQoJICBjYXNlIHdoZW4gYS5EaWFzTW9yYSZndDsxMjAgdGhlbiBhLnNhbGRvIGVsc2UgMCBlbmQgRGlhc01hczEyMCwNCiAgICAgIFtUZWxlZm9ub10sIFtEaXJlY2Npb25dLCBbQ2l1ZGFkXQ0KICBmcm9tIFZGYWN0dXJhc1ZlbmNpZGFzIGE8L1NxbD48L1F1ZXJ5PjxSZXN1bHRTY2hlbWE+PERhdGFTZXQgTmFtZT0ic3FsRGF0YVNvdXJjZTEiPjxWaWV3IE5hbWU9IlF1ZXJ5Ij48RmllbGQgTmFtZT0iRmVjaGFHZW5lcmFjaW9uIiBUeXBlPSJEYXRlVGltZSIgLz48RmllbGQgTmFtZT0iTml0IiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IlJhem9uU29jaWFsIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9Ik5pdEVudGlkYWQiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUmF6b25Tb2NpYWxFbnRpZGFkIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkZhY3R1cmEiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iVmFsb3JUb3RhbCIgVHlwZT0iRGVjaW1hbCIgLz48RmllbGQgTmFtZT0iUGxhem8iIFR5cGU9IkludDY0IiAvPjxGaWVsZCBOYW1lPSJGZWNoYUZhY3R1cmEiIFR5cGU9IkRhdGVUaW1lIiAvPjxGaWVsZCBOYW1lPSJGZWNoYVJhZGljYWNpb24iIFR5cGU9IkRhdGVUaW1lIiAvPjxGaWVsZCBOYW1lPSJGZWNoYVZlbmNpbWllbnRvIiBUeXBlPSJEYXRlVGltZSIgLz48RmllbGQgTmFtZT0iRGlhczMwIiBUeXBlPSJEZWNpbWFsIiAvPjxGaWVsZCBOYW1lPSJEaWFzNjAiIFR5cGU9IkRlY2ltYWwiIC8+PEZpZWxkIE5hbWU9IkRpYXM5MCIgVHlwZT0iRGVjaW1hbCIgLz48RmllbGQgTmFtZT0iRGlhczEyMCIgVHlwZT0iRGVjaW1hbCIgLz48RmllbGQgTmFtZT0iRGlhc01hczEyMCIgVHlwZT0iRGVjaW1hbCIgLz48RmllbGQgTmFtZT0iVGVsZWZvbm8iIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iRGlyZWNjaW9uIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkNpdWRhZCIgVHlwZT0iU3RyaW5nIiAvPjwvVmlldz48L0RhdGFTZXQ+PC9SZXN1bHRTY2hlbWE+PENvbm5lY3Rpb25PcHRpb25zIENsb3NlQ29ubmVjdGlvbj0idHJ1ZSIgLz48L1NxbERhdGFTb3VyY2U+" />
+  </ComponentStorage>
+</XtraReportsLayoutSerializer>
