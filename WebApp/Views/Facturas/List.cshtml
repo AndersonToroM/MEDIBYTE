@@ -3,7 +3,7 @@
     string UrlClick = Url.Action("Edit", "Facturas");
     string UrlNew = Url.Action("New", "Facturas");
     string ImprimirReporteCartera = Url.Action("ImprimirReporteCartera", "Facturas");
-    string ImprimirCarteraGeneralReporte = Url.Action("ImprimirCarteraGeneralReporte", "Facturas");
+    string ImprimirCarteraGeneralReporte = Url.Action("ImprimirReporteCarteraGeneral", "Facturas");
 
     var DataGridConfig = new DataGridConfiguration<Facturas>(Prefix)
 .OnClick(UrlClick, new { Id = "Id" })
