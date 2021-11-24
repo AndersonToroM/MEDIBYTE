@@ -348,7 +348,7 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult ImprimirReporteTotalCartera()
+        public IActionResult ImprimirReporteCarteraGeneral()
         {
             try
             {
@@ -358,7 +358,7 @@ namespace Blazor.WebApp.Controllers
                 var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
-                TotalCarteraReporte report = new TotalCarteraReporte();
+                CarteraGeneralReporte report = new CarteraGeneralReporte();
                 report.SetInformacionReporte(informacionReporte);
                 XtraReport xtraReport = report;
 

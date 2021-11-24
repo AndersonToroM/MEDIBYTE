@@ -3,7 +3,7 @@
     string UrlClick = Url.Action("Edit", "Facturas");
     string UrlNew = Url.Action("New", "Facturas");
     string ImprimirReporteCartera = Url.Action("ImprimirReporteCartera", "Facturas");
-    string ImprimirReporteTotalCartera = Url.Action("ImprimirReporteTotalCartera", "Facturas");
+    string ImprimirCarteraGeneralReporte = Url.Action("ImprimirCarteraGeneralReporte", "Facturas");
 
     var DataGridConfig = new DataGridConfiguration<Facturas>(Prefix)
 .OnClick(UrlClick, new { Id = "Id" })
@@ -13,7 +13,7 @@
 {
             new ButtonToolbar
             {
-                Action = $"{Prefix}MostrarModalImImprimirCartera",
+                Action = $"{Prefix}MostrarModalImprimirCartera",
                 Icon = "doc",
                 Text = DApp.DefaultLanguage.GetResource("Admisiones.ImprimirCartera"),
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
@@ -24,9 +24,9 @@
 
                 new ButtonToolbar
                 {
-                    Action = $"{Prefix}ImprimirTotalCartera",
+                    Action = $"{Prefix}ImprimirCarteraGeneral",
                     Icon = "doc",
-                    Text = DApp.DefaultLanguage.GetResource("Admisiones.ImprimirTotalCartera"),
+                    Text = DApp.DefaultLanguage.GetResource("Admisiones.ImprimirCarteraGeneral"),
                     LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                     Location = ToolbarItemLocation.Before
                 }
@@ -37,7 +37,7 @@
 
 <script>
 
-    function @(Prefix)MostrarModalImImprimirCartera()
+    function @(Prefix)MostrarModalImprimirCartera()
     {
         $("#@(Prefix)PopupImprimirCartera").dxPopup("instance").show();
     }
@@ -72,15 +72,15 @@
         });
     }
 
-        function @(Prefix)ImprimirTotalCartera() {
+        function @(Prefix)ImprimirCarteraGeneral() {
 
         $("#@(Prefix)Errores").html("");
 
 
         showLoadIndicator();
-        $("#@(Prefix)PopupImprimirTotalCartera").dxPopup("instance").hide();
+        $("#@(Prefix)PopupImprimirCarteraGeneral").dxPopup("instance").hide();
         $.ajax({
-            url: "@ImprimirReporteTotalCartera",
+            url: "@ImprimirCarteraGeneralReporte",
 
             type: 'GET',
             success: function (data) {
@@ -165,18 +165,18 @@
 <div class="row">
     <div class="col-md-12">
         @(Html.DControls().Popup()
-            .ID($"{Prefix}PopupImprimirTotalCartera")
+            .ID($"{Prefix}PopupImprimirCarteraGeneral")
             .Width(400)
             .Height(150)
             .ShowTitle(true)
-            .Title(DApp.DefaultLanguage.GetResource("Admisiones.ImprimirTotalCartera"))
+            .Title(DApp.DefaultLanguage.GetResource("Admisiones.ImprimirCarteraGeneral"))
             .Visible(false)
             .DragEnabled(false)
             .CloseOnOutsideClick(false)
-            .ContentTemplate(new TemplateName($"{Prefix}TemplateImprimirTotalCartera"))
+            .ContentTemplate(new TemplateName($"{Prefix}TemplateImprimirCarteraGeneral"))
         )
 
-        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateImprimirTotalCartera"))
+        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateImprimirCarteraGeneral"))
         {
             @*<div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
             <div class="row">
@@ -193,7 +193,7 @@
             </div>*@
 
             <div class="row d-flex justify-content-center">
-                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ImprimirTotalCartera()">IMPRIMIR</button>
+                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ImprimirCarteraGeneral()">IMPRIMIR</button>
             </div>
         }
     </div>
