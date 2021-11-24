@@ -253,7 +253,7 @@
     <Item8 Ref="134" ControlType="GroupFooterBand" Name="GroupFooter1" GroupUnion="WithLastDetail" HeightF="10.631814" />
     <Item9 Ref="135" ControlType="GroupFooterBand" Name="GroupFooter2" Level="1" HeightF="68.33748">
       <Controls>
-        <Item1 Ref="136" ControlType="XRPanel" Name="panel1" SizeF="650,68.33748" LocationFloat="0,0" StyleName="TotalBackground1">
+        <Item1 Ref="136" ControlType="XRPanel" Name="panel1" SizeF="650,68.33748" LocationFloat="0,0" StyleName="TotalBackground1" BackColor="White">
           <Controls>
             <Item1 Ref="137" ControlType="XRLabel" Name="label16" TextFormatString="{0:$0}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="57.95938,12.6449738" LocationFloat="303.9833,37.8408737" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
               <Summary Ref="138" Running="Group" />
@@ -317,31 +317,34 @@
               <StylePriority Ref="172" UseBorders="false" UseBorderDashStyle="false" />
             </Item11>
           </Controls>
+          <StylePriority Ref="173" UseBackColor="false" />
         </Item1>
       </Controls>
     </Item9>
-    <Item10 Ref="173" ControlType="GroupFooterBand" Name="GroupFooter3" Level="2" HeightF="56.1688766">
+    <Item10 Ref="174" ControlType="GroupFooterBand" Name="GroupFooter3" Level="2" HeightF="56.1688766">
       <Controls>
-        <Item1 Ref="174" ControlType="XRPanel" Name="panel2" SizeF="650,56.1688766" LocationFloat="0,0" StyleName="TotalBackground1" />
+        <Item1 Ref="175" ControlType="XRPanel" Name="panel2" SizeF="650,56.1688766" LocationFloat="0,0" StyleName="TotalBackground1" BackColor="White">
+          <StylePriority Ref="176" UseBackColor="false" />
+        </Item1>
       </Controls>
     </Item10>
-    <Item11 Ref="175" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="49.3844376" />
+    <Item11 Ref="177" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="49.3844376" />
   </Bands>
   <StyleSheet>
-    <Item1 Ref="176" Name="Title" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
-    <Item2 Ref="177" Name="GroupCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,228,228,228" BackColor="255,75,75,75" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item3 Ref="178" Name="GroupData1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item4 Ref="179" Name="DetailCaption1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item5 Ref="180" Name="DetailData1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BorderColor="Transparent" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item6 Ref="181" Name="GroupFooterBackground3" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,228,228,228" BackColor="255,131,131,131" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item7 Ref="182" Name="DetailData3_Odd" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BackColor="255,231,231,231" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="1" />
-    <Item8 Ref="183" Name="TotalCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,206,206,206" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
-    <Item9 Ref="184" Name="TotalData1" BorderStyle="Inset" Padding="2,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
-    <Item10 Ref="185" Name="TotalBackground1" BorderStyle="Inset" BackColor="255,231,231,231" BorderColor="White" Sides="Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
-    <Item11 Ref="186" Name="GrandTotalCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,147,147,147" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
-    <Item12 Ref="187" Name="GrandTotalData1" BorderStyle="Inset" Padding="2,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
-    <Item13 Ref="188" Name="GrandTotalBackground1" BorderStyle="Inset" BackColor="White" BorderColor="255,75,75,75" Sides="Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
-    <Item14 Ref="189" Name="PageInfo" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" StringFormat="Near;Near;0;None;Character;Default" />
+    <Item1 Ref="178" Name="Title" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
+    <Item2 Ref="179" Name="GroupCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,228,228,228" BackColor="255,75,75,75" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item3 Ref="180" Name="GroupData1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item4 Ref="181" Name="DetailCaption1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item5 Ref="182" Name="DetailData1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BorderColor="Transparent" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item6 Ref="183" Name="GroupFooterBackground3" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,228,228,228" BackColor="255,131,131,131" BorderColor="White" Sides="Bottom" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item7 Ref="184" Name="DetailData3_Odd" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BackColor="255,231,231,231" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="1" />
+    <Item8 Ref="185" Name="TotalCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,206,206,206" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item9 Ref="186" Name="TotalData1" BorderStyle="Inset" Padding="2,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item10 Ref="187" Name="TotalBackground1" BorderStyle="Inset" BackColor="255,231,231,231" BorderColor="White" Sides="Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
+    <Item11 Ref="188" Name="GrandTotalCaption1" BorderStyle="Inset" Padding="6,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,147,147,147" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item12 Ref="189" Name="GrandTotalData1" BorderStyle="Inset" Padding="2,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" />
+    <Item13 Ref="190" Name="GrandTotalBackground1" BorderStyle="Inset" BackColor="White" BorderColor="255,75,75,75" Sides="Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="2" />
+    <Item14 Ref="191" Name="PageInfo" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" StringFormat="Near;Near;0;None;Character;Default" />
   </StyleSheet>
   <ComponentStorage>
     <Item1 Ref="0" ObjectType="DevExpress.DataAccess.Sql.SqlDataSource,DevExpress.DataAccess.v21.2" Name="FuenteDatos" Base64="PFNxbERhdGFTb3VyY2UgTmFtZT0iRnVlbnRlRGF0b3MiPjxDb25uZWN0aW9uIE5hbWU9IkNPTkVYSU9OX1JFUE9SVEVSSUEiIEZyb21BcHBDb25maWc9InRydWUiIC8+PFF1ZXJ5IFR5cGU9IkN1c3RvbVNxbFF1ZXJ5IiBOYW1lPSJRdWVyeSI+PFNxbD5zZWxlY3QgYS5GZWNoYUdlbmVyYWNpb24sIGEuTml0LCBhLlJhem9uU29jaWFsLCBhLk5pdEVudGlkYWQsIGEuUmF6b25Tb2NpYWxFbnRpZGFkLCBhLkZhY3R1cmEsIGEuVmFsb3JUb3RhbCwgYS5QbGF6bywgYS5GZWNoYUZhY3R1cmEsIGEuRmVjaGFSYWRpY2FjaW9uLCBhLkZlY2hhVmVuY2ltaWVudG8sIGEuRGlhc01vcmEsDQogICAgICAgY2FzZSB3aGVuIGEuRGlhc01vcmEmZ3Q7MCBhbmQgIGEuRGlhc01vcmEgJmx0Oz0zMCB0aGVuIGEuc2FsZG8gZWxzZSAwIGVuZCBEaWFzMzAsDQogICAgICAgY2FzZSB3aGVuIGEuRGlhc01vcmEmZ3Q7MzAgYW5kICBhLkRpYXNNb3JhICZsdDs9NjAgdGhlbiBhLnNhbGRvIGVsc2UgMCBlbmQgRGlhczYwLA0KCSAgIGNhc2Ugd2hlbiBhLkRpYXNNb3JhJmd0OzYwIGFuZCAgYS5EaWFzTW9yYSAmbHQ7PTkwIHRoZW4gYS5zYWxkbyBlbHNlIDAgZW5kIERpYXM5MCwNCgkgICBjYXNlIHdoZW4gYS5EaWFzTW9yYSZndDs5MCBhbmQgIGEuRGlhc01vcmEgJmx0Oz0xMjAgdGhlbiBhLnNhbGRvIGVsc2UgMCBlbmQgRGlhczEyMCwNCgkgIGNhc2Ugd2hlbiBhLkRpYXNNb3JhJmd0OzEyMCB0aGVuIGEuc2FsZG8gZWxzZSAwIGVuZCBEaWFzTWFzMTIwLA0KICAgICAgW1RlbGVmb25vXSwgW0RpcmVjY2lvbl0sIFtDaXVkYWRdDQogIGZyb20gVkZhY3R1cmFzVmVuY2lkYXMgYTwvU3FsPjwvUXVlcnk+PFJlc3VsdFNjaGVtYT48RGF0YVNldCBOYW1lPSJGdWVudGVEYXRvcyI+PFZpZXcgTmFtZT0iUXVlcnkiPjxGaWVsZCBOYW1lPSJGZWNoYUdlbmVyYWNpb24iIFR5cGU9IkRhdGVUaW1lIiAvPjxGaWVsZCBOYW1lPSJOaXQiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iUmF6b25Tb2NpYWwiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iTml0RW50aWRhZCIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJSYXpvblNvY2lhbEVudGlkYWQiIFR5cGU9IlN0cmluZyIgLz48RmllbGQgTmFtZT0iRmFjdHVyYSIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJWYWxvclRvdGFsIiBUeXBlPSJEZWNpbWFsIiAvPjxGaWVsZCBOYW1lPSJQbGF6byIgVHlwZT0iSW50NjQiIC8+PEZpZWxkIE5hbWU9IkZlY2hhRmFjdHVyYSIgVHlwZT0iRGF0ZVRpbWUiIC8+PEZpZWxkIE5hbWU9IkZlY2hhUmFkaWNhY2lvbiIgVHlwZT0iRGF0ZVRpbWUiIC8+PEZpZWxkIE5hbWU9IkZlY2hhVmVuY2ltaWVudG8iIFR5cGU9IkRhdGVUaW1lIiAvPjxGaWVsZCBOYW1lPSJEaWFzTW9yYSIgVHlwZT0iSW50MzIiIC8+PEZpZWxkIE5hbWU9IkRpYXMzMCIgVHlwZT0iRGVjaW1hbCIgLz48RmllbGQgTmFtZT0iRGlhczYwIiBUeXBlPSJEZWNpbWFsIiAvPjxGaWVsZCBOYW1lPSJEaWFzOTAiIFR5cGU9IkRlY2ltYWwiIC8+PEZpZWxkIE5hbWU9IkRpYXMxMjAiIFR5cGU9IkRlY2ltYWwiIC8+PEZpZWxkIE5hbWU9IkRpYXNNYXMxMjAiIFR5cGU9IkRlY2ltYWwiIC8+PEZpZWxkIE5hbWU9IlRlbGVmb25vIiBUeXBlPSJTdHJpbmciIC8+PEZpZWxkIE5hbWU9IkRpcmVjY2lvbiIgVHlwZT0iU3RyaW5nIiAvPjxGaWVsZCBOYW1lPSJDaXVkYWQiIFR5cGU9IlN0cmluZyIgLz48L1ZpZXc+PC9EYXRhU2V0PjwvUmVzdWx0U2NoZW1hPjxDb25uZWN0aW9uT3B0aW9ucyBDbG9zZUNvbm5lY3Rpb249InRydWUiIC8+PC9TcWxEYXRhU291cmNlPg==" />
