@@ -193,7 +193,11 @@
   },
   {
     "Id": "Admisiones.ImprimirCartera",
-    "Description": "Imprimir Cartera"
+    "Description": "Cartera por entidad"
+  },
+  {
+    "Id": "Admisiones.ImprimirCarteraGeneral",
+    "Description": "Cartera general"
   },
   {
     "Id": "Admisiones.ImprimirReporteEntregaProduccion",
