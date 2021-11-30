@@ -52,8 +52,8 @@ namespace Blazor.WebApp.Controllers
                 var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
                     .FindById(x => x.NroAutorizacion == model.Entity.NroAutorizacion && x.EstadosId != 72 && x.Id != model.Entity.Id && x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId, true);
                 var oldAdmision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, false);
-                if (OnState == false && oldAdmision.EstadosId == 62)
-                    ModelState.AddModelError("Entity.Id", $"La admision {model.Entity.Id} ya fue atendida");
+                //if (OnState == false && oldAdmision.EstadosId == 62)
+                //    ModelState.AddModelError("Entity.Id", $"La admision {model.Entity.Id} ya fue atendida");
                 if (admisionautorizacion != null)
                 {
                     ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre}.");
