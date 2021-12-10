@@ -122,6 +122,16 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
                     model.Entity.NombreCompleto = $"{model.Entity.PrimerNombre} {model.Entity.SegundoNombre} {model.Entity.PrimerApellido} {model.Entity.SegundoApellido}";
+
+                    model.Entity.NumeroIdentificacion = DApp.Util.QuitarEspacios( model.Entity.NumeroIdentificacion);
+                    model.Entity.NombreCompleto = DApp.Util.QuitarEspacios( model.Entity.NombreCompleto);
+                    model.Entity.PrimerNombre = DApp.Util.QuitarEspacios(model.Entity.PrimerNombre);
+                    model.Entity.SegundoNombre = DApp.Util.QuitarEspacios(model.Entity.SegundoNombre);
+                    model.Entity.PrimerApellido = DApp.Util.QuitarEspacios(model.Entity.PrimerApellido);
+                    model.Entity.SegundoApellido = DApp.Util.QuitarEspacios(model.Entity.SegundoApellido);
+                    model.Entity.Direccion = DApp.Util.QuitarEspacios(model.Entity.Direccion);
+                    model.Entity.Telefono = DApp.Util.QuitarEspacios(model.Entity.Telefono);
+
                     if (model.Entity.IsNew)
                     {
                         model.Entity.CreationDate = DateTime.Now;

@@ -203,7 +203,7 @@
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
 
         if (e.value != null) {
-            @(Prefix)MostrarCitas();
+    @(Prefix)MostrarCitas();
             var Citas = $("#@(Prefix)CitasDataGrid").dxDataGrid("instance");
             Citas.getDataSource().filter(["PacientesId", "=", e.value]);
             Citas.getDataSource().reload();
@@ -319,16 +319,11 @@
 
          var OpcionPago = $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value");
 
-        //Filtro para el tipo de documento
-        if (AdmisionNueva) {
-            $("#@(Prefix)DocumentosId").dxSelectBox("instance").option("value", null);
-        }
-
-        @*$("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().filter(["Transaccion", "=", 0]);
-        $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();*@
-
         if (EstaFacturada)
             return false;
+
+        $("#@(Prefix)DocumentosId").dxSelectBox("instance").option("value", null);
+        $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
 
         $("#@(Prefix)ValorCopago").dxNumberBox("instance").option("readOnly", true);
         $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("readOnly", true);
@@ -417,6 +412,10 @@
         return text;
     }
 
+    function @(Prefix)GetValorPagoEstadoId() {
+        var estado = $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value");
+        return estado;
+    }
     function @(Prefix)GetCitasId() {
         var cita = $("#@(Prefix)CitasId").dxNumberBox("instance").option("value");
         return cita;

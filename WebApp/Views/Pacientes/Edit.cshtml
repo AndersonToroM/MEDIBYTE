@@ -154,7 +154,7 @@
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Pacientes.CorreoElectronico", 200)))
                                       .Editor(e => e.TextBox().ID(Prefix + "CorreoElectronico").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.PaisId).ColSpan(4)
+                                groupItems.AddSimpleFor(m => m.Entity.PaisId).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.PaisId")))
                                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.PaisId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "Paises")
@@ -164,7 +164,7 @@
                                       .SearchEnabled(true).ShowClearButton(true)
                                       .OnValueChanged(Prefix + "OnValueChangedPaises")
                                  );
-                                groupItems.AddSimpleFor(m => m.Entity.DepartamentoId).ColSpan(4)
+                                groupItems.AddSimpleFor(m => m.Entity.DepartamentoId).ColSpan(3)
                                        .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.DepartamentoId")))
                                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.DepartamentoId")))
                                        .Editor(e => e.SelectBox().ID(Prefix + "Departamentos")
@@ -183,6 +183,10 @@
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );
+
+                                groupItems.AddSimpleFor(m => m.Entity.CodigoPostal).ColSpan(2)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(6).Message(DApp.GetStringLengthResource("Pacientes.CodigoPostal", 6)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "CodigoPostal").ShowClearButton(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.TiposRegimenesId).ColSpan(6)
                                      .Editor(e => e.SelectBox().ID(Prefix + "TiposRegimenesId")

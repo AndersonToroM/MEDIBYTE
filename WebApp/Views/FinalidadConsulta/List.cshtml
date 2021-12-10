@@ -1,0 +1,23 @@
+@{ 
+    string Prefix = "FinalidadConsulta"; 
+    string UrlClick = Url.Action("Edit", "FinalidadConsulta"); 
+    string UrlNew = Url.Action("New", "FinalidadConsulta"); 
+
+    var DataGridConfig = new DataGridConfiguration<FinalidadConsulta>(Prefix) 
+        .OnClick(UrlClick, new { Id = "Id" }) 
+        //.New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew)) 
+        .Exports(true,true) 
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("FinalidadConsulta"), "mainPanel"); 
+} 
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<FinalidadConsulta>(DataGridConfig) 
+    .ID("FinalidadConsultaDataGrid") 
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FinalidadConsulta").LoadAction("Get").Key("Id")) 
+    .Columns(columns => 
+    { 
+        columns.AddFor(m => m.Nombre); 
+        columns.AddFor(m => m.CodigoRips); 
+    }) 
+) 
+</div> 

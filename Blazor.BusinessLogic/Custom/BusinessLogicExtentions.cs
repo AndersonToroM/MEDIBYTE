@@ -34,6 +34,8 @@ namespace Blazor.BusinessLogic
                 return new ArchivosBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(EntregaResultados))
                 return new EntregaResultadosBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
+            if (typeof(T) == typeof(EntregaResultadosNoLectura))
+                return new EntregaResultadosNoLecturaBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(AdmisionesServiciosPrestados))
                 return new AdmisionesServiciosPrestadosBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(Notas))

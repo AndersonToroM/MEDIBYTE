@@ -829,7 +829,7 @@ namespace Blazor.BusinessLogic
                 //data.NetLineExtensionAmount = new NetLineExtensionAmountType { Value = InvoiceDetails[i].TotalValue }  ;
                 data.Price = new Price { PriceAmount = factura.FacturasDetalles[i].ValorServicio, BaseQuantity = factura.FacturasDetalles[i].Cantidad };
                 data.Item = new Item { Description = new List<string>() };
-                data.Item.AddDescription(factura.FacturasDetalles[i].Servicios.Nombre.Replace("Í", "I"));
+                data.Item.AddDescription(DApp.Util.QutarTildes(factura.FacturasDetalles[i].Servicios.Nombre));
 
                 if (factura.FacturasDetalles[i].PorcDescuento > 0)
                 {
@@ -926,7 +926,7 @@ namespace Blazor.BusinessLogic
             for (int i = 0; i < documentos.Count; i++)
             {
                 var datareg = (i+1).ToString("D9") + documentos[i].Registro.Substring(9);
-                data.Add(QutarTildes(datareg));
+                data.Add(DApp.Util.QutarTildes(datareg));
             }
             File.WriteAllLines(Path.Combine(path, nombreArchivo), data);
 
@@ -937,24 +937,5 @@ namespace Blazor.BusinessLogic
             return pathZip;
         }
 
-        public string QutarTildes(string data)
-        {
-            data = data.Replace("á", "a");
-            data = data.Replace("Á", "A");
-            data = data.Replace("é", "e");
-            data = data.Replace("É", "E");
-            data = data.Replace("í", "i");
-            data = data.Replace("Í", "I");
-            data = data.Replace("ó", "o");
-            data = data.Replace("Ó", "O");
-            data = data.Replace("ú", "u");
-            data = data.Replace("Ú", "U");
-            data = data.Replace("ñ", "n");
-            data = data.Replace("Ñ", "N"); 
-            data = data.Replace("ü", "u");
-            data = data.Replace("Ü", "U");
-            return data;
-        }
-        
     }
 }

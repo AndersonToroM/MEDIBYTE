@@ -1,0 +1,188 @@
+@model EntregaResultadosNoLecturaModel
+@{
+    string Prefix = "EntregaResultadosNoLectura";
+
+    string UrlSave = Url.Action("Edit", "EntregaResultadosNoLectura");
+    string UrlNew = Url.Action("New", "EntregaResultadosNoLectura");
+    string UrlDelete = Url.Action("Delete", "EntregaResultadosNoLectura", new { Id = Model.Entity.Id });
+    string UrlBack = Url.Action("ListPartial", "EntregaResultadosNoLectura");
+
+    var ToolbarConfig = new ToolbarConfiguration(Prefix)
+        .Title(DApp.DefaultLanguage.GetResource("EntregaResultadosNoLectura"))
+        .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew)
+        .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
+        .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
+        .Back(UrlBack);
+
+    //Configuracion necesaria para la carga de archivos
+    Model.Entity.ContanciaArchivos.Maestro = Prefix;
+    Model.Entity.ContanciaArchivos.NombreCampoForanea = "ContanciaArchivos";
+    Model.Entity.ContanciaArchivos.EsArchivo = true;
+}
+
+<partial name="ViewJS.cshtml" model="Model" view-data="ViewData" />
+
+@(Html.DControls().Toolbar(ToolbarConfig))
+
+<div>
+    <div id="EntregaResultadosNoLecturaMainPanelForm">
+        <form id="@(Prefix)Form" asp-controller="EntregaResultadosNoLectura" asp-action="Edit" class="form-horizontal" data-ajax-mode="replace" data-ajax-update="#mainPanel" data-ajax-success="@(Prefix)FormSuccess" data-ajax-failure="@(Prefix)FormFailure" data-ajax="true">
+            @(Html.DControls().ValidationSummary().ValidationGroup(Prefix + "ValidationGroup").ElementAttr("class","ErrorValidationSummary"))
+            @using (Html.DevExtreme().ValidationGroup(Prefix + "ValidationGroup"))
+            {
+                @(Html.DControls().CheckBoxFor(m => m.Entity.IsNew).ID(Prefix + "IsNew").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.Id).ID(Prefix + "Id").Visible(false))
+                @(Html.DControls().TextBoxFor(m => m.Entity.UpdatedBy).ID(Prefix + "UpdatedBy").Visible(false))
+                @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Type(DateBoxType.DateTime).Visible(false))
+                @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
+                @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
+
+                @(Html.DControls().TextBoxFor(m => m.SerializedResultados).ID(Prefix + "SerializedResultados").Visible(false))
+
+                @(Html.DControls().Form<EntregaResultadosNoLecturaModel>()
+                    .ID("EntregaResultadosNoLecturaModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
+                    .Items(items =>
+                    {
+                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                            .Items(groupItems =>{
+
+                                groupItems.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(6)
+                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.PacientesId")))
+                               .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.PacientesId")))
+                                    .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("GetPacientesId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                    .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido", "NumeroIdentificacion")
+                                    .SearchEnabled(true).ShowClearButton(true).ReadOnly(!Model.Entity.IsNew)
+                                    .OnValueChanged($"{Prefix}OnValueChangedPacientesId")
+                               );
+
+                                groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.Fecha")))
+                                    .Editor(e=>e.DateBox().ID(Prefix + "Fecha").Type(DateBoxType.Time)
+                                    .DisplayFormat(DApp.DefaultLanguage.DateFormat)
+                                    .ReadOnly(true));
+
+                                groupItems.AddSimpleFor(m => m.Hora).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.Hora")))
+                                    .Editor(e => e.DateBox().ID(Prefix + "Hora").Type(DateBoxType.Time)
+                                    .DisplayFormat(DApp.DefaultLanguage.TimeFormat)
+                                    .ReadOnly(true));
+
+                                groupItems.AddSimpleFor(m => m.Entity.TiposIdentificacionid).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.TiposIdentificacionid")))
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.TiposIdentificacionid")))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "TiposIdentificacionid")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("GetTiposIdentificacionid").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre", "Codigo")
+                                      .SearchEnabled(true).ShowClearButton(true)
+                                 );
+                                groupItems.AddSimpleFor(m => m.Entity.NumeroIdentificacion).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.NumeroIdentificacion")))
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(20).Message(DApp.GetStringLengthResource("EntregaResultadosNoLectura.NumeroIdentificacion", 20)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "NumeroIdentificacion").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.Nombres).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.Nombres")))
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(60).Message(DApp.GetStringLengthResource("EntregaResultadosNoLectura.Nombres", 60)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "Nombres").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.Apellidos).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.Apellidos")))
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(60).Message(DApp.GetStringLengthResource("EntregaResultadosNoLectura.Apellidos", 60)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "Apellidos").ShowClearButton(true));
+
+                                groupItems.AddSimpleFor(m => m.Entity.ParentescosId).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.ParentescosId")))
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.ParentescosId")))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "ParentescosId")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("GetParentescosId").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
+                                      .SearchEnabled(true).ShowClearButton(true)
+                                 );
+                                groupItems.AddSimpleFor(m => m.Entity.Telefono).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(20).Message(DApp.GetStringLengthResource("EntregaResultadosNoLectura.Telefono", 20)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "Telefono").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.Email).ColSpan(6)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("EntregaResultadosNoLectura.Email", 255)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "Email").ShowClearButton(true));
+
+                                groupItems.AddSimpleFor(m => m.Entity.MediosEntragasId).ColSpan(6)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.MediosEntragasId")))
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntregaResultadosNoLectura.MediosEntragasId")))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "MediosEntragasId")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("GetMediosEntragasId").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
+                                      .SearchEnabled(true).ShowClearButton(true)
+                                 );
+
+                                groupItems.AddSimple().ColSpan(6)
+                                .Template(new TemplateName($"{Model.Entity.ContanciaArchivos.Maestro}{Model.Entity.ContanciaArchivos.NombreCampoForanea}Archivo")
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(12)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("EntregaResultadosNoLectura.Observaciones", 1024)))
+                                      .Editor(e => e.TextArea().ID(Prefix + "Observaciones"));
+
+                            });
+                    })
+                )
+            }
+        </form>
+
+        <partial name="../Archivos/Archivo.cshtml" model=Model.Entity.ContanciaArchivos view-data="ViewData" />
+
+        @* Si el maestro maneja detalle descomentar el siguiente codigo y remplazar la palabra "MAESTRODETALLE" *@
+        
+            <div>
+               <ul class="nav nav-tabs" role="tablist">
+                   <li role="presentation" class="active">
+                       <a href="#EntregaResultadosNoLecturaDetalles" aria-controls="EntregaResultadosNoLecturaDetalles" role="tab" data-toggle="tab">
+                           @DApp.DefaultLanguage.GetResource("EntregaResultadosNoLecturaDetalles")
+                       </a>
+                   </li>
+               </ul>
+               <div class="tab-content">
+                   <div role="tabpanel" class="tab-pane active" id="EntregaResultadosNoLecturaDetalles">
+                       <partial name="../EntregaResultadosNoLecturaDetalles/ListDetail.cshtml" model=Model view-data="ViewData" />
+                   </div>
+               </div>
+            </div>
+        
+
+    </div>
+</div>
+
+@(Html.DControls().Popup()
+    .ID($"{Prefix}PopupResultados")
+    .ContentTemplate(new TemplateName($"{Prefix}TemplateResultados"))
+    .Title(DApp.GetResource("EntregaResultadosNoLectura.Resultados"))
+    .CloseOnOutsideClick(false).ResizeEnabled(true)
+    .Height(500)
+)
+
+@using (Html.DControls().NamedTemplate($"{Prefix}TemplateResultados"))
+{
+
+    @(Html.DControls().DataGridSimple<AdmisionesServiciosPrestados>(new DataGridConfiguration<AdmisionesServiciosPrestados>(Prefix + "GridResultados").Exports(false, false))
+        .ID(Prefix + "GridResultados")
+        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("GetResultados").Key("Id"))
+        .DataSourceOptions(o => o.Paginate(true).PageSize(10)
+        //.Filter("['AdmisionesServiciosPrestados.Admisiones.PacientesId','=','" + Model.Entity.PacientesId + "']")
+        )
+        .Paging(x=>x.PageSize(6))
+        .Selection(sl => sl.AllowSelectAll(false).Mode(SelectionMode.Multiple).ShowCheckBoxesMode(GridSelectionShowCheckBoxesMode.Always))
+        .OnSelectionChanged($"{Prefix}OnSelectionChangedResultados")
+        .Columns(columns =>
+        {
+            //columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AtencionesResultado.Paciente"));
+            columns.AddFor(m => m.Servicios.Nombre);
+            columns.AddFor(m => m.Atenciones.FechaAtencion).SortOrder(SortOrder.Desc);
+            columns.AddFor(m => m.EntregaNoLectura);
+
+        }))
+
+    @(Html.DControls().Button().Text(DApp.GetResource("EntregaResultadosNoLectura.Aceptar")).OnClick($"{Prefix}AceptarResultados"))
+    @(Html.DControls().Button().Text(DApp.GetResource("EntregaResultadosNoLectura.Limpiar")).OnClick($"{Prefix}LimpiarResultados"))
+}

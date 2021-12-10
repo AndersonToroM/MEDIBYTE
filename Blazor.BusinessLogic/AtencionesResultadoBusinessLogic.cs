@@ -19,7 +19,43 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public AtencionesResultado SubirAudioAResultado(byte[] mp3Bytes, long admisionesServiciosPrestadosId, long id, string user, long userId)
+        public void MarcarLeidos(long empleadoId, List<long> admisionesServiciosPrestadosId, string userName)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                foreach (var item in admisionesServiciosPrestadosId)
+                {
+                    AtencionesResultado atencionesResultado = new AtencionesResultado();
+                    atencionesResultado.IsNew = true;
+                    atencionesResultado.CreatedBy = userName;
+                    atencionesResultado.CreationDate = DateTime.Now;
+                    atencionesResultado.UpdatedBy = userName;
+                    atencionesResultado.LastUpdate = DateTime.Now;
+                    atencionesResultado.EstadosId = 66;
+                    atencionesResultado.ResultadoAudio = null;
+                    atencionesResultado.AdmisionesServiciosPrestadosId = item;
+                    atencionesResultado.FechaLectura = DateTime.Now;
+                    atencionesResultado.EmpleadoId = empleadoId;
+                    atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Add(atencionesResultado);
+                }
+
+                var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>()
+                    .FindAll(x => admisionesServiciosPrestadosId.Contains(x.Id), false);
+                admisionesServiciosPrestados.ForEach(x => { x.LecturaRealizada = true; x.UpdatedBy = userName; x.LastUpdate = DateTime.Now; });   
+                unitOfWork.Repository<AdmisionesServiciosPrestados>().ModifyRange(admisionesServiciosPrestados);
+
+                unitOfWork.CommitTransaction();
+            }
+            catch
+            {
+                unitOfWork.RollbackTransaction();
+                throw;
+            }
+        }
+
+        public AtencionesResultado SubirAudioAResultado(byte[] mp3Bytes, long admisionesServiciosPrestadosId, long id, string userName, long userId)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
@@ -27,14 +63,14 @@ namespace Blazor.BusinessLogic
             {
                 AtencionesResultado atencionesResultado = new AtencionesResultado();
                 atencionesResultado.IsNew = true;
-                atencionesResultado.CreatedBy = user;
+                atencionesResultado.CreatedBy = userName;
                 atencionesResultado.CreationDate = DateTime.Now;
                 if (id != 0)
                 {
                     atencionesResultado = unitOfWork.Repository<AtencionesResultado>().FindById(x => x.Id == id, false);
                     atencionesResultado.IsNew = false;
                 }
-                atencionesResultado.UpdatedBy = user;
+                atencionesResultado.UpdatedBy = userName;
                 atencionesResultado.LastUpdate = DateTime.Now;
                 atencionesResultado.EstadosId = 66;
                 atencionesResultado.ResultadoAudio = mp3Bytes;
@@ -47,7 +83,7 @@ namespace Blazor.BusinessLogic
                 }
                 else
                 {
-                     throw new Exception("El usuario actual no tiene un empleado asociado.");
+                    throw new Exception("El usuario actual no tiene un empleado asociado.");
                 }
 
 
@@ -63,15 +99,17 @@ namespace Blazor.BusinessLogic
 
                 AdmisionesServiciosPrestados admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().FindById(x => x.Id == admisionesServiciosPrestadosId, false);
                 admisionesServiciosPrestados.LecturaRealizada = true;
+                admisionesServiciosPrestados.UpdatedBy = userName;
+                admisionesServiciosPrestados.LastUpdate = DateTime.Now;
                 unitOfWork.Repository<AdmisionesServiciosPrestados>().Modify(admisionesServiciosPrestados);
                 unitOfWork.CommitTransaction();
 
                 return atencionesResultado;
             }
-            catch (Exception e)
+            catch
             {
                 unitOfWork.RollbackTransaction();
-                throw(e);
+                throw;
             }
 
         }

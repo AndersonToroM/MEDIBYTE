@@ -26,8 +26,6 @@
 
     function @(Prefix)OnValueChangedPacientesId(data)
     {
-        console.log(data);
-
         if (data.value == null || data.value == "" || data.value == 0) {
             return;
         }
@@ -46,7 +44,6 @@
 
     function @(Prefix)OnSelectionChangedResultados(data)
     {
-        console.log(data);
         $("#@(Prefix)SerializedResultados").dxTextBox("instance").option("value", JSON.stringify(data.selectedRowKeys));
     }
 

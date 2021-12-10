@@ -77,8 +77,11 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<EntregaResultados, bool>> expression4 = entity => entity.TiposIdentificacionid == this.Id;
         rules.Add(new ExpRecurso(expression4.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultados"), typeof(EntregaResultados)));
 
-        Expression<Func<Pacientes, bool>> expression5 = entity => entity.TiposIdentificacionId == this.Id;
-        rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Pacientes"), typeof(Pacientes)));
+        Expression<Func<EntregaResultadosNoLectura, bool>> expression5 = entity => entity.TiposIdentificacionid == this.Id;
+        rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultadosNoLectura"), typeof(EntregaResultadosNoLectura)));
+
+        Expression<Func<Pacientes, bool>> expression6 = entity => entity.TiposIdentificacionId == this.Id;
+        rules.Add(new ExpRecurso(expression6.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Pacientes"), typeof(Pacientes)));
 
        return rules;
        }

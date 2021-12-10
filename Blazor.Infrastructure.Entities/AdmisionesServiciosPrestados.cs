@@ -15,137 +15,145 @@ namespace Blazor.Infrastructure.Entities
     public partial class AdmisionesServiciosPrestados : BaseEntity
     {
 
-        #region Columnas normales)
+       #region Columnas normales)
 
-        [Column("ValorServicio")]
-        [DDisplayName("AdmisionesServiciosPrestados.ValorServicio")]
-        [DRequired("AdmisionesServiciosPrestados.ValorServicio")]
-        public virtual Decimal ValorServicio { get; set; }
+       [Column("ValorServicio")]
+       [DDisplayName("AdmisionesServiciosPrestados.ValorServicio")]
+       [DRequired("AdmisionesServiciosPrestados.ValorServicio")]
+       public virtual Decimal ValorServicio { get; set; }
 
-        [Column("Observaciones")]
-        [DDisplayName("AdmisionesServiciosPrestados.Observaciones")]
-        [DStringLength("AdmisionesServiciosPrestados.Observaciones", 1024)]
-        public virtual String Observaciones { get; set; }
+       [Column("Observaciones")]
+       [DDisplayName("AdmisionesServiciosPrestados.Observaciones")]
+       [DStringLength("AdmisionesServiciosPrestados.Observaciones",1024)]
+       public virtual String Observaciones { get; set; }
 
-        [Column("Recomendaciones")]
-        [DDisplayName("AdmisionesServiciosPrestados.Recomendaciones")]
-        [DStringLength("AdmisionesServiciosPrestados.Recomendaciones", 1024)]
-        public virtual String Recomendaciones { get; set; }
+       [Column("Recomendaciones")]
+       [DDisplayName("AdmisionesServiciosPrestados.Recomendaciones")]
+       [DStringLength("AdmisionesServiciosPrestados.Recomendaciones",1024)]
+       public virtual String Recomendaciones { get; set; }
 
-        [Column("Cantidad")]
-        [DDisplayName("AdmisionesServiciosPrestados.Cantidad")]
-        [DRequired("AdmisionesServiciosPrestados.Cantidad")]
-        public virtual Int16 Cantidad { get; set; }
+       [Column("Cantidad")]
+       [DDisplayName("AdmisionesServiciosPrestados.Cantidad")]
+       [DRequired("AdmisionesServiciosPrestados.Cantidad")]
+       public virtual Int16 Cantidad { get; set; }
 
-        [Column("Facturado")]
-        [DDisplayName("AdmisionesServiciosPrestados.Facturado")]
-        [DRequired("AdmisionesServiciosPrestados.Facturado")]
-        public virtual Boolean Facturado { get; set; }
+       [Column("Facturado")]
+       [DDisplayName("AdmisionesServiciosPrestados.Facturado")]
+       [DRequired("AdmisionesServiciosPrestados.Facturado")]
+       public virtual Boolean Facturado { get; set; }
 
-        [Column("PorcImpuesto")]
-        [DDisplayName("AdmisionesServiciosPrestados.PorcImpuesto")]
-        [DRequired("AdmisionesServiciosPrestados.PorcImpuesto")]
-        public virtual Decimal PorcImpuesto { get; set; }
+       [Column("PorcImpuesto")]
+       [DDisplayName("AdmisionesServiciosPrestados.PorcImpuesto")]
+       [DRequired("AdmisionesServiciosPrestados.PorcImpuesto")]
+       public virtual Decimal PorcImpuesto { get; set; }
 
-        [Column("LecturaRealizada")]
-        [DDisplayName("AdmisionesServiciosPrestados.LecturaRealizada")]
-        [DRequired("AdmisionesServiciosPrestados.LecturaRealizada")]
-        public virtual Boolean LecturaRealizada { get; set; }
+       [Column("LecturaRealizada")]
+       [DDisplayName("AdmisionesServiciosPrestados.LecturaRealizada")]
+       [DRequired("AdmisionesServiciosPrestados.LecturaRealizada")]
+       public virtual Boolean LecturaRealizada { get; set; }
 
-        #endregion
+       [Column("EntregaNoLectura")]
+       [DDisplayName("AdmisionesServiciosPrestados.EntregaNoLectura")]
+       [DRequired("AdmisionesServiciosPrestados.EntregaNoLectura")]
+       public virtual Boolean EntregaNoLectura { get; set; }
 
-        #region Columnas referenciales)
+       #endregion
 
-        [Column("AdmisionesId")]
-        [DDisplayName("AdmisionesServiciosPrestados.AdmisionesId")]
-        [DRequired("AdmisionesServiciosPrestados.AdmisionesId")]
-        [DRequiredFK("AdmisionesServiciosPrestados.AdmisionesId")]
-        public virtual Int64 AdmisionesId { get; set; }
+       #region Columnas referenciales)
 
-        [Column("ServiciosId")]
-        [DDisplayName("AdmisionesServiciosPrestados.ServiciosId")]
-        [DRequired("AdmisionesServiciosPrestados.ServiciosId")]
-        [DRequiredFK("AdmisionesServiciosPrestados.ServiciosId")]
-        public virtual Int64 ServiciosId { get; set; }
+       [Column("AdmisionesId")]
+       [DDisplayName("AdmisionesServiciosPrestados.AdmisionesId")]
+       [DRequired("AdmisionesServiciosPrestados.AdmisionesId")]
+       [DRequiredFK("AdmisionesServiciosPrestados.AdmisionesId")]
+       public virtual Int64 AdmisionesId { get; set; }
 
-        [Column("AtencionesId")]
-        [DDisplayName("AdmisionesServiciosPrestados.AtencionesId")]
-        public virtual Int64? AtencionesId { get; set; }
+       [Column("ServiciosId")]
+       [DDisplayName("AdmisionesServiciosPrestados.ServiciosId")]
+       [DRequired("AdmisionesServiciosPrestados.ServiciosId")]
+       [DRequiredFK("AdmisionesServiciosPrestados.ServiciosId")]
+       public virtual Int64 ServiciosId { get; set; }
 
-        [Column("FacturasGeneracionId")]
-        [DDisplayName("AdmisionesServiciosPrestados.FacturasGeneracionId")]
-        public virtual Int64? FacturasGeneracionId { get; set; }
+       [Column("AtencionesId")]
+       [DDisplayName("AdmisionesServiciosPrestados.AtencionesId")]
+       public virtual Int64? AtencionesId { get; set; }
 
-        [Column("FacturasId")]
-        [DDisplayName("AdmisionesServiciosPrestados.FacturasId")]
-        public virtual Int64? FacturasId { get; set; }
+       [Column("FacturasGeneracionId")]
+       [DDisplayName("AdmisionesServiciosPrestados.FacturasGeneracionId")]
+       public virtual Int64? FacturasGeneracionId { get; set; }
 
-        #endregion
+       [Column("FacturasId")]
+       [DDisplayName("AdmisionesServiciosPrestados.FacturasId")]
+       public virtual Int64? FacturasId { get; set; }
 
-        #region Propiedades referencias de entrada)
+       #endregion
 
-        [ForeignKey("AdmisionesId")]
-        public virtual Admisiones Admisiones { get; set; }
+       #region Propiedades referencias de entrada)
 
-        [ForeignKey("AtencionesId")]
-        public virtual Atenciones Atenciones { get; set; }
+       [ForeignKey("AdmisionesId")]
+       public virtual Admisiones Admisiones { get; set; }
 
-        [ForeignKey("FacturasId")]
-        public virtual Facturas Facturas { get; set; }
+       [ForeignKey("AtencionesId")]
+       public virtual Atenciones Atenciones { get; set; }
 
-        [ForeignKey("FacturasGeneracionId")]
-        public virtual FacturasGeneracion FacturasGeneracion { get; set; }
+       [ForeignKey("FacturasId")]
+       public virtual Facturas Facturas { get; set; }
 
-        [ForeignKey("ServiciosId")]
-        public virtual Servicios Servicios { get; set; }
+       [ForeignKey("FacturasGeneracionId")]
+       public virtual FacturasGeneracion FacturasGeneracion { get; set; }
 
-        #endregion
+       [ForeignKey("ServiciosId")]
+       public virtual Servicios Servicios { get; set; }
 
-        #region Reglas expression
+       #endregion
 
-        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-        {
-            Expression<Func<AdmisionesServiciosPrestados, bool>> expression = entity => entity.Id == this.Id;
-            return expression as Expression<Func<T, bool>>;
-        }
+       #region Reglas expression
 
-        public override List<ExpRecurso> GetAdicionarExpression<T>()
-        {
-            var rules = new List<ExpRecurso>();
-            Expression<Func<AdmisionesServiciosPrestados, bool>> expression = null;
+       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+       {
+       Expression<Func<AdmisionesServiciosPrestados, bool>> expression = entity => entity.Id == this.Id;
+       return expression as Expression<Func<T, bool>>;
+       }
 
-            return rules;
-        }
+       public override List<ExpRecurso> GetAdicionarExpression<T>()
+       {
+        var rules = new List<ExpRecurso>();
+        Expression<Func<AdmisionesServiciosPrestados, bool>> expression = null;
 
-        public override List<ExpRecurso> GetModificarExpression<T>()
-        {
-            var rules = new List<ExpRecurso>();
-            Expression<Func<AdmisionesServiciosPrestados, bool>> expression = null;
+       return rules;
+       }
 
-            return rules;
-        }
+       public override List<ExpRecurso> GetModificarExpression<T>()
+       {
+        var rules = new List<ExpRecurso>();
+        Expression<Func<AdmisionesServiciosPrestados, bool>> expression = null;
 
-        public override List<ExpRecurso> GetEliminarExpression<T>()
-        {
-            var rules = new List<ExpRecurso>();
-            Expression<Func<AdmisionesServiciosPrestadosArchivos, bool>> expression0 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
-            rules.Add(new ExpRecurso(expression0.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "AdmisionesServiciosPrestadosArchivos"), typeof(AdmisionesServiciosPrestadosArchivos)));
+       return rules;
+       }
 
-            Expression<Func<AdmisionesServiciosPrestadosResultado, bool>> expression1 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
-            rules.Add(new ExpRecurso(expression1.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "AdmisionesServiciosPrestadosResultado"), typeof(AdmisionesServiciosPrestadosResultado)));
+       public override List<ExpRecurso> GetEliminarExpression<T>()
+       {
+        var rules = new List<ExpRecurso>();
+        Expression<Func<AdmisionesServiciosPrestadosArchivos, bool>> expression0 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
+        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","AdmisionesServiciosPrestadosArchivos"), typeof(AdmisionesServiciosPrestadosArchivos)));
 
-            Expression<Func<AtencionesResultado, bool>> expression2 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
-            rules.Add(new ExpRecurso(expression2.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "AtencionesResultado"), typeof(AtencionesResultado)));
+        Expression<Func<AdmisionesServiciosPrestadosResultado, bool>> expression1 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
+        rules.Add(new ExpRecurso(expression1.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","AdmisionesServiciosPrestadosResultado"), typeof(AdmisionesServiciosPrestadosResultado)));
 
-            Expression<Func<ImagenesDiagnosticasDetalle, bool>> expression3 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
-            rules.Add(new ExpRecurso(expression3.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "ImagenesDiagnosticasDetalle"), typeof(ImagenesDiagnosticasDetalle)));
+        Expression<Func<AtencionesResultado, bool>> expression2 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
+        rules.Add(new ExpRecurso(expression2.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","AtencionesResultado"), typeof(AtencionesResultado)));
 
-            Expression<Func<LiquidacionHonorariosDetalle, bool>> expression4 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
-            rules.Add(new ExpRecurso(expression4.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "LiquidacionHonorariosDetalle"), typeof(LiquidacionHonorariosDetalle)));
+        Expression<Func<EntregaResultadosNoLecturaDetalles, bool>> expression3 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
+        rules.Add(new ExpRecurso(expression3.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultadosNoLecturaDetalles"), typeof(EntregaResultadosNoLecturaDetalles)));
 
-            return rules;
-        }
+        Expression<Func<ImagenesDiagnosticasDetalle, bool>> expression4 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
+        rules.Add(new ExpRecurso(expression4.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ImagenesDiagnosticasDetalle"), typeof(ImagenesDiagnosticasDetalle)));
 
-        #endregion
+        Expression<Func<LiquidacionHonorariosDetalle, bool>> expression5 = entity => entity.AdmisionesServiciosPrestadosId == this.Id;
+        rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","LiquidacionHonorariosDetalle"), typeof(LiquidacionHonorariosDetalle)));
+
+       return rules;
+       }
+
+       #endregion
     }
-}
+ }

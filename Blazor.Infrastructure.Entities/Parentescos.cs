@@ -62,6 +62,9 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<EntregaResultados, bool>> expression0 = entity => entity.ParentescosId == this.Id;
         rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultados"), typeof(EntregaResultados)));
 
+        Expression<Func<EntregaResultadosNoLectura, bool>> expression1 = entity => entity.ParentescosId == this.Id;
+        rules.Add(new ExpRecurso(expression1.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultadosNoLectura"), typeof(EntregaResultadosNoLectura)));
+
        return rules;
        }
 

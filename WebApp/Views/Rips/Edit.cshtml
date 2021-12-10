@@ -45,6 +45,11 @@
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
 
                 @(Html.DControls().NumberBoxFor(m => m.Entity.EmpresasId).ID(Prefix + "EmpresasId").Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.Entity.GenararCT).ID(Prefix + "GenararCT").Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.Entity.GenerarUS).ID(Prefix + "GenerarUS").Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.Entity.GenerarAF).ID(Prefix + "GenerarAF").Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.Entity.GenerarAC).ID(Prefix + "GenerarAC").Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.Entity.GenerarAP).ID(Prefix + "GenerarAP").Visible(false))
 
                 @(Html.DControls().Form<RipsModel>()
                     .ID("RipsModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
@@ -52,6 +57,15 @@
                     {
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                             .Items(groupItems =>{
+
+                                groupItems.AddSimpleFor(m => m.Entity.FacturasId).ColSpan(7)
+                                        .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
+                                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Rips").LoadAction("GetFacturasId").Key("Id"))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .ValueExpr("Id").DisplayExpr("DescFacturaConEntidad").SearchExpr("Documentos.Prefijo","NroConsecutivo","Entidades.Nombre")
+                                        .OnSelectionChanged($"{Prefix}OnSelectionChangedFacturasId")
+                                        .SearchEnabled(true).ShowClearButton(true)
+                                   );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Consecutivo).ColSpan(2)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.Consecutivo")))
@@ -66,8 +80,6 @@
                                       .ReadOnly(true)
                                       );
 
-                                groupItems.AddEmpty().ColSpan(7);
-
                                 groupItems.AddSimpleFor(m => m.Entity.Periodo).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.Periodo")))
                                       .Editor(e => e.DateBox().ID(Prefix + "Periodo").Type(DateBoxType.Date)
@@ -75,7 +87,7 @@
                                       .ShowClearButton(true).UseMaskBehavior(true)
                                       );
 
-                                groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(6)
+                                groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(9)
                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.EntidadesId")))
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Rips.EntidadesId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
@@ -85,18 +97,6 @@
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );
 
-
-
-                                groupItems.AddSimpleFor(m => m.Entity.GenararCT).Label(x=>x.Visible(false)).ColSpan(3)
-                                      .Editor(e=>e.CheckBox().ID(Prefix + "GenararCT").Text(DApp.DefaultLanguage.GetResource("Rips.GenararCT")).Value(true).ReadOnly(true));
-                                groupItems.AddSimpleFor(m => m.Entity.GenerarAF).Label(x=>x.Visible(false)).ColSpan(3)
-                                      .Editor(e=>e.CheckBox().ID(Prefix + "GenerarAF").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarAF")));
-                                groupItems.AddSimpleFor(m => m.Entity.GenerarUS).Label(x=>x.Visible(false)).ColSpan(3)
-                                      .Editor(e=>e.CheckBox().ID(Prefix + "GenerarUS").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarUS")));
-                                groupItems.AddSimpleFor(m => m.Entity.GenerarAC).Label(x=>x.Visible(false)).ColSpan(3)
-                                      .Editor(e=>e.CheckBox().ID(Prefix + "GenerarAC").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarAC")));
-                                groupItems.AddSimpleFor(m => m.Entity.GenerarAP).Label(x=>x.Visible(false)).ColSpan(3)
-                                      .Editor(e=>e.CheckBox().ID(Prefix + "GenerarAP").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarAP")));
                                 //groupItems.AddSimpleFor(m => m.Entity.GenerarAU).Label(x=>x.Visible(false)).ColSpan(1)
                                 //     .Editor(e=>e.CheckBox().ID(Prefix + "GenerarAU").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarAU")));
                                 //groupItems.AddSimpleFor(m => m.Entity.GenerarAH).Label(x=>x.Visible(false)).ColSpan(1)
@@ -107,8 +107,6 @@
                                 //     .Editor(e=>e.CheckBox().ID(Prefix + "GenerarAM").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarAM")));
                                 //groupItems.AddSimpleFor(m => m.Entity.GenerarAT).Label(x=>x.Visible(false)).ColSpan(1)
                                 //     .Editor(e=>e.CheckBox().ID(Prefix + "GenerarAT").Text(DApp.DefaultLanguage.GetResource("Rips.GenerarAT")));
-
-                                //groupItems.AddEmpty().ColSpan(9);
 
                                 groupItems.AddSimpleFor(m => m.Entity.CreatedBy).ColSpan(3)
                                         .Editor(e => e.TextBox().ReadOnly(true));
