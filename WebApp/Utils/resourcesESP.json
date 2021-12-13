@@ -1857,7 +1857,7 @@
   },
   {
     "Id": "EntregaResultadosNoLectura.NombreCompleto",
-    "Description": "Nombres y Apellidos"
+    "Description": "Persona que recibió"
   },
   {
     "Id": "EntregaResultadosNoLectura.Nombres",
@@ -1878,6 +1878,10 @@
   {
     "Id": "EntregaResultadosNoLectura.ParentescosId",
     "Description": "Parentesco"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Resultados",
+    "Description": "Servicios prestados"
   },
   {
     "Id": "EntregaResultadosNoLectura.Telefono",

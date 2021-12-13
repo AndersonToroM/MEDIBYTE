@@ -27,6 +27,7 @@
     { 
         columns.AddFor(m => m.Fecha).Format("dd/MM/yyyy");
         columns.AddFor(m => m.Fecha).Caption(DApp.DefaultLanguage.GetResource("EntregaResultados.Hora")).Format("HH:mm");
+        columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
         columns.AddFor(m => m.Pacientes.NombreCompleto).CalculateFilterExpression("CalculateFilterExpressionNombreCompleto");
         columns.AddFor(m => m.NombreCompleto).CalculateFilterExpression("CalculateFilterExpressionNombreCompletoEntregaResultados");
         columns.AddFor(m => m.Parentescos.Descripcion).Caption(DApp.DefaultLanguage.GetResource("EntregaResultados.ParentescosId"));
