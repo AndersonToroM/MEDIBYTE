@@ -315,16 +315,19 @@
         $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value",null);
     }
 
-    function @(Prefix)OnSelectionChangedValorPago() {
-
-         var OpcionPago = $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value");
-
+    function @(Prefix)OnSelectionChangedValorPago()
+    {
         if (EstaFacturada)
             return false;
 
+        var OpcionPago = $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value");
+
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").option("value", null);
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
-
+        if(OpcionPago == 63){
+            $("#@(Prefix)FormasPagosId").dxSelectBox("instance").option("value", null);
+            $("#@(Prefix)MedioPagosId").dxSelectBox("instance").option("value", null);
+        }
         $("#@(Prefix)ValorCopago").dxNumberBox("instance").option("readOnly", true);
         $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("readOnly", true);
 

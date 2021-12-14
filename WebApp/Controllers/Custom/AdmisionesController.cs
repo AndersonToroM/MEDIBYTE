@@ -52,11 +52,16 @@ namespace Blazor.WebApp.Controllers
 
                 var citaSeleccionada = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
                 var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
-                    .FindById(x => x.NroAutorizacion == model.Entity.NroAutorizacion && !estadosAdmision.Contains(x.EstadosId) && x.Id != model.Entity.Id && x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId, true);
-                var oldAdmision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, false);
+                    .FindById(
+                        x => x.NroAutorizacion == model.Entity.NroAutorizacion &&
+                        !estadosAdmision.Contains(x.EstadosId) &&
+                        x.Id != model.Entity.Id &&
+                        x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId &&
+                        x.PacientesId == citaSeleccionada.PacientesId
+                    , true);
                 if (admisionautorizacion != null)
                 {
-                    ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre}.");
+                    ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre} y el paciente {citaSeleccionada.Pacientes.NombreCompleto}.");
                 }
             }
 

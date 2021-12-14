@@ -290,7 +290,7 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetValorPagoEstadosId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(10))
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
-                                      .OnSelectionChanged(Prefix+ "OnSelectionChangedValorPago")
+                                      .OnValueChanged($"{Prefix}OnSelectionChangedValorPago")
                                       .SearchEnabled(true).ShowClearButton(true)
                                       .ReadOnly(Model.Entity.Facturado)
                                  );
