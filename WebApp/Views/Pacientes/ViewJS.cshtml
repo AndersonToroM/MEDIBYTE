@@ -62,7 +62,6 @@
         
         try {
             let nit = item.component.option("value");
-            console.log("calcularDigito", CalcularDigitoVerificacion(nit));
             $("#@(Prefix)DV").dxTextBox("instance").option("value", CalcularDigitoVerificacion(nit));
         } catch (e) {
             $("#@(Prefix)DV").dxTextBox("instance").option("value", 0);

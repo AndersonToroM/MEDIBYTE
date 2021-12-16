@@ -3468,12 +3468,20 @@
     "Description": "Correo electronico"
   },
   {
+    "Id": "Pacientes.DepartamentoId",
+    "Description": "Departamento"
+  },
+  {
     "Id": "Pacientes.DepartamentosId",
     "Description": "Departamento"
   },
   {
     "Id": "Pacientes.Direccion",
     "Description": "Dirección"
+  },
+  {
+    "Id": "Pacientes.DV",
+    "Description": "DV"
   },
   {
     "Id": "Pacientes.EstadosCivilesId",
@@ -3501,6 +3509,10 @@
   },
   {
     "Id": "Pacientes.PaisesId",
+    "Description": "Pais"
+  },
+  {
+    "Id": "Pacientes.PaisId",
     "Description": "Pais"
   },
   {

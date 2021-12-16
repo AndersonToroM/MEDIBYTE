@@ -79,7 +79,6 @@ namespace Blazor.Infrastructure.Entities
 
         [Column("NombreCompleto")]
         [DDisplayName("Pacientes.NombreCompleto")]
-        [DRequired("Pacientes.NombreCompleto")]
         [DStringLength("Pacientes.NombreCompleto", 600)]
         public virtual String NombreCompleto { get; set; }
 
