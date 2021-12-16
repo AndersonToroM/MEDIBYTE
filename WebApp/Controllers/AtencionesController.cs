@@ -184,7 +184,7 @@ namespace Blazor.WebApp.Controllers
             }
 
             model.Entity.Admisiones = admision;
-
+            model.NombreEntidad = model.Entity.Admisiones.ProgramacionCitas?.Entidades?.Nombre;
             return model;
         } 
 
