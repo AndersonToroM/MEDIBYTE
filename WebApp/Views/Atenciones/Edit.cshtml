@@ -120,7 +120,7 @@
                                       .Editor(e => e.DateBox().ID(Prefix + "FechaAtencion").Type(DateBoxType.Time).ReadOnly(true)
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat));
 
-                                groupItems.AddSimpleFor(m => m.Entity.Admisiones.ProgramacionCitas.Entidades.Nombre).ColSpan(6)
+                                groupItems.AddSimpleFor(m => m.NombreEntidad).ColSpan(6)
                                  .Label(x => x.Text(DApp.GetResource("Atenciones.PacienteEntidad")))
                                       .Editor(e => e.TextBox().ID(Prefix + "PacienteEntidad").ReadOnly(true)
                                  );
