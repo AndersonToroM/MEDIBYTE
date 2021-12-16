@@ -33,7 +33,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Rips>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Rips>().Tabla(true).Include(x=>x.Facturas.Documentos).Include(x => x.Facturas.Entidades), loadOptions);
         }
 
         public IActionResult List()
@@ -60,10 +60,10 @@ namespace Blazor.WebApp.Controllers
             model.Entity.Periodo = DateTime.Now;
             model.Entity.EmpresasId = this.ActualEmpresaId();
             model.Entity.GenararCT = true;
-            //model.Entity.GenerarAF = true;
-            //model.Entity.GenerarUS = true;
-            //model.Entity.GenerarAC = true;
-            //model.Entity.GenerarAP = true;
+            model.Entity.GenerarAF = true;
+            model.Entity.GenerarUS = true;
+            model.Entity.GenerarAC = true;
+            model.Entity.GenerarAP = true;
             return model; 
         } 
 
@@ -254,8 +254,14 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions)
         { 
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
-        } 
-       #endregion
+        }
+
+        [HttpPost]
+        public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).Where(x=>x.Estadosid != 1087 && x.EntidadesId != null), loadOptions);
+        }
+        #endregion
 
         public IActionResult GenerarArchivos(long id)
         {

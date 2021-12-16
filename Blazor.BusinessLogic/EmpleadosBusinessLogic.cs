@@ -44,10 +44,10 @@ namespace Blazor.BusinessLogic
                 logicaData.CommitTransaction();
                 return data;
             }
-            catch (Exception e)
+            catch 
             {
                 logicaData.RollbackTransaction();
-                throw e;
+                throw;
             }
         }
 

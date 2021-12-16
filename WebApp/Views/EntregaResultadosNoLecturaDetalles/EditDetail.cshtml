@@ -1,0 +1,56 @@
+@model EntregaResultadosNoLecturaDetallesModel 
+@{
+    string Prefix = "EntregaResultadosNoLecturaDetalles"; 
+    string UrlDelete = Url.Action("DeleteDetail", "EntregaResultadosNoLecturaDetalles", new { Id = Model.Entity.Id }); 
+
+    var toolbarDetailconfig = new ToolbarDetailConfiguration(Prefix).Delete(UrlDelete).Save().Cancel(); 
+} 
+
+<partial name="ViewJS.cshtml" model="Model" view-data="ViewData" /> 
+
+<div>@(Html.DControls().Toolbar(toolbarDetailconfig))</div>
+
+<div> 
+     <form id="@(Prefix)Form" asp-controller="EntregaResultadosNoLecturaDetalles" asp-action="EditDetail" class="form-horizontal" data-ajax-mode="replace" data-ajax-update="#EntregaResultadosNoLecturaDetallesMainPanelForm" data-ajax-success="@(Prefix)FormSuccessDetail" data-ajax-failure="@(Prefix)FormFailureDetail" data-ajax="true"> 
+         @(Html.DControls().ValidationSummary().ValidationGroup(Prefix + "ValidationGroup").ElementAttr("class","ErrorValidationSummary")) 
+         @using (Html.DevExtreme().ValidationGroup(Prefix + "ValidationGroupDetail")) 
+         { 
+             @(Html.DControls().CheckBoxFor(m => m.Entity.IsNew).ID(Prefix + "IsNew").Visible(false)) 
+                @(Html.DControls().NumberBoxFor(m => m.Entity.Id).ID(Prefix + "Id").Visible(false)) 
+                @(Html.DControls().TextBoxFor(m => m.Entity.UpdatedBy).ID(Prefix + "UpdatedBy").Visible(false)) 
+                @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Visible(false)) 
+                @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false)) 
+                @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Visible(false)) 
+
+                @(Html.DControls().Form<EntregaResultadosNoLecturaDetallesModel>() 
+                    .ID("EntregaResultadosNoLecturaDetallesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model) 
+                    .Items(items => 
+                    { 
+                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                             .Items(groupItems =>{
+                                groupItems.AddSimpleFor(m => m.Entity.EntregaResultadosNoLecturaId).ColSpan(1) 
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLecturaDetalles.EntregaResultadosNoLecturaId"))) 
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntregaResultadosNoLecturaDetalles.EntregaResultadosNoLecturaId"))) 
+                                     .Editor(e => e.SelectBox().ID(Prefix + "EntregaResultadosNoLecturaId") 
+                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLecturaDetalles").LoadAction("GetEntregaResultadosNoLecturaId").Key("Id")) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
+                                     .SearchEnabled(true).ShowClearButton(true) 
+                                ); 
+                                groupItems.AddSimpleFor(m => m.Entity.AdmisionesServiciosPrestadosId).ColSpan(1) 
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("EntregaResultadosNoLecturaDetalles.AdmisionesServiciosPrestadosId"))) 
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntregaResultadosNoLecturaDetalles.AdmisionesServiciosPrestadosId"))) 
+                                     .Editor(e => e.SelectBox().ID(Prefix + "AdmisionesServiciosPrestadosId") 
+                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLecturaDetalles").LoadAction("GetAdmisionesServiciosPrestadosId").Key("Id")) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
+                                     .SearchEnabled(true).ShowClearButton(true) 
+                                ); 
+                     }); 
+                 }) 
+             ) 
+         } 
+         <div asp-validation-summary="All" class="text-danger" id="@(Prefix)ListError"></div> 
+     </form> 
+</div> 
+

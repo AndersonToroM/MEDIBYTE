@@ -74,7 +74,6 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("Periodo", TypeName = "datetime")]
        [DDisplayName("Rips.Periodo")]
-       [DRequired("Rips.Periodo")]
        public virtual DateTime Periodo { get; set; }
 
        [Column("Consecutivo")]
@@ -94,9 +93,11 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("EntidadesId")]
        [DDisplayName("Rips.EntidadesId")]
-       [DRequired("Rips.EntidadesId")]
-       [DRequiredFK("Rips.EntidadesId")]
        public virtual Int64 EntidadesId { get; set; }
+
+       [Column("FacturasId")]
+       [DDisplayName("Rips.FacturasId")]
+       public virtual Int64? FacturasId { get; set; }
 
        #endregion
 
@@ -107,6 +108,9 @@ namespace Blazor.Infrastructure.Entities
 
        [ForeignKey("EntidadesId")]
        public virtual Entidades Entidades { get; set; }
+
+       [ForeignKey("FacturasId")]
+       public virtual Facturas Facturas { get; set; }
 
        #endregion
 

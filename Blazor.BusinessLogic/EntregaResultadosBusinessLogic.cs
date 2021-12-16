@@ -59,10 +59,10 @@ namespace Blazor.BusinessLogic
                 logicaData.CommitTransaction();
                 return data;
             }
-            catch (Exception e)
+            catch
             {
                 logicaData.RollbackTransaction();
-                throw e;
+                throw;
             }
         }
 
@@ -83,10 +83,10 @@ namespace Blazor.BusinessLogic
                 logicaData.CommitTransaction();
                 return data;
             }
-            catch (Exception e)
+            catch
             {
                 logicaData.RollbackTransaction();
-                throw e;
+                throw;
             }
         }
 
@@ -105,10 +105,10 @@ namespace Blazor.BusinessLogic
                 unitOfWork.CommitTransaction();
                 return data;
             }
-            catch (Exception e)
+            catch
             {
                 unitOfWork.RollbackTransaction();
-                throw e;
+                throw;
             }
         }
     }

@@ -192,6 +192,10 @@
         "Resource": "EntregaResultados"
       },
       {
+        "Name": "EntregaResultadosNoLectura",
+        "Resource": "EntregaResultadosNoLectura"
+      },
+      {
         "Name": "ImagenesDiagnosticas",
         "Resource": "ImagenesDiagnosticas"
       },
@@ -325,6 +329,14 @@
       {
         "Name": "Profesiones",
         "Resource": "Profesiones"
+      },
+      {
+        "Name": "FinalidadConsulta",
+        "Resource": "FinalidadConsulta"
+      },
+      {
+        "Name": "FinalidadProcedimiento",
+        "Resource": "FinalidadProcedimiento"
       },
       {
         "Name": "Paises",

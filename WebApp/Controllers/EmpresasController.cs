@@ -104,7 +104,16 @@ namespace Blazor.WebApp.Controllers
                 try 
                 {
                     model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name; 
+                    model.Entity.UpdatedBy = User.Identity.Name;
+
+                    model.Entity.NumeroIdentificacion = DApp.Util.QuitarEspacios(model.Entity.NumeroIdentificacion);
+                    model.Entity.RazonSocial = DApp.Util.QuitarEspacios(model.Entity.RazonSocial);
+                    model.Entity.Celular = DApp.Util.QuitarEspacios(model.Entity.Celular);
+                    model.Entity.Telefono = DApp.Util.QuitarEspacios(model.Entity.Telefono);
+                    model.Entity.CorreoElectronico = DApp.Util.QuitarEspacios(model.Entity.CorreoElectronico);
+                    model.Entity.Direccion = DApp.Util.QuitarEspacios(model.Entity.Direccion);
+                    model.Entity.CodigoReps = DApp.Util.QuitarEspacios(model.Entity.CodigoReps);
+
                     if (model.Entity.IsNew) 
                     { 
                         model.Entity.CreationDate = DateTime.Now; 

@@ -311,9 +311,11 @@ namespace Blazor.WebApp.Controllers
         {
             if (sedesId > 0)
             {
+                var documentosConceptos = Manager().GetBusinessLogic<DocumentosConceptos>().Tabla(true).Where(x => x.EstadosConceptoId == 78).ToList();
                 return DataSourceLoader.Load(
                     Manager().GetBusinessLogic<SedesDocumentos>().Tabla(true)
                     .Where(x => x.Documentos.Transaccion == 0 && x.Documentos.Activo && x.SedesId == sedesId)
+                    .Where(x => documentosConceptos.Select(j => j.DocumentosId).Contains(x.DocumentosId))
                     .Select(x => x.Documentos)
                     , loadOptions);
             }

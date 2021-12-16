@@ -312,6 +312,10 @@
     "Description": "Cantidad"
   },
   {
+    "Id": "AdmisionesServiciosPrestados.EntregaNoLectura",
+    "Description": "¿Entregado?"
+  },
+  {
     "Id": "AdmisionesServiciosPrestados.Fecha",
     "Description": "Fecha"
   },
@@ -570,6 +574,14 @@
   {
     "Id": "AtencionesLectura.Fecha",
     "Description": "Fecha"
+  },
+  {
+    "Id": "AtencionesLectura.MarcarLeidos",
+    "Description": "Marcar Leidos"
+  },
+  {
+    "Id": "AtencionesLectura.MarcarLeidosEmpleadosId",
+    "Description": "Profesional"
   },
   {
     "Id": "AtencionesLectura.Paciente",
@@ -1344,6 +1356,14 @@
     "Description": "Tipo"
   },
   {
+    "Id": "DocumentosConceptos",
+    "Description": "Conceptos"
+  },
+  {
+    "Id": "DocumentosConceptos.EstadosConceptoId",
+    "Description": "Concepto"
+  },
+  {
     "Id": "DuplicarListaPrecios",
     "Description": "Duplicar lista de precios"
   },
@@ -1709,7 +1729,7 @@
   },
   {
     "Id": "EntregaResultados",
-    "Description": "Entrega de Resultados"
+    "Description": "Entrega con lectura"
   },
   {
     "Id": "EntregaResultados.Aceptar",
@@ -1802,6 +1822,78 @@
   {
     "Id": "EntregaResultadosDetalles.FechaLecturaResultado",
     "Description": "Fecha Lectura Resultado"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura",
+    "Description": "Entrega sin lectura"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Aceptar",
+    "Description": "Aceptar"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Apellidos",
+    "Description": "Apellidos"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.ContanciaArchivos",
+    "Description": "Constancia"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Email",
+    "Description": "Correo Electronico"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Fecha",
+    "Description": "Fecha"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Limpiar",
+    "Description": "Limpiar"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.MediosEntragasId",
+    "Description": "Medio de entrega"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.NombreCompleto",
+    "Description": "Persona que recibió"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Nombres",
+    "Description": "Nombres"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.NumeroIdentificacion",
+    "Description": "Numero de identificación"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Observaciones",
+    "Description": "Observaciones"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.PacientesId",
+    "Description": "Paciente"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.ParentescosId",
+    "Description": "Parentesco"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Resultados",
+    "Description": "Servicios prestados"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.Telefono",
+    "Description": "Teléfono"
+  },
+  {
+    "Id": "EntregaResultadosNoLectura.TiposIdentificacionid",
+    "Description": "Tipo de identificacón"
+  },
+  {
+    "Id": "EntregaResultadosNoLecturaDetalles",
+    "Description": "Resultados Entregados"
   },
   {
     "Id": "EnviaEmailLog",
@@ -1934,6 +2026,10 @@
   {
     "Id": "Facturas.CUFE",
     "Description": "CUFE"
+  },
+  {
+    "Id": "Facturas.DescFactura",
+    "Description": "Factura"
   },
   {
     "Id": "Facturas.DIANResponse",
@@ -2246,6 +2342,26 @@
   {
     "Id": "Filiales.PaginaWeb",
     "Description": "Página Web"
+  },
+  {
+    "Id": "FinalidadConsulta",
+    "Description": "Finalidad Consulta"
+  },
+  {
+    "Id": "FinalidadConsulta.CodigoRips",
+    "Description": "Codigo Rips"
+  },
+  {
+    "Id": "FinalidadConsulta.Nombre",
+    "Description": "Nombre"
+  },
+  {
+    "Id": "FinalidadProcedimiento",
+    "Description": "Finalidad Procedimiento"
+  },
+  {
+    "Id": "FinalidadProcedimiento.Nombre",
+    "Description": "Nombre"
   },
   {
     "Id": "FormasPagos",
@@ -3344,6 +3460,10 @@
     "Description": "Ciudad"
   },
   {
+    "Id": "Pacientes.CodigoPostal",
+    "Description": "Código Postal"
+  },
+  {
     "Id": "Pacientes.CorreoElectronico",
     "Description": "Correo electronico"
   },
@@ -3488,6 +3608,10 @@
     "Description": "Motivo de anulación"
   },
   {
+    "Id": "ParametrosGenerales.EsObligatorioAudioLectura",
+    "Description": "¿Es obligatorio audio en lectura?"
+  },
+  {
     "Id": "ParametrosGenerales.FechaDesdeAtenciones",
     "Description": "Fecha Desde"
   },
@@ -3498,6 +3622,10 @@
   {
     "Id": "ParametrosGenerales.HabilitarAnteciones",
     "Description": "Habilitar"
+  },
+  {
+    "Id": "ParametrosGenerales.Lecturas",
+    "Description": "Lectura de resultados"
   },
   {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",

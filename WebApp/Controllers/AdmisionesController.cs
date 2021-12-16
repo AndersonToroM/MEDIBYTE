@@ -247,7 +247,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetValorPagoEstadosId(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Estados>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Estados>().Tabla(true).Where(x=>x.Tipo.Equals("ADMISIONPAGO") && x.Id != 78), loadOptions);
         }
         [HttpPost]
         public LoadResult GetDescuentoEstadosId(DataSourceLoadOptions loadOptions)
@@ -306,21 +306,19 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<MediosPago>().Tabla(true), loadOptions);
         }
         [HttpPost]
-        public LoadResult GetDocumentosId(DataSourceLoadOptions loadOptions, long citaId)
+        public LoadResult GetDocumentosId(DataSourceLoadOptions loadOptions, long citaId, long valorPagoEstadoId)
         {
-            if (citaId > 0)
-            {
-                var cita = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == citaId, false);
-                return DataSourceLoader.Load(
-                    Manager().GetBusinessLogic<SedesDocumentos>().Tabla(true)
-                    .Where(x => x.Documentos.Transaccion == 0 && x.Documentos.Activo && x.SedesId == cita.SedesId)
-                    .Select(x => x.Documentos)
-                    , loadOptions);
-            }
-            else
-            {
-                return null;
-            }
+            if (citaId <= 0 || valorPagoEstadoId <= 0 || valorPagoEstadoId == 63)
+                return DataSourceLoader.Load(new List<Documentos>(), loadOptions); ;
+
+            var cita = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == citaId, false);
+            var documentosConceptos = Manager().GetBusinessLogic<DocumentosConceptos>().Tabla(true).Where(x => x.EstadosConceptoId == valorPagoEstadoId).ToList();
+            var result = Manager().GetBusinessLogic<SedesDocumentos>().Tabla(true)
+                .Where(x => x.Documentos.Transaccion == 0 && x.Documentos.Activo && x.SedesId == cita.SedesId)
+                .Where(x=> documentosConceptos.Select(j=>j.DocumentosId).Contains(x.DocumentosId))
+                .Select(x => x.Documentos);
+
+            return DataSourceLoader.Load(result, loadOptions);
         }
         [HttpPost]
         public LoadResult GetTiposUsuariosId(DataSourceLoadOptions loadOptions)

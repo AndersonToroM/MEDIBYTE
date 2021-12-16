@@ -1,0 +1,37 @@
+@{ 
+    string Prefix = "EntregaResultadosNoLectura"; 
+    string UrlClick = Url.Action("Edit", "EntregaResultadosNoLectura"); 
+    string UrlNew = Url.Action("New", "EntregaResultadosNoLectura"); 
+
+    var DataGridConfig = new DataGridConfiguration<EntregaResultadosNoLectura>(Prefix) 
+        .OnClick(UrlClick, new { Id = "Id" }) 
+        .New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew)) 
+        .Exports(true,true) 
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("EntregaResultadosNoLectura"), "mainPanel"); 
+} 
+
+<script>
+    function CalculateFilterExpressionNombreCompletoEntregaResultados(filterValue, selectedFilterOperation){
+        return [
+            [`Nombres`, selectedFilterOperation, filterValue], "or",
+            [`Apellidos`, selectedFilterOperation, filterValue]
+        ];
+    }
+</script>
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<EntregaResultadosNoLectura>(DataGridConfig) 
+    .ID("EntregaResultadosNoLecturaDataGrid") 
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("Get").Key("Id")) 
+    .Columns(columns => 
+    { 
+        columns.AddFor(m => m.Fecha).Format("dd/MM/yyyy");
+        columns.AddFor(m => m.Fecha).Caption(DApp.DefaultLanguage.GetResource("EntregaResultados.Hora")).Format("HH:mm");
+        columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
+        columns.AddFor(m => m.Pacientes.NombreCompleto).CalculateFilterExpression("CalculateFilterExpressionNombreCompleto");
+        columns.AddFor(m => m.NombreCompleto).CalculateFilterExpression("CalculateFilterExpressionNombreCompletoEntregaResultados");
+        columns.AddFor(m => m.Parentescos.Descripcion).Caption(DApp.DefaultLanguage.GetResource("EntregaResultados.ParentescosId"));
+        columns.AddFor(m => m.MediosEntragas.Descripcion).Caption(DApp.DefaultLanguage.GetResource("EntregaResultados.MediosEntragasId"));
+    }) 
+) 
+</div> 

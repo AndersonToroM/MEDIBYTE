@@ -58,8 +58,7 @@
     }
 
     function @(Prefix)OnCellClickSchedulerVerAgenda(cell) {
-
-        var fechaInicio = JSON.parse(JSON.stringify(cell.cellData.startDate));
+        var fechaInicio =  moment(cell.cellData.startDate).format("YYYY-MM-DDTHH:mm:ss");
         var servicioId = $("#@(Prefix)ServiciosId").dxSelectBox("instance").option("value");
         var consultorioId = $("#@(Prefix)AgendaConsultorio").dxSelectBox("instance").option("value");
         var empleadoId = $("#@(Prefix)AgendaEmpleado").dxSelectBox("instance").option("value");
@@ -104,9 +103,7 @@
     function @(Prefix)SchedulerVerAgendaOnAppointmentDblClick(item) {
         item.cancel = true;
         var TiposCitasId = $("#@(Prefix)TiposCitasId").dxSelectBox("instance").option("value");
-        console.log(item.appointmentData);
-        var fechaInicio = JSON.parse(JSON.stringify(item.appointmentData.FechaInicio));
-
+        var fechaInicio =  moment(item.appointmentData.FechaInicio).format("YYYY-MM-DDTHH:mm:ss");
         if (TiposCitasId == 3) {
 
             showLoadIndicator();

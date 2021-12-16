@@ -283,6 +283,9 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<RecaudosDetalles, bool>> expression6 = entity => entity.FacturasId == this.Id;
         rules.Add(new ExpRecurso(expression6.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RecaudosDetalles"), typeof(RecaudosDetalles)));
 
+        Expression<Func<Rips, bool>> expression7 = entity => entity.FacturasId == this.Id;
+        rules.Add(new ExpRecurso(expression7.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Rips"), typeof(Rips)));
+
        return rules;
        }
 

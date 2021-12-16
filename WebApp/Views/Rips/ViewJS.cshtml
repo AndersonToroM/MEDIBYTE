@@ -5,6 +5,21 @@
 
 <script>
 
+    function @(Prefix)OnSelectionChangedFacturasId(data)
+    {
+        if(data.selectedItem){
+            $("#@(Prefix)Periodo").dxDateBox("instance").option("readOnly", true);
+            $("#@(Prefix)EntidadesId").dxSelectBox("instance").option("readOnly", true);
+            $("#@(Prefix)Periodo").dxDateBox("instance").option("value", data.selectedItem.Fecha);
+            $("#@(Prefix)EntidadesId").dxSelectBox("instance").option("value", data.selectedItem.EntidadesId);
+        }else{
+            $("#@(Prefix)Periodo").dxDateBox("instance").option("value", null);
+            $("#@(Prefix)EntidadesId").dxSelectBox("instance").option("value", null);
+            $("#@(Prefix)Periodo").dxDateBox("instance").option("readOnly", false);
+            $("#@(Prefix)EntidadesId").dxSelectBox("instance").option("readOnly", false);
+        }
+    }
+
     function @(Prefix)DisplayExprFacturasId(item)
     {
         if (!item) {
@@ -18,21 +33,6 @@
         showLoadIndicator();
         DescargarArchivo("@Url.Action("GenerarArchivos", Prefix, new { id = Model.Entity.Id })");
         hideLoadIndicator();
-        @*$.ajax({
-            url: '@Url.Action("GenerarArchivos", "Rips")',
-            data: { Id:@Model.Entity.Id },
-            type: 'GET',
-                success: function (data) {
-                    hideLoadIndicator();
-                    console.log(data);
-
-
-                },
-            error: function (xhr) {
-                hideLoadIndicator();
-                DevExpress.ui.notify("Error: " + xhr.status + " | " + xhr.statusText, "error");
-            }
-        });*@
     }
 
     function @(Prefix)FormSuccess(data)

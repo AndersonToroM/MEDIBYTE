@@ -91,10 +91,18 @@
                        @DApp.DefaultLanguage.GetResource("SedesDocumentos") 
                    </a> 
                </li> 
+               <li role="presentation"> 
+                   <a href="#DocumentosConceptos" aria-controls="DocumentosConceptos" role="tab" data-toggle="tab"> 
+                       @DApp.DefaultLanguage.GetResource("DocumentosConceptos") 
+                   </a> 
+               </li> 
            </ul> 
            <div class="tab-content"> 
                <div role="tabpanel" class="tab-pane active" id="SedesDocumentos">
                    <partial name="../SedesDocumentos/ListDetail.cshtml" model=Model view-data="ViewData" />
+               </div>
+               <div role="tabpanel" class="tab-pane" id="DocumentosConceptos">
+                   <partial name="../DocumentosConceptos/ListDetail.cshtml" model=Model view-data="ViewData" />
                </div>
            </div>
         </div>

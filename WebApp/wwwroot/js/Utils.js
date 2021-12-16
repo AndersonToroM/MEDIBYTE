@@ -1,5 +1,4 @@
-﻿
-/* Funcionalidad para calcular el digito de verificacion desde un nit*/
+﻿/* Funcionalidad para calcular el digito de verificacion desde un nit*/
 function CalcularDigitoVerificacion(myNit) {
     try {
         var vpri,

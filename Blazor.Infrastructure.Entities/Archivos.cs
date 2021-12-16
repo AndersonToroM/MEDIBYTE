@@ -81,8 +81,11 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<EntregaResultados, bool>> expression4 = entity => entity.ContanciaArchivosId == this.Id;
         rules.Add(new ExpRecurso(expression4.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultados"), typeof(EntregaResultados)));
 
-        Expression<Func<RadicacionCuentas, bool>> expression5 = entity => entity.RadicacionArchivosId == this.Id;
-        rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RadicacionCuentas"), typeof(RadicacionCuentas)));
+        Expression<Func<EntregaResultadosNoLectura, bool>> expression5 = entity => entity.ContanciaArchivosId == this.Id;
+        rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","EntregaResultadosNoLectura"), typeof(EntregaResultadosNoLectura)));
+
+        Expression<Func<RadicacionCuentas, bool>> expression6 = entity => entity.RadicacionArchivosId == this.Id;
+        rules.Add(new ExpRecurso(expression6.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RadicacionCuentas"), typeof(RadicacionCuentas)));
 
        return rules;
        }

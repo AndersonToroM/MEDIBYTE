@@ -48,15 +48,20 @@ namespace Blazor.WebApp.Controllers
 
             if (!string.IsNullOrWhiteSpace(model.Entity.NroAutorizacion))
             {
+                List<long> estadosAdmision = new List<long> { 72, 10079 };
+
                 var citaSeleccionada = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
                 var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
-                    .FindById(x => x.NroAutorizacion == model.Entity.NroAutorizacion && x.EstadosId != 72 && x.Id != model.Entity.Id && x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId, true);
-                var oldAdmision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, false);
-                //if (OnState == false && oldAdmision.EstadosId == 62)
-                //    ModelState.AddModelError("Entity.Id", $"La admision {model.Entity.Id} ya fue atendida");
+                    .FindById(
+                        x => x.NroAutorizacion == model.Entity.NroAutorizacion &&
+                        !estadosAdmision.Contains(x.EstadosId) &&
+                        x.Id != model.Entity.Id &&
+                        x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId &&
+                        x.PacientesId == citaSeleccionada.PacientesId
+                    , true);
                 if (admisionautorizacion != null)
                 {
-                    ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre}.");
+                    ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre} y el paciente {citaSeleccionada.Pacientes.NombreCompleto}.");
                 }
             }
 

@@ -16,6 +16,7 @@ namespace Blazor.BusinessLogic
         private readonly string delimitador = ",";
         private string PathArchivos = "";
         private List<string> registroCT = new List<string>();
+        private string NombreArchivoZip { get; set; }
 
         public RipsBusinessLogic(IUnitOfWork unitWork) : base(unitWork)
         {
@@ -55,7 +56,12 @@ namespace Blazor.BusinessLogic
                 {
                     Rips rips = logicaRips.Tabla(true)
                         .Include(x => x.Empresas.TiposIdentificacion)
+                        .Include(x => x.Facturas.Documentos)
                         .FirstOrDefault(x => x.Id == id);
+                    if (rips.EsDesdeFactura)
+                        this.NombreArchivoZip = $"{rips.Facturas.Documentos.Prefijo}{rips.Facturas.NroConsecutivo}";
+                    else
+                        this.NombreArchivoZip = $"{rips.Periodo.ToString("MMyyyy")}";
 
                     this.PathArchivos = Path.Combine(Path.GetTempPath(), "ArchivosRips");
                     if (Directory.Exists(this.PathArchivos))
@@ -113,11 +119,14 @@ namespace Blazor.BusinessLogic
                     }
 
                     //Archivo CT
-                    File.WriteAllText(Path.Combine(this.PathArchivos, $"CT{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registroCT));
+                    File.WriteAllText(Path.Combine(this.PathArchivos, $"CT{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registroCT));
 
                     if (errores.Count <= 0)
                     {
-                        archivoDescargaModel.Nombre = $"RIPS_{rips.FechaRemision.ToString("yyyyMMdd")}_{rips.Consecutivo}_{rips.Periodo.ToString("MMyyyy")}_{rips.Entidades.Alias}.zip";
+                        if (rips.EsDesdeFactura)
+                            archivoDescargaModel.Nombre = $"RIPS_{rips.FechaRemision.ToString("yyyyMMdd")}_{rips.Consecutivo}_{this.NombreArchivoZip}.zip";
+                        else
+                            archivoDescargaModel.Nombre = $"RIPS_{rips.FechaRemision.ToString("yyyyMMdd")}_{rips.Consecutivo}_{this.NombreArchivoZip}_{rips.Entidades.Alias}.zip";
                         archivoDescargaModel.ContentType = "application/zip";
                         string pathZip = Path.Combine(Path.GetTempPath(), archivoDescargaModel.Nombre);
                         ZipFile.CreateFromDirectory(this.PathArchivos, pathZip);
@@ -157,7 +166,7 @@ namespace Blazor.BusinessLogic
         {
             List<string> registros = new List<string>();
             GenericBusinessLogic<AdmisionesServiciosPrestados> logicaAdmisionesServiciosPrestados = new GenericBusinessLogic<AdmisionesServiciosPrestados>(this.UnitOfWork.Settings);
-            var result = logicaAdmisionesServiciosPrestados.Tabla(true)
+            var queryable = logicaAdmisionesServiciosPrestados.Tabla(true)
                 .Include(x => x.Admisiones.Pacientes)
                 .Include(x => x.Admisiones.ProgramacionCitas.Entidades)
                 .Include(x => x.Admisiones.Pacientes.TiposIdentificacion)
@@ -166,11 +175,14 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Pacientes.Ciudades)
                 .Include(x => x.Admisiones.Pacientes.Ciudades.Departamentos)
                 .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
-                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
-                .OrderBy(x=>x.Admisiones.Pacientes.TiposIdentificacion.Codigo).ThenBy(x=>x.Admisiones.Pacientes.NumeroIdentificacion).ToList();
+                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month);
 
-            if (result == null || result.Count <= 0)
-                throw new Exception($"No existen facturas en el periodo {rips.Periodo.ToString("MMyyyy")} para la entidad {rips.Entidades.Alias}");
+            if (rips.EsDesdeFactura)
+                queryable = queryable.Where(x => x.FacturasId == rips.FacturasId.GetValueOrDefault(0));
+
+            var result = queryable.OrderBy(x => x.Admisiones.Pacientes.TiposIdentificacion.Codigo).ThenBy(x => x.Admisiones.Pacientes.NumeroIdentificacion).ToList();
+            if (!result.Any())
+                return;
 
             foreach (var item in result)
             {
@@ -223,7 +235,7 @@ namespace Blazor.BusinessLogic
                 $"US{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"US{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"US{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
         }
         #endregion
 
@@ -232,9 +244,16 @@ namespace Blazor.BusinessLogic
         {
             List<string> registros = new List<string>();
             GenericBusinessLogic<Facturas> logicaFacturas = new GenericBusinessLogic<Facturas>(this.UnitOfWork.Settings);
-            var result = logicaFacturas.Tabla(true)
+            var queryable = logicaFacturas.Tabla(true)
                 .Where(x => x.EntidadesId == rips.EntidadesId && x.Estadosid != 1087)
-                .Where(x => x.Fecha.Date.Year == rips.Periodo.Date.Year && x.Fecha.Date.Month == rips.Periodo.Date.Month).ToList();
+                .Where(x => x.Fecha.Date.Year == rips.Periodo.Date.Year && x.Fecha.Date.Month == rips.Periodo.Date.Month);
+
+            if (rips.EsDesdeFactura)
+                queryable = queryable.Where(x => x.Id == rips.FacturasId.GetValueOrDefault(0));
+
+            var result = queryable.OrderBy(x => x.Documentos.Prefijo).ThenBy(x => x.NroConsecutivo).ToList();
+            if (!result.Any())
+                return;
 
             foreach (var item in result)
             {
@@ -266,7 +285,7 @@ namespace Blazor.BusinessLogic
                 $"AF{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"AF{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"AF{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
 
         }
         #endregion
@@ -276,7 +295,7 @@ namespace Blazor.BusinessLogic
         {
             List<string> registros = new List<string>();
             GenericBusinessLogic<AdmisionesServiciosPrestados> logicaAdmisionesServiciosPrestados = new GenericBusinessLogic<AdmisionesServiciosPrestados>(this.UnitOfWork.Settings);
-            var result = logicaAdmisionesServiciosPrestados.Tabla(true)
+            var queryable = logicaAdmisionesServiciosPrestados.Tabla(true)
                 .Include(x => x.Facturas.Documentos)
                 .Include(x => x.Admisiones.Pacientes)
                 .Include(x => x.Servicios.Cups)
@@ -290,8 +309,14 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Atenciones.CausasExternas)
                 .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
                 .Where(x => x.Servicios.TiposServiciosId == 1)
-                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
-                .OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
+                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month);
+
+            if (rips.EsDesdeFactura)
+                queryable = queryable.Where(x => x.FacturasId == rips.FacturasId.GetValueOrDefault(0));
+
+            var result = queryable.OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
+            if (!result.Any())
+                return;
 
             foreach (var item in result)
             {
@@ -331,7 +356,7 @@ namespace Blazor.BusinessLogic
                 $"AC{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"AC{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"AC{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
         }
         #endregion
 
@@ -340,7 +365,7 @@ namespace Blazor.BusinessLogic
         {
             List<string> registros = new List<string>();
             GenericBusinessLogic<AdmisionesServiciosPrestados> logicaAdmisionesServiciosPrestados = new GenericBusinessLogic<AdmisionesServiciosPrestados>(this.UnitOfWork.Settings);
-            var result = logicaAdmisionesServiciosPrestados.Tabla(true)
+            var queryable = logicaAdmisionesServiciosPrestados.Tabla(true)
                 .Include(x => x.Facturas.Documentos)
                 .Include(x => x.Admisiones.Pacientes)
                 .Include(x => x.Admisiones.Diagnosticos)
@@ -353,9 +378,15 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Atenciones.AmbitoRealizacionProcedimiento)
                 .Include(x => x.Atenciones.FinalidadProcedimiento)
                 .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
-                .Where(x=>x.Servicios.TiposServiciosId == 2)
-                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month)
-                .OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
+                .Where(x => x.Servicios.TiposServiciosId == 2)
+                .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month);
+                
+            if (rips.EsDesdeFactura)
+                queryable = queryable.Where(x => x.FacturasId == rips.FacturasId.GetValueOrDefault(0));
+
+            var result = queryable.OrderBy(x => x.Facturas.Documentos.Prefijo).ThenBy(x => x.Facturas.NroConsecutivo).ToList();
+            if (!result.Any())
+                return;
 
             foreach (var item in result)
             {
@@ -388,7 +419,6 @@ namespace Blazor.BusinessLogic
                 data.Add(14, ""); // Forma de realización del acto quirúrgico
                 data.Add(15, Convert.ToInt64(item.ValorServicio * item.Cantidad).ToString()); // Valor del procedimiento
 
-
                 registros.Add(String.Join(delimitador, data.OrderBy(x => x.Key).Select(x => x.Value?.ToUpper())));
             }
 
@@ -397,7 +427,7 @@ namespace Blazor.BusinessLogic
                 $"AP{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"AP{rips.Periodo.ToString("MMyyyy")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"AP{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
         }
         #endregion 
     }

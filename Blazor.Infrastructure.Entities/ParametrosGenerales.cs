@@ -32,6 +32,11 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("ParametrosGenerales.FechaHastaAtenciones")]
        public virtual DateTime FechaHastaAtenciones { get; set; }
 
+       [Column("EsObligatorioAudioLectura")]
+       [DDisplayName("ParametrosGenerales.EsObligatorioAudioLectura")]
+       [DRequired("ParametrosGenerales.EsObligatorioAudioLectura")]
+       public virtual Boolean EsObligatorioAudioLectura { get; set; }
+
        #endregion
 
        #region Reglas expression

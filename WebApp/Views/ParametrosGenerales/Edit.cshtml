@@ -82,6 +82,14 @@
 
                             });
 
+                        items.AddGroup().ColCount(12).ColSpan(6).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Lecturas"))
+                            .Items(groupItems =>{
+                                groupItems.AddSimpleFor(m => m.Entity.EsObligatorioAudioLectura).Label(x=>x.Visible(false)).ColSpan(12)
+                                      .Editor(e=>e.CheckBox().ID(Prefix + "EsObligatorioAudioLectura")
+                                      .Text(DApp.DefaultLanguage.GetResource("ParametrosGenerales.EsObligatorioAudioLectura"))
+                                      );
+                            });
+
                     })
                 )
             }

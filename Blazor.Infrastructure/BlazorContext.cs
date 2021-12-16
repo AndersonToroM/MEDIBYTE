@@ -127,6 +127,7 @@ namespace Blazor.Infrastructure
         public DbSet<ServiciosEmpleados> ServiciosEmpleados { get; set; }
         public DbSet<Documentos> Documentos { get; set; }
         public DbSet<SedesDocumentos> SedesDocumentos { get; set; }
+        public DbSet<DocumentosConceptos> DocumentosConceptos { get; set; }
         public DbSet<ConfiguracionEnvioEmail> ConfiguracionEnvioEmail { get; set; }
         public DbSet<ProgramacionCitas> ProgramacionCitas { get; set; }
         public DbSet<ImagenesDiagnosticas> ImagenesDiagnosticas { get; set; }
@@ -140,6 +141,8 @@ namespace Blazor.Infrastructure
         public DbSet<HistoriasClinicasNotasAclaratorias> HistoriasClinicasNotasAclaratorias { get; set; }
         public DbSet<EntregaResultados> EntregaResultados { get; set; }
         public DbSet<EntregaResultadosDetalles> EntregaResultadosDetalles { get; set; }
+        public DbSet<EntregaResultadosNoLectura> EntregaResultadosNoLectura { get; set; }
+        public DbSet<EntregaResultadosNoLecturaDetalles> EntregaResultadosNoLecturaDetalles { get; set; }
         public DbSet<Parentescos> Parentescos { get; set; }
         public DbSet<MediosEntregas> MediosEntregas { get; set; }
         public DbSet<Rips> Rips { get; set; }

@@ -13,6 +13,7 @@ using System;
 using Blazor.BusinessLogic;
 using System.Linq;
 using System.Collections.Generic;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -101,7 +102,10 @@ namespace Blazor.WebApp.Controllers
                 { 
                     model.Entity.LastUpdate = DateTime.Now; 
                     model.Entity.UpdatedBy = User.Identity.Name;
-                    
+
+                    model.Entity.Nombre = DApp.Util.QuitarEspacios(model.Entity.Nombre);
+                    model.Entity.CodigoInterno = DApp.Util.QuitarEspacios(model.Entity.CodigoInterno);
+
                     if (model.Entity.IsNew) 
                     { 
                         model.Entity.CreationDate = DateTime.Now; 

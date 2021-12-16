@@ -14,6 +14,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using System.Collections.Generic;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -88,7 +89,16 @@ namespace Blazor.WebApp.Controllers
                 try 
                 { 
                     model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name; 
+                    model.Entity.UpdatedBy = User.Identity.Name;
+
+                    model.Entity.NumeroIdentificacion = DApp.Util.QuitarEspacios(model.Entity.NumeroIdentificacion);
+                    model.Entity.Nombre = DApp.Util.QuitarEspacios(model.Entity.Nombre);
+                    model.Entity.Telefono = DApp.Util.QuitarEspacios(model.Entity.Telefono);
+                    model.Entity.CorreoElectronico = DApp.Util.QuitarEspacios(model.Entity.CorreoElectronico)?.ToLower();
+                    model.Entity.Direccion = DApp.Util.QuitarEspacios(model.Entity.Direccion);
+                    model.Entity.CodigoPostal = DApp.Util.QuitarEspacios(model.Entity.CodigoPostal);
+                    model.Entity.CodigoReps = DApp.Util.QuitarEspacios(model.Entity.CodigoReps);
+
                     if (model.Entity.IsNew) 
                     { 
                         model.Entity.CreationDate = DateTime.Now; 

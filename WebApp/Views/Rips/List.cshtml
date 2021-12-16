@@ -17,14 +17,10 @@
     .Columns(columns =>
     {
         columns.AddFor(m => m.Consecutivo);
+        columns.AddFor(m => m.Facturas.DescFacturaConEntidad);
         columns.AddFor(m => m.Periodo).Format(Format.MonthAndYear).HeaderFilter(x => x.AllowSearch(false)).AllowFiltering(false).AllowHeaderFiltering(false);
         columns.AddFor(m => m.FechaRemision);
         columns.AddFor(m => m.Entidades.Alias);
-        columns.AddFor(m => m.GenararCT);
-        columns.AddFor(m => m.GenerarAF);
-        columns.AddFor(m => m.GenerarUS);
-        columns.AddFor(m => m.GenerarAC);
-        columns.AddFor(m => m.GenerarAP);
     })
 ) 
 </div> 
