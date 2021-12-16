@@ -34,7 +34,7 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "background"
             },
-               new ButtonToolbar
+               /*new ButtonToolbar
             {
                 Action = "MostrarPopudModificarDatosFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.Cartera"),
@@ -42,7 +42,7 @@
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "background"
-            },
+            },*/
             new ButtonToolbar
             {
                 Action = "ImprimirFacturaPorId",
@@ -69,7 +69,16 @@
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "email"
-            }
+            }/*,
+            new ButtonToolbar
+            {
+                Action = "ImprimirImprimirAnexo",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.ImprimirAnexo"),
+                Disabled = (Model.Entity.IsNew),
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "print"
+            }*/
         })
         .Back(UrlBack);
 
