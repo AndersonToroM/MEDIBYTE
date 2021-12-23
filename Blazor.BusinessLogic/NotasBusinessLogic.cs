@@ -28,7 +28,7 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public async Task EnviarEmail(Notas nota, string pathPdf)
+        public async Task EnviarEmail(Notas nota, string pathPdf, string eventoEnvio)
         {
             if (string.IsNullOrWhiteSpace(nota.DIANResponse))
             {
@@ -75,9 +75,10 @@ namespace Blazor.BusinessLogic
 
                 Empresas empresas = unitOfWork.Repository<Empresas>().FindById(x => x.Id == nota.EmpresasId, false);
 
-                EnvioEmailConfig envioEmailConfig = new EnvioEmailConfig();
+                EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = "FACTURACION";
                 envioEmailConfig.Asunto = $"Envio Nota Electronica {nota.Documentos.Prefijo}-{nota.Consecutivo}";
+                envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioNotaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
                 envioEmailConfig.ArchivosAdjuntos.Add($"{nota.Documentos.Prefijo}-{nota.Consecutivo}.zip", msZip);
@@ -156,7 +157,7 @@ namespace Blazor.BusinessLogic
 
                 if (nota.Documentos.Transaccion == 3 && nota.NotasConceptos.Codigo == "1")
                 {
-                    var pacientesId = detalles.Select(x=>x.PacientesId).Distinct().ToList();
+                    var pacientesId = detalles.Select(x => x.PacientesId).Distinct().ToList();
                     if (pacientesId.Count > 0)
                     {
                         var listServices = new BlazorUnitWork(UnitOfWork.Settings).Repository<AdmisionesServiciosPrestados>().Table.Include(x => x.Admisiones).Where(x => x.FacturasId == nota.FacturasId || x.Admisiones.FacturaCopagoCuotaModeradoraId == nota.FacturasId && pacientesId.Contains(x.Admisiones.PacientesId)).ToList();
@@ -186,7 +187,7 @@ namespace Blazor.BusinessLogic
                     var listServices = new BlazorUnitWork(UnitOfWork.Settings).Repository<AdmisionesServiciosPrestados>().Table.Include(x => x.Admisiones).Where(x => x.FacturasId == nota.FacturasId || x.Admisiones.FacturaCopagoCuotaModeradoraId == nota.FacturasId).ToList();
                     var listAdminsiones = listServices.Select(x => x.Admisiones).Distinct().ToList();
 
-                    if(listAdminsiones!=null && listAdminsiones.Count>0)
+                    if (listAdminsiones != null && listAdminsiones.Count > 0)
                         foreach (var adm in listAdminsiones)
                         {
                             adm.Facturado = false;
@@ -534,7 +535,7 @@ namespace Blazor.BusinessLogic
             string content = "";
             ECreditNote invoice = GetCreditNote(idNota);
             string xml = invoice.SerializeToXml();
-                //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
+            //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
             HttpClient http = new HttpClient();
             var nvc = new List<KeyValuePair<string, string>>();
             nvc.Add(new KeyValuePair<string, string>("docid", invoice.ID));
@@ -600,7 +601,7 @@ namespace Blazor.BusinessLogic
 
             if (nota.Empresas != null)
             {
-                nota.Empresas.EmpresasEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasEsquemasImpuestos>().FindAll(x => x.EmpresasId == nota.EmpresasId,true);
+                nota.Empresas.EmpresasEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasEsquemasImpuestos>().FindAll(x => x.EmpresasId == nota.EmpresasId, true);
                 nota.Empresas.EmpresasResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasResponsabilidadesFiscales>().FindAll(x => x.EmpresasId == nota.EmpresasId, true);
             }
 
@@ -833,7 +834,7 @@ namespace Blazor.BusinessLogic
             string content = "";
             EDebitNote invoice = GetDebitNote(idNota);
             string xml = invoice.SerializeToXml();
-                //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
+            //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
             HttpClient http = new HttpClient();
             var nvc = new List<KeyValuePair<string, string>>();
             nvc.Add(new KeyValuePair<string, string>("docid", invoice.ID));

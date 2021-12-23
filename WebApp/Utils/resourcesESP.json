@@ -1004,8 +1004,16 @@
     "Description": "Contraseña"
   },
   {
+    "Id": "ConfiguracionEnvioEmail.CorreoCopiaOculta",
+    "Description": "Correo electronico copia oculta"
+  },
+  {
     "Id": "ConfiguracionEnvioEmail.CorreoElectronico",
     "Description": "Correo Electronico"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmail.EnviaCopiaOculta",
+    "Description": "¿Envia copia oculta?"
   },
   {
     "Id": "ConfiguracionEnvioEmail.Origen",
@@ -1026,6 +1034,38 @@
   {
     "Id": "ConfiguracionEnvioEmail.UsaSSL",
     "Description": "¿Usa SSL?"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.Asunto",
+    "Description": "Asunto"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.CorreoEnvia",
+    "Description": "Correo que envia"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.CorreosDestinatarios",
+    "Description": "Destinatarios y Copia"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.CreationDate",
+    "Description": "Fecha y Hora"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.Error",
+    "Description": "Error"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.ErrorDeDatos",
+    "Description": "Datos Erróneos"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.Exitoso",
+    "Description": "¿Envío Exitoso?"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailLog.MetodoUso",
+    "Description": "Acción que envia"
   },
   {
     "Id": "ConsultarGenerico",

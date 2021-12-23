@@ -51,6 +51,16 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("ConfiguracionEnvioEmail.Origen",50)]
        public virtual String Origen { get; set; }
 
+       [Column("EnviaCopiaOculta")]
+       [DDisplayName("ConfiguracionEnvioEmail.EnviaCopiaOculta")]
+       [DRequired("ConfiguracionEnvioEmail.EnviaCopiaOculta")]
+       public virtual Boolean EnviaCopiaOculta { get; set; }
+
+       [Column("CorreoCopiaOculta")]
+       [DDisplayName("ConfiguracionEnvioEmail.CorreoCopiaOculta")]
+       [DStringLength("ConfiguracionEnvioEmail.CorreoCopiaOculta",100)]
+       public virtual String CorreoCopiaOculta { get; set; }
+
        #endregion
 
        #region Reglas expression

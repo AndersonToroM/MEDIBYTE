@@ -91,7 +91,7 @@ namespace Blazor.WebApp.Controllers
                             model.Entity.EstadosId = 10066;
                         if (model.Entity.PorcDescAutorizado > 0)
                         {
-                            Manager().AdmisionesBusinessLogic().configSendEmail(model.Entity.PacientesId);
+                            Manager().AdmisionesBusinessLogic().EnvioAutorizacionAdmisiones(model.Entity.PacientesId);
                             model.Entity.EstadosId = 61;
                         }
 

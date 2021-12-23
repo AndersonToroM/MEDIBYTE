@@ -110,7 +110,7 @@ namespace Blazor.BusinessLogic
             }
         }
 
-        public void configSendEmail(long idPaciente)
+        public void EnvioAutorizacionAdmisiones(long idPaciente)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             var empleado = unitOfWork.Repository<Empleados>().FindAll(x => x.AutorizaDescuento == true, true).FirstOrDefault();
@@ -121,8 +121,9 @@ namespace Blazor.BusinessLogic
                 throw new Exception($"El empleado {empleado.NombreCompleto} no tiene un usuario asignado.");
             var Paciente = unitOfWork.Repository<Pacientes>().FindById(x => x.Id == idPaciente, false);
 
-            EnvioEmailConfig envioEmailConfig = new EnvioEmailConfig();
+            EmailModelConfig envioEmailConfig = new EmailModelConfig();
             envioEmailConfig.Origen = "POR DEFECTO";
+            envioEmailConfig.MetodoUso = "Autorizacion Admisiones";
             envioEmailConfig.Asunto = "Autorización de descuento en admisiones";
             envioEmailConfig.Template = "EmailAutorizacionAdmision";
             envioEmailConfig.Destinatarios.Add(usuario.Email);

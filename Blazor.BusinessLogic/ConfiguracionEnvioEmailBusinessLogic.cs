@@ -22,9 +22,9 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public void EnviarEmail(EnvioEmailConfig data)
+        public void EnviarEmail(EmailModelConfig data)
         {
-            EnviaEmailLog enviaEmailLog = new EnviaEmailLog();
+            ConfiguracionEnvioEmailLog configuracionEnvioEmailLog = new ConfiguracionEnvioEmailLog();
             List<string> errores = new List<string>();
             try
             {
@@ -33,21 +33,27 @@ namespace Blazor.BusinessLogic
                 else
                     data.Origen = data.Server.Origen;
 
-                enviaEmailLog.Id = 0;
-                enviaEmailLog.IsNew = true;
-                enviaEmailLog.UpdatedBy = "admin";
-                enviaEmailLog.CreatedBy = "admin";
-                enviaEmailLog.CreationDate = DateTime.Now;
-                enviaEmailLog.LastUpdate = DateTime.Now;
-                enviaEmailLog.Origen = data.Origen;
-                enviaEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
-                enviaEmailLog.Asunto = data.Asunto;
+                configuracionEnvioEmailLog.Id = 0;
+                configuracionEnvioEmailLog.IsNew = true;
+                configuracionEnvioEmailLog.UpdatedBy = "admin";
+                configuracionEnvioEmailLog.CreatedBy = "admin";
+                configuracionEnvioEmailLog.CreationDate = DateTime.Now;
+                configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
+                configuracionEnvioEmailLog.Origen = data.Origen;
+                configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
+                configuracionEnvioEmailLog.Asunto = data.Asunto;
+                configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
 
                 if (data.Server != null)
                 {
                     if (string.IsNullOrWhiteSpace(data.Asunto))
                     {
                         throw new Exception($"El asunto para el envio de correos es obligatorio.");
+                    }
+
+                    if (string.IsNullOrWhiteSpace(data.MetodoUso))
+                    {
+                        throw new Exception($"El MetodoUso para el envio de correos es obligatorio.");
                     }
 
                     if (string.IsNullOrWhiteSpace(data.Template))
@@ -123,6 +129,39 @@ namespace Blazor.BusinessLogic
                             }
                         }
 
+                        if (data.DestinatariosCopiaOculta != null && data.DestinatariosCopiaOculta.Count > 0)
+                        {
+                            foreach (var correo in data.DestinatariosCopiaOculta)
+                            {
+                                bool valid = true;
+                                if (string.IsNullOrWhiteSpace(correo))
+                                {
+                                    valid = false;
+                                    errores.Add("Un destinatario copia oculta agregado es nulo o vacio.");
+                                }
+                                if (!DApp.Util.EsEmailValido(correo))
+                                {
+                                    valid = false;
+                                    errores.Add($"El correo electronico ({correo}) del destinatario copia oculta no es valido.");
+                                }
+
+                                if (valid)
+                                    mailMessage.Bcc.Add(correo);
+                            }
+                        }
+
+                        if (data.Server.EnviaCopiaOculta)
+                        {
+                            bool valid = true;
+                            if (!DApp.Util.EsEmailValido(data.Server.CorreoCopiaOculta))
+                            {
+                                errores.Add($"El correo electronico ({data.Server.CorreoCopiaOculta}) de la copia oculta configurada no es valido.");
+                            }
+
+                            if (valid)
+                                mailMessage.Bcc.Add(data.Server.CorreoCopiaOculta);
+                        }
+
                         if (data.ArchivosAdjuntos != null && data.ArchivosAdjuntos.Count > 0)
                         {
                             foreach (var archivo in data.ArchivosAdjuntos)
@@ -135,17 +174,24 @@ namespace Blazor.BusinessLogic
                             }
                         }
 
-                        string correosDestinatarios = "Destinatarios: " + string.Join(", ", data.Destinatarios);
+                        configuracionEnvioEmailLog.CorreosDestinatarios = "Para: " + string.Join(", ", data.Destinatarios);
                         if (data.DestinatariosCopia != null && data.DestinatariosCopia.Count > 0)
                         {
-                            correosDestinatarios = "Destinatarios Copia: " + string.Join(", ", data.DestinatariosCopia);
+                            configuracionEnvioEmailLog.CorreosDestinatarios += " | CC: " + string.Join(", ", data.DestinatariosCopia);
                         }
-                        enviaEmailLog.CorreosDestinatarios = correosDestinatarios;
+                        if (data.DestinatariosCopiaOculta != null && data.DestinatariosCopiaOculta.Count > 0)
+                        {
+                            configuracionEnvioEmailLog.CorreosDestinatarios += " | CCO: " + string.Join(", ", data.DestinatariosCopia);
+                        }
+                        if (data.Server.EnviaCopiaOculta)
+                        {
+                            configuracionEnvioEmailLog.CorreosDestinatarios += " | CCO Configurado: " + data.Server.CorreoCopiaOculta;
+                        }
 
                         if(errores.Count > 0)
-                            enviaEmailLog.ErrorDeDatos = string.Join(" | ", errores);
+                            configuracionEnvioEmailLog.ErrorDeDatos = string.Join(" | ", errores);
 
-                        if (mailMessage.To.Count <= 0)
+                        if (mailMessage.To.Count <= 0 && mailMessage.CC.Count <= 0 && mailMessage.Bcc.Count <= 0)
                             throw new Exception($"No hubo destinatarios validos en los ingresados.");
 
                         SmtpClient smtp = new SmtpClient();
@@ -159,9 +205,9 @@ namespace Blazor.BusinessLogic
                         smtp.Port = data.Server.Puerto;
                         smtp.Send(mailMessage);
 
-                        enviaEmailLog.Exitoso = true;
-                        enviaEmailLog.Error = null;
-                        new GenericBusinessLogic<EnviaEmailLog>(this.UnitOfWork.Settings).Add(enviaEmailLog);
+                        configuracionEnvioEmailLog.Exitoso = true;
+                        configuracionEnvioEmailLog.Error = null;
+                        new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
                     }
                 }
             }
@@ -174,9 +220,9 @@ namespace Blazor.BusinessLogic
                     fullError += " | " + e.Message;
                 }
 
-                enviaEmailLog.Exitoso = false;
-                enviaEmailLog.Error = fullError;
-                new GenericBusinessLogic<EnviaEmailLog>(this.UnitOfWork.Settings).Add(enviaEmailLog);
+                configuracionEnvioEmailLog.Exitoso = false;
+                configuracionEnvioEmailLog.Error = fullError;
+                new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
 
                 throw new Exception(fullError);
             }
@@ -185,9 +231,10 @@ namespace Blazor.BusinessLogic
 
         public void ProbarEnvioCorreo(ConfiguracionEnvioEmail data)
         {
-            EnvioEmailConfig envioEmailConfig = new EnvioEmailConfig();
+            EmailModelConfig envioEmailConfig = new EmailModelConfig();
             envioEmailConfig.Server = data;
             envioEmailConfig.Asunto = "PRUEBA DE ENVIO DE CORREO PARA CONFIGURACION POR SOFTWARE DE CLOUDONESOFT";
+            envioEmailConfig.MetodoUso = "Prueba Envio";
             envioEmailConfig.Template = "EmailPruebaEnvioCorreo";
             envioEmailConfig.Destinatarios.Add(data.CorreoElectronico);
             envioEmailConfig.Datos = new Dictionary<string, string>
@@ -200,15 +247,17 @@ namespace Blazor.BusinessLogic
         }
     }
 
-    public class EnvioEmailConfig
+    public class EmailModelConfig
     {
         public ConfiguracionEnvioEmail Server { get; set; }
         public string Origen { get; set; }
+        public string MetodoUso { get; set; }
         public string Asunto { get; set; }
         public string Template { get; set; }
         public Dictionary<string, string> Datos { get; set; } = new Dictionary<string, string>();
         public List<string> Destinatarios { get; set; } = new List<string>();
         public List<string> DestinatariosCopia { get; set; } = new List<string>();
+        public List<string> DestinatariosCopiaOculta { get; set; } = new List<string>();
         public Dictionary<string, Stream> ArchivosAdjuntos { get; set; } = new Dictionary<string, Stream>();
     }
 }

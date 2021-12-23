@@ -39,7 +39,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetLog(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<EnviaEmailLog>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ConfiguracionEnvioEmailLog>().Tabla(true), loadOptions);
         }
 
         public IActionResult List()

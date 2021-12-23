@@ -28,7 +28,7 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public async Task EnviarEmail(Facturas factura, string pathPdf)
+        public async Task EnviarEmail(Facturas factura, string pathPdf, string eventoEnvio)
         {
             if (string.IsNullOrWhiteSpace(factura.DIANResponse))
             {
@@ -75,9 +75,10 @@ namespace Blazor.BusinessLogic
 
                 Empresas empresas = unitOfWork.Repository<Empresas>().FindById(x => x.Id == factura.EmpresasId, false);
 
-                EnvioEmailConfig envioEmailConfig = new EnvioEmailConfig();
+                EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = "FACTURACION";
                 envioEmailConfig.Asunto = $"Envio Factura Electronica {factura.Documentos.Prefijo}-{factura.NroConsecutivo}";
+                envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
                 envioEmailConfig.ArchivosAdjuntos.Add($"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.zip", msZip);

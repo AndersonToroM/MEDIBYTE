@@ -5,6 +5,20 @@
 
 <script>
 
+    $(function () {
+        @(Prefix)OnValueChangedEnviaCopiaOculta();
+    });
+
+    function @(Prefix)OnValueChangedEnviaCopiaOculta() {
+        var habilitar = $("#@(Prefix)EnviaCopiaOculta").dxCheckBox("instance").option("value");
+        if (habilitar) {
+            $("#@(Prefix)CorreoCopiaOculta").dxTextBox("instance").option("readOnly", false);
+        } else {
+            $("#@(Prefix)CorreoCopiaOculta").dxTextBox("instance").option("value", null);
+            $("#@(Prefix)CorreoCopiaOculta").dxTextBox("instance").option("readOnly", true);
+        }
+    }
+
     function @(Prefix)ProbarEnvioCorreo() {
 
         showLoadIndicator();
@@ -27,7 +41,6 @@
                 DevExpress.ui.notify("Error de servidor " + xhr.status + " : " + xhr.statusText, "error");
             }
         });
-
     }
 
     function @(Prefix)OnClickBotonCambiarModoPassword() {
