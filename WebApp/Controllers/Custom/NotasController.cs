@@ -94,7 +94,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 Notas nota = Manager().NotasBusinessLogic().FindById(x => x.Id == id, true);
-                await Manager().NotasBusinessLogic().EnviarEmail(nota, GetPdfNotaReporte(nota));
+                await Manager().NotasBusinessLogic().EnviarEmail(nota, GetPdfNotaReporte(nota), "Envio Nota Manual");
                 return Ok();
             }
             catch (Exception e)

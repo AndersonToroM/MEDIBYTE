@@ -350,6 +350,17 @@
             });
         });
 
+        var showLoadIndicator = function () {
+            $("#mainPanel").append('<div id="LoadIndicatorProgress" class="loading"><div class="loader"></div></div>');
+        };
+
+        var hideLoadIndicator = function () {
+            var load = $("#LoadIndicatorProgress");
+            if (load.length == 1) {
+                load.remove();
+            }
+        };
+
         function OnRowInsertedDetalleDataGrid(data) {
             DevExpress.ui.notify("Registro guardado correctamente.","info");
         }
@@ -459,15 +470,28 @@
 
         /////////////////////////////////////////////////////////////////////////////////
 
-        var BtnSave_click = function (form, prefunction) {
+        function DisableButtonsAndSubmit(prefix)
+        {
+            showLoadIndicator();
+            if ($("#" + prefix + "Save").length == 1) {
+                $("#" + prefix + "Save").dxButton("instance").option("disabled", true);
+            }
+            if ($("#" + prefix + "New").length == 1) {
+                $("#" + prefix + "New").dxButton("instance").option("disabled", true);
+            }
+            if ($("#" + prefix + "Delete").length == 1) {
+                $("#" + prefix + "Delete").dxButton("instance").option("disabled", true);
+            }
+            $("#" + prefix + "Form").submit();
+        }
+
+        var BtnSave_click = function (prefix, prefunction) {
             if (prefunction != undefined) {
                 if (prefunction) {
-                    showLoadIndicator();
-                    $("#" + form + "Form").submit();
+                    DisableButtonsAndSubmit(prefix)
                 }
             } else {
-                showLoadIndicator();
-                $("#" + form + "Form").submit();
+                DisableButtonsAndSubmit(prefix)
             }
         };
 
@@ -644,27 +668,6 @@
                     DevExpress.ui.notify("Error: " + xhr, "error");
                 }
             });
-        };
-
-        var showLoadIndicator = function () {
-            $("#mainPanel").append('<div id="LoadIndicatorProgress" class="loading"><div class="loader"></div></div>');
-
-
-            //$("<div>").attr("id", "LoadIndicatorProgress").appendTo("#mainPanel");
-
-            // $(function () {
-            //    $("#LoadIndicatorProgress").dxLoadIndicator({
-            //        "hint": "Procesando",
-            //        "elementAttr": { "class": "indicatorProgress" }
-            //    });
-            //});
-        };
-
-        var hideLoadIndicator = function () {
-            var load = $("#LoadIndicatorProgress");
-            if (load.length == 1) {
-                load.remove();
-            }
         };
 
         var setToolbarTop = function (IdToolbarTop, grid , titleOption) {

@@ -62,7 +62,7 @@ namespace Blazor.Infrastructure
         public DbSet<HistoriasClinicas> HistoriasClinicas { get; set; }
         public DbSet<HorariosAtencion> HorariosAtencion { get; set; }
         public DbSet<Incapacidades> Incapacidades { get; set; }
-        public DbSet<EnviaEmailLog> EnviaEmailLog { get; set; }
+        public DbSet<ConfiguracionEnvioEmailLog> EnviaEmailLog { get; set; }
         public DbSet<IncapacidadesOrigenes> IncapacidadesOrigenes { get; set; }
         public DbSet<JobDetail> JobDetail { get; set; }
         public DbSet<JobLog> JobLog { get; set; }

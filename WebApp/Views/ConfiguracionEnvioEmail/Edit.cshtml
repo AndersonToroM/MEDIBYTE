@@ -26,7 +26,7 @@
         })
         .Back(UrlBack);
 
-    var DataGridDetailConfig = new DataGridConfiguration<EnviaEmailLog>(Prefix)
+    var DataGridDetailConfig = new DataGridConfiguration<ConfiguracionEnvioEmailLog>(Prefix)
         .Exports(true, true);
 
 }
@@ -90,6 +90,14 @@
                                 groupItems.AddSimpleFor(m => m.Entity.UsaSSL).Label(x=>x.Visible(false)).ColSpan(2)
                                       .Editor(e=>e.CheckBox().ID(Prefix + "UsaSSL").Text(DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmail.UsaSSL")));
 
+                                groupItems.AddEmpty().ColSpan(4);
+
+                                groupItems.AddSimpleFor(m => m.Entity.EnviaCopiaOculta).Label(x=>x.Visible(false)).ColSpan(2)
+                                      .Editor(e=>e.CheckBox().ID(Prefix + "EnviaCopiaOculta").Text(DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmail.EnviaCopiaOculta"))
+                                      .OnValueChanged($"{Prefix}OnValueChangedEnviaCopiaOculta"));
+                                groupItems.AddSimpleFor(m => m.Entity.CorreoCopiaOculta).ColSpan(4)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(150).Message(DApp.GetStringLengthResource("ConfiguracionEnvioEmail.CorreoCopiaOculta", 100)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "CorreoCopiaOculta").ShowClearButton(true));
                             });
                     })
                 ) 
@@ -110,14 +118,15 @@
                    <div class="card cardDeatil">
                        <div class="card-body">
                            <div class="box-body table-responsive no-padding">
-                               @(Html.DControls().DataGridSimple<EnviaEmailLog>(DataGridDetailConfig)
+                               @(Html.DControls().DataGridSimple<ConfiguracionEnvioEmailLog>(DataGridDetailConfig)
                                     .ID("ConfiguracionEnvioEmailLogGrid")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller(Prefix).LoadAction("GetLog").Key("Id"))
                                     .DataSourceOptions(x=>x.Filter("['Origen','=','" + @Model.Entity.Origen+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
                                     .Columns(columns =>
                                     {
-                                        columns.AddFor(m => m.CreationDate).Format(DApp.DefaultLanguage.DateTimeFormat).Caption(DApp.DefaultLanguage.GetResource("EnviaEmailLog.CreationDate")).SortOrder(SortOrder.Desc);
+                                        columns.AddFor(m => m.CreationDate).Format(DApp.DefaultLanguage.DateTimeFormat).Caption(DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmailLog.CreationDate")).SortOrder(SortOrder.Desc);
                                         columns.AddFor(m => m.CorreoEnvia);
+                                        columns.AddFor(m => m.MetodoUso);
                                         columns.AddFor(m => m.Asunto);
                                         columns.AddFor(m => m.CorreosDestinatarios);
                                         columns.AddFor(m => m.Exitoso);
