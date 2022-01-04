@@ -174,10 +174,9 @@ function AgregarDiasAFecha(fecha, nroDias) {
 }
 
 /* Funcion para verificar respuesta con el server cada 5 segundos */
-
-function pingServer() {
-    var timeOut = 1;
-    var nameItemStorage = "SiisoLogNet";
+var nameItemStorage = "SiisoLogNet";
+var timeOut = 1;
+function PingFromServerLog() {
     $.ajax({
         url: (location.origin + "/GetResponseFromServer"),
         type: 'GET',
@@ -187,18 +186,22 @@ function pingServer() {
             var itemStorage = localStorage.getItem(nameItemStorage);
             if (itemStorage != null) {
                 var logs = JSON.parse(localStorage.getItem(nameItemStorage));
-                var logStatus = "Success;" + timeOut + " seg" +
+                var logStatus = "Success" +
+                    ";" + location.origin +
+                    ";" + timeOut + " seg" +
                     ";200" +
                     ";OK" +
                     ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
                     ";" + platform.description;
                 logs.push(logStatus);
                 localStorage.removeItem(nameItemStorage);
-                SendLogPingServer(logs);
+                setTimeout(() => { SendLogPingServer(logs); }, 5000);
             }
         },
         error: function (xhr) {
-            var logStatus = "Error;" + timeOut + " seg" +
+            var logStatus = "Error" +
+                ";" + location.origin +
+                ";" + timeOut + " seg" +
                 ";" + xhr.status +
                 ";" + xhr.statusText +
                 ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
@@ -207,11 +210,51 @@ function pingServer() {
             var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
             logs.push(logStatus);
             localStorage.setItem(nameItemStorage, JSON.stringify(logs));
+            PingServersIfError();
 
         }
     });
 }
-setInterval(pingServer, 5000);
+setInterval(PingFromServerLog, 5000);
+
+function PingServersIfError() {
+
+    var servers = ["https://api.agify.io/?name=siiso", "https://api.zippopotam.us/us/33162", "https://datausa.io/api/data?measures=Population&year=latest"];
+    servers.forEach(server => console.log(server));
+    servers.forEach(server => {
+        $.ajax({
+            url: (server),
+            type: 'GET',
+            timeout: (timeOut * 1000),
+            success: function () {
+                console.log("success PingServersIfError");
+                var logStatus = "Success" +
+                    ";" + server +
+                    ";" + timeOut + " seg" +
+                    ";200" +
+                    ";OK" +
+                    ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
+                    ";" + platform.description;
+                var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
+                logs.push(logStatus);
+                localStorage.setItem(nameItemStorage, JSON.stringify(logs));
+            },
+            error: function (xhr) {
+                var logStatus = "Error" +
+                    ";" + server +
+                    ";" + timeOut + " seg" +
+                    ";" + xhr.status +
+                    ";" + xhr.statusText +
+                    ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
+                    ";" + platform.description;
+                var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
+                logs.push(logStatus);
+                localStorage.setItem(nameItemStorage, JSON.stringify(logs));
+
+            }
+        });
+    });
+}
 
 function SendLogPingServer(logs) {
     $.ajax({

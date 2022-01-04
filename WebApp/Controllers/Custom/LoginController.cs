@@ -197,7 +197,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                string title = "Net;TimeoutLimit;Code;StatusText;Date;Time;Platform" + Environment.NewLine;
+                string title = "Net;Server;TimeoutLimit;Code;StatusText;Date;Time;Platform" + Environment.NewLine;
                 if (!Directory.Exists(Program.DirectoryLog))
                     Directory.CreateDirectory(Program.DirectoryLog);
                 string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.LogFromClient.csv");
