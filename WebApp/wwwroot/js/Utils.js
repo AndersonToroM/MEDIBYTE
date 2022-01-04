@@ -55,7 +55,7 @@ function CalcularDigitoVerificacion(myNit) {
     } catch (e) {
         return "0";
     }
-    
+
 }
 
 function DiasEntreFechas(f1, f2) {
@@ -158,6 +158,7 @@ function CambiarPantallaCompleta() {
     }
 }
 
+/* Borra storage de las grillas */
 function BorrarStorageGrids() {
     var objstorage = Object.keys(localStorage).filter(key => key.startsWith('SiisoGridStorage'));
     for (var i = 0; i < objstorage.length; i++) {
@@ -165,8 +166,61 @@ function BorrarStorageGrids() {
     }
 }
 
+/* Agrega dias a una fecha */
 function AgregarDiasAFecha(fecha, nroDias) {
     var result = new Date(fecha);
     result.setDate(result.getDate() + (nroDias - 1));
     return result;
 }
+
+/* Funcion para verificar respuesta con el server cada 5 segundos */
+
+function pingServer() {
+    var timeOut = 1;
+    var nameItemStorage = "SiisoLogNet";
+    $.ajax({
+        url: (location.origin + "/GetResponseFromServer"),
+        type: 'GET',
+        timeout: (timeOut * 1000),
+        success: function () {
+            console.log("success");
+            var itemStorage = localStorage.getItem(nameItemStorage);
+            if (itemStorage != null) {
+                var logs = JSON.parse(localStorage.getItem(nameItemStorage));
+                var logStatus = "Success;" + timeOut + " seg" +
+                    ";200" +
+                    ";OK" +
+                    ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
+                    ";" + platform.description;
+                logs.push(logStatus);
+                localStorage.removeItem(nameItemStorage);
+                SendLogPingServer(logs);
+            }
+        },
+        error: function (xhr) {
+            var logStatus = "Error;" + timeOut + " seg" +
+                ";" + xhr.status +
+                ";" + xhr.statusText +
+                ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
+                ";" + platform.description;
+
+            var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
+            logs.push(logStatus);
+            localStorage.setItem(nameItemStorage, JSON.stringify(logs));
+
+        }
+    });
+}
+setInterval(pingServer, 5000);
+
+function SendLogPingServer(logs) {
+    $.ajax({
+        url: (location.origin + "/SaveLogFromClient"),
+        type: 'POST',
+        data: { logs: logs },
+        error: function (xhr) {
+            setTimeout(() => { SendLogPingServer(logs); }, 5000);
+        }
+    });
+}
+/******************************************************************/

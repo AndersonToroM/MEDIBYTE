@@ -19,6 +19,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Text;
+using System.IO;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -30,8 +31,6 @@ namespace Blazor.WebApp.Controllers
             Configuration = config;
         }
 
-        //[HttpGet("/{NameConexion}")]
-        //[HttpGet("/empresa/{NameConexion}")]
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -62,7 +61,7 @@ namespace Blazor.WebApp.Controllers
 
                 ViewBag.VersionApp = DApp.InfoApp.VersionApp;
                 ViewBag.ParcheApp = DApp.InfoApp.ParcheApp;
-                
+
                 return View(model);
             }
         }
@@ -183,6 +182,47 @@ namespace Blazor.WebApp.Controllers
 
             await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("~/");
+        }
+
+        [HttpGet("/GetResponseFromServer")]
+        [AllowAnonymous]
+        public IActionResult GetResponseFromServer()
+        {
+            return Ok();
+        }
+
+        [HttpPost("/SaveLogFromClient")]
+        [AllowAnonymous]
+        public IActionResult SaveLogFromClient(List<string> logs)
+        {
+            try
+            {
+                string title = "Net;TimeoutLimit;Code;StatusText;Date;Time;Platform" + Environment.NewLine;
+                if (!Directory.Exists(Program.DirectoryLog))
+                    Directory.CreateDirectory(Program.DirectoryLog);
+                string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.LogFromClient.csv");
+                if (System.IO.File.Exists(pathFile))
+                {
+                    FileInfo fi = new FileInfo(pathFile);
+                    if (fi.Length >= 1000000) // 1 megas
+                    {
+                        string newPathfile = pathFile.Replace(".csv", $"_{DateTime.Now:yyyyMMddHHmmss}.csv");
+                        System.IO.File.Move(pathFile, newPathfile);
+                        System.IO.File.AppendAllText(pathFile, title);
+                    }
+                }
+                else
+                {
+                    System.IO.File.AppendAllText(pathFile, title);
+                }
+                System.IO.File.AppendAllLines(pathFile, logs);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
         }
     }
 }
