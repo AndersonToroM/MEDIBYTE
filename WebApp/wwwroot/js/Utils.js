@@ -182,7 +182,6 @@ function PingFromServerLog() {
         type: 'GET',
         timeout: (timeOut * 1000),
         success: function () {
-            console.log("success");
             var itemStorage = localStorage.getItem(nameItemStorage);
             if (itemStorage != null) {
                 var logs = JSON.parse(localStorage.getItem(nameItemStorage));
@@ -219,15 +218,13 @@ setInterval(PingFromServerLog, 5000);
 
 function PingServersIfError() {
 
-    var servers = ["https://api.agify.io/?name=siiso", "https://api.zippopotam.us/us/33162", "https://datausa.io/api/data?measures=Population&year=latest"];
-    servers.forEach(server => console.log(server));
+    var servers = ["https://api.agify.io/?name=siiso", "https://api.zippopotam.us/us/33162", "https://www.datos.gov.co/resource/xdk5-pm3f.json/?municipio=Cali"];
     servers.forEach(server => {
         $.ajax({
             url: (server),
             type: 'GET',
             timeout: (timeOut * 1000),
             success: function () {
-                console.log("success PingServersIfError");
                 var logStatus = "Success" +
                     ";" + server +
                     ";" + timeOut + " seg" +
