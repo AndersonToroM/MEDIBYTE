@@ -5,6 +5,7 @@ using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
+using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -459,6 +460,22 @@ namespace Blazor.WebApp.Controllers
                 fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
                 byte[] book = Manager().ProgramacionCitasBusinessLogic().DescargarXLSX0256(sedeId, fechaDesde, fechaHasta);
                 return File(book, "application/octet-stream", $"R-0256_{sedeId}_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult EnviarCorreoCitaProgramada(long citaId)
+        {
+            try
+            {
+                if (citaId <= 0)
+                    throw new Exception("Error enviando cita al servidor.");
+                Manager().ProgramacionCitasBusinessLogic().EnviarCorreoCitaProgramada(citaId, DApp.GetFullDomain(HttpContext));
+                return Ok();
             }
             catch (Exception e)
             {

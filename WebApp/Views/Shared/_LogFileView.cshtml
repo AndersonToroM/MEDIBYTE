@@ -3,26 +3,52 @@
 @using DevExtreme.AspNet.Mvc
 @using Dominus.Backend.Application
 @using Dominus.Frontend.Mvc
-@model LogFilesModel
 @{ 
     string Prefix = "LogFiles";
 
     var DataGridConfig = new DataGridConfiguration<ArchivoDescargaModel>(Prefix)
         .Exports(false,false)
         .ToolbarTop(DApp.DefaultLanguage.GetResource("LogFiles"), "mainPanel");
-} 
+}
+
+<script>
+    function @(Prefix)DeleteLogFile(fileName)
+    {
+        console.log(fileName);
+        showLoadIndicator();
+        $.ajax({
+            url: '@Url.Action("DeleteLogFile", "Home")',
+            data: { fileName: fileName},
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+                $("#LogFilesDataGrid").dxDataGrid("instance").refresh();
+                DevExpress.ui.notify("Archivo eliminado satisfactoriamente.", "info");
+            },
+            error: function (xhr) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error: " + xhr.status + " | " + xhr.statusText, "error", 10000);
+            }
+        });
+    }
+</script>
 
 <div class="box-body table-responsive no-padding"> 
 @(Html.DControls().DataGridSimple<ArchivoDescargaModel>(DataGridConfig)
     .ID("LogFilesDataGrid")
-    .DataSource(Model.LogsFiles)
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Home").LoadAction("GetFilesLog").Key("Nombre"))
+    .RemoteOperations(false)
     .Columns(columns =>
     {
         columns.AddFor(m => m.Nombre);
         columns.AddFor(m => m.Extension);
         columns.Add().Width("50").Caption("").Alignment(HorizontalAlignment.Center).CellTemplate(
             @<text>
-            <a href="/Home/DonwloadLogFile?fileName=<%- data.Nombre %>" target="_blank"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+            <a href="/Home/DownloadLogFile?fileName=<%- data.Nombre %>" target="_blank"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+            </text>);
+        columns.Add().Width("50").Caption("").Alignment(HorizontalAlignment.Center).CellTemplate(
+            @<text>
+            <a href="javascript:void(0);" onclick="@(Prefix)DeleteLogFile('<%- data.Nombre %>')"><i class="fa fa-trash" aria-hidden="true"></i></a>
             </text>);
     })
 ) 
