@@ -4,10 +4,10 @@ using DevExpress.XtraPrinting.Drawing;
 using Dominus.Backend.DataBase;
 using System;
 using System.Drawing;
-using System.IO;
 
 namespace Blazor.WebApp.Models
 {
+
     public class DicomViewerModel
     {
         public bool EsDesdeDisco { get; set; } = false;

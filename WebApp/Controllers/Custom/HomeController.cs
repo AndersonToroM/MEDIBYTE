@@ -13,6 +13,8 @@ using System.Linq;
 using Blazor.WebApp.Models;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using Blazor.BusinessLogic.Models;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -85,5 +87,43 @@ namespace Blazor.WebApp.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult LogFileView()
+        {
+            LogFilesModel logFileModel = new LogFilesModel();
+            if (Directory.Exists(Program.DirectoryLog))
+            {
+                DirectoryInfo dirLog = new DirectoryInfo(Program.DirectoryLog);
+                dirLog.GetFiles().ToList().ForEach(x =>
+                {
+                    logFileModel.LogsFiles.Add(new ArchivoDescargaModel
+                    {
+                        Nombre = x.Name,
+                        Extension = x.Extension
+                    });
+                });
+            }
+            return View("_LogFileView", logFileModel);
+        }
+
+        [HttpGet]
+        public IActionResult DonwloadLogFile(string fileName)
+        {
+            try
+            {
+                string pathFile = Path.Combine(Program.DirectoryLog, fileName);
+                if (System.IO.File.Exists(pathFile))
+                {
+                    FileInfo file = new FileInfo(pathFile);
+                    return File(System.IO.File.ReadAllBytes(pathFile), ArchivoDescargaModel.ObtenerContentTypePorExtension(file.Extension), $"{DateTime.Now:yyyyMMddHHmm}_{fileName}");
+                }
+                else throw new Exception($"Archivo {fileName} no encontrado");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+            }
+
+        }
     }
 }

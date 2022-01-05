@@ -197,10 +197,10 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                string title = "Net;Server;TimeoutLimit;Code;StatusText;Date;Time;Platform" + Environment.NewLine;
+                string title = "Net;Server;Tiempo de espera;Codigo;Estado;Fecha;Hora;Plataforma" + Environment.NewLine;
                 if (!Directory.Exists(Program.DirectoryLog))
                     Directory.CreateDirectory(Program.DirectoryLog);
-                string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.LogFromClient.csv");
+                string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.LogPingDesdeCliente.csv");
                 if (System.IO.File.Exists(pathFile))
                 {
                     FileInfo fi = new FileInfo(pathFile);
