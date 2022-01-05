@@ -45,7 +45,8 @@ namespace Blazor.WebApp.Controllers
         {
             var result = Manager().GetBusinessLogic<AdmisionesServiciosPrestados>().Tabla(true)
                 .Include(x => x.Admisiones.Pacientes)
-                .Where(x => !x.LecturaRealizada && x.Servicios.RequiereLecturaResultados);
+                .Where(x => !x.LecturaRealizada && x.Servicios.RequiereLecturaResultados)
+                .Where(x => x.Admisiones.EstadosId == 62);
 
             return DataSourceLoader.Load(result, loadOptions);
         }

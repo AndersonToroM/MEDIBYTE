@@ -300,8 +300,16 @@
     "Description": "Correcciones de auditoria"
   },
   {
+    "Id": "AdmisionesServiciosPrestado.AdmisionesId",
+    "Description": "Nro. Admisión"
+  },
+  {
     "Id": "AdmisionesServiciosPrestados",
     "Description": "Admisiones Servicios Prestados"
+  },
+  {
+    "Id": "AdmisionesServiciosPrestados.AdmisionesId",
+    "Description": "Nro. Admisión"
   },
   {
     "Id": "AdmisionesServiciosPrestados.ArchivosResultados",
@@ -570,6 +578,10 @@
   {
     "Id": "AtencionesLectura",
     "Description": "Lectura de resultados"
+  },
+  {
+    "Id": "AtencionesLectura.AdmisionesId",
+    "Description": "Nro. Admisión"
   },
   {
     "Id": "AtencionesLectura.Fecha",
