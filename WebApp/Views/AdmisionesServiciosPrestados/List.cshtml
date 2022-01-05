@@ -20,6 +20,7 @@
         columns.AddFor(m => m.Admisiones.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AdmisionesServiciosPrestados.Paciente")); 
         columns.AddFor(m => m.Servicios.Nombre).Caption(DApp.DefaultLanguage.GetResource("AdmisionesServiciosPrestados.Servicio"));
         columns.AddFor(m => m.Atenciones.FechaAtencion).Caption(DApp.DefaultLanguage.GetResource("AdmisionesServiciosPrestados.Fecha"));
+        columns.AddFor(m => m.Admisiones.Id).Caption(DApp.DefaultLanguage.GetResource("AdmisionesServiciosPrestados.AdmisionesId"));
     }) 
 ) 
 </div> 
