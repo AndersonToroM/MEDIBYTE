@@ -338,6 +338,7 @@
     <script>
             DevExpress.localization.locale('@(DApp.DefaultLanguage.Culture)');
             dataMenuModules = JSON.parse('@Html.Raw(Json.Serialize(menu))');
+            SiisoRunGeoLocalizacion();
 
             $(function () {
                 $.ajax({
