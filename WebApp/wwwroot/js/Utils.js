@@ -258,6 +258,7 @@ function PingServersIfError() {
         $.ajax({
             url: (server),
             type: 'GET',
+            cache: false,
             timeout: (SiisoPingTimeOut * 1000),
             complete: function (xhr) {
                 if (xhr.status == 0) {
