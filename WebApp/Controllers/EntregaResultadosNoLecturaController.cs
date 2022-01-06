@@ -304,7 +304,7 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetResultados(DataSourceLoadOptions loadOptions)
         {
             var result = Manager().GetBusinessLogic<AdmisionesServiciosPrestados>().Tabla(true)
-                .Where(x => x.Atenciones.EstadosId == 10076)
+                .Where(x => x.Atenciones.EstadosId == 10076 && x.Servicios.RequiereLecturaResultados)
                 .Include(x => x.Admisiones.Pacientes);
             return DataSourceLoader.Load(result, loadOptions);
         }
