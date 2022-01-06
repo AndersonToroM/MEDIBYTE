@@ -23,6 +23,44 @@ namespace Blazor.BusinessLogic
         {
         }
 
+        public void EnviarCorreoCitaProgramada(long citaId,string server)
+        {
+            var cita = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
+                .Include(x => x.Empresas)
+                .Include(x => x.Empresas.LogoArchivos)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Empleados)
+                .Include(x => x.Servicios)
+                .FirstOrDefault(x => x.Id == citaId);
+
+            if (!DApp.Util.EsEmailValido(cita.Pacientes.CorreoElectronico))
+                throw new Exception("El paciente no tiene un correo electronico valido.");
+
+            EmailModelConfig envioEmailConfig = new EmailModelConfig();
+            envioEmailConfig.Origen = "POR DEFECTO";
+            envioEmailConfig.MetodoUso = "Programacion de citas";
+            envioEmailConfig.Asunto = $"Programacion de nueva cita en {cita.Empresas.RazonSocial}";
+            envioEmailConfig.Template = "EmailProgramacionCita";
+            envioEmailConfig.Destinatarios.Add(cita.Pacientes.CorreoElectronico);
+            envioEmailConfig.Datos = new Dictionary<string, string>
+                {
+                    {"server",$"{server}" },
+                    {"nombreEmpresa",$"{cita.Empresas.RazonSocial}" },
+                    {"paginaWebEmpresa",$"{(string.IsNullOrWhiteSpace(cita.Empresas.PaginaWeb) ? "#":cita.Empresas.PaginaWeb)}" },
+                    {"paciente",$"{cita.Pacientes.NombreCompleto}" },
+                    {"medico",$"{(cita.Empleados != null ? cita.Empleados.NombreCompleto : "Técnico Especializado")}" },
+                    {"servicio",$"{cita.Servicios.Nombre}" },
+                    {"sede",$"{cita.Sedes.Nombre}" },
+                    {"direccion",$"{cita.Sedes.Direccion}" },
+                    {"telefono",$"{cita.Empresas.Telefono} - {cita.Empresas.Celular}" },
+                    {"fecha",$"{cita.FechaInicio:D}" },
+                    {"hora",$"{cita.FechaInicio:t}" },
+                    {"consecutivo",$"{cita.Consecutivo}" },
+                    {"preparacion",$"{cita.Servicios.Preparacion}" },
+                };
+            new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
+        }
+
         public byte[] DescargarXLSX0256(long sedeId, DateTime fechaDesde, DateTime fechaHasta)
         {
             try
@@ -91,7 +129,7 @@ namespace Blazor.BusinessLogic
                           select programacionAgenda.Id
             ).Count();
 
-                return (result > 0);
+            return (result > 0);
         }
 
         public SchedulerModel ObtenerSchedulerAgendaDisponible(long servicioId, long consultorioId, long? empleadoId, long estadosIdTipoDuracion, long duracion, DateTime? fechaScheduler)
@@ -182,7 +220,7 @@ namespace Blazor.BusinessLogic
                           where fechaInicio >= programacionAgenda.FechaInicio && fechaInicio <= programacionAgenda.FechaFinal
                           select programacionAgenda).ToList();
                 citaCruce = unitOfWork.Repository<ProgramacionCitas>().GetTable(true)
-                    .Where(x=> x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId)
+                    .Where(x => x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId)
                     && ((x.FechaInicio >= fechaInicio && x.FechaInicio < fechaFinal)
                         || (x.FechaFinal > fechaInicio && x.FechaFinal < fechaFinal)
                         || (fechaInicio >= x.FechaInicio && fechaInicio < x.FechaFinal)

@@ -13,6 +13,8 @@ using System.Linq;
 using Blazor.WebApp.Models;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using Blazor.BusinessLogic.Models;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -85,5 +87,67 @@ namespace Blazor.WebApp.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult LogFileView()
+        {
+            return View("_LogFileView");
+        }
+
+        [HttpPost]
+        public IActionResult GetFilesLog()
+        {
+            List<ArchivoDescargaModel> logsFiles = new List<ArchivoDescargaModel>();
+            if (Directory.Exists(Program.DirectoryLog))
+            {                
+                DirectoryInfo dirLog = new DirectoryInfo(Program.DirectoryLog);
+                dirLog.GetFiles().ToList().ForEach(x =>
+                {
+                    logsFiles.Add(new ArchivoDescargaModel
+                    {
+                        Nombre = x.Name,
+                        Extension = x.Extension
+                    });
+                });
+            }
+            return new OkObjectResult(logsFiles);
+        }
+
+        [HttpGet]
+        public IActionResult DownloadLogFile(string fileName)
+        {
+            try
+            {
+                string pathFile = Path.Combine(Program.DirectoryLog, fileName);
+                if (System.IO.File.Exists(pathFile))
+                {
+                    FileInfo file = new FileInfo(pathFile);
+                    return File(System.IO.File.ReadAllBytes(pathFile), DApp.Util.ObtenerContentTypePorExtension(file.Extension), $"{DateTime.Now:yyyyMMddHHmm}_{fileName}");
+                }
+                else throw new Exception($"Archivo {fileName} no encontrado");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult DeleteLogFile(string fileName)
+        {
+            try
+            {
+                string pathFile = Path.Combine(Program.DirectoryLog, fileName);
+                if (System.IO.File.Exists(pathFile))
+                {
+                    System.IO.File.Delete(pathFile);
+                    return Ok();
+                }
+                else throw new Exception($"Archivo {fileName} no encontrado");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+            }
+        }
     }
 }

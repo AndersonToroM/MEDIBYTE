@@ -3032,6 +3032,10 @@
     "Description": "Valor"
   },
   {
+    "Id": "LogFiles",
+    "Description": "Archivos de log"
+  },
+  {
     "Id": "Medicamentos.ConcentracionesId",
     "Description": "Concentración"
   },
@@ -3930,6 +3934,10 @@
   {
     "Id": "ProgramacionCitas.EntidadesId",
     "Description": "Entidad"
+  },
+  {
+    "Id": "ProgramacionCitas.EnviarCorreoCitaProgramada",
+    "Description": "Enviar Correo"
   },
   {
     "Id": "ProgramacionCitas.EspecialidadesId",

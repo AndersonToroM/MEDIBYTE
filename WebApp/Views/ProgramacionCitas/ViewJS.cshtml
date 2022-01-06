@@ -8,6 +8,23 @@
     var CitaNueva = ("@Model.Entity.IsNew" == "True");
     var EsReprogramacionCita = false;
 
+    function @(Prefix)EnviarCorreoCitaProgramada() {
+        showLoadIndicator();
+        $.ajax({
+            url: '@Url.Action("EnviarCorreoCitaProgramada", "ProgramacionCitas")',
+            data: { citaId : @(Model.Entity.Id) },
+            type: 'GET',
+            success: function () {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Envio de correo satisfactorio.", "info");
+            },
+            error: function (xhr) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error: " + xhr.responseText, "error");
+            }
+        });
+    }
+
     if (!CitaNueva) {
         $('#LinkTabProgramacionCita').click();
     }

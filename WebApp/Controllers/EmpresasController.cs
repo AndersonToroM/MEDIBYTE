@@ -39,28 +39,15 @@ namespace Blazor.WebApp.Controllers
 
         public IActionResult List()
         {
-            return View("List");
+            var empresa = Manager().GetBusinessLogic<Empresas>().Tabla().FirstOrDefault();
+            return View("Edit", EditModel(empresa.Id));
         }
 
         public IActionResult ListPartial()
         {
-            return PartialView("List");
+            var empresa = Manager().GetBusinessLogic<Empresas>().Tabla().FirstOrDefault();
+            return PartialView("Edit", EditModel(empresa.Id));
         }
-
-        [HttpGet]
-        public IActionResult New()
-        {
-            return PartialView("Edit", NewModel());
-        }
-
-        private EmpresasModel NewModel() 
-        { 
-            EmpresasModel model = new EmpresasModel();
-            model.Entity.IsNew = true;
-            model.Entity.TiposPersonasId = 2;
-
-            return model; 
-        } 
 
         [HttpGet]
         public IActionResult Edit(long Id)
@@ -137,32 +124,6 @@ namespace Blazor.WebApp.Controllers
             }
             return model; 
         } 
-
-        [HttpPost]
-        public IActionResult Delete(EmpresasModel model)
-        {
-            return PartialView("Edit", DeleteModel(model));
-        }
-
-        private EmpresasModel DeleteModel(EmpresasModel model)
-        { 
-            ViewBag.Accion = "Delete"; 
-            EmpresasModel newModel = NewModel(); 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<Empresas>().Remove(model.Entity); 
-                    return newModel;
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
-                } 
-            } 
-            return model; 
-        }
 
         #endregion
 

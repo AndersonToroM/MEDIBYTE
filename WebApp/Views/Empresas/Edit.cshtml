@@ -9,10 +9,10 @@
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("Empresas"))
-        .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew)
-        //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
+        .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew);
+    //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
-        .Back(UrlBack);
+        //.Back(UrlBack);
 
     Model.Entity.LogoArchivos.Maestro = Prefix;
     Model.Entity.LogoArchivos.NombreCampoForanea = "LogoArchivos";

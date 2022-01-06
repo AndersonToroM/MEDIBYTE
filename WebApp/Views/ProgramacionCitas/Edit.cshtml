@@ -31,8 +31,17 @@
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "clear"
+            },
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}EnviarCorreoCitaProgramada",
+                Text = @DApp.DefaultLanguage.GetResource("ProgramacionCitas.EnviarCorreoCitaProgramada"),
+                Disabled = Model.Entity.IsNew || (Model.Entity.EstadosId != 3),
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "email"
             }
-                                        })
+        })
         .Back(UrlBack);
 
 }

@@ -68,7 +68,6 @@
                 DevExpress.ui.notify("Envio de correo satisfactorio.", "info");
             },
             error: function (xhr) {
-                console.log(xhr);
                 hideLoadIndicator();
                 DevExpress.ui.notify("Error: " + xhr.responseText + " Verificar log de correo.", "error");
             }

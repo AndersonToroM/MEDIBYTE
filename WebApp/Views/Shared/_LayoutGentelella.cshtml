@@ -30,7 +30,8 @@
     <script src="~/lib/popper/popper.js"></script>
     <script src="~/Themes/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <link href="~/Themes/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    @*ICONS: https://fontawesome.com/v4.7/icons/*@
+    <link href="~/Themes/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet"> 
     <link href="~/Themes/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
 
     <link href="~/lib/devexpress/analytics-core/dist/css/dx-analytics.common.css" rel="stylesheet" />
@@ -223,7 +224,11 @@
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li> <a class="dropdown-item" href="/Languages/List" target="_blank"><i class="fa fa-language pull-right"></i>Recursos</a></li>
+                                    @if (appstate.Usuario.UserName.Equals("SUPERCEO",StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        <li> <a class="dropdown-item" href="/Languages/List" target="_blank"><i class="fa fa-language pull-right"></i>Recursos</a></li>
+                                        <li> <a class="dropdown-item" href="/Home/LogFileView" target="_blank"><i class="fa fa-file-archive-o pull-right"></i>Logs</a></li>
+                                    }
                                     <li> <a class="dropdown-item" href="@Url.Action("LogOff", "Login")"><i class="fa fa-sign-out pull-right"></i>Salir</a></li>
                                 </ul>
                             </li>
