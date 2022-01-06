@@ -193,19 +193,19 @@ function SiisoSetErrorGeoLocalizacion(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
             SiisoGeoLocalizacion.MensajeError = ("El usuario denego el permiso de ubicacion.");
-            alert("El usuario denego el permiso de ubicacion.");
+            alert("El usuario denego el permiso de ubicacion. Por favor hablitarlo para el correcto funcionamiento del aplicativo.");
             break;
         case error.POSITION_UNAVAILABLE:
             SiisoGeoLocalizacion.MensajeError = ("La información de ubicación no está disponible.");
-            alert("La información de ubicación no está disponible.");
+            console.log("La información de ubicación no está disponible.");
             break;
         case error.TIMEOUT:
             SiisoGeoLocalizacion.MensajeError = ("Se agotó el tiempo de espera de la solicitud para obtener la ubicación del usuario.");
-            alert("Se agotó el tiempo de espera de la solicitud para obtener la ubicación del usuario.");
+            console.log("Se agotó el tiempo de espera de la solicitud para obtener la ubicación del usuario.");
             break;
         case error.UNKNOWN_ERROR:
             SiisoGeoLocalizacion.MensajeError = ("Un error desconocido ocurrió al obtener la ubicación.");
-            alert("Un error desconocido ocurrió al obtener la ubicación.");
+            console.log("Un error desconocido ocurrió al obtener la ubicación.");
             break;
     }
 }
