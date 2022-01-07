@@ -73,6 +73,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Pacientes.Generos)
                     .Include(x => x.Pacientes.TiposIdentificacion)
                     .Include(x => x.Sedes)
+                    .Include(x => x.Entidades)
                     .Where(x => x.EstadosId == 6 && x.FechaInicio.Date >= fechaDesde && x.FechaInicio.Date <= fechaHasta && x.SedesId == sedeId)
                     .OrderBy(x => x.FechaInicio).ToList();
 
@@ -89,6 +90,7 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue("FECHA DE LA SOLICITUD DE LA CITA"); column++;
                 worksheet.Rows[0][column].SetValue("FECHA DE LA CITA"); column++;
                 worksheet.Rows[0][column].SetValue("SEDE"); column++;
+                worksheet.Rows[0][column].SetValue("ENTIDAD"); column++;
 
                 for (int row = 0; row < data.Count; row++)
                 {
@@ -104,6 +106,7 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row + 1][column].SetValue(data[row].CreationDate.Date); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].FechaInicio.Date); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Sedes.Nombre); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Entidades.Nombre); column++;
 
                 }
                 worksheet.Columns.AutoFit(0, column);
