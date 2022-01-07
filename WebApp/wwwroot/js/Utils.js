@@ -221,36 +221,14 @@ function SiisoGetMensajeGeoLocalizacion() {
 /* Funcion para verificar respuesta con el server cada 5 segundos */
 var SiisoPingStorage = "SiisoPingLog";
 var SiisoPingTimeOut = 1;
-function PingFromServerLog() {
-    $.ajax({
-        url: (location.origin + "/GetResponseFromServer"),
-        type: 'GET',
-        timeout: (SiisoPingTimeOut * 1000),
-        complete: function (xhr) {
-            if (xhr.status == 0) {
-                var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
-                logs.push(GetLogStatusMessage(xhr, location.origin));
-                localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
-                PingServersIfError();
-            } else {
-                var itemStorage = localStorage.getItem(SiisoPingStorage);
-                if (itemStorage != null) {
-                    var logs = JSON.parse(localStorage.getItem(SiisoPingStorage));
-                    logs.push(GetLogStatusMessage(xhr, location.origin));
-                    localStorage.removeItem(SiisoPingStorage);
-                    SendLogPingServer(logs);
-                }
-            }
-        }
-    });
-}
 
-function PingServersIfError() {
+function PingServersIfErrorTimeOut() {
 
     var servers = [
+        (location.origin + "/GetResponseFromServer"),
         "https://api.coindesk.com/v1/bpi/currentprice.json",
         "https://api.zippopotam.us/us/33162",
-        "https://datausa.io/api/data?measures=Population&Year=2020",
+        "https://api.ipify.org/?format=json",
         "https://goweather.herokuapp.com/weather/colombia",
         "https://www.datos.gov.co/resource/xdk5-pm3f.json/?municipio=Cali"
     ];
@@ -261,22 +239,21 @@ function PingServersIfError() {
             cache: false,
             timeout: (SiisoPingTimeOut * 1000),
             complete: function (xhr) {
+                var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
                 if (xhr.status == 0) {
-                    var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
-                    logs.push(GetLogStatusMessage(xhr,server));
+                    logs.push(GetLogStatusMessage(xhr, server));
                     localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
                 }
                 else {
-                    var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
-                    logs.push(GetLogStatusMessage(xhr, server));
-                    localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
+                    if (logs.length >= 50)
+                        SendLogPingServer(logs);
                 }
             }
         });
     });
 }
 
-function GetLogStatusMessage(xhr,uri) {
+function GetLogStatusMessage(xhr, uri) {
     var net = "OK";
     if (xhr.status == 0)
         net = "BAD"
@@ -289,7 +266,7 @@ function GetLogStatusMessage(xhr,uri) {
         ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
         ";" + platform.description +
         ";" + SiisoGetMensajeGeoLocalizacion();
-    
+
 }
 
 function SendLogPingServer(logs) {
@@ -297,13 +274,16 @@ function SendLogPingServer(logs) {
         url: (location.origin + "/SaveLogFromClient"),
         type: 'POST',
         data: { logs: logs },
+        success: function () {
+            localStorage.removeItem(SiisoPingStorage);
+        },
         error: function (xhr) {
             setTimeout(() => { SendLogPingServer(logs); }, 2000);
         }
     });
 }
 
-setInterval(PingFromServerLog, 5000);
+setInterval(PingServersIfErrorTimeOut, 5000);
 /******************************************************************/
 
 

@@ -86,7 +86,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.Admisiones.Pacientes.NumeroIdentificacion).ColSpan(3)
                                  .Label(x => x.Text(DApp.GetResource("Atenciones.NumeroIdentificacion")))
-                                      .Editor(e => e.NumberBox().ID(Prefix + "NumeroIdentificacion").ReadOnly(true)
+                                      .Editor(e => e.TextBox().ID(Prefix + "NumeroIdentificacion").ReadOnly(true)
                                  );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Admisiones.Pacientes.NombreCompleto).ColSpan(3)
