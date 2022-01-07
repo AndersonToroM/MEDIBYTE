@@ -100,7 +100,7 @@ namespace Blazor.WebApp.Controllers
             if (Directory.Exists(Program.DirectoryLog))
             {                
                 DirectoryInfo dirLog = new DirectoryInfo(Program.DirectoryLog);
-                dirLog.GetFiles().ToList().ForEach(x =>
+                dirLog.GetFiles().Where(x=>x.Name.StartsWith(Request.Host.Host,StringComparison.OrdinalIgnoreCase)).ToList().ForEach(x =>
                 {
                     logsFiles.Add(new ArchivoDescargaModel
                     {

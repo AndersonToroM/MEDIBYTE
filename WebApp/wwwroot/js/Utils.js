@@ -173,84 +173,123 @@ function AgregarDiasAFecha(fecha, nroDias) {
     return result;
 }
 
+
+/* Para localizacion geografica se obtiene coordenadas*/
+var SiisoGeoLocalizacion = { Coordenadas: "0,0", Error: false, MensajeError: "" };
+function SiisoRunGeoLocalizacion() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(SiisoSetGeoLocalizacion, SiisoSetErrorGeoLocalizacion);
+    } else {
+        alert("La Geolocalización no es soportada por este navegador (" + platform.description + "). Por favor use otro navegador para el correcto funcionamiento del aplicativo.");
+    }
+}
+
+function SiisoSetGeoLocalizacion(position) {
+    SiisoGeoLocalizacion.Coordenadas = position.coords.latitude + "," + position.coords.longitude;
+}
+
+function SiisoSetErrorGeoLocalizacion(error) {
+    SiisoGeoLocalizacion.Error = true;
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            SiisoGeoLocalizacion.MensajeError = ("El usuario denego el permiso de ubicacion.");
+            alert("El usuario denego el permiso de ubicacion. Por favor hablitarlo para el correcto funcionamiento del aplicativo.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            SiisoGeoLocalizacion.MensajeError = ("La información de ubicación no está disponible.");
+            console.log("La información de ubicación no está disponible.");
+            break;
+        case error.TIMEOUT:
+            SiisoGeoLocalizacion.MensajeError = ("Se agotó el tiempo de espera de la solicitud para obtener la ubicación del usuario.");
+            console.log("Se agotó el tiempo de espera de la solicitud para obtener la ubicación del usuario.");
+            break;
+        case error.UNKNOWN_ERROR:
+            SiisoGeoLocalizacion.MensajeError = ("Un error desconocido ocurrió al obtener la ubicación.");
+            console.log("Un error desconocido ocurrió al obtener la ubicación.");
+            break;
+    }
+}
+
+function SiisoGetMensajeGeoLocalizacion() {
+    if (SiisoGeoLocalizacion.Error)
+        return SiisoGeoLocalizacion.MensajeError;
+    else
+        return "https://www.google.com/maps/search/?api=1&query=" + SiisoGeoLocalizacion.Coordenadas;
+}
+/**********************************************************************************/
+
 /* Funcion para verificar respuesta con el server cada 5 segundos */
-var nameItemStorage = "SiisoLogNet";
-var timeOut = 1;
+var SiisoPingStorage = "SiisoPingLog";
+var SiisoPingTimeOut = 1;
 function PingFromServerLog() {
     $.ajax({
         url: (location.origin + "/GetResponseFromServer"),
         type: 'GET',
-        timeout: (timeOut * 1000),
-        success: function () {
-            var itemStorage = localStorage.getItem(nameItemStorage);
-            if (itemStorage != null) {
-                var logs = JSON.parse(localStorage.getItem(nameItemStorage));
-                var logStatus = "Success" +
-                    ";" + location.origin +
-                    ";" + timeOut + " seg" +
-                    ";200" +
-                    ";OK" +
-                    ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
-                    ";" + platform.description;
-                logs.push(logStatus);
-                localStorage.removeItem(nameItemStorage);
-                setTimeout(() => { SendLogPingServer(logs); }, 5000);
+        timeout: (SiisoPingTimeOut * 1000),
+        complete: function (xhr) {
+            if (xhr.status == 0) {
+                var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
+                logs.push(GetLogStatusMessage(xhr, location.origin));
+                localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
+                PingServersIfError();
+            } else {
+                var itemStorage = localStorage.getItem(SiisoPingStorage);
+                if (itemStorage != null) {
+                    var logs = JSON.parse(localStorage.getItem(SiisoPingStorage));
+                    logs.push(GetLogStatusMessage(xhr, location.origin));
+                    localStorage.removeItem(SiisoPingStorage);
+                    SendLogPingServer(logs);
+                }
             }
-        },
-        error: function (xhr) {
-            var logStatus = "Error" +
-                ";" + location.origin +
-                ";" + timeOut + " seg" +
-                ";" + xhr.status +
-                ";" + xhr.statusText +
-                ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
-                ";" + platform.description;
-
-            var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
-            logs.push(logStatus);
-            localStorage.setItem(nameItemStorage, JSON.stringify(logs));
-            PingServersIfError();
-
         }
     });
 }
-setInterval(PingFromServerLog, 5000);
 
 function PingServersIfError() {
 
-    var servers = ["https://api.agify.io/?name=siiso", "https://api.zippopotam.us/us/33162", "https://www.datos.gov.co/resource/xdk5-pm3f.json/?municipio=Cali"];
+    var servers = [
+        "https://api.coindesk.com/v1/bpi/currentprice.json",
+        "https://api.zippopotam.us/us/33162",
+        "https://datausa.io/api/data?measures=Population&Year=2020",
+        "https://goweather.herokuapp.com/weather/colombia",
+        "https://www.datos.gov.co/resource/xdk5-pm3f.json/?municipio=Cali"
+    ];
     servers.forEach(server => {
         $.ajax({
             url: (server),
             type: 'GET',
-            timeout: (timeOut * 1000),
-            success: function () {
-                var logStatus = "Success" +
-                    ";" + server +
-                    ";" + timeOut + " seg" +
-                    ";200" +
-                    ";OK" +
-                    ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
-                    ";" + platform.description;
-                var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
-                logs.push(logStatus);
-                localStorage.setItem(nameItemStorage, JSON.stringify(logs));
-            },
-            error: function (xhr) {
-                var logStatus = "Error" +
-                    ";" + server +
-                    ";" + timeOut + " seg" +
-                    ";" + xhr.status +
-                    ";" + xhr.statusText +
-                    ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
-                    ";" + platform.description;
-                var logs = JSON.parse(localStorage.getItem(nameItemStorage) || "[]");
-                logs.push(logStatus);
-                localStorage.setItem(nameItemStorage, JSON.stringify(logs));
-
+            cache: false,
+            timeout: (SiisoPingTimeOut * 1000),
+            complete: function (xhr) {
+                if (xhr.status == 0) {
+                    var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
+                    logs.push(GetLogStatusMessage(xhr,server));
+                    localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
+                }
+                else {
+                    var logs = JSON.parse(localStorage.getItem(SiisoPingStorage) || "[]");
+                    logs.push(GetLogStatusMessage(xhr, server));
+                    localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
+                }
             }
         });
     });
+}
+
+function GetLogStatusMessage(xhr,uri) {
+    var net = "OK";
+    if (xhr.status == 0)
+        net = "BAD"
+
+    return net +
+        ";" + uri +
+        ";" + SiisoPingTimeOut + " seg" +
+        ";" + xhr.status +
+        ";" + xhr.statusText +
+        ";" + moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
+        ";" + platform.description +
+        ";" + SiisoGetMensajeGeoLocalizacion();
+    
 }
 
 function SendLogPingServer(logs) {
@@ -259,8 +298,13 @@ function SendLogPingServer(logs) {
         type: 'POST',
         data: { logs: logs },
         error: function (xhr) {
-            setTimeout(() => { SendLogPingServer(logs); }, 5000);
+            setTimeout(() => { SendLogPingServer(logs); }, 2000);
         }
     });
 }
+
+setInterval(PingFromServerLog, 5000);
 /******************************************************************/
+
+
+
