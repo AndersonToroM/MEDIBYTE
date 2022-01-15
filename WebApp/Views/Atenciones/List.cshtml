@@ -103,6 +103,7 @@
             columns.AddFor(m => m.Filiales.Nombre);
             columns.AddFor(m => m.ProgramacionCitas.Sedes.Nombre);
             columns.AddFor(m => m.ProgramacionCitas.Consultorios.Nombre);
+            columns.AddFor(m => m.DetalleAnulacion).Caption(DApp.DefaultLanguage.GetResource("Atenciones.DetalleAnulacion"));
 
         })
     )

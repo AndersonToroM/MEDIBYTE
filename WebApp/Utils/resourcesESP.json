@@ -124,10 +124,6 @@
     "Description": "Descuento Estado"
   },
   {
-    "Id": "Admisiones.DetalleAnulacion",
-    "Description": "Motivo de anulación"
-  },
-  {
     "Id": "Admisiones.DiagnosticosId",
     "Description": "Diagnóstico"
   },
@@ -514,6 +510,10 @@
   {
     "Id": "Atenciones.ConsecutivoCita",
     "Description": "No. Cita"
+  },
+  {
+    "Id": "Atenciones.DetalleAnulacion",
+    "Description": "Motivo de anulación"
   },
   {
     "Id": "Atenciones.EmpleadosId",
