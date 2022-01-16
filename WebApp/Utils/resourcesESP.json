@@ -512,6 +512,10 @@
     "Description": "No. Cita"
   },
   {
+    "Id": "Atenciones.DetalleAnulacion",
+    "Description": "Motivo de anulación"
+  },
+  {
     "Id": "Atenciones.EmpleadosId",
     "Description": "Empleado"
   },
