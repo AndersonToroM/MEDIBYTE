@@ -5,7 +5,9 @@
 
     var toolbarDetailconfig = new ToolbarDetailConfiguration(Prefix).Delete(UrlDelete)
         .Save(!Model.Entity.IsNew)
-        .Cancel(); 
+        .Cancel();
+
+    bool readOnly = !Model.Entity.EsCorrecion && !Model.Entity.IsNew;
 } 
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" /> 
@@ -45,19 +47,22 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetServiciosId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(10))
                                       .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Nombre","Codigo")
-                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(!Model.Entity.IsNew)
+                                      .SearchEnabled(true).ShowClearButton(true)
                                       .OnSelectionChanged(Prefix + "ServiciosIdOnSelectionChanged")
+                                      .ReadOnly(readOnly)
                                  );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Cantidad).ColSpan(2)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.Cantidad")))
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.Cantidad")))
-                                    .Editor(e => e.NumberBox().ID(Prefix + "Cantidad").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(!Model.Entity.IsNew));
+                                    .Editor(e => e.NumberBox().ID(Prefix + "Cantidad").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                    .ReadOnly(readOnly));
 
                                 groupItems.AddSimpleFor(m => m.Entity.ValorServicio).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ValorServicio")))
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.Cantidad")))
-                                    .Editor(e=>e.NumberBox().ID(Prefix + "ValorServicio").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(!Model.Entity.IsNew));
+                                    .Editor(e=>e.NumberBox().ID(Prefix + "ValorServicio").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true)
+                                    .ReadOnly(readOnly));
 
                                 groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(6)
                                   .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("AdmisionesServiciosPrestados.Observaciones", 1024)))
