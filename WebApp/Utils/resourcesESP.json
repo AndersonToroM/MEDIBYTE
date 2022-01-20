@@ -3364,6 +3364,14 @@
     "Description": "Total"
   },
   {
+    "Id": "NotasProcedimientos",
+    "Description": "Notas de procedimientos"
+  },
+  {
+    "Id": "NotasProcedimientos.InformacionAtencion",
+    "Description": "Información de la atención"
+  },
+  {
     "Id": "OrdenesMedicamentos",
     "Description": "Ordenes de Medicamentos"
   },
@@ -3926,6 +3934,10 @@
   {
     "Id": "ProgramacionCitas.DescargarXLSX0256",
     "Description": "Descargar 0256"
+  },
+  {
+    "Id": "ProgramacionCitas.DisponibilidadProfesional",
+    "Description": "Ver Disponibilidad"
   },
   {
     "Id": "ProgramacionCitas.Duracion",

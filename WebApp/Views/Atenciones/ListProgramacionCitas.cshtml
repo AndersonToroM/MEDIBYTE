@@ -10,6 +10,7 @@
 @(Html.DControls().DataGridSimple<ProgramacionCitas>(DataGridConfig)
     .ID("ListaCitasProgramadasDataGrid")
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetListaCitasProgramadas").Key("Id"))
+    .Paging(x=>x.PageSize(12))
     .SearchPanel(x=>x.Visible(false))
     .Columns(columns =>
     {

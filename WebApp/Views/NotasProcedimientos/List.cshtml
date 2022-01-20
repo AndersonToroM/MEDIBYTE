@@ -1,0 +1,90 @@
+﻿@{
+    string Prefix = "NotasProcedimientos";
+    string UrlClick = Url.Action("Edit", "NotasProcedimientos");
+    string UrlReport = Url.Action("ImprimirListNotaProcedimiento", Prefix);
+
+    var DataGridConfig = new DataGridConfiguration<Atenciones>(Prefix)
+        .OnClick(UrlClick, new { Id = "Id" })
+        .AddButtons(new List<ButtonToolbar>()
+        {
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}ImprimirListNotaProcedimiento",
+                Text = @DApp.DefaultLanguage.GetResource("DEFAULT.Imprimir"),
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "pdffile"
+            }
+        })
+        .Exports(true, true).SetStorage()
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("NotasProcedimientos"), "mainPanel");
+}
+
+<script>
+    function @(Prefix)ImprimirListNotaProcedimiento() {
+
+        var itemSelected = $("#NotasProcedimientosDataGrid").dxDataGrid("instance").getSelectedRowKeys();
+
+        if (itemSelected.length <= 0) {
+            DevExpress.ui.notify("Debe seleccionar al menos una atención.", "error");
+            return false;
+        }
+
+        var items = JSON.stringify(itemSelected);
+
+        console.log("itemSelected",itemSelected);
+        console.log("items",items);
+
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlReport",
+            type: 'POST',
+            data: { atencionesId : itemSelected } ,
+            success: function (data) {
+                $("#VisorReporteria").dxPopup("instance").show();
+                $("#ContenidoReporte").html(data);
+                hideLoadIndicator();
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error inesperado " + xhr.statusText, "error");
+            }
+        });
+    }
+</script>
+
+<div class="box-body table-responsive no-padding">
+    @(Html.DControls().DataGridSimple<Atenciones>(DataGridConfig)
+        .ID("NotasProcedimientosDataGrid")
+        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("NotasProcedimientos").LoadAction("Get").Key("Id"))
+        .Columns(columns =>
+        {
+            columns.AddFor(m => m.Admisiones.EsControl);
+            columns.AddFor(m => m.Admisiones.Estados.Nombre);
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.TiposCitas.Nombre).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.TiposCitasId"));
+
+            columns.AddFor(m => m.Admisiones.Pacientes.NombreCompleto);
+
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoCita"));
+            columns.AddFor(m => m.Admisiones.Id).Caption(DApp.DefaultLanguage.GetResource("NotasProcedimientos.ConsecutivoAdmision"));
+
+            columns.AddFor(m => m.CreationDate).AllowSearch(false).Format(DApp.DefaultLanguage.DateFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.AdmisionFecha"));
+            columns.AddFor(m => m.CreationDate).AllowSearch(false).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.AdmisionHora"));
+
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.FechaInicio).AllowSearch(false).Format(DApp.DefaultLanguage.DateFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.CitaFecha")).SortOrder(SortOrder.Desc);
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.FechaInicio).AllowSearch(false).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.CitaHora"));
+
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.Servicios.Nombre);
+            columns.AddFor(m => m.Admisiones.Diagnosticos.Descripcion);
+
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.Entidades.Nombre);
+            columns.AddFor(m => m.Admisiones.Convenios.Nombre);
+            columns.AddFor(m => m.Admisiones.Filiales.Nombre);
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.Sedes.Nombre);
+            columns.AddFor(m => m.Admisiones.ProgramacionCitas.Consultorios.Nombre);
+
+        })
+    )
+</div>
+

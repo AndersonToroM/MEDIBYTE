@@ -92,7 +92,7 @@ namespace Blazor.BusinessLogic
             SchedulerModel schedulerModel = new SchedulerModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             List<long> estados = new List<long> { 3, 4, 5, 6 };
-            schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.EmpleadosId == empleados.Id && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
+            schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.EmpleadosId == empleados.Id && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
             schedulerModel.FechaMinima = DateTime.Now;
             schedulerModel.FechaMaxima = DateTime.Now.AddYears(1);
             return schedulerModel;

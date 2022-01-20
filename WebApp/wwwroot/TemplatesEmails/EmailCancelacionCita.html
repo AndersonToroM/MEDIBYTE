@@ -1,0 +1,85 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Cancelación de cita</title>
+    <style>
+        .tabla {
+            border-collapse: collapse;
+        }
+
+            .tabla tr {
+                border-bottom: 1pt solid black;
+                border-color: #f1f1f1;
+            }
+
+            .tabla td {
+                padding-left: 70px;
+                font-size: 20px;
+            }
+
+        .titulo {
+            background-color: #2A3F54;
+            color: #ffffff;
+            font-size: 30px !important;
+            height: 60px;
+        }
+
+            .titulo a {
+                color: #ffffff;
+            }
+            .titulo a label {
+                cursor: pointer;
+            }
+                .titulo a:hover {
+                    color: #94b8f8;
+                }
+
+        .subtitulo {
+            font-size: 25px !important;
+            font-style: italic;
+            font-weight: bold;
+            height: 55px;
+        }
+
+            .subtitulo label {
+                margin-left: 34px;
+                color: #2A3F54;
+                text-decoration: underline;
+            }
+
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            width: 90%;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <table width="100%" class="tabla">
+            <tr><td class="titulo" width="300px"><label>Cancelación de Cita</label></td><td class="titulo" align="right"><a style="margin-right: 20px;" target="_blank" href="{{paginaWebEmpresa}}"><label>{{nombreEmpresa}}</label></a></td></tr>
+            <tr style="border-bottom:unset !important;"><td colspan="2"><label>Estimad@ <b>{{paciente}}</b>,le informamos que la cita número {{consecutivo}} fue cancelada.</label> </td></tr>
+            <tr style="border-bottom:unset !important;"><td colspan="2"><label>Motivo: <b>{{movito}}</b></label> </td></tr>
+            <tr><td class="subtitulo" colspan="2"><label>Datos de la cita</label></td></tr>
+            <tr><td><label>Profesional:</label></td><td><label><b>{{medico}}</b></label></td></tr>
+            <tr><td><label>Servicio:</label></td><td><label><b>{{servicio}}</b></label></td></tr>
+            <tr><td><label>Sede:</label></td><td><label><b>{{sede}}</b></label></td></tr>
+            <tr><td><label>Dirección:</label></td><td><label><b>{{direccion}}</b></label></td></tr>
+            <tr><td><label>Teléfono:</label></td><td><label><b>{{telefono}}</b></label></td></tr>
+            <tr><td><label>Fecha:</label></td><td><label><b>{{fecha}}</b></label></td></tr>
+            <tr><td><label>Hora:</label></td><td><label><b>{{hora}}</b></label></td></tr>
+        </table>
+    </div>
+    <div class="footer">
+        <table width="100%">
+            <tr>
+                <td align="center">
+                    <a href="http://www.cloudonesoft.com/" target="_blank">
+                        <img width="100" height="70" src="{{server}}images/minilogoCloudOnesoft.png" />
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

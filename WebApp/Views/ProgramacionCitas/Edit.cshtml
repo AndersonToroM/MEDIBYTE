@@ -327,12 +327,12 @@
 </div>
 
 @(Html.DControls().Popup()
-        .ID($"{Prefix}PopUpProgramacionCitasVerAgenda")
-        .ContentTemplate(new TemplateName($"{Prefix}ProgramacionCitasVerAgenda"))
-        .Title(DApp.GetResource("ProgramacionCitas.Agenda"))
-        .ResizeEnabled(false)
-        .Width(1000).Height("80%")
-    )
+    .ID($"{Prefix}PopUpProgramacionCitasVerAgenda")
+    .ContentTemplate(new TemplateName($"{Prefix}ProgramacionCitasVerAgenda"))
+    .Title(DApp.GetResource("ProgramacionCitas.Agenda"))
+    .ResizeEnabled(false)
+    .Width(1000).Height("80%")
+)
 
 
 @using (Html.DControls().NamedTemplate($"{Prefix}ProgramacionCitasVerAgenda"))

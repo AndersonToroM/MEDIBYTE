@@ -152,6 +152,10 @@
       {
         "Name": "Atenciones",
         "Resource": "Atenciones"
+      },
+      {
+        "Name": "NotasProcedimientos",
+        "Resource": "NotasProcedimientos"
       }
     ]
   },

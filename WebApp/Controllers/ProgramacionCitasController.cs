@@ -329,7 +329,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetConveniosByEntidad(DataSourceLoadOptions loadOptions, long EntidadesId)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Convenios>().Tabla(true).Where(x=>x.EntidadesId == EntidadesId), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Convenios>().Tabla(true).Where(x => x.EntidadesId == EntidadesId), loadOptions);
             //return DataSourceLoader.Load(Manager().ProgramacionCitasBusinessLogic().GetConveniosByEntidad(EntidadesId), loadOptions);
         }
         [HttpPost]
@@ -369,6 +369,11 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetEmpleadosPorServicio(DataSourceLoadOptions loadOptions, long servicioId)
         {
             return DataSourceLoader.Load(Manager().ProgramacionCitasBusinessLogic().GetEmpleadosPorServicio(servicioId), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetEmpleadosProfesionales(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true).Where(x=>x.TipoEmpleados == 2), loadOptions);
         }
         #endregion
 
@@ -412,9 +417,13 @@ namespace Blazor.WebApp.Controllers
                     cita.LastUpdate = DateTime.Now;
                     cita.UpdatedBy = User.Identity.Name;
                     Manager().GetBusinessLogic<ProgramacionCitas>().Modify(cita);
+                    Manager().ProgramacionCitasBusinessLogic().EnviarCorreoCancelacionCita(Id, DApp.GetFullDomain(HttpContext));
+                    return Edit(Id);
                 }
-
-                return Edit(Id);
+                else
+                {
+                    throw new Exception("El id de la cita es erroneo.");
+                }
             }
             catch (Exception e)
             {
@@ -476,6 +485,22 @@ namespace Blazor.WebApp.Controllers
                     throw new Exception("Error enviando cita al servidor.");
                 Manager().ProgramacionCitasBusinessLogic().EnviarCorreoCitaProgramada(citaId, DApp.GetFullDomain(HttpContext));
                 return Ok();
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult VerDisponibilidadProfesional(long profesionalId)
+        {
+            try
+            {
+                if (profesionalId <= 0)
+                    throw new Exception("Error enviando profesional al servidor.");
+                SchedulerModel schedulerModel = Manager().ProgramacionCitasBusinessLogic().VerDisponibilidadProfesional(profesionalId);
+                return PartialView("SchedulerVerAgenda", schedulerModel);
             }
             catch (Exception e)
             {
