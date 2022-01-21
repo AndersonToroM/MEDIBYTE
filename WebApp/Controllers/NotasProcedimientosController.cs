@@ -35,6 +35,7 @@ namespace WebApp.Controllers
                 .Include(x => x.Admisiones.Pacientes)
                 .Include(x => x.Admisiones.Estados)
                 .Include(x => x.Admisiones.Convenios)
+                .Include(x => x.Admisiones.Diagnosticos)
                 .Include(x => x.Admisiones.Filiales)
                 .Include(x => x.Admisiones.ProgramacionCitas.Consultorios)
                 .Include(x => x.Admisiones.ProgramacionCitas.Sedes)

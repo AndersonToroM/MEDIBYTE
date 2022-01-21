@@ -96,11 +96,12 @@
             columns.AddFor(m => m.ProgramacionCitas.FechaInicio).AllowSearch(false).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.CitaHora"));
 
             columns.AddFor(m => m.ProgramacionCitas.Servicios.Nombre);
-            columns.AddFor(m => m.Diagnosticos.Descripcion);
+            columns.AddFor(m => m.Diagnosticos.Codigo).Caption(DApp.DefaultLanguage.GetResource("Atenciones.DiagnosticosCodigo"));
+            columns.AddFor(m => m.Diagnosticos.Descripcion).Caption(DApp.DefaultLanguage.GetResource("Atenciones.DiagnosticosDescripcion"));
 
-            columns.AddFor(m => m.ProgramacionCitas.Entidades.Nombre);
+            columns.AddFor(m => m.ProgramacionCitas.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("Atenciones.Entidad"));
             columns.AddFor(m => m.Convenios.Nombre);
-            columns.AddFor(m => m.Filiales.Nombre);
+            columns.AddFor(m => m.Filiales.Nombre).Caption(DApp.DefaultLanguage.GetResource("Atenciones.Filial"));
             columns.AddFor(m => m.ProgramacionCitas.Sedes.Nombre);
             columns.AddFor(m => m.ProgramacionCitas.Consultorios.Nombre);
 

@@ -152,10 +152,6 @@
       {
         "Name": "Atenciones",
         "Resource": "Atenciones"
-      },
-      {
-        "Name": "NotasProcedimientos",
-        "Resource": "NotasProcedimientos"
       }
     ]
   },
@@ -255,6 +251,10 @@
       {
         "Name": "IndicacionesMedicas",
         "Resource": "IndicacionesMedicas"
+      },
+      {
+        "Name": "NotasProcedimientos",
+        "Resource": "NotasProcedimientos"
       },
       {
         "Name": "HistoriasClinicas",

@@ -516,8 +516,20 @@
     "Description": "Motivo de anulación"
   },
   {
+    "Id": "Atenciones.DiagnosticosCodigo",
+    "Description": "CIE10"
+  },
+  {
+    "Id": "Atenciones.DiagnosticosDescripcion",
+    "Description": "Diagnóstico"
+  },
+  {
     "Id": "Atenciones.EmpleadosId",
     "Description": "Empleado"
+  },
+  {
+    "Id": "Atenciones.Entidad",
+    "Description": "Entidad"
   },
   {
     "Id": "Atenciones.EsControl",
@@ -530,6 +542,10 @@
   {
     "Id": "Atenciones.FechaAtencion",
     "Description": "Fecha Atención"
+  },
+  {
+    "Id": "Atenciones.Filial",
+    "Description": "Filial"
   },
   {
     "Id": "Atenciones.FinalidadConsultaId",
@@ -3366,6 +3382,10 @@
   {
     "Id": "NotasProcedimientos",
     "Description": "Notas de procedimientos"
+  },
+  {
+    "Id": "NotasProcedimientos.ConsecutivoAdmision",
+    "Description": "No. Admisión"
   },
   {
     "Id": "NotasProcedimientos.InformacionAtencion",
