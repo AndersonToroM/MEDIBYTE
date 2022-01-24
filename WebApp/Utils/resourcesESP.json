@@ -2084,6 +2084,10 @@
     "Description": "Facturación"
   },
   {
+    "Id": "FacturaGeneracion.Id",
+    "Description": null
+  },
+  {
     "Id": "Facturas.AceptadoDIAN",
     "Description": "Aceptado DIAN"
   },
@@ -2334,6 +2338,10 @@
   {
     "Id": "FacturasGeneracion.FilialesId",
     "Description": "Filial"
+  },
+  {
+    "Id": "FacturasGeneracion.Id",
+    "Description": "Id Recaudo"
   },
   {
     "Id": "FacturasGeneracion.ImprimirAnexo",
