@@ -16,6 +16,7 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
+        columns.AddFor(m => m.Id).Caption(DApp.GetResource("FacturasGeneracion.Id")).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.MediosPagoId)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Recaudos.MediosPagoId")))
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Recaudos.MediosPagoId")))
