@@ -8,7 +8,8 @@
     string UrlBack = Url.Action("ListPartial", "Pacientes");
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
-        .Title(DApp.DefaultLanguage.GetResource("Pacientes"));
+        .Title(DApp.DefaultLanguage.GetResource("Pacientes"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000604735-crear-paciente");
 
     if (Model.DesdeCitas)
     {

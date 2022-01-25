@@ -12,6 +12,7 @@
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || !Model.Process, Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete) || !Model.Process, UrlBack, Model.Entity.IsNew)
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000619893-generaci%C3%B3n-de-factura-institucional")
         .AddButtons(new List<ButtonToolbar>()
         {
             new ButtonToolbar
