@@ -12,6 +12,7 @@
         .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000619956-entrega-de-resultados-opci%C3%B3n-sin-audio-en-lectura-de-resultados")
         .Back(UrlBack);
 
     //Configuracion necesaria para la carga de archivos

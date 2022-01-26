@@ -23,7 +23,45 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public void EnviarCorreoCitaProgramada(long citaId,string server)
+        public void EnviarCorreoCancelacionCita(long citaId, string server)
+        {
+            var cita = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
+                .Include(x => x.Empresas)
+                .Include(x => x.Empresas.LogoArchivos)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Empleados)
+                .Include(x => x.Servicios)
+                .FirstOrDefault(x => x.Id == citaId);
+
+            if (!DApp.Util.EsEmailValido(cita.Pacientes.CorreoElectronico))
+                throw new Exception("El paciente no tiene un correo electronico valido.");
+
+            EmailModelConfig envioEmailConfig = new EmailModelConfig();
+            envioEmailConfig.Origen = "POR DEFECTO";
+            envioEmailConfig.MetodoUso = "Cancelacion de citas";
+            envioEmailConfig.Asunto = $"Cancelación de cita en {cita.Empresas.RazonSocial}";
+            envioEmailConfig.Template = "EmailCancelacionCita";
+            envioEmailConfig.Destinatarios.Add(cita.Pacientes.CorreoElectronico);
+            envioEmailConfig.Datos = new Dictionary<string, string>
+                {
+                    {"server",$"{server}" },
+                    {"nombreEmpresa",$"{cita.Empresas.RazonSocial}" },
+                    {"paginaWebEmpresa",$"{(string.IsNullOrWhiteSpace(cita.Empresas.PaginaWeb) ? "#":cita.Empresas.PaginaWeb)}" },
+                    {"paciente",$"{cita.Pacientes.NombreCompleto}" },
+                    {"movito",$"{cita.MotivoCancelacion}" },
+                    {"medico",$"{(cita.Empleados != null ? cita.Empleados.NombreCompleto : "Técnico Especializado")}" },
+                    {"servicio",$"{cita.Servicios.Nombre}" },
+                    {"sede",$"{cita.Sedes.Nombre}" },
+                    {"direccion",$"{cita.Sedes.Direccion}" },
+                    {"telefono",$"{cita.Empresas.Telefono} - {cita.Empresas.Celular}" },
+                    {"fecha",$"{cita.FechaInicio:D}" },
+                    {"hora",$"{cita.FechaInicio:t}" },
+                    {"consecutivo",$"{cita.Consecutivo}" }
+                };
+            new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
+        }
+
+        public void EnviarCorreoCitaProgramada(long citaId, string server)
         {
             var cita = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
                 .Include(x => x.Empresas)
@@ -39,7 +77,7 @@ namespace Blazor.BusinessLogic
             EmailModelConfig envioEmailConfig = new EmailModelConfig();
             envioEmailConfig.Origen = "POR DEFECTO";
             envioEmailConfig.MetodoUso = "Programacion de citas";
-            envioEmailConfig.Asunto = $"Programacion de nueva cita en {cita.Empresas.RazonSocial}";
+            envioEmailConfig.Asunto = $"Programación de nueva cita en {cita.Empresas.RazonSocial}";
             envioEmailConfig.Template = "EmailProgramacionCita";
             envioEmailConfig.Destinatarios.Add(cita.Pacientes.CorreoElectronico);
             envioEmailConfig.Datos = new Dictionary<string, string>
@@ -56,7 +94,7 @@ namespace Blazor.BusinessLogic
                     {"fecha",$"{cita.FechaInicio:D}" },
                     {"hora",$"{cita.FechaInicio:t}" },
                     {"consecutivo",$"{cita.Consecutivo}" },
-                    {"preparacion",$"{cita.Servicios.Preparacion}" },
+                    {"preparacion",$"{cita.Servicios.Preparacion}" }
                 };
             new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
         }
@@ -135,6 +173,55 @@ namespace Blazor.BusinessLogic
             return (result > 0);
         }
 
+        public SchedulerModel VerDisponibilidadProfesional(long profesionalId)
+        {
+            SchedulerModel schedulerModel = new SchedulerModel();
+
+            if (profesionalId == 0)
+            {
+                schedulerModel.Habilitado = false;
+                return schedulerModel;
+            }
+
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            List<ProgramacionAgenda> result = new List<ProgramacionAgenda>(); // Este dato es para sacar los parametros desde la programacion de la agenda
+
+            List<long> estados = new List<long> { 3, 4, 5, 6 };
+            result = (from programacionDisponible in unitOfWork.Repository<ProgramacionDisponible>().GetTable(true).Where(x => x.EmpleadosId == profesionalId)
+                      join programacionAgenda in unitOfWork.Repository<ProgramacionAgenda>().Table
+                         on programacionDisponible.ProgramacionAgendaId equals programacionAgenda.Id
+                      where (programacionAgenda.FechaInicio.Date >= DateTime.Now.Date
+                      || (DateTime.Now.Date >= programacionAgenda.FechaInicio.Date && DateTime.Now.Date <= programacionAgenda.FechaFinal.Date))
+                      select programacionAgenda).ToList();
+            schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.EmpleadosId == profesionalId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
+
+            if (result != null && result.Count > 0)
+            {
+                var fechaInicio = result.Min(x => x.FechaInicio);                
+
+                schedulerModel.FechaInicial = DateTime.Now;
+                schedulerModel.FechaMinima = DateTime.Now;
+                schedulerModel.FechaMaxima = result.Max(x => x.FechaFinal);
+
+                int horaMinima = result.Min(x => x.FechaInicio.Hour) < result.Min(x => x.FechaFinal.Hour) ? result.Min(x => x.FechaInicio.Hour) : result.Min(x => x.FechaFinal.Hour);
+                int horaMaxima = result.Max(x => x.FechaInicio.Hour) > result.Max(x => x.FechaFinal.Hour) ? result.Max(x => x.FechaInicio.Hour) : result.Max(x => x.FechaFinal.Hour);
+                int minMaxima = result.Max(x => x.FechaInicio.Minute) > result.Max(x => x.FechaFinal.Minute) ? result.Max(x => x.FechaInicio.Minute) : result.Max(x => x.FechaFinal.Minute);
+
+                schedulerModel.HoraMinima = horaMinima;
+                schedulerModel.HoraMaxima = horaMaxima + (double)minMaxima / 100;
+
+                schedulerModel.IntervaloCelda = 10;
+            }
+            else
+            {
+                schedulerModel.Habilitado = false;
+            }
+
+            schedulerModel.FechaInicial = DateTime.Now;
+
+            return schedulerModel;
+        }
+
         public SchedulerModel ObtenerSchedulerAgendaDisponible(long servicioId, long consultorioId, long? empleadoId, long estadosIdTipoDuracion, long duracion, DateTime? fechaScheduler)
         {
             SchedulerModel schedulerModel = new SchedulerModel();
@@ -158,7 +245,7 @@ namespace Blazor.BusinessLogic
                           where (programacionAgenda.FechaInicio.Date >= DateTime.Now.Date
                           || (DateTime.Now.Date >= programacionAgenda.FechaInicio.Date && DateTime.Now.Date <= programacionAgenda.FechaFinal.Date))
                           select programacionAgenda).ToList();
-                schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
+                schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
             }
             else
             {
@@ -168,7 +255,7 @@ namespace Blazor.BusinessLogic
                           where (programacionAgenda.FechaInicio.Date >= DateTime.Now.Date
                           || (DateTime.Now.Date >= programacionAgenda.FechaInicio.Date && DateTime.Now.Date <= programacionAgenda.FechaFinal.Date))
                           select programacionAgenda).ToList();
-                schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.ConsultoriosId == consultorioId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
+                schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.ConsultoriosId == consultorioId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
             }
 
 

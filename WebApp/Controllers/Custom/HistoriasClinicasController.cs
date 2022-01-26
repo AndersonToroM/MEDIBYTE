@@ -85,9 +85,14 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public IActionResult CerrarHC(HistoriasClinicasModel model)
         {
-
-            var totalDiagnosticosHC = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).Count(x => x.HistoriasClinicasId == model.Entity.Id);
-            if (totalDiagnosticosHC <= 0)
+            try
+            {
+                model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Modify(model.Entity);
+            }
+            catch{}
+            
+            var totalDiagnosticosHC = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).Any(x => x.HistoriasClinicasId == model.Entity.Id);
+            if (!totalDiagnosticosHC)
             {
                 ModelState.AddModelError("Entity.Id", "Para cerrar la historia clinica debe tener al menos un diagnostico registrado.");
             }
@@ -118,6 +123,34 @@ namespace Blazor.WebApp.Controllers
             if (string.IsNullOrWhiteSpace(model.Entity.PlanManejo))
             {
                 ModelState.AddModelError("Entity.PlanManejo", "Para cerrar la historia clinica debe registrar el plan de manejo.");
+            }
+            if (string.IsNullOrWhiteSpace(model.Entity.Hallazgos))
+            {
+                ModelState.AddModelError("Entity.Hallazgos", "Para cerrar la historia clinica debe registrar el hallazgos.");
+            }
+            if (string.IsNullOrWhiteSpace(model.Entity.TensionArterial))
+            {
+                ModelState.AddModelError("Entity.TensionArterial", "Para cerrar la historia clinica debe registrar la tensión arterial.");
+            }
+            if (string.IsNullOrWhiteSpace(model.Entity.FrecuenciaCardiaca))
+            {
+                ModelState.AddModelError("Entity.FrecuenciaCardiaca", "Para cerrar la historia clinica debe registrar la frecuencia cardiaca.");
+            }
+            if (string.IsNullOrWhiteSpace(model.Entity.FrecuenciaRespiratoria))
+            {
+                ModelState.AddModelError("Entity.FrecuenciaRespiratoria", "Para cerrar la historia clinica debe registrar la frecuencia respiratoria.");
+            }
+            if (string.IsNullOrWhiteSpace(model.Entity.Temperatura))
+            {
+                ModelState.AddModelError("Entity.Temperatura", "Para cerrar la historia clinica debe registrar la temperatura.");
+            }
+            if (model.Entity.DominanciaEstadosId == null)
+            {
+                ModelState.AddModelError("Entity.DominanciaEstadosId", "Para cerrar la historia clinica debe registrar la dominancia.");
+            }
+            if (string.IsNullOrWhiteSpace(model.Entity.Analisis))
+            {
+                ModelState.AddModelError("Entity.Analisis", "Para cerrar la historia clinica debe registrar el análisis.");
             }
 
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true)

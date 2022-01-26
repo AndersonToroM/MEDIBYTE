@@ -512,8 +512,24 @@
     "Description": "No. Cita"
   },
   {
+    "Id": "Atenciones.DetalleAnulacion",
+    "Description": "Motivo de anulación"
+  },
+  {
+    "Id": "Atenciones.DiagnosticosCodigo",
+    "Description": "CIE10"
+  },
+  {
+    "Id": "Atenciones.DiagnosticosDescripcion",
+    "Description": "Diagnóstico"
+  },
+  {
     "Id": "Atenciones.EmpleadosId",
     "Description": "Empleado"
+  },
+  {
+    "Id": "Atenciones.Entidad",
+    "Description": "Entidad"
   },
   {
     "Id": "Atenciones.EsControl",
@@ -526,6 +542,10 @@
   {
     "Id": "Atenciones.FechaAtencion",
     "Description": "Fecha Atención"
+  },
+  {
+    "Id": "Atenciones.Filial",
+    "Description": "Filial"
   },
   {
     "Id": "Atenciones.FinalidadConsultaId",
@@ -2064,6 +2084,10 @@
     "Description": "Facturación"
   },
   {
+    "Id": "FacturaGeneracion.Id",
+    "Description": null
+  },
+  {
     "Id": "Facturas.AceptadoDIAN",
     "Description": "Aceptado DIAN"
   },
@@ -2314,6 +2338,10 @@
   {
     "Id": "FacturasGeneracion.FilialesId",
     "Description": "Filial"
+  },
+  {
+    "Id": "FacturasGeneracion.Id",
+    "Description": "Id Recaudo"
   },
   {
     "Id": "FacturasGeneracion.ImprimirAnexo",
@@ -3360,6 +3388,18 @@
     "Description": "Total"
   },
   {
+    "Id": "NotasProcedimientos",
+    "Description": "Notas de procedimientos"
+  },
+  {
+    "Id": "NotasProcedimientos.ConsecutivoAdmision",
+    "Description": "No. Admisión"
+  },
+  {
+    "Id": "NotasProcedimientos.InformacionAtencion",
+    "Description": "Información de la atención"
+  },
+  {
     "Id": "OrdenesMedicamentos",
     "Description": "Ordenes de Medicamentos"
   },
@@ -3922,6 +3962,10 @@
   {
     "Id": "ProgramacionCitas.DescargarXLSX0256",
     "Description": "Descargar 0256"
+  },
+  {
+    "Id": "ProgramacionCitas.DisponibilidadProfesional",
+    "Description": "Ver Disponibilidad"
   },
   {
     "Id": "ProgramacionCitas.Duracion",

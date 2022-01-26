@@ -253,6 +253,10 @@
         "Resource": "IndicacionesMedicas"
       },
       {
+        "Name": "NotasProcedimientos",
+        "Resource": "NotasProcedimientos"
+      },
+      {
         "Name": "HistoriasClinicas",
         "Resource": "HistoriasClinicas"
       },

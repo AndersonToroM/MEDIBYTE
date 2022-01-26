@@ -102,7 +102,7 @@
 <div>
     <div id="HistoriasClinicasMainPanelForm">
         <form id="@(Prefix)Form" asp-controller="HistoriasClinicas" asp-action="Edit" class="form-horizontal" data-ajax-mode="replace" data-ajax-update="#mainPanel" data-ajax-success="@(Prefix)FormSuccess" data-ajax-failure="@(Prefix)FormFailure" data-ajax="true">
-            @(Html.DControls().ValidationSummary().ValidationGroup(Prefix + "ValidationGroup").ElementAttr("class","ErrorValidationSummary"))
+            @*@(Html.DControls().ValidationSummary().ValidationGroup(Prefix + "ValidationGroup").ElementAttr("class","ErrorValidationSummary"))*@
             <div asp-validation-summary="All" class="ErrorValidationSummary"></div>
             @using (Html.DevExtreme().ValidationGroup(Prefix + "ValidationGroup"))
             {
@@ -218,28 +218,18 @@
                                     groupItems.AddSimple().ColSpan(12).Template($"<div class=\"row d-flex justify-content-center subtitle\" >{DApp.DefaultLanguage.GetResource("HistoriasClinicas.SignosVitales")}</div>");
 
                                     groupItems.AddSimpleFor(m => m.Entity.TensionArterial).ColSpan(4)
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.TensionArterial")))
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("HistoriasClinicas.TensionArterial", 100)))
                                          .Editor(e => e.TextBox().ID(Prefix + "TensionArterial").ShowClearButton(true));
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaCardiaca).ColSpan(4)
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.FrecuenciaCardiaca")))
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("HistoriasClinicas.FrecuenciaCardiaca", 100)))
                                          .Editor(e => e.TextBox().ID(Prefix + "FrecuenciaCardiaca").ShowClearButton(true));
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaRespiratoria).ColSpan(4)
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.FrecuenciaRespiratoria")))
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("HistoriasClinicas.FrecuenciaRespiratoria", 100)))
                                          .Editor(e => e.TextBox().ID(Prefix + "FrecuenciaRespiratoria").ShowClearButton(true));
 
                                     groupItems.AddSimpleFor(m => m.Entity.Temperatura).ColSpan(4)
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.Temperatura")))
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("HistoriasClinicas.Temperatura", 100)))
                                          .Editor(e => e.TextBox().ID(Prefix + "Temperatura").ShowClearButton(true));
                                     groupItems.AddSimpleFor(m => m.Entity.PerimetroCefalico).ColSpan(4)
                                     .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("HistoriasClinicas.PerimetroCefalico", 100)))
                                          .Editor(e => e.TextBox().ID(Prefix + "PerimetroCefalico").ShowClearButton(true));
                                     groupItems.AddSimpleFor(m => m.Entity.DominanciaEstadosId).ColSpan(4)
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.DominanciaEstadosId")))
-                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicas.DominanciaEstadosId")))
                                          .Editor(e => e.SelectBox().ID(Prefix + "DominanciaEstadosId")
                                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetDominanciaEstadosId").Key("Id"))
                                          .DataSourceOptions(o => o.Paginate(true).PageSize(10))
@@ -260,7 +250,6 @@
                                     groupItems.AddSimple().ColSpan(4).Template(@<text><label id="@(Prefix)IMC" style=" margin-top: 33px; font-weight: bold; font-size: initial;"></label></text>);
 
                                     groupItems.AddSimpleFor(m => m.Entity.Hallazgos).ColSpan(12)
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.Hallazgos")))
                                          .Editor(e => e.TextArea().Height(100).ID(Prefix + "Hallazgos"));
 
                                 });
@@ -269,7 +258,6 @@
                                 .Items(groupItems =>
                                 {
                                     groupItems.AddSimpleFor(m => m.Entity.Analisis).ColSpan(12).Label(x => x.Visible(false))
-                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.Analisis")))
                                          .Editor(e => e.TextArea().Height(100).ID(Prefix + "Analisis"));
                                 });
 

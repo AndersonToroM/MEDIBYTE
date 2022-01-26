@@ -16,12 +16,54 @@
                 Text = DApp.DefaultLanguage.GetResource("ProgramacionCitas.DescargarXLSX0256"),
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
+            },
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}MostrarModalDisponibilidadProfesional",
+                Icon = "event",
+                Text = DApp.DefaultLanguage.GetResource("ProgramacionCitas.DisponibilidadProfesional"),
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Location = ToolbarItemLocation.After
             }
-                })
+        })
         .ToolbarTop(DApp.DefaultLanguage.GetResource("ProgramacionCitas"), "mainPanel");
 }
 
 <script>
+
+    function @(Prefix)OnCellClickSchedulerVerAgenda(){}
+    function @(Prefix)SchedulerVerAgendaOnAppointmentDblClick(){}
+
+    function @(Prefix)MostrarModalDisponibilidadProfesional()
+    {
+        $("#@(Prefix)DisponibilidadProfesionalPopup").dxPopup("instance").show();
+    }
+
+    function @(Prefix)VerDisponibilidadProfesional() {
+
+        var profesionalId = $("#@(Prefix)EmpleadoProfesional").dxSelectBox("instance").option("value");
+        if (profesionalId == null || profesionalId == '' || profesionalId == 0) {
+            DevExpress.ui.notify("Escoja un profesional.", "error");
+            return false;
+        }
+
+        showLoadIndicator();
+        $.ajax({
+            url: '@Url.Action("VerDisponibilidadProfesional", "ProgramacionCitas")',
+            data: {
+                profesionalId: profesionalId
+            },
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+                $("#@(Prefix)DivDisponibilidadProfesional").html(data);
+            },
+            error: function (xhr) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error: " + xhr.responseText, "error");
+            }
+        });
+     }
 
     function @(Prefix)MostrarModalDescargarXLSX0256()
     {
@@ -134,3 +176,34 @@
         }
     </div>
 </div>
+
+@(Html.DControls().Popup()
+    .ID($"{Prefix}DisponibilidadProfesionalPopup")
+    .ContentTemplate(new TemplateName($"{Prefix}DisponibilidadProfesionalTemplate"))
+    .Title(DApp.GetResource("ProgramacionCitas.DisponibilidadProfesional"))
+    .ResizeEnabled(false)
+    .Width(1000).Height("80%")
+)
+@using (Html.DControls().NamedTemplate($"{Prefix}DisponibilidadProfesionalTemplate"))
+{
+    <div class="container-fluid" style="height:100%;overflow:auto;">
+        <div class="row">
+            <div class="col-xl-10">
+                <label for="@(Prefix)AgendaEmpleado">Empleado</label>
+                @(Html.DControls().SelectBox().InputAttr("class", "form-control")
+                    .ID(Prefix + "EmpleadoProfesional")
+                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProgramacionCitas").LoadAction("GetEmpleadosProfesionales").Key("Id"))
+                    .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                    .ValueExpr("Id").DisplayExpr("NombreCompleto")
+                    .SearchEnabled(true)
+                )
+            </div>
+            <div class="col-xl-2"><button class="btn btn-block btn-primary btn-sm" style="margin-top: 30px;" onclick="@(Prefix)VerDisponibilidadProfesional()">Consultar</button></div>
+            <div style="height: 30px; width:100%;">
+                <label class="text-danger" id="@(Prefix)ErrorSeleccionarAgenda" style="vertical-align:sub;"></label>
+            </div>
+        </div>
+        <div class="row" id="@(Prefix)DivDisponibilidadProfesional"></div>
+    </div>
+
+}

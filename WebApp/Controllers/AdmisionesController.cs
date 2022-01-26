@@ -226,8 +226,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetCitasId(DataSourceLoadOptions loadOptions)
         {
-            var result = Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true).Where(x => x.EstadosId == 3).ToList();
-            return DataSourceLoader.Load(result, loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true).Where(x => x.EstadosId == 3), loadOptions);
         }
         [HttpPost]
         public LoadResult GetConveniosId(DataSourceLoadOptions loadOptions, long EntidadesId, long ServiciosId)

@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using DevExpress.CodeParser.Diagnostics;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -34,7 +35,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true).Include(x=>x.CiclosCajas.Cajas), loadOptions);
         }
 
         public IActionResult List()

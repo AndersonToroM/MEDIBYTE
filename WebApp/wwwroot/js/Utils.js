@@ -286,5 +286,3 @@ function SendLogPingServer(logs) {
 setInterval(PingServersIfErrorTimeOut, 5000);
 /******************************************************************/
 
-
-
