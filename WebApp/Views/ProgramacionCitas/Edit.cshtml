@@ -7,8 +7,13 @@
     string UrlDelete = Url.Action("Delete", "ProgramacionCitas", new { Id = Model.Entity.Id });
     string UrlBack = Url.Action("ListPartial", "ProgramacionCitas");
 
+   /*var ToolbarConfig = new ToolbarConfiguration(Prefix)
+        .Title(DApp.DefaultLanguage.GetResource("ProgramacionCitas"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000620008-programaci%C3%B3n-de-citas");
+        */ 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("ProgramacionCitas"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000620008-programaci%C3%B3n-de-citas")
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || (Model.Entity.EstadosId != 3), Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
