@@ -119,8 +119,15 @@
     function @(Prefix)SchedulerVerAgendaOnAppointmentDblClick(item) {
         item.cancel = true;
         var TiposCitasId = $("#@(Prefix)TiposCitasId").dxSelectBox("instance").option("value");
-        var fechaInicio =  moment(item.appointmentData.FechaInicio).format("YYYY-MM-DDTHH:mm:ss");
         if (TiposCitasId == 3) {
+
+            var fechaInicio =  moment(item.appointmentData.FechaInicio).format("YYYY-MM-DDTHH:mm:ss");
+            var empleadoId =   $("#@(Prefix)AgendaEmpleado").dxSelectBox("instance").option("value");
+            if(item.appointmentData.EmpleadosId != empleadoId)
+            {
+                DevExpress.ui.notify("Error en asignación de adicional, verifique el profesional.", "error", 4000);
+                return false;
+            }
 
             showLoadIndicator();
             $.ajax({
@@ -140,6 +147,8 @@
                     DevExpress.ui.notify("Error de servidor " + xhr.status + " : " + xhr.statusText, "error");
                 }
             });
+        }else{
+            DevExpress.ui.notify("Sin disponibilidad para nueva cita de tipo Programada.", "error", 4000);
         }
     }
 
