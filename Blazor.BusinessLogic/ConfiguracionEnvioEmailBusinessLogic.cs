@@ -191,7 +191,7 @@ namespace Blazor.BusinessLogic
                         if(errores.Count > 0)
                             configuracionEnvioEmailLog.ErrorDeDatos = string.Join(" | ", errores);
 
-                        if (mailMessage.To.Count <= 0 && mailMessage.CC.Count <= 0 && mailMessage.Bcc.Count <= 0)
+                        if (mailMessage.To.Count <= 0)
                             throw new Exception($"No hubo destinatarios validos en los ingresados.");
 
                         SmtpClient smtp = new SmtpClient();
@@ -223,8 +223,6 @@ namespace Blazor.BusinessLogic
                 configuracionEnvioEmailLog.Exitoso = false;
                 configuracionEnvioEmailLog.Error = fullError;
                 new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
-
-                throw new Exception(fullError);
             }
 
         }

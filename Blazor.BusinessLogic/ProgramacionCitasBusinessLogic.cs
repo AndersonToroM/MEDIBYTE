@@ -33,9 +33,6 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Servicios)
                 .FirstOrDefault(x => x.Id == citaId);
 
-            if (!DApp.Util.EsEmailValido(cita.Pacientes.CorreoElectronico))
-                throw new Exception("El paciente no tiene un correo electronico valido.");
-
             EmailModelConfig envioEmailConfig = new EmailModelConfig();
             envioEmailConfig.Origen = "POR DEFECTO";
             envioEmailConfig.MetodoUso = "Cancelacion de citas";
@@ -245,7 +242,6 @@ namespace Blazor.BusinessLogic
                           where (programacionAgenda.FechaInicio.Date >= DateTime.Now.Date
                           || (DateTime.Now.Date >= programacionAgenda.FechaInicio.Date && DateTime.Now.Date <= programacionAgenda.FechaFinal.Date))
                           select programacionAgenda).ToList();
-                schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.EmpleadosId == empleadoId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
             }
             else
             {
@@ -255,9 +251,8 @@ namespace Blazor.BusinessLogic
                           where (programacionAgenda.FechaInicio.Date >= DateTime.Now.Date
                           || (DateTime.Now.Date >= programacionAgenda.FechaInicio.Date && DateTime.Now.Date <= programacionAgenda.FechaFinal.Date))
                           select programacionAgenda).ToList();
-                schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.ConsultoriosId == consultorioId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
             }
-
+            schedulerModel.Data = (unitOfWork.Repository<ProgramacionCitas>().GetTable(true).Where(x => x.FechaInicio.Date >= DateTime.Now.AddDays(-1).Date && x.ConsultoriosId == consultorioId && estados.Contains(x.EstadosId))).AsEnumerable<ProgramacionCitas>();
 
             if (result != null && result.Count > 0)
             {
