@@ -141,7 +141,7 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row + 1][column].SetValue(data[row].CreationDate.Date); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].FechaInicio.Date); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Sedes.Nombre); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Entidades.Nombre); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Entidades?.Nombre); column++;
 
                 }
                 worksheet.Columns.AutoFit(0, column);

@@ -9,6 +9,7 @@
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("Admisiones"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000604736-admisiones")
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || Model.Entity.Facturado, Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete) || Model.Entity.Facturado, UrlBack, Model.Entity.IsNew)

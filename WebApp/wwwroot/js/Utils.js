@@ -220,7 +220,7 @@ function SiisoGetMensajeGeoLocalizacion() {
 
 /* Funcion para verificar respuesta con el server cada 5 segundos */
 var SiisoPingStorage = "SiisoPingLog";
-var SiisoPingTimeOut = 1;
+var SiisoPingTimeOut = 2;
 
 function PingServersIfErrorTimeOut() {
 
