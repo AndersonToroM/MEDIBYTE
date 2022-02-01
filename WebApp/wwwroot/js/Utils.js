@@ -229,7 +229,6 @@ function PingServersIfErrorTimeOut() {
         "https://api.coindesk.com/v1/bpi/currentprice.json",
         "https://api.zippopotam.us/us/33162",
         "https://randomuser.me/api/",
-        "https://goweather.herokuapp.com/weather/colombia",
         "https://www.datos.gov.co/resource/xdk5-pm3f.json/?municipio=Cali"
     ];
     servers.forEach(server => {
