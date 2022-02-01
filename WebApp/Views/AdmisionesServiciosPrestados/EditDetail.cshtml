@@ -33,6 +33,8 @@
             @(Html.DControls().NumberBoxFor(m => m.Entity.AdmisionesId).ID(Prefix + "AdmisionesId").Visible(false))
 
             @(Html.DControls().CheckBoxFor(m => m.Entity.EsCorrecion).ID(Prefix + "EsCorrecion").Visible(false))
+            @(Html.DControls().CheckBoxFor(m => m.Entity.EntregaNoLectura).ID(Prefix + "EntregaNoLectura").Visible(false))
+            @(Html.DControls().CheckBoxFor(m => m.Entity.LecturaRealizada).ID(Prefix + "LecturaRealizada").Visible(false))
 
             @(Html.DControls().Form<AdmisionesServiciosPrestadosModel>()
                     .ID("AdmisionesServiciosPrestadosModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
