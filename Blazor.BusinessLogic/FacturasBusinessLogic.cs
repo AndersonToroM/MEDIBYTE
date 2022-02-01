@@ -893,7 +893,7 @@ namespace Blazor.BusinessLogic
             }
             else
             {
-                throw new Exception($"{response.StatusCode} | {response.RequestMessage.RequestUri}");
+                throw new Exception($"Error Acepta: {response.StatusCode} | {response.RequestMessage.RequestUri} | {response.Content?.ReadAsStringAsync()} ");
             }
             return content;
         }
