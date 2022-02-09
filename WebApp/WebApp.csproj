@@ -32,12 +32,14 @@
     <None Remove="Reportes\Facturas\CarteraReporte.vsrepx" />
     <None Remove="Reportes\Facturas\TotalCarteraReporte.vsrepx" />
     <None Remove="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
+    <None Remove="Reportes\XDeCaja\XDeCaja.vsrepx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\Facturas\CarteraGeneralReporte.vsrepx" />
     <EmbeddedResource Include="Reportes\Facturas\TotalCarteraReporte.vsrepx" />
     <EmbeddedResource Include="Reportes\Facturas\CarteraReporte.vsrepx" />
     <EmbeddedResource Include="Reportes\LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
+    <EmbeddedResource Include="Reportes\XDeCaja\XDeCaja.vsrepx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="appsettings.json">
@@ -312,6 +314,12 @@
     </Compile>
     <Compile Update="Reportes\RadicacionCuentasReporte\RadicacionCuentasReporte.Designer.cs">
       <DependentUpon>RadicacionCuentasReporte.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\XDeCaja\XDeCaja.cs">
+      <DependentUpon>XDeCaja.vsrepx</DependentUpon>
+    </Compile>
+    <Compile Update="Reportes\XDeCaja\XDeCaja.Designer.cs">
+      <DependentUpon>XDeCaja.vsrepx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

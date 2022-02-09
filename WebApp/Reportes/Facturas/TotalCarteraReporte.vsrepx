@@ -185,7 +185,7 @@
         <Item7 Ref="96" ControlType="XRLabel" Name="label11" Multiline="true" Text="[Telefono]" SizeF="136.284714,10.416666" LocationFloat="2.70458961,109.338066" Font="Arial, 5.6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="97" UseFont="false" />
         </Item7>
-        <Item8 Ref="98" ControlType="XRPageInfo" Name="pageInfo1" TextFormatString="1 de{0}" TextAlignment="TopCenter" SizeF="60.069397,9" LocationFloat="621.6351,14.6666794" Font="Arial, 5.1pt" Padding="2,2,0,0,100">
+        <Item8 Ref="98" ControlType="XRPageInfo" Name="pageInfo1" TextFormatString="1 de {0}" TextAlignment="TopCenter" SizeF="60.069397,9" LocationFloat="621.6351,14.6666794" Font="Arial, 5.1pt" Padding="2,2,0,0,100">
           <StylePriority Ref="99" UseFont="false" UseTextAlignment="false" />
         </Item8>
         <Item9 Ref="100" ControlType="XRPageInfo" Name="pageInfo2" PageInfo="DateTime" TextFormatString="{0:MM/d/yyyy}" TextAlignment="TopCenter" SizeF="60.069397,8.624973" LocationFloat="621.6351,23.6666756" Font="Arial, 5.1pt" Padding="2,2,0,0,100">
