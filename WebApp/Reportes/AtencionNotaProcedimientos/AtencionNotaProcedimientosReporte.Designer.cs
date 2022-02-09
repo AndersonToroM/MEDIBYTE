@@ -27,6 +27,12 @@ namespace WebApp.Reportes.AtencionNotaProcedimientos {
             this.tableRow8 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow8");
             this.tableCell20 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell20");
             this.tableCell21 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell21");
+            this.label6 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label6");
+            this.label5 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label5");
+            this.label4 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label4");
+            this.label3 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label3");
+            this.label2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label2");
+            this.label1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label1");
             this.table6 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table6");
             this.table5 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table5");
             this.pageInfo1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPageInfo>("pageInfo1");
@@ -80,12 +86,6 @@ namespace WebApp.Reportes.AtencionNotaProcedimientos {
             this.tableCell14 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell14");
             this.tableCell15 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell15");
             this.tableCell16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell16");
-            this.label1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label1");
-            this.label2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label2");
-            this.label3 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label3");
-            this.label4 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label4");
-            this.label5 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label5");
-            this.label6 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label6");
 
             // Parameters
             this.P_Ids = reportInitializer.GetParameter("P_Ids");
@@ -104,6 +104,12 @@ namespace WebApp.Reportes.AtencionNotaProcedimientos {
         private DevExpress.XtraReports.UI.XRTableRow tableRow8;
         private DevExpress.XtraReports.UI.XRTableCell tableCell20;
         private DevExpress.XtraReports.UI.XRTableCell tableCell21;
+        private DevExpress.XtraReports.UI.XRLabel label6;
+        private DevExpress.XtraReports.UI.XRLabel label5;
+        private DevExpress.XtraReports.UI.XRLabel label4;
+        private DevExpress.XtraReports.UI.XRLabel label3;
+        private DevExpress.XtraReports.UI.XRLabel label2;
+        private DevExpress.XtraReports.UI.XRLabel label1;
         private DevExpress.XtraReports.UI.XRTable table6;
         private DevExpress.XtraReports.UI.XRTable table5;
         private DevExpress.XtraReports.UI.XRPageInfo pageInfo1;
@@ -159,11 +165,5 @@ namespace WebApp.Reportes.AtencionNotaProcedimientos {
         private DevExpress.XtraReports.UI.XRTableCell tableCell16;
         private DevExpress.DataAccess.Sql.SqlDataSource FuenteDatos;
         private DevExpress.XtraReports.Parameters.Parameter P_Ids;
-        private DevExpress.XtraReports.UI.XRLabel label1;
-        private DevExpress.XtraReports.UI.XRLabel label2;
-        private DevExpress.XtraReports.UI.XRLabel label3;
-        private DevExpress.XtraReports.UI.XRLabel label4;
-        private DevExpress.XtraReports.UI.XRLabel label5;
-        private DevExpress.XtraReports.UI.XRLabel label6;
     }
 }
