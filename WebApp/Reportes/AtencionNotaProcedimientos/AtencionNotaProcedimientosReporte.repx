@@ -230,11 +230,11 @@
           <Rows>
             <Item1 Ref="101" ControlType="XRTableRow" Name="tableRow2" Weight="0.6">
               <Cells>
-                <Item1 Ref="102" ControlType="XRTableCell" Name="tableCell3" Weight="0.98044783933251822" Multiline="true" Text="FECHA" Font="Calibri, 9pt, style=Bold">
+                <Item1 Ref="102" ControlType="XRTableCell" Name="tableCell3" Weight="0.80973660825443516" Multiline="true" Text="FECHA" Font="Calibri, 9pt, style=Bold">
                   <StylePriority Ref="103" UseFont="false" />
                 </Item1>
-                <Item2 Ref="104" ControlType="XRTableCell" Name="tableCell10" Weight="0.040167305263301312" Multiline="true" Text=":" />
-                <Item3 Ref="105" ControlType="XRTableCell" Name="tableCell4" Weight="2.1244891261155927" TextFormatString="{0:d 'de' MMMM 'de' yyyy h:mm tt}" Multiline="true">
+                <Item2 Ref="104" ControlType="XRTableCell" Name="tableCell10" Weight="0.040167489134896678" Multiline="true" Text=":" />
+                <Item3 Ref="105" ControlType="XRTableCell" Name="tableCell4" Weight="2.2952001733220806" TextFormatString="{0:d 'de' MMMM 'de' yyyy h:mm tt}" Multiline="true">
                   <ExpressionBindings>
                     <Item1 Ref="106" EventName="BeforePrint" PropertyName="Text" Expression="[ATENCION_FECHA]" />
                   </ExpressionBindings>
@@ -243,11 +243,11 @@
             </Item1>
             <Item2 Ref="107" ControlType="XRTableRow" Name="tableRow3" Weight="0.59999999999999987">
               <Cells>
-                <Item1 Ref="108" ControlType="XRTableCell" Name="tableCell2" Weight="0.98044783933251822" Multiline="true" Text="CIUDAD" Font="Calibri, 9pt, style=Bold">
+                <Item1 Ref="108" ControlType="XRTableCell" Name="tableCell2" Weight="0.80973660825443516" Multiline="true" Text="CIUDAD" Font="Calibri, 9pt, style=Bold">
                   <StylePriority Ref="109" UseFont="false" />
                 </Item1>
-                <Item2 Ref="110" ControlType="XRTableCell" Name="tableCell11" Weight="0.040167795587555732" Multiline="true" Text=":" />
-                <Item3 Ref="111" ControlType="XRTableCell" Name="tableCell5" Weight="2.1244886357913382" Multiline="true">
+                <Item2 Ref="110" ControlType="XRTableCell" Name="tableCell11" Weight="0.0401679794591511" Multiline="true" Text=":" />
+                <Item3 Ref="111" ControlType="XRTableCell" Name="tableCell5" Weight="2.2951996829978261" Multiline="true">
                   <ExpressionBindings>
                     <Item1 Ref="112" EventName="BeforePrint" PropertyName="Text" Expression="[PACIENTE_CIUDAD]" />
                   </ExpressionBindings>
@@ -256,11 +256,11 @@
             </Item2>
             <Item3 Ref="113" ControlType="XRTableRow" Name="tableRow4" Weight="0.59999999999999987">
               <Cells>
-                <Item1 Ref="114" ControlType="XRTableCell" Name="tableCell6" Weight="0.98044783933251822" Multiline="true" Text="NOMBRE DEL PACIENTE" Font="Calibri, 9pt, style=Bold">
+                <Item1 Ref="114" ControlType="XRTableCell" Name="tableCell6" Weight="0.80973660825443516" Multiline="true" Text="NOMBRE DEL PACIENTE" Font="Calibri, 9pt, style=Bold">
                   <StylePriority Ref="115" UseFont="false" />
                 </Item1>
-                <Item2 Ref="116" ControlType="XRTableCell" Name="tableCell12" Weight="0.040168040749682887" Multiline="true" Text=":" />
-                <Item3 Ref="117" ControlType="XRTableCell" Name="tableCell7" Weight="2.1244883906292111" Multiline="true">
+                <Item2 Ref="116" ControlType="XRTableCell" Name="tableCell12" Weight="0.040168224621278253" Multiline="true" Text=":" />
+                <Item3 Ref="117" ControlType="XRTableCell" Name="tableCell7" Weight="2.295199437835699" Multiline="true">
                   <ExpressionBindings>
                     <Item1 Ref="118" EventName="BeforePrint" PropertyName="Text" Expression="[PACIENTE_NOMBRES]" />
                   </ExpressionBindings>
@@ -269,11 +269,11 @@
             </Item3>
             <Item4 Ref="119" ControlType="XRTableRow" Name="tableRow5" Weight="0.59999999999999987">
               <Cells>
-                <Item1 Ref="120" ControlType="XRTableCell" Name="tableCell8" Weight="0.98044783933251822" Multiline="true" Text="DOCUMENTO" Font="Calibri, 9pt, style=Bold">
+                <Item1 Ref="120" ControlType="XRTableCell" Name="tableCell8" Weight="0.80973660825443516" Multiline="true" Text="DOCUMENTO" Font="Calibri, 9pt, style=Bold">
                   <StylePriority Ref="121" UseFont="false" />
                 </Item1>
-                <Item2 Ref="122" ControlType="XRTableCell" Name="tableCell13" Weight="0.040167305263301312" Multiline="true" Text=":" />
-                <Item3 Ref="123" ControlType="XRTableCell" Name="tableCell9" Weight="2.1244891261155927" Multiline="true">
+                <Item2 Ref="122" ControlType="XRTableCell" Name="tableCell13" Weight="0.040167489134896678" Multiline="true" Text=":" />
+                <Item3 Ref="123" ControlType="XRTableCell" Name="tableCell9" Weight="2.2952001733220806" Multiline="true">
                   <ExpressionBindings>
                     <Item1 Ref="124" EventName="BeforePrint" PropertyName="Text" Expression="[PACIENTE_IDENTIFICACION]" />
                   </ExpressionBindings>
@@ -282,11 +282,11 @@
             </Item4>
             <Item5 Ref="125" ControlType="XRTableRow" Name="tableRow6" Weight="0.59999999999999987">
               <Cells>
-                <Item1 Ref="126" ControlType="XRTableCell" Name="tableCell14" Weight="0.98044783933251822" Multiline="true" Text="ENTIDAD" Font="Calibri, 9pt, style=Bold">
+                <Item1 Ref="126" ControlType="XRTableCell" Name="tableCell14" Weight="0.80973660825443516" Multiline="true" Text="ENTIDAD" Font="Calibri, 9pt, style=Bold">
                   <StylePriority Ref="127" UseFont="false" />
                 </Item1>
-                <Item2 Ref="128" ControlType="XRTableCell" Name="tableCell15" Weight="0.040167795587555732" Multiline="true" Text=":" />
-                <Item3 Ref="129" ControlType="XRTableCell" Name="tableCell16" Weight="2.1244886357913382" Multiline="true">
+                <Item2 Ref="128" ControlType="XRTableCell" Name="tableCell15" Weight="0.0401679794591511" Multiline="true" Text=":" />
+                <Item3 Ref="129" ControlType="XRTableCell" Name="tableCell16" Weight="2.2951996829978261" Multiline="true">
                   <ExpressionBindings>
                     <Item1 Ref="130" EventName="BeforePrint" PropertyName="Text" Expression="[PACIENTE_ENTIDAD]" />
                   </ExpressionBindings>
