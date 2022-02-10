@@ -12,14 +12,18 @@
   <ItemGroup>
     <None Remove="Reportes\**\*.repx" />
     <None Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <None Remove="Reportes\XDeCaja\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\**\*.repx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <Compile Remove="Reportes\XDeCaja\**" />
     <Content Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <Content Remove="Reportes\XDeCaja\**" />
     <EmbeddedResource Remove="Reportes\LiquidacionHonorariosReporte\**" />
+    <EmbeddedResource Remove="Reportes\XDeCaja\**" />
     <TypeScriptCompile Remove="Reportes\LiquidacionHonorariosReporte\**" />
   </ItemGroup>
   <ItemGroup>
