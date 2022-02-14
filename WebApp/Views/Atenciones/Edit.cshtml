@@ -13,6 +13,7 @@
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("Atenciones"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/es/support/solutions/articles/70000621398-atenciones")
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || disabledButton, Model.Entity.IsNew)
         //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
