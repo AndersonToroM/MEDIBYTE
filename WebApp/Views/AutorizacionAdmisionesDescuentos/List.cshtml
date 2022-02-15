@@ -4,8 +4,8 @@
 
 
     var DataGridConfig = new DataGridConfiguration<Admisiones>(Prefix)
-
         .Exports(true, true)
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/es/support/solutions/articles/70000621410-autorización-de-descuentos")
         .ToolbarTop(DApp.DefaultLanguage.GetResource("AutorizacionAdmisionesDescuentos"), "mainPanel")
         .AddButtons(new List<ButtonToolbar>() {
             new ButtonToolbar{
