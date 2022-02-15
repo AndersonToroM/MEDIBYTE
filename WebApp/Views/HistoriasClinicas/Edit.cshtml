@@ -11,6 +11,7 @@
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("HistoriasClinicas"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/es/support/solutions/articles/70000621114-historia-clínica-siiso")
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || EstaCerrada || !Model.EsMismoUsuario, Model.Entity.IsNew)
         .AddButtons(new List<ButtonToolbar>()
         {
