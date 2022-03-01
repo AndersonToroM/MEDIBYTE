@@ -18,13 +18,7 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Glosas").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.FacturasId)
-                        .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Glosas.FacturasId")))
-                        .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Glosas.FacturasId")))
-                            .Lookup(lookup => lookup
-                            .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Glosas").LoadAction("GetFacturasId").Key("Id"))
-                            .DataSourceOptions(o => o.Paginate(true).PageSize(10))
-                            .ValueExpr("Id").DisplayExpr(new JS(Prefix + "DisplayExprFacturaId")));
+        columns.AddFor(m => m.Facturas).CalculateDisplayValue(new JS(Prefix + "DisplayExprFacturaId"));
         columns.AddFor(m => m.ValorGlosado);
         columns.AddFor(m => m.CausalesGlosas.Descripcion);
         //columns.AddFor(m => m.ValorAceptado);

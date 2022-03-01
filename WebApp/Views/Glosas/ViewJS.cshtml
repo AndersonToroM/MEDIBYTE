@@ -49,11 +49,17 @@
     }
 
     function @(Prefix)DisplayExprFacturaId(data) {
-
-        if (data)
-            return (data.Documentos != undefined ? data.Documentos.Prefijo : "") + "  " + data.NroConsecutivo + " Saldo = " + data.Saldo + " - " + (data.Entidades != null ? data.Entidades.Nombre : "");
-        else
-            return "";
+        console.log(data);
+        try {
+            var fac = data.Facturas;
+            if (fac != undefined)
+                return (fac.Documentos != null ? fac.Documentos.Prefijo : "") + "  " + fac.NroConsecutivo + " Saldo = " + fac.Saldo + " - " + (fac.Entidades != null ? fac.Entidades.Nombre : "");
+            else
+                return "-";
+        } catch (error) {
+            console.error(error);
+        }
+        
     }
 
 
