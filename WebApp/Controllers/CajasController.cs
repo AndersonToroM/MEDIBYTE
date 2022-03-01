@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
@@ -242,7 +243,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetSedesId(DataSourceLoadOptions loadOptions)
         { 
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true).Where(x => x.EstadosId == 37), loadOptions);
         } 
        #endregion
 

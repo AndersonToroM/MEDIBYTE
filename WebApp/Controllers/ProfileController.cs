@@ -82,6 +82,14 @@ namespace Blazor.WebApp.Controllers
         {
             ViewBag.Accion = "Save";
             var OnState = model.Entity.IsNew;
+
+            if (model.Entity.EntidadesId != null && model.Entity.EntidadesId != 0)
+            {
+                var profilesConEntidad = Manager().GetBusinessLogic<Profile>().FindAll(x=>x.EntidadesId == model.Entity.EntidadesId && x.Id != model.Entity.Id);
+                if (profilesConEntidad != null && profilesConEntidad.Count > 0)
+                    ModelState.AddModelError("Entity.EntidadesId", $"La entidad ya existe en el perfil {string.Join(", ", profilesConEntidad.Select(x=>x.Description))}");
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -108,7 +116,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", ModelState.GetFullErrorMessage());
             }
             return model;
         }
@@ -207,6 +215,15 @@ namespace Blazor.WebApp.Controllers
 
         #endregion
 
+        #region Datasource Combobox Foraneos 
+
+        [HttpPost]
+        public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
+        }
+
+        #endregion
 
     }
 }

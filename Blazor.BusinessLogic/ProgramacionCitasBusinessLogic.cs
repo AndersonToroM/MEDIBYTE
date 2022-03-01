@@ -460,7 +460,7 @@ namespace Blazor.BusinessLogic
             }
         }
 
-        public IQueryable<Entidades> GetEntidadesByPaciente(long Id)
+        public IQueryable<Entidades> GetEntidadesByPaciente(long Id, long entidadId)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
@@ -471,6 +471,10 @@ namespace Blazor.BusinessLogic
                          join paciente in pacientes on
                          entidad.Id equals paciente.EntidadesId
                          select entidad;
+
+            if (entidadId != 0)
+                result.Where(x => x.Id == entidadId);
+
             return result;
 
         }

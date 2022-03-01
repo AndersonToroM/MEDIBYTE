@@ -20,7 +20,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class RecaudosController : BaseAppController
     {
 
@@ -35,7 +35,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true).Include(x=>x.CiclosCajas.Cajas), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true).Include(x => x.CiclosCajas.Cajas), loadOptions);
         }
 
         public IActionResult List()
@@ -54,8 +54,8 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", NewModel());
         }
 
-        private RecaudosModel NewModel() 
-        { 
+        private RecaudosModel NewModel()
+        {
             RecaudosModel model = new RecaudosModel();
             model.Entity.IsNew = true;
             model.Entity.FechaRecaudo = DateTime.Now;
@@ -65,8 +65,8 @@ namespace Blazor.WebApp.Controllers
             model.Entity.Empresas = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == long.Parse(User.FindFirst("EmpresaId").Value), false);
             if (model.Entity.Empresas != null)
                 model.Entity.EmpresasId = model.Entity.Empresas.Id;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpGet]
         public IActionResult Edit(long Id)
@@ -74,54 +74,54 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
-        private RecaudosModel EditModel(long Id) 
-        { 
+        private RecaudosModel EditModel(long Id)
+        {
             RecaudosModel model = new RecaudosModel();
             model.Entity = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == Id, false);
             model.Entity.IsNew = false;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Edit(RecaudosModel model)
         {
-            return PartialView("Edit",EditModel(model));
+            return PartialView("Edit", EditModel(model));
         }
 
-        private RecaudosModel EditModel(RecaudosModel model) 
-        { 
-            ViewBag.Accion = "Save"; 
-            var OnState = model.Entity.IsNew; 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name; 
-                    if (model.Entity.IsNew) 
-                    { 
-                        model.Entity.CreationDate = DateTime.Now; 
-                        model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<Recaudos>().Add(model.Entity); 
+        private RecaudosModel EditModel(RecaudosModel model)
+        {
+            ViewBag.Accion = "Save";
+            var OnState = model.Entity.IsNew;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity.LastUpdate = DateTime.Now;
+                    model.Entity.UpdatedBy = User.Identity.Name;
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<Recaudos>().Add(model.Entity);
                         model.Entity.IsNew = false;
-                    } 
-                    else 
+                    }
+                    else
                     {
                         model.Entity.ValorTotalRecibido = Manager().GetBusinessLogic<RecaudosDetalles>().FindAll(x => x.RecaudosId == model.Entity.Id).Select(y => y.ValorAplicado).Sum();
-                        model.Entity = Manager().GetBusinessLogic<Recaudos>().Modify(model.Entity); 
-                    } 
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
+                        model.Entity = Manager().GetBusinessLogic<Recaudos>().Modify(model.Entity);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
             }
             else
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Delete(RecaudosModel model)
@@ -130,26 +130,26 @@ namespace Blazor.WebApp.Controllers
         }
 
         private RecaudosModel DeleteModel(RecaudosModel model)
-        { 
-            ViewBag.Accion = "Delete"; 
-            RecaudosModel newModel = NewModel(); 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<Recaudos>().Remove(model.Entity); 
+        {
+            ViewBag.Accion = "Delete";
+            RecaudosModel newModel = NewModel();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.Id, false);
+                    Manager().GetBusinessLogic<Recaudos>().Remove(model.Entity);
                     return newModel;
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
-            } 
-            return model; 
-        } 
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
+            }
+            return model;
+        }
 
-        #endregion 
+        #endregion
 
         #region Functions Detail 
         /*
@@ -248,13 +248,13 @@ namespace Blazor.WebApp.Controllers
         } 
 
         */
-        #endregion 
+        #endregion
 
         #region Datasource Combobox Foraneos 
 
         [HttpPost]
         public LoadResult GetBancosId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Bancos>().Tabla(true), loadOptions);
         }
 
@@ -277,11 +277,11 @@ namespace Blazor.WebApp.Controllers
                 result = Manager().GetBusinessLogic<CiclosCajas>().Tabla(true).Where(x => x.OpenUsersId == this.ActualUsuarioId()).ToList();
             }
             return DataSourceLoader.Load(result, loadOptions);
-        } 
+        }
 
         [HttpPost]
         public LoadResult GetMediosPagoId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<MediosPago>().Tabla(true), loadOptions);
         }
 
@@ -305,7 +305,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetSedesId(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true).Where(x=>x.EmpresasId== long.Parse(User.FindFirst("EmpresaId").Value)), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true).Where(x => x.EstadosId == 37 && x.EmpresasId == long.Parse(User.FindFirst("EmpresaId").Value)), loadOptions);
         }
         #endregion
 

@@ -256,7 +256,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetSedesId(DataSourceLoadOptions loadOptions)
         { 
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true).Where(x => x.EstadosId == 37), loadOptions);
         } 
        #endregion
 

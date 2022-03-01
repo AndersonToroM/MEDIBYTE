@@ -292,7 +292,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions, long PacientesId)
         {
-            return DataSourceLoader.Load(Manager().ProgramacionCitasBusinessLogic().GetEntidadesByPaciente(PacientesId), loadOptions);
+            return DataSourceLoader.Load(Manager().ProgramacionCitasBusinessLogic().GetEntidadesByPaciente(PacientesId, this.ActualEntidadId()), loadOptions);
         }
         [HttpPost]
         public LoadResult GetFormasPagosId(DataSourceLoadOptions loadOptions)
