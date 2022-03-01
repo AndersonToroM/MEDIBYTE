@@ -105,7 +105,7 @@ namespace Blazor.WebApp.Controllers
             }
 
             // Valido que tenga perfiles asociados el usuario
-            List<ProfileUser> perfilesUsuarios = manager.GetBusinessLogic<ProfileUser>().FindAll(x => x.UserId == loggedUser.Id).ToList();
+            List<ProfileUser> perfilesUsuarios = manager.GetBusinessLogic<ProfileUser>().FindAll(x => x.UserId == loggedUser.Id, true).ToList();
             if (perfilesUsuarios == null || perfilesUsuarios.Count <= 0)
             {
                 ModelState.AddModelError("UserName", "El usuario no tiene un perfil asociado. Conmunicarse con el administrador.");
@@ -113,9 +113,12 @@ namespace Blazor.WebApp.Controllers
             }
 
             List<long> perfilesId = perfilesUsuarios.Select(x => x.ProfileId).ToList();
+            long entidadId = 0;
+            if (perfilesUsuarios.Count == 1 && perfilesUsuarios.Exists(x=>x.Profile.EntidadesId != null))
+                entidadId = perfilesUsuarios.First().Profile.EntidadesId.GetValueOrDefault(0);
 
             ClaimsIdentity identity = new ClaimsIdentity(this.GetUserClaims(model), CookieAuthenticationDefaults.AuthenticationScheme);
-            identity.AddClaims(GetTokenClaims(loggedUser, perfilesId, empresa.Id));
+            identity.AddClaims(GetTokenClaims(loggedUser, perfilesId, empresa.Id, entidadId));
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
             //int sessionTime = int.Parse(config["SessionTime"]);
@@ -143,7 +146,7 @@ namespace Blazor.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private IEnumerable<Claim> GetTokenClaims(User user, List<long> profilesId, long EmpresaId)
+        private IEnumerable<Claim> GetTokenClaims(User user, List<long> profilesId, long EmpresaId, long entidadId)
         {
             List<Claim> claims = new List<Claim>();
 
@@ -151,6 +154,7 @@ namespace Blazor.WebApp.Controllers
             claims.Add(new Claim("Email", string.IsNullOrWhiteSpace(user.Email) ? "" : user.Email));
             claims.Add(new Claim("ProfilesId", JsonConvert.SerializeObject(profilesId)));
             claims.Add(new Claim("EmpresaId", EmpresaId.ToString()));
+            claims.Add(new Claim("EntidadId", entidadId.ToString()));
             return claims;
         }
 

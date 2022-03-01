@@ -34,7 +34,10 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true), loadOptions);
+            if (this.ActualEntidadId() != 0)
+                return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true).Where(x=>x.EntidadesId == this.ActualEntidadId()), loadOptions);
+            else
+                return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true), loadOptions);
         }
 
         public IActionResult List()
@@ -324,7 +327,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetSedesId(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true).Where(x => x.EstadosId == 37), loadOptions);
         }
         [HttpPost]
         public LoadResult GetConveniosByEntidad(DataSourceLoadOptions loadOptions, long EntidadesId)
@@ -358,7 +361,8 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetEntidadesByPaciente(DataSourceLoadOptions loadOptions, long PacientesId)
         {
-            return DataSourceLoader.Load(Manager().ProgramacionCitasBusinessLogic().GetEntidadesByPaciente(PacientesId), loadOptions);
+            var result = Manager().ProgramacionCitasBusinessLogic().GetEntidadesByPaciente(PacientesId, this.ActualEntidadId());
+            return DataSourceLoader.Load(result, loadOptions);
         }
         [HttpPost]
         public LoadResult GetConsultoriosPorServicio(DataSourceLoadOptions loadOptions, long servicioId, long sedesId)
@@ -373,7 +377,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetEmpleadosProfesionales(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true).Where(x=>x.TipoEmpleados == 2), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true).Where(x => x.TipoEmpleados == 2), loadOptions);
         }
         #endregion
 

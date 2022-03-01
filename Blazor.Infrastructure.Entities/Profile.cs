@@ -40,6 +40,21 @@ namespace Blazor.Infrastructure.Entities
 
        #endregion
 
+       #region Columnas referenciales)
+
+       [Column("EntidadesId")]
+       [DDisplayName("Profiles.EntidadesId")]
+       public virtual Int64? EntidadesId { get; set; }
+
+       #endregion
+
+       #region Propiedades referencias de entrada)
+
+       [ForeignKey("EntidadesId")]
+       public virtual Entidades Entidades { get; set; }
+
+       #endregion
+
        #region Reglas expression
 
        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()

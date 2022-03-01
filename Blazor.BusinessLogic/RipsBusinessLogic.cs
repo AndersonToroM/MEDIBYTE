@@ -119,7 +119,7 @@ namespace Blazor.BusinessLogic
                     }
 
                     //Archivo CT
-                    File.WriteAllText(Path.Combine(this.PathArchivos, $"CT{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registroCT));
+                    File.WriteAllText(Path.Combine(this.PathArchivos, $"CT{rips.Periodo.ToString("yyyyMM")}.txt"), string.Join(Environment.NewLine, registroCT));
 
                     if (errores.Count <= 0)
                     {
@@ -232,10 +232,10 @@ namespace Blazor.BusinessLogic
             }
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"US{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
+                $"US{rips.Periodo.ToString("yyyyMM")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"US{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"US{rips.Periodo.ToString("yyyyMM")}.txt"), string.Join(Environment.NewLine, registros));
         }
         #endregion
 
@@ -282,10 +282,10 @@ namespace Blazor.BusinessLogic
 
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"AF{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
+                $"AF{rips.Periodo.ToString("yyyyMM")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"AF{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"AF{rips.Periodo.ToString("yyyyMM")}.txt"), string.Join(Environment.NewLine, registros));
 
         }
         #endregion
@@ -353,10 +353,10 @@ namespace Blazor.BusinessLogic
 
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"AC{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
+                $"AC{rips.Periodo.ToString("yyyyMM")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"AC{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"AC{rips.Periodo.ToString("yyyyMM")}.txt"), string.Join(Environment.NewLine, registros));
         }
         #endregion
 
@@ -424,10 +424,10 @@ namespace Blazor.BusinessLogic
 
             registroCT.Add($"{rips.Empresas.CodigoReps}{delimitador}" +
                 $"{rips.FechaRemision.ToString("dd/MM/yyyy")}{delimitador}" +
-                $"AP{rips.Periodo.ToString("MMyyyy")}{delimitador}" +
+                $"AP{rips.Periodo.ToString("yyyyMM")}{delimitador}" +
                 $"{registros.Count}"
             );
-            File.WriteAllText(Path.Combine(this.PathArchivos, $"AP{rips.Periodo.ToString("yyyyMMdd")}.txt"), string.Join(Environment.NewLine, registros));
+            File.WriteAllText(Path.Combine(this.PathArchivos, $"AP{rips.Periodo.ToString("yyyyMM")}.txt"), string.Join(Environment.NewLine, registros));
         }
         #endregion 
     }

@@ -48,6 +48,14 @@
                                     .DataSource(new List<object>() { new { key = false, desc = "Denegar Todo" }, new { key = true, desc = "Permitir todo" } }));
                                 groupItems.AddSimpleFor(m => m.Entity.IsActive).Label(x=>x.Visible(false)).ColSpan(3)
                                     .Editor(e=>e.CheckBox().ID(Prefix + "IsActive").Text(DApp.DefaultLanguage.GetResource("Profiles.IsActive")));
+
+                                groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(12)
+                                     .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
+                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Profile").LoadAction("GetEntidadesId").Key("Id"))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
+                                     .SearchEnabled(true).ShowClearButton(true)
+                                );
                             });
                     })
                 )

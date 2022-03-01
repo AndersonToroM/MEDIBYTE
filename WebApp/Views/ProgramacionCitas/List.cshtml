@@ -110,7 +110,7 @@
         columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
         columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
         columns.AddFor(m => m.Pacientes.NombreCompleto);
-        columns.AddFor(m => m.Entidades.Nombre);
+        columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.Entidad"));
         columns.AddFor(m => m.Consultorios.Nombre);
         columns.AddFor(m => m.Empleados.NombreCompleto);
         columns.AddFor(m => m.Sedes.Nombre);

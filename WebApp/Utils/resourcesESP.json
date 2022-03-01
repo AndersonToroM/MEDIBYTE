@@ -3844,6 +3844,10 @@
     "Description": "Descripción"
   },
   {
+    "Id": "Profiles.EntidadesId",
+    "Description": "Entidad"
+  },
+  {
     "Id": "Profiles.IsActive",
     "Description": "¿Activo?"
   },
@@ -3974,6 +3978,10 @@
   {
     "Id": "ProgramacionCitas.EmpleadosId",
     "Description": "Empleado"
+  },
+  {
+    "Id": "ProgramacionCitas.Entidad",
+    "Description": "Entidad"
   },
   {
     "Id": "ProgramacionCitas.EntidadesId",

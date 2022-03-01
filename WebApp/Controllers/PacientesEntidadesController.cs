@@ -19,7 +19,7 @@ using WidgetGallery;
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class PacientesEntidadesController : BaseAppController
     {
 
@@ -53,12 +53,12 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", NewModel());
         }
 
-        private PacientesEntidadesModel NewModel() 
-        { 
+        private PacientesEntidadesModel NewModel()
+        {
             PacientesEntidadesModel model = new PacientesEntidadesModel();
             model.Entity.IsNew = true;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpGet]
         public IActionResult Edit(long Id)
@@ -66,23 +66,23 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
-        private PacientesEntidadesModel EditModel(long Id) 
-        { 
+        private PacientesEntidadesModel EditModel(long Id)
+        {
             PacientesEntidadesModel model = new PacientesEntidadesModel();
             model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == Id, false);
             model.Entity.IsNew = false;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Edit(PacientesEntidadesModel model)
         {
-            return PartialView("Edit",EditModel(model));
+            return PartialView("Edit", EditModel(model));
         }
 
-        private PacientesEntidadesModel EditModel(PacientesEntidadesModel model) 
-        { 
-            ViewBag.Accion = "Save"; 
+        private PacientesEntidadesModel EditModel(PacientesEntidadesModel model)
+        {
+            ViewBag.Accion = "Save";
             var OnState = model.Entity.IsNew;
 
             bool esEntidadEPS = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == model.Entity.EntidadesId, true).TipoEntidades.Codigo == "EPS";
@@ -92,39 +92,39 @@ namespace Blazor.WebApp.Controllers
                             join T in Manager().GetBusinessLogic<TipoEntidades>().FindAll(null) on P.Entidades.TipoEntidadesId equals T.Id
                             where T.Codigo == "EPS"
                             select P.Entidades).ToList();
-                if(data != null && data.Count > 0)
+                if (data != null && data.Count > 0)
                     ModelState.AddModelError("Error: ", DApp.DefaultLanguage.GetResource("Pacientes.YAEXISTEENTIDADEPS") + " " + data.First().Alias);
             }
 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name; 
-                    if (model.Entity.IsNew) 
-                    { 
-                        model.Entity.CreationDate = DateTime.Now; 
-                        model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().Add(model.Entity); 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity.LastUpdate = DateTime.Now;
+                    model.Entity.UpdatedBy = User.Identity.Name;
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().Add(model.Entity);
                         model.Entity.IsNew = false;
-                    } 
-                    else 
-                    { 
-                        model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().Modify(model.Entity); 
-                    } 
-                } 
-                catch (Exception e) 
+                    }
+                    else
+                    {
+                        model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().Modify(model.Entity);
+                    }
+                }
+                catch (Exception e)
                 {
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
-                } 
+                }
             }
             else
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Delete(PacientesEntidadesModel model)
@@ -133,29 +133,29 @@ namespace Blazor.WebApp.Controllers
         }
 
         private PacientesEntidadesModel DeleteModel(PacientesEntidadesModel model)
-        { 
-            ViewBag.Accion = "Delete"; 
-            PacientesEntidadesModel newModel = NewModel(); 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<PacientesEntidades>().Remove(model.Entity); 
+        {
+            ViewBag.Accion = "Delete";
+            PacientesEntidadesModel newModel = NewModel();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == model.Entity.Id, false);
+                    Manager().GetBusinessLogic<PacientesEntidades>().Remove(model.Entity);
                     return newModel;
-                } 
-                catch (Exception e) 
-                { 
+                }
+                catch (Exception e)
+                {
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
-                } 
-            } 
-            return model; 
-        } 
+                }
+            }
+            return model;
+        }
 
-        #endregion 
+        #endregion
 
         #region Functions Detail 
-        
+
 
         [HttpGet]
         public IActionResult NewDetail(long IdFather)
@@ -163,13 +163,13 @@ namespace Blazor.WebApp.Controllers
             return PartialView("EditDetail", NewModelDetail(IdFather));
         }
 
-        private PacientesEntidadesModel NewModelDetail(long IdFather) 
-        { 
-            PacientesEntidadesModel model = new PacientesEntidadesModel(); 
-            model.Entity.PacientesId = IdFather; 
-            model.Entity.IsNew = true; 
-            return model; 
-        } 
+        private PacientesEntidadesModel NewModelDetail(long IdFather)
+        {
+            PacientesEntidadesModel model = new PacientesEntidadesModel();
+            model.Entity.PacientesId = IdFather;
+            model.Entity.IsNew = true;
+            return model;
+        }
 
         [HttpGet]
         public IActionResult EditDetail(long Id)
@@ -180,7 +180,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public IActionResult EditDetail(PacientesEntidadesModel model)
         {
-            return PartialView("EditDetail",EditModel(model));
+            return PartialView("EditDetail", EditModel(model));
         }
 
         [HttpPost]
@@ -190,79 +190,82 @@ namespace Blazor.WebApp.Controllers
         }
 
         private PacientesEntidadesModel DeleteModelDetail(PacientesEntidadesModel model)
-        { 
-            ViewBag.Accion = "Delete"; 
-            PacientesEntidadesModel newModel = NewModelDetail(model.Entity.PacientesId); 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<PacientesEntidades>().Remove(model.Entity); 
+        {
+            ViewBag.Accion = "Delete";
+            PacientesEntidadesModel newModel = NewModelDetail(model.Entity.PacientesId);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == model.Entity.Id, false);
+                    Manager().GetBusinessLogic<PacientesEntidades>().Remove(model.Entity);
                     return newModel;
-                } 
-                catch (Exception e) 
-                { 
+                }
+                catch (Exception e)
+                {
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
-                } 
-            } 
-            return model; 
-        } 
+                }
+            }
+            return model;
+        }
 
-        #endregion 
+        #endregion
 
         #region Funcions Detail Edit in Grid 
 
-        [HttpPost] 
-        public IActionResult AddInGrid(string values) 
-        { 
-             PacientesEntidades entity = new PacientesEntidades(); 
-             JsonConvert.PopulateObject(values, entity); 
-             PacientesEntidadesModel model = new PacientesEntidadesModel(); 
-             model.Entity = entity; 
-             model.Entity.IsNew = true; 
-             this.EditModel(model); 
-             if(ModelState.IsValid) 
-                 return Ok(ModelState); 
-             else 
-                 return BadRequest(ModelState.GetFullErrorMessage()); 
-        } 
+        [HttpPost]
+        public IActionResult AddInGrid(string values)
+        {
+            PacientesEntidades entity = new PacientesEntidades();
+            JsonConvert.PopulateObject(values, entity);
+            PacientesEntidadesModel model = new PacientesEntidadesModel();
+            model.Entity = entity;
+            model.Entity.IsNew = true;
+            this.EditModel(model);
+            if (ModelState.IsValid)
+                return Ok(ModelState);
+            else
+                return BadRequest(ModelState.GetFullErrorMessage());
+        }
 
-        [HttpPost] 
-        public IActionResult ModifyInGrid(int key, string values) 
-        { 
-             PacientesEntidades entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == key, false); 
-             JsonConvert.PopulateObject(values, entity); 
-             PacientesEntidadesModel model = new PacientesEntidadesModel(); 
-             model.Entity = entity; 
-             model.Entity.IsNew = false; 
-             this.EditModel(model); 
-             if(ModelState.IsValid) 
-                 return Ok(ModelState); 
-             else 
-                 return BadRequest(ModelState.GetFullErrorMessage()); 
-        } 
+        [HttpPost]
+        public IActionResult ModifyInGrid(int key, string values)
+        {
+            PacientesEntidades entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == key, false);
+            JsonConvert.PopulateObject(values, entity);
+            PacientesEntidadesModel model = new PacientesEntidadesModel();
+            model.Entity = entity;
+            model.Entity.IsNew = false;
+            this.EditModel(model);
+            if (ModelState.IsValid)
+                return Ok(ModelState);
+            else
+                return BadRequest(ModelState.GetFullErrorMessage());
+        }
 
         [HttpPost]
         public void DeleteInGrid(int key)
-        { 
-             PacientesEntidades entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == key, false); 
-             Manager().GetBusinessLogic<PacientesEntidades>().Remove(entity); 
-        } 
+        {
+            PacientesEntidades entity = Manager().GetBusinessLogic<PacientesEntidades>().FindById(x => x.Id == key, false);
+            Manager().GetBusinessLogic<PacientesEntidades>().Remove(entity);
+        }
 
-        
-        #endregion 
+
+        #endregion
 
         #region Datasource Combobox Foraneos 
 
         [HttpPost]
         public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions)
-        { 
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
-        } 
+        {
+            if (this.ActualEntidadId() != 0)
+                return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true).Where(x=>x.Id == this.ActualEntidadId()), loadOptions);
+            else
+                return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
+        }
         [HttpPost]
         public LoadResult GetPacientesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Pacientes>().Tabla(true), loadOptions);
         }
         [HttpPost]
