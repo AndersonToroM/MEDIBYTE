@@ -77,7 +77,7 @@ namespace Blazor.BusinessLogic
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = "FACTURACION";
-                envioEmailConfig.Asunto = $"Envio Nota Electronica {nota.Documentos.Prefijo}-{nota.Consecutivo}";
+                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioNotaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);

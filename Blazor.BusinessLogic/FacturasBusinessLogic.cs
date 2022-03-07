@@ -77,7 +77,7 @@ namespace Blazor.BusinessLogic
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = "FACTURACION";
-                envioEmailConfig.Asunto = $"Envio Factura Electronica {factura.Documentos.Prefijo}-{factura.NroConsecutivo}";
+                envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
