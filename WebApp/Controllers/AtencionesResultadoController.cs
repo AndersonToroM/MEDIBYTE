@@ -83,6 +83,7 @@ namespace Blazor.WebApp.Controllers
             model.Entity.AdmisionesServiciosPrestadosId = Id;
             model.Entity.AdmisionesServiciosPrestados = Manager().GetBusinessLogic<AdmisionesServiciosPrestados>().FindById(x => x.Id == Id, true);
             model.Entity.IsNew = true;
+            model.Entity.EstadosId = 66;
             return model;
         }
 
