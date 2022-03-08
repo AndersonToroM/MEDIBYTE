@@ -10,6 +10,7 @@
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("LiquidacionHonorarios"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000622875-liquidaci%C3%B3n-de-honorarios-m%C3%A9dicos")
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || Model.Entity.EstadosId != 10064, Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete) || Model.Entity.EstadosId != 10064, UrlBack, Model.Entity.IsNew)
