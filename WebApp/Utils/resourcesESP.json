@@ -2168,6 +2168,10 @@
     "Description": "Generar Archivos Siesa 8.5"
   },
   {
+    "Id": "Facturas.ImprimirAnexo",
+    "Description": "Imprimir Anexo"
+  },
+  {
     "Id": "Facturas.IssueDate",
     "Description": "Fecha Evento"
   },

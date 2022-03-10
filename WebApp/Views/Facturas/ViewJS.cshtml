@@ -9,6 +9,24 @@
 
 <script>
 
+    function ImprimirAnexoFactura() {
+        showLoadIndicator();
+        $.ajax({
+            url: "@Url.Action("ImprimirAnexoFactura", Prefix, new { Id = Model.Entity.Id })",
+            type: 'GET',
+            success: function (data) {
+                $("#VisorReporteria").dxPopup("instance").show();
+                $("#ContenidoReporte").html(data);
+                hideLoadIndicator();
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify(xhr.responseText, "error", 5000);
+            }
+        });
+    }
+
     function MostrarPopudModificarDatosFactura() {
         $("#@(Prefix)PopupModificarDatosFactura").dxPopup("instance").show();
     }
