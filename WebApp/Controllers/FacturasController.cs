@@ -16,6 +16,7 @@ using System.Linq;
 using Dominus.Backend.Application;
 using WebApp.Reportes.Facturas;
 using DevExpress.XtraReports.UI;
+using WebApp.Reportes.FacturaDetalle;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -359,6 +360,28 @@ namespace Blazor.WebApp.Controllers
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
                 CarteraGeneralReporte report = new CarteraGeneralReporte();
+                report.SetInformacionReporte(informacionReporte);
+                XtraReport xtraReport = report;
+
+                return PartialView("_ViewerReport", report);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ImprimirAnexoFactura(int Id)
+        {
+            try
+            {
+                InformacionReporte informacionReporte = new InformacionReporte();
+                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
+                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
+                informacionReporte.Ids = new long[] { Id };
+
+                FacturaDetalleReporte report = new FacturaDetalleReporte();
                 report.SetInformacionReporte(informacionReporte);
                 XtraReport xtraReport = report;
 

@@ -54,6 +54,15 @@
             },
             new ButtonToolbar
             {
+                Action = "ImprimirAnexoFactura",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.ImprimirAnexo"),
+                Disabled = (Model.Entity.IsNew),
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "print"
+            },
+            new ButtonToolbar
+            {
                 Action = "EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarDIAN"),
                 Disabled = Model.Entity.IsNew || enviadoDian,
