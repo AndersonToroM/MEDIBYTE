@@ -84,6 +84,7 @@ namespace Blazor.WebApp
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.LoginPath = "/Login/Login";
                     options.LogoutPath = "/Login/LogOff";
                     options.Cookie.Name = "auth_net_webapp";
