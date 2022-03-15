@@ -1,7 +1,8 @@
 ﻿using Blazor.BusinessLogic;
+using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure.Entities;
+using Blazor.WebApp.Models;
 using Dominus.Backend.Application;
-using WidgetGallery;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,12 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Blazor.WebApp.Models;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using Blazor.BusinessLogic.Models;
+using System.Linq;
+using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
 {
