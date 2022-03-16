@@ -374,8 +374,7 @@ namespace Blazor.WebApp.Controllers
 
                 informacionReporte.Ids = new long[] { admisionesServiciosPrestados.FacturasId.GetValueOrDefault(0) };
 
-                FacturaDetalleReporte report = new FacturaDetalleReporte();
-                report.SetInformacionReporte(informacionReporte);
+                FacturaDetalleReporte report = new FacturaDetalleReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);

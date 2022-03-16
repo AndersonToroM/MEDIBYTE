@@ -7,23 +7,16 @@ namespace WebApp.Reportes.FacturaDetalle
     public partial class FacturaDetalleReporte
     {
         private InformacionReporte InformacionReporte { get; set; }
-        public void SetInformacionReporte(InformacionReporte informacionReporte)
+        public FacturaDetalleReporte(InformacionReporte _informacionReporte)
         {
-            this.InformacionReporte = informacionReporte;
-        }
-        public FacturaDetalleReporte()
-        {
+            this.InformacionReporte = _informacionReporte;
             InitializeComponent();
-        }
-        protected override void BeforeReportPrint()
-        {
-            this.P_Ids.Value = InformacionReporte.Ids;
-            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
-            base.BeforeReportPrint();
         }
 
         protected override void OnReportInitialize()
         {
+            this.P_Ids.Value = InformacionReporte.Ids;
+            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }

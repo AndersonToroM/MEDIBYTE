@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DevExpress.Document.Processor" Version="21.2.3" />
+    <PackageReference Include="DevExpress.Document.Processor" Version="21.2.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Quartz" Version="3.3.3" />
   </ItemGroup>
