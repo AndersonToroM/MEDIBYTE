@@ -1,4 +1,7 @@
 FROM debian:stable-slim
+
+ENV TZ="America/Bogota"
+
 #Instalo librerias necesarias para reporteria de DEVEXPRESS en linux: https://community.devexpress.com/blogs/reporting/archive/2020/07/27/reporting-enhanced-drawing-engine-for-linux-and-macos-v20-1.aspx
 RUN apt-get update
 RUN apt-get install -y software-properties-common
@@ -20,11 +23,6 @@ RUN apt-get update
 RUN apt-get install -y apt-transport-https
 RUN apt-get update
 RUN apt-get install -y dotnet-runtime-6.0
-
-RUN timedatectl list-timezones | grep America/Bogota
-RUN timedatectl set-timezone America/Bogota
-RUN timedatectl set-ntp off
-RUN timedatectl set-ntp on
 
 WORKDIR /netcore/app
 COPY publish/. .
