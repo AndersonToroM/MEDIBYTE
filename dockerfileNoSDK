@@ -21,6 +21,11 @@ RUN apt-get install -y apt-transport-https
 RUN apt-get update
 RUN apt-get install -y dotnet-runtime-6.0
 
+RUN timedatectl list-timezones | grep America/Bogota
+RUN timedatectl set-timezone America/Bogota
+RUN timedatectl set-ntp off
+RUN timedatectl set-ntp on
+
 WORKDIR /netcore/app
 COPY publish/. .
 ENTRYPOINT ["dotnet", "Blazor.WebApp.dll"]
