@@ -1,0 +1,27 @@
+FROM debian:stable-slim
+#Instalo librerias necesarias para reporteria de DEVEXPRESS en linux: https://community.devexpress.com/blogs/reporting/archive/2020/07/27/reporting-enhanced-drawing-engine-for-linux-and-macos-v20-1.aspx
+RUN apt-get update
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository 'deb http://deb.debian.org/debian sid main'
+RUN apt-get update
+RUN apt-get install -y libc6 -f -o APT::Immediate-Configure=0 
+RUN apt-get install -y libgdiplus
+RUN apt-get install -y libicu-dev
+RUN apt-get install -y libharfbuzz0b
+RUN apt-get install -y libfontconfig1
+RUN apt-get install -y libfreetype6
+RUN apt-get install -y libpango-1.0-0
+RUN apt-get install -y libpangocairo-1.0
+
+RUN apt-get install -y wget
+RUN wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN apt-get update
+RUN apt-get install -y apt-transport-https
+RUN apt-get update
+RUN apt-get install -y dotnet-runtime-6.0
+
+WORKDIR /netcore/app
+COPY publish/. .
+ENTRYPOINT ["dotnet", "Blazor.WebApp.dll"]
+
