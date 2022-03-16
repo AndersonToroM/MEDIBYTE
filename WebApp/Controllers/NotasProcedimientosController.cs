@@ -91,8 +91,7 @@ namespace WebApp.Controllers
                 informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
                 informacionReporte.Ids = atencionesId.ToArray();
 
-                AtencionNotaProcedimientosReporte report = new AtencionNotaProcedimientosReporte();
-                report.SetInformacionReporte(informacionReporte);
+                AtencionNotaProcedimientosReporte report = new AtencionNotaProcedimientosReporte(informacionReporte);
                 XtraReport xtraReport = report;
                 return PartialView("_ViewerReport", report);
 

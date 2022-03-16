@@ -8,24 +8,17 @@ namespace WebApp.Reportes.HistoriaClinicasNotasAclaratorias
     public partial class HistoriaClinicasNotasAclaratoriasReporte
     {
         private InformacionReporte InformacionReporte { get; set; }
-        public void SetInformacionReporte(InformacionReporte informacionReporte)
+        public HistoriaClinicasNotasAclaratoriasReporte(InformacionReporte _informacionReporte)
         {
-            this.InformacionReporte = informacionReporte;
-        }
-        public HistoriaClinicasNotasAclaratoriasReporte()
-        {
+            this.InformacionReporte = _informacionReporte;
             InitializeComponent();
-        }
-        protected override void BeforeReportPrint()
-        {
-            this.P_Ids.Value = InformacionReporte.Ids;
-            this.P_UsuarioGenero.Value = InformacionReporte.ParametrosAdicionales["P_UsuarioGenero"];
-            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
-            base.BeforeReportPrint();
         }
 
         protected override void OnReportInitialize()
         {
+            this.P_Ids.Value = InformacionReporte.Ids;
+            this.P_UsuarioGenero.Value = InformacionReporte.ParametrosAdicionales["P_UsuarioGenero"];
+            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }

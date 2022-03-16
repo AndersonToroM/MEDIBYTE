@@ -147,14 +147,12 @@ namespace Blazor.WebApp.Controllers
             XtraReport xtraReport = null;
             if (factura.AdmisionesId != null)
             {
-                FacturasParticularReporte report = new FacturasParticularReporte();
-                report.SetInformacionReporte(informacionReporte);
+                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
                 xtraReport = report;
             }
             else
             {
-                FacturasReporte report = new FacturasReporte();
-                report.SetInformacionReporte(informacionReporte);
+                FacturasReporte report = new FacturasReporte(informacionReporte);
                 xtraReport = report;
             }
 
@@ -174,8 +172,7 @@ namespace Blazor.WebApp.Controllers
             informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
             informacionReporte.Ids = new long[] { nota.Id };
 
-            NotasReporte report = new NotasReporte();
-            report.SetInformacionReporte(informacionReporte);
+            NotasReporte report = new NotasReporte(informacionReporte);
             XtraReport xtraReport = report;
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");

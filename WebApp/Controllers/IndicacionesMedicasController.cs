@@ -277,8 +277,7 @@ namespace Blazor.WebApp.Controllers
                 var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
-                IndicacionesMedicasReporte report = new IndicacionesMedicasReporte();
-                report.SetInformacionReporte(informacionReporte);
+                IndicacionesMedicasReporte report = new IndicacionesMedicasReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);

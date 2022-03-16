@@ -12,15 +12,11 @@ namespace WebApp.Reportes.General.RadicacionCuentasReporte
             this.InformacionReporte = informacionReporte;
             InitializeComponent();
         }
-        protected override void BeforeReportPrint()
-        {
-            this.P_Ids.Value = InformacionReporte.Ids;
-            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
-            base.BeforeReportPrint();
-        }
 
         protected override void OnReportInitialize()
         {
+            this.P_Ids.Value = InformacionReporte.Ids;
+            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }

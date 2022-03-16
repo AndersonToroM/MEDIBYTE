@@ -11,22 +11,15 @@ namespace WebApp.Reportes.HistoriasClinicas
     public partial class DocumentosAPacientesReporte
     {
         private InformacionReporte InformacionReporte { get; set; }
-        public void SetInformacionReporte(InformacionReporte informacionReporte)
+        public DocumentosAPacientesReporte(InformacionReporte _informacionReporte)
         {
-            this.InformacionReporte = informacionReporte;
-        }
-        public DocumentosAPacientesReporte()
-        {
+            this.InformacionReporte = _informacionReporte;
             InitializeComponent();
-        }
-        protected override void BeforeReportPrint()
-        {
-            this.P_Ids.Value = InformacionReporte.Ids[0];
-            base.BeforeReportPrint();
         }
 
         protected override void OnReportInitialize()
         {
+            this.P_Ids.Value = InformacionReporte.Ids[0];
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }
@@ -36,19 +29,19 @@ namespace WebApp.Reportes.HistoriasClinicas
             this.FuenteDatos.ConnectionParameters = InformacionReporte.DataConnectionParametersBase;
 
             var subReporteIncapacidades = new IncapacidadesReporte();
-            subReporteIncapacidades.SetInformacionReporte(InformacionReporte,true);
+            subReporteIncapacidades.SetSubReporte(InformacionReporte,true);
             this.IncapacidadesSubReporte.ReportSource = subReporteIncapacidades;
 
             var subReporteIndicacionesMedicas = new IndicacionesMedicasReporte();
-            subReporteIndicacionesMedicas.SetInformacionReporte(InformacionReporte,true);
+            subReporteIndicacionesMedicas.SetSubReporte(InformacionReporte,true);
             this.IndicacionesMedicasSubReporte.ReportSource = subReporteIndicacionesMedicas;
 
-            var subReporteOrdenesMedicamentos = new OrdenesMedicamentosReporte();
-            subReporteOrdenesMedicamentos.SetInformacionReporte(InformacionReporte,true);
+            var subReporteOrdenesMedicamentos = new OrdenesMedicamentosReporte(InformacionReporte, true);
+            subReporteOrdenesMedicamentos.SetSubReporte(InformacionReporte, true);
             this.OrdenesMedicamentosSubReporte.ReportSource = subReporteOrdenesMedicamentos;
 
-            var subReporteOrdenesServicios = new OrdenesServiciosReporte();
-            subReporteOrdenesServicios.SetInformacionReporte(InformacionReporte,true);
+            var subReporteOrdenesServicios = new OrdenesServiciosReporte(InformacionReporte,true);
+            subReporteOrdenesServicios.SetSubReporte(InformacionReporte, true);
             this.OrdenesServiciosSubReporte.ReportSource = subReporteOrdenesServicios;
         }
     }

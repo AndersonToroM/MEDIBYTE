@@ -79,6 +79,7 @@ namespace WebApp.Reportes.AtencionesResultado {
             this.tableRow8 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow8");
             this.tableRow9 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow9");
             this.tableRow17 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow17");
+            this.tableRow19 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow19");
             this.tableCell15 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell15");
             this.tableCell17 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell17");
             this.SelloDigital = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("SelloDigital");
@@ -88,7 +89,6 @@ namespace WebApp.Reportes.AtencionesResultado {
             this.tableCell20 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell20");
             this.tableCell21 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell21");
             this.tableCell22 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell22");
-            this.tableRow19 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow19");
             this.tableCell26 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell26");
 
             // Parameters
@@ -161,6 +161,7 @@ namespace WebApp.Reportes.AtencionesResultado {
         private DevExpress.XtraReports.UI.XRTableRow tableRow8;
         private DevExpress.XtraReports.UI.XRTableRow tableRow9;
         private DevExpress.XtraReports.UI.XRTableRow tableRow17;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow19;
         private DevExpress.XtraReports.UI.XRTableCell tableCell15;
         private DevExpress.XtraReports.UI.XRTableCell tableCell17;
         private DevExpress.XtraReports.UI.XRPictureBox SelloDigital;
@@ -170,9 +171,8 @@ namespace WebApp.Reportes.AtencionesResultado {
         private DevExpress.XtraReports.UI.XRTableCell tableCell20;
         private DevExpress.XtraReports.UI.XRTableCell tableCell21;
         private DevExpress.XtraReports.UI.XRTableCell tableCell22;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell26;
         private DevExpress.DataAccess.Sql.SqlDataSource FuenteDatos;
         private DevExpress.XtraReports.Parameters.Parameter P_Ids;
-        private DevExpress.XtraReports.UI.XRTableRow tableRow19;
-        private DevExpress.XtraReports.UI.XRTableCell tableCell26;
     }
 }

@@ -372,8 +372,7 @@ namespace Blazor.WebApp.Controllers
                 informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
                 informacionReporte.Ids = new long[] { Id };
 
-                NotasReporte report = new NotasReporte();
-                report.SetInformacionReporte(informacionReporte);
+                NotasReporte report = new NotasReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);

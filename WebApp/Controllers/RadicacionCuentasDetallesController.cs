@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -32,7 +33,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<RadicacionCuentasDetalles>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<RadicacionCuentasDetalles>().Tabla(true).Include(x=>x.Facuras.Entidades).Include(x=>x.Facuras.Documentos), loadOptions);
         }
 
         public IActionResult List()

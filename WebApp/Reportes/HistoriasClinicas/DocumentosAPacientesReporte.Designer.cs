@@ -26,7 +26,7 @@ namespace WebApp.Reportes.HistoriasClinicas {
             this.OrdenesMedicamentosSubReporte = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRSubreport>("OrdenesMedicamentosSubReporte");
             this.OrdenesMedicamentosSubReporte.ReportSource = new WebApp.Reportes.OrdenesMedicamentos.OrdenesMedicamentosReporte();
             this.OrdenesServiciosSubReporte = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRSubreport>("OrdenesServiciosSubReporte");
-            this.OrdenesServiciosSubReporte.ReportSource = new WebApp.Reportes.OrdenesMedicamentos.OrdenesMedicamentosReporte();
+            this.OrdenesServiciosSubReporte.ReportSource = new WebApp.Reportes.OrdenesServicios.OrdenesServiciosReporte();
             this.IndicacionesMedicasSubReporte = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRSubreport>("IndicacionesMedicasSubReporte");
             this.IndicacionesMedicasSubReporte.ReportSource = new WebApp.Reportes.IndicacionesMedicas.IndicacionesMedicasReporte();
             this.IncapacidadesSubReporte = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRSubreport>("IncapacidadesSubReporte");

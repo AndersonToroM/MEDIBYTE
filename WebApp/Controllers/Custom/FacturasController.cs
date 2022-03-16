@@ -33,15 +33,13 @@ namespace Blazor.WebApp.Controllers
                 Facturas factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == Id, true);
                 if (factura.AdmisionesId != null)
                 {
-                    FacturasParticularReporte report = new FacturasParticularReporte();
-                    report.SetInformacionReporte(informacionReporte);
+                    FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
                     XtraReport xtraReport = report;
                     return PartialView("_ViewerReport", report);
                 }
                 else
                 {
-                    FacturasReporte report = new FacturasReporte();
-                    report.SetInformacionReporte(informacionReporte);
+                    FacturasReporte report = new FacturasReporte(informacionReporte);
                     XtraReport xtraReport = report;
                     return PartialView("_ViewerReport", report);
                 }
@@ -109,14 +107,12 @@ namespace Blazor.WebApp.Controllers
             XtraReport xtraReport = null;
             if (factura.AdmisionesId != null)
             {
-                FacturasParticularReporte report = new FacturasParticularReporte();
-                report.SetInformacionReporte(informacionReporte);
+                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
                 xtraReport = report;
             }
             else
             {
-                FacturasReporte report = new FacturasReporte();
-                report.SetInformacionReporte(informacionReporte);
+                FacturasReporte report = new FacturasReporte(informacionReporte);
                 xtraReport = report;
             }
 

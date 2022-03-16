@@ -320,8 +320,7 @@ namespace Blazor.WebApp.Controllers
                 var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name,false);
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
-                HistoriasClinicasReporte report = new HistoriasClinicasReporte();
-                report.SetInformacionReporte(informacionReporte);
+                HistoriasClinicasReporte report = new HistoriasClinicasReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);
@@ -345,8 +344,7 @@ namespace Blazor.WebApp.Controllers
                 var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
-                DocumentosAPacientesReporte report = new DocumentosAPacientesReporte();
-                report.SetInformacionReporte(informacionReporte);
+                DocumentosAPacientesReporte report = new DocumentosAPacientesReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);
@@ -369,8 +367,7 @@ namespace Blazor.WebApp.Controllers
                 var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
-                HistoriasClinicasReporte report = new HistoriasClinicasReporte();
-                report.SetInformacionReporte(informacionReporte);
+                HistoriasClinicasReporte report = new HistoriasClinicasReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);

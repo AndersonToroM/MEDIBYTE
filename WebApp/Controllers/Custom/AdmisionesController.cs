@@ -222,8 +222,7 @@ namespace Blazor.WebApp.Controllers
                 informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
                 informacionReporte.Ids = new long[] { Id };
 
-                FacturasParticularReporte report = new FacturasParticularReporte();
-                report.SetInformacionReporte(informacionReporte);
+                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
                 XtraReport xtraReport = report;
                 return PartialView("_ViewerReport", report);
 
@@ -268,8 +267,7 @@ namespace Blazor.WebApp.Controllers
                 informacionReporte.ParametrosAdicionales.Add("p_SedeId", sedeId);
                 informacionReporte.ParametrosAdicionales.Add("p_UsuarioGenero", User.Identity.Name);
 
-                EntregaAdmisionesReporte report = new EntregaAdmisionesReporte();
-                report.SetInformacionReporte(informacionReporte);
+                EntregaAdmisionesReporte report = new EntregaAdmisionesReporte(informacionReporte);
                 XtraReport xtraReport = report;
                 return PartialView("_ViewerReport", report);
 

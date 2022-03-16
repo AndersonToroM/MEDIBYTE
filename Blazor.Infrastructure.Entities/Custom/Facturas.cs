@@ -32,5 +32,6 @@ namespace Blazor.Infrastructure.Entities
                 return $"{Documentos?.Prefijo} - {NroConsecutivo} | {Entidades?.Nombre}";
             }
         }
+
     }
 }

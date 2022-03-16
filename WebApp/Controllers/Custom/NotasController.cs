@@ -110,8 +110,7 @@ namespace Blazor.WebApp.Controllers
             informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
             informacionReporte.Ids = new long[] { nota.Id };
 
-            NotasReporte report = new NotasReporte();
-            report.SetInformacionReporte(informacionReporte);
+            NotasReporte report = new NotasReporte(informacionReporte);
             XtraReport xtraReport = report;
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");

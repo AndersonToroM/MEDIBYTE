@@ -8,7 +8,7 @@ namespace WebApp.Reportes.Incapacidades
     {
         private InformacionReporte InformacionReporte { get; set; }
         private bool IsFromRoot { get; set; }
-        public void SetInformacionReporte(InformacionReporte informacionReporte, bool isFromRoot = false)
+        public void SetSubReporte(InformacionReporte informacionReporte, bool isFromRoot = false)
         {
             this.InformacionReporte = informacionReporte;
             this.IsFromRoot = isFromRoot;
@@ -17,21 +17,27 @@ namespace WebApp.Reportes.Incapacidades
         {
             InitializeComponent();
         }
-        protected override void BeforeReportPrint()
+
+        public IncapacidadesReporte(InformacionReporte informacionReporte, bool isFromRoot = false)
         {
-            this.P_Ids.Value = InformacionReporte.Ids;
-            if (IsFromRoot)
-            {
-                this.P_Ids.Value = null;
-                this.P_HC_ID.Value = InformacionReporte.Ids[0];
-            }
-            this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
-            this.P_UsuarioGenero.Value = InformacionReporte.ParametrosAdicionales["P_UsuarioGenero"];
-            base.BeforeReportPrint();
+            this.InformacionReporte = informacionReporte;
+            this.IsFromRoot = isFromRoot;
+            InitializeComponent();
         }
 
         protected override void OnReportInitialize()
         {
+            if (InformacionReporte != null)
+            {
+                this.P_Ids.Value = InformacionReporte.Ids;
+                if (IsFromRoot)
+                {
+                    this.P_Ids.Value = null;
+                    this.P_HC_ID.Value = InformacionReporte.Ids[0];
+                }
+                this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
+                this.P_UsuarioGenero.Value = InformacionReporte.ParametrosAdicionales["P_UsuarioGenero"];
+            }
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }
