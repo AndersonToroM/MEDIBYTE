@@ -1,26 +1,24 @@
 /*!
 * DevExtreme (dx.messages.fr.js)
-* Version: 20.1.4
-* Build date: Tue Jun 02 2020
+* Version: 21.2.6
+* Build date: Tue Mar 01 2022
 *
-* Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2022 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
 
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
-        define(function(require) {
+        define((function(require) {
             factory(require("devextreme/localization"))
-        })
+        }))
+    } else if ("object" === typeof module && module.exports) {
+        factory(require("devextreme/localization"))
     } else {
-        if ("object" === typeof module && module.exports) {
-            factory(require("devextreme/localization"))
-        } else {
-            factory(DevExpress.localization)
-        }
+        factory(DevExpress.localization)
     }
-}(this, function(localization) {
+}(0, (function(localization) {
     localization.loadMessages({
         fr: {
             Yes: "Oui",
@@ -80,6 +78,7 @@
             "dxFileUploader-upload": "T\xe9l\xe9charger",
             "dxFileUploader-uploaded": "T\xe9l\xe9charg\xe9",
             "dxFileUploader-readyToUpload": "Pr\xeat \xe0 t\xe9l\xe9charger",
+            "dxFileUploader-uploadAbortedMessage": "TODO",
             "dxFileUploader-uploadFailedMessage": "\xc9chec du t\xe9l\xe9chargement",
             "dxFileUploader-invalidFileExtension": "Type de fichier non autoris\xe9",
             "dxFileUploader-invalidMaxFileSize": "Fichier trop volumineux",
@@ -173,6 +172,7 @@
             "dxTreeList-editingAddRowToNode": "Ajouter",
             "dxPager-infoText": "Page {0} sur {1} ({2} \xe9lements)",
             "dxPager-pagesCountText": "sur",
+            "dxPager-pageSizesAllText": "Tous",
             "dxPivotGrid-grandTotal": "Total g\xe9n\xe9ral",
             "dxPivotGrid-total": "Total {0}",
             "dxPivotGrid-fieldChooserTitle": "Liste des champs",
@@ -282,8 +282,73 @@
             "dxHtmlEditor-dialogImageAltField": "Texte alternatif",
             "dxHtmlEditor-dialogImageWidthField": "Largeur (px)",
             "dxHtmlEditor-dialogImageHeightField": "Hauteur (px)",
+            "dxHtmlEditor-dialogInsertTableRowsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableColumnsField": "!TODO",
+            "dxHtmlEditor-dialogInsertTableCaption": "!TODO",
             "dxHtmlEditor-heading": "Titre",
             "dxHtmlEditor-normalText": "Texte normal",
+            "dxHtmlEditor-background": "TODO",
+            "dxHtmlEditor-bold": "TODO",
+            "dxHtmlEditor-color": "TODO",
+            "dxHtmlEditor-font": "TODO",
+            "dxHtmlEditor-italic": "TODO",
+            "dxHtmlEditor-link": "TODO",
+            "dxHtmlEditor-image": "TODO",
+            "dxHtmlEditor-size": "TODO",
+            "dxHtmlEditor-strike": "TODO",
+            "dxHtmlEditor-subscript": "TODO",
+            "dxHtmlEditor-superscript": "TODO",
+            "dxHtmlEditor-underline": "TODO",
+            "dxHtmlEditor-blockquote": "TODO",
+            "dxHtmlEditor-header": "TODO",
+            "dxHtmlEditor-increaseIndent": "TODO",
+            "dxHtmlEditor-decreaseIndent": "TODO",
+            "dxHtmlEditor-orderedList": "TODO",
+            "dxHtmlEditor-bulletList": "TODO",
+            "dxHtmlEditor-alignLeft": "TODO",
+            "dxHtmlEditor-alignCenter": "TODO",
+            "dxHtmlEditor-alignRight": "TODO",
+            "dxHtmlEditor-alignJustify": "TODO",
+            "dxHtmlEditor-codeBlock": "TODO",
+            "dxHtmlEditor-variable": "TODO",
+            "dxHtmlEditor-undo": "TODO",
+            "dxHtmlEditor-redo": "TODO",
+            "dxHtmlEditor-clear": "TODO",
+            "dxHtmlEditor-insertTable": "TODO",
+            "dxHtmlEditor-insertHeaderRow": "TODO",
+            "dxHtmlEditor-insertRowAbove": "TODO",
+            "dxHtmlEditor-insertRowBelow": "TODO",
+            "dxHtmlEditor-insertColumnLeft": "TODO",
+            "dxHtmlEditor-insertColumnRight": "TODO",
+            "dxHtmlEditor-deleteColumn": "TODO",
+            "dxHtmlEditor-deleteRow": "TODO",
+            "dxHtmlEditor-deleteTable": "TODO",
+            "dxHtmlEditor-cellProperties": "TODO",
+            "dxHtmlEditor-tableProperties": "TODO",
+            "dxHtmlEditor-insert": "TODO",
+            "dxHtmlEditor-delete": "TODO",
+            "dxHtmlEditor-border": "TODO",
+            "dxHtmlEditor-style": "TODO",
+            "dxHtmlEditor-width": "TODO",
+            "dxHtmlEditor-height": "TODO",
+            "dxHtmlEditor-borderColor": "TODO",
+            "dxHtmlEditor-tableBackground": "TODO",
+            "dxHtmlEditor-dimensions": "TODO",
+            "dxHtmlEditor-alignment": "TODO",
+            "dxHtmlEditor-horizontal": "TODO",
+            "dxHtmlEditor-vertical": "TODO",
+            "dxHtmlEditor-paddingVertical": "TODO",
+            "dxHtmlEditor-paddingHorizontal": "TODO",
+            "dxHtmlEditor-pixels": "TODO",
+            "dxHtmlEditor-list": "TODO",
+            "dxHtmlEditor-ordered": "TODO",
+            "dxHtmlEditor-bullet": "TODO",
+            "dxHtmlEditor-align": "TODO",
+            "dxHtmlEditor-center": "TODO",
+            "dxHtmlEditor-left": "TODO",
+            "dxHtmlEditor-right": "TODO",
+            "dxHtmlEditor-indent": "TODO",
+            "dxHtmlEditor-justify": "TODO",
             "dxFileManager-newDirectoryName": "R\xe9pertoire sans titre",
             "dxFileManager-rootDirectoryName": "Fichiers",
             "dxFileManager-errorNoAccess": "Acc\xe8s interdit. L'op\xe9ration ne peut se terminer.",
@@ -307,6 +372,7 @@
             "dxFileManager-commandThumbnails": "Mode vignette",
             "dxFileManager-commandDetails": "Mode d\xe9tails",
             "dxFileManager-commandClearSelection": "Vider s\xe9lection",
+            "dxFileManager-commandShowNavPane": "TODO",
             "dxFileManager-dialogDirectoryChooserTitle": "S\xe9lectionner r\xe9pertoire de destination",
             "dxFileManager-dialogDirectoryChooserButtonText": "S\xe9lectionner",
             "dxFileManager-dialogRenameItemTitle": "Renommer",
@@ -495,37 +561,45 @@
             "dxDiagram-shapeCardWithImageOnLeft": "Carte avec image \xe0 gauche",
             "dxDiagram-shapeCardWithImageOnTop": "Carte avec image sur le dessus",
             "dxDiagram-shapeCardWithImageOnRight": "Carte avec image \xe0 droite",
-            "dxGantt-dialogTitle": "TODO",
-            "dxGantt-dialogStartTitle": "TODO",
-            "dxGantt-dialogEndTitle": "TODO",
-            "dxGantt-dialogProgressTitle": "TODO",
-            "dxGantt-dialogResourcesTitle": "TODO",
-            "dxGantt-dialogResourceManagerTitle": "TODO",
-            "dxGantt-dialogTaskDetailsTitle": "TODO",
-            "dxGantt-dialogEditResourceListHint": "TODO",
-            "dxGantt-dialogEditNoResources": "TODO",
-            "dxGantt-dialogButtonAdd": "TODO",
-            "dxGantt-contextMenuNewTask": "TODO",
-            "dxGantt-contextMenuNewSubtask": "TODO",
-            "dxGantt-contextMenuDeleteTask": "TODO",
-            "dxGantt-contextMenuDeleteDependency": "TODO",
-            "dxGantt-dialogTaskDeleteConfirmation": "TODO",
-            "dxGantt-dialogDependencyDeleteConfirmation": "TODO",
-            "dxGantt-dialogResourcesDeleteConfirmation": "TODO",
-            "dxGantt-dialogConstraintCriticalViolationMessage": "TODO",
-            "dxGantt-dialogConstraintViolationMessage": "TODO",
-            "dxGantt-dialogCancelOperationMessage": "TODO",
-            "dxGantt-dialogDeleteDependencyMessage": "TODO",
-            "dxGantt-dialogMoveTaskAndKeepDependencyMessage": "TODO",
-            "dxGantt-undo": "TODO",
-            "dxGantt-redo": "TODO",
-            "dxGantt-expandAll": "TODO",
-            "dxGantt-collapseAll": "TODO",
-            "dxGantt-addNewTask": "TODO",
-            "dxGantt-deleteSelectedTask": "TODO",
-            "dxGantt-zoomIn": "TODO",
-            "dxGantt-zoomOut": "TODO",
-            "dxGantt-fullScreen": "TODO"
+            "dxGantt-dialogTitle": "Titre",
+            "dxGantt-dialogStartTitle": "D\xe9but",
+            "dxGantt-dialogEndTitle": "Fin",
+            "dxGantt-dialogProgressTitle": "Le progr\xe8s",
+            "dxGantt-dialogResourcesTitle": "Ressources",
+            "dxGantt-dialogResourceManagerTitle": "Gestionnaire de ressources",
+            "dxGantt-dialogTaskDetailsTitle": "D\xe9tails de la t\xe2che",
+            "dxGantt-dialogEditResourceListHint": "Modifier la liste des ressources",
+            "dxGantt-dialogEditNoResources": "Pas de ressources",
+            "dxGantt-dialogButtonAdd": "Ajouter",
+            "dxGantt-contextMenuNewTask": "Nouvelle t\xe2che",
+            "dxGantt-contextMenuNewSubtask": "Nouvelle sous-t\xe2che",
+            "dxGantt-contextMenuDeleteTask": "Supprimer la t\xe2che",
+            "dxGantt-contextMenuDeleteDependency": "Supprimer la d\xe9pendance",
+            "dxGantt-dialogTaskDeleteConfirmation": "La suppression d'une t\xe2che supprime \xe9galement toutes ses d\xe9pendances et sous-t\xe2ches. \xcates-vous s\xfbr de vouloir supprimer cette t\xe2che?",
+            "dxGantt-dialogDependencyDeleteConfirmation": "Voulez-vous vraiment supprimer la d\xe9pendance de la t\xe2che?",
+            "dxGantt-dialogResourcesDeleteConfirmation": "La suppression d'une ressource la supprime \xe9galement des t\xe2ches auxquelles cette ressource est affect\xe9e. Voulez-vous vraiment supprimer ces ressources? Ressource: {0}",
+            "dxGantt-dialogConstraintCriticalViolationMessage": "La t\xe2che que vous essayez de d\xe9placer est li\xe9e \xe0 une deuxi\xe8me t\xe2che par une relation de d\xe9pendance. Ce changement entrerait en conflit avec les r\xe8gles de d\xe9pendance. Comment aimeriez-vous proceder?",
+            "dxGantt-dialogConstraintViolationMessage": "La t\xe2che que vous essayez de d\xe9placer est li\xe9e \xe0 une deuxi\xe8me t\xe2che par une relation de d\xe9pendance. Comment aimeriez-vous proceder?",
+            "dxGantt-dialogCancelOperationMessage": "Annuler l'op\xe9ration",
+            "dxGantt-dialogDeleteDependencyMessage": "Supprimer la d\xe9pendance",
+            "dxGantt-dialogMoveTaskAndKeepDependencyMessage": "D\xe9placer la t\xe2che et conserver la d\xe9pendance",
+            "dxGantt-undo": "Annuler",
+            "dxGantt-redo": "Refaire",
+            "dxGantt-expandAll": "D\xe9velopper tout",
+            "dxGantt-collapseAll": "Tout r\xe9duire",
+            "dxGantt-addNewTask": "Ajouter nouvelle t\xe2che",
+            "dxGantt-deleteSelectedTask": "Supprimer t\xe2che s\xe9lectionn\xe9e",
+            "dxGantt-zoomIn": "Agrandir",
+            "dxGantt-zoomOut": "D\xe9zoomer",
+            "dxGantt-fullScreen": "Plein \xe9cran",
+            "dxGantt-quarter": "TODO",
+            "dxGantt-sortingAscendingText": "Tri croissant",
+            "dxGantt-sortingDescendingText": "Tri d\xe9croissant",
+            "dxGantt-sortingClearText": "Supprimer le tri",
+            "dxGantt-showResources": "TODO",
+            "dxGantt-showDependencies": "TODO",
+            "dxGantt-dialogStartDateValidation": "TODO",
+            "dxGantt-dialogEndDateValidation": "TODO"
         }
     })
-});
+}));
