@@ -15,12 +15,12 @@ setVersion:
 	./version.sh
 
 imagecreate:
-	docker build -t docker.siiso:pruebas -f dockerfileNoSDK .
+	docker build -t docker.siiso:prod -f dockerfileNoSDK .
 
 containerdelete: 
-	docker rm -f siisopruebas
+	docker rm -f siisoprod
 
 containerrun:
-	docker run -p 8040:8040 --name siisopruebas -d --network=host docker.siiso:pruebas
+	docker run -p 8040:8040 --name siisoprod -d --network=host docker.siiso:prod
 
 siiso: gitPull publicar setVersion imagecreate containerdelete containerrun
