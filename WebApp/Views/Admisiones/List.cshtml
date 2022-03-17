@@ -53,8 +53,8 @@
         $("#@(Prefix)Errores").html("");
 
         var sedeId = $("#@(Prefix)ReporteSedeId").dxSelectBox("instance").option("value");
-        var fechaDesde = $("#@(Prefix)ReporteFechaDesde").dxDateBox("instance").option("value");
-        var fechaHasta = $("#@(Prefix)ReporteFechaHasta").dxDateBox("instance").option("value");
+        var fechaDesde = moment($("#@(Prefix)ReporteFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
+        var fechaHasta = moment($("#@(Prefix)ReporteFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
 
         if (sedeId == 0 || sedeId == "" || sedeId == null || fechaDesde == null || fechaHasta == null) {
             DevExpress.ui.notify("Error: Los campos Sede, Fecha desde y Fecha Hasta son obligatorios.", "error", 4000);
@@ -71,7 +71,7 @@
             $("#@(Prefix)PopupImprimirReporteEntrega").dxPopup("instance").hide();
             $.ajax({
                 url: "@ImprimirReporteEntregaProduccion",
-                data: { sedeId: sedeId, fechaDesde: fechaDesde.toISOString(), fechaHasta: fechaHasta.toISOString() },
+                data: { sedeId: sedeId, fechaDesde: fechaDesde, fechaHasta: fechaHasta },
                 type: 'POST',
                 success: function (data) {
                     $("#VisorReporteria").dxPopup("instance").show();
@@ -88,7 +88,7 @@
             DescargarArchivo(
                 "@Url.Action("XLSXReporteEntregaProduccion", Prefix)",
                 undefined,
-                { sedeId: sedeId, fechaDesde: fechaDesde.toISOString(), fechaHasta: fechaHasta.toISOString() }
+                { sedeId: sedeId, fechaDesde: fechaDesde, fechaHasta: fechaHasta }
             );
         }
     }
