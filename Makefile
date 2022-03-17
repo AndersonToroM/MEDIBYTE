@@ -21,6 +21,6 @@ containerdelete:
 	docker rm -f siisoprod
 
 containerrun:
-	docker run -p 8040:8040 --name siisoprod -d --network=host docker.siiso:prod
+	docker run -p 8040:8040 --name siisoprod -d --network=host --restart=always docker.siiso:prod
 
 siiso: gitPull publicar setVersion imagecreate containerdelete containerrun
