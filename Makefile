@@ -14,9 +14,13 @@ publicar:
 setVersion:
 	./version.sh
 
-build: gitPull publicar setVersion
+imagecreate:
+	docker build -t docker.siiso:pruebas -f dockerfileNoSDK .
 
-up: 
-	chmod -R 777 publish && systemctl restart siisotest.service
+containerdelete: 
+	docker rm -f siisopruebas
 
-siiso: build up
+containerrun:
+	docker run -p 8040:8040 --name siisopruebas -d --network=host docker.siiso:pruebas
+
+siiso: gitPull publicar setVersion imagecreate containerdelete containerrun
