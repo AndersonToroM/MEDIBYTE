@@ -28,11 +28,11 @@ namespace WebApp.Reportes.HistoriasClinicas
         {
             this.FuenteDatos.ConnectionParameters = InformacionReporte.DataConnectionParametersBase;
 
-            var subReporteIncapacidades = new IncapacidadesReporte();
+            var subReporteIncapacidades = new IncapacidadesReporte(InformacionReporte, true);
             subReporteIncapacidades.SetSubReporte(InformacionReporte,true);
             this.IncapacidadesSubReporte.ReportSource = subReporteIncapacidades;
 
-            var subReporteIndicacionesMedicas = new IndicacionesMedicasReporte();
+            var subReporteIndicacionesMedicas = new IndicacionesMedicasReporte(InformacionReporte, true);
             subReporteIndicacionesMedicas.SetSubReporte(InformacionReporte,true);
             this.IndicacionesMedicasSubReporte.ReportSource = subReporteIndicacionesMedicas;
 

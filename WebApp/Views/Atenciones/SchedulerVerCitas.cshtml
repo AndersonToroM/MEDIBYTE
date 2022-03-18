@@ -3,6 +3,12 @@
     string Prefix = "ProgramacionCitas";
 }
 
+<style>
+    .dx-scheduler-work-space{
+        height: 590px;
+    }
+</style>
+
 <script>
     function ApoinmentNull(item) {
         item.cancel = true;
@@ -40,7 +46,7 @@
     .Max(Model.FechaMaxima)
     .Disabled(!Model.Habilitado)
     .FirstDayOfWeek(FirstDayOfWeek.Monday)
-    .Height(580)
+    .Height(590)
     .OnAppointmentFormOpening("ApoinmentNull")
     .Resources(res =>
     {
