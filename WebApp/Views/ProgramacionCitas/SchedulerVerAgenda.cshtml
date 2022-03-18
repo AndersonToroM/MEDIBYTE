@@ -11,6 +11,10 @@
         .dx-scheduler-appointment title {
             visibility: hidden;
         }
+
+    .dx-scheduler-work-space {
+        height: 590px;
+    }
 </style>
 
 <script>
@@ -44,7 +48,7 @@
     .Max(Model.FechaMaxima)
     .Disabled(!Model.Habilitado)
     .FirstDayOfWeek(FirstDayOfWeek.Monday)
-    .Height(510)
+    .Height(590)
     .OnAppointmentDblClick(Prefix + "SchedulerVerAgendaOnAppointmentDblClick")
     .OnAppointmentFormOpening("ApoinmentNull")
     .Resources(res =>
@@ -58,29 +62,29 @@
             .DataSource(Model.RecursosCitaEstados);
     })
     .AppointmentTemplate(@<text>
-            <div class="showtime-preview" style="width:100%;">
-                <div>Consecutivo: <%- appointmentData.Consecutivo %> | <%- appointmentData.Estados?.Nombre %></div>
-                <div>Profesional: <%- appointmentData.Empleados != undefined ? appointmentData.Empleados.NombreCompleto : 'No requiere' %></div>
-                <div>Paciente: <%- appointmentData.Pacientes?.NombreCompleto %></div>
-                <div>Servicio: <%- appointmentData.Servicios?.Nombre %> | Paciente: <%- appointmentData.Pacientes?.NombreCompleto %></div>
-                <div>
-                    <%- moment(appointmentData.FechaInicio).format("HH:mm A") %> -
-                    <%- moment(appointmentData.FechaFinal).format("HH:mm A") %>
-                </div>
+        <div class="showtime-preview" style="width:100%;">
+            <div>Consecutivo: <%- appointmentData.Consecutivo %> | <%- appointmentData.Estados?.Nombre %></div>
+            <div>Profesional: <%- appointmentData.Empleados != undefined ? appointmentData.Empleados.NombreCompleto : 'No requiere' %></div>
+            <div>Paciente: <%- appointmentData.Pacientes?.NombreCompleto %></div>
+            <div>Servicio: <%- appointmentData.Servicios?.Nombre %> | Paciente: <%- appointmentData.Pacientes?.NombreCompleto %></div>
+            <div>
+                <%- moment(appointmentData.FechaInicio).format("HH:mm A") %> -
+                <%- moment(appointmentData.FechaFinal).format("HH:mm A") %>
             </div>
-       </text>)
+        </div>
+    </text>)
     .AppointmentTooltipTemplate(@<text>
-            <div class="showtime-preview">
-                <div>Consecutivo: <%- appointmentData.Consecutivo %> | <%- appointmentData.Estados?.Nombre %></div>
-                <div>Profesional: <%- appointmentData.Empleados != undefined ? appointmentData.Empleados.NombreCompleto : 'No requiere' %></div>
-                <div>Paciente: <%- appointmentData.Pacientes?.NombreCompleto %></div>
-                <div>Servicio: <%- appointmentData.Servicios?.Nombre %></div>
-                <div>
-                    <%- moment(appointmentData.FechaInicio).format("HH:mm A") %> -
-                    <%- moment(appointmentData.FechaFinal).format("HH:mm A") %>
-                </div>
+        <div class="showtime-preview">
+            <div>Consecutivo: <%- appointmentData.Consecutivo %> | <%- appointmentData.Estados?.Nombre %></div>
+            <div>Profesional: <%- appointmentData.Empleados != undefined ? appointmentData.Empleados.NombreCompleto : 'No requiere' %></div>
+            <div>Paciente: <%- appointmentData.Pacientes?.NombreCompleto %></div>
+            <div>Servicio: <%- appointmentData.Servicios?.Nombre %></div>
+            <div>
+                <%- moment(appointmentData.FechaInicio).format("HH:mm A") %> -
+                <%- moment(appointmentData.FechaFinal).format("HH:mm A") %>
             </div>
-        </text>)
+        </div>
+    </text>)
 )
 <div style="float:left;margin-top:10px">
     @foreach (var item in Model.RecursosCitaEstados.Where(x => x.Id != 8))
