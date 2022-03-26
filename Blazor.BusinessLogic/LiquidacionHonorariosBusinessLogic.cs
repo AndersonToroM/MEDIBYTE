@@ -146,7 +146,7 @@ namespace Blazor.BusinessLogic
                 if (config != null)
                 {
                     if (config.TipoPagoLecturaEstadosId == 76)
-                        valorLiquidar = item.AdmisionesServiciosPrestados.ValorServicio * (config.ValorHonorarioLectura / 100);
+                        valorLiquidar = (item.AdmisionesServiciosPrestados.ValorServicio * (config.ValorHonorarioLectura / 100)) * lectura.AdmisionesServiciosPrestados .Cantidad;
                     else
                         valorLiquidar = config.ValorHonorarioLectura;
                 }
@@ -182,10 +182,10 @@ namespace Blazor.BusinessLogic
                 unitOfWork.CommitTransaction();
                 return liquidacion.Id;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 unitOfWork.RollbackTransaction();
-                throw e;
+                throw;
             }
         }
 

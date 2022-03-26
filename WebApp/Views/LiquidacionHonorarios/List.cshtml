@@ -16,7 +16,7 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("LiquidacionHonorarios").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.Consecutivo);
+        columns.AddFor(m => m.Consecutivo).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.Estados.Nombre);
         columns.AddFor(m => m.FechaInicio);
         columns.AddFor(m => m.FechaFinal);
