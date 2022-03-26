@@ -20,9 +20,8 @@ namespace Blazor.WebApp
                 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
                 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 
-            string directory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
+            if (!Directory.Exists(DirectoryLog))
+                Directory.CreateDirectory(DirectoryLog);
 
             var assembly = Assembly.GetExecutingAssembly().GetName();
 
@@ -31,7 +30,7 @@ namespace Blazor.WebApp
             .Enrich.WithProperty("Application", $"{assembly.Name}")
             //.WriteTo.Console()
             .Filter.ByExcluding(c => c.MessageTemplate.Text.Contains("Authorization was successful"))
-            .WriteTo.File(Path.Combine(directory, "log.log"),
+            .WriteTo.File(Path.Combine(DirectoryLog, "log.log"),
                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning,
                     rollingInterval: RollingInterval.Day,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")

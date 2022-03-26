@@ -315,8 +315,7 @@ namespace Blazor.WebApp.Controllers
                 var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
                 informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
-                LiquidacionHonorariosReporte report = new LiquidacionHonorariosReporte();
-                report.SetInformacionReporte(informacionReporte);
+                LiquidacionHonorariosReporte report = new LiquidacionHonorariosReporte(informacionReporte);
                 XtraReport xtraReport = report;
 
                 return PartialView("_ViewerReport", report);
