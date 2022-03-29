@@ -7,8 +7,8 @@
     string UrlNew = Url.Action("NewDetail", "RecaudosDetalles", new { IdFather = Model.Entity.Id });
 
     var DataGridDetailConfig = new DataGridConfiguration<RecaudosDetalles>(Prefix)
-        //.OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm")
-        //.New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm")
+        .OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm")
+        .New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm")
         .Exports(true, true);
     string filter = "['EmpresasId','=','" + @Model.Entity.EmpresasId + "','and','SedesId','=','" + @Model.Entity.SedesId + "','and','EntidadesId','=','" + @Model.Entity.EntidadesId + "']";
 
@@ -17,7 +17,7 @@
 
 
 @* ------------ Descomentar el siguiente codigo si es una edicion en maestro --------------- *@
-@*
+
 
     <div class="card cardDeatil">
         <div class="card-body">
@@ -25,25 +25,37 @@
             @(Html.DControls().DataGridSimple<RecaudosDetalles>(DataGridDetailConfig)
                 .ID("RecaudosDetallesDetalleDataGrid")
                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RecaudosDetalles").LoadAction("Get").Key("Id"))
-                .DataSourceOptions(x=>x.Filter("['IdFather','=','"+@Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
+                .DataSourceOptions(x=>x.Filter("['RecaudosId','=','"+@Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
                 .Columns(columns =>
-                {
-                 columns.AddFor(m => m.Recaudos.Id);
-                 columns.AddFor(m => m.Facturas.Id);
-                 columns.AddFor(m => m.ValorAplicado);
-                 columns.AddFor(m => m.ValorRetencion);
-                })
+                 {
+                     columns.AddFor(m => m.Facturas.DescFacturaConSaldo).Width(500);
+                     columns.AddFor(m => m.ValorAplicado).Format("#,##0.##")
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorAplicado")));
+                     columns.AddFor(m => m.ValorRetencion).Format("#,##0.##")
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorRetencion")));
+                     columns.AddFor(m => m.ValorReteIca).Format("#,##0.##")
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorReteIca")));
+                 }).Summary(s => s.TotalItems(items => {
+                     items.AddFor(m => m.Id)
+                         .SummaryType(SummaryType.Count);
+                     items.AddFor(m => m.ValorAplicado)
+                        .SummaryType(SummaryType.Sum)
+                        .ValueFormat(Format.Currency);
+                     items.AddFor(m => m.ValorRetencion)
+                        .SummaryType(SummaryType.Sum)
+                        .ValueFormat(Format.Currency);
+                 }))
             )
             </div>
             <div id="RecaudosDetallesMainPanelForm"></div>
         </div>
     </div>
-*@
+
 
 
 @* ------------ Descomentar el siguiente codigo si es una edicion en grilla y COMENTAR LOS METODOS OnClick y New del DataGridDetailConfig --------------- *@
 
-    <script>
+@*    <script>
 
     function @(Prefix)OnInitNewRowDetalleDataGrid(model) {
         model = GetAuditoryData(model);
@@ -106,5 +118,5 @@
          )
         </div>
     </div>
-</div>
+</div>*@
 

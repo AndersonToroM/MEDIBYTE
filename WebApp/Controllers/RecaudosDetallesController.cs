@@ -299,9 +299,12 @@ namespace Blazor.WebApp.Controllers
         #region Datasource Combobox Foraneos 
 
         [HttpPost]
-        public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions)
+        public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions,long recaudosId)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).OrderByDescending(x => x.Saldo), loadOptions);
+            Recaudos recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == recaudosId, false);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true)
+                .Where(x => x.SedesId == recaudo.SedesId && x.EntidadesId == recaudo.EntidadesId && x.EmpresasId == recaudo.EmpresasId)
+                .OrderByDescending(x => x.Saldo), loadOptions);
         } 
 
         [HttpPost]
