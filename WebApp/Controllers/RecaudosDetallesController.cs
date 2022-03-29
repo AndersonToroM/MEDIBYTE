@@ -14,6 +14,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -33,7 +34,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<RecaudosDetalles>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<RecaudosDetalles>().Tabla(true).Include(x=>x.Facturas.Documentos).Include(x => x.Facturas.Entidades), loadOptions);
         }
 
         public IActionResult List()
