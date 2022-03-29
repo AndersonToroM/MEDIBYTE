@@ -282,6 +282,6 @@ function SendLogPingServer(logs) {
     });
 }
 
-//setInterval(PingServersIfErrorTimeOut, 5000);
+setInterval(PingServersIfErrorTimeOut, 5000);
 /******************************************************************/
 

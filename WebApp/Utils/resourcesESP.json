@@ -2108,6 +2108,10 @@
     "Description": "Factura"
   },
   {
+    "Id": "Facturas.DescFacturaConSaldo",
+    "Description": "Factura"
+  },
+  {
     "Id": "Facturas.DIANResponse",
     "Description": "Respuesta DIAN"
   },

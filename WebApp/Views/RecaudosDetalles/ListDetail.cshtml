@@ -81,13 +81,7 @@
                  .OnRowInserted("OnRowInsertedDetalleDataGrid").OnRowUpdated("OnRowUpdatedDetalleDataGrid").OnRowRemoved("OnRowRemovedDetalleDataGrid").OnDataErrorOccurred("OnDataErrorOccurredDetalleDataGrid")
                  .Columns(columns =>
                  {
-                     columns.AddFor(m => m.FacturasId)
-                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
-                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
-                             .Lookup(lookup => lookup
-                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RecaudosDetalles").LoadAction("GetFacturasId").Key("Id"))
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10).Filter(filter))
-                             .ValueExpr("Id").DisplayExpr(new JS(Prefix + "DisplayExprFacturaId")) ).Width(300);
+                     columns.AddFor(m => m.Facturas.DescFacturaConSaldo).Width(500);
                      columns.AddFor(m => m.ValorAplicado).Format("#,##0.##")
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorAplicado")));
                      columns.AddFor(m => m.ValorRetencion).Format("#,##0.##")

@@ -33,5 +33,15 @@ namespace Blazor.Infrastructure.Entities
             }
         }
 
+        [NotMapped]
+        [DDisplayName("Facturas.DescFacturaConSaldo")]
+        public string DescFacturaConSaldo
+        {
+            set { }
+            get
+            {
+                return $"{Documentos?.Prefijo} - {NroConsecutivo} |: Saldo = {Saldo.ToString("N0")}";
+            }
+        }
     }
 }
