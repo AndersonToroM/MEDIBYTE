@@ -94,12 +94,47 @@ namespace Blazor.WebApp.Controllers
                     { 
                         model.Entity.CreationDate = DateTime.Now; 
                         model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Add(model.Entity); 
+                        var saldo = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
+                        if (saldo.Saldo < (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca))
+                            throw new Exception("El valor aplicado mas las retenciones es mayor que el saldo actual de la factura, saldo factura " + saldo.Documentos.Prefijo + " " + saldo.NroConsecutivo.ToString() + " Saldo Actual: " + saldo.Saldo.ToString());
+                        model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Add(model.Entity);
+                        saldo.Saldo = saldo.Saldo - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                        saldo.Estadosid = 16;
+                        Manager().GetBusinessLogic<Facturas>().Modify(saldo);
+                        var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
+                        recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido + (model.Entity.ValorAplicado);
+                        Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
                         model.Entity.IsNew = false;
                     } 
                     else 
                     { 
-                        model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Modify(model.Entity); 
+                        RecaudosDetalles oldData = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == model.Entity.Id, false);
+                        if ((oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca) != (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca))
+                        {
+                            var saldo = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
+                            saldo.Saldo = saldo.Saldo + (oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca);
+                            saldo.Saldo = saldo.Saldo - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                            if (saldo.Saldo < 0)
+                                throw new Exception("El valor aplicado mas la retencion es mayor que el saldo actual de la factura, saldo factura " + saldo.Documentos.Prefijo + " " + saldo.NroConsecutivo.ToString() + " Saldo Actual: " + saldo.Saldo.ToString());
+
+                        }
+                        model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Modify(model.Entity);
+                        if ((oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca) != (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca))
+                        {
+                            var saldo = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, false);
+                            saldo.Saldo = saldo.Saldo + (oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca);
+                            saldo.Saldo = saldo.Saldo - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                            saldo.Estadosid = 16;
+                            Manager().GetBusinessLogic<Facturas>().Modify(saldo);
+                            var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
+                            recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - (oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca);
+                            recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                            Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
+                            //var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == entity.RecaudosId, false);
+                            //recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido + (entity.ValorAplicado + entity.ValorRetencion + entity.ValorReteIca);
+                        }
+
+
                     } 
                 } 
                 catch (Exception e) 
@@ -186,6 +221,12 @@ namespace Blazor.WebApp.Controllers
                 try
                 {
                     model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == model.Entity.Id, false);
+                    var saldo = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, false);
+                    saldo.Saldo = saldo.Saldo + (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                    Manager().GetBusinessLogic<Facturas>().Modify(saldo);
+                    var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
+                    recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                    Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
                     Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity);
                     return newModel;
                 }
