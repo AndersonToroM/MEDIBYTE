@@ -40,7 +40,7 @@ namespace Blazor.Infrastructure.Entities
             set { }
             get
             {
-                return $"{Documentos?.Prefijo} - {NroConsecutivo} |: Saldo = {Saldo.ToString("N0")}";
+                return $"{Documentos?.Prefijo} - {NroConsecutivo} : Saldo = {Saldo.ToString("N0")}";
             }
         }
     }
