@@ -42,13 +42,13 @@
                                 );
                                 groupItems.AddSimpleFor(m => m.Entity.ValorAplicado).ColSpan(2)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorAplicado")))
-                                      .Editor(e=>e.NumberBox().ID(Prefix + "ValorAplicado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
+                                      .Editor(e=>e.NumberBox().ID(Prefix + "ValorAplicado").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
                                 groupItems.AddSimpleFor(m => m.Entity.ValorRetencion).ColSpan(2)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorRetencion")))
-                                      .Editor(e=>e.NumberBox().ID(Prefix + "ValorRetencion").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
+                                      .Editor(e=>e.NumberBox().ID(Prefix + "ValorRetencion").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
                                 groupItems.AddSimpleFor(m => m.Entity.ValorReteIca).ColSpan(2)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorReteIca")))
-                                      .Editor(e => e.NumberBox().ID(Prefix + "ValorReteIca").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
+                                      .Editor(e => e.NumberBox().ID(Prefix + "ValorReteIca").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
                             });
                     })
              ) 

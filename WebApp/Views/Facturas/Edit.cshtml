@@ -122,10 +122,10 @@
             .ID("FacturasModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
             .Items(items =>
             {
-                items.AddGroup().ColCount(3).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                 .Items(groupItems =>{
 
-                    groupItems.AddSimpleFor(m => m.Entity.DocumentosId).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.DocumentosId).ColSpan(4)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("FacturasGeneracion.DocumentosId")))
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("FacturasGeneracion.DocumentosId")))
                         .Editor(e => e.SelectBox().ID(Prefix + "DocumentosId")
@@ -134,22 +134,22 @@
                         .ValueExpr("Id").DisplayExpr("DocumentoCompleto").SearchExpr("Prefijo", "Descripcion")
                         .ReadOnly(true)
                         );
-                    groupItems.AddSimpleFor(m => m.Entity.NroConsecutivo).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.NroConsecutivo).ColSpan(4)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.NroConsecutivo")))
                         .Editor(e => e.NumberBox().ID(Prefix + "NroConsecutivo").Format("#,##0.##").ReadOnly(true));
-                    groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(4)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.Fecha")))
                         .Editor(e => e.DateBox().ID(Prefix + "Fecha")
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ReadOnly(true));
 
-                    groupItems.AddSimpleFor(m => m.Entity.OrdenCompra).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.OrdenCompra).ColSpan(4)
                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Facturas.OrdenCompra", 50)))
                         .Editor(e => e.TextBox().ID(Prefix + "OrdenCompra").ReadOnly(true));
-                    groupItems.AddSimpleFor(m => m.Entity.ReferenciaFactura).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.ReferenciaFactura).ColSpan(4)
                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Facturas.ReferenciaFactura", 50)))
                         .Editor(e => e.TextBox().ID(Prefix + "ReferenciaFactura").ReadOnly(true));
 
-                    groupItems.AddSimpleFor(m => m.Entity.FormasPagosId).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.FormasPagosId).ColSpan(4)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.FormasPagosId")))
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.FormasPagosId")))
                         .Editor(e => e.SelectBox().ID(Prefix + "FormasPagosId")
@@ -159,14 +159,14 @@
                         .ReadOnly(true)
                         );
 
-                    groupItems.AddSimpleFor(m => m.Entity.MediosPagoId).ColSpan(2)
+                    groupItems.AddSimpleFor(m => m.Entity.MediosPagoId).ColSpan(8)
                                      .Editor(e => e.SelectBox().ID(Prefix + "MediosPagoId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetMediosPagoId").Key("Id"))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                 );
-                    groupItems.AddSimpleFor(m => m.Entity.TiposRegimenesId).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.TiposRegimenesId).ColSpan(4)
                          .Editor(e => e.SelectBox().ID(Prefix + "TiposRegimenesId")
                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetTiposRegimenesId").Key("Id"))
                          .DataSourceOptions(o => o.Paginate(true).PageSize(10))
@@ -174,7 +174,7 @@
                          .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                     );
 
-                    groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(3)
+                    groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(12)
                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2000).Message(DApp.GetStringLengthResource("Facturas.Observaciones", 50)))
                         .Editor(e => e.TextArea().ID(Prefix + "Observaciones").ReadOnly(true));
 
@@ -192,7 +192,7 @@
                          .Type(DateBoxType.DateTime)
                          .DisplayFormat(DApp.DefaultLanguage.DateTimeFormat));
 
-                    groupItems.AddTabbed().ColSpan(3)
+                    groupItems.AddTabbed().ColSpan(12)
                     .TabPanelOptions(o =>{o.DeferRendering(false);})
                     .Tabs(tabItems =>{
                         tabItems.Add().ColCount(2)
@@ -267,7 +267,7 @@
 
                     });
 
-                    groupItems.AddSimpleFor(m => m.Entity.EmpresasId).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.EmpresasId).ColSpan(4)
                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.EmpresasId")))
                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.EmpresasId")))
                 .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId")
@@ -276,7 +276,7 @@
                 .ValueExpr("Id").DisplayExpr("RazonSocial").SearchExpr("Id").ReadOnly(true)
                 );
 
-                    groupItems.AddSimpleFor(m => m.Entity.SedesId).ColSpan(1)
+                    groupItems.AddSimpleFor(m => m.Entity.SedesId).ColSpan(4)
                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.SedesId")))
                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.SedesId")))
                 .Editor(e => e.SelectBox().ID(Prefix + "SedesId")
@@ -286,7 +286,7 @@
                 .ReadOnly(true)
                 );
 
-                    groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(2)
+                    groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(4)
                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.EntidadesId")))
                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.EntidadesId")))
                 .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
