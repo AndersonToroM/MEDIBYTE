@@ -51,10 +51,6 @@ namespace Blazor.WebApp.Controllers
                     eventR.NumDocEmisor = data.Identificador.NumDocEmisor;
                     eventR.NumDocReceptor = data.Identificador.NumDocReceptor;
 
-                    //InterfaceEvent currentEvent = manager.GetBusinessLogic<InterfaceEvent>().FindById(x => x.InvoiceNumber == eventR.InvoiceNumber && x.IdentificationNumberCompany== eventR.IdentificationNumberCompany && x.IdentificationNumberClient == eventR.IdentificationNumberClient, false);
-                    //if (currentEvent != null)
-                    //    eventR = currentEvent;
-
                     eventR.TipoEvento = data.TipoEvento;
                     eventR.CodigoEvento = data.CodigoEvento;
                     eventR.Descripcion = data.Descripcion;
@@ -75,43 +71,41 @@ namespace Blazor.WebApp.Controllers
                     eventR.CreatedBy = "Acepta";
                     eventR.CreationDate = DateTime.Now;
 
-                    string xmlret = @"<?xml version=""1.0"" encoding=""UTF-8""?><Retorno><CodRespuesta>1</CodRespuesta><DescRespuesta>Evento Agregado</DescRespuesta></Retorno>";
+                    DataBaseSetting conexionTenant = DApp.GetTenantConnection(Request.Host.Value);
+                    Dominus.Backend.DataBase.BusinessLogic manager = new Dominus.Backend.DataBase.BusinessLogic(conexionTenant);
 
-                    //DataBaseSetting conexionTenant = DApp.GetTenantConnection(this.httpContextAccessor.HttpContext.Request.Host.Value);
-                    //Dominus.Backend.DataBase.BusinessLogic manager = new Dominus.Backend.DataBase.BusinessLogic(conexionTenant);
+                    manager.GetBusinessLogic<EventosDIAN>().Add(eventR);
 
-                    Manager().GetBusinessLogic<EventosDIAN>().Add(eventR);
-
-                    var invoice = Manager().GetBusinessLogic<Facturas>().FindById(x => (x.Documentos.Prefijo + x.NroConsecutivo.ToString()) == eventR.NroId, true);
+                    var invoice = manager.GetBusinessLogic<Facturas>().FindById(x => (x.Documentos.Prefijo + x.NroConsecutivo.ToString()) == eventR.NroId, true);
                     if (invoice != null && (string.IsNullOrWhiteSpace(invoice.DIANResponse) || string.IsNullOrWhiteSpace(invoice.DIANResponse) || !invoice.DIANResponse.Contains("Aceptado")))
                     {
                         invoice.CUFE = eventR.Uuid;
                         invoice.IssueDate = eventR.FechaEvento;
                         invoice.DIANResponse = eventR.TipoEvento + " " + eventR.Descripcion;
                         invoice.XmlUrl = eventR.XmlDoc;
-                        invoice = Manager().GetBusinessLogic<Facturas>().Modify(invoice);
+                        invoice = manager.GetBusinessLogic<Facturas>().Modify(invoice);
                         try
                         {
-                            await Manager().FacturasBusinessLogic().EnviarEmail(invoice, GetPdfFacturaReporte(invoice), "Envio Factura Evento DIAN");
+                            await manager.FacturasBusinessLogic().EnviarEmail(invoice, GetPdfFacturaReporte(invoice, manager), "Envio Factura Evento DIAN");
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             Console.WriteLine($"Error Enviando el correo. | {e.Message}", Console.ForegroundColor = ConsoleColor.Red);
                         }
-                        
+
                     }
 
-                    var note = Manager().GetBusinessLogic<Notas>().FindById(x => (x.Documentos.Prefijo + x.Consecutivo.ToString()) == eventR.NroId, true);
+                    var note = manager.GetBusinessLogic<Notas>().FindById(x => (x.Documentos.Prefijo + x.Consecutivo.ToString()) == eventR.NroId, true);
                     if (note != null && (string.IsNullOrWhiteSpace(note.DIANResponse) || string.IsNullOrEmpty(note.DIANResponse) || !note.DIANResponse.Contains("Aceptado")))
                     {
                         note.CUFE = eventR.Uuid;
                         note.IssueDate = eventR.FechaEvento;
                         note.DIANResponse = eventR.TipoEvento + " " + eventR.Descripcion;
                         note.XmlUrl = eventR.XmlDoc;
-                        Manager().GetBusinessLogic<Notas>().Modify(note);
+                        manager.GetBusinessLogic<Notas>().Modify(note);
                         try
                         {
-                            await Manager().NotasBusinessLogic().EnviarEmail(note, GetPdfNotaReporte(note), "Envio Nota Evento DIAN");
+                            await manager.NotasBusinessLogic().EnviarEmail(note, GetPdfNotaReporte(note, manager), "Envio Nota Evento DIAN");
                         }
                         catch (Exception e)
                         {
@@ -119,28 +113,24 @@ namespace Blazor.WebApp.Controllers
                         }
                     }
 
+                    if (invoice == null && note == null)
+                        throw new Exception($"El documento {eventR.NroId} no fue encontrado en el sistema.");
+
+                    string xmlret = $@"<?xml version=""1.0"" encoding=""UTF-8""?><Retorno><CodRespuesta>1</CodRespuesta><DescRespuesta>Evento agregado para el documento {eventR.NroId}</DescRespuesta></Retorno>";
                     return new OkObjectResult(xmlret);
                 }
             }
             catch (Exception e)
             {
-                string error = "";
-                while (e != null)
-                {
-                    error += e.Message;
-                    e = e.InnerException;
-                    if (e != null)
-                        error += " ";
-                }
-                string xmlret = @"<?xml version=""1.0"" encoding=""UTF-8""?><Retorno><CodRespuesta>2</CodRespuesta><DescRespuesta>" + error + "</DescRespuesta></Retorno>";
+                string xmlret = @"<?xml version=""1.0"" encoding=""UTF-8""?><Retorno><CodRespuesta>2</CodRespuesta><DescRespuesta>" + e.GetFullErrorMessage() + "</DescRespuesta></Retorno>";
                 return new BadRequestObjectResult(xmlret);
             }
         }
 
-        private string GetPdfFacturaReporte(Facturas factura)
+        private string GetPdfFacturaReporte(Facturas factura, Dominus.Backend.DataBase.BusinessLogic manager)
         {
             InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == factura.EmpresasId, true);
+            informacionReporte.Empresa = manager.GetBusinessLogic<Empresas>().FindById(x => x.Id == factura.EmpresasId, true);
             informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
             informacionReporte.Ids = new long[] { factura.Id };
 
@@ -165,10 +155,10 @@ namespace Blazor.WebApp.Controllers
             return pathPdf;
         }
 
-        private string GetPdfNotaReporte(Notas nota)
+        private string GetPdfNotaReporte(Notas nota, Dominus.Backend.DataBase.BusinessLogic manager)
         {
             InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == nota.EmpresasId, true);
+            informacionReporte.Empresa = manager.GetBusinessLogic<Empresas>().FindById(x => x.Id == nota.EmpresasId, true);
             informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
             informacionReporte.Ids = new long[] { nota.Id };
 
