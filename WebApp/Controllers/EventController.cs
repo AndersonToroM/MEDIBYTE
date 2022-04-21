@@ -86,7 +86,7 @@ namespace Blazor.WebApp.Controllers
                         invoice = manager.GetBusinessLogic<Facturas>().Modify(invoice);
                         try
                         {
-                            await manager.FacturasBusinessLogic().EnviarEmail(invoice, GetPdfFacturaReporte(invoice, manager), "Envio Factura Evento DIAN");
+                            manager.FacturasBusinessLogic().EnviarEmail(invoice, GetPdfFacturaReporte(invoice, manager), "Envio Factura Evento DIAN");
                         }
                         catch (Exception e)
                         {
@@ -105,7 +105,7 @@ namespace Blazor.WebApp.Controllers
                         manager.GetBusinessLogic<Notas>().Modify(note);
                         try
                         {
-                            await manager.NotasBusinessLogic().EnviarEmail(note, GetPdfNotaReporte(note, manager), "Envio Nota Evento DIAN");
+                            manager.NotasBusinessLogic().EnviarEmail(note, GetPdfNotaReporte(note, manager), "Envio Nota Evento DIAN");
                         }
                         catch (Exception e)
                         {
