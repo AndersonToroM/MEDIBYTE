@@ -88,7 +88,6 @@ namespace Blazor.BusinessLogic
                 };
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
-
             }
             catch (Exception e)
             {

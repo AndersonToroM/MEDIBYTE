@@ -2024,6 +2024,10 @@
     "Description": "Código"
   },
   {
+    "Id": "EventosDIAN.CreationDate",
+    "Description": "Fecha Recepcion Evento"
+  },
+  {
     "Id": "EventosDIAN.Descripcion",
     "Description": "Descripción"
   },

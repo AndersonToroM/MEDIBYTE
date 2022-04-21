@@ -16,22 +16,14 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EventosDIAN").LoadAction("Get").Key("Id")) 
     .Columns(columns => 
     { 
-        columns.AddFor(m => m.FechaEvento).SortOrder(SortOrder.Desc); 
-        @*columns.AddFor(m => m.TipoEvento); 
-        columns.AddFor(m => m.CodigoEvento); *@
+        columns.AddFor(m => m.CreationDate).Format(DApp.DefaultLanguage.DateTimeFormat).Caption(DApp.DefaultLanguage.GetResource("EventosDIAN.CreationDate"));
+        columns.AddFor(m => m.FechaEvento).Format(DApp.DefaultLanguage.DateTimeFormat).SortOrder(SortOrder.Desc); 
         columns.AddFor(m => m.Descripcion); 
         columns.AddFor(m => m.NroId); 
-@*        columns.AddFor(m => m.Uri); *@
         columns.AddFor(m => m.NumDocEmisor); 
         columns.AddFor(m => m.NumDocReceptor); 
-        @*columns.AddFor(m => m.TipoDoc); 
-        columns.AddFor(m => m.SubtipoDoc); *@
-        
-        @*columns.AddFor(m => m.Uuid); *@
         columns.AddFor(m => m.FechaEmision); 
         columns.AddFor(m => m.Observacion); 
-        @*columns.AddFor(m => m.XmlDoc); 
-        columns.AddFor(m => m.Pdf); *@
     }) 
 ) 
 </div> 
