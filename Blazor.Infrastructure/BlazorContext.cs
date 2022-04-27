@@ -169,7 +169,7 @@ namespace Blazor.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-            optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.LogTo(Console.WriteLine,LogLevel.Information);
 #endif
             base.OnConfiguring(optionsBuilder);
         }
