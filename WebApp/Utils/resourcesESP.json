@@ -1588,12 +1588,20 @@
     "Description": "Ciudad"
   },
   {
+    "Id": "Empresas.Codigo85",
+    "Description": "Codigo 8.5"
+  },
+  {
     "Id": "Empresas.CodigoPostal",
     "Description": "Código Postal"
   },
   {
     "Id": "Empresas.CodigoReps",
     "Description": "Código REPS"
+  },
+  {
+    "Id": "Empresas.CorreoElectronico",
+    "Description": "Correo Electrónico"
   },
   {
     "Id": "Empresas.Departamentos",
@@ -1666,6 +1674,10 @@
   {
     "Id": "Empresas.TiposIdentificacionRepresentanteLegalId",
     "Description": "Tipo de identificación"
+  },
+  {
+    "Id": "Empresas.TiposRegimenContableId",
+    "Description": "Tipo Regimen"
   },
   {
     "Id": "Empresas.TiposRegimenContableId:",

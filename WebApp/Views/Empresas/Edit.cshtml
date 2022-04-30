@@ -122,12 +122,15 @@
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(10).Message(DApp.GetStringLengthResource("Empresas.Celular", 10)))
                                       .Editor(e => e.TextBox().ID(Prefix + "Celular").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.CorreoElectronico).ColSpan(6)
+                                groupItems.AddSimpleFor(m => m.Entity.CorreoElectronico).ColSpan(5)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Empresas.CorreoElectronico", 200)))
                                       .Editor(e => e.TextBox().ID(Prefix + "CorreoElectronico").ShowClearButton(true));
-                                groupItems.AddSimpleFor(m => m.Entity.PaginaWeb).ColSpan(6)
+                                groupItems.AddSimpleFor(m => m.Entity.PaginaWeb).ColSpan(5)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Empresas.PaginaWeb", 100)))
                                       .Editor(e => e.TextBox().ID(Prefix + "PaginaWeb").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.Codigo85).ColSpan(2)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2).Message(DApp.GetStringLengthResource("Empresas.Codigo85", 2)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "Codigo85").ShowClearButton(true));
 
                             });
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("Empresas.RepresentanteLegal"))
