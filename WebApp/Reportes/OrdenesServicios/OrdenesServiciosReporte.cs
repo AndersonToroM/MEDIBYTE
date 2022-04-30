@@ -23,6 +23,7 @@ namespace WebApp.Reportes.OrdenesServicios
         public OrdenesServiciosReporte(InformacionReporte _informacionReporte, bool isFromRoot = false)
         {
             this.InformacionReporte = _informacionReporte;
+            this.IsFromRoot = isFromRoot;
             InitializeComponent();
         }
 
