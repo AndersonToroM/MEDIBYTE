@@ -12,7 +12,8 @@
         .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
-        .Back(UrlBack);
+        .Back(UrlBack)
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000626711-crear-entidad");
 }
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" />
