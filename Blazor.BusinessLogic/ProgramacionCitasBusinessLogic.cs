@@ -194,7 +194,7 @@ namespace Blazor.BusinessLogic
 
             if (result != null && result.Count > 0)
             {
-                var fechaInicio = result.Min(x => x.FechaInicio);                
+                var fechaInicio = result.Min(x => x.FechaInicio);
 
                 schedulerModel.FechaInicial = DateTime.Now;
                 schedulerModel.FechaMinima = DateTime.Now;
@@ -497,6 +497,31 @@ namespace Blazor.BusinessLogic
             data.Consecutivo = this.GetSiguienteConsecutivo();
             data.EstadosId = 3;
             return base.Add(data);
+        }
+
+        public override ProgramacionCitas Modify(ProgramacionCitas data)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                var citaBd = unitOfWork.Repository<ProgramacionCitas>().FindById(x => x.Id == data.Id, false);
+                if (citaBd != null)
+                {
+                    List<long> estadosCita = new List<long> { 6, 7, 8, 9, 10078 };
+                    if (estadosCita.Contains(citaBd.EstadosId))
+                        data.EstadosId = citaBd.EstadosId;
+                }
+                data = base.Modify(data);
+                unitOfWork.CommitTransaction();
+            }
+            catch (Exception)
+            {
+                unitOfWork.RollbackTransaction();
+                throw;
+            }
+
+            return data;
         }
 
         public decimal ObtenerValorTarifaConvenio(long convenioId, long servicioId)

@@ -79,10 +79,10 @@ namespace Blazor.BusinessLogic
                 unitOfWork.CommitTransaction();
                 return data;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 unitOfWork.RollbackTransaction();
-                throw e;
+                throw;
             }
 
         }
