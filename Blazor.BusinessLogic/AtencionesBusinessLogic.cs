@@ -32,17 +32,18 @@ namespace Blazor.BusinessLogic
                 var admision = unitOfWork.Repository<Admisiones>().FindById(x => x.Id == data.AdmisionesId, false);
                 admision.EstadosId = 62;
                 unitOfWork.Repository<Admisiones>().Modify(admision);
-                
+
                 var cita = unitOfWork.Repository<ProgramacionCitas>().FindById(x => x.Id == admision.ProgramacionCitasId, false);
                 cita.EstadosId = 6;
                 unitOfWork.Repository<ProgramacionCitas>().Modify(cita);
 
                 var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().FindAll(x => x.AdmisionesId == admision.Id, false);
-                admisionesServiciosPrestados.ForEach(x => {
+                admisionesServiciosPrestados.ForEach(x =>
+                {
                     x.AtencionesId = data.Id;
                     unitOfWork.Repository<AdmisionesServiciosPrestados>().Modify(x);
                 });
-                
+
                 unitOfWork.CommitTransaction();
                 return data;
             }
@@ -64,15 +65,22 @@ namespace Blazor.BusinessLogic
 
                 var admision = unitOfWork.Repository<Admisiones>().FindById(x => x.Id == data.AdmisionesId, false);
                 admision.EstadosId = 10079;
+                admision.UpdatedBy = data.UpdatedBy;
+                admision.LastUpdate = DateTime.Now;
                 unitOfWork.Repository<Admisiones>().Modify(admision);
 
                 var cita = unitOfWork.Repository<ProgramacionCitas>().FindById(x => x.Id == admision.ProgramacionCitasId, false);
                 cita.EstadosId = 10078;
+                cita.UpdatedBy = data.UpdatedBy;
+                cita.LastUpdate = DateTime.Now;
                 unitOfWork.Repository<ProgramacionCitas>().Modify(cita);
 
                 var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().FindAll(x => x.AdmisionesId == admision.Id, false);
-                admisionesServiciosPrestados.ForEach(x => {
+                admisionesServiciosPrestados.ForEach(x =>
+                {
                     x.AtencionesId = data.Id;
+                    x.UpdatedBy = data.UpdatedBy;
+                    x.LastUpdate = DateTime.Now;
                     unitOfWork.Repository<AdmisionesServiciosPrestados>().Modify(x);
                 });
 

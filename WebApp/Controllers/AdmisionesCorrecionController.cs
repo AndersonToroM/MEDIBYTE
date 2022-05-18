@@ -38,7 +38,7 @@ namespace Blazor.WebApp.Controllers
                     .Include(x => x.Atenciones.Admisiones.ProgramacionCitas.Servicios)
                     .Include(x => x.Atenciones.Admisiones.ProgramacionCitas.Consultorios)
                     .Include(x => x.Atenciones.Admisiones.ProgramacionCitas.Empleados)
-                    .Where(x => x.Admisiones.EstadosId != 72 && !x.Facturado)
+                    .Where(x => x.Admisiones.EstadosId != 72 && x.Admisiones.EstadosId != 10079 && !x.Facturado)
                     .Select(x => x.Atenciones).Distinct();
 
             return DataSourceLoader.Load(result, loadOptions);
