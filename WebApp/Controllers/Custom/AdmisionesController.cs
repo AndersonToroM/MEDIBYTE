@@ -100,7 +100,6 @@ namespace Blazor.WebApp.Controllers
                         model.Entity = Manager().GetBusinessLogic<Admisiones>().Add(model.Entity);
                         model.Entity.IsNew = false;
                     }
-
                     else
                     {
                         var admision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, true);

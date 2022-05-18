@@ -261,15 +261,6 @@ namespace Blazor.BusinessLogic
                     data.ExoneracionArchivoId = ManageArchivo(data.ExoneracionArchivo, data.ExoneracionArchivoId, logicaArchivo);
                     data.ExoneracionArchivo.Id = data.ExoneracionArchivoId.GetValueOrDefault(0);
                 }
-
-                var admisionBd = logicaData.FindById(x => x.Id == data.Id, false);
-                if (admisionBd != null)
-                {
-                    List<long> estadosAdmisiones = new List<long> { 62, 72, 10079};
-                    if (estadosAdmisiones.Contains(admisionBd.EstadosId))
-                        data.EstadosId = admisionBd.EstadosId;
-                }
-
                 data = logicaData.Modify(data);
                 logicaData.CommitTransaction();
                 return data;

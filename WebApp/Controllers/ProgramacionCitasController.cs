@@ -35,7 +35,7 @@ namespace Blazor.WebApp.Controllers
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
             if (this.ActualEntidadId() != 0)
-                return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true).Where(x=>x.EntidadesId == this.ActualEntidadId()), loadOptions);
+                return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true).Where(x => x.EntidadesId == this.ActualEntidadId()), loadOptions);
             else
                 return DataSourceLoader.Load(Manager().GetBusinessLogic<ProgramacionCitas>().Tabla(true), loadOptions);
         }
@@ -136,6 +136,11 @@ namespace Blazor.WebApp.Controllers
                     }
                     else
                     {
+                        var citaBd = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.Id, false);
+                        List<long> estados = new List<long> { 4, 5, 6, 7, 8, 9, 10078 };
+                        if (estados.Contains(citaBd.EstadosId))
+                            model.Entity.EstadosId = citaBd.EstadosId;
+
                         model.Entity = Manager().GetBusinessLogic<ProgramacionCitas>().Modify(model.Entity);
                     }
 
