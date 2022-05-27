@@ -2784,6 +2784,10 @@
     "Description": "Respuesta"
   },
   {
+    "Id": "Id",
+    "Description": "Identificador"
+  },
+  {
     "Id": "ImagenesDiagnosticas",
     "Description": "Imagenes Diagnosticas"
   },

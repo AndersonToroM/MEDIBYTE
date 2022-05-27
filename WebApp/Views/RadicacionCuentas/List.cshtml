@@ -18,6 +18,8 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentas").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
+        columns.AddFor(m => m.Id);
+        columns.AddFor(m => m.CreationDate);
         columns.AddFor(m => m.Empresas.Id).Caption(DApp.GetResource("FacturasGeneracion.EmpresasId"))
             .Lookup(lookup => lookup
             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FacturasGeneracion").LoadAction("GetEmpresasId").Key("Id"))
