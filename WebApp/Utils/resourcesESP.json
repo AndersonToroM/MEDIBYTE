@@ -652,6 +652,10 @@
     "Description": "Paciente"
   },
   {
+    "Id": "AtencionesResultado.Profesional",
+    "Description": "Profesional que realizó lectura"
+  },
+  {
     "Id": "AtencionesResultado.Resultado",
     "Description": "Resultado"
   },
@@ -2782,6 +2786,10 @@
   {
     "Id": "HistoriasClinicasRespuestas.RespuestaSeleccion",
     "Description": "Respuesta"
+  },
+  {
+    "Id": "Id",
+    "Description": "Identificador"
   },
   {
     "Id": "ImagenesDiagnosticas",
