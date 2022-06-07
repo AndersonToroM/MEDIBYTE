@@ -25,13 +25,23 @@
             @using (Html.DevExtreme().ValidationGroup(Prefix + "ValidationGroup"))
             {
                 @(Html.DControls().CheckBoxFor(m => m.Entity.IsNew).ID(Prefix + "IsNew").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.Id).ID(Prefix + "Id").Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.Entity.UpdatedBy).ID(Prefix + "UpdatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().NumberBoxFor(m => m.Entity.EmpresasId).ID(Prefix + "EmpresasId").Visible(false))
 
-                @(Html.DControls().NumberBoxFor(m => m.Entity.ProgramacionCitasId).ID(Prefix + "ProgramacionCitasId").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.ProgramacionCitasId).ID(Prefix + "CitasId").Visible(false))
+
+                @(Html.DControls().NumberBoxFor(m => m.Entity.ExoneracionArchivoId).ID(Prefix + "ExoneracionArchivoId").Visible(false))
+
+                @(Html.DControls().DateBoxFor(m => m.Entity.FechaAprobacion).ID(Prefix + "FechaAprobacion").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.UserAproboId).ID(Prefix + "UserAproboId").Visible(false))
+
+                @(Html.DControls().CheckBoxFor(m => m.Entity.Facturado).ID(Prefix + "Facturado").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.FacturaCopagoCuotaModeradoraId).ID(Prefix + "FacturaCopagoCuotaModeradoraId").Visible(false))
+
 
                 @(Html.DControls().Form<AdmisionesModel>()
                     .ID("AdmisionesCorrecionModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
