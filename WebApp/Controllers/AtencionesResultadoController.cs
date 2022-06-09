@@ -44,10 +44,10 @@ namespace Blazor.WebApp.Controllers
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones)
                 .Include(x => x.AdmisionesServiciosPrestados.Servicios)
                 .Include(x => x.AdmisionesServiciosPrestados.Admisiones.Pacientes)
-                .Select(x => new { x.Id, x.AdmisionesServiciosPrestados, x.Estados, x.Entregado, x.Empleado});
+                .Select(x => new { x.Id, x.AdmisionesServiciosPrestados, x.Estados, x.Entregado });
             return DataSourceLoader.Load(result, loadOptions);
         }
-        
+
         public IActionResult List()
         {
             return View("List");

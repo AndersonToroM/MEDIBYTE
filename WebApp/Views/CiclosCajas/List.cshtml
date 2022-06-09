@@ -18,7 +18,7 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.Id).SortOrder(SortOrder.Desc);
+        columns.AddFor(m => m.Id);
         columns.AddFor(m => m.CajasId)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.CajasId")))
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CiclosCajas.CajasId")))
