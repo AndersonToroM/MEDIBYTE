@@ -261,7 +261,14 @@ namespace Blazor.BusinessLogic
                     data.ExoneracionArchivoId = ManageArchivo(data.ExoneracionArchivo, data.ExoneracionArchivoId, logicaArchivo);
                     data.ExoneracionArchivo.Id = data.ExoneracionArchivoId.GetValueOrDefault(0);
                 }
-                data = logicaData.Modify(data);
+
+                var admBD = logicaData.FindById(x => x.Id == data.Id, false);
+                if (data.FacturaCopagoCuotaModeradoraId != admBD.FacturaCopagoCuotaModeradoraId)
+                    data.FacturaCopagoCuotaModeradoraId = admBD.FacturaCopagoCuotaModeradoraId;
+                if (data.Facturado != admBD.Facturado)
+                    data.Facturado = admBD.Facturado;
+
+                data = logicaData.Modify(admBD);
                 logicaData.CommitTransaction();
                 return data;
             }
