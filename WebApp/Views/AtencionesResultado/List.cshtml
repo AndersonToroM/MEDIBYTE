@@ -21,6 +21,7 @@
     columns.AddFor(m => m.AdmisionesServiciosPrestados.Servicios.Nombre);
     columns.AddFor(m => m.Estados.Nombre);
     columns.AddFor(m => m.AdmisionesServiciosPrestados.Atenciones.FechaAtencion);
+    columns.AddFor(m => m.Empleado.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AtencionesResultado.Profesional"));
     columns.AddFor(m => m.Entregado);
     })
     )

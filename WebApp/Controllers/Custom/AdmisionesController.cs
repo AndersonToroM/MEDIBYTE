@@ -109,9 +109,7 @@ namespace Blazor.WebApp.Controllers
                         model.Entity = Manager().GetBusinessLogic<Admisiones>().Modify(model.Entity);
                     }
 
-                    var serviciosDetalle = Manager().GetBusinessLogic<AdmisionesServiciosPrestados>().FindById(x => x.AdmisionesId == model.Entity.Id && x.Facturado, false);
-                    if (serviciosDetalle != null)
-                        model.TieneServiciosFacturadosAEntidad = true;
+                    return EditModel(model.Entity.Id);
                 }
                 catch (Exception e)
                 {
