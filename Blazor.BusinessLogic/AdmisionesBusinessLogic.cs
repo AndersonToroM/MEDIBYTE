@@ -268,7 +268,7 @@ namespace Blazor.BusinessLogic
                 if (data.Facturado != admBD.Facturado)
                     data.Facturado = admBD.Facturado;
 
-                data = logicaData.Modify(admBD);
+                data = logicaData.Modify(data);
                 logicaData.CommitTransaction();
                 return data;
             }
