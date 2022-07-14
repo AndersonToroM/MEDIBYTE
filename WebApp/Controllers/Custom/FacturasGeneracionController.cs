@@ -58,7 +58,8 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetServiciosFacturados(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<ServiciosFacturar>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ServiciosFacturar>().Tabla(true).Where(x => x.AtencionEstado == 10076), loadOptions);
+
         }
 
     }
