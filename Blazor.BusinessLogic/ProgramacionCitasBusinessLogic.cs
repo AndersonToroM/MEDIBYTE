@@ -494,6 +494,14 @@ namespace Blazor.BusinessLogic
 
         public override ProgramacionCitas Add(ProgramacionCitas data)
         {
+            var disponibilidad = ConsultarDisponibilidad(data.ServiciosId, data.ConsultoriosId, data.EmpleadosId, data.FechaInicio, data.Duracion, data.EstadosIdTipoDuracion);
+            if (disponibilidad.ContainsKey("Disponible"))
+            {
+                bool estaDisponible = Convert.ToBoolean(disponibilidad["Disponible"]);
+                if (!estaDisponible)
+                    throw new Exception("El espacio seleccionado ya no se encuentra disponible, por favor verifique nuevamente la agenda.");
+            }
+
             data.Consecutivo = this.GetSiguienteConsecutivo();
             data.EstadosId = 3;
             return base.Add(data);
