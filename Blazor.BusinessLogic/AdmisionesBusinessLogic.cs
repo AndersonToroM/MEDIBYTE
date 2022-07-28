@@ -169,7 +169,9 @@ namespace Blazor.BusinessLogic
 
             valorServicio = valorServicio * cita.Cantidad;
 
-            valorServicio = Math.Round(valorServicio / 50, 0) * 50;
+            //valorServicio = Math.Round(valorServicio / 50, 0) * 50;
+
+            valorServicio = Math.Ceiling(valorServicio / 50) * 50; //Redondea siempre al mayor
 
             return valorServicio;
         }
