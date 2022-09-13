@@ -10,6 +10,7 @@
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("RadicacionCuentas"))
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000634756-radicaci%C3%B3n-de-factura")
         .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
