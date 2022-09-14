@@ -197,14 +197,26 @@ namespace Blazor.WebApp.Controllers
 
         [HttpPost("/SaveLogFromClient")]
         [AllowAnonymous]
-        public IActionResult SaveLogFromClient(List<string> logs)
+        public IActionResult SaveLogFromClient(List<string> logs, int type)
         {
             try
             {
-                string title = "Net;Server;Tiempo de espera;Codigo;Estado;Fecha;Hora;Plataforma;Ubicacion" + Environment.NewLine;
+                string title = string.Empty;
+                string nameFile = string.Empty;
+                if(type == 1) // ping log
+                {
+                    title = "Net;Server;Tiempo de espera;Codigo;Estado;Fecha;Hora;Plataforma;Ubicacion" + Environment.NewLine;
+                    nameFile = "LogPingDesdeCliente";
+                }
+                else if(type == 2) // speed test
+                {
+                    title = "Fecha;Hora;Plataforma;Min KB; Speed KB" + Environment.NewLine;
+                    nameFile = "LogSpeddTestDesdeCliente";
+                }
+
                 if (!Directory.Exists(Program.DirectoryLog))
                     Directory.CreateDirectory(Program.DirectoryLog);
-                string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.LogPingDesdeCliente.csv");
+                string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.{nameFile}.csv");
                 if (System.IO.File.Exists(pathFile))
                 {
                     FileInfo fi = new FileInfo(pathFile);
@@ -226,7 +238,7 @@ namespace Blazor.WebApp.Controllers
             {
                 return BadRequest();
             }
-
         }
+
     }
 }
