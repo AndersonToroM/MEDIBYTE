@@ -287,9 +287,9 @@ function SendLogPingServer(logs) {
 setInterval(PingServersIfErrorTimeOut, 5000);
 /******************************************************************/
 
-var imageAddr = "https://neurofic.siiso.co/images/logo_nube_blanco-G.png";
-var downloadSize = 228000; //bytes
-var speedLimitKB = 1500;
+var imageAddr = "https://http2.mlstatic.com/D_NQ_NP974268-MLA41149104135_032020-F.jpg";
+var downloadSize = 53479; //bytes
+var speedLimitKB = 200;
 var SiisoSpeedTestStorage = "SiisoSpeedTestStorage";
 var isSendingLogSpeedTest = false;
 
@@ -330,6 +330,8 @@ function MeasureConnectionSpeed(logSpeedTest) {
             DevExpress.ui.notify(`Su conexion de internet esta presentando lentitud. (${speedKbps} Kbps)`, "warning", 1000);
         if (logSpeedTest.length >= 500 && !isSendingLogSpeedTest)
             SendLogSpeedTestServer(logSpeedTest);
+        if (logSpeedTest.length % 10 == 0)
+            console.info(`Tiempo promedio descarga de 0.5 MG: ${speedKbps} Kbps`);
 
         logSpeedTest.push(GetLogSpeedTestMessage(speedKbps));
         localStorage.setItem(SiisoSpeedTestStorage, JSON.stringify(logSpeedTest));
@@ -339,6 +341,7 @@ function MeasureConnectionSpeed(logSpeedTest) {
 function GetLogSpeedTestMessage(speed) {
     return moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
         ";" + platform.description +
+        ";" + downloadSize +
         ";" + speedLimitKB +
         ";" + speed;
 }

@@ -210,8 +210,8 @@ namespace Blazor.WebApp.Controllers
                 }
                 else if(type == 2) // speed test
                 {
-                    title = "Fecha;Hora;Plataforma;Min KB; Speed KB" + Environment.NewLine;
-                    nameFile = "LogSpeddTestDesdeCliente";
+                    title = "Fecha;Hora;Plataforma;Tamaño KB;Min KB; Velocidad KB" + Environment.NewLine;
+                    nameFile = "LogSpeedTestDesdeCliente";
                 }
 
                 if (!Directory.Exists(Program.DirectoryLog))
