@@ -62,7 +62,16 @@ namespace Blazor.BusinessLogic
                     atencionesResultado.AdmisionesServiciosPrestadosId = item;
                     atencionesResultado.FechaLectura = DateTime.Now;
                     atencionesResultado.EmpleadoId = empleadoId;
-                    atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Add(atencionesResultado);
+
+                    var existeLectura = unitOfWork.Repository<AtencionesResultado>().Table.Any(x => x.AdmisionesServiciosPrestadosId == item);
+                    if (!existeLectura)
+                        atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Add(atencionesResultado);
+                    else
+                    {
+                        var servicio = unitOfWork.Repository<AdmisionesServiciosPrestados>().FindById(x => x.Id == item, true).Servicios;
+                        throw new Exception($"Ya existe una lectura realizada para el servicio {servicio.DescripcionCompleta}");
+                    }
+
                 }
 
                 var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>()
