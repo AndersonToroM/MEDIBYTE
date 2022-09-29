@@ -632,6 +632,14 @@
     "Description": "Resultados"
   },
   {
+    "Id": "AtencionesResultado.CambiarProfesional",
+    "Description": "Cambiar Profesional"
+  },
+  {
+    "Id": "AtencionesResultado.EmpleadosId",
+    "Description": "Profesional"
+  },
+  {
     "Id": "AtencionesResultado.Entregado",
     "Description": "¿Fue Entregado?"
   },
