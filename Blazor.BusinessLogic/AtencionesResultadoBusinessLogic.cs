@@ -19,6 +19,30 @@ namespace Blazor.BusinessLogic
         {
         }
 
+        public void CambiarProfesional(long empleadoId, List<long> resultadosSelected, string userName)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                foreach (var item in resultadosSelected)
+                {
+                    AtencionesResultado atencionesResultado = unitOfWork.Repository<AtencionesResultado>().FindById(x => x.Id == item, false);
+                    atencionesResultado.IsNew = false;
+                    atencionesResultado.UpdatedBy = userName;
+                    atencionesResultado.LastUpdate = DateTime.Now;
+                    atencionesResultado.EmpleadoId = empleadoId;
+                    atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Modify(atencionesResultado);
+                }
+                unitOfWork.CommitTransaction();
+            }
+            catch
+            {
+                unitOfWork.RollbackTransaction();
+                throw;
+            }
+        }
+
         public void MarcarLeidos(long empleadoId, List<long> admisionesServiciosPrestadosId, string userName)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
@@ -43,7 +67,7 @@ namespace Blazor.BusinessLogic
 
                 var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>()
                     .FindAll(x => admisionesServiciosPrestadosId.Contains(x.Id), false);
-                admisionesServiciosPrestados.ForEach(x => { x.LecturaRealizada = true; x.UpdatedBy = userName; x.LastUpdate = DateTime.Now; });   
+                admisionesServiciosPrestados.ForEach(x => { x.LecturaRealizada = true; x.UpdatedBy = userName; x.LastUpdate = DateTime.Now; });
                 unitOfWork.Repository<AdmisionesServiciosPrestados>().ModifyRange(admisionesServiciosPrestados);
 
                 unitOfWork.CommitTransaction();

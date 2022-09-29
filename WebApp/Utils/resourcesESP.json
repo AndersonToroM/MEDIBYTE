@@ -652,6 +652,10 @@
     "Description": "Paciente"
   },
   {
+    "Id": "AtencionesResultado.Profesional",
+    "Description": "Profesional"
+  },
+  {
     "Id": "AtencionesResultado.Resultado",
     "Description": "Resultado"
   },

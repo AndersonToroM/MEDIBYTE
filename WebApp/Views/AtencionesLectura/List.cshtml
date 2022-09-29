@@ -45,15 +45,15 @@
 
         var empleadoSelectedId = $("#@(Prefix)AccionMarcarLeidos").dxSelectBox("instance").option("value");
         if (empleadoSelectedId == 0 || empleadoSelectedId == "" || empleadoSelectedId == null) {
-            DevExpress.ui.notify("Error: El empleado es obligatorio.", "error", 4000);
+            DevExpress.ui.notify("Error: El profesional es obligatorio.", "error", 4000);
             return false;
         }
 
-        var admisionesServiciosPrestadosIdSelectedId = $("#AtencionesLecturaDataGrid").dxDataGrid("instance").getSelectedRowKeys();
+        var resultadosSelected = $("#AtencionesLecturaDataGrid").dxDataGrid("instance").getSelectedRowKeys();
         showLoadIndicator();
             $.ajax({
                 url: "@Url.Action("MarcarLeidos",Prefix)",
-                data: { empleadoId : empleadoSelectedId, admisionesServiciosPrestadosId : admisionesServiciosPrestadosIdSelectedId },
+                data: { empleadoId : empleadoSelectedId, admisionesServiciosPrestadosId : resultadosSelected },
                 type: 'POST',
                 success: function (data) {
                     hideLoadIndicator();
