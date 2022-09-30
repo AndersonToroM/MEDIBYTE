@@ -648,6 +648,10 @@
     "Description": "Fecha Lectura"
   },
   {
+    "Id": "AtencionesResultado.Id",
+    "Description": "No."
+  },
+  {
     "Id": "AtencionesResultado.ImagenesDiagnosticas",
     "Description": "Imágenes Diagnósticas"
   },

@@ -70,6 +70,7 @@
         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AtencionesResultado").LoadAction("Get").Key("Id"))
         .Columns(columns =>
         {
+            columns.AddFor(m => m.Id).Caption(DApp.DefaultLanguage.GetResource("AtencionesResultado.Id"));
             columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.Pacientes.NumeroIdentificacion);
             columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AtencionesResultado.Paciente"));
             columns.AddFor(m => m.AdmisionesServiciosPrestados.Servicios.Nombre);

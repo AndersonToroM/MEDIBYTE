@@ -27,6 +27,9 @@ namespace Blazor.BusinessLogic
             {
                 foreach (var item in resultadosSelected)
                 {
+                    var liquidacionDetalle = unitOfWork.Repository<LiquidacionHonorariosDetalle>().FindById(x => x.AtencionesResultadoId == item, true);
+                    if (liquidacionDetalle != null && liquidacionDetalle.LiquidacionHonorarios.EstadosId == 10062)
+                        throw new Exception($"No se puede cambiar el profesional porque la lectura No. {item} se encuentra en la liquidación de honorarios No. {liquidacionDetalle.LiquidacionHonorarios.Consecutivo}");
                     AtencionesResultado atencionesResultado = unitOfWork.Repository<AtencionesResultado>().FindById(x => x.Id == item, false);
                     atencionesResultado.IsNew = false;
                     atencionesResultado.UpdatedBy = userName;
