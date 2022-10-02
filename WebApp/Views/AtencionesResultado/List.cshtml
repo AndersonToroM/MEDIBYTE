@@ -4,6 +4,7 @@
     string UrlNew = Url.Action("New", "AtencionesResultado");
 
     var DataGridConfig = new DataGridConfiguration<AtencionesResultado>(Prefix)
+        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000635447-corregir-profesional-en-lectura-de-resultados")
         .OnClick(UrlClick, new { Id = "Id" })
         //.New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew))
         .Exports(true, true).SetStorage()
