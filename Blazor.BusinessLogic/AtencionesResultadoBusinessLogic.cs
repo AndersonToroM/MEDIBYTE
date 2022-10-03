@@ -19,6 +19,33 @@ namespace Blazor.BusinessLogic
         {
         }
 
+        public void CambiarProfesional(long empleadoId, List<long> resultadosSelected, string userName)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                foreach (var item in resultadosSelected)
+                {
+                    var liquidacionDetalle = unitOfWork.Repository<LiquidacionHonorariosDetalle>().FindById(x => x.AtencionesResultadoId == item, true);
+                    if (liquidacionDetalle != null && liquidacionDetalle.LiquidacionHonorarios.EstadosId == 10062)
+                        throw new Exception($"No se puede cambiar el profesional porque la lectura No. {item} se encuentra en la liquidación de honorarios No. {liquidacionDetalle.LiquidacionHonorarios.Consecutivo}");
+                    AtencionesResultado atencionesResultado = unitOfWork.Repository<AtencionesResultado>().FindById(x => x.Id == item, false);
+                    atencionesResultado.IsNew = false;
+                    atencionesResultado.UpdatedBy = userName;
+                    atencionesResultado.LastUpdate = DateTime.Now;
+                    atencionesResultado.EmpleadoId = empleadoId;
+                    atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Modify(atencionesResultado);
+                }
+                unitOfWork.CommitTransaction();
+            }
+            catch
+            {
+                unitOfWork.RollbackTransaction();
+                throw;
+            }
+        }
+
         public void MarcarLeidos(long empleadoId, List<long> admisionesServiciosPrestadosId, string userName)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
@@ -38,12 +65,21 @@ namespace Blazor.BusinessLogic
                     atencionesResultado.AdmisionesServiciosPrestadosId = item;
                     atencionesResultado.FechaLectura = DateTime.Now;
                     atencionesResultado.EmpleadoId = empleadoId;
-                    atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Add(atencionesResultado);
+
+                    var existeLectura = unitOfWork.Repository<AtencionesResultado>().Table.Any(x => x.AdmisionesServiciosPrestadosId == item);
+                    if (!existeLectura)
+                        atencionesResultado = unitOfWork.Repository<AtencionesResultado>().Add(atencionesResultado);
+                    else
+                    {
+                        var servicio = unitOfWork.Repository<AdmisionesServiciosPrestados>().FindById(x => x.Id == item, true).Servicios;
+                        throw new Exception($"Ya existe una lectura realizada para el servicio {servicio.DescripcionCompleta}");
+                    }
+
                 }
 
                 var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>()
                     .FindAll(x => admisionesServiciosPrestadosId.Contains(x.Id), false);
-                admisionesServiciosPrestados.ForEach(x => { x.LecturaRealizada = true; x.UpdatedBy = userName; x.LastUpdate = DateTime.Now; });   
+                admisionesServiciosPrestados.ForEach(x => { x.LecturaRealizada = true; x.UpdatedBy = userName; x.LastUpdate = DateTime.Now; });
                 unitOfWork.Repository<AdmisionesServiciosPrestados>().ModifyRange(admisionesServiciosPrestados);
 
                 unitOfWork.CommitTransaction();

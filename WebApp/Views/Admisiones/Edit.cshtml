@@ -133,7 +133,46 @@
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                 );
+                                /*
+                                groupItems.AddSimpleFor(m => m.Entity.Pacientes.TiposRegimenes.Nombre).ColSpan(6)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.Pacientes.TiposRegimenesId")))
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Admisiones.Pacientes.TiposRegimenesId")))
+                                 .Editor(e => e.SelectBox().ID(Prefix + "Pacientes.TiposRegimenesId")
+                                 .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
+                                 .ReadOnly(true));*/
+                                /*
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetPacientesId").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .ValueExpr("Id").DisplayExpr("Regimen").SearchExpr("Regimen")
+                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .ReadOnly(!Model.Entity.IsNew)
+                                      .OnValueChanged(Prefix+ "OnValueChangedPaciente")
+                                 );
 
+                                 groupItems.AddSimpleFor(m => m.Entity.Pacientes.TiposAfiliados.Nombre).ColSpan(6)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.PacientesId")))
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Admisiones.PacientesId")))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetPacientesId").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .ValueExpr("Id").DisplayExpr("TipoAfiliado").SearchExpr("TipoAfiliado")
+                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .ReadOnly(!Model.Entity.IsNew)
+                                      .OnValueChanged(Prefix+ "OnValueChangedPaciente")
+                                 );
+
+                                 groupItems.AddSimpleFor(m => m.Entity.Pacientes.CategoriasIngresos.Codigo).ColSpan(6)
+                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.PacientesId")))
+                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Admisiones.PacientesId")))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetPacientesId").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .ValueExpr("Id").DisplayExpr("Rango").SearchExpr("Rango")
+                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .ReadOnly(!Model.Entity.IsNew)
+                                      .OnValueChanged(Prefix+ "OnValueChangedPaciente")
+                                 );
+                                 */
                                 groupItems.AddSimpleFor(m => m.ConsultoriosId).ColSpan(6).Label(x=>x.Text(DApp.DefaultLanguage.GetResource("Admisiones.ConsultorioId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "ConsultorioId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetConsultoriosId").Key("Id"))
@@ -141,7 +180,7 @@
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                       .ReadOnly(true)
                                  );
-
+                                 
                                 groupItems.AddSimpleFor(m => m.EmpleadosId).ColSpan(6).Label(x => x.Text(DApp.DefaultLanguage.GetResource("Admisiones.EmpleadosId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "EmpleadosId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetEmpleadosId").Key("Id"))

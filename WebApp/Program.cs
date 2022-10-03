@@ -12,13 +12,13 @@ namespace Blazor.WebApp
 {
     public class Program
     {
-        public static string DirectoryLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+        public static string DirectoryLog = Path.Combine(Environment.CurrentDirectory, "wwwroot", "Files", "Logs");
 
         public static void Main(string[] args)
         {
-                CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("es");
-                CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-                CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("es");
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 
             if (!Directory.Exists(DirectoryLog))
                 Directory.CreateDirectory(DirectoryLog);

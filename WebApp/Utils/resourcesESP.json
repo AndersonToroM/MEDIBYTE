@@ -632,12 +632,24 @@
     "Description": "Resultados"
   },
   {
+    "Id": "AtencionesResultado.CambiarProfesional",
+    "Description": "Cambiar Profesional"
+  },
+  {
+    "Id": "AtencionesResultado.EmpleadosId",
+    "Description": "Profesional"
+  },
+  {
     "Id": "AtencionesResultado.Entregado",
     "Description": "¿Fue Entregado?"
   },
   {
     "Id": "AtencionesResultado.FechaLectura",
     "Description": "Fecha Lectura"
+  },
+  {
+    "Id": "AtencionesResultado.Id",
+    "Description": "No."
   },
   {
     "Id": "AtencionesResultado.ImagenesDiagnosticas",
@@ -650,6 +662,10 @@
   {
     "Id": "AtencionesResultado.Paciente",
     "Description": "Paciente"
+  },
+  {
+    "Id": "AtencionesResultado.Profesional",
+    "Description": "Profesional"
   },
   {
     "Id": "AtencionesResultado.Resultado",

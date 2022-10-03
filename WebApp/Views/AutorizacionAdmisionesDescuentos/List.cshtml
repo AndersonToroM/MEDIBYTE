@@ -57,7 +57,7 @@
     function ValorDescuentoAlServicio(rowData) {
         if (rowData.ProgramacionCitas) {
             var valorDescuento = (rowData.PorcDescAutorizado / 100) * (rowData.ProgramacionCitas.Servicios.TarifaPlena);
-            return valorDescuento;
+            return Math.round(valorDescuento);
         }
     }
 

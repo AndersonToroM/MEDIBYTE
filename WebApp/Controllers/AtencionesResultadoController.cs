@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using WebApp.Reportes.AtencionesResultado;
@@ -44,7 +45,7 @@ namespace Blazor.WebApp.Controllers
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones)
                 .Include(x => x.AdmisionesServiciosPrestados.Servicios)
                 .Include(x => x.AdmisionesServiciosPrestados.Admisiones.Pacientes)
-                .Select(x => new { x.Id, x.AdmisionesServiciosPrestados, x.Estados, x.Entregado, x.Empleado});
+                .Select(x => new { x.Id, x.AdmisionesServiciosPrestados, x.Estados, x.Entregado, x.Empleado });
             return DataSourceLoader.Load(result, loadOptions);
         }
         
@@ -296,6 +297,11 @@ namespace Blazor.WebApp.Controllers
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Estados>().Tabla(true), loadOptions);
         }
+        [HttpPost]
+        public LoadResult GetEmpleadosId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true).Where(x => x.TipoEmpleados == 2), loadOptions);
+        }
         #endregion
 
 
@@ -392,5 +398,19 @@ namespace Blazor.WebApp.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult CambiarProfesional(long empleadoId, List<long> resultadosSelected)
+        {
+            try
+            {
+                Manager().AtencionesResultadoBusinessLogic().CambiarProfesional(empleadoId, resultadosSelected, User.Identity.Name);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
     }
 }

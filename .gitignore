@@ -8,3 +8,4 @@ publish
 /WebApp/Properties/PublishProfiles
 /WebApp/*.user*
 /WebApp/wwwroot/Files/Log
+/WebApp/wwwroot/Files/Logs

@@ -13,6 +13,7 @@
     <None Remove="Reportes\**\*.repx" />
     <None Remove="Reportes\LiquidacionHonorariosReporte\**" />
     <None Remove="Reportes\XDeCaja\**" />
+    <None Remove="wwwroot\Files\Log\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reportes\**\*.repx" />
@@ -20,10 +21,13 @@
   <ItemGroup>
     <Compile Remove="Reportes\LiquidacionHonorariosReporte\**" />
     <Compile Remove="Reportes\XDeCaja\**" />
+    <Compile Remove="wwwroot\Files\Log\**" />
     <Content Remove="Reportes\LiquidacionHonorariosReporte\**" />
     <Content Remove="Reportes\XDeCaja\**" />
+    <Content Remove="wwwroot\Files\Log\**" />
     <EmbeddedResource Remove="Reportes\LiquidacionHonorariosReporte\**" />
     <EmbeddedResource Remove="Reportes\XDeCaja\**" />
+    <EmbeddedResource Remove="wwwroot\Files\Log\**" />
     <TypeScriptCompile Remove="Reportes\LiquidacionHonorariosReporte\**" />
   </ItemGroup>
   <ItemGroup>
@@ -337,9 +341,6 @@
     <Content Update="Utils\menu.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\Files\Log\" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

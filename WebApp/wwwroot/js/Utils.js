@@ -221,14 +221,14 @@ function SiisoGetMensajeGeoLocalizacion() {
 /* Funcion para verificar respuesta con el server cada 5 segundos */
 var SiisoPingStorage = "SiisoPingLog";
 var SiisoPingTimeOut = 2;
+var isSendeingPingLog = false;
 
 function PingServersIfErrorTimeOut() {
 
     var servers = [
         (location.origin + "/GetResponseFromServer"),
-        "https://api.coindesk.com/v1/bpi/currentprice.json",
+        "https://pokeapi.co/api/v2/pokemon/ditto",
         "https://api.zippopotam.us/us/33162",
-        "https://randomuser.me/api/",
         "https://www.datos.gov.co/resource/xdk5-pm3f.json/?municipio=Cali"
     ];
     servers.forEach(server => {
@@ -244,7 +244,7 @@ function PingServersIfErrorTimeOut() {
                     localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
                 }
                 else {
-                    if (logs.length >= 50)
+                    if (logs.length >= 50 && !isSendeingPingLog)
                         SendLogPingServer(logs);
                 }
             }
@@ -269,12 +269,14 @@ function GetLogStatusMessage(xhr, uri) {
 }
 
 function SendLogPingServer(logs) {
+    isSendeingPingLog = true;
     $.ajax({
         url: (location.origin + "/SaveLogFromClient"),
         type: 'POST',
-        data: { logs: logs },
+        data: { logs: logs, type: 1 },
         success: function () {
             localStorage.removeItem(SiisoPingStorage);
+            isSendeingPingLog = false;
         },
         error: function (xhr) {
             setTimeout(() => { SendLogPingServer(logs); }, 2000);
@@ -285,3 +287,80 @@ function SendLogPingServer(logs) {
 setInterval(PingServersIfErrorTimeOut, 5000);
 /******************************************************************/
 
+var imageAddr = "https://http2.mlstatic.com/D_NQ_NP974268-MLA41149104135_032020-F.jpg";
+var downloadSize = 53479; //bytes
+var speedLimitKB = 200;
+var SiisoSpeedTestStorage = "SiisoSpeedTestStorage";
+var isSendingLogSpeedTest = false;
+
+function InitiateSpeedDetection() {
+    var logSpeedTest = [];
+    var ls = localStorage.getItem(SiisoSpeedTestStorage);
+    if (!ls) {
+        localStorage.setItem(SiisoSpeedTestStorage, "[]");
+    } else {
+        logSpeedTest = JSON.parse(localStorage.getItem(SiisoSpeedTestStorage) || "[]");
+    }
+    MeasureConnectionSpeed(logSpeedTest);
+};
+
+function MeasureConnectionSpeed(logSpeedTest) {
+    var startTime, endTime;
+    var download = new Image();
+    download.onload = function () {
+        endTime = (new Date()).getTime();
+        showResults();
+    }
+
+    download.onerror = function (err, msg) {
+        logs.push(GetLogSpeedTestMessage("Invalid image, or error downloading"));
+    }
+
+    startTime = (new Date()).getTime();
+    var cacheBuster = "?nnn=" + startTime;
+    download.src = imageAddr + cacheBuster;
+
+    function showResults() {
+        var duration = (endTime - startTime) / 1000;
+        var bitsLoaded = downloadSize * 8;
+        var speedBps = (bitsLoaded / duration).toFixed(2);
+        var speedKbps = (speedBps / 1024).toFixed(2);
+        /*        var speedMbps = (speedKbps / 1024).toFixed(2);*/
+        if (speedKbps <= speedLimitKB)
+            DevExpress.ui.notify(`Su conexion de internet esta presentando lentitud. (${speedKbps} Kbps)`, "warning", 1000);
+        if (logSpeedTest.length >= 500 && !isSendingLogSpeedTest)
+            SendLogSpeedTestServer(logSpeedTest);
+        if (logSpeedTest.length % 10 == 0)
+            console.info(`Tiempo promedio descarga de 0.5 MG: ${speedKbps} Kbps`);
+
+        logSpeedTest.push(GetLogSpeedTestMessage(speedKbps));
+        localStorage.setItem(SiisoSpeedTestStorage, JSON.stringify(logSpeedTest));
+    }
+}
+
+function GetLogSpeedTestMessage(speed) {
+    return moment(new Date()).format("YYYY-MM-DD;HH:mm:ss") +
+        ";" + platform.description +
+        ";" + downloadSize +
+        ";" + speedLimitKB +
+        ";" + speed;
+}
+
+function SendLogSpeedTestServer(logs) {
+    isSendingLogSpeedTest = true;
+    $.ajax({
+        url: (location.origin + "/SaveLogFromClient"),
+        type: 'POST',
+        data: { logs: logs, type: 2 },
+        success: function () {
+            localStorage.removeItem(SiisoSpeedTestStorage);
+            localStorage = [];
+            isSendingLogSpeedTest = false;
+        },
+        error: function (xhr) {
+            setTimeout(() => { SendLogSpeedTestServer(logs); }, 2000);
+        }
+    });
+}
+
+setInterval(InitiateSpeedDetection, 2000);
