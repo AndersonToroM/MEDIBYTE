@@ -185,7 +185,7 @@ namespace Blazor.BusinessLogic
                 long consecutivo = 0;
                 try
                 {
-                    consecutivo = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).GetSecuence($"{documento.Prefijo}");
+                    consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
                 }
                 catch (Exception e)
                 {
@@ -382,7 +382,7 @@ namespace Blazor.BusinessLogic
                 long consecutivo = 0;
                 try
                 {
-                    consecutivo = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).GetSecuence($"{documento.Prefijo}");
+                    consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
                 }
                 catch (Exception e)
                 {

@@ -106,16 +106,21 @@ namespace Blazor.BusinessLogic
 
         public override Notas Add(Notas data)
         {
-            var documento = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).FindById(x => x.Id == data.DocumentosId, false);
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == data.DocumentosId, false);
             try
             {
-                data.Consecutivo = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).GetSecuence($"{documento.Prefijo}");
+                data.Consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
+                data = unitOfWork.Repository<Notas>().Add(data);
+                unitOfWork.CommitTransaction();
             }
             catch (Exception e)
             {
+                unitOfWork.RollbackTransaction();
                 throw new Exception($"Error obteniendo consecutivo para {data.SedesId}-{documento.Prefijo}. | {e.Message}");
             }
-            return base.Add(data);
+            return data;
         }
 
         public Notas AprobarNota(Notas nota)

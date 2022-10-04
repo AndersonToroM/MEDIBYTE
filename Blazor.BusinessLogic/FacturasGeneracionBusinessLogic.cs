@@ -52,7 +52,7 @@ namespace Blazor.BusinessLogic
                             var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == factGen.DocumentosId, false);
                             try
                             {
-                                consecutivo = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).GetSecuence($"{documento.Prefijo}");
+                                consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
                             }
                             catch (Exception)
                             {
