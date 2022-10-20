@@ -742,8 +742,8 @@ namespace Blazor.BusinessLogic
                             ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
                         if (!string.IsNullOrWhiteSpace(item.NumeroSuministroPrescripcion))
                             ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.TrimStart().TrimEnd();
-                        if (!string.IsNullOrWhiteSpace(item.Convenios.Codigo))
-                            ss.Numcontrato = item.Convenios.Codigo.TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(item.Convenios.NroContrato))
+                            ss.Numcontrato = item.Convenios.NroContrato.TrimStart().TrimEnd();
                         if (!string.IsNullOrWhiteSpace(item.NumeroPoliza))
                             ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
 
