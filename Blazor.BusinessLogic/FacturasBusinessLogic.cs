@@ -185,7 +185,7 @@ namespace Blazor.BusinessLogic
                 long consecutivo = 0;
                 try
                 {
-                    consecutivo = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).GetSecuence($"{documento.Prefijo}");
+                    consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
                 }
                 catch (Exception e)
                 {
@@ -382,7 +382,7 @@ namespace Blazor.BusinessLogic
                 long consecutivo = 0;
                 try
                 {
-                    consecutivo = new GenericBusinessLogic<Documentos>(this.UnitOfWork.Settings).GetSecuence($"{documento.Prefijo}");
+                    consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
                 }
                 catch (Exception e)
                 {
@@ -742,8 +742,8 @@ namespace Blazor.BusinessLogic
                             ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
                         if (!string.IsNullOrWhiteSpace(item.NumeroSuministroPrescripcion))
                             ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.TrimStart().TrimEnd();
-                        if (!string.IsNullOrWhiteSpace(item.Convenios.Codigo))
-                            ss.Numcontrato = item.Convenios.Codigo.TrimStart().TrimEnd();
+                        if (!string.IsNullOrWhiteSpace(item.Convenios.NroContrato))
+                            ss.Numcontrato = item.Convenios.NroContrato.TrimStart().TrimEnd();
                         if (!string.IsNullOrWhiteSpace(item.NumeroPoliza))
                             ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
 

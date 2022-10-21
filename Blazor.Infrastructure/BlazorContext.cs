@@ -1,4 +1,5 @@
 ﻿using Blazor.Infrastructure.Entities;
+using Blazor.Infrastructure.Entities.Custom;
 using Dominus.Backend.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -153,6 +154,7 @@ namespace Blazor.Infrastructure
         public DbSet<NotasConceptos> NotasConceptos { get; set; }
         public DbSet<EventosDIAN> EventosDIAN { get; set; }
         public DbSet<ParametrosGenerales> ParametrosGenerales { get; set; }
+        public DbSet<Secuences> Secuences { get; set; }
 
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }

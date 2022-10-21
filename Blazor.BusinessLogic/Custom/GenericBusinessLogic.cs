@@ -1,5 +1,7 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
+using Blazor.Infrastructure.Entities.Custom;
+using DevExpress.Xpo;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Newtonsoft.Json;
@@ -26,15 +28,20 @@ namespace Blazor.BusinessLogic
             CommitTheTransaction = true;
         }
 
-        public int GetSecuence(string id)
+        public int GetSecuence(string prefix)
         {
-            int secuence = 0;
-            List<DataBaseParameter> parameters = new List<DataBaseParameter>{
-                new DataBaseParameter("@Id", id, Direcction.In),
-                new DataBaseParameter("@Secuence", secuence, Direcction.Out)
-            };
-            _ = int.TryParse(ExecuteStoreProcedure("GetSecuence", parameters)["@Secuence"].ToString(), out secuence);
-            return secuence;
+            var secuence = UnitOfWork.Repository<Secuences>().FindById(x => x.Id == prefix, false);
+            if(secuence == null)
+            {
+                secuence = new Secuences { Id = prefix, Secuence = 1 };
+                secuence = UnitOfWork.Repository<Secuences>().Add(secuence);
+            }
+            else
+            {
+                secuence.Secuence++;
+                secuence = UnitOfWork.Repository<Secuences>().Modify(secuence);
+            }
+            return secuence.Secuence;
         }
 
         #region Manejo de Imagenes a Tabla Archivos
