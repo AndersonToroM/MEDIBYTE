@@ -269,9 +269,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions)
         {
-            var result = Manager().GetBusinessLogic<Facturas>().Tabla(true).ToList();
-
-            return DataSourceLoader.Load(result, loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).Where(x=>x.Saldo > 0), loadOptions);
         } 
        #endregion
 

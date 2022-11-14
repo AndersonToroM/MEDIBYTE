@@ -45,7 +45,7 @@
                                       .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Glosas").LoadAction("GetFacturasId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(10))
-                                      .ValueExpr("Id").DisplayExpr(new JS(Prefix + "DisplayExprFacturaId")).SearchExpr("Documentos.Prefijo", "NroConsecutivo","Saldo")
+                                      .ValueExpr("Id").DisplayExpr("DescFacturaConSaldo").SearchExpr("Documentos.Prefijo", "NroConsecutivo","Saldo")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
 
