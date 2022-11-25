@@ -192,14 +192,6 @@
     "Description": "Hora de inicio"
   },
   {
-    "Id": "Admisiones.ImprimirCartera",
-    "Description": "Cartera por entidad"
-  },
-  {
-    "Id": "Admisiones.ImprimirCarteraGeneral",
-    "Description": "Cartera general"
-  },
-  {
     "Id": "Admisiones.ImprimirReporteEntregaProduccion",
     "Description": "Reporte Entrega Producción"
   },
@@ -2212,6 +2204,26 @@
     "Description": "Imprimir Anexo"
   },
   {
+    "Id": "Facturas.ImprimirCartera",
+    "Description": "Cartera por entidad"
+  },
+  {
+    "Id": "Facturas.ImprimirCarteraGeneral",
+    "Description": "Cartera general"
+  },
+  {
+    "Id": "Facturas.ImprimirInformeCartera",
+    "Description": "Informe cartera por entidad"
+  },
+  {
+    "Id": "Facturas.ImprimirInformeCarteraGeneral",
+    "Description": "Informe cartera general"
+  },
+  {
+    "Id": "Facturas.ImprimirInformeGeneralCartera",
+    "Description": "Informe General Cartera"
+  },
+  {
     "Id": "Facturas.IssueDate",
     "Description": "Fecha Evento"
   },
@@ -2246,6 +2258,18 @@
   {
     "Id": "Facturas.ReferenciaFactura",
     "Description": "Referencia de factura"
+  },
+  {
+    "Id": "Facturas.ReporteEntidadId",
+    "Description": "Entidad"
+  },
+  {
+    "Id": "Facturas.ReporteFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ReporteFechaHasta",
+    "Description": "Hasta"
   },
   {
     "Id": "Facturas.Saldo",
