@@ -42,6 +42,10 @@
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Documentos.Prefijo")))
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(5).Message(DApp.GetStringLengthResource("Documentos.Prefijo", 5)))
                                       .Editor(e => e.TextBox().ID(Prefix + "Prefijo").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.Codigo85).ColSpan(2)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Documentos.Codigo85")))
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(5).Message(DApp.GetStringLengthResource("Documentos.Codigo85", 5)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "Codigo85").ShowClearButton(true)).Visible(false);
                                 groupItems.AddSimpleFor(m => m.Entity.Descripcion).ColSpan(4)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Documentos.Descripcion")))
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Documentos.Descripcion", 250)))

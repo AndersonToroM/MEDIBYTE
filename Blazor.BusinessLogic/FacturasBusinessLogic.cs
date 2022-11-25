@@ -15,6 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using DevExpress.Spreadsheet;
 
 namespace Blazor.BusinessLogic
 {
@@ -935,6 +936,146 @@ namespace Blazor.BusinessLogic
             string pathZip = Path.GetTempFileName();
             archive.Save(pathZip);
             return pathZip;
+        }
+
+        public byte[] ExcelInformeCartera(long entidadId, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.CreateNewDocument();
+                Worksheet worksheet = workbook.Worksheets.Add("Informe Cartera");
+                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).FindAll(x => x.EntidadId == entidadId && x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+
+                //Titulos
+                int column = 0;
+                worksheet.Rows[0][column].SetValue("PREFIJO"); column++;
+                worksheet.Rows[0][column].SetValue("CONSECUTIVO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA EMISION"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA RADICACION"); column++;
+                worksheet.Rows[0][column].SetValue("PLAZO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA VENCIMIENTO"); column++;
+                worksheet.Rows[0][column].SetValue("DIAS MORA"); column++;
+                worksheet.Rows[0][column].SetValue("SUBTOTAL FACTURA"); column++;
+                worksheet.Rows[0][column].SetValue("COPAGOS Y CUOTAS MODERADORAS"); column++;
+                worksheet.Rows[0][column].SetValue("TOTAL FACTURA"); column++;
+                worksheet.Rows[0][column].SetValue("PORCENTAJE RETEFUENTE"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR RETEFUENTE"); column++;
+                worksheet.Rows[0][column].SetValue("PORCENTAJE RETEICA"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR RETEICA"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR GLOSA"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR ACEPTADO GLOSA"); column++;
+                worksheet.Rows[0][column].SetValue("SALDO POR COBRAR"); column++;
+                worksheet.Rows[0][column].SetValue("PAGOS RECIBIDOS"); column++;
+                worksheet.Rows[0][column].SetValue("RAZON SOCIAL ENTIDAD"); column++;
+                worksheet.Rows[0][column].SetValue("TIPO DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("NUMERO DE IDENTIFICACION"); column++;
+
+                for (int row = 0; row < data.Count; row++)
+                {
+                    column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Prefijo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Consecutivo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Emision); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Radicacion); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Plazo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaVencimiento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].DiasMora); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Subtotal_Factura); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Copagos_CuotasModeradoras); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Total_Factura); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Porcentaje_ReteFuente); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Retefuente); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Porcentaje_ReteICA); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_ReteICA); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Glosa); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Aceptado_Glosa); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Saldo_Por_Cobrar); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pagos_Recibidos); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social_Entidad); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].NumeroIdentificacion); column++;
+                }
+                worksheet.Columns.AutoFit(0, column);
+
+                byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
+                workbook.Dispose();
+                return book;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public byte[] ExcelInformeGeneralCartera(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.CreateNewDocument();
+                Worksheet worksheet = workbook.Worksheets.Add("Informe General Cartera");
+                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).FindAll(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+
+                //Titulos
+                int column = 0;
+                worksheet.Rows[0][column].SetValue("PREFIJO"); column++;
+                worksheet.Rows[0][column].SetValue("CONSECUTIVO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA EMISION"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA RADICACION"); column++;
+                worksheet.Rows[0][column].SetValue("PLAZO"); column++;
+                worksheet.Rows[0][column].SetValue("FECHA VENCIMIENTO"); column++;
+                worksheet.Rows[0][column].SetValue("DIAS MORA"); column++;
+                worksheet.Rows[0][column].SetValue("SUBTOTAL FACTURA"); column++;
+                worksheet.Rows[0][column].SetValue("COPAGOS Y CUOTAS MODERADORAS"); column++;
+                worksheet.Rows[0][column].SetValue("TOTAL FACTURA"); column++;
+                worksheet.Rows[0][column].SetValue("PORCENTAJE RETEFUENTE"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR RETEFUENTE"); column++;
+                worksheet.Rows[0][column].SetValue("PORCENTAJE RETEICA"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR RETEICA"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR GLOSA"); column++;
+                worksheet.Rows[0][column].SetValue("VALOR ACEPTADO GLOSA"); column++;
+                worksheet.Rows[0][column].SetValue("SALDO POR COBRAR"); column++;
+                worksheet.Rows[0][column].SetValue("PAGOS RECIBIDOS"); column++;
+                worksheet.Rows[0][column].SetValue("RAZON SOCIAL ENTIDAD"); column++;
+                worksheet.Rows[0][column].SetValue("TIPO DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("NUMERO DE IDENTIFICACION"); column++;
+
+                for (int row = 0; row < data.Count; row++)
+                {
+                    column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Prefijo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Consecutivo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Emision); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Radicacion); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Plazo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaVencimiento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].DiasMora); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Subtotal_Factura); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Copagos_CuotasModeradoras); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Total_Factura); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Porcentaje_ReteFuente); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Retefuente); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Porcentaje_ReteICA); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_ReteICA); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Glosa); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Aceptado_Glosa); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Saldo_Por_Cobrar); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Pagos_Recibidos); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social_Entidad); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].NumeroIdentificacion); column++;
+                }
+                worksheet.Columns.AutoFit(0, column);
+
+                byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
+                workbook.Dispose();
+                return book;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
     }

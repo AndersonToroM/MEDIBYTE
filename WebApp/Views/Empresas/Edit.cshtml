@@ -135,7 +135,7 @@
                             });
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("Empresas.RepresentanteLegal"))
                              .Items(groupItems =>
-                             {
+                                {
                                  groupItems.AddSimpleFor(m => m.Entity.TiposIdentificacionRepresentanteLegalId).ColSpan(4)
                                       .Editor(e => e.SelectBox().ID(Prefix + "TiposIdentificacionRepresentanteLegalId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Empresas").LoadAction("GetTiposIdentificacionRepresentanteLegalId").Key("Id"))
