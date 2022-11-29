@@ -223,12 +223,15 @@
                                     <img src="~/images/GenericAvatar.png" alt="">@(appstate.Usuario.Names + " " + appstate.Usuario.LastNames)
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
+
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     @if (appstate.Usuario.UserName.Equals("SUPERCEO",StringComparison.OrdinalIgnoreCase))
                                     {
                                         <li> <a class="dropdown-item" href="/Languages/List" target="_blank"><i class="fa fa-language pull-right"></i>Recursos</a></li>
                                         <li> <a class="dropdown-item" href="/Home/LogFileView" target="_blank"><i class="fa fa-file-archive-o pull-right"></i>Logs</a></li>
                                     }
+                                    <li> <a class="dropdown-item" href="https://cloudonesoft.freshdesk.com/support/tickets/new" target="_blank"><i class="fa fa-exclamation-circle pull-right" aria-hidden="true"></i>Reportar incidente</a></li>
+                                    <li> <a class="dropdown-item" href="https://cloudonesoft.freshdesk.com/support/solutions/folders/70000474958" target="_blank"><i class="fa fa-book pull-right"></i>Manuales SIISO</a></li>
                                     <li> <a class="dropdown-item" href="@Url.Action("LogOff", "Login")"><i class="fa fa-sign-out pull-right"></i>Salir</a></li>
                                 </ul>
                             </li>
