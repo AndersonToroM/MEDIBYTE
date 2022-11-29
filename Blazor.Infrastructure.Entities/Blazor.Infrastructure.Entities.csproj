@@ -15,9 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Dominus">
-      <HintPath>..\Libs\Dominus.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Blazor.Framework\Blazor.Framework.csproj" />
   </ItemGroup>
 
 </Project>
