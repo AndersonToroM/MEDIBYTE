@@ -19,7 +19,7 @@
         columns.AddFor(m => m.Id).Caption(DApp.GetResource("Audit.Consecutivo")).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.TableName);
         columns.AddFor(m => m.Action);
-        columns.AddFor(m => m.TransactionDate).Format(DApp.DefaultLanguage.DateTimeFormat);
+        columns.AddFor(m => m.LastUpdate).Format(DApp.DefaultLanguage.DateTimeFormat);
         columns.AddFor(m => m.CreatedBy);
         columns.AddFor(m => m.UpdatedBy);
         columns.AddFor(m => m.KeyValues);

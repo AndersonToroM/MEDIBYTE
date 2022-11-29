@@ -47,10 +47,14 @@
                                 groupItems.AddSimpleFor(m => m.Entity.Action).ColSpan(3)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Audits.Action", 50)))
                                       .Editor(e => e.TextBox().ID(Prefix + "Action"));
-                                groupItems.AddSimpleFor(m => m.Entity.TransactionDate).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.LastUpdate).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Audits.TransactionDate")))
+                                    .Editor(e => e.DateBox().ID(Prefix + "LastUpdate")
+                                    .DisplayFormat(DApp.DefaultLanguage.DateTimeFormat));
+                                /*groupItems.AddSimpleFor(m => m.Entity.TransactionDate).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Audits.TransactionDate")))
                                       .Editor(e=>e.DateBox().ID(Prefix + "TransactionDate")
-                                      .DisplayFormat(DApp.DefaultLanguage.DateTimeFormat));
+                                      .DisplayFormat(DApp.DefaultLanguage.DateTimeFormat));*/
                                 groupItems.AddSimpleFor(m => m.Entity.KeyValues).ColSpan(3)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Audits.KeyValues", 255)))
                                       .Editor(e => e.TextBox().ID(Prefix + "KeyValues"));
