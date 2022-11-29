@@ -143,8 +143,8 @@
 
         $("#@(Prefix)Errores").html("");
 
-        var fechaDesde = moment($("#@(Prefix)ReporteFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
-        var fechaHasta = moment($("#@(Prefix)ReporteFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
+        var fechaDesde = moment($("#@(Prefix)ReporteGeneralFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
+        var fechaHasta = moment($("#@(Prefix)ReporteGeneralFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
 
          DescargarArchivo(
             "@Url.Action("ImprimirInformeGeneralCartera", Prefix)",

@@ -12,10 +12,4 @@
     <ProjectReference Include="..\Blazor.Infrastructure.Entities\Blazor.Infrastructure.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Dominus">
-      <HintPath>..\Libs\Dominus.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
