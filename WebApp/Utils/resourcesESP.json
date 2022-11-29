@@ -2272,6 +2272,14 @@
     "Description": "Hasta"
   },
   {
+    "Id": "Facturas.ReporteGeneralFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ReporteGeneralFechaHasta",
+    "Description": "Hasta"
+  },
+  {
     "Id": "Facturas.Saldo",
     "Description": "Saldo"
   },

@@ -330,16 +330,16 @@
             
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteFechaDesde"):</label>
+                    <label for="@($"{Prefix}ReporteGeneralFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteGeneralFechaDesde"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteFechaDesde").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ReporteGeneralFechaDesde").InputAttr("class", "form-control")
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteFechaHasta"):</label>
+                    <label for="@($"{Prefix}ReporteGeneralFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteGeneralFechaHasta"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteFechaHasta").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ReporteGeneralFechaHasta").InputAttr("class", "form-control")
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
