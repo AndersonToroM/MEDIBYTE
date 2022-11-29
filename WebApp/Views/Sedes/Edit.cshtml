@@ -45,6 +45,10 @@
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Sedes.Nombre")))
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Sedes.Nombre", 250)))
                                       .Editor(e => e.TextBox().ID(Prefix + "Nombre").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.Codigo85).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Sedes.Codigo85")))
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Sedes.Codigo85", 250)))
+                                .Editor(e => e.TextBox().ID(Prefix + "Codigo85").ShowClearButton(true)).Visible(false);
                                 groupItems.AddSimpleFor(m => m.Entity.CorreoElectronico).ColSpan(3)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Sedes.CorreoElectronico", 200)))
                                       .Editor(e => e.TextBox().ID(Prefix + "CorreoElectronico").Mode(TextBoxMode.Email).ShowClearButton(true));

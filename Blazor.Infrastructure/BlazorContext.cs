@@ -159,6 +159,7 @@ namespace Blazor.Infrastructure
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }
         public DbSet<VEntregaAdmisiones> VEntregaAdmisiones { get; set; }
+        public DbSet<VReporteCartera> VReporteCartera { get; set; }
         public DbSet<VContabilizacionRegistro> VContabilizacionRegistro { get; set; }
 
         #endregion

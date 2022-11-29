@@ -17,6 +17,7 @@ using Dominus.Backend.Application;
 using WebApp.Reportes.Facturas;
 using DevExpress.XtraReports.UI;
 using WebApp.Reportes.FacturaDetalle;
+using DevExpress.XtraSpreadsheet.Forms;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -368,6 +369,71 @@ namespace Blazor.WebApp.Controllers
             catch (Exception e)
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ImprimirInformeCartera(long entidadId)
+        {
+            try
+            {
+                if (entidadId <= 0)
+                    throw new Exception("El parametro entidadId no fue enviado correctamente al servidor.");
+
+                InformacionReporte informacionReporte = new InformacionReporte();
+                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
+                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
+                var entidad = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == entidadId, false);
+                informacionReporte.ParametrosAdicionales.Add("p_Nit", entidad.NumeroIdentificacion);
+                informacionReporte.ParametrosAdicionales.Add("p_UsuarioGenero", User.Identity.Name);
+
+                CarteraReporte report = new CarteraReporte();
+                report.SetInformacionReporte(informacionReporte);
+                XtraReport xtraReport = report;
+                return PartialView("_ViewerReport", report);
+
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult XLSXInformeCartera(long entidadId, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                if (entidadId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Entidad no fueron enviados correctamente al servidor.");
+
+                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
+                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
+                byte[] book = Manager().FacturasBusinessLogic().ExcelInformeCartera(entidadId, fechaDesde, fechaHasta);
+                return File(book, "application/octet-stream", $"Informe_Cartera_Por_Entidad_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ImprimirInformeGeneralCartera(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                if (fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Entidad no fueron enviados correctamente al servidor.");
+
+                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
+                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
+                byte[] book = Manager().FacturasBusinessLogic().ExcelInformeGeneralCartera(fechaDesde, fechaHasta);
+                return File(book, "application/octet-stream", $"Informe_General_Cartera_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage()); 
             }
         }
 
