@@ -949,6 +949,9 @@ namespace Blazor.BusinessLogic
 
                 //Titulos
                 int column = 0;
+                worksheet.Rows[0][column].SetValue("RAZON SOCIAL ENTIDAD"); column++;
+                worksheet.Rows[0][column].SetValue("TIPO DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("NUMERO DE IDENTIFICACION"); column++;
                 worksheet.Rows[0][column].SetValue("PREFIJO"); column++;
                 worksheet.Rows[0][column].SetValue("CONSECUTIVO"); column++;
                 worksheet.Rows[0][column].SetValue("FECHA EMISION"); column++;
@@ -967,13 +970,13 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue("VALOR ACEPTADO GLOSA"); column++;
                 worksheet.Rows[0][column].SetValue("SALDO POR COBRAR"); column++;
                 worksheet.Rows[0][column].SetValue("PAGOS RECIBIDOS"); column++;
-                worksheet.Rows[0][column].SetValue("RAZON SOCIAL ENTIDAD"); column++;
-                worksheet.Rows[0][column].SetValue("TIPO DOCUMENTO"); column++;
-                worksheet.Rows[0][column].SetValue("NUMERO DE IDENTIFICACION"); column++;
 
                 for (int row = 0; row < data.Count; row++)
                 {
                     column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social_Entidad); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].NumeroIdentificacion); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Prefijo); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Consecutivo); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Emision); column++;
@@ -992,9 +995,6 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Aceptado_Glosa); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Saldo_Por_Cobrar); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pagos_Recibidos); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social_Entidad); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].NumeroIdentificacion); column++;
                 }
                 worksheet.Columns.AutoFit(0, column);
 
@@ -1019,6 +1019,9 @@ namespace Blazor.BusinessLogic
 
                 //Titulos
                 int column = 0;
+                worksheet.Rows[0][column].SetValue("RAZON SOCIAL ENTIDAD"); column++;
+                worksheet.Rows[0][column].SetValue("TIPO DOCUMENTO"); column++;
+                worksheet.Rows[0][column].SetValue("NUMERO DE IDENTIFICACION"); column++;
                 worksheet.Rows[0][column].SetValue("PREFIJO"); column++;
                 worksheet.Rows[0][column].SetValue("CONSECUTIVO"); column++;
                 worksheet.Rows[0][column].SetValue("FECHA EMISION"); column++;
@@ -1037,13 +1040,13 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue("VALOR ACEPTADO GLOSA"); column++;
                 worksheet.Rows[0][column].SetValue("SALDO POR COBRAR"); column++;
                 worksheet.Rows[0][column].SetValue("PAGOS RECIBIDOS"); column++;
-                worksheet.Rows[0][column].SetValue("RAZON SOCIAL ENTIDAD"); column++;
-                worksheet.Rows[0][column].SetValue("TIPO DOCUMENTO"); column++;
-                worksheet.Rows[0][column].SetValue("NUMERO DE IDENTIFICACION"); column++;
 
                 for (int row = 0; row < data.Count; row++)
                 {
                     column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social_Entidad); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].NumeroIdentificacion); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Prefijo); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Consecutivo); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Emision); column++;
@@ -1062,9 +1065,6 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Aceptado_Glosa); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Saldo_Por_Cobrar); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pagos_Recibidos); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social_Entidad); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].NumeroIdentificacion); column++;
                 }
                 worksheet.Columns.AutoFit(0, column);
 
