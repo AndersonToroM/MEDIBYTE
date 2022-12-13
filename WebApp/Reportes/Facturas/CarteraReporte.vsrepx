@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="21.2.6.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="XtraReport1" Margins="21, 34, 25, 142" PageWidth="850" PageHeight="1100" Version="21.2" FilterString="[NitEntidad] = ?p_Nit" DataMember="Query" DataSource="#Ref-0" Font="Arial, 9.75pt">
+<XtraReportsLayoutSerializer SerializerVersion="21.2.6.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="XtraReport1" Margins="21, 23, 25, 142" PageWidth="850" PageHeight="1100" Version="21.2" FilterString="[NitEntidad] = ?p_Nit" DataMember="Query" DataSource="#Ref-0" Font="Arial, 9.75pt">
   <Extensions>
     <Item1 Ref="2" Key="VSReportExtInfo" Value=".vsrepx" />
   </Extensions>
@@ -35,61 +35,61 @@
                   </ExpressionBindings>
                   <StylePriority Ref="20" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="21" ControlType="XRTableCell" Name="tableCell28" Weight="0.358212275584973" TextFormatString="{0:d/MM/yyyy}" Multiline="true" Text="FechaEmision" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item3 Ref="21" ControlType="XRTableCell" Name="tableCell28" Weight="0.43724765605007904" TextFormatString="{0:d/MM/yyyy}" Multiline="true" Text="FechaEmision" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="22" EventName="BeforePrint" PropertyName="Text" Expression="[FechaFactura]" />
                   </ExpressionBindings>
                   <StylePriority Ref="23" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="24" ControlType="XRTableCell" Name="tableCell16" Weight="0.43723912560999045" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item4 Ref="24" ControlType="XRTableCell" Name="tableCell16" Weight="0.43724786931108128" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="25" EventName="BeforePrint" PropertyName="Text" Expression="[FechaRadicacion]" />
                   </ExpressionBindings>
                   <StylePriority Ref="26" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item4>
-                <Item5 Ref="27" ControlType="XRTableCell" Name="tableCell17" Weight="0.46669162665678771" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item5 Ref="27" ControlType="XRTableCell" Name="tableCell17" Weight="0.44142659572430687" TextFormatString="{0:d/MM/yyyy}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="28" EventName="BeforePrint" PropertyName="Text" Expression="[FechaVencimiento]" />
                   </ExpressionBindings>
                   <StylePriority Ref="29" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item5>
-                <Item6 Ref="30" ControlType="XRTableCell" Name="tableCell18" Weight="0.28897655755414986" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item6 Ref="30" ControlType="XRTableCell" Name="tableCell18" Weight="0.39302660053513561" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="31" EventName="BeforePrint" PropertyName="Text" Expression="[Plazo]" />
                   </ExpressionBindings>
                   <StylePriority Ref="32" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item6>
-                <Item7 Ref="33" ControlType="XRTableCell" Name="tableCell19" Weight="0.42974673434870597" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item7 Ref="33" ControlType="XRTableCell" Name="tableCell19" Weight="0.35094423489801929" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="34" EventName="BeforePrint" PropertyName="Text" Expression="[DiasMora]" />
                   </ExpressionBindings>
                   <StylePriority Ref="35" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item7>
-                <Item8 Ref="36" ControlType="XRTableCell" Name="tableCell20" Weight="0.50165105348215111" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item8 Ref="36" ControlType="XRTableCell" Name="tableCell20" Weight="0.50167861746668752" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="37" EventName="BeforePrint" PropertyName="Text" Expression="[Dias30]" />
                   </ExpressionBindings>
                   <StylePriority Ref="38" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item8>
-                <Item9 Ref="39" ControlType="XRTableCell" Name="tableCell21" Weight="0.50164980476443255" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item9 Ref="39" ControlType="XRTableCell" Name="tableCell21" Weight="0.50167832842347893" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="40" EventName="BeforePrint" PropertyName="Text" Expression="[Dias60]" />
                   </ExpressionBindings>
                   <StylePriority Ref="41" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item9>
-                <Item10 Ref="42" ControlType="XRTableCell" Name="tableCell26" Weight="0.5016513070531452" TextFormatString="{0:$#,#}" Multiline="true" Text="tableCell26" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item10 Ref="42" ControlType="XRTableCell" Name="tableCell26" Weight="0.50167775141742" TextFormatString="{0:$#,#}" Multiline="true" Text="tableCell26" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="43" EventName="BeforePrint" PropertyName="Text" Expression="[Dias90]" />
                   </ExpressionBindings>
                   <StylePriority Ref="44" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item10>
-                <Item11 Ref="45" ControlType="XRTableCell" Name="tableCell22" Weight="0.50164980362319433" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item11 Ref="45" ControlType="XRTableCell" Name="tableCell22" Weight="0.50167774081448457" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="46" EventName="BeforePrint" PropertyName="Text" Expression="[Dias120]" />
                   </ExpressionBindings>
                   <StylePriority Ref="47" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item11>
-                <Item12 Ref="48" ControlType="XRTableCell" Name="tableCell23" Weight="0.50170670228576375" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item12 Ref="48" ControlType="XRTableCell" Name="tableCell23" Weight="0.42256959632260083" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="49" EventName="BeforePrint" PropertyName="Text" Expression="[DiasMas120]" />
                   </ExpressionBindings>
@@ -191,11 +191,11 @@
         <Item5 Ref="103" ControlType="XRLabel" Name="label3" Multiline="true" Text="Entidad:" TextAlignment="MiddleLeft" SizeF="46.5517273,10.4165955" LocationFloat="3.89295,98.92154" Font="Calibri, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="104" UseFont="false" UseTextAlignment="false" />
         </Item5>
-        <Item6 Ref="105" ControlType="XRTable" Name="table1" SizeF="792.189453,11.9999924" LocationFloat="0,119.754723" Padding="2,2,0,0,96" Borders="All" BorderDashStyle="Dot">
+        <Item6 Ref="105" ControlType="XRTable" Name="table1" SizeF="803.509949,11.9999924" LocationFloat="0,119.754723" Padding="2,2,0,0,96" Borders="All" BorderDashStyle="Dot">
           <Rows>
             <Item1 Ref="106" ControlType="XRTableRow" Name="tableRow1" Weight="1">
               <Cells>
-                <Item1 Ref="107" ControlType="XRTableCell" Name="tableCell1" Weight="0.98256082779577969" Multiline="true" BackColor="255,109,158,235" Borders="Left, Top, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item1 Ref="107" ControlType="XRTableCell" Name="tableCell1" Weight="1.0036685211484548" Multiline="true" BackColor="255,109,158,235" Borders="Left, Top, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <Controls>
                     <Item1 Ref="108" ControlType="XRLabel" Name="label24" Multiline="true" Text="FACTURACIÓN" TextAlignment="TopCenter" SizeF="71.39698,7.99999237" LocationFloat="117.144,2.00001526" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100" Borders="None">
                       <StylePriority Ref="109" UseFont="false" UseBackColor="false" UseBorders="false" UseTextAlignment="false" />
@@ -203,7 +203,7 @@
                   </Controls>
                   <StylePriority Ref="110" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" />
                 </Item1>
-                <Item2 Ref="111" ControlType="XRTableCell" Name="tableCell2" Weight="1.3732777747489493" Multiline="true" Text="tableCell2" BackColor="255,109,158,235" Borders="Left, Top, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item2 Ref="111" ControlType="XRTableCell" Name="tableCell2" Weight="1.3858353371530852" Multiline="true" Text="tableCell2" BackColor="255,109,158,235" Borders="Left, Top, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <Controls>
                     <Item1 Ref="112" ControlType="XRLabel" Name="label15" Multiline="true" Text="SALDOS" SizeF="41.840332,8" LocationFloat="204.580811,1.99999237" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" Padding="2,2,0,0,100" Borders="None">
                       <StylePriority Ref="113" UseFont="false" UseBackColor="false" UseBorders="false" />
@@ -216,7 +216,7 @@
           </Rows>
           <StylePriority Ref="115" UseBorders="false" UseBorderDashStyle="false" />
         </Item6>
-        <Item7 Ref="116" ControlType="XRTable" Name="table2" SizeF="792.1894,10" LocationFloat="0,131.75473" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,96" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item7 Ref="116" ControlType="XRTable" Name="table2" SizeF="803.509949,10" LocationFloat="0,131.75473" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,96" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
           <Rows>
             <Item1 Ref="117" ControlType="XRTableRow" Name="tableRow2" Weight="1">
               <Cells>
@@ -226,34 +226,34 @@
                 <Item2 Ref="120" ControlType="XRTableCell" Name="tableCell4" Weight="0.47675489220447581" Multiline="true" Text="VALOR" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="121" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="122" ControlType="XRTableCell" Name="tableCell27" Weight="0.34041609308419668" Multiline="true" Text="F. EMISIÓN" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item3 Ref="122" ControlType="XRTableCell" Name="tableCell27" Weight="0.41552519259258586" Multiline="true" Text="F. EMISIÓN" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="123" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="124" ControlType="XRTableCell" Name="tableCell6" Weight="0.41551702505755828" Multiline="true" Text="F. RADICADO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item4 Ref="124" ControlType="XRTableCell" Name="tableCell6" Weight="0.41552520770456158" Multiline="true" Text="F. RADICADO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="125" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item4>
-                <Item5 Ref="126" ControlType="XRTableCell" Name="tableCell5" Weight="0.4435065707567068" Multiline="true" Text=" F. VENCIMIENTO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item5 Ref="126" ControlType="XRTableCell" Name="tableCell5" Weight="0.41552521133090264" Multiline="true" Text=" F. VENCE" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="127" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item5>
-                <Item6 Ref="128" ControlType="XRTableCell" Name="tableCell7" Weight="0.27461996639667346" Multiline="true" Text="PLAZO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item6 Ref="128" ControlType="XRTableCell" Name="tableCell7" Weight="0.37747246990268779" Multiline="true" Text="PLAZO" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="129" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item6>
-                <Item7 Ref="130" ControlType="XRTableCell" Name="tableCell8" Weight="0.40839705852438579" Multiline="true" Text=" DÍAS DE MORA" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item7 Ref="130" ControlType="XRTableCell" Name="tableCell8" Weight="0.33350929581744454" Multiline="true" Text=" DÍAS DE MORA" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="131" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item7>
-                <Item8 Ref="132" ControlType="XRTableCell" Name="tableCell9" Weight="0.47672925586961379" Multiline="true" Text="01 - 030 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item8 Ref="132" ControlType="XRTableCell" Name="tableCell9" Weight="0.47675491847461171" Multiline="true" Text="01 - 030 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="133" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item8>
-                <Item9 Ref="134" ControlType="XRTableCell" Name="tableCell10" Weight="0.47672776478701473" Multiline="true" Text=" 031 - 060 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item9 Ref="134" ControlType="XRTableCell" Name="tableCell10" Weight="0.47675492205508752" Multiline="true" Text=" 031 - 060 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="135" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item9>
-                <Item10 Ref="136" ControlType="XRTableCell" Name="tableCell11" Weight="0.47672877857952856" Multiline="true" Text="061 - 090 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item10 Ref="136" ControlType="XRTableCell" Name="tableCell11" Weight="0.47675492251670315" Multiline="true" Text="061 - 090 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="137" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item10>
-                <Item11 Ref="138" ControlType="XRTableCell" Name="tableCell25" Weight="0.47675489731854959" Multiline="true" Text="091 - 120 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item11 Ref="138" ControlType="XRTableCell" Name="tableCell25" Weight="0.47675492265182207" Multiline="true" Text="091 - 120 días" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="139" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item11>
-                <Item12 Ref="140" ControlType="XRTableCell" Name="tableCell12" Weight="0.47675472790050016" Multiline="true" Text="120 dias +" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
+                <Item12 Ref="140" ControlType="XRTableCell" Name="tableCell12" Weight="0.47675465190068278" Multiline="true" Text="120 dias +" TextAlignment="TopCenter" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100" Borders="All" BorderDashStyle="Dash">
                   <StylePriority Ref="141" UseFont="false" UsePadding="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item12>
               </Cells>
