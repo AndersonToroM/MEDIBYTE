@@ -19,7 +19,7 @@
         <Item1 Ref="12" FieldName="DiasMora" SortOrder="Descending" />
       </SortFields>
       <Controls>
-        <Item1 Ref="13" ControlType="XRTable" Name="table3" SizeF="792.189453,10.4355469" LocationFloat="0,0" Font="Arial, 9.75pt" Padding="2,2,0,0,96" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item1 Ref="13" ControlType="XRTable" Name="table3" SizeF="803.51,10.4355469" LocationFloat="0,0" Font="Arial, 9.75pt" Padding="2,2,0,0,96" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
           <Rows>
             <Item1 Ref="14" ControlType="XRTableRow" Name="tableRow3" Weight="1">
               <Cells>
@@ -89,7 +89,7 @@
                   </ExpressionBindings>
                   <StylePriority Ref="47" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item11>
-                <Item12 Ref="48" ControlType="XRTableCell" Name="tableCell23" Weight="0.42256959632260083" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item12 Ref="48" ControlType="XRTableCell" Name="tableCell23" Weight="0.50167919161647789" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="TopCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="49" EventName="BeforePrint" PropertyName="Text" Expression="[DiasMas120]" />
                   </ExpressionBindings>
@@ -110,13 +110,13 @@
         <Item2 Ref="55" ControlType="XRLabel" Name="label30" Multiline="true" Text="TOTAL EN MORA" TextAlignment="MiddleLeft" SizeF="91.18067,25.2898941" LocationFloat="0,61.5539474" Font="Calibri, 8pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
           <StylePriority Ref="56" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item2>
-        <Item3 Ref="57" ControlType="XRLine" Name="line2" LineWidth="0.5" LineStyle="Dash" SizeF="792.189331,11.0681763" LocationFloat="0,86.84383" Borders="None" BorderDashStyle="Solid">
+        <Item3 Ref="57" ControlType="XRLine" Name="line2" LineWidth="0.5" LineStyle="Dash" SizeF="803.505859,11.0681763" LocationFloat="0,86.84384" Borders="None" BorderDashStyle="Solid">
           <StylePriority Ref="58" UseBorders="false" UseBorderDashStyle="false" />
         </Item3>
-        <Item4 Ref="59" ControlType="XRLine" Name="line1" LineWidth="0.5" LineStyle="Dash" SizeF="792.189453,11.068182" LocationFloat="0,0" Borders="None" BorderDashStyle="Solid">
+        <Item4 Ref="59" ControlType="XRLine" Name="line1" LineWidth="0.5" LineStyle="Dash" SizeF="803.509949,11.068182" LocationFloat="0,0" Borders="None" BorderDashStyle="Solid">
           <StylePriority Ref="60" UseBorders="false" UseBorderDashStyle="false" />
         </Item4>
-        <Item5 Ref="61" ControlType="XRLabel" Name="label25" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78601,12.64497" LocationFloat="720.4034,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item5 Ref="61" ControlType="XRLabel" Name="label25" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78601,12.64497" LocationFloat="731.719849,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
           <Summary Ref="62" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="63" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([DiasMas120])" />
@@ -130,34 +130,34 @@
           </ExpressionBindings>
           <StylePriority Ref="68" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
         </Item6>
-        <Item7 Ref="69" ControlType="XRLabel" Name="label22" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78601,12.64497" LocationFloat="648.6174,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item7 Ref="69" ControlType="XRLabel" Name="label22" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78601,12.64497" LocationFloat="659.933838,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
           <Summary Ref="70" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="71" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias120])" />
           </ExpressionBindings>
           <StylePriority Ref="72" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
         </Item7>
-        <Item8 Ref="73" ControlType="XRLabel" Name="label21" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78595,12.64497" LocationFloat="576.8314,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item8 Ref="73" ControlType="XRLabel" Name="label21" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78595,12.64497" LocationFloat="588.147949,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
           <Summary Ref="74" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="75" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias90])" />
           </ExpressionBindings>
           <StylePriority Ref="76" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
         </Item8>
-        <Item9 Ref="77" ControlType="XRLabel" Name="label20" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78613,12.64497" LocationFloat="505.0453,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item9 Ref="77" ControlType="XRLabel" Name="label20" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78613,12.64497" LocationFloat="516.3618,37.8408661" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
           <Summary Ref="78" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="79" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias60])" />
           </ExpressionBindings>
           <StylePriority Ref="80" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
         </Item9>
-        <Item10 Ref="81" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales:" TextAlignment="MiddleRight" SizeF="109.42804,12.6449471" LocationFloat="323.831238,37.8409" Font="Calibri, 7pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
+        <Item10 Ref="81" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales:" TextAlignment="MiddleRight" SizeF="109.42804,12.6449471" LocationFloat="335.1477,37.8409" Font="Calibri, 7pt, style=Bold" Padding="2,2,2,0,100" Borders="None" BorderWidth="0.5">
           <StylePriority Ref="82" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item10>
         <Item11 Ref="83" ControlType="XRLabel" Name="label17" Multiline="true" Text="TOTAL&#xD;&#xA;FACTURADO" TextAlignment="BottomLeft" SizeF="91.18068,39.4176331" LocationFloat="0,11.0681829" Font="Calibri, 8pt, style=Bold" Padding="2,2,4,0,100" Borders="None" BorderWidth="0.5">
           <StylePriority Ref="84" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
         </Item11>
-        <Item12 Ref="85" ControlType="XRLabel" Name="label16" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78601,12.6449738" LocationFloat="433.2593,37.8408966" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item12 Ref="85" ControlType="XRLabel" Name="label16" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78601,12.6449738" LocationFloat="444.575775,37.8408966" Font="Calibri, 6pt" Padding="2,2,2,0,100" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
           <Summary Ref="86" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="87" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30])" />
@@ -289,7 +289,7 @@
         <Item16 Ref="159" ControlType="XRLabel" Name="label10" Multiline="true" Text="[RazonSocialEntidad]" TextAlignment="MiddleLeft" SizeF="243.378845,10.4166641" LocationFloat="52.2562637,98.92146" Font="Calibri, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="160" UseFont="false" UseTextAlignment="false" />
         </Item16>
-        <Item17 Ref="161" ControlType="XRLabel" Name="label14" Multiline="true" Text="[Direccion]" TextAlignment="MiddleLeft" SizeF="312.353424,10.4166794" LocationFloat="472.646637,98.92146" Font="Calibri, 6pt" Padding="2,2,0,0,100">
+        <Item17 Ref="161" ControlType="XRLabel" Name="label14" Multiline="true" Text="[Direccion]" TextAlignment="MiddleLeft" SizeF="330.859222,10.4166794" LocationFloat="472.646637,98.92146" Font="Calibri, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="162" UseFont="false" UseTextAlignment="false" />
         </Item17>
         <Item18 Ref="163" ControlType="XRLabel" Name="label5" Multiline="true" Text="Hora" TextAlignment="MiddleLeft" SizeF="59.918396,8.624989" LocationFloat="648.6174,33.71062" Font="Calibri, 6pt, style=Bold" Padding="2,2,0,0,100">
