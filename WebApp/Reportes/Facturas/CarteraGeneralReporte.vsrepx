@@ -141,7 +141,7 @@
                   </ExpressionBindings>
                   <StylePriority Ref="76" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="77" ControlType="XRTableCell" Name="tableCell20" Weight="0.55700333497810994" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item2 Ref="77" ControlType="XRTableCell" Name="tableCell20" Weight="0.55700333497810994" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="78" EventName="BeforePrint" PropertyName="Text" Expression="[ValorTotal]" />
                   </ExpressionBindings>
@@ -177,31 +177,31 @@
                   </ExpressionBindings>
                   <StylePriority Ref="94" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item7>
-                <Item8 Ref="95" ControlType="XRTableCell" Name="tableCell25" Weight="0.55700296040615216" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item8 Ref="95" ControlType="XRTableCell" Name="tableCell25" Weight="0.55700296040615216" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="96" EventName="BeforePrint" PropertyName="Text" Expression="[Dias30]" />
                   </ExpressionBindings>
                   <StylePriority Ref="97" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item8>
-                <Item9 Ref="98" ControlType="XRTableCell" Name="tableCell26" Weight="0.55700336655597726" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item9 Ref="98" ControlType="XRTableCell" Name="tableCell26" Weight="0.55700336655597726" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="99" EventName="BeforePrint" PropertyName="Text" Expression="[Dias60]" />
                   </ExpressionBindings>
                   <StylePriority Ref="100" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item9>
-                <Item10 Ref="101" ControlType="XRTableCell" Name="tableCell27" Weight="0.55700317908696784" TextFormatString="{0:$0}" Multiline="true" Text="tableCell26" TextAlignment="MiddleCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item10 Ref="101" ControlType="XRTableCell" Name="tableCell27" Weight="0.55700317908696784" TextFormatString="{0:$#,#}" Multiline="true" Text="tableCell26" TextAlignment="MiddleRight" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="102" EventName="BeforePrint" PropertyName="Text" Expression="[Dias90]" />
                   </ExpressionBindings>
                   <StylePriority Ref="103" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item10>
-                <Item11 Ref="104" ControlType="XRTableCell" Name="tableCell28" Weight="0.5570031428284743" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item11 Ref="104" ControlType="XRTableCell" Name="tableCell28" Weight="0.5570031428284743" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="105" EventName="BeforePrint" PropertyName="Text" Expression="[Dias120]" />
                   </ExpressionBindings>
                   <StylePriority Ref="106" UseFont="false" UsePadding="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item11>
-                <Item12 Ref="107" ControlType="XRTableCell" Name="tableCell29" Weight="0.55700340876283794" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
+                <Item12 Ref="107" ControlType="XRTableCell" Name="tableCell29" Weight="0.55700340876283794" TextFormatString="{0:$#,#}" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" Padding="2,2,0,0,100" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Dash">
                   <ExpressionBindings>
                     <Item1 Ref="108" EventName="BeforePrint" PropertyName="Text" Expression="[DiasMas120]" />
                   </ExpressionBindings>
@@ -217,7 +217,7 @@
     <Item6 Ref="111" ControlType="GroupFooterBand" Name="GroupFooter1" GroupUnion="WithLastDetail" HeightF="10.631814" />
     <Item7 Ref="112" ControlType="GroupFooterBand" Name="GroupFooter2" Level="1" HeightF="115.763863">
       <Controls>
-        <Item1 Ref="113" ControlType="XRLabel" Name="label23" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleLeft" SizeF="139.82,25.29" LocationFloat="92.18447,79.40567" Font="Calibri, 8pt, style=Bold" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="None" BorderWidth="0.5" BorderDashStyle="Dash">
+        <Item1 Ref="113" ControlType="XRLabel" Name="label23" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleRight" SizeF="139.82,25.29" LocationFloat="92.18447,79.40567" Font="Calibri, 8pt, style=Bold" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="None" BorderWidth="0.5" BorderDashStyle="Dash">
           <Summary Ref="114" Running="Group" />
           <ExpressionBindings>
             <Item1 Ref="115" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30]+[Dias60]+[Dias90]+[Dias120]+[DiasMas120])" />
@@ -238,7 +238,7 @@
         </Item5>
         <Item6 Ref="125" ControlType="XRPanel" Name="panel1" SizeF="795,57.26931" LocationFloat="0,11.0681829" StyleName="TotalBackground1" BackColor="White">
           <Controls>
-            <Item1 Ref="126" ControlType="XRLabel" Name="label16" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.79004,12.6449738" LocationFloat="433.25,37.8408546" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
+            <Item1 Ref="126" ControlType="XRLabel" Name="label16" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleRight" SizeF="71.79004,12.6449738" LocationFloat="433.25,37.8408546" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
               <Summary Ref="127" Running="Group" />
               <ExpressionBindings>
                 <Item1 Ref="128" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias30])" />
@@ -248,35 +248,35 @@
             <Item2 Ref="130" ControlType="XRLabel" Name="label19" Multiline="true" Text="Totales:" TextAlignment="MiddleRight" SizeF="90.50003,12.6449471" LocationFloat="342.749969,37.8409233" Font="Calibri, 7pt, style=Bold" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="None" BorderWidth="0.5">
               <StylePriority Ref="131" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
             </Item2>
-            <Item3 Ref="132" ControlType="XRLabel" Name="label20" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78998,12.64497" LocationFloat="505.040039,37.84089" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
+            <Item3 Ref="132" ControlType="XRLabel" Name="label20" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleRight" SizeF="71.78998,12.64497" LocationFloat="505.040039,37.84089" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
               <Summary Ref="133" Running="Group" />
               <ExpressionBindings>
                 <Item1 Ref="134" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias60])" />
               </ExpressionBindings>
               <StylePriority Ref="135" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
             </Item3>
-            <Item4 Ref="136" ControlType="XRLabel" Name="label21" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.78992,12.64497" LocationFloat="576.83,37.84089" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
+            <Item4 Ref="136" ControlType="XRLabel" Name="label21" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleRight" SizeF="71.78992,12.64497" LocationFloat="576.83,37.84089" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
               <Summary Ref="137" Running="Group" />
               <ExpressionBindings>
                 <Item1 Ref="138" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias90])" />
               </ExpressionBindings>
               <StylePriority Ref="139" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
             </Item4>
-            <Item5 Ref="140" ControlType="XRLabel" Name="label22" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.79004,12.6449738" LocationFloat="648.619934,37.8408546" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
+            <Item5 Ref="140" ControlType="XRLabel" Name="label22" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleRight" SizeF="71.79004,12.6449738" LocationFloat="648.619934,37.8408546" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="Top, Bottom" BorderWidth="0.5" BorderDashStyle="Dash">
               <Summary Ref="141" Running="Group" />
               <ExpressionBindings>
                 <Item1 Ref="142" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([Dias120])" />
               </ExpressionBindings>
               <StylePriority Ref="143" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
             </Item5>
-            <Item6 Ref="144" ControlType="XRLabel" Name="label25" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleCenter" SizeF="71.7897339,12.6449661" LocationFloat="720.4099,37.8408546" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
+            <Item6 Ref="144" ControlType="XRLabel" Name="label25" TextFormatString="{0:$#,#}" Multiline="true" Text="label16" TextAlignment="MiddleRight" SizeF="71.7897339,12.6449661" LocationFloat="720.4099,37.8408546" Font="Calibri, 6pt" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="All" BorderWidth="0.5" BorderDashStyle="Dash">
               <Summary Ref="145" Running="Group" />
               <ExpressionBindings>
                 <Item1 Ref="146" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([DiasMas120])" />
               </ExpressionBindings>
               <StylePriority Ref="147" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
             </Item6>
-            <Item7 Ref="148" ControlType="XRLabel" Name="label18" TextFormatString="{0:$#,#}" Multiline="true" Text="label18" TextAlignment="BottomLeft" SizeF="139.82,22.64" LocationFloat="92.18447,27.8408966" Font="Calibri, 8pt, style=Bold" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="None" BorderWidth="0.5">
+            <Item7 Ref="148" ControlType="XRLabel" Name="label18" TextFormatString="{0:$#,#}" Multiline="true" Text="label18" TextAlignment="BottomRight" SizeF="139.82,22.64" LocationFloat="92.18447,27.8408966" Font="Calibri, 8pt, style=Bold" BackColor="Transparent" Padding="2,2,2,0,100" BorderColor="Black" Borders="None" BorderWidth="0.5">
               <Summary Ref="149" Running="Group" />
               <ExpressionBindings>
                 <Item1 Ref="150" EventName="BeforePrint" PropertyName="Text" Expression="sumSum([ValorTotal])" />
