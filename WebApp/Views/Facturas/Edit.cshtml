@@ -130,7 +130,7 @@
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("FacturasGeneracion.DocumentosId")))
                         .Editor(e => e.SelectBox().ID(Prefix + "DocumentosId")
                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetDocumentosId").Key("Id"))
-                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                         .ValueExpr("Id").DisplayExpr("DocumentoCompleto").SearchExpr("Prefijo", "Descripcion")
                         .ReadOnly(true)
                         );
@@ -154,7 +154,7 @@
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.FormasPagosId")))
                         .Editor(e => e.SelectBox().ID(Prefix + "FormasPagosId")
                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetFormasPagosId").Key("Id"))
-                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                         .ValueExpr("Id").DisplayExpr(new JS(Prefix + "DisplayExprFormasPagosId")).SearchExpr("Codigo", "Nombre")
                         .ReadOnly(true)
                         );
@@ -162,14 +162,14 @@
                     groupItems.AddSimpleFor(m => m.Entity.MediosPagoId).ColSpan(8)
                                      .Editor(e => e.SelectBox().ID(Prefix + "MediosPagoId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetMediosPagoId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                 );
                     groupItems.AddSimpleFor(m => m.Entity.TiposRegimenesId).ColSpan(4)
                          .Editor(e => e.SelectBox().ID(Prefix + "TiposRegimenesId")
                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetTiposRegimenesId").Key("Id"))
-                         .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                          .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                          .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                     );
@@ -227,7 +227,7 @@
                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.Estadosid")))
                             .Editor(e => e.SelectBox().ID(Prefix + "Estadosid")
                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetEstadosid").Key("Id"))
-                            .DataSourceOptions(o => o.Paginate(true).PageSize(10).Filter("['Tipo','=','FACTURA']"))
+                            .DataSourceOptions(o => o.Paginate(true).PageSize(50).Filter("['Tipo','=','FACTURA']"))
                             .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                             .ReadOnly(true)
                             );
@@ -272,7 +272,7 @@
                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.EmpresasId")))
                 .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId")
                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetEmpresasId").Key("Id"))
-                .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                 .ValueExpr("Id").DisplayExpr("RazonSocial").SearchExpr("Id").ReadOnly(true)
                 );
 
@@ -281,7 +281,7 @@
                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.SedesId")))
                 .Editor(e => e.SelectBox().ID(Prefix + "SedesId")
                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetSedesId").Key("Id"))
-                .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                 .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                 .ReadOnly(true)
                 );
@@ -291,7 +291,7 @@
                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.EntidadesId")))
                 .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetEntidadesId").Key("Id"))
-                .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                 .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                 .ReadOnly(true)
                 );
@@ -316,7 +316,7 @@
                     //groupItems.AddSimpleFor(m => m.Entity.FilialesId).ColSpan(1)
                     //      .Editor(e => e.SelectBox().ID(Prefix + "FilialesId")
                     //      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetFilialesId").Key("Id"))
-                    //      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                    //      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                     //      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                     //      .SearchEnabled(true).ShowClearButton(true)
                     // );
@@ -365,7 +365,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ServciosId")))
                                 .Lookup(lookup => lookup
                                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetServiciosId").Key("Id"))
-                                .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                 .ValueExpr("Id").DisplayExpr("Nombre"));
 
                                 //columns.AddFor(m => m.Atenciones.Id);

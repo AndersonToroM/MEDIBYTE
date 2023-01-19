@@ -56,7 +56,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(0).Message(DApp.GetRequiredResource("Documentos.Transaccion")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "Transaccion")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Documentos").LoadAction("GetTransaccion").Key("Key"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Key").DisplayExpr("Value").SearchExpr("Value")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );

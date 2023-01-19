@@ -69,7 +69,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HCRespuestas.TipoControlId")))
                              .Lookup(lookup => lookup
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HCRespuestas").LoadAction("GetTipoControles").Key("Id"))
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                              .ValueExpr("Id").DisplayExpr("Value"));
 
                      //columns.AddFor(m => m.ValoresLista).ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("HCRespuestas.ValoresLista", 1024)));

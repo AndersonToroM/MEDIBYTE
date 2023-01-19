@@ -64,7 +64,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesMedicamentos.ProfesionalId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "ProfesionalId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentos").LoadAction("GetProfesionalId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -80,7 +80,7 @@
                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesMedicamentos.HIstoriasClinicasId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "HIstoriasClinicasId")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentos").LoadAction("GetHIstoriasClinicasId").Key("Id"))
-                                    .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                     .ValueExpr("Id").DisplayExpr("EnfermedadActual").SearchExpr("EnfermedadActual")
                                     .SearchEnabled(true).ShowClearButton(true)
                                );
@@ -89,7 +89,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesMedicamentos.PacientesId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentos").LoadAction("GetPacientesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );

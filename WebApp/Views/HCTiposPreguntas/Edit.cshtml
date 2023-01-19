@@ -43,7 +43,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HCTiposPreguntas.HCTiposId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "HCTiposId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HCTiposPreguntas").LoadAction("GetHCTiposId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -52,7 +52,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HCTiposPreguntas.HCPreguntasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "HCPreguntasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HCTiposPreguntas").LoadAction("GetHCPreguntasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

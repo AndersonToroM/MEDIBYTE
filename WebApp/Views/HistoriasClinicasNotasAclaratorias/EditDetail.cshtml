@@ -33,7 +33,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicasNotasAclaratorias.HistoriasClinicasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "HistoriasClinicasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicasNotasAclaratorias").LoadAction("GetHistoriasClinicasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -44,7 +44,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicasNotasAclaratorias.ProfesionalId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "ProfesionalId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicasNotasAclaratorias").LoadAction("GetProfesionalId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

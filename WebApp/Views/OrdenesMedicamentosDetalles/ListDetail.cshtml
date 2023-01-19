@@ -68,7 +68,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesMedicamentosDetalles.MedicamentosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentosDetalles").LoadAction("GetMedicamentosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Dosis) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("OrdenesMedicamentosDetalles.Dosis"))) 
@@ -89,7 +89,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesMedicamentosDetalles.OrdenesMedicamentosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentosDetalles").LoadAction("GetOrdenesMedicamentosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
              }) 
          ) 

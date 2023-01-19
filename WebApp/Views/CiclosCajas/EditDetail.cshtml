@@ -33,7 +33,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CiclosCajas.CajasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "CajasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetCajasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -42,7 +42,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CiclosCajas.OpenUsersId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "OpenUsersId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetOpenUsersId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -56,7 +56,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.CloseUsersId).ColSpan(1) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "CloseUsersId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetCloseUsersId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

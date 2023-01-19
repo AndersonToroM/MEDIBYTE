@@ -36,18 +36,19 @@
             @(Html.DControls().CheckBoxFor(m => m.Entity.EntregaNoLectura).ID(Prefix + "EntregaNoLectura").Visible(false))
             @(Html.DControls().CheckBoxFor(m => m.Entity.LecturaRealizada).ID(Prefix + "LecturaRealizada").Visible(false))
 
-            @(Html.DControls().Form<AdmisionesServiciosPrestadosModel>()
-                    .ID("AdmisionesServiciosPrestadosModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
-                    .Items(items =>
-                    {
-                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
-                            .Items(groupItems =>{
-                                groupItems.AddSimpleFor(m => m.Entity.ServiciosId).ColSpan(7)
-                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ServiciosId")))
-                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ServiciosId")))
-                                      .Editor(e => e.SelectBox().ID(Prefix + "ServiciosId")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetServiciosId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+            @(
+            Html.DControls().Form<AdmisionesServiciosPrestadosModel>()
+                        .ID("AdmisionesServiciosPrestadosModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
+                        .Items(items =>
+                        {
+                            items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                                .Items(groupItems =>{
+                                    groupItems.AddSimpleFor(m => m.Entity.ServiciosId).ColSpan(7)
+                                      .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ServiciosId")))
+                                      .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ServiciosId")))
+                                          .Editor(e => e.SelectBox().ID(Prefix + "ServiciosId")
+                                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetServiciosId").Key("Id").LoadParams( new { admisionId = Model.Entity.AdmisionesId } ))
+                                          .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Nombre","Codigo")
                                       .SearchEnabled(true).ShowClearButton(true)
                                       .OnSelectionChanged(Prefix + "ServiciosIdOnSelectionChanged")

@@ -34,7 +34,7 @@
                               .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("PreciosServicios.ServiciosId")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "ServiciosId")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PreciosServicios").LoadAction("GetServiciosId").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Nombre", "Codigo")
                                   .SearchEnabled(true).ShowClearButton(true)
                                   .OnValueChanged(Prefix + "OnValueChanged")

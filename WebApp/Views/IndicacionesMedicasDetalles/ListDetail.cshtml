@@ -67,7 +67,7 @@
                      //    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("IndicacionesMedicasDetalles.IndicacionesMedicas")))
                      //        .Lookup(lookup => lookup
                      //        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("IndicacionesMedicasDetalles").LoadAction("GetIndicacionesMedicas").Key("Id"))
-                     //        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                     //        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                      //        .ValueExpr("Id").DisplayExpr("Id"));
                      columns.AddFor(m => m.Servicio)
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("IndicacionesMedicasDetalles.Servicio")))

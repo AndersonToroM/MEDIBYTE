@@ -33,7 +33,7 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.SedesId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "SedesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetSedesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -44,7 +44,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.DocumentosId).ColSpan(1)
                                         .Editor(e => e.SelectBox().ID(Prefix + "DocumentosId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FacturasGeneracion").LoadAction("GetDocumentosId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Prefijo").SearchExpr("Prefijo")
                                         .SearchEnabled(true).ShowClearButton(true)
                                 );
@@ -56,7 +56,7 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.EntidadesId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetEntidadesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -80,7 +80,7 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.Estadosid")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "Estadosid")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetEstadosid").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -98,7 +98,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.FilialesId).ColSpan(1)
                                       .Editor(e => e.SelectBox().ID(Prefix + "FilialesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetFilialesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -107,14 +107,14 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Facturas.EmpresasId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetEmpresasId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
                                 groupItems.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(1)
                                       .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Facturas").LoadAction("GetPacientesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );

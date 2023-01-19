@@ -71,7 +71,7 @@
                      columns.AddFor(m => m.EmpresasId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ListaPrecios").LoadAction("GetEmpresasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Porcentaje).Format("#,##0.##") 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ListaPrecios.Porcentaje"))); 
@@ -80,7 +80,7 @@
                      columns.AddFor(m => m.RelacionaListaPreciosId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ListaPrecios").LoadAction("GetRelacionaListaPreciosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Tarifa) 
                          .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("ListaPrecios.Tarifa", 100))) 
@@ -90,7 +90,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ListaPrecios.TipoEstadosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ListaPrecios").LoadAction("GetTipoEstadosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
              }) 
          ) 

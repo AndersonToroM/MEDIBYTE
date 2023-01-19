@@ -67,6 +67,12 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
+        [HttpGet]
+        public IActionResult CargarPaciente(long Id)
+        {
+            return View("Edit", EditModel(Id));
+        }
+
         private PacientesModel EditModel(long Id) 
         { 
             PacientesModel model = new PacientesModel();

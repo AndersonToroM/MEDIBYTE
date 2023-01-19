@@ -70,7 +70,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("FacturasDetalles.FacturasId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FacturasDetalles").LoadAction("GetFacturasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.NroLinea).Format("#,##0.##") 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("FacturasDetalles.NroLinea"))); 

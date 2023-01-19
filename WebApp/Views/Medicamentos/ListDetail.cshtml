@@ -70,21 +70,21 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Medicamentos.ConcentracionesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Medicamentos").LoadAction("GetConcentracionesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.FormasFarmaceuticasId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Medicamentos.FormasFarmaceuticasId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Medicamentos.FormasFarmaceuticasId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Medicamentos").LoadAction("GetFormasFarmaceuticasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.ViaAdministracionId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Medicamentos.ViaAdministracionId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Medicamentos.ViaAdministracionId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Medicamentos").LoadAction("GetViaAdministracionId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
              }) 
          ) 

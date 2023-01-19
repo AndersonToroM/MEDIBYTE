@@ -82,7 +82,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicas.AdmisionesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetAdmisionesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.FechaApertura).Format(DApp.DefaultLanguage.DateFormat) 
                      columns.AddFor(m => m.ProfesionalId) 
@@ -90,7 +90,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicas.ProfesionalId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetProfesionalId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.MotivoConsulta) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.MotivoConsulta"))) 
@@ -108,28 +108,28 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicas.EstadosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetEstadosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.HCTiposId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.HCTiposId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicas.HCTiposId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetHCTiposId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.PacientesId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.PacientesId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicas.PacientesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetPacientesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.EsControl) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.EsControl"))); 
                      columns.AddFor(m => m.HistoriaClinicaPrincipal) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetHistoriaClinicaPrincipal").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Peso).Format("#,##0.##") 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.Peso"))); 

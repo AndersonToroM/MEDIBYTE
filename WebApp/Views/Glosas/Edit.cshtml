@@ -44,7 +44,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Glosas.FacturasId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Glosas").LoadAction("GetFacturasId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("DescFacturaConSaldo").SearchExpr("Documentos.Prefijo", "NroConsecutivo","Saldo")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -59,7 +59,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Glosas.CausalesGlosasId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "CausalesGlosasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Glosas").LoadAction("GetCausalesGlosasId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );

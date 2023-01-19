@@ -44,7 +44,7 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CiclosCajas.CajasId")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "CajasId")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetCajasId").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                   .SearchEnabled(true).ShowClearButton(true)
                              );
@@ -53,7 +53,7 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CiclosCajas.OpenUsersId")))
                                   .Editor(e => e.SelectBox().Disabled(true).ID(Prefix + "OpenUsersId")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetOpenUsersId").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr("UserName").SearchExpr("UserName")
                                   .SearchEnabled(true).ShowClearButton(true)
                              );
@@ -80,7 +80,7 @@
                                       .Editor(e => e.SelectBox().ID(Prefix + "CloseUsersId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetCloseUsersId").Key("Id")
                                         .LoadParams(new { closeUserId = Model.Entity.CloseUsersId }))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("UserName").SearchExpr("UserName")
                                       .SearchEnabled(true).ShowClearButton(true).ReadOnly(Model.Entity.CloseUsersId != null)
                                  );
@@ -112,7 +112,7 @@
                                  //groupItems.AddSimpleFor(m => m.Entity.CloseUsersId).ColSpan(1)
                                  //     .Editor(e => e.SelectBox().ID(Prefix + "CloseUsersId")
                                  //     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CiclosCajas").LoadAction("GetCloseUsersId").Key("Id"))
-                                 //     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                 //     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                  //     .ValueExpr("Id").DisplayExpr("UserName").SearchExpr("UserName")
                                  //     .SearchEnabled(true).ShowClearButton(true)
                                  //);

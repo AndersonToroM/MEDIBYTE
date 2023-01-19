@@ -48,7 +48,7 @@
                               .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Recaudos.CiclosCajasId")))
                                    .Editor(e => e.SelectBox().ID(Prefix + "CiclosCajasId").ReadOnly(!Model.Entity.IsNew)
                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetCiclosCajasId").Key("Id").LoadParams(new { isNuevo = Model.Entity.IsNew }))
-                                   .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                   .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                    .ValueExpr("Id").DisplayExpr(new JS(Prefix + "DisplayExprCiclosCajasId"))
                                    .SearchEnabled(true).ShowClearButton(true)
                               );
@@ -90,7 +90,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Recaudos.EmpresasId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetEmpresasId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("RazonSocial").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -99,7 +99,7 @@
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Recaudos.SedesId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "SedesId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetSedesId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );
@@ -109,7 +109,7 @@
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Recaudos.EntidadesId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetEntidadesId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("NumeroIdentificacion","Nombre")
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );
@@ -117,7 +117,7 @@
                                    tabItem.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(1)
                                       .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetPacientesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -134,7 +134,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Recaudos.MediosPagoId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "MediosPagoId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetMediosPagoId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );
@@ -146,7 +146,7 @@
                                    tabItem.AddSimpleFor(m => m.Entity.BancosId).ColSpan(1)
                                          .Editor(e => e.SelectBox().ID(Prefix + "BancosId")
                                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Recaudos").LoadAction("GetBancosId").Key("Id"))
-                                         .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                          .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                          .SearchEnabled(true).ShowClearButton(true)
                                     );

@@ -104,7 +104,7 @@
             @(Html.DControls().SelectBox()
                 .ID($"{Prefix}AccionCambiarProfesional").InputAttr("class", "form-control")
                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AtencionesResultado").LoadAction("GetEmpleadosId").Key("Id"))
-                .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                 .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
                 .SearchEnabled(true).ShowClearButton(true)
             )

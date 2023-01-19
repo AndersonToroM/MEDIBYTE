@@ -36,7 +36,7 @@
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RecaudosDetalles").LoadAction("GetFacturasId").Key("Id")
                                         .LoadParams(new { recaudosId = Model.Entity.RecaudosId })
                                      )
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("DescFacturaConSaldo").SearchExpr("NroConsecutivo","Documentos.Prefijo")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );

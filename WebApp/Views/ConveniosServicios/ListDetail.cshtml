@@ -154,14 +154,14 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ConveniosServicios.ConveniosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ConveniosServicios").LoadAction("GetConveniosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.ServiciosId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ConveniosServicios.ServiciosId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ConveniosServicios.ServiciosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ConveniosServicios").LoadAction("GetServiciosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Cantidad) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ConveniosServicios.Cantidad"))); 

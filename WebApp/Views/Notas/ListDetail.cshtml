@@ -89,31 +89,31 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.DocumentosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetDocumentosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.SedesId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Notas.SedesId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.SedesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetSedesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.EmpresasId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Notas.EmpresasId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.EmpresasId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetEmpresasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.EntidadesId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetEntidadesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.PacientesId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetPacientesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Fecha).Format(DApp.DefaultLanguage.DateFormat) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Notas.Fecha"))); 
@@ -130,7 +130,7 @@
                      columns.AddFor(m => m.FacturasId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetFacturasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Saldo).Format("#,##0.##") 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Notas.Saldo"))); 
@@ -147,7 +147,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.Estadosid"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetEstadosid").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.MontoEscrito) 
                          .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("Notas.MontoEscrito", 1024))) 
@@ -175,7 +175,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.NotasConceptosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetNotasConceptosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
              }) 
          ) 
