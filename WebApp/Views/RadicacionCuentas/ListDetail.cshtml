@@ -66,21 +66,21 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RadicacionCuentas.EmpresasId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentas").LoadAction("GetEmpresasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.SedesId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RadicacionCuentas.SedesId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RadicacionCuentas.SedesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentas").LoadAction("GetSedesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.EntidadesId) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RadicacionCuentas.EntidadesId"))) 
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RadicacionCuentas.EntidadesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentas").LoadAction("GetEntidadesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.FechaRadicacion).Format(DApp.DefaultLanguage.DateFormat) 
              }) 

@@ -64,7 +64,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EntidadesResponsabilidadesFiscales.ResponsabilidadesFiscalesId")))
                              .Lookup(lookup => lookup
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntidadesResponsabilidadesFiscales").LoadAction("GetResponsabilidadesFiscalesId").Key("Id"))
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                              .ValueExpr("Id").DisplayExpr("Descripcion"));
                  })
          ) 

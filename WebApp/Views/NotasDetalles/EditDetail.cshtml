@@ -42,7 +42,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("NotasDetalles.NotasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "NotasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("NotasDetalles").LoadAction("GetNotasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); *@
@@ -57,7 +57,7 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("NotasDetalles").LoadAction("GetServiciosId").Key("Id")
                                          .LoadParams(new { notasId = Model.Entity.NotasId })
                                       )
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Nombre","Codigo")
                                       .OnValueChanged($"{Prefix}OnValueChangedServiciosId")
                                       .SearchEnabled(true).ShowClearButton(true).ReadOnly(!Model.Entity.IsNew)

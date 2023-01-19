@@ -47,7 +47,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HCRespuestas.HCPreguntaId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "HCPreguntaId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HCRespuestas").LoadAction("GetHCPreguntaId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

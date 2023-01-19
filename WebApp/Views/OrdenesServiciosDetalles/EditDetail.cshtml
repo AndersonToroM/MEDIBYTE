@@ -35,7 +35,7 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesServiciosDetalles.CupsId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "CupsId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServiciosDetalles").LoadAction("GetCupsId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Codigo", "Descripcion")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );

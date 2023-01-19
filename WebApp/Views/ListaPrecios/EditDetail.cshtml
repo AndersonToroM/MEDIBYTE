@@ -34,7 +34,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.EmpresasId).ColSpan(1) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ListaPrecios").LoadAction("GetEmpresasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -47,7 +47,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.RelacionaListaPreciosId).ColSpan(1) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "RelacionaListaPreciosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ListaPrecios").LoadAction("GetRelacionaListaPreciosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -59,7 +59,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ListaPrecios.TipoEstadosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "TipoEstadosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ListaPrecios").LoadAction("GetTipoEstadosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

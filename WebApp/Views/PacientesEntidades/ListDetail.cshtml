@@ -96,7 +96,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("PacientesEntidades.EntidadesId")))
                              .Lookup(lookup => lookup
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PacientesEntidades").LoadAction("GetEntidadesId").Key("Id"))
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                              .ValueExpr("Id").DisplayExpr("Nombre"));
              })
          )

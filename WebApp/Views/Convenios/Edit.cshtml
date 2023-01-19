@@ -51,7 +51,7 @@
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Convenios.EntidadesId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetEntidadesId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre", "Alias", "NumeroIdentificacion")
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );
@@ -66,7 +66,7 @@
                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Convenios.EstadosId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "EstadosId")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetEstadosId").Key("Id"))
-                                    .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                     .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                     .SearchEnabled(true).ShowClearButton(true)
                                );
@@ -92,7 +92,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.ListaPreciosId).ColSpan(3)
                                       .Editor(e => e.SelectBox().ID(Prefix + "ListaPreciosId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetListaPreciosId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -102,7 +102,7 @@
                                     .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Convenios.FormasPagosId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "FormasPagosId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetFormasPagosId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -115,7 +115,7 @@
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Convenios.ModalidadesContratacionId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "ModalidadesContratacionId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetModalidadesContratacionId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );
@@ -132,7 +132,7 @@
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Convenios.TipoFacturaEstadosId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "TipoFacturaEstadosId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetTipoFacturaEstadosId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );

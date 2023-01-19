@@ -75,7 +75,7 @@
                        .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("LiquidacionHonorarios.EstadosId")))
                             .Editor(e => e.SelectBox().ID(Prefix + "EstadosId")
                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("LiquidacionHonorarios").LoadAction("GetEstadosId").Key("Id"))
-                            .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                            .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                             .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                             .ReadOnly(true)
                        );
@@ -104,7 +104,7 @@
                     groupItems.AddSimpleFor(m => m.Entity.EmpleadosId).ColSpan(6)
                         .Editor(e => e.SelectBox().ID(Prefix + "EmpleadosId")
                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("LiquidacionHonorarios").LoadAction("GetEmpleadosId").Key("Id"))
-                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                         .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "NombreCompleto")
                         .SearchEnabled(true).ShowClearButton(true)
                    );

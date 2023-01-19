@@ -36,7 +36,7 @@
                                       .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesServiciosDiagnosticos.TiposDiagnosticosId")))
                                           .Editor(e => e.SelectBox().ID(Prefix + "TiposDiagnosticosId")
                                           .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServiciosDiagnosticos").LoadAction("GetTiposDiagnosticosId").Key("Id"))
-                                          .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                          .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                           .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                           .SearchEnabled(true).ShowClearButton(true)
                                   );
@@ -48,7 +48,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesServiciosDiagnosticos.DiagnosticosId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "DiagnosticosId")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServiciosDiagnosticos").LoadAction("GetDiagnosticosId").Key("Id"))
-                                    .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                     .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Descripcion", "Codigo")
                                     .SearchEnabled(true).ShowClearButton(true)
                                );

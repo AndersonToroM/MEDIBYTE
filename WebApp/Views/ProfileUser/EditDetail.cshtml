@@ -26,14 +26,14 @@
                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProfileUsers.ProfileId"))) 
                             .Editor(e => e.SelectBox() 
                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProfileUser").LoadAction("GetProfileId").Key("Id")) 
-                            .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                            .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                             .DisplayExpr("Description").ValueExpr("Id") 
                             .SearchEnabled(true).ShowClearButton(true)); 
                         items.AddSimpleFor(m => m.Entity.UserId) 
                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProfileUsers.UserId"))) 
                             .Editor(e => e.SelectBox() 
                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProfileUser").LoadAction("GetUserId").Key("Id")) 
-                            .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                            .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                             .DisplayExpr("Names").ValueExpr("Id") 
                             .SearchEnabled(true).ShowClearButton(true)); 
                     }) 

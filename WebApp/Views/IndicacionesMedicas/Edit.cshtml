@@ -66,7 +66,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("IndicacionesMedicas.ProfesionalId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "ProfesionalId").ReadOnly(true)
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("IndicacionesMedicas").LoadAction("GetProfesionalId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -79,7 +79,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("IndicacionesMedicas.HistoriasClinicasId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "HistoriasClinicasId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("IndicacionesMedicas").LoadAction("GetHIstoriasClinicasId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("EnfermedadActual").SearchExpr("EnfermedadActual")
                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                 );
@@ -88,7 +88,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("IndicacionesMedicas.PacientesId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("IndicacionesMedicas").LoadAction("GetPacientesId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("Id")
                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                 );

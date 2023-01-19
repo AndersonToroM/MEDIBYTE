@@ -33,7 +33,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("LiquidacionHonorariosDetalle.LiquidacionHonorariosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "LiquidacionHonorariosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("LiquidacionHonorariosDetalle").LoadAction("GetLiquidacionHonorariosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -42,7 +42,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("LiquidacionHonorariosDetalle.EmpleadosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "EmpleadosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("LiquidacionHonorariosDetalle").LoadAction("GetEmpleadosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -54,7 +54,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("LiquidacionHonorariosDetalle.AdmisionesServiciosPrestadosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "AdmisionesServiciosPrestadosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("LiquidacionHonorariosDetalle").LoadAction("GetAdmisionesServiciosPrestadosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

@@ -43,7 +43,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CategoriasIngresosDetalles.CategoriasIngresosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "CategoriasIngresosid") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("CategoriasIngresosDetalles").LoadAction("CategoriasIngresosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

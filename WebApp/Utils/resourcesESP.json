@@ -72,6 +72,10 @@
     "Description": "Anular"
   },
   {
+    "Id": "Admisiones.BotonVerPaciente",
+    "Description": "Ver Paciente"
+  },
+  {
     "Id": "Admisiones.CausasExternasId",
     "Description": "Causas Externas"
   },
@@ -274,6 +278,10 @@
   {
     "Id": "Admisiones.ValorDescuentoEstadosId",
     "Description": "Valor Descuento Estado"
+  },
+  {
+    "Id": "Admisiones.ValorPagar",
+    "Description": "Valor a Pagar"
   },
   {
     "Id": "Admisiones.ValorPagarParticular",

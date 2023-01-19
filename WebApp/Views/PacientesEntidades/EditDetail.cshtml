@@ -29,7 +29,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("PacientesEntidades.PacientesId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "PacientesId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PacientesEntidades").LoadAction("GetPacientesId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -38,7 +38,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("PacientesEntidades.EntidadesId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PacientesEntidades").LoadAction("GetEntidadesId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

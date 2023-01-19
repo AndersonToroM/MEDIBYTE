@@ -64,14 +64,14 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesServiciosDiagnosticos.DiagnosticosId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServiciosDiagnosticos").LoadAction("GetDiagnosticosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Principal) 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("OrdenesServiciosDiagnosticos.Principal"))); 
                      columns.AddFor(m => m.OrdenesServiciosId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServiciosDiagnosticos").LoadAction("GetOrdenesServiciosId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
              }) 
          ) 

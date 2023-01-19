@@ -165,7 +165,7 @@ namespace Blazor.BusinessLogic
                     var pacientesId = detalles.Select(x => x.PacientesId).Distinct().ToList();
                     if (pacientesId.Count > 0)
                     {
-                        var listServices = new BlazorUnitWork(UnitOfWork.Settings).Repository<AdmisionesServiciosPrestados>().Table.Include(x => x.Admisiones).Where(x => x.FacturasId == nota.FacturasId || x.Admisiones.FacturaCopagoCuotaModeradoraId == nota.FacturasId && pacientesId.Contains(x.Admisiones.PacientesId)).ToList();
+                        var listServices = new BlazorUnitWork(UnitOfWork.Settings).Repository<AdmisionesServiciosPrestados>().Table.Include(x => x.Admisiones).Where(x => (x.FacturasId == nota.FacturasId || x.Admisiones.FacturaCopagoCuotaModeradoraId == nota.FacturasId) && pacientesId.Contains(x.Admisiones.PacientesId)).ToList();
                         var listAdminsiones = listServices.Select(x => x.Admisiones).Distinct().ToList();
 
                         if (listAdminsiones != null && listAdminsiones.Count > 0)
