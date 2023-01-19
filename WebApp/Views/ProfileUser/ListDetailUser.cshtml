@@ -45,7 +45,7 @@
                 columns.AddFor(m => m.UserId).Visible(false); 
                 columns.AddFor(m => m.ProfileId).Lookup(lookup => lookup 
                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProfileUser").LoadAction("GetProfileId").Key("Id")) 
-                    .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                    .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                     .DisplayExpr("Description").ValueExpr("Id")); 
                 columns.AddFor(m => m.UpdatedBy).Visible(false); 
                 columns.AddFor(m => m.LastUpdate).Visible(false); 

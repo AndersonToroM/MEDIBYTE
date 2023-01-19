@@ -112,7 +112,7 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.DocumentosId")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "DocumentosId")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetDocumentosId").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr("DocumentoCompleto").SearchExpr("Prefijo", "Descripcion")
                                   .SearchEnabled(true).ShowClearButton(true).OnSelectionChanged(Prefix + "DocumentosIdOnSelectionChanged")
                              );
@@ -130,7 +130,7 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.NotasConceptosId")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "NotasConceptosId")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetNotasConceptosId").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                   .SearchEnabled(true).ShowClearButton(true)
                                   .OnValueChanged($"{Prefix}ValidarSeleccionarPacientes")
@@ -141,7 +141,7 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.FacturasId")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetFacturasId").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr(new JS(Prefix + "DisplayExprFacturaId")).SearchExpr("Documentos.Prefijo", "NroConsecutivo")
                                   .SearchEnabled(true).ShowClearButton(true).OnSelectionChanged(Prefix + "FacturasIdOnSelectionChanged")
                              );
@@ -154,7 +154,7 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.Estadosid")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "Estadosid")
                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetEstadosid").Key("Id"))
-                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                   .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                   .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                              );
@@ -164,7 +164,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.FormasPagosId")))
                               .Editor(e => e.SelectBox().ID(Prefix + "FormasPagosId")
                               .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetFormasPagosId").Key("Id"))
-                              .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                              .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                               .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre","Codigo")
                               .SearchEnabled(true).ShowClearButton(true)
                          );
@@ -174,7 +174,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.MediosPagoId")))
                               .Editor(e => e.SelectBox().ID(Prefix + "MediosPagoId")
                               .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetMediosPagoId").Key("Id"))
-                              .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                              .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                               .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion", "Codigo")
                               .SearchEnabled(true).ShowClearButton(true)
                          );
@@ -215,7 +215,7 @@
                                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.EmpresasId")))
                                                   .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId")
                                                   .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetEmpresasId").Key("Id"))
-                                                  .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                                   .ValueExpr("Id").DisplayExpr("RazonSocial").SearchExpr("RazonSocial")
                                                   .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                              );
@@ -225,7 +225,7 @@
                                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Notas.SedesId")))
                                                       .Editor(e => e.SelectBox().ID(Prefix + "SedesId")
                                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetSedesId").Key("Id"))
-                                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                                       .ValueExpr("Id").DisplayExpr("Nombre]").SearchExpr("Nombre]")
                                                       .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                                  );
@@ -233,7 +233,7 @@
                                          tabItem.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(1)
                                                    .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetEntidadesId").Key("Id"))
-                                                   .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                                   .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                                    .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                                    .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                               );
@@ -241,7 +241,7 @@
                                          tabItem.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(1)
                                                    .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Notas").LoadAction("GetPacientesId").Key("Id"))
-                                                   .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                                   .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                                    .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NombreCompleto")
                                                    .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                               );

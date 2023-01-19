@@ -35,7 +35,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("OrdenesMedicamentosDetalles.MedicamentosId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "MedicamentosId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentosDetalles").LoadAction("GetMedicamentosId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("DisplayExpre").SearchExpr("Nombre")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );

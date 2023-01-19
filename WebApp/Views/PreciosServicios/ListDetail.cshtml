@@ -171,14 +171,14 @@
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("PreciosServicios.ServiciosId")))
                                  .Lookup(lookup => lookup
                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PreciosServicios").LoadAction("GetServiciosId").Key("Id"))
-                                 .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                 .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                  .ValueExpr("Id").DisplayExpr("Id"));
                          columns.AddFor(m => m.ListaPreciosId)
                              .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("PreciosServicios.ListaPreciosId")))
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("PreciosServicios.ListaPreciosId")))
                                  .Lookup(lookup => lookup
                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PreciosServicios").LoadAction("GetListaPreciosId").Key("Id"))
-                                 .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                 .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                  .ValueExpr("Id").DisplayExpr("Id"));
                          columns.AddFor(m => m.Precio).Format("#,##0.##")
                              .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("PreciosServicios.Precio")));

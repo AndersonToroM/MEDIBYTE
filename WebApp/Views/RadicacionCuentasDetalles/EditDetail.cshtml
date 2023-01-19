@@ -33,7 +33,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RadicacionCuentasDetalles.RadicacionCuentasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "RadicacionCuentasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentasDetalles").LoadAction("GetRadicacionCuentasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -42,7 +42,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RadicacionCuentasDetalles.FacurasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "FacurasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentasDetalles").LoadAction("GetFacurasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

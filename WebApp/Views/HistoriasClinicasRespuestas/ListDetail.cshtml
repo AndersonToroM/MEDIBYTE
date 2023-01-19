@@ -66,14 +66,14 @@
                      //    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicasRespuestas.HIstoriasClinicasId"))) 
                      //        .Lookup(lookup => lookup 
                      //        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicasRespuestas").LoadAction("GetHIstoriasClinicasId").Key("Id")) 
-                     //        .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                     //        .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                      //        .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.HCRespuestasId)
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicasRespuestas.HCRespuestasId")))
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("HistoriasClinicasRespuestas.HCRespuestasId")))
                              .Lookup(lookup => lookup
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicasRespuestas").LoadAction("GetHCRespuestasId").Key("Id"))
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                              .ValueExpr("Id").DisplayExpr("Id"));
                      columns.AddFor(m => m.RespuestaAbierta)
                      ;

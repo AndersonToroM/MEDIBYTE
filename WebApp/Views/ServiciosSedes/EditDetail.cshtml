@@ -34,7 +34,7 @@
                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ServiciosSedes.ServiciosId")))
                                  .Editor(e => e.SelectBox().ID("ServiciosId")
                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ServiciosSedes").LoadAction("GetServiciosId").Key("Id"))
-                                 .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                 .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                  .ValueExpr("Id").DisplayExpr("DescripcionCompleta")
                                  .SearchEnabled(true).ShowClearButton(true)
                             );
@@ -43,14 +43,14 @@
                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ServiciosSedes.SedesId")))
                                  .Editor(e => e.SelectBox().ID("SedesId")
                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ServiciosSedes").LoadAction("GetSedesId").Key("Id"))
-                                 .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                 .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                  .ValueExpr("Id").DisplayExpr("Nombre")
                                  .SearchEnabled(true).ShowClearButton(true)
                             );
                             groupItems.AddSimpleFor(m => m.Entity.EstadosId)
                                  .Editor(e => e.SelectBox().ID("EstadosId")
                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ServiciosSedes").LoadAction("GetEstadosId").Key("Id"))
-                                 .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                 .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                  .ValueExpr("Id").DisplayExpr("Nombre")
                                  .SearchEnabled(true).ShowClearButton(true)
                             );

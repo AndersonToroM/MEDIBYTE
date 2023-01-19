@@ -64,7 +64,7 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.ProfesionalId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "ProfesionalId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetProfesionalId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -74,7 +74,7 @@
                                   .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.PacientesId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetPacientesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
@@ -103,7 +103,7 @@
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetDiagnosticosId").Key("Id")
                                         .LoadParams(new { hcId = Model.Entity.HIstoriasClinicasId })
                                     )
-                                    .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                     .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Descripcion")
                                     .SearchEnabled(true).ShowClearButton(true)
                                );
@@ -113,7 +113,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.IncapacidadesOrigenesId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "IncapacidadesOrigenesId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetIncapacidadesOrigenesId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );

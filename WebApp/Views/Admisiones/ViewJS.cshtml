@@ -44,7 +44,7 @@
         GetViewOnContainer("@Url.Action("AnularAdmision", Prefix)", "mainPanel",
             {
                 admisionId: @Model.Entity.Id,
-                detalleAnulacion : detalle
+                detalleAnulacion: detalle
             }
         );
     }
@@ -178,7 +178,7 @@
         if (FormasPagosId == "" || FormasPagosId == 0 || FormasPagosId == null ||
             MedioPagosId == "" || MedioPagosId == 0 || MedioPagosId == null ||
             DocumentosId == "" || DocumentosId == 0 || DocumentosId == null
-            ) {
+        ) {
             DevExpress.ui.notify("Los campos Forma de pago, Medio de pago y Documento es obligatorio para generar la factura.", "error");
             return false;
         }
@@ -203,7 +203,7 @@
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
 
         if (e.value != null) {
-            @(Prefix)MostrarCitas();
+    @(Prefix)MostrarCitas();
             var Citas = $("#@(Prefix)CitasDataGrid").dxDataGrid("instance");
             Citas.getDataSource().filter(["PacientesId", "=", e.value]);
             Citas.getDataSource().reload();
@@ -212,8 +212,12 @@
     }
 
     function @(Prefix)MostrarCitas() {
+        $("#@(Prefix)CitasPopup").dxPopup("instance").show();
+    }
 
-         $("#@(Prefix)CitasPopup").dxPopup("instance").show();
+    function @(Prefix)AbrirPaciente() {
+        var PacienteId = $("#@(Prefix)PacientesId").dxSelectBox("instance").option("value");
+        window.open("@(Url.Action("CargarPaciente", "Pacientes"))?Id=" + PacienteId, "_blank");
     }
 
     function @(Prefix)OcultarCitas(mostrar = true) {
@@ -226,19 +230,19 @@
     function @(Prefix)GetCitaCercana(idPaciente) {
         var cita = null;
 
-        if (idPaciente!=null  && idPaciente !== 0) {
+        if (idPaciente != null && idPaciente !== 0) {
             $.ajax({
-             url: "@Url.Action("GetCitaCercana","Admisiones")",
-             data: { IdPaciente: idPaciente },
-             async:false,
-            type: 'POST',
-             success: function (data) {
-                 cita = data;
+                url: "@Url.Action("GetCitaCercana","Admisiones")",
+                data: { IdPaciente: idPaciente },
+                async: false,
+                type: 'POST',
+                success: function (data) {
+                    cita = data;
                 }
-         });
+            });
         }
 
-         return cita;
+        return cita;
 
     }
     function @(Prefix)OnChangeConvenio(item) {
@@ -251,11 +255,11 @@
     function @(Prefix)GetEntidad(item) {
 
         var entidades = 0;
-        if (item.value!=null) {
-             $.ajax({
+        if (item.value != null) {
+            $.ajax({
                 url: "@Url.Action("GetEntidadesConvenios","Admisiones")",
                 data: { id: item.value },
-                async:false,
+                async: false,
                 type: 'POST',
                 success: function (data) {
                     entidades = data;
@@ -293,8 +297,10 @@
                         success: function (data) {
                             hideLoadIndicator();
                             if (data <= 0) {
+                                $("#labelValorPagar").html("Valor a Pagar (Tarifa Plena):");
                                 $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
                             } else {
+                                $("#labelValorPagar").html("Valor a Pagar (Convenio):");
                                 $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", (data * Cita.Cantidad));
                             }
                         },
@@ -312,7 +318,7 @@
             $("#@(Prefix)EmpleadosId").dxSelectBox("instance").option("value", null);
             $("#@(Prefix)ConveniosId").dxSelectBox("instance").option("value", null);
         }
-        $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value",null);
+        $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", null);
     }
 
     function @(Prefix)OnSelectionChangedValorPago()
@@ -324,7 +330,7 @@
 
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").option("value", null);
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
-        if(OpcionPago == 63){
+        if (OpcionPago == 63) {
             $("#@(Prefix)FormasPagosId").dxSelectBox("instance").option("value", null);
             $("#@(Prefix)MedioPagosId").dxSelectBox("instance").option("value", null);
         }
@@ -393,16 +399,16 @@
     function @(Prefix)DisplayCitasID(item) {
 
         var text = "";
-        if (item !==     null) {
+        if (item !== null) {
             var consultorio = item.Consultorios;
 
-                text += @(Prefix)SetFecha(item.FechaInicio)  + " - " + @(Prefix)SetFecha(item.FechaFinal)+ " - " +consultorio.Nombre;
+            text += @(Prefix)SetFecha(item.FechaInicio) + " - " + @(Prefix)SetFecha(item.FechaFinal) + " - " + consultorio.Nombre;
 
         }
-         return text;
+        return text;
     }
     function @(Prefix)SetFecha(item) {
-        var fecha = item.slice(8, 10) + "-" + item.slice(5, 7) + "-" +item.slice(0, 4) +" "+ item.slice(11, 13) +":"+ item.slice(14, 16);
+        var fecha = item.slice(8, 10) + "-" + item.slice(5, 7) + "-" + item.slice(0, 4) + " " + item.slice(11, 13) + ":" + item.slice(14, 16);
         return fecha;
     }
 
@@ -437,7 +443,7 @@
     }
 
     function @(Prefix)OnValueChangedEntidadesConvenio() {
-        $("#@(Prefix)ConveniosId").dxSelectBox("instance").option("value",null);
+        $("#@(Prefix)ConveniosId").dxSelectBox("instance").option("value", null);
         $("#@(Prefix)FilialesId").dxSelectBox("instance").option("value", null);
         $("#@(Prefix)ConveniosId").dxSelectBox("instance").getDataSource().reload();
         $("#@(Prefix)FilialesId").dxSelectBox("instance").getDataSource().reload();
@@ -448,25 +454,24 @@
             url: "@Url.Action("GetTipoId","Admisiones")",
             data: { id: tipo },
             type: 'POST',
-            async:false,
-             success: function (data) {
-                 tipoID = data;
+            async: false,
+            success: function (data) {
+                tipoID = data;
 
-                }
-         });
+            }
+        });
     }
 
     function @(Prefix)FormSuccess(data)
     {
         hideLoadIndicator();
-        if ('@ViewData.ModelState.IsValid' == 'True')
-        {
+        if ('@ViewData.ModelState.IsValid' == 'True') {
             if ("@ViewBag.Accion" == "Delete") {
-                DevExpress.ui.notify("Registro eliminado correctamente.","info");
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
             } else if ("@ViewBag.Accion" == "Save") {
-                DevExpress.ui.notify("Registro guardado correctamente.","info");
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
             } else {
-                DevExpress.ui.notify("Error no accion en submit.","info");
+                DevExpress.ui.notify("Error no accion en submit.", "info");
             }
         }
     }
@@ -474,21 +479,20 @@
     function @(Prefix)FormFailure(data)
     {
         hideLoadIndicator();
-        DevExpress.ui.notify("Error en el formulario","error");
+        DevExpress.ui.notify("Error en el formulario", "error");
     }
 
     function @(Prefix)FormSuccessDetail(data)
     {
         hideLoadIndicator();
-        if ('@ViewData.ModelState.IsValid' == 'True')
-        {
+        if ('@ViewData.ModelState.IsValid' == 'True') {
             $("#AdmisionesDetalleDataGrid").dxDataGrid("instance").refresh();
             if ("@ViewBag.Accion" == "Delete") {
-                DevExpress.ui.notify("Registro eliminado correctamente.","info");
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
             } else if ("@ViewBag.Accion" == "Save") {
-                DevExpress.ui.notify("Registro guardado correctamente.","info");
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
             } else {
-                DevExpress.ui.notify("Error no accion en submit.","info");
+                DevExpress.ui.notify("Error no accion en submit.", "info");
             }
         }
     }
@@ -496,7 +500,7 @@
     function @(Prefix)FormFailureDetail(data)
     {
         hideLoadIndicator();
-        DevExpress.ui.notify("Error en el formulario","error");
+        DevExpress.ui.notify("Error en el formulario", "error");
     }
 
 </script>

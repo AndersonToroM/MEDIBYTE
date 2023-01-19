@@ -66,14 +66,14 @@
                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ServiciosSedes.SedesId")))
                      .Lookup(lookup => lookup
                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ServiciosSedes").LoadAction("GetSedesId").Key("Id"))
-                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                      .ValueExpr("Id").DisplayExpr("Nombre"));
              columns.AddFor(m => m.EstadosId)
                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ServiciosSedes.EstadosId")))
                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ServiciosSedes.EstadosId")))
                      .Lookup(lookup => lookup
                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ServiciosSedes").LoadAction("GetEstadosId").Key("Id"))
-                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                      .ValueExpr("Id").DisplayExpr("Nombre"));
          })
      ) 

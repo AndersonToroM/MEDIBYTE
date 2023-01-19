@@ -61,7 +61,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.FacturasId).ColSpan(7)
                                         .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Rips").LoadAction("GetFacturasId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("DescFacturaConEntidad").SearchExpr("Documentos.Prefijo","NroConsecutivo","Entidades.Nombre")
                                         .OnSelectionChanged($"{Prefix}OnSelectionChangedFacturasId")
                                         .SearchEnabled(true).ShowClearButton(true)
@@ -92,7 +92,7 @@
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Rips.EntidadesId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Rips").LoadAction("GetEntidadesId").Key("Id"))
-                                        .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Alias").SearchExpr("Alias")
                                         .SearchEnabled(true).ShowClearButton(true)
                                    );

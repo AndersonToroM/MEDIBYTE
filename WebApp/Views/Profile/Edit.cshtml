@@ -52,7 +52,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(12)
                                      .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Profile").LoadAction("GetEntidadesId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );

@@ -31,10 +31,11 @@
 <div class="card cardDeatil"> 
     <div class="card-body">
         <div class="box-body table-responsive no-padding"> 
-        @(Html.DControls().DataGridSimple<AdmisionesServiciosPrestados>(DataGridDetailConfig)
-            .ID("AdmisionesServiciosPrestadosDetalleDataGrid")
-            .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("Get").Key("Id"))
-            .DataSourceOptions(x=>x.Filter("['AdmisionesId','=','" + @Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
+            @(
+                    Html.DControls().DataGridSimple<AdmisionesServiciosPrestados>(DataGridDetailConfig)
+                    .ID("AdmisionesServiciosPrestadosDetalleDataGrid")
+                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("Get").Key("Id"))
+                    .DataSourceOptions(x=>x.Filter("['AdmisionesId','=','" + @Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
             .Columns(columns =>
             {
 
@@ -80,7 +81,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.AdmisionesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetAdmisionesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.ServiciosId).Format("#,##0.##") 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.ServiciosId"))); 
@@ -91,7 +92,7 @@
                          .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.AtencionesId"))) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetAtencionesId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.Observaciones) 
                          .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("AdmisionesServiciosPrestados.Observaciones", 1024))) 
@@ -106,12 +107,12 @@
                      columns.AddFor(m => m.FacturasGeneracionId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetFacturasGeneracionId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.FacturasId) 
                              .Lookup(lookup => lookup 
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesServiciosPrestados").LoadAction("GetFacturasId").Key("Id")) 
-                             .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                              .ValueExpr("Id").DisplayExpr("Id")); 
                      columns.AddFor(m => m.PorcImpuesto).Format("#,##0.##") 
                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("AdmisionesServiciosPrestados.PorcImpuesto"))); 

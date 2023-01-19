@@ -42,7 +42,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EmpleadoProfesiones.EmpleadosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "EmpleadosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EmpleadoProfesiones").LoadAction("GetEmpleadosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -51,7 +51,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EmpleadoProfesiones.ProfesionesId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "ProfesionesId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EmpleadoProfesiones").LoadAction("GetProfesionesId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

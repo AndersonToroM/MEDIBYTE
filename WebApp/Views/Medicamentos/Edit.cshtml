@@ -47,7 +47,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Medicamentos.ConcentracionesId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "ConcentracionesId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Medicamentos").LoadAction("GetConcentracionesId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -56,7 +56,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Medicamentos.FormasFarmaceuticasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "FormasFarmaceuticasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Medicamentos").LoadAction("GetFormasFarmaceuticasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -65,7 +65,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Medicamentos.ViaAdministracionId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "ViaAdministracionId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Medicamentos").LoadAction("GetViaAdministracionId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

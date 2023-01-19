@@ -33,7 +33,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EmpresasEsquemasImpuestos.EmpresasId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "EmpresasId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EmpresasEsquemasImpuestos").LoadAction("GetEmpresasId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
@@ -42,7 +42,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("EmpresasEsquemasImpuestos.EsquemasImpuestosId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "EsquemasImpuestosId") 
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EmpresasEsquemasImpuestos").LoadAction("GetEsquemasImpuestosId").Key("Id")) 
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10)) 
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50)) 
                                      .ValueExpr("Id").DisplayExpr("Id").SearchExpr("Id") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 

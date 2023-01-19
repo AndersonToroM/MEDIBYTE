@@ -68,7 +68,7 @@
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.EstadosId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "EstadosId").ReadOnly(true)
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetEstadosId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                 );
 
@@ -99,7 +99,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.EmpleadosId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "EmpleadosId").ReadOnly(true)
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetEmpleadosId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto")
                                  );
 
@@ -109,7 +109,7 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.CausasExternasId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "CausasExternasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetCausasExternasId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                       .ReadOnly(true)
                                  );
@@ -119,7 +119,7 @@
                                      .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.FinalidadProcedimientoId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "FinalidadProcedimientoId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetFinalidadProcedimientoId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                      .ReadOnly(true)
                                 );
@@ -129,7 +129,7 @@
                                      .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.AmbitoRealizacionProcedimientoId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "AmbitoRealizacionProcedimientoId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetAmbitoRealizacionProcedimientoId").Key("Id"))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                      .ReadOnly(true)
                                 );
@@ -226,7 +226,7 @@
                 <label for="@(Prefix)TipoHC">@DApp.DefaultLanguage.GetResource("Atenciones.TipoHC")</label>
                 @(Html.DControls().SelectBox().ID($"{Prefix}TipoHC")
                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetHCTiposId").Key("Id"))
-                .DataSourceOptions(o => o.Paginate(true).PageSize(10))
+                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                 .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                 .SearchEnabled(true).ShowClearButton(true)
             )

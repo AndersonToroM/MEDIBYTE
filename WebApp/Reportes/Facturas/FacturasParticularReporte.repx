@@ -373,7 +373,7 @@
                     <Item1 Ref="170" EventName="BeforePrint" PropertyName="Text" Expression="Concat('CIUDAD: ',IsNull([PACIENTE_CIUDAD],''))&#xA;" />
                   </ExpressionBindings>
                 </Item2>
-                <Item3 Ref="171" ControlType="XRTableCell" Name="tableCell37" Weight="0.78705364324826754" CanGrow="false" Borders="Right" BorderWidth="0.5">
+                <Item3 Ref="171" ControlType="XRTableCell" Name="tableCell37" Weight="0.78705364324826754" Borders="Right" BorderWidth="0.5">
                   <ExpressionBindings>
                     <Item1 Ref="172" EventName="BeforePrint" PropertyName="Text" Expression="Concat('EMAIL: ',IsNull([PACIENTE_CORREO_ELECTRONICO],''))&#xA;" />
                   </ExpressionBindings>

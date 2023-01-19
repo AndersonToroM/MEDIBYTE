@@ -79,7 +79,7 @@
         var consultorioId = $("#@(Prefix)AgendaConsultorio").dxSelectBox("instance").option("value");
         var empleadoId = $("#@(Prefix)AgendaEmpleado").dxSelectBox("instance").option("value");
         var tipoDuracion = $("#@(Prefix)EstadosIdTipoDuracion").dxSelectBox("instance").option("value");
-        var duracion = $("#@(Prefix)Duracion").dxNumberBox("instance").option("value");
+        var duracion = $("#@(Prefix)Duracion").dxNumberBox("instance").option("value"); 
 
         showLoadIndicator();
         $.ajax({
