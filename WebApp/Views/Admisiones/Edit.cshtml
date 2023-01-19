@@ -112,7 +112,7 @@
                                       .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetPacientesId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NombreCompleto")
+                                      .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NombreCompleto","NumeroIdentificacion")
                                       .SearchEnabled(true).ShowClearButton(true)
                                       .ReadOnly(!Model.Entity.IsNew)
                                       .OnValueChanged(Prefix+ "OnValueChangedPaciente")
