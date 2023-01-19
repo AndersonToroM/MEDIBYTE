@@ -203,11 +203,15 @@
         $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
 
         if (e.value != null) {
-    @(Prefix)MostrarCitas();
+
+            $("#@(Prefix)BtnVerPaciente").dxButton("instance").option("disabled", false);
+            @(Prefix)MostrarCitas();
             var Citas = $("#@(Prefix)CitasDataGrid").dxDataGrid("instance");
             Citas.getDataSource().filter(["PacientesId", "=", e.value]);
             Citas.getDataSource().reload();
             //Citas.option("selectedRowKeys", [@(Prefix)GetCitaCercana(e.value)]);
+        } else {
+            $("#@(Prefix)BtnVerPaciente").dxButton("instance").option("disabled", true);
         }
     }
 
