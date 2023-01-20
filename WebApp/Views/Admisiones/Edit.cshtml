@@ -112,7 +112,7 @@
                                       .Editor(e => e.SelectBox().ID(Prefix + "PacientesId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetPacientesId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NombreCompleto")
+                                      .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NombreCompleto","NumeroIdentificacion")
                                       .SearchEnabled(true).ShowClearButton(true)
                                       .ReadOnly(!Model.Entity.IsNew)
                                       .OnValueChanged(Prefix+ "OnValueChangedPaciente")
@@ -122,7 +122,7 @@
                                     .ButtonOptions(bo => bo.Disabled(!Model.Entity.IsNew).Text(DApp.GetResource("Admisiones.CitaId.Ver")).Type(ButtonType.Default).OnClick($"{Prefix}MostrarCitas"));
 
                                 groupItems.AddButton().HorizontalAlignment(HorizontalAlignment.Left).VerticalAlignment(VerticalAlignment.Bottom).ColSpan(2)
-                                    .ButtonOptions(bo => bo.Disabled(!Model.Entity.IsNew).Text(DApp.GetResource("Admisiones.BotonVerPaciente")).Type(ButtonType.Default).OnClick($"{Prefix}AbrirPaciente"));
+                                    .ButtonOptions(bo => bo.Disabled(true).ID($"{Prefix}BtnVerPaciente").Text(DApp.GetResource("Admisiones.BotonVerPaciente")).Type(ButtonType.Default).OnClick($"{Prefix}AbrirPaciente"));
 
                                 groupItems.AddSimpleFor(m => m.Entity.EsControl).Label(x => x.Visible(false)).ColSpan(1)
                                      .Editor(e => e.CheckBox().ID(Prefix + "EsControl").Text(DApp.DefaultLanguage.GetResource("Admisiones.EsControl")));
