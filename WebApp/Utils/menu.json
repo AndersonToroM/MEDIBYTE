@@ -226,7 +226,7 @@
   },
   {
     "Module": "MODULE.HC",
-    "Icon": "fa fa-heartbeat",
+    "Icon": "fa fa-book",
     "Options": [
       {
         "Name": "HCPreguntas",
