@@ -237,7 +237,13 @@
                                             groupItems.AddSimple().ColSpan(3).Label(x => x.Text(DApp.GetResource("ProgramacionCitas.TarifaConvenio")))
                                                 .Editor(e => e.NumberBox().ID(Prefix + "TarifaConvenio").Format("#,##0.##").ReadOnly(true));
 
-                                            groupItems.AddSimpleFor(m => m.Entity.ConsultoriosId).ColSpan(6)
+                                        groupItems.AddSimpleFor(m => m.Entity.PorcDescAutorizado).ColSpan(2)
+                                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.PorcDescAutorizado")))
+                                            .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true)
+                                            @*.OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado")*@
+                                            );
+
+                                            groupItems.AddSimpleFor(m => m.Entity.ConsultoriosId).ColSpan(4)
                                              .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.ConsultoriosId")))
                                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ProgramacionCitas.ConsultoriosId")))
                                                   .Editor(e => e.SelectBox().ID(Prefix + "ConsultoriosId")

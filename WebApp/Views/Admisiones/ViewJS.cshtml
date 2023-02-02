@@ -287,11 +287,15 @@
             $("#@(Prefix)EstadosIdTipoDuracion").dxSelectBox("instance").option("value", Cita.EstadosIdTipoDuracion);
             $("#@(Prefix)Duracion").dxNumberBox("instance").option("value", Cita.Duracion);
             $("#@(Prefix)Cantidad").dxNumberBox("instance").option("value", Cita.Cantidad);
+            $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", 10067);
+            $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", Cita.PorcDescAutorizado);
 
             if (AdmisionNueva) {
                 TotalPagarDesdeCita = Cita.Servicios.TarifaPlena * Cita.Cantidad;
+                PorcenDescAutorizado = Cita.PorcDescAutorizado/100;
+                TotalPagar = TotalPagarDesdeCita - (TotalPagarDesdeCita * PorcenDescAutorizado);
                 if (Cita.ConveniosId == null || Cita.ConveniosId == 0 || Cita.ConveniosId == "") {
-                    $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
+                    $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagar);
                 } else {
                     showLoadIndicator();
                     $.ajax({
@@ -322,7 +326,10 @@
             $("#@(Prefix)EmpleadosId").dxSelectBox("instance").option("value", null);
             $("#@(Prefix)ConveniosId").dxSelectBox("instance").option("value", null);
         }
-        $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", null);
+
+        $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", 10067);
+        //$("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", Cita.PorcDescAutorizado);
+
     }
 
     function @(Prefix)OnSelectionChangedValorPago()
@@ -388,6 +395,50 @@
     }
 
     function @(Prefix)OnValueChangedPorcDescAutorizado(item) {
+        //
+        //var PacienteId = $("#@(Prefix)PacientesId").dxSelectBox("instance").option("value");
+        //var CitasId = $("#@(Prefix)CitasId").dxNumberBox("instance").option("value");
+
+        //console.log("hola");
+
+        //if (OpcionPago != null && OpcionPago != "" && OpcionPago != 0) {
+        //    if ((PacienteId != null && PacienteId != 0) && (CitasId != null && CitasId != 0)) {
+        //        showLoadIndicator();
+        //        $.ajax({
+        //            url: "@Url.Action("GetValorCategoriaIngreso","Admisiones")",
+        //            data: { PacienteId: PacienteId, CitasId: CitasId },
+        //            type: 'POST',
+        //            success: function (data) {
+        //                hideLoadIndicator();
+
+        //                var valorServicio = data.valorServicio;
+
+        //                console.log(valorServicio)
+
+        //                if (!AdmisionNueva) {
+        //                    TotalPagarDesdeCita = $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", 80);
+        //                }
+
+        //                if (item.value != 0) {
+        //                    var total = TotalPagarDesdeCita - (TotalPagarDesdeCita * (item.value / 100));
+        //                    $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", total);
+        //                } else {
+        //                    $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
+        //                }
+
+        //                            },
+        //                            error: function (xhr) {
+        //                                console.log(xhr);
+        //                                hideLoadIndicator();
+        //                                DevExpress.ui.notify("Error:" + xhr.responseText, "error");
+        //                            }
+        //                        });
+        //                    }
+        //                } else {
+        //                    $("#@(Prefix)ValorCopago").dxNumberBox("instance").option("value", 0);
+        //                }
+        //
+        
         if (!AdmisionNueva) {
             TotalPagarDesdeCita = $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value");
         }

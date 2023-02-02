@@ -68,6 +68,8 @@ namespace Blazor.WebApp.Controllers
             model.Entity.FechaFinal = DateTime.Now.AddHours(24);
             model.Entity.HoraInicio = model.Entity.FechaInicio;
             model.Entity.HoraFinal = model.Entity.FechaFinal;
+            //
+            model.Entity.PorcDescAutorizado = 0.0m;
 
             model.PacientesModel.Entity.IsNew = true;
             model.PacientesModel.Entity.EmpresasId = this.ActualEmpresaId();

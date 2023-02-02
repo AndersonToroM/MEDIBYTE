@@ -345,7 +345,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.PorcDescAutorizado).ColSpan(2)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.PorcDescAutorizado")))
-                                    .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(true)
+                                    .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(false)
                                     .OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado"));
 
                                 @*groupItems.AddSimpleFor(m => m.Entity.ValorPagarParticular).ColSpan(3)
@@ -471,7 +471,6 @@
             columns.AddFor(m => m.Empleados.NombreCompleto).Caption(DApp.GetResource("AgendaDisponible.Profesional"));
             columns.AddFor(m => m.TiposCitas.Nombre);
             columns.AddFor(m => m.Observaciones);
-
         }))
 
     @(Html.DControls().Button().Text(DApp.GetResource("Admisiones.Cita.Aceptar")).OnClick($"{Prefix}OcultarCitas"))
