@@ -127,6 +127,7 @@ namespace WebApp.Reportes.HistoriasClinicas {
             this.HistoriasClinicasIndicacionesMedicasSubReporte.ReportSource = new WebApp.Reportes.HistoriasClinicas.HistoriasClinicasIndicacionesMedicasSubReporte();
             this.HistoriasClinicasIncapacidadesSubReporte = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRSubreport>("HistoriasClinicasIncapacidadesSubReporte");
             this.HistoriasClinicasIncapacidadesSubReporte.ReportSource = new WebApp.Reportes.HistoriasClinicas.HistoriasClinicasIncapacidadesSubReporte();
+            this.line2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLine>("line2");
             this.label4 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label4");
             this.line1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLine>("line1");
             this.table1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table1");
@@ -172,8 +173,13 @@ namespace WebApp.Reportes.HistoriasClinicas {
             this.tableCell60 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell60");
             this.tableCell62 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell62");
             this.tableCell87 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell87");
+            this.table13 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table13");
             this.pageInfo1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPageInfo>("pageInfo1");
             this.table9 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table9");
+            this.tableRow39 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow39");
+            this.tableRow40 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow40");
+            this.tableCell86 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell86");
+            this.tableCell84 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell84");
             this.tableRow22 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow22");
             this.tableRow21 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow21");
             this.tableCell52 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell52");
@@ -303,6 +309,7 @@ namespace WebApp.Reportes.HistoriasClinicas {
         private DevExpress.XtraReports.UI.XRSubreport HistoriasClinicasOrdenesServiciosSubReporte;
         private DevExpress.XtraReports.UI.XRSubreport HistoriasClinicasIndicacionesMedicasSubReporte;
         private DevExpress.XtraReports.UI.XRSubreport HistoriasClinicasIncapacidadesSubReporte;
+        private DevExpress.XtraReports.UI.XRLine line2;
         private DevExpress.XtraReports.UI.XRLabel label4;
         private DevExpress.XtraReports.UI.XRLine line1;
         private DevExpress.XtraReports.UI.XRTable table1;
@@ -348,8 +355,13 @@ namespace WebApp.Reportes.HistoriasClinicas {
         private DevExpress.XtraReports.UI.XRTableCell tableCell60;
         private DevExpress.XtraReports.UI.XRTableCell tableCell62;
         private DevExpress.XtraReports.UI.XRTableCell tableCell87;
+        private DevExpress.XtraReports.UI.XRTable table13;
         private DevExpress.XtraReports.UI.XRPageInfo pageInfo1;
         private DevExpress.XtraReports.UI.XRTable table9;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow39;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow40;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell86;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell84;
         private DevExpress.XtraReports.UI.XRTableRow tableRow22;
         private DevExpress.XtraReports.UI.XRTableRow tableRow21;
         private DevExpress.XtraReports.UI.XRTableCell tableCell52;
