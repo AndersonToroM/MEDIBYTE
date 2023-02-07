@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="21.2.6.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="HistoriasClinicasIncapacidadesSubReporte" Margins="44, 31, 0, 0" PageWidth="850" PageHeight="1100" Version="21.2" EventsInfo="|HistoriasClinicasIncapacidadesSubReporte,BeforePrint,AtencionesResultadoReporte_BeforePrint" DataMember="Incapacidades_1" DataSource="#Ref-0" Font="Arial, 9.75pt" BorderColor="WhiteSmoke">
+<XtraReportsLayoutSerializer SerializerVersion="21.2.6.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="HistoriasClinicasIncapacidadesSubReporte" Margins="44, 5, 0, 0" PageWidth="850" PageHeight="1100" Version="21.2" EventsInfo="|HistoriasClinicasIncapacidadesSubReporte,BeforePrint,AtencionesResultadoReporte_BeforePrint" DataMember="Incapacidades_1" DataSource="#Ref-0" Font="Arial, 9.75pt" BorderColor="WhiteSmoke">
   <Extensions>
     <Item1 Ref="2" Key="VSReportExtInfo" Value=".repx" />
   </Extensions>
@@ -11,83 +11,83 @@
     <Item2 Ref="6" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="0" />
     <Item3 Ref="7" ControlType="DetailBand" Name="Detail" HeightF="94.85299">
       <Controls>
-        <Item1 Ref="8" ControlType="XRTable" Name="table2" SizeF="775,94.85299" LocationFloat="0,0" Font="Calibri, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,96" BorderColor="Gray" Borders="All" BorderWidth="0.5">
+        <Item1 Ref="8" ControlType="XRTable" Name="table2" SizeF="788,94.85299" LocationFloat="0,0" Font="Calibri, 8.25pt, style=Bold, charSet=0" Padding="2,2,0,0,96" BorderColor="Gray" Borders="All" BorderWidth="0.5">
           <Rows>
             <Item1 Ref="9" ControlType="XRTableRow" Name="tableRow3" Weight="11.5">
               <Cells>
-                <Item1 Ref="10" ControlType="XRTableCell" Name="tableCell3" Weight="2" CanGrow="false" Text="Incapacidad" TextAlignment="MiddleCenter" Font="Calibri, 9pt, style=Bold, charSet=0" ForeColor="Black" BackColor="LightBlue">
-                  <StylePriority Ref="11" UseFont="false" UseForeColor="false" UseBackColor="false" UseTextAlignment="false" />
+                <Item1 Ref="10" ControlType="XRTableCell" Name="tableCell3" Weight="2.0335483870967743" CanGrow="false" Text="Incapacidad" TextAlignment="MiddleCenter" Font="Calibri, 9pt, style=Bold, charSet=0" ForeColor="Black" BackColor="LightBlue" BorderColor="WhiteSmoke">
+                  <StylePriority Ref="11" UseFont="false" UseForeColor="false" UseBackColor="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item1>
               </Cells>
             </Item1>
             <Item2 Ref="12" ControlType="XRTableRow" Name="tableRow2" Weight="11.5">
               <Cells>
-                <Item1 Ref="13" ControlType="XRTableCell" Name="tableCell8" Weight="0.82953882360971076" Multiline="true" Text="Número orden" TextAlignment="MiddleCenter">
-                  <StylePriority Ref="14" UseTextAlignment="false" />
+                <Item1 Ref="13" ControlType="XRTableCell" Name="tableCell8" Weight="0.82953882360971076" Multiline="true" Text="Número orden" TextAlignment="MiddleCenter" BorderColor="WhiteSmoke">
+                  <StylePriority Ref="14" UseBorderColor="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="15" ControlType="XRTableCell" Name="tableCell1" Weight="0.67259629116263442" Multiline="true" Text="Fecha de inicio" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold, charSet=0">
-                  <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
+                <Item2 Ref="15" ControlType="XRTableCell" Name="tableCell1" Weight="0.67259629116263442" Multiline="true" Text="Fecha de inicio" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold, charSet=0" BorderColor="WhiteSmoke">
+                  <StylePriority Ref="16" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="17" ControlType="XRTableCell" Name="tableCell2" Weight="0.4978648852276546" Multiline="true" Text="Número de dias" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold, charSet=0">
-                  <StylePriority Ref="18" UseFont="false" UseTextAlignment="false" />
+                <Item3 Ref="17" ControlType="XRTableCell" Name="tableCell2" Weight="0.53141327232442881" Multiline="true" Text="Número de dias" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold, charSet=0" BorderColor="WhiteSmoke">
+                  <StylePriority Ref="18" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item3>
               </Cells>
             </Item2>
             <Item3 Ref="19" ControlType="XRTableRow" Name="tableRow4" Weight="11.5">
               <Cells>
-                <Item1 Ref="20" ControlType="XRTableCell" Name="tableCell5" Weight="0.82953894174227139" CanGrow="false" Text="tableCell5" TextAlignment="MiddleCenter" WordWrap="false" Font="Calibri, 8.25pt">
+                <Item1 Ref="20" ControlType="XRTableCell" Name="tableCell5" Weight="0.82953894174227139" CanGrow="false" Text="tableCell5" TextAlignment="MiddleCenter" WordWrap="false" Font="Calibri, 8.25pt" BorderColor="WhiteSmoke">
                   <ExpressionBindings>
                     <Item1 Ref="21" EventName="BeforePrint" PropertyName="Text" Expression="[HCI_NUMERO_ORDEN]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="22" UseFont="false" UseTextAlignment="false" />
+                  <StylePriority Ref="22" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="23" ControlType="XRTableCell" Name="tableCell7" Weight="0.6725961730300738" CanGrow="false" TextFormatString="{0:d/MM/yyyy}" Text="tableCell7" TextAlignment="MiddleCenter" WordWrap="false" Font="Calibri, 8.25pt">
+                <Item2 Ref="23" ControlType="XRTableCell" Name="tableCell7" Weight="0.6725961730300738" CanGrow="false" TextFormatString="{0:d/MM/yyyy}" Text="tableCell7" TextAlignment="MiddleCenter" WordWrap="false" Font="Calibri, 8.25pt" BorderColor="WhiteSmoke">
                   <ExpressionBindings>
                     <Item1 Ref="24" EventName="BeforePrint" PropertyName="Text" Expression="[HCI_FECHA_INICIO]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="25" UseFont="false" UseTextAlignment="false" />
+                  <StylePriority Ref="25" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="26" ControlType="XRTableCell" Name="tableCell4" Weight="0.49786488522765449" CanGrow="false" TextFormatString="{0:#,#}" Text="tableCell4" TextAlignment="MiddleCenter" WordWrap="false" Font="Calibri, 8.25pt">
+                <Item3 Ref="26" ControlType="XRTableCell" Name="tableCell4" Weight="0.5314132723244287" CanGrow="false" TextFormatString="{0:#,#}" Text="tableCell4" TextAlignment="MiddleCenter" WordWrap="false" Font="Calibri, 8.25pt" BorderColor="WhiteSmoke">
                   <ExpressionBindings>
                     <Item1 Ref="27" EventName="BeforePrint" PropertyName="Text" Expression="[HCI_NUMERO_DIAS]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="28" UseFont="false" UseTextAlignment="false" />
+                  <StylePriority Ref="28" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item3>
               </Cells>
             </Item3>
             <Item4 Ref="29" ControlType="XRTableRow" Name="tableRow1" Weight="11.5">
               <Cells>
-                <Item1 Ref="30" ControlType="XRTableCell" Name="tableCell6" Weight="1.2820412387642808" Multiline="true" Text="Diagnóstico" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold">
-                  <StylePriority Ref="31" UseFont="false" UseTextAlignment="false" />
+                <Item1 Ref="30" ControlType="XRTableCell" Name="tableCell6" Weight="1.2820412387642808" Multiline="true" Text="Diagnóstico" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold" BorderColor="WhiteSmoke">
+                  <StylePriority Ref="31" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="32" ControlType="XRTableCell" Name="tableCell10" Weight="0.71795876123571889" Multiline="true" Text="Origen incapacidad" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold">
-                  <StylePriority Ref="33" UseFont="false" UseTextAlignment="false" />
+                <Item2 Ref="32" ControlType="XRTableCell" Name="tableCell10" Weight="0.7515071483324931" Multiline="true" Text="Origen incapacidad" TextAlignment="MiddleCenter" Font="Calibri, 8.25pt, style=Bold" BorderColor="WhiteSmoke">
+                  <StylePriority Ref="33" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item2>
               </Cells>
             </Item4>
             <Item5 Ref="34" ControlType="XRTableRow" Name="tableRow5" Weight="11.5">
               <Cells>
-                <Item1 Ref="35" ControlType="XRTableCell" Name="tableCell11" Weight="1.2820411600092403" CanGrow="false" Text="tableCell11" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt">
+                <Item1 Ref="35" ControlType="XRTableCell" Name="tableCell11" Weight="1.2820411600092403" CanGrow="false" Text="tableCell11" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt" BorderColor="WhiteSmoke">
                   <ExpressionBindings>
                     <Item1 Ref="36" EventName="BeforePrint" PropertyName="Text" Expression="[HCI_DIAGNOSTICO]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="37" UseFont="false" UseTextAlignment="false" />
+                  <StylePriority Ref="37" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="38" ControlType="XRTableCell" Name="tableCell13" Weight="0.71795883999075927" CanGrow="false" Text="tableCell13" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt">
+                <Item2 Ref="38" ControlType="XRTableCell" Name="tableCell13" Weight="0.75150722708753348" CanGrow="false" Text="tableCell13" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt" BorderColor="WhiteSmoke">
                   <ExpressionBindings>
                     <Item1 Ref="39" EventName="BeforePrint" PropertyName="Text" Expression="[HCI_ORIGEN_INCAPACIDAD]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="40" UseFont="false" UseTextAlignment="false" />
+                  <StylePriority Ref="40" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item2>
               </Cells>
             </Item5>
             <Item6 Ref="41" ControlType="XRTableRow" Name="tableRow7" Weight="11.5">
               <Cells>
-                <Item1 Ref="42" ControlType="XRTableCell" Name="tableCell14" Weight="1.9999999999999996" Multiline="true" TextAlignment="TopLeft" Font="Calibri, 8.25pt">
+                <Item1 Ref="42" ControlType="XRTableCell" Name="tableCell14" Weight="2.0335483870967739" Multiline="true" TextAlignment="TopLeft" Font="Calibri, 8.25pt" BorderColor="WhiteSmoke">
                   <ExpressionBindings>
                     <Item1 Ref="43" EventName="BeforePrint" PropertyName="Text" Expression="Concat('Observaciones: ', IsNull([HCI_OBSERVACIONES],''))" />
                   </ExpressionBindings>
-                  <StylePriority Ref="44" UseFont="false" UseTextAlignment="false" />
+                  <StylePriority Ref="44" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item1>
               </Cells>
             </Item6>
