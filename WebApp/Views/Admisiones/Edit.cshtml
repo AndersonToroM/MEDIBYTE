@@ -226,7 +226,7 @@
                                     .Editor(e => e.NumberBox().ID(Prefix + "Cantidad").Format("#,##0")
                                     .ShowClearButton(true).ShowSpinButtons(true).ReadOnly(!Model.Entity.IsNew)
                                     );
-                                     
+
 
                                 groupItems.AddEmpty().ColSpan(4);
 
@@ -345,7 +345,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.PorcDescAutorizado).ColSpan(2)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.PorcDescAutorizado")))
-                                    .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(false)
+                                    .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(true)
                                     .OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado"));
 
                                 @*groupItems.AddSimpleFor(m => m.Entity.ValorPagarParticular).ColSpan(3)
