@@ -4128,6 +4128,10 @@
     "Description": "Nombres y Apellidos del Paciente"
   },
   {
+    "Id": "ProgramacionCitas.PorcDescAutorizado",
+    "Description": "Porc. Descuento"
+  },
+  {
     "Id": "ProgramacionCitas.Preparacion",
     "Description": "Preparación"
   },
