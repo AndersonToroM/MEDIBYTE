@@ -66,7 +66,6 @@ namespace Blazor.WebApp.Controllers
             model.Entity.IsNew = true;
             model.Entity.EmpresasId = this.ActualEmpresaId();
             model.Entity.EstadosId = 60;
-            model.Entity.ValorPagoEstadosId = 10067;
 
             return model;
         }
