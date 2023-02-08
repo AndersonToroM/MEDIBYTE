@@ -181,8 +181,8 @@ namespace Blazor.Infrastructure.Entities
             var rules = new List<ExpRecurso>();
             Expression<Func<Pacientes, bool>> expression = null;
 
-            expression = entity => entity.TiposIdentificacionId == this.TiposIdentificacionId && entity.NumeroIdentificacion == this.NumeroIdentificacion;
-            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Pacientes.TiposIdentificacionId", "Pacientes.NumeroIdentificacion")));
+            expression = entity =>  entity.NumeroIdentificacion == this.NumeroIdentificacion;
+            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Pacientes.NumeroIdentificacion")));
 
             return rules;
         }
@@ -192,9 +192,9 @@ namespace Blazor.Infrastructure.Entities
             var rules = new List<ExpRecurso>();
             Expression<Func<Pacientes, bool>> expression = null;
 
-            expression = entity => !(entity.Id == this.Id && entity.TiposIdentificacionId == this.TiposIdentificacionId && entity.NumeroIdentificacion == this.NumeroIdentificacion)
-                                   && entity.TiposIdentificacionId == this.TiposIdentificacionId && entity.NumeroIdentificacion == this.NumeroIdentificacion;
-            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Pacientes.TiposIdentificacionId", "Pacientes.NumeroIdentificacion")));
+            expression = entity => !(entity.Id == this.Id && entity.NumeroIdentificacion == this.NumeroIdentificacion)
+                                   && entity.NumeroIdentificacion == this.NumeroIdentificacion;
+            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Pacientes.NumeroIdentificacion")));
 
             return rules;
         }
