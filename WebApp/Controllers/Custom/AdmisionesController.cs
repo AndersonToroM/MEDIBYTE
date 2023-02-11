@@ -45,24 +45,17 @@ namespace Blazor.WebApp.Controllers
         {
             ViewBag.Accion = "Save";
             var OnState = model.Entity.IsNew;
+            var citaSeleccionada = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
+            var citaAdmitida = Manager().GetBusinessLogic<Admisiones>()
+                .FindById(
+                    x => x.ProgramacionCitasId == citaSeleccionada.Id &&
+                    x.EstadosId != 72 &&
+                    x.EstadosId != 10079
+                , true);
 
-            if (!string.IsNullOrWhiteSpace(model.Entity.NroAutorizacion))
+            if (citaAdmitida != null)
             {
-                List<long> estadosAdmision = new List<long> { 72, 10079 };
-
-                var citaSeleccionada = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
-                var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
-                    .FindById(
-                        x => x.NroAutorizacion == model.Entity.NroAutorizacion &&
-                        !estadosAdmision.Contains(x.EstadosId) &&
-                        x.Id != model.Entity.Id &&
-                        x.ProgramacionCitas.ServiciosId == citaSeleccionada.ServiciosId &&
-                        x.PacientesId == citaSeleccionada.PacientesId
-                    , true);
-                if (admisionautorizacion != null)
-                {
-                    ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccionada.Servicios.Nombre} y el paciente {citaSeleccionada.Pacientes.NombreCompleto}.");
-                }
+                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con una Admisión en proceso. Por favor verifique en el listado de admisiones.");
             }
 
             if (model.Entity.FechaAutorizacion > DateTime.Now)
