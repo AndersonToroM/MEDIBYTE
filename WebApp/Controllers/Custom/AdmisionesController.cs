@@ -55,7 +55,7 @@ namespace Blazor.WebApp.Controllers
 
             if (citaAdmitida != null)
             {
-                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con una Admisión en proceso. Por favor verifique en el listado de admisiones.");
+                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con una Admision en proceso. Por favor verifique en el listado de admisiones.");
             }
 
             if (model.Entity.FechaAutorizacion > DateTime.Now)
