@@ -259,6 +259,30 @@
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
+                                 /*
+                            groupItems.AddSimpleFor(m => m.Entity.Responsable).ColSpan(3)
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Admisiones.Responsable", 200)))
+                            .Editor(e => e.TextBox().ID(Prefix + "Responsable").ShowClearButton(true)
+                            .ReadOnly(Model.Entity.Facturado)
+                            );
+
+                            groupItems.AddSimpleFor(m => m.Entity.TelefonoResponsable).ColSpan(3)
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Admisiones.TelefonoResponsable", 50)))
+                            .Editor(e => e.TextBox().ID(Prefix + "TelefonoResponsable").ShowClearButton(true)
+                            .ReadOnly(Model.Entity.Facturado)
+                            );
+
+                            groupItems.AddSimpleFor(m => m.Entity.Acompañante).ColSpan(3)
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Admisiones.Acompañante", 200)))
+                            .Editor(e => e.TextBox().ID(Prefix + "Acompañante").ShowClearButton(true)
+                            .ReadOnly(Model.Entity.Facturado)
+                            );
+
+                            groupItems.AddSimpleFor(m => m.Entity.TelefonoAcompañante).ColSpan(3)
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Admisiones.TelefonoAcompañante", 50)))
+                            .Editor(e => e.TextBox().ID(Prefix + "TelefonoAcompañante").ShowClearButton(true)
+                            .ReadOnly(Model.Entity.Facturado)
+                            );*/
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroAutorizacion).ColSpan(3)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Admisiones.NroAutorizacion", 50)))

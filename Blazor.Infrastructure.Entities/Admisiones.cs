@@ -79,10 +79,30 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Admisiones.DetalleAnulacion")]
        [DStringLength("Admisiones.DetalleAnulacion",1000)]
        public virtual String DetalleAnulacion { get; set; }
+       /*
+       [Column("Responsable")]
+       [DDisplayName("Admisiones.Responsable")]
+       [DStringLength("Admisiones.Responsable", 200)]
+       public virtual String Responsable { get; set; }
 
-       #endregion
+       [Column("TelefonoResponsable")]
+       [DDisplayName("Admisiones.TelefonoResponsable")]
+       [DStringLength("Admisiones.TelefonoResponsable", 50)]
+       public virtual String TelefonoResponsable { get; set; }
 
-       #region Columnas referenciales)
+       [Column("Acompañante")]
+       [DDisplayName("Admisiones.Acompañante")]
+       [DStringLength("Admisiones.Acompañante", 200)]
+       public virtual String Acompañante { get; set; }
+
+       [Column("TelefonoAcompañante")]
+       [DDisplayName("Admisiones.TelefonoAcompañante")]
+       [DStringLength("Admisiones.TelefonoAcompañante", 50)]
+       public virtual String TelefonoAcompañante { get; set; }
+       */
+        #endregion
+
+        #region Columnas referenciales)
 
        [Column("PacientesId")]
        [DDisplayName("Admisiones.PacientesId")]
@@ -163,12 +183,17 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("Admisiones.CoberturaPlanBeneficiosId")]
        [DRequiredFK("Admisiones.CoberturaPlanBeneficiosId")]
        public virtual Int64 CoberturaPlanBeneficiosId { get; set; }
+       /*
+       [Column("ParentescosId")]
+       [DDisplayName("Admisiones.ParentescosId")]
+       public virtual Int64? ParentescosId { get; set; }
+       */
 
-       #endregion
+        #endregion
 
-       #region Propiedades referencias de entrada)
+        #region Propiedades referencias de entrada)
 
-       [ForeignKey("ExoneracionArchivoId")]
+        [ForeignKey("ExoneracionArchivoId")]
        public virtual Archivos ExoneracionArchivo { get; set; }
 
        [ForeignKey("CoberturaPlanBeneficiosId")]
@@ -215,12 +240,15 @@ namespace Blazor.Infrastructure.Entities
 
        [ForeignKey("UserAproboId")]
        public virtual User UserAprobo { get; set; }
+        /*
+       [ForeignKey("ParentescosId")]
+       public virtual User Parentescos { get; set; }
+        */
+        #endregion
 
-       #endregion
+        #region Reglas expression
 
-       #region Reglas expression
-
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<Admisiones, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;
