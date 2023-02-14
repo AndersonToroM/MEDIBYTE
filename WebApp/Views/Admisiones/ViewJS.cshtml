@@ -287,11 +287,15 @@
             $("#@(Prefix)EstadosIdTipoDuracion").dxSelectBox("instance").option("value", Cita.EstadosIdTipoDuracion);
             $("#@(Prefix)Duracion").dxNumberBox("instance").option("value", Cita.Duracion);
             $("#@(Prefix)Cantidad").dxNumberBox("instance").option("value", Cita.Cantidad);
+            $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", 10067);
+            $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", Cita.PorcDescAutorizado);
 
             if (AdmisionNueva) {
                 TotalPagarDesdeCita = Cita.Servicios.TarifaPlena * Cita.Cantidad;
+                PorcenDescAutorizado = Cita.PorcDescAutorizado/100;
+                TotalPagar = TotalPagarDesdeCita - (TotalPagarDesdeCita * PorcenDescAutorizado);
                 if (Cita.ConveniosId == null || Cita.ConveniosId == 0 || Cita.ConveniosId == "") {
-                    $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
+                    $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagar);
                 } else {
                     showLoadIndicator();
                     $.ajax({
@@ -322,7 +326,9 @@
             $("#@(Prefix)EmpleadosId").dxSelectBox("instance").option("value", null);
             $("#@(Prefix)ConveniosId").dxSelectBox("instance").option("value", null);
         }
-        $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", null);
+
+        $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", 10067);
+
     }
 
     function @(Prefix)OnSelectionChangedValorPago()
@@ -399,6 +405,7 @@
             $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
         }
     }
+
 
     function @(Prefix)DisplayCitasID(item) {
 

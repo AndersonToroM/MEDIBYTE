@@ -226,7 +226,7 @@
                                     .Editor(e => e.NumberBox().ID(Prefix + "Cantidad").Format("#,##0")
                                     .ShowClearButton(true).ShowSpinButtons(true).ReadOnly(!Model.Entity.IsNew)
                                     );
-                                     
+
 
                                 groupItems.AddEmpty().ColSpan(4);
 
@@ -495,7 +495,6 @@
             columns.AddFor(m => m.Empleados.NombreCompleto).Caption(DApp.GetResource("AgendaDisponible.Profesional"));
             columns.AddFor(m => m.TiposCitas.Nombre);
             columns.AddFor(m => m.Observaciones);
-
         }))
 
     @(Html.DControls().Button().Text(DApp.GetResource("Admisiones.Cita.Aceptar")).OnClick($"{Prefix}OcultarCitas"))
