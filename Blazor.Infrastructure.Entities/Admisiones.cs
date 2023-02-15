@@ -79,27 +79,27 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Admisiones.DetalleAnulacion")]
        [DStringLength("Admisiones.DetalleAnulacion",1000)]
        public virtual String DetalleAnulacion { get; set; }
-       /*
+       
        [Column("Responsable")]
        [DDisplayName("Admisiones.Responsable")]
-       [DStringLength("Admisiones.Responsable", 200)]
+       [DStringLength("Admisiones.Responsable", 255)]
        public virtual String Responsable { get; set; }
 
        [Column("TelefonoResponsable")]
        [DDisplayName("Admisiones.TelefonoResponsable")]
-       [DStringLength("Admisiones.TelefonoResponsable", 50)]
+       [DStringLength("Admisiones.TelefonoResponsable", 100)]
        public virtual String TelefonoResponsable { get; set; }
 
-       [Column("Acompañante")]
-       [DDisplayName("Admisiones.Acompañante")]
-       [DStringLength("Admisiones.Acompañante", 200)]
-       public virtual String Acompañante { get; set; }
+       [Column("Acompanante")]
+       [DDisplayName("Admisiones.Acompanante")]
+       [DStringLength("Admisiones.Acompanante", 255)]
+       public virtual String Acompanante { get; set; }
 
-       [Column("TelefonoAcompañante")]
-       [DDisplayName("Admisiones.TelefonoAcompañante")]
-       [DStringLength("Admisiones.TelefonoAcompañante", 50)]
-       public virtual String TelefonoAcompañante { get; set; }
-       */
+       [Column("TelefonoAcompanante")]
+       [DDisplayName("Admisiones.TelefonoAcompanante")]
+       [DStringLength("Admisiones.TelefonoAcompanante", 100)]
+       public virtual String TelefonoAcompanante { get; set; }
+       
         #endregion
 
         #region Columnas referenciales)
@@ -183,11 +183,11 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("Admisiones.CoberturaPlanBeneficiosId")]
        [DRequiredFK("Admisiones.CoberturaPlanBeneficiosId")]
        public virtual Int64 CoberturaPlanBeneficiosId { get; set; }
-       /*
+       
        [Column("ParentescosId")]
        [DDisplayName("Admisiones.ParentescosId")]
        public virtual Int64? ParentescosId { get; set; }
-       */
+       
 
         #endregion
 
@@ -240,10 +240,10 @@ namespace Blazor.Infrastructure.Entities
 
        [ForeignKey("UserAproboId")]
        public virtual User UserAprobo { get; set; }
-        /*
+        
        [ForeignKey("ParentescosId")]
        public virtual User Parentescos { get; set; }
-        */
+        
         #endregion
 
         #region Reglas expression
@@ -282,7 +282,10 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<Facturas, bool>> expression2 = entity => entity.AdmisionesId == this.Id;
         rules.Add(new ExpRecurso(expression2.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Facturas"), typeof(Facturas)));
 
-       return rules;
+        Expression<Func<Parentescos, bool>> expression3 = entity => entity.Id == this.Id;
+        rules.Add(new ExpRecurso(expression3.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "Facturas"), typeof(Parentescos)));
+
+            return rules;
        }
 
        #endregion

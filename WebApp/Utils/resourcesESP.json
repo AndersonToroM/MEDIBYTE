@@ -68,6 +68,10 @@
     "Description": "Admisiones"
   },
   {
+    "Id": "Admisiones.Acompanante",
+    "Description": "Acompañante"
+  },
+  {
     "Id": "Admisiones.Anular",
     "Description": "Anular"
   },
@@ -236,6 +240,10 @@
     "Description": "Paciente"
   },
   {
+    "Id": "Admisiones.ParentescosId",
+    "Description": "Parentesco acompañante"
+  },
+  {
     "Id": "Admisiones.PorcDescAutorizado",
     "Description": "Porcentaje Desc Autorizado"
   },
@@ -254,6 +262,18 @@
   {
     "Id": "Admisiones.ReporteSedeId",
     "Description": "Sede"
+  },
+  {
+    "Id": "Admisiones.Responsable",
+    "Description": "Responsable"
+  },
+  {
+    "Id": "Admisiones.TelefonoAcompanante",
+    "Description": "Teléfono acompañante"
+  },
+  {
+    "Id": "Admisiones.TelefonoResponsable",
+    "Description": "Teléfono responsable"
   },
   {
     "Id": "Admisiones.TiposUsuariosId",
