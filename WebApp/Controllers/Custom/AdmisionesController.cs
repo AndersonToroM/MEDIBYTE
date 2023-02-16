@@ -53,7 +53,7 @@ namespace Blazor.WebApp.Controllers
                     x.EstadosId != 10079
                 , true);
 
-            if (citaAdmitida != null)
+            if (citaAdmitida != null && OnState)
             {
                 ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con una Admision en proceso. Por favor verifique en el listado de admisiones.");
             }
