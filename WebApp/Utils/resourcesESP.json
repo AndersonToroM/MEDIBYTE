@@ -1736,6 +1736,10 @@
     "Description": "Responsabilidades"
   },
   {
+    "Id": "EmpresasResponsabilidadesFiscales.ResponsabilidadesFiscalesId",
+    "Description": "Responsabilidades fiscales"
+  },
+  {
     "Id": "Enfermedad Actual",
     "Description": "Enfermedad Actual"
   },
@@ -4541,6 +4545,10 @@
   },
   {
     "Id": "ServiciosEmpleados",
+    "Description": "Servicios"
+  },
+  {
+    "Id": "ServiciosEmpleados.ServiciosId",
     "Description": "Servicios"
   },
   {
