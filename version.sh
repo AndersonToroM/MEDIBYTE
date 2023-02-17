@@ -1,5 +1,5 @@
 cd /home/cloudonesoftTest
-chmod -R 777 ./siisoPublish
+chmod -R 777 ./siisoapp
 cd ./siisoapp
 cp appsettings.dev.json appsettings.json
 cd ./Utils
