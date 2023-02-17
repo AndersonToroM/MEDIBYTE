@@ -10,6 +10,9 @@
     var AdmisionNueva = ("@Model.Entity.IsNew" == "True");
     var TotalPagarDesdeCita = null;
     var EstaFacturada = ("@Model.Entity.Facturado" == "True");
+    var ValorPagarParticular = "@Model.Entity.ValorPagarParticular";
+    var PorcentajeDescuento = "@Model.Entity.PorcDescAutorizado";
+    var ValorNormalCita = parseFloat(ValorPagarParticular) * 100 / (100 - parseInt(PorcentajeDescuento))
 
     if ("@ViewBag.Accion" == "Facturado") {
         DevExpress.ui.notify("Se genero la factura numero: @ViewBag.FacturaConsecutivo", "info", 5000);
@@ -291,9 +294,9 @@
             $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", Cita.PorcDescAutorizado);
 
             if (AdmisionNueva) {
-                TotalPagarDesdeCita = Cita.Servicios.TarifaPlena * Cita.Cantidad;
+                ValorNormalCita = Cita.Servicios.TarifaPlena * Cita.Cantidad;
                 PorcenDescAutorizado = Cita.PorcDescAutorizado/100;
-                TotalPagar = TotalPagarDesdeCita - (TotalPagarDesdeCita * PorcenDescAutorizado);
+                TotalPagar = ValorNormalCita - (ValorNormalCita * PorcenDescAutorizado);
                 if (Cita.ConveniosId == null || Cita.ConveniosId == 0 || Cita.ConveniosId == "") {
                     $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagar);
                 } else {
@@ -306,7 +309,7 @@
                             hideLoadIndicator();
                             if (data <= 0) {
                                 $("#labelValorPagar").html("Valor a Pagar (Tarifa Plena):");
-                                $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
+                                $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", ValorNormalCita);
                             } else {
                                 $("#labelValorPagar").html("Valor a Pagar (Convenio):");
                                 $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", (data * Cita.Cantidad));
@@ -394,15 +397,11 @@
     }
 
     function @(Prefix)OnValueChangedPorcDescAutorizado(item) {
-        if (!AdmisionNueva) {
-            TotalPagarDesdeCita = $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value");
-        }
-
         if (item.value != 0) {
-            var total = TotalPagarDesdeCita - (TotalPagarDesdeCita * (item.value / 100));
+            var total = ValorNormalCita - (ValorNormalCita * (item.value / 100));
             $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", total);
         } else {
-            $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", TotalPagarDesdeCita);
+            $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", ValorNormalCita);
         }
     }
 
