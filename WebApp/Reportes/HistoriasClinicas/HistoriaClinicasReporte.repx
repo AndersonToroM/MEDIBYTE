@@ -454,10 +454,10 @@
                   </ExpressionBindings>
                   <StylePriority Ref="200" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="201" ControlType="XRTableCell" Name="tableCell19" Weight="0.25136615888861252" CanGrow="false" Text="Nombres y apellidos:" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt, style=Bold">
+                <Item3 Ref="201" ControlType="XRTableCell" Name="tableCell19" Weight="0.25317454854601895" CanGrow="false" Text="Nombres y apellidos:" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt, style=Bold">
                   <StylePriority Ref="202" UseFont="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="203" ControlType="XRTableCell" Name="tableCell20" Weight="0.40671065218985247" Multiline="true" Text="tableCell20" TextAlignment="MiddleLeft">
+                <Item4 Ref="203" ControlType="XRTableCell" Name="tableCell20" Weight="0.40490226253244604" Multiline="true" Text="tableCell20" TextAlignment="MiddleLeft">
                   <ExpressionBindings>
                     <Item1 Ref="204" EventName="BeforePrint" PropertyName="Text" Expression="[P_NOMBRES_APELLIDOS]" />
                   </ExpressionBindings>
@@ -525,10 +525,10 @@
                   </ExpressionBindings>
                   <StylePriority Ref="237" UseFont="false" UseTextAlignment="false" />
                 </Item4>
-                <Item5 Ref="238" ControlType="XRTableCell" Name="tableCell74" Weight="0.37126424504831768" Multiline="true" Text="Tel. responsable:" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt, style=Bold">
+                <Item5 Ref="238" ControlType="XRTableCell" Name="tableCell74" Weight="0.36500251943684336" Multiline="true" Text="Tel. responsable:" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt, style=Bold">
                   <StylePriority Ref="239" UseFont="false" UseTextAlignment="false" />
                 </Item5>
-                <Item6 Ref="240" ControlType="XRTableCell" Name="tableCell77" Weight="0.48084437768027766" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt">
+                <Item6 Ref="240" ControlType="XRTableCell" Name="tableCell77" Weight="0.48710610329175197" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt">
                   <ExpressionBindings>
                     <Item1 Ref="241" EventName="BeforePrint" PropertyName="Text" Expression="[TELEFONO_RESPONSABLE]" />
                   </ExpressionBindings>
@@ -569,10 +569,10 @@
             </Item4>
             <Item5 Ref="259" ControlType="XRTableRow" Name="tableRow38" Weight="1">
               <Cells>
-                <Item1 Ref="260" ControlType="XRTableCell" Name="tableCell82" Weight="0.2638483282283362" Multiline="true" Text="Dirección:" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt, style=Bold, charSet=0">
+                <Item1 Ref="260" ControlType="XRTableCell" Name="tableCell82" Weight="0.257831565660828" Multiline="true" Text="Dirección:" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt, style=Bold, charSet=0">
                   <StylePriority Ref="261" UseFont="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="262" ControlType="XRTableCell" Name="tableCell83" Weight="2.1839907717738152" Multiline="true" TextAlignment="MiddleLeft">
+                <Item2 Ref="262" ControlType="XRTableCell" Name="tableCell83" Weight="2.1900075343413232" Multiline="true" TextAlignment="MiddleLeft">
                   <ExpressionBindings>
                     <Item1 Ref="263" EventName="BeforePrint" PropertyName="Text" Expression="[DIRECCION_PACIENTE]" />
                   </ExpressionBindings>
