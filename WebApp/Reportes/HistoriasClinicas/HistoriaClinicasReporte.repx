@@ -454,10 +454,10 @@
                   </ExpressionBindings>
                   <StylePriority Ref="200" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="201" ControlType="XRTableCell" Name="tableCell19" Weight="0.24413260025898692" CanGrow="false" Text="Nombres y apellidos:" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt, style=Bold">
+                <Item3 Ref="201" ControlType="XRTableCell" Name="tableCell19" Weight="0.25136615888861252" CanGrow="false" Text="Nombres y apellidos:" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 8.25pt, style=Bold">
                   <StylePriority Ref="202" UseFont="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="203" ControlType="XRTableCell" Name="tableCell20" Weight="0.41394421081947808" Multiline="true" Text="tableCell20" TextAlignment="MiddleLeft">
+                <Item4 Ref="203" ControlType="XRTableCell" Name="tableCell20" Weight="0.40671065218985247" Multiline="true" Text="tableCell20" TextAlignment="MiddleLeft">
                   <ExpressionBindings>
                     <Item1 Ref="204" EventName="BeforePrint" PropertyName="Text" Expression="[P_NOMBRES_APELLIDOS]" />
                   </ExpressionBindings>
