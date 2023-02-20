@@ -236,12 +236,16 @@
     "Description": "Observación Factura"
   },
   {
+    "Id": "Admisiones.Ocupacion",
+    "Description": "Ocupación"
+  },
+  {
     "Id": "Admisiones.PacientesId",
     "Description": "Paciente"
   },
   {
     "Id": "Admisiones.ParentescosId",
-    "Description": "Parentesco acompañante"
+    "Description": "Parentesco responsable"
   },
   {
     "Id": "Admisiones.PorcDescAutorizado",

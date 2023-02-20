@@ -164,6 +164,8 @@ namespace WebApp.Reportes.HistoriasClinicas {
             this.tableCell80 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell80");
             this.tableCell81 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell81");
             this.tableCell82 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell82");
+            this.tableCell85 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell85");
+            this.tableCell61 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell61");
             this.tableCell83 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell83");
             this.tableRow27 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow27");
             this.tableRow28 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow28");
@@ -346,6 +348,8 @@ namespace WebApp.Reportes.HistoriasClinicas {
         private DevExpress.XtraReports.UI.XRTableCell tableCell80;
         private DevExpress.XtraReports.UI.XRTableCell tableCell81;
         private DevExpress.XtraReports.UI.XRTableCell tableCell82;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell85;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell61;
         private DevExpress.XtraReports.UI.XRTableCell tableCell83;
         private DevExpress.XtraReports.UI.XRTableRow tableRow27;
         private DevExpress.XtraReports.UI.XRTableRow tableRow28;
