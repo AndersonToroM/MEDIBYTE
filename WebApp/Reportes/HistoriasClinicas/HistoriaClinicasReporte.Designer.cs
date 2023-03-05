@@ -139,6 +139,7 @@ namespace WebApp.Reportes.HistoriasClinicas {
             this.tableRow6 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow6");
             this.tableRow37 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow37");
             this.tableRow38 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow38");
+            this.tableRow41 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow41");
             this.tableCell15 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell15");
             this.tableCell16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell16");
             this.tableCell19 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell19");
@@ -167,6 +168,10 @@ namespace WebApp.Reportes.HistoriasClinicas {
             this.tableCell85 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell85");
             this.tableCell61 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell61");
             this.tableCell83 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell83");
+            this.tableCell88 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell88");
+            this.tableCell89 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell89");
+            this.tableCell90 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell90");
+            this.tableCell91 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell91");
             this.tableRow27 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow27");
             this.tableRow28 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow28");
             this.tableRow29 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow29");
@@ -323,6 +328,7 @@ namespace WebApp.Reportes.HistoriasClinicas {
         private DevExpress.XtraReports.UI.XRTableRow tableRow6;
         private DevExpress.XtraReports.UI.XRTableRow tableRow37;
         private DevExpress.XtraReports.UI.XRTableRow tableRow38;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow41;
         private DevExpress.XtraReports.UI.XRTableCell tableCell15;
         private DevExpress.XtraReports.UI.XRTableCell tableCell16;
         private DevExpress.XtraReports.UI.XRTableCell tableCell19;
@@ -351,6 +357,10 @@ namespace WebApp.Reportes.HistoriasClinicas {
         private DevExpress.XtraReports.UI.XRTableCell tableCell85;
         private DevExpress.XtraReports.UI.XRTableCell tableCell61;
         private DevExpress.XtraReports.UI.XRTableCell tableCell83;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell88;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell89;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell90;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell91;
         private DevExpress.XtraReports.UI.XRTableRow tableRow27;
         private DevExpress.XtraReports.UI.XRTableRow tableRow28;
         private DevExpress.XtraReports.UI.XRTableRow tableRow29;
