@@ -15,9 +15,9 @@ namespace Blazor.Infrastructure.Entities
     public partial class Admisiones : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       [Column("NroAutorizacion")]
+        [Column("NroAutorizacion")]
        [DDisplayName("Admisiones.NroAutorizacion")]
        [DStringLength("Admisiones.NroAutorizacion",50)]
        public virtual String NroAutorizacion { get; set; }
