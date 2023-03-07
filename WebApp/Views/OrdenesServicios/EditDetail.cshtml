@@ -27,6 +27,7 @@
             @(Html.DControls().DateBoxFor(m => m.Entity.FechaVencimiento).ID(Prefix + "FechaVencimiento").Visible(false))
 
             @(Html.DControls().NumberBoxFor(m => m.Entity.HIstoriasClinicasId).ID(Prefix + "HIstoriasClinicasId").Visible(false))
+            @(Html.DControls().NumberBoxFor(m => m.Entity.TiposIdentificacionPacienteOrdenServicioId).ID(Prefix + "TiposIdentificacionPacienteOrdenServicioId").Visible(false))
 
             @(Html.DControls().Form<OrdenesServiciosModel>()
                     .ID("OrdenesServiciosModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
