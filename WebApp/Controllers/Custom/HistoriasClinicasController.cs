@@ -52,6 +52,7 @@ namespace Blazor.WebApp.Controllers
                 model.Entity.EsControl = aten.Admisiones.EsControl;
                 model.Entity.IsNew = true;
                 model.Entity.Id = 0;
+                model.Entity.TiposIdentificacionPacienteAperturaId = aten.Admisiones.Pacientes.TiposIdentificacionId;
                 model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Add(model.Entity);
                 var tiposPreguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x=>x.HCTiposId== model.Entity.HCTiposId, false).Select(x=>x.HCPreguntasId).ToList();
 
