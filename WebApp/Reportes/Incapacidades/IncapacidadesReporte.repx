@@ -25,7 +25,7 @@
           <Rows>
             <Item1 Ref="16" ControlType="XRTableRow" Name="tableRow6" Weight="0.73643867634654558">
               <Cells>
-                <Item1 Ref="17" ControlType="XRTableCell" Name="tableCell10" Weight="1" Multiline="true" Text=" DIAGNÓSTICO(S) HISTORIA CLINICA:" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue">
+                <Item1 Ref="17" ControlType="XRTableCell" Name="tableCell10" Weight="1" Multiline="true" Text=" DIAGNÓSTICO(S) HISTORIA CLÍNICA:" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue">
                   <StylePriority Ref="18" UseFont="false" UseBackColor="false" />
                 </Item1>
               </Cells>
@@ -173,7 +173,7 @@
                 </Item2>
                 <Item3 Ref="84" ControlType="XRTableCell" Name="tableCell19" Weight="0.13647921524122145" TextFormatString="{0:#,#}" Multiline="true" TextAlignment="MiddleCenter" BorderColor="Gray" Borders="All" BorderDashStyle="Dot">
                   <ExpressionBindings>
-                    <Item1 Ref="85" EventName="BeforePrint" PropertyName="Text" Expression="[INCAP_NRO_DIAS]" />
+                    <Item1 Ref="85" EventName="BeforePrint" PropertyName="Text" Expression="Concat([INCAP_NRO_DIAS], ' días')" />
                   </ExpressionBindings>
                   <StylePriority Ref="86" UseBorderColor="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item3>
