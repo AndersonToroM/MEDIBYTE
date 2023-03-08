@@ -49,11 +49,6 @@ namespace Blazor.Infrastructure.Entities
        [DRequiredFK("IndicacionesMedicas.PacientesId")]
        public virtual Int64 PacientesId { get; set; }
 
-        [Column("TiposIdentificacionPacienteIndicacionesMedicasId")]
-        [DDisplayName("IndicacionesMedicas.TiposIdentificacionPacienteIndicacionesMedicasId")]
-        [DRequired("IndicacionesMedicas.TiposIdentificacionPacienteIndicacionesMedicasId")]
-        [DRequiredFK("IndicacionesMedicas.TiposIdentificacionPacienteIndicacionesMedicasId")]
-        public virtual Int64 TiposIdentificacionPacienteIndicacionesMedicasId { get; set; }
 
         #endregion
 
@@ -68,8 +63,6 @@ namespace Blazor.Infrastructure.Entities
        [ForeignKey("PacientesId")]
        public virtual Pacientes Pacientes { get; set; }
 
-        [ForeignKey("TiposIdentificacionPacienteIndicacionesMedicasId")]
-        public virtual TiposDocumentos TiposDocumentos { get; set; }
 
         #endregion
 

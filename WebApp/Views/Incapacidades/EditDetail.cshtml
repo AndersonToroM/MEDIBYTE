@@ -27,7 +27,6 @@
             @(Html.DControls().NumberBoxFor(m => m.Entity.PacientesId).ID(Prefix + "PacientesId").Visible(false))
 
             @(Html.DControls().NumberBoxFor(m => m.Entity.HIstoriasClinicasId).ID(Prefix + "HIstoriasClinicasId").Visible(false))
-            @(Html.DControls().NumberBoxFor(m => m.Entity.TiposIdentificacionPacienteIncapacidadId).ID(Prefix + "TiposIdentificacionPacienteIncapacidadId").Visible(false))
 
             @(Html.DControls().Form<IncapacidadesModel>()
                     .ID("IncapacidadesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)

@@ -163,7 +163,6 @@ namespace Blazor.WebApp.Controllers
             model.Entity.Fecha = DateTime.Now;
             model.Entity.FechaInicio = DateTime.Now;
             model.Entity.FechaFinalizacion = DateTime.Now;
-            model.Entity.TiposIdentificacionPacienteIncapacidadId = hc.TiposIdentificacionPacienteAperturaId;
             return model; 
         } 
 

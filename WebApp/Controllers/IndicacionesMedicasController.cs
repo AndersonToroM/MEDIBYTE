@@ -161,7 +161,6 @@ namespace Blazor.WebApp.Controllers
             model.Entity.NroOrden = long.Parse(DateTime.Now.ToString("yyyyMMddHH24mmss"));
             model.Entity.Fecha = DateTime.Now;
             model.Entity.IsNew = true;
-            model.Entity.TiposIdentificacionPacienteIndicacionesMedicasId = hc.TiposIdentificacionPacienteAperturaId;
             return model;
         }
 
