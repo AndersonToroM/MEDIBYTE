@@ -168,6 +168,7 @@ namespace Blazor.WebApp.Controllers
             model.Entity.Fecha = DateTime.Now;
             model.Entity.FechaVencimiento = DateTime.Now.AddDays(90);
             model.Entity.IsNew = true;
+            model.Entity.TiposIdentificacionPacienteOrdenMedicamentoId = hc.TiposIdentificacionPacienteAperturaId;
             return model; 
         } 
 

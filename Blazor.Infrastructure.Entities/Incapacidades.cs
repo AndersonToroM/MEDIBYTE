@@ -85,11 +85,17 @@ namespace Blazor.Infrastructure.Entities
        [DRequiredFK("Incapacidades.IncapacidadesOrigenesId")]
        public virtual Int64 IncapacidadesOrigenesId { get; set; }
 
-       #endregion
+        [Column("TiposIdentificacionPacienteIncapacidadId")]
+        [DDisplayName("Incapacidades.TiposIdentificacionPacienteIncapacidadId")]
+        [DRequired("Incapacidades.TiposIdentificacionPacienteIncapacidadId")]
+        [DRequiredFK("Incapacidades.TiposIdentificacionPacienteIncapacidadId")]
+        public virtual Int64 TiposIdentificacionPacienteIncapacidadId { get; set; }
 
-       #region Propiedades referencias de entrada)
+        #endregion
 
-       [ForeignKey("DiagnosticosId")]
+        #region Propiedades referencias de entrada)
+
+        [ForeignKey("DiagnosticosId")]
        public virtual Diagnosticos Diagnosticos { get; set; }
 
        [ForeignKey("ProfesionalId")]
@@ -104,11 +110,14 @@ namespace Blazor.Infrastructure.Entities
        [ForeignKey("PacientesId")]
        public virtual Pacientes Pacientes { get; set; }
 
-       #endregion
+        [ForeignKey("TiposIdentificacionPacienteIncapacidadId")]
+        public virtual TiposDocumentos TiposDocumentos { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        #region Reglas expression
+
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<Incapacidades, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;
