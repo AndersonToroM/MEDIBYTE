@@ -169,6 +169,7 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
                     model.Entity = Manager().GetBusinessLogic<Atenciones>().Add(model.Entity);
+                    model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
                     model.Entity.IsNew = false;
                 }
             }

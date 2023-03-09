@@ -116,7 +116,6 @@
                 @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
-                @(Html.DControls().NumberBoxFor(m => m.Entity.TiposIdentificacionPacienteAperturaId).ID(Prefix + "TiposIdentificacionPacienteAperturaId").Visible(false))
 
                 @(Html.DControls().Form<HistoriasClinicasModel>().Disabled(false).OnContentReady($"{Prefix}CalcularIMC")
                 .ID("HistoriasClinicasModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)

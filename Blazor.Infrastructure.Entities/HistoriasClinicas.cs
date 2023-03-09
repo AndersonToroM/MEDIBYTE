@@ -137,11 +137,6 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("HistoriasClinicas.DominanciaEstadosId")]
         public virtual Int64? DominanciaEstadosId { get; set; }
 
-        [Column("TiposIdentificacionPacienteAperturaId")]
-        [DDisplayName("HistoriasClinicas.TiposIdentificacionPacienteAperturaId")]
-        [DRequired("HistoriasClinicas.TiposIdentificacionPacienteAperturaId")]
-        [DRequiredFK("HistoriasClinicas.TiposIdentificacionPacienteAperturaId")]
-        public virtual Int64 TiposIdentificacionPacienteAperturaId { get; set; }
 
         #endregion
 
@@ -168,9 +163,6 @@ namespace Blazor.Infrastructure.Entities
         [ForeignKey("PacientesId")]
         public virtual Pacientes Pacientes { get; set; }
 
-
-        [ForeignKey("TiposIdentificacionPacienteAperturaId")]
-        public virtual TiposDocumentos TiposDocumentos { get; set; }
 
         #endregion
 
