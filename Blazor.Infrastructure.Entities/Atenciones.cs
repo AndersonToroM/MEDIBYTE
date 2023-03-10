@@ -97,7 +97,7 @@ namespace Blazor.Infrastructure.Entities
        public virtual FinalidadProcedimiento FinalidadProcedimiento { get; set; }
 
         [ForeignKey("TiposIdentificacionPacienteAtencionesAperturaId")]
-        public virtual TiposDocumentos TiposDocumentos { get; set; }
+        public virtual TiposIdentificacion TiposIdentificacion{ get; set; }
 
         #endregion
 
