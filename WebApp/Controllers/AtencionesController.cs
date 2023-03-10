@@ -144,6 +144,7 @@ namespace Blazor.WebApp.Controllers
                 throw new Exception("El usuario actual no tiene asociado un empleado. Por favor configurarlo en el maestro de empleados.");
             }
 
+            model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
             model.Entity.EmpleadosId = model.Entity.Empleados.Id;
 
             if (admision.EstadosId == 10066)
@@ -185,7 +186,6 @@ namespace Blazor.WebApp.Controllers
 
             model.Entity.Admisiones = admision;
             model.NombreEntidad = model.Entity.Admisiones.ProgramacionCitas?.Entidades?.Nombre;
-            model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
             return model;
         } 
 
