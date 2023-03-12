@@ -101,7 +101,7 @@ namespace Blazor.WebApp.Controllers
 
             if (model.Entity.FechaNacimiento > DateTime.Now.AddYears(-18))
             {
-                List<string> codigos = new List<string>() { "NI", "CC", "CE" };
+                List<string> codigos = new List<string>() { "NI", "CC" };
                 var resultCodigos = Manager().GetBusinessLogic<TiposIdentificacion>().Tabla(true).Where(x => codigos.Contains(x.Codigo)).ToList();
                 bool existeTipo = resultCodigos.Any(x => x.Id == model.Entity.TiposIdentificacionId);
                 if (existeTipo)
