@@ -26,7 +26,6 @@ namespace WebApp.Reportes.OrdenesMedicamentos {
             this.tableRow10 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow10");
             this.tableRow11 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow11");
             this.tableRow21 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow21");
-            this.tableRow22 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow22");
             this.tableCell25 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell25");
             this.tableCell26 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell26");
             this.tableCell27 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell27");
@@ -40,7 +39,7 @@ namespace WebApp.Reportes.OrdenesMedicamentos {
             this.tableCell23 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell23");
             this.tableCell24 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell24");
             this.tableCell47 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell47");
-            this.tableCell42 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell42");
+            this.tableCell15 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell15");
             this.table7 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table7");
             this.logoEmpresa = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("logoEmpresa");
             this.table1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table1");
@@ -115,7 +114,6 @@ namespace WebApp.Reportes.OrdenesMedicamentos {
         private DevExpress.XtraReports.UI.XRTableRow tableRow10;
         private DevExpress.XtraReports.UI.XRTableRow tableRow11;
         private DevExpress.XtraReports.UI.XRTableRow tableRow21;
-        private DevExpress.XtraReports.UI.XRTableRow tableRow22;
         private DevExpress.XtraReports.UI.XRTableCell tableCell25;
         private DevExpress.XtraReports.UI.XRTableCell tableCell26;
         private DevExpress.XtraReports.UI.XRTableCell tableCell27;
@@ -129,7 +127,7 @@ namespace WebApp.Reportes.OrdenesMedicamentos {
         private DevExpress.XtraReports.UI.XRTableCell tableCell23;
         private DevExpress.XtraReports.UI.XRTableCell tableCell24;
         private DevExpress.XtraReports.UI.XRTableCell tableCell47;
-        private DevExpress.XtraReports.UI.XRTableCell tableCell42;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell15;
         private DevExpress.XtraReports.UI.XRTable table7;
         private DevExpress.XtraReports.UI.XRPictureBox logoEmpresa;
         private DevExpress.XtraReports.UI.XRTable table1;
