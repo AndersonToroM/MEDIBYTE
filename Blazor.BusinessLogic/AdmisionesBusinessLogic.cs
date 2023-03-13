@@ -130,7 +130,8 @@ namespace Blazor.BusinessLogic
             envioEmailConfig.Datos = new Dictionary<string, string>
                 {
                     {"UserName",$"{empleado.NombreCompleto}" },
-                    {"NombrePaciente",$"{Paciente.NombreCompleto}" }
+                    {"NombrePaciente",$"{Paciente.NombreCompleto}" },
+                    {"NumeroIdentificacion",$"{Paciente.NumeroIdentificacion}" }
                 };
             new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
         }

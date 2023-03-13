@@ -85,11 +85,12 @@ namespace Blazor.Infrastructure.Entities
        [DRequiredFK("Incapacidades.IncapacidadesOrigenesId")]
        public virtual Int64 IncapacidadesOrigenesId { get; set; }
 
-       #endregion
 
-       #region Propiedades referencias de entrada)
+        #endregion
 
-       [ForeignKey("DiagnosticosId")]
+        #region Propiedades referencias de entrada)
+
+        [ForeignKey("DiagnosticosId")]
        public virtual Diagnosticos Diagnosticos { get; set; }
 
        [ForeignKey("ProfesionalId")]
@@ -104,11 +105,11 @@ namespace Blazor.Infrastructure.Entities
        [ForeignKey("PacientesId")]
        public virtual Pacientes Pacientes { get; set; }
 
-       #endregion
+        #endregion
 
-       #region Reglas expression
+        #region Reglas expression
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<Incapacidades, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;

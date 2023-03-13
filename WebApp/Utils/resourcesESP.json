@@ -68,6 +68,10 @@
     "Description": "Admisiones"
   },
   {
+    "Id": "Admisiones.Acompanante",
+    "Description": "Acompañante"
+  },
+  {
     "Id": "Admisiones.Anular",
     "Description": "Anular"
   },
@@ -232,8 +236,16 @@
     "Description": "Observación Factura"
   },
   {
+    "Id": "Admisiones.Ocupacion",
+    "Description": "Ocupación"
+  },
+  {
     "Id": "Admisiones.PacientesId",
     "Description": "Paciente"
+  },
+  {
+    "Id": "Admisiones.ParentescosId",
+    "Description": "Parentesco responsable"
   },
   {
     "Id": "Admisiones.PorcDescAutorizado",
@@ -254,6 +266,18 @@
   {
     "Id": "Admisiones.ReporteSedeId",
     "Description": "Sede"
+  },
+  {
+    "Id": "Admisiones.Responsable",
+    "Description": "Responsable"
+  },
+  {
+    "Id": "Admisiones.TelefonoAcompanante",
+    "Description": "Teléfono acompañante"
+  },
+  {
+    "Id": "Admisiones.TelefonoResponsable",
+    "Description": "Teléfono responsable"
   },
   {
     "Id": "Admisiones.TiposUsuariosId",
@@ -1714,6 +1738,10 @@
   {
     "Id": "EmpresasResponsabilidadesFiscales",
     "Description": "Responsabilidades"
+  },
+  {
+    "Id": "EmpresasResponsabilidadesFiscales.ResponsabilidadesFiscalesId",
+    "Description": "Responsabilidades fiscales"
   },
   {
     "Id": "Enfermedad Actual",
@@ -4128,6 +4156,10 @@
     "Description": "Nombres y Apellidos del Paciente"
   },
   {
+    "Id": "ProgramacionCitas.PorcDescAutorizado",
+    "Description": "Porc. Descuento"
+  },
+  {
     "Id": "ProgramacionCitas.Preparacion",
     "Description": "Preparación"
   },
@@ -4517,6 +4549,10 @@
   },
   {
     "Id": "ServiciosEmpleados",
+    "Description": "Servicios"
+  },
+  {
+    "Id": "ServiciosEmpleados.ServiciosId",
     "Description": "Servicios"
   },
   {
