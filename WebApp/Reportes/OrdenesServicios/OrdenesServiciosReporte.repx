@@ -87,7 +87,7 @@
             </Item1>
             <Item2 Ref="44" ControlType="XRTableRow" Name="tableRow20" Weight="0.7364385039407314">
               <Cells>
-                <Item1 Ref="45" ControlType="XRTableCell" Name="tableCell19" Weight="1" Multiline="true" Font="Calibri, 6pt" BorderColor="LightBlue" Borders="Left, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item1 Ref="45" ControlType="XRTableCell" Name="tableCell19" Weight="1" Multiline="true" Font="Calibri, 6pt" BorderColor="LightBlue" Borders="Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
                     <Item1 Ref="46" EventName="BeforePrint" PropertyName="Text" Expression="IsNull([OS_DIAGNOSTICOS],'')" />
                   </ExpressionBindings>
@@ -209,7 +209,7 @@
             </Item1>
             <Item2 Ref="97" ControlType="XRTableRow" Name="tableRow8" Weight="0.73643850394073151">
               <Cells>
-                <Item1 Ref="98" ControlType="XRTableCell" Name="tableCell12" Weight="1" Multiline="true" Font="Calibri, 6pt" BorderColor="LightBlue" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item1 Ref="98" ControlType="XRTableCell" Name="tableCell12" Weight="1" Multiline="true" Font="Calibri, 6pt" BorderColor="LightBlue" Borders="None" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
                     <Item1 Ref="99" EventName="BeforePrint" PropertyName="Text" Expression="IsNull([HC_DIAGNOSTICOS],'')" />
                   </ExpressionBindings>
