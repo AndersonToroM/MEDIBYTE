@@ -20,16 +20,16 @@
                 <Item1 Ref="14" ControlType="XRTableCell" Name="tableCell25" Weight="0.042072284999353393" Multiline="true" Text="No." TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue" Borders="Left, Right" BorderWidth="0.5">
                   <StylePriority Ref="15" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="16" ControlType="XRTableCell" Name="tableCell26" Weight="0.3583620311999316" Multiline="true" Text="Medicamento" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue">
+                <Item2 Ref="16" ControlType="XRTableCell" Name="tableCell26" Weight="0.37443710896324178" Multiline="true" Text="Medicamento" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue">
                   <StylePriority Ref="17" UseFont="false" UseBackColor="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="18" ControlType="XRTableCell" Name="tableCell27" Weight="0.10569193806081294" Multiline="true" Text="Dosis" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue" Borders="Left, Right" BorderWidth="0.5">
+                <Item3 Ref="18" ControlType="XRTableCell" Name="tableCell27" Weight="0.10762095040649194" Multiline="true" Text="Dosis" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue" Borders="Left, Right" BorderWidth="0.5">
                   <StylePriority Ref="19" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="20" ControlType="XRTableCell" Name="tableCell28" Weight="0.18113942637715189" Multiline="true" Text="Frecuencia" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue">
+                <Item4 Ref="20" ControlType="XRTableCell" Name="tableCell28" Weight="0.18885543808384556" Multiline="true" Text="Frecuencia" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue">
                   <StylePriority Ref="21" UseFont="false" UseBackColor="false" UseBorderColor="false" UseTextAlignment="false" />
                 </Item4>
-                <Item5 Ref="22" ControlType="XRTableCell" Name="tableCell29" Weight="0.19860169727817442" Multiline="true" Text="Días tratamiento" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue" Borders="Left, Right" BorderWidth="0.5">
+                <Item5 Ref="22" ControlType="XRTableCell" Name="tableCell29" Weight="0.17288159546249154" Multiline="true" Text="Días de tratamiento" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue" Borders="Left, Right" BorderWidth="0.5">
                   <StylePriority Ref="23" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item5>
                 <Item6 Ref="24" ControlType="XRTableCell" Name="tableCell30" Weight="0.11413262208457582" Multiline="true" Text="Cantidad total" TextAlignment="MiddleCenter" Font="Calibri, 6pt, style=Bold" BackColor="Transparent" BorderColor="LightBlue" Borders="Right" BorderWidth="0.5">
@@ -45,25 +45,25 @@
                   </ExpressionBindings>
                   <StylePriority Ref="29" UseFont="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="30" ControlType="XRTableCell" Name="tableCell21" Weight="0.35836195584788688" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="Gray" Borders="None" BorderDashStyle="Dot">
+                <Item2 Ref="30" ControlType="XRTableCell" Name="tableCell21" Weight="0.37443703361119707" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="Gray" Borders="None" BorderDashStyle="Dot">
                   <ExpressionBindings>
                     <Item1 Ref="31" EventName="BeforePrint" PropertyName="Text" Expression="[OMD_MEDICAMENTO]" />
                   </ExpressionBindings>
                   <StylePriority Ref="32" UseFont="false" UseBorderColor="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item2>
-                <Item3 Ref="33" ControlType="XRTableCell" Name="tableCell19" Weight="0.10569193806081292" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="LightSkyBlue" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item3 Ref="33" ControlType="XRTableCell" Name="tableCell19" Weight="0.10762095040649193" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="LightSkyBlue" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
                     <Item1 Ref="34" EventName="BeforePrint" PropertyName="Text" Expression="[OMD_DOSIS]" />
                   </ExpressionBindings>
                   <StylePriority Ref="35" UseFont="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item3>
-                <Item4 Ref="36" ControlType="XRTableCell" Name="tableCell22" Weight="0.1811395017291966" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="Gray" Borders="None" BorderDashStyle="Dot">
+                <Item4 Ref="36" ControlType="XRTableCell" Name="tableCell22" Weight="0.18885551343589027" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="Gray" Borders="None" BorderDashStyle="Dot">
                   <ExpressionBindings>
                     <Item1 Ref="37" EventName="BeforePrint" PropertyName="Text" Expression="[OMD_FRECUENCIA]" />
                   </ExpressionBindings>
                   <StylePriority Ref="38" UseFont="false" UseBorderColor="false" UseBorders="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item4>
-                <Item5 Ref="39" ControlType="XRTableCell" Name="tableCell23" Weight="0.19860169727817442" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="LightSkyBlue" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item5 Ref="39" ControlType="XRTableCell" Name="tableCell23" Weight="0.17288159546249154" Multiline="true" TextAlignment="MiddleCenter" Font="Calibri, 6pt" BorderColor="LightSkyBlue" Borders="Left, Right" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
                     <Item1 Ref="40" EventName="BeforePrint" PropertyName="Text" Expression="[OMD_DIAS_TRATAMIENTO]" />
                   </ExpressionBindings>
@@ -79,7 +79,7 @@
             </Item2>
             <Item3 Ref="45" ControlType="XRTableRow" Name="tableRow21" Weight="0.7364388487524407">
               <Cells>
-                <Item1 Ref="46" ControlType="XRTableCell" Name="tableCell47" Weight="0.078306221667631168" CanGrow="false" Multiline="true" Text="Observaciones:" TextAlignment="MiddleLeft" Font="Calibri, 6pt, style=Bold, charSet=0" BackColor="Transparent" Padding="2,0,0,0,100" BorderColor="LightBlue" Borders="Left, Top, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item1 Ref="46" ControlType="XRTableCell" Name="tableCell47" Weight="0.078306221667631168" CanGrow="false" Multiline="true" Text="Observación:" TextAlignment="MiddleLeft" Font="Calibri, 6pt, style=Bold, charSet=0" BackColor="Transparent" Padding="2,0,0,0,100" BorderColor="LightBlue" Borders="Left, Top, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
                   <StylePriority Ref="47" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item1>
                 <Item2 Ref="48" ControlType="XRTableCell" Name="tableCell15" Weight="0.92169377833236887" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="LightBlue" Borders="Top, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
