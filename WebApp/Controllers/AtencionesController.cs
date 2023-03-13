@@ -529,6 +529,8 @@ namespace Blazor.WebApp.Controllers
                 informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
                 informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
                 informacionReporte.Ids = new long[] { id };
+                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
+                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
 
                 AtencionNotaProcedimientosReporte report = new AtencionNotaProcedimientosReporte(informacionReporte);
                 XtraReport xtraReport = report;

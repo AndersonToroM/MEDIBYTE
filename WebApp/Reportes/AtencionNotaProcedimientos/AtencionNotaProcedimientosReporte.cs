@@ -18,6 +18,7 @@ namespace WebApp.Reportes.AtencionNotaProcedimientos
         {
             this.P_Ids.Value = InformacionReporte.Ids;
             this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
+            this.P_UsuarioGenero.Value = InformacionReporte.ParametrosAdicionales["P_UsuarioGenero"];
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }
