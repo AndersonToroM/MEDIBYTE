@@ -79,10 +79,10 @@
             </Item2>
             <Item3 Ref="45" ControlType="XRTableRow" Name="tableRow21" Weight="0.7364388487524407">
               <Cells>
-                <Item1 Ref="46" ControlType="XRTableCell" Name="tableCell47" Weight="0.078306221667631168" CanGrow="false" Multiline="true" Text="Observación:" TextAlignment="MiddleLeft" Font="Calibri, 6pt, style=Bold, charSet=0" BackColor="Transparent" Padding="2,0,0,0,100" BorderColor="LightBlue" Borders="Left, Top, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item1 Ref="46" ControlType="XRTableCell" Name="tableCell47" Weight="0.080246913580246909" CanGrow="false" Multiline="true" Text="Observación:" TextAlignment="MiddleLeft" Font="Calibri, 6pt, style=Bold, charSet=0" BackColor="Transparent" Padding="2,0,0,0,100" BorderColor="LightBlue" Borders="Left, Top, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
                   <StylePriority Ref="47" UseFont="false" UseBackColor="false" UsePadding="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseBorderDashStyle="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="48" ControlType="XRTableCell" Name="tableCell15" Weight="0.92169377833236887" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="LightBlue" Borders="Top, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
+                <Item2 Ref="48" ControlType="XRTableCell" Name="tableCell15" Weight="0.91975308641975317" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="LightBlue" Borders="Top, Right, Bottom" BorderWidth="0.5" BorderDashStyle="Solid">
                   <ExpressionBindings>
                     <Item1 Ref="49" EventName="BeforePrint" PropertyName="Text" Expression="[OMD_OBSERVACIONES]&#xA;" />
                   </ExpressionBindings>
