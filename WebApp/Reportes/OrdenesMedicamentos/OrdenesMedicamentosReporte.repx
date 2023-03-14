@@ -256,7 +256,7 @@
     </Item4>
     <Item5 Ref="120" ControlType="GroupFooterBand" Name="GroupFooter1" PrintAtBottom="true" HeightF="20.38087">
       <Controls>
-        <Item1 Ref="121" ControlType="XRLabel" Name="label2" Multiline="true" Text="*Los medicamentos únicamente deben ser administrados durante el tiempo definido en la formulación." SizeF="810,10.7232037" LocationFloat="0,0" Font="Calibri, 6pt" Padding="2,2,0,0,100">
+        <Item1 Ref="121" ControlType="XRLabel" Name="label2" CanGrow="false" Text="*Los medicamentos únicamente deben ser administrados durante el tiempo definido en la formulación." WordWrap="false" SizeF="810,10.7232037" LocationFloat="0,0" Font="Calibri, 6pt" Padding="2,2,0,0,100">
           <StylePriority Ref="122" UseFont="false" />
         </Item1>
       </Controls>
@@ -273,14 +273,14 @@
           <Rows>
             <Item1 Ref="128" ControlType="XRTableRow" Name="tableRow39" Weight="1">
               <Cells>
-                <Item1 Ref="129" ControlType="XRTableCell" Name="tableCell86" Weight="2.2788299560546874" Multiline="true" Text="www.cloudonesoft.com" TextAlignment="TopRight" Font="Calibri Light, 5pt, style=Italic" ForeColor="Gray">
+                <Item1 Ref="129" ControlType="XRTableCell" Name="tableCell86" Weight="2.2788299560546874" CanGrow="false" Text="www.cloudonesoft.com" TextAlignment="TopRight" WordWrap="false" Font="Calibri Light, 5pt, style=Italic" ForeColor="Gray">
                   <StylePriority Ref="130" UseFont="false" UseForeColor="false" UseTextAlignment="false" />
                 </Item1>
               </Cells>
             </Item1>
             <Item2 Ref="131" ControlType="XRTableRow" Name="tableRow40" Weight="1">
               <Cells>
-                <Item1 Ref="132" ControlType="XRTableCell" Name="tableCell84" Weight="2.2788299560546874" Multiline="true" Text="Software: SIISO" TextAlignment="TopRight" Font="Calibri Light, 5pt, style=Italic" ForeColor="Gray">
+                <Item1 Ref="132" ControlType="XRTableCell" Name="tableCell84" Weight="2.2788299560546874" CanGrow="false" Text="Software: SIISO" TextAlignment="TopRight" WordWrap="false" Font="Calibri Light, 5pt, style=Italic" ForeColor="Gray">
                   <StylePriority Ref="133" UseFont="false" UseForeColor="false" UseTextAlignment="false" />
                 </Item1>
               </Cells>
@@ -288,83 +288,89 @@
           </Rows>
         </Item2>
       </Controls>
+      <ExpressionBindings>
+        <Item1 Ref="134" EventName="BeforePrint" PropertyName="Visible" Expression="Iif([DataSource.RowCount] == 0, False, True)" />
+      </ExpressionBindings>
     </Item6>
-    <Item7 Ref="134" ControlType="GroupFooterBand" Name="GroupFooter2" PrintAtBottom="true" Level="1" HeightF="106.433212" KeepTogether="true">
+    <Item7 Ref="135" ControlType="GroupFooterBand" Name="GroupFooter2" PrintAtBottom="true" Level="1" HeightF="106.433212" KeepTogether="true">
       <Controls>
-        <Item1 Ref="135" ControlType="XRLabel" Name="label4" Multiline="true" Text="DATOS DE LA ENTREGA DE LA FÓRMULA MÉDICA AL PACIENTE" SizeF="416.379639,10.7232037" LocationFloat="393.6203,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
-          <StylePriority Ref="136" UseFont="false" UseBackColor="false" />
+        <Item1 Ref="136" ControlType="XRLabel" Name="label4" AutoWidth="true" CanGrow="false" Text="DATOS DE LA ENTREGA DE LA FÓRMULA MÉDICA AL PACIENTE" WordWrap="false" SizeF="416.379639,10.7232037" LocationFloat="393.6203,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
+          <StylePriority Ref="137" UseFont="false" UseBackColor="false" />
         </Item1>
-        <Item2 Ref="137" ControlType="XRPictureBox" Name="SelloDigital" Sizing="StretchImage" SizeF="78.09,47.71" LocationFloat="78.58,10.7231989">
+        <Item2 Ref="138" ControlType="XRPictureBox" Name="SelloDigital" Sizing="StretchImage" SizeF="78.09,47.71" LocationFloat="78.58,10.7231989">
           <ExpressionBindings>
-            <Item1 Ref="138" EventName="BeforePrint" PropertyName="ImageSource" Expression="[OM_E_ASELLODIGITAL_ARCHIVO]" />
+            <Item1 Ref="139" EventName="BeforePrint" PropertyName="ImageSource" Expression="[OM_E_ASELLODIGITAL_ARCHIVO]" />
           </ExpressionBindings>
         </Item2>
-        <Item3 Ref="139" ControlType="XRPictureBox" Name="FirmaDigital" Sizing="StretchImage" ProcessNullValues="Suppress" SizeF="78.58,47.71" LocationFloat="7.22480445E-06,10.7231989">
+        <Item3 Ref="140" ControlType="XRPictureBox" Name="FirmaDigital" Sizing="StretchImage" ProcessNullValues="Suppress" SizeF="78.58,47.71" LocationFloat="7.22480445E-06,10.7231989">
           <ExpressionBindings>
-            <Item1 Ref="140" EventName="BeforePrint" PropertyName="ImageSource" Expression="[OM_E_AFIRMADIGITAL_ARCHIVO]" />
+            <Item1 Ref="141" EventName="BeforePrint" PropertyName="ImageSource" Expression="[OM_E_AFIRMADIGITAL_ARCHIVO]" />
           </ExpressionBindings>
         </Item3>
-        <Item4 Ref="141" ControlType="XRLabel" Name="label3" Multiline="true" Text="MÉDICO" SizeF="393.6203,10.7232037" LocationFloat="1.08372069E-05,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
-          <StylePriority Ref="142" UseFont="false" UseBackColor="false" />
+        <Item4 Ref="142" ControlType="XRLabel" Name="label3" AutoWidth="true" CanGrow="false" Text="MÉDICO" WordWrap="false" SizeF="393.6203,10.7232037" LocationFloat="1.08372069E-05,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
+          <StylePriority Ref="143" UseFont="false" UseBackColor="false" />
         </Item4>
-        <Item5 Ref="143" ControlType="XRTable" Name="table6" TextAlignment="MiddleLeft" SizeF="810,48.0000076" LocationFloat="1.44496089E-05,58.43321" Padding="2,2,0,0,96">
+        <Item5 Ref="144" ControlType="XRTable" Name="table6" TextAlignment="MiddleLeft" SizeF="810,48.0000076" LocationFloat="1.44496089E-05,58.43321" Padding="2,2,0,0,96">
           <Rows>
-            <Item1 Ref="144" ControlType="XRTableRow" Name="tableRow15" Weight="0.6576007036491176">
+            <Item1 Ref="145" ControlType="XRTableRow" Name="tableRow15" Weight="0.6576007036491176">
               <Cells>
-                <Item1 Ref="145" ControlType="XRTableCell" Name="tableCell32" Weight="0.48595098801601078" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="Gray" Borders="Top" BorderWidth="0.5">
-                  <StylePriority Ref="146" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-                </Item1>
-                <Item2 Ref="147" ControlType="XRTableCell" Name="tableCell13" Weight="0.51404901198398922" Multiline="true" Text="Firma del Paciente" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="Gray" Borders="Top" BorderWidth="0.5">
+                <Item1 Ref="146" ControlType="XRTableCell" Name="tableCell32" Weight="0.48595098801601078" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="Gray" Borders="Top" BorderWidth="0.5">
+                  <ExpressionBindings>
+                    <Item1 Ref="147" EventName="BeforePrint" PropertyName="Text" Expression="[OM_E_NOMBRECOMPLETO]&#xA;" />
+                  </ExpressionBindings>
                   <StylePriority Ref="148" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="149" ControlType="XRTableCell" Name="tableCell13" Weight="0.51404901198398922" CanGrow="false" Text="Firma del Paciente" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 6pt" BackColor="Transparent" BorderColor="Gray" Borders="Top" BorderWidth="0.5">
+                  <StylePriority Ref="150" UseFont="false" UseBackColor="false" UseBorderColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item2>
               </Cells>
             </Item1>
-            <Item2 Ref="149" ControlType="XRTableRow" Name="tableRow16" Weight="0.6576007036491176">
+            <Item2 Ref="151" ControlType="XRTableRow" Name="tableRow16" Weight="0.6576007036491176">
               <Cells>
-                <Item1 Ref="150" ControlType="XRTableCell" Name="tableCell34" Weight="0.4859509788446324" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
+                <Item1 Ref="152" ControlType="XRTableCell" Name="tableCell34" Weight="0.4859509788446324" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
                   <ExpressionBindings>
-                    <Item1 Ref="151" EventName="BeforePrint" PropertyName="Text" Expression="[OM_E_NOMBRECOMPLETO]&#xA;" />
+                    <Item1 Ref="153" EventName="BeforePrint" PropertyName="Text" Expression="Concat([OM_E_IDENTIFICACION], ' | R.M. ',IsNull([OM_E_REGISTRO_MEDICO],''))&#xA;" />
                   </ExpressionBindings>
-                  <StylePriority Ref="152" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
-                </Item1>
-                <Item2 Ref="153" ControlType="XRTableCell" Name="tableCell37" Weight="0.51404902115536755" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt, style=Bold" BackColor="Transparent" Borders="None" BorderWidth="0">
                   <StylePriority Ref="154" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="155" ControlType="XRTableCell" Name="tableCell37" Weight="0.51404902115536755" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 8.25pt, style=Bold" BackColor="Transparent" Borders="None" BorderWidth="0">
+                  <StylePriority Ref="156" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item2>
               </Cells>
             </Item2>
-            <Item3 Ref="155" ControlType="XRTableRow" Name="tableRow17" Weight="0.65760070364911671">
+            <Item3 Ref="157" ControlType="XRTableRow" Name="tableRow17" Weight="0.65760070364911671">
               <Cells>
-                <Item1 Ref="156" ControlType="XRTableCell" Name="tableCell40" Weight="0.48595100855989837" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
-                  <ExpressionBindings>
-                    <Item1 Ref="157" EventName="BeforePrint" PropertyName="Text" Expression="Concat([OM_E_IDENTIFICACION], 'RM. ',IsNull([OM_E_REGISTRO_MEDICO],''))&#xA;" />
-                  </ExpressionBindings>
-                  <StylePriority Ref="158" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                <Item1 Ref="158" ControlType="XRTableCell" Name="tableCell40" Weight="0.48595100855989837" CanGrow="false" Text="Firmado Electrónicamente" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
+                  <StylePriority Ref="159" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="159" ControlType="XRTableCell" Name="tableCell39" Weight="0.51404899144010163" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
+                <Item2 Ref="160" ControlType="XRTableCell" Name="tableCell39" Weight="0.51404899144010163" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
                   <ExpressionBindings>
-                    <Item1 Ref="160" EventName="BeforePrint" PropertyName="Text" Expression="Concat('Impreso:  ', FormatString('{0:d/MM/yyyy h:mm:ss tt}',Now()))&#xA;" />
+                    <Item1 Ref="161" EventName="BeforePrint" PropertyName="Text" Expression="Concat('Impreso:  ', FormatString('{0:d/MM/yyyy h:mm:ss tt}',Now()))&#xA;" />
                   </ExpressionBindings>
-                  <StylePriority Ref="161" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                  <StylePriority Ref="162" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item2>
               </Cells>
             </Item3>
-            <Item4 Ref="162" ControlType="XRTableRow" Name="tableRow18" Weight="0.6576007036491176">
+            <Item4 Ref="163" ControlType="XRTableRow" Name="tableRow18" Weight="0.6576007036491176">
               <Cells>
-                <Item1 Ref="163" ControlType="XRTableCell" Name="tableCell38" Weight="0.48595097884463245" Multiline="true" Text="Firmado Electrónicamente" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
-                  <StylePriority Ref="164" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                <Item1 Ref="164" ControlType="XRTableCell" Name="tableCell38" Weight="0.48595097884463245" CanGrow="false" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
+                  <StylePriority Ref="165" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="165" ControlType="XRTableCell" Name="tableCell41" Weight="0.51404902115536755" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
+                <Item2 Ref="166" ControlType="XRTableCell" Name="tableCell41" Weight="0.51404902115536755" Multiline="true" TextAlignment="MiddleRight" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
                   <ExpressionBindings>
-                    <Item1 Ref="166" EventName="BeforePrint" PropertyName="Text" Expression="Concat('Impresión realizada por: ', IsNull(?P_UsuarioGenero,'Usuario Genero'))&#xA;" />
+                    <Item1 Ref="167" EventName="BeforePrint" PropertyName="Text" Expression="Concat('Impresión realizada por: ', IsNull(?P_UsuarioGenero,'Usuario Genero'))&#xA;" />
                   </ExpressionBindings>
-                  <StylePriority Ref="167" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+                  <StylePriority Ref="168" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item2>
               </Cells>
             </Item4>
           </Rows>
-          <StylePriority Ref="168" UseTextAlignment="false" />
+          <StylePriority Ref="169" UseTextAlignment="false" />
         </Item5>
       </Controls>
+      <ExpressionBindings>
+        <Item1 Ref="170" EventName="BeforePrint" PropertyName="Visible" Expression="Iif([DataSource.RowCount] == 0, False, True)&#xA;" />
+      </ExpressionBindings>
     </Item7>
   </Bands>
   <ComponentStorage>
@@ -373,10 +379,10 @@
   <ObjectStorage>
     <Item1 Ref="3" ObjectType="DevExpress.XtraReports.Parameters.StaticListLookUpSettings, DevExpress.Printing.v21.2.Core">
       <LookUpValues>
-        <Item1 Ref="170" Value="#Ref-169" />
+        <Item1 Ref="172" Value="#Ref-171" />
       </LookUpValues>
     </Item1>
     <Item2 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v21.2" Ref="4" Content="System.Int64" Type="System.Type" />
-    <Item3 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v21.2" Ref="169" Content="1" Type="System.Int64" />
+    <Item3 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v21.2" Ref="171" Content="1" Type="System.Int64" />
   </ObjectStorage>
 </XtraReportsLayoutSerializer>

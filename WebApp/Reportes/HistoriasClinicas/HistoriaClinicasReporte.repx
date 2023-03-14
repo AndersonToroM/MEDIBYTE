@@ -711,7 +711,7 @@
               <Cells>
                 <Item1 Ref="322" ControlType="XRTableCell" Name="tableCell51" Weight="0.11266374123796136" CanGrow="false" Text="Fecha Genero" TextAlignment="MiddleLeft" WordWrap="false" Font="Calibri, 6pt" ForeColor="255,64,64,64" Borders="None">
                   <ExpressionBindings>
-                    <Item1 Ref="323" EventName="BeforePrint" PropertyName="Text" Expression="Now()" />
+                    <Item1 Ref="323" EventName="BeforePrint" PropertyName="Text" Expression="Concat('Impreso: ',Now()) " />
                   </ExpressionBindings>
                   <StylePriority Ref="324" UseFont="false" UseForeColor="false" UseBorders="false" UseTextAlignment="false" />
                 </Item1>

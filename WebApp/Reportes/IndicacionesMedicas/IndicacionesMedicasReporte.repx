@@ -228,7 +228,7 @@
               <Cells>
                 <Item1 Ref="104" ControlType="XRTableCell" Name="tableCell34" Weight="0.4859509788446324" Multiline="true" TextAlignment="MiddleLeft" Font="Calibri, 6pt" BackColor="Transparent" Borders="None" BorderWidth="0">
                   <ExpressionBindings>
-                    <Item1 Ref="105" EventName="BeforePrint" PropertyName="Text" Expression="Concat([IM_E_IDENTIFICACION], 'RM. ',IsNull([IM_E_REGISTRO_MEDICO],''))&#xA;" />
+                    <Item1 Ref="105" EventName="BeforePrint" PropertyName="Text" Expression="Concat([IM_E_IDENTIFICACION], ' | R.M. ',IsNull([IM_E_REGISTRO_MEDICO],''))&#xA;" />
                   </ExpressionBindings>
                   <StylePriority Ref="106" UseFont="false" UseBackColor="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
                 </Item1>
@@ -295,6 +295,9 @@
           <StylePriority Ref="132" UseFont="false" UseTextAlignment="false" />
         </Item2>
       </Controls>
+      <ExpressionBindings>
+        <Item1 Ref="133" EventName="BeforePrint" PropertyName="Visible" Expression="Iif([DataSource.RowCount] == 0, False, True)&#xA;" />
+      </ExpressionBindings>
     </Item6>
   </Bands>
   <ComponentStorage>
@@ -303,10 +306,10 @@
   <ObjectStorage>
     <Item1 Ref="3" ObjectType="DevExpress.XtraReports.Parameters.StaticListLookUpSettings, DevExpress.Printing.v21.2.Core">
       <LookUpValues>
-        <Item1 Ref="134" Value="#Ref-133" />
+        <Item1 Ref="135" Value="#Ref-134" />
       </LookUpValues>
     </Item1>
     <Item2 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v21.2" Ref="4" Content="System.Int64" Type="System.Type" />
-    <Item3 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v21.2" Ref="133" Content="1" Type="System.Int64" />
+    <Item3 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v21.2" Ref="134" Content="1" Type="System.Int64" />
   </ObjectStorage>
 </XtraReportsLayoutSerializer>
