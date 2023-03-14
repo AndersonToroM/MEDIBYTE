@@ -20,6 +20,7 @@ namespace WebApp.Reportes.Incapacidades {
             this.Detail = reportInitializer.GetControl<DevExpress.XtraReports.UI.DetailBand>("Detail");
             this.GroupHeader1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.GroupHeaderBand>("GroupHeader1");
             this.GroupFooter1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.GroupFooterBand>("GroupFooter1");
+            this.PageFooter = reportInitializer.GetControl<DevExpress.XtraReports.UI.PageFooterBand>("PageFooter");
             this.table7 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table7");
             this.logoEmpresa = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("logoEmpresa");
             this.table1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table1");
@@ -66,13 +67,17 @@ namespace WebApp.Reportes.Incapacidades {
             this.tableRow8 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow8");
             this.tableCell11 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell11");
             this.tableCell12 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell12");
+            this.table4 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table4");
+            this.SelloDigital = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("SelloDigital");
+            this.FirmaDigital = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("FirmaDigital");
             this.table6 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table6");
+            this.tableRow9 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow9");
+            this.tableCell5 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell5");
+            this.tableCell16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell16");
             this.tableRow15 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow15");
             this.tableRow16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow16");
             this.tableRow17 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow17");
             this.tableRow18 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow18");
-            this.FirmaDigital = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("FirmaDigital");
-            this.SelloDigital = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPictureBox>("SelloDigital");
             this.tableCell17 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell17");
             this.tableCell32 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell32");
             this.tableCell34 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell34");
@@ -81,17 +86,12 @@ namespace WebApp.Reportes.Incapacidades {
             this.tableCell39 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell39");
             this.tableCell38 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell38");
             this.tableCell41 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell41");
-            this.PageFooter = reportInitializer.GetControl<DevExpress.XtraReports.UI.PageFooterBand>("PageFooter");
-            this.pageInfo2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPageInfo>("pageInfo2");
             this.table13 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table13");
+            this.pageInfo2 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPageInfo>("pageInfo2");
             this.tableRow39 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow39");
-            this.tableCell86 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell86");
             this.tableRow40 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow40");
+            this.tableCell86 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell86");
             this.tableCell84 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell84");
-            this.table4 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTable>("table4");
-            this.tableRow9 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow9");
-            this.tableCell5 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell5");
-            this.tableCell16 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell16");
 
             // Parameters
             this.P_Ids = reportInitializer.GetParameter("P_Ids");
@@ -106,6 +106,7 @@ namespace WebApp.Reportes.Incapacidades {
         private DevExpress.XtraReports.UI.DetailBand Detail;
         private DevExpress.XtraReports.UI.GroupHeaderBand GroupHeader1;
         private DevExpress.XtraReports.UI.GroupFooterBand GroupFooter1;
+        private DevExpress.XtraReports.UI.PageFooterBand PageFooter;
         private DevExpress.XtraReports.UI.XRTable table7;
         private DevExpress.XtraReports.UI.XRPictureBox logoEmpresa;
         private DevExpress.XtraReports.UI.XRTable table1;
@@ -152,13 +153,17 @@ namespace WebApp.Reportes.Incapacidades {
         private DevExpress.XtraReports.UI.XRTableRow tableRow8;
         private DevExpress.XtraReports.UI.XRTableCell tableCell11;
         private DevExpress.XtraReports.UI.XRTableCell tableCell12;
+        private DevExpress.XtraReports.UI.XRTable table4;
+        private DevExpress.XtraReports.UI.XRPictureBox SelloDigital;
+        private DevExpress.XtraReports.UI.XRPictureBox FirmaDigital;
         private DevExpress.XtraReports.UI.XRTable table6;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow9;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell5;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell16;
         private DevExpress.XtraReports.UI.XRTableRow tableRow15;
         private DevExpress.XtraReports.UI.XRTableRow tableRow16;
         private DevExpress.XtraReports.UI.XRTableRow tableRow17;
         private DevExpress.XtraReports.UI.XRTableRow tableRow18;
-        private DevExpress.XtraReports.UI.XRPictureBox FirmaDigital;
-        private DevExpress.XtraReports.UI.XRPictureBox SelloDigital;
         private DevExpress.XtraReports.UI.XRTableCell tableCell17;
         private DevExpress.XtraReports.UI.XRTableCell tableCell32;
         private DevExpress.XtraReports.UI.XRTableCell tableCell34;
@@ -167,20 +172,15 @@ namespace WebApp.Reportes.Incapacidades {
         private DevExpress.XtraReports.UI.XRTableCell tableCell39;
         private DevExpress.XtraReports.UI.XRTableCell tableCell38;
         private DevExpress.XtraReports.UI.XRTableCell tableCell41;
+        private DevExpress.XtraReports.UI.XRTable table13;
+        private DevExpress.XtraReports.UI.XRPageInfo pageInfo2;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow39;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow40;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell86;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell84;
         private DevExpress.DataAccess.Sql.SqlDataSource FuenteDatos;
         private DevExpress.XtraReports.Parameters.Parameter P_Ids;
         private DevExpress.XtraReports.Parameters.Parameter P_HC_ID;
         private DevExpress.XtraReports.Parameters.Parameter P_UsuarioGenero;
-        private DevExpress.XtraReports.UI.PageFooterBand PageFooter;
-        private DevExpress.XtraReports.UI.XRPageInfo pageInfo2;
-        private DevExpress.XtraReports.UI.XRTable table13;
-        private DevExpress.XtraReports.UI.XRTableRow tableRow39;
-        private DevExpress.XtraReports.UI.XRTableCell tableCell86;
-        private DevExpress.XtraReports.UI.XRTableRow tableRow40;
-        private DevExpress.XtraReports.UI.XRTableCell tableCell84;
-        private DevExpress.XtraReports.UI.XRTable table4;
-        private DevExpress.XtraReports.UI.XRTableRow tableRow9;
-        private DevExpress.XtraReports.UI.XRTableCell tableCell5;
-        private DevExpress.XtraReports.UI.XRTableCell tableCell16;
     }
 }
