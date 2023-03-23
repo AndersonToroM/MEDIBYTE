@@ -19,8 +19,8 @@ using System.Linq;
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
-    public  class AutorizacionAdmisionesDescuentosController : BaseAppController
+    [Authorize]
+    public class AutorizacionAdmisionesDescuentosController : BaseAppController
 
     {
         public AutorizacionAdmisionesDescuentosController(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
@@ -61,7 +61,7 @@ namespace Blazor.WebApp.Controllers
                             .Include(x => x.ProgramacionCitas.Servicios).ToList();
                     autorizacionAdmisionesDescuentosModel.AutorizaDes = true;
                 }
-                    
+
             }
             return View("List", autorizacionAdmisionesDescuentosModel);
         }
@@ -96,21 +96,33 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 var models = JsonConvert.DeserializeObject<List<Admisiones>>(admisiones);
-                foreach (Admisiones model in models)
+                if (models != null && models.Any())
                 {
-                    model.EstadosId = Manager().GetBusinessLogic<Estados>().FindById(x => x.Tipo == "ADMISION" && x.Nombre == "ADMITIDA", false).Id;
-                    model.FechaAprobacion = DateTime.Now;
-                    model.UserAproboId = this.ActualUsuarioId();
-                    var valorTarifa = model.ProgramacionCitas.Servicios.TarifaPlena;
-                    var valorDescuento = (model.PorcDescAutorizado / 100) * (model.ProgramacionCitas.Servicios.TarifaPlena);
-                    model.ValorPagarParticular = valorTarifa - valorDescuento;
-                    Manager().GetBusinessLogic<Admisiones>().Modify(model);
+                    var admisionesDB = Manager().GetBusinessLogic<Admisiones>().Tabla(true)
+                        .Include(x=>x.ProgramacionCitas.Servicios)
+                        .Where(x => models.Select(j => j.Id).ToList().Contains(x.Id)).ToList();
+                    foreach (Admisiones admisionDB in admisionesDB)
+                    {
+                        admisionDB.EstadosId = Manager().GetBusinessLogic<Estados>().FindById(x => x.Tipo == "ADMISION" && x.Nombre == "ADMITIDA", false).Id;
+                        admisionDB.FechaAprobacion = DateTime.Now;
+                        admisionDB.UserAproboId = this.ActualUsuarioId();
+                        admisionDB.UpdatedBy = User.Identity.Name;
+                        admisionDB.LastUpdate = DateTime.Now;
+                        var valorTarifa = admisionDB.ProgramacionCitas.Servicios.TarifaPlena;
+                        var valorDescuento = (admisionDB.PorcDescAutorizado / 100) * (admisionDB.ProgramacionCitas.Servicios.TarifaPlena);
+                        admisionDB.ValorPagarParticular = valorTarifa - valorDescuento;
+                        Manager().GetBusinessLogic<Admisiones>().Modify(admisionDB);
+                    }
+                    Result.Add("Result", "Autorización realizada correctamente.");
+                    var resultData = Manager().GetBusinessLogic<Admisiones>().Tabla(true).Where(x => x.Estados.Nombre == "EN AUTORIZACION")
+                                .Include(x => x.ProgramacionCitas.Servicios).ToList();
+                    Result.Add("resultData", resultData);
+                    return Json(Result);
                 }
-                Result.Add("Result", "Autorización realizada correctamente.");
-                var resultData = Manager().GetBusinessLogic<Admisiones>().Tabla(true).Where(x => x.Estados.Nombre == "EN AUTORIZACION")
-                            .Include(x => x.ProgramacionCitas.Servicios).ToList();
-                Result.Add("resultData", resultData);
-                return Json(Result);
+                else
+                {
+                    throw new Exception("No se envió ninguna admisión a autorizar.");
+                }
             }
             catch (Exception e)
             {
@@ -118,7 +130,7 @@ namespace Blazor.WebApp.Controllers
                 return Json(Result);
             }
 
-            
+
         }
 
     }
