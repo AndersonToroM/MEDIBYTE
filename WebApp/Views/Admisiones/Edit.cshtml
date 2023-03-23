@@ -93,7 +93,7 @@
 
                 @(Html.DControls().NumberBoxFor(m => m.Entity.ExoneracionArchivoId).ID(Prefix + "ExoneracionArchivoId").Visible(false))
 
-                @(Html.DControls().DateBoxFor(m => m.Entity.FechaAprobacion).ID(Prefix + "FechaAprobacion").Visible(false))
+                @(Html.DControls().DateBoxFor(m => m.Entity.FechaAprobacion).ID(Prefix + "FechaAprobacion").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().NumberBoxFor(m => m.Entity.UserAproboId).ID(Prefix + "UserAproboId").Visible(false))
 
                 @(Html.DControls().CheckBoxFor(m => m.Entity.Facturado).ID(Prefix + "Facturado").Visible(false))
