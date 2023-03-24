@@ -17,7 +17,7 @@
 
 
 .main {
-    padding: 0px 10px;
+    padding: 110px 10px;
 }
 
 .login-footer {
@@ -47,8 +47,8 @@
     .login-empresa .img-logo {
         max-height: 250px;
         max-width: 250px;
-        min-height: 100px;
-        min-width: 100px;
+        min-height: 150px;
+        min-width: 150px;
         margin-left: 12px;
     }
 
