@@ -294,7 +294,7 @@
     </Item6>
     <Item7 Ref="135" ControlType="GroupFooterBand" Name="GroupFooter2" PrintAtBottom="true" Level="1" HeightF="106.433212" KeepTogether="true">
       <Controls>
-        <Item1 Ref="136" ControlType="XRLabel" Name="label4" AutoWidth="true" CanGrow="false" Text="DATOS DE LA ENTREGA DE LA FÓRMULA MÉDICA AL PACIENTE" WordWrap="false" SizeF="416.379639,10.7232037" LocationFloat="393.6203,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
+        <Item1 Ref="136" ControlType="XRLabel" Name="label4" CanGrow="false" Text="DATOS DE LA ENTREGA DE LA FÓRMULA MÉDICA AL PACIENTE" WordWrap="false" SizeF="416.379639,10.7232037" LocationFloat="393.6203,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
           <StylePriority Ref="137" UseFont="false" UseBackColor="false" />
         </Item1>
         <Item2 Ref="138" ControlType="XRPictureBox" Name="SelloDigital" Sizing="StretchImage" SizeF="78.09,47.71" LocationFloat="78.58,10.7231989">
@@ -307,7 +307,7 @@
             <Item1 Ref="141" EventName="BeforePrint" PropertyName="ImageSource" Expression="[OM_E_AFIRMADIGITAL_ARCHIVO]" />
           </ExpressionBindings>
         </Item3>
-        <Item4 Ref="142" ControlType="XRLabel" Name="label3" AutoWidth="true" CanGrow="false" Text="MÉDICO" WordWrap="false" SizeF="393.6203,10.7232037" LocationFloat="1.08372069E-05,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
+        <Item4 Ref="142" ControlType="XRLabel" Name="label3" CanGrow="false" Text="MÉDICO" WordWrap="false" SizeF="393.6203,10.7232037" LocationFloat="1.08372069E-05,0" Font="Calibri, 6pt, style=Bold" BackColor="LightBlue" Padding="2,2,0,0,100">
           <StylePriority Ref="143" UseFont="false" UseBackColor="false" />
         </Item4>
         <Item5 Ref="144" ControlType="XRTable" Name="table6" TextAlignment="MiddleLeft" SizeF="810,48.0000076" LocationFloat="1.44496089E-05,58.43321" Padding="2,2,0,0,96">
