@@ -60,8 +60,8 @@ namespace Blazor.BusinessLogic
                         .FirstOrDefault(x => x.Id == id);
                     if (rips.EsDesdeFactura)
                         this.NombreArchivoZip = $"{rips.Facturas.Documentos.Prefijo}{rips.Facturas.NroConsecutivo}";
-                    else
-                        this.NombreArchivoZip = $"{rips.Periodo.ToString("MMyyyy")}";
+                    else if (rips.EsDesdeEntidad)
+                        this.NombreArchivoZip = $"{rips.Entidades.Nombre}";
 
                     this.PathArchivos = Path.Combine(Path.GetTempPath(), "ArchivosRips");
                     if (Directory.Exists(this.PathArchivos))
@@ -123,10 +123,7 @@ namespace Blazor.BusinessLogic
 
                     if (errores.Count <= 0)
                     {
-                        if (rips.EsDesdeFactura)
-                            archivoDescargaModel.Nombre = $"RIPS_{rips.FechaRemision.ToString("yyyyMMdd")}_{rips.Consecutivo}_{this.NombreArchivoZip}.zip";
-                        else
-                            archivoDescargaModel.Nombre = $"RIPS_{rips.FechaRemision.ToString("yyyyMMdd")}_{rips.Consecutivo}_{this.NombreArchivoZip}_{rips.Entidades.Alias}.zip";
+                        archivoDescargaModel.Nombre = $"RIPS_{rips.FechaRemision.ToString("yyyyMMdd")}_{rips.Consecutivo}_{rips.Periodo.ToString("MMyyyy")}_{this.NombreArchivoZip}.zip";
                         archivoDescargaModel.ContentType = "application/zip";
                         string pathZip = Path.Combine(Path.GetTempPath(), archivoDescargaModel.Nombre);
                         ZipFile.CreateFromDirectory(this.PathArchivos, pathZip);
@@ -174,8 +171,11 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Pacientes.Generos)
                 .Include(x => x.Admisiones.Pacientes.Ciudades)
                 .Include(x => x.Admisiones.Pacientes.Ciudades.Departamentos)
-                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
+                .Where(x => x.Facturas.EntidadesId.HasValue && x.Facturas.Estadosid != 1087)
                 .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month);
+
+            if (rips.EsDesdeEntidad)
+                queryable = queryable.Where(x => x.Facturas.EntidadesId == rips.EntidadesId.GetValueOrDefault(0));
 
             if (rips.EsDesdeFactura)
                 queryable = queryable.Where(x => x.FacturasId == rips.FacturasId.GetValueOrDefault(0));
@@ -245,8 +245,11 @@ namespace Blazor.BusinessLogic
             List<string> registros = new List<string>();
             GenericBusinessLogic<Facturas> logicaFacturas = new GenericBusinessLogic<Facturas>(this.UnitOfWork.Settings);
             var queryable = logicaFacturas.Tabla(true)
-                .Where(x => x.EntidadesId == rips.EntidadesId && x.Estadosid != 1087)
+                .Where(x => x.EntidadesId.HasValue && x.Estadosid != 1087)
                 .Where(x => x.Fecha.Date.Year == rips.Periodo.Date.Year && x.Fecha.Date.Month == rips.Periodo.Date.Month);
+
+            if (rips.EsDesdeEntidad)
+                queryable = queryable.Where(x => x.EntidadesId == rips.EntidadesId.GetValueOrDefault(0));
 
             if (rips.EsDesdeFactura)
                 queryable = queryable.Where(x => x.Id == rips.FacturasId.GetValueOrDefault(0));
@@ -307,9 +310,12 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Diagnosticos)
                 .Include(x => x.Atenciones.FinalidadConsulta)
                 .Include(x => x.Atenciones.CausasExternas)
-                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
+                .Where(x => x.Facturas.EntidadesId.HasValue && x.Facturas.Estadosid != 1087)
                 .Where(x => x.Servicios.TiposServiciosId == 1)
                 .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month);
+
+            if (rips.EsDesdeEntidad)
+                queryable = queryable.Where(x => x.Facturas.EntidadesId == rips.EntidadesId.GetValueOrDefault(0));
 
             if (rips.EsDesdeFactura)
                 queryable = queryable.Where(x => x.FacturasId == rips.FacturasId.GetValueOrDefault(0));
@@ -377,10 +383,13 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Admisiones.Pacientes.TiposIdentificacion)
                 .Include(x => x.Atenciones.AmbitoRealizacionProcedimiento)
                 .Include(x => x.Atenciones.FinalidadProcedimiento)
-                .Where(x => x.Facturas.EntidadesId == rips.EntidadesId && x.Facturas.Estadosid != 1087)
+                .Where(x => x.Facturas.EntidadesId.HasValue && x.Facturas.Estadosid != 1087)
                 .Where(x => x.Servicios.TiposServiciosId == 2)
                 .Where(x => x.Facturas.Fecha.Date.Year == rips.Periodo.Date.Year && x.Facturas.Fecha.Date.Month == rips.Periodo.Date.Month);
-                
+
+            if (rips.EsDesdeEntidad)
+                queryable = queryable.Where(x => x.Facturas.EntidadesId == rips.EntidadesId.GetValueOrDefault(0));
+
             if (rips.EsDesdeFactura)
                 queryable = queryable.Where(x => x.FacturasId == rips.FacturasId.GetValueOrDefault(0));
 

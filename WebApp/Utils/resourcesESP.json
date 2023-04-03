@@ -216,6 +216,10 @@
     "Description": "Modalidades contratación"
   },
   {
+    "Id": "Admisiones.MotivoAnulacionAtencion",
+    "Description": "Motivo de anulación en la antención"
+  },
+  {
     "Id": "Admisiones.NroAutorizacion",
     "Description": "Nro. Autorización"
   },

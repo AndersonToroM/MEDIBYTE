@@ -39,6 +39,12 @@ namespace Blazor.WebApp.Controllers
             else
                 model.Entity.ExoneracionArchivo.StringToBase64 = DApp.Util.ArrayBytesToString(model.Entity.ExoneracionArchivo.Archivo);
 
+            var atention = Manager().GetBusinessLogic<Atenciones>().FindById(x => x.AdmisionesId == Id && x.EstadosId == 10077, false);
+            if (atention != null)
+            {
+                model.MotivoAnulacion = atention.DetalleAnulacion;
+            }
+
             return model;
         }
         private AdmisionesModel EditModel(AdmisionesModel model)

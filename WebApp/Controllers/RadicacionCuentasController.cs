@@ -12,11 +12,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using Dominus.Backend.Application;
+using System.Linq;
 
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class RadicacionCuentasController : BaseAppController
     {
 
@@ -50,20 +51,19 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", NewModel());
         }
 
-        private RadicacionCuentasModel NewModel() 
-        { 
+        private RadicacionCuentasModel NewModel()
+        {
             RadicacionCuentasModel model = new RadicacionCuentasModel();
-            model.Entity.Empresas = Manager().GetBusinessLogic<Empresas>().FindAll(null)[0];
-            if (model.Entity.Empresas != null)
-                model.Entity.EmpresasId = model.Entity.Empresas.Id;
-            model.Entity.Entidades = Manager().GetBusinessLogic<Entidades>().FindAll(null)[0];
-            if (model.Entity.Entidades != null)
-                model.Entity.EntidadesId = model.Entity.Entidades.Id;
+            model.Entity.EmpresasId = Manager().GetBusinessLogic<Empresas>().Tabla().FirstOrDefault().Id;
+            var entidad = Manager().GetBusinessLogic<Entidades>().Tabla().FirstOrDefault();
+            if (entidad != null)
+                model.Entity.EntidadesId = entidad.Id;
             model.Entity.IsNew = true;
             model.Entity.RadicacionArchivos.IsNew = true;
             model.Process = true;
-            return model; 
-        } 
+            model.Entity.FechaRadicacion = DateTime.Now;
+            return model;
+        }
 
         [HttpGet]
         public IActionResult Edit(long Id)
@@ -71,8 +71,8 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
-        private RadicacionCuentasModel EditModel(long Id) 
-        { 
+        private RadicacionCuentasModel EditModel(long Id)
+        {
             RadicacionCuentasModel model = new RadicacionCuentasModel();
             model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().FindById(x => x.Id == Id, true);
             model.Entity.IsNew = false;
@@ -83,8 +83,8 @@ namespace Blazor.WebApp.Controllers
             else
                 model.Entity.RadicacionArchivos.StringToBase64 = DApp.Util.ArrayBytesToString(model.Entity.RadicacionArchivos.Archivo);
 
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Edit(RadicacionCuentasModel model)
@@ -100,40 +100,40 @@ namespace Blazor.WebApp.Controllers
 
         }
 
-        private RadicacionCuentasModel EditModel(RadicacionCuentasModel model) 
-        { 
-            ViewBag.Accion = "Save"; 
+        private RadicacionCuentasModel EditModel(RadicacionCuentasModel model)
+        {
+            ViewBag.Accion = "Save";
             var OnState = model.Entity.IsNew;
-            if (ModelState.IsValid) 
-            { 
-                try 
+            if (ModelState.IsValid)
+            {
+                try
                 {
                     model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
 
-                    if (model.Entity.IsNew) 
-                    { 
-                        model.Entity.CreationDate = DateTime.Now; 
-                        model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().Add(model.Entity); 
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().Add(model.Entity);
                         model.Entity.IsNew = false;
-                    } 
-                    else 
-                    { 
-                        model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().Modify(model.Entity); 
                     }
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
+                    else
+                    {
+                        model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().Modify(model.Entity);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
             }
             else
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Delete(RadicacionCuentasModel model)
@@ -142,26 +142,26 @@ namespace Blazor.WebApp.Controllers
         }
 
         private RadicacionCuentasModel DeleteModel(RadicacionCuentasModel model)
-        { 
-            ViewBag.Accion = "Delete"; 
-            RadicacionCuentasModel newModel = NewModel(); 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<RadicacionCuentas>().Remove(model.Entity); 
+        {
+            ViewBag.Accion = "Delete";
+            RadicacionCuentasModel newModel = NewModel();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().FindById(x => x.Id == model.Entity.Id, false);
+                    Manager().GetBusinessLogic<RadicacionCuentas>().Remove(model.Entity);
                     return newModel;
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
-            } 
-            return model; 
-        } 
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
+            }
+            return model;
+        }
 
-        #endregion 
+        #endregion
 
         #region Functions Detail 
         /*
@@ -260,26 +260,26 @@ namespace Blazor.WebApp.Controllers
         } 
 
         */
-        #endregion 
+        #endregion
 
         #region Datasource Combobox Foraneos 
 
         [HttpPost]
         public LoadResult GetEmpresasId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Empresas>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetSedesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true), loadOptions);
-        } 
-       #endregion
+        }
+        #endregion
 
     }
 }

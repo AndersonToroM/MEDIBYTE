@@ -17,6 +17,7 @@ namespace Blazor.WebApp.Models
 
         public bool EsCorrecion { get; set; } = false;
         public bool TieneServiciosFacturadosAEntidad { get; set; } = false;
+        public string MotivoAnulacion { get; set; }
 
       public AdmisionesModel()
       {
