@@ -61,12 +61,22 @@ namespace Blazor.WebApp.Controllers
 
             if (citaAdmitida != null && OnState)
             {
-                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con una Admision en proceso. Por favor verifique en el listado de admisiones.");
+                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admision No. {citaAdmitida.Id} en proceso. Por favor verifique en el listado de admisiones.");
             }
 
             if (model.Entity.FechaAutorizacion > DateTime.Now)
             {
                 ModelState.AddModelError("Entity.Id", "La fecha de autorizacion no puede ser mayor que la fecha actual.");
+            }
+
+            if (!OnState)
+            {
+                var admisionDB = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == model.Entity.Id, true);
+                var estadosId = new List<long> { 62, 72, 10068, 10079 };
+                if (estadosId.Contains(admisionDB.EstadosId))
+                {
+                    ModelState.AddModelError("Entity.Id", $"La admisión no puede ser modificada ya que se encuentra en estado {admisionDB.Estados.Nombre}");
+                }
             }
 
             ModelState.Remove("CategoriasIngresosDetalles.CategoriasIngresosId");

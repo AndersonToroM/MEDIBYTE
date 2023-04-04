@@ -62,7 +62,6 @@ namespace Blazor.WebApp.Controllers
                 model.TieneCaja = true;
             }
 
-
             model.Entity.FechaApertura = DateTime.Now;
             model.Entity.OpenUsers = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
             if (model.Entity.OpenUsers != null)
@@ -80,8 +79,6 @@ namespace Blazor.WebApp.Controllers
         { 
             CiclosCajasModel model = new CiclosCajasModel();
             model.Entity = Manager().GetBusinessLogic<CiclosCajas>().FindById(x => x.Id == Id, false);
-            if (model.Entity.FechaCierre == null)
-                model.Entity.FechaCierre = DateTime.Now;
             model.Entity.IsNew = false;
             return model; 
         } 
@@ -119,6 +116,7 @@ namespace Blazor.WebApp.Controllers
                     {
                         if (model.Entity.CloseUsersId != null)
                         {
+                            model.Entity.FechaCierre = DateTime.Now;
                             model.Entity.TotalRecaudos = Manager().GetBusinessLogic<Recaudos>().FindAll(x => x.CiclosCajasId == model.Entity.Id,true).Where(x=>x.MediosPago.Codigo == "10").Sum(x => x.ValorTotalRecibido);
                             var cuadre = model.Entity.ValorApertura + model.Entity.TotalRecaudos - model.Entity.ValorCierre;
                             if (cuadre < 0)
