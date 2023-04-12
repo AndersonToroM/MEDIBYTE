@@ -19,5 +19,15 @@ namespace Blazor.Infrastructure.Entities
                 return FacturasId != null;
             }
         }
+
+        [NotMapped]
+        public bool EsDesdeEntidad
+        {
+            private set { }
+            get
+            {
+                return EntidadesId != null;
+            }
+        }
     }
 }

@@ -93,7 +93,7 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("EntidadesId")]
        [DDisplayName("Rips.EntidadesId")]
-       public virtual Int64 EntidadesId { get; set; }
+       public virtual Int64? EntidadesId { get; set; }
 
        [Column("FacturasId")]
        [DDisplayName("Rips.FacturasId")]

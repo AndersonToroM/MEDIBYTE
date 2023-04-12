@@ -435,6 +435,12 @@
                                       .ReadOnly(Model.Entity.Facturado)
                                       );
 
+                                groupItems.AddSimpleFor(m => m.MotivoAnulacion).Label(x=>x.Text(DApp.GetResource("Admisiones.MotivoAnulacionAtencion"))).ColSpan(12)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2000).Message(DApp.GetStringLengthResource("Admisiones.ObservacionFactura", 50)))
+                                      .Editor(e => e.TextArea().ID(Prefix + "ObservacionFactura")
+                                      .ReadOnly(true).Visible(Model.Entity.EstadosId == 10079)
+                                      );
+
                                 groupItems.AddSimpleFor(m => m.Entity.CreatedBy).ColSpan(3)
                                                 .Editor(e => e.TextBox().ReadOnly(true));
                                 groupItems.AddSimpleFor(m => m.Entity.CreationDate).ColSpan(3)

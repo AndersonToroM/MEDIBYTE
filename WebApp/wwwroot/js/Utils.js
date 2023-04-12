@@ -284,7 +284,7 @@ function SendLogPingServer(logs) {
     });
 }
 
-setInterval(PingServersIfErrorTimeOut, 5000);
+//setInterval(PingServersIfErrorTimeOut, 5000);
 /******************************************************************/
 
 var imageAddr = "https://http2.mlstatic.com/D_NQ_NP974268-MLA41149104135_032020-F.jpg";

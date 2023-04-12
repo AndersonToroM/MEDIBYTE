@@ -82,7 +82,7 @@
                                         .LoadParams(new { closeUserId = Model.Entity.CloseUsersId }))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("UserName").SearchExpr("UserName")
-                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(Model.Entity.CloseUsersId != null)
+                                      .ReadOnly(Model.Entity.CloseUsersId != null || Model.Entity.IsNew)
                                  );
 
                                  groupItems.AddSimpleFor(m => m.Entity.ValorCierre).ColSpan(6)
@@ -94,7 +94,7 @@
 
                                  groupItems.AddSimpleFor(m => m.Entity.FechaCierre).ColSpan(6)
                                       .Editor(e => e.DateBox().ID(Prefix + "FechaCierre").ReadOnly(true)
-                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)));
+                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat));
 
                                  //groupItems.AddSimpleFor(m => m.Entity.TotalFaltante).ColSpan(1)
                                  // .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.TotalFaltante")))

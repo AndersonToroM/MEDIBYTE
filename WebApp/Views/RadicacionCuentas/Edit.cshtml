@@ -121,6 +121,7 @@
                                   .SearchEnabled(true).ShowClearButton(true)
                              );
                             groupItems.AddSimpleFor(m => m.Entity.FechaRadicacion).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RadicacionCuentas.FechaRadicacion")))
                                   .Editor(e => e.DateBox().ID(Prefix + "FechaRadicacion")
                                   .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 

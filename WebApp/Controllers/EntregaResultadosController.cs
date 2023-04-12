@@ -36,7 +36,11 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<EntregaResultados>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<EntregaResultados>().Tabla(false)
+                .Include(x=>x.Pacientes)
+                .Include(x=>x.MediosEntragas)
+                .Include(x=>x.Parentescos)
+                , loadOptions);
         }
 
         public IActionResult List()

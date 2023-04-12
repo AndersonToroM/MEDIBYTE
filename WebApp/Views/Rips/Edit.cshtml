@@ -88,7 +88,7 @@
                                       );
 
                                 groupItems.AddSimpleFor(m => m.Entity.EntidadesId).ColSpan(9)
-                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.EntidadesId")))
+                                   //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.EntidadesId")))
                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Rips.EntidadesId")))
                                         .Editor(e => e.SelectBox().ID(Prefix + "EntidadesId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Rips").LoadAction("GetEntidadesId").Key("Id"))
