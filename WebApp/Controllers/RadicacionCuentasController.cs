@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using Dominus.Backend.Application;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -32,7 +33,10 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<RadicacionCuentas>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<RadicacionCuentas>().Tabla(false)
+                .Include(x=>x.Sedes)
+                .Include(x=>x.Entidades)
+                , loadOptions);
         }
 
         public IActionResult List()

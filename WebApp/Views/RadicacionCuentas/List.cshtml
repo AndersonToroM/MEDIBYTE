@@ -20,22 +20,8 @@
     {
         columns.AddFor(m => m.Id).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.CreationDate);
-        /*columns.AddFor(m => m.Empresas.Id).Caption(DApp.GetResource("FacturasGeneracion.EmpresasId"))
-            .Lookup(lookup => lookup
-            .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FacturasGeneracion").LoadAction("GetEmpresasId").Key("Id"))
-            .DisplayExpr("RazonSocial")
-            .ValueExpr("Id")
-            );*/
-        columns.AddFor(m => m.Sedes.Id).Caption(DApp.GetResource("FacturasGeneracion.SedesId")).Lookup(lookup => lookup
-            .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FacturasGeneracion").LoadAction("GetSedesId").Key("Id"))
-            .DisplayExpr("Nombre")
-            .ValueExpr("Id")
-            );
-        columns.AddFor(m => m.Entidades.Id).Caption(DApp.GetResource("FacturasGeneracion.EntidadesId")).Lookup(lookup => lookup
-           .DataSource(d => d.Mvc().LoadMethod("POST").Controller("FacturasGeneracion").LoadAction("GetEntidadesId").Key("Id"))
-           .DisplayExpr("Nombre")
-           .ValueExpr("Id")
-           );
+        columns.AddFor(m => m.Sedes.Nombre).Caption(DApp.GetResource("FacturasGeneracion.SedesId"));
+        columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.GetResource("FacturasGeneracion.EntidadesId"));
 
         columns.AddFor(m => m.FechaRadicacion);
     })
