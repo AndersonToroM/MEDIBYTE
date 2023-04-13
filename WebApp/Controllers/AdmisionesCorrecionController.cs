@@ -101,8 +101,23 @@ namespace Blazor.WebApp.Controllers
                 dataAdmision.CoberturaPlanBeneficiosId = model.Entity.CoberturaPlanBeneficiosId;
                 dataAdmision.LastUpdate = DateTime.Now;
                 dataAdmision.UpdatedBy = User.Identity.Name;
+                dataAdmision.Responsable = model.Entity.Responsable;
+                dataAdmision.TelefonoResponsable = model.Entity.TelefonoResponsable;
+                dataAdmision.TelefonoAcompanante = model.Entity.TelefonoAcompanante;
+                dataAdmision.Acompanante = model.Entity.Acompanante;
+                dataAdmision.ParentescosId = model.Entity.ParentescosId;
+                dataAdmision.Ocupacion = model.Entity.Ocupacion;
+                dataAdmision.NumeroPrescripcion = model.Entity.NumeroPrescripcion;
+                dataAdmision.NumeroSuministroPrescripcion = model.Entity.NumeroSuministroPrescripcion;
+                dataAdmision.ValorPagoEstadosId = model.Entity.ValorPagoEstadosId;
+                dataAdmision.ValorCopago = model.Entity.ValorCopago;
+                dataAdmision.FormasPagosId = model.Entity.FormasPagosId;
+                dataAdmision.MedioPagosId = model.Entity.MedioPagosId;
+                dataAdmision.DocumentosId = model.Entity.DocumentosId;
+                dataAdmision.ObservacionFactura = model.Entity.ObservacionFactura;
                 dataCita = Manager().GetBusinessLogic<ProgramacionCitas>().Modify(dataCita);
                 dataAdmision = Manager().GetBusinessLogic<Admisiones>().Modify(dataAdmision);
+
             }
             catch (Exception e)
             {

@@ -23,7 +23,7 @@
 @(Html.DControls().DataGridSimple<EntregaResultados>(DataGridConfig)
     .ID("EntregaResultadosDataGrid")
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultados").LoadAction("Get").Key("Id"))
-    .RemoteOperations(false)
+    .RemoteOperations(true)
     .Columns(columns =>
     {
         columns.AddFor(m => m.Fecha).Format("dd/MM/yyyy");

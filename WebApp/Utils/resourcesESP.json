@@ -105,7 +105,7 @@
   },
   {
     "Id": "Admisiones.CoberturaPlanBeneficiosId",
-    "Description": "Cobertura o plan beneficios"
+    "Description": "Cobertura o plan de beneficios"
   },
   {
     "Id": "Admisiones.Consecutivo",
@@ -225,15 +225,15 @@
   },
   {
     "Id": "Admisiones.NumeroPoliza",
-    "Description": "Número poliza"
+    "Description": "Número póliza"
   },
   {
     "Id": "Admisiones.NumeroPrescripcion",
-    "Description": "Número prescripción"
+    "Description": "Número de prescripción"
   },
   {
     "Id": "Admisiones.NumeroSuministroPrescripcion",
-    "Description": "Número suministro prescripcion"
+    "Description": "Número suministro prescripción"
   },
   {
     "Id": "Admisiones.ObservacionFactura",
@@ -285,7 +285,7 @@
   },
   {
     "Id": "Admisiones.TiposUsuariosId",
-    "Description": "Tipo usuarios"
+    "Description": "Tipo usuario"
   },
   {
     "Id": "Admisiones.TotalPagarParticular",
