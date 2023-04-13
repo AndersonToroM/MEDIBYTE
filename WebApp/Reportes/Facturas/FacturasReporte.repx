@@ -295,7 +295,7 @@
           <Rows>
             <Item1 Ref="138" ControlType="XRTableRow" Name="tableRow24" Weight="0.921600308190142">
               <Cells>
-                <Item1 Ref="139" ControlType="XRTableCell" Name="tableCell31" Weight="1" CanGrow="false" TextAlignment="TopLeft" WordWrap="false" Borders="All" BorderWidth="0.5">
+                <Item1 Ref="139" ControlType="XRTableCell" Name="tableCell31" Weight="1" TextAlignment="TopLeft" Borders="All" BorderWidth="0.5">
                   <ExpressionBindings>
                     <Item1 Ref="140" EventName="BeforePrint" PropertyName="Text" Expression="Concat('OBSERVACIONES: ', IsNull([FACTURA_OBSERVACIONES],''))" />
                   </ExpressionBindings>
