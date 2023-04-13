@@ -78,7 +78,7 @@
                                  groupItems.AddSimpleFor(m => m.Entity.Ocupacion).ColSpan(3)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Ocupacion", 255)))
                                 .Editor(e => e.TextBox().ID(Prefix + "Ocupacion").ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.ProgramacionCitas.ServiciosId).ColSpan(9)
@@ -182,7 +182,7 @@
                                 groupItems.AddSimpleFor(m => m.Entity.TelefonoResponsable).ColSpan(4)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Admisiones.TelefonoResponsable", 100)))
                                 .Editor(e => e.TextBox().ID(Prefix + "TelefonoResponsable").ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.ParentescosId).ColSpan(4)
@@ -191,31 +191,31 @@
                                 .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                 .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
                                 .SearchEnabled(true).ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Acompanante).ColSpan(3)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Acompanante", 255)))
                                 .Editor(e => e.TextBox().ID(Prefix + "Acompanante").ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.TelefonoAcompanante).ColSpan(3)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Admisiones.TelefonoAcompanante", 100)))
                                 .Editor(e => e.TextBox().ID(Prefix + "TelefonoAcompanante").ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
 
                                  groupItems.AddSimpleFor(m => m.Entity.NumeroPrescripcion).ColSpan(3)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(30).Message(DApp.GetStringLengthResource("Admisiones.NumeroPrescripcion", 30)))
                                 .Editor(e => e.TextBox().ID(Prefix + "NumeroPrescripcion").ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.NumeroSuministroPrescripcion).ColSpan(3)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(30).Message(DApp.GetStringLengthResource("Admisiones.NumeroSuministroPrescripcion", 30)))
                                 .Editor(e => e.TextBox().ID(Prefix + "NumeroSuministroPrescripcion").ShowClearButton(true)
-                                .ReadOnly(Model.Entity.Facturado)
+                                //.ReadOnly(Model.Entity.Facturado)
                                 );
                                 
                                 groupItems.AddSimpleFor(m => m.Entity.ValorPagoEstadosId).ColSpan(3)
