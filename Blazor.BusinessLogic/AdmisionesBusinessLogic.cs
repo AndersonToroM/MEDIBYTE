@@ -68,7 +68,7 @@ namespace Blazor.BusinessLogic
                     column = 0;
                     worksheet.Rows[row + 1][column].SetValue(data[row].SEDE_NOMBRE); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].USUARIO_CREO); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].ADMISION_ID); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].ADMISION_CONSECUTIVO); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].ADMISION_ESTADO); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].ENTIDAD_NOMBRE); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].CONVENIO_NOMBRE); column++;
