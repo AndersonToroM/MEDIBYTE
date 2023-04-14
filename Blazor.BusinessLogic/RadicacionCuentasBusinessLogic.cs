@@ -19,6 +19,19 @@ namespace Blazor.BusinessLogic
         {
         }
 
+        public long GetSiguienteConsecutivo()
+        {
+            try
+            {
+                BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+                return unitOfWork.Repository<RadicacionCuentas>().Table.Max(x => x.Consecutivo) + 1;
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
         public override RadicacionCuentas Add(RadicacionCuentas data)
         {
             var logicaData = new GenericBusinessLogic<RadicacionCuentas>(this.UnitOfWork.Settings);
@@ -31,7 +44,7 @@ namespace Blazor.BusinessLogic
                     data.RadicacionArchivosId = ManageArchivo(data.RadicacionArchivos, data.RadicacionArchivosId, logicaArchivo);
                     data.RadicacionArchivos.Id = data.RadicacionArchivosId.GetValueOrDefault(0);
                 }
-
+                data.Consecutivo = GetSiguienteConsecutivo();
                 data = logicaData.Add(data);
                 logicaData.CommitTransaction();
                 return data;

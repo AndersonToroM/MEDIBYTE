@@ -20,7 +20,7 @@ namespace Blazor.Infrastructure.Entities
         [Column("Consecutivo")]
         [DDisplayName("ProgramacionCitas.Consecutivo")]
         [DRequired("ProgramacionCitas.Consecutivo")]
-        public virtual Int32 Consecutivo { get; set; }
+        public virtual Int64 Consecutivo { get; set; }
 
         [Column("FechaInicio", TypeName = "datetime")]
         [DDisplayName("ProgramacionCitas.FechaInicio")]

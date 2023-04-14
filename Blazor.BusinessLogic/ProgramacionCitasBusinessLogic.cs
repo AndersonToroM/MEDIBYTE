@@ -479,7 +479,7 @@ namespace Blazor.BusinessLogic
 
         }
 
-        public int GetSiguienteConsecutivo()
+        public long GetSiguienteConsecutivo()
         {
             try
             {
@@ -505,7 +505,7 @@ namespace Blazor.BusinessLogic
                 }
             }
 
-            data.Consecutivo = this.GetSiguienteConsecutivo();
+            data.Consecutivo = GetSiguienteConsecutivo();
             data.EstadosId = 3;
             return base.Add(data);
         }
