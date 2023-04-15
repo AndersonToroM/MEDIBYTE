@@ -87,7 +87,7 @@
             columns.AddFor(m => m.Pacientes.NombreCompleto);
 
             columns.AddFor(m => m.ProgramacionCitas.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoCita"));
-            columns.AddFor(m => m.Id).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoAdmision"));
+            columns.AddFor(m => m.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoAdmision"));
 
             columns.AddFor(m => m.CreationDate).AllowSearch(false).Format(DApp.DefaultLanguage.DateFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.AdmisionFecha"));
             columns.AddFor(m => m.CreationDate).AllowSearch(false).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.AdmisionHora"));

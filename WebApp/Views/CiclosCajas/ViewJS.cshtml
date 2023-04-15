@@ -49,8 +49,9 @@
     } 
 
     function @(Prefix)DisplayExprCiclosCajasId(item) {
+        console.log("item: " , item);
         if (item) {
-            return item.Sedes.Nombre + " - " + item.Nombre;
+            return item.value.Sedes.Nombre + " - " + item.value.Nombre;
         } else {
             return null;
         }

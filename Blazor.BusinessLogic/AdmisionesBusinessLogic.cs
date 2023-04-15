@@ -68,7 +68,7 @@ namespace Blazor.BusinessLogic
                     column = 0;
                     worksheet.Rows[row + 1][column].SetValue(data[row].SEDE_NOMBRE); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].USUARIO_CREO); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].ADMISION_ID); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].ADMISION_CONSECUTIVO); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].ADMISION_ESTADO); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].ENTIDAD_NOMBRE); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].CONVENIO_NOMBRE); column++;
@@ -177,6 +177,19 @@ namespace Blazor.BusinessLogic
             return valorServicio;
         }
 
+        public long GetSiguienteConsecutivo()
+        {
+            try
+            {
+                BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+                return unitOfWork.Repository<Admisiones>().Table.Max(x => x.Consecutivo) + 1;
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
         public override Admisiones Add(Admisiones data)
         {
             var logicaData = new GenericBusinessLogic<Admisiones>(this.UnitOfWork.Settings);
@@ -189,6 +202,7 @@ namespace Blazor.BusinessLogic
                     data.ExoneracionArchivoId = ManageArchivo(data.ExoneracionArchivo, data.ExoneracionArchivoId, logicaArchivo);
                     data.ExoneracionArchivo.Id = data.ExoneracionArchivoId.GetValueOrDefault(0);
                 }
+                data.Consecutivo = GetSiguienteConsecutivo();
                 data = logicaData.Add(data);
 
                 var logicaCita = new GenericBusinessLogic<ProgramacionCitas>(logicaData.UnitOfWork);

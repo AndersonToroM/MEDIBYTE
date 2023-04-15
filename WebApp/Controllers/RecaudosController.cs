@@ -35,7 +35,8 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true).Include(x => x.CiclosCajas.Cajas), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true)
+                .Include(x => x.CiclosCajas.Cajas), loadOptions);
         }
 
         public IActionResult List()
@@ -102,6 +103,14 @@ namespace Blazor.WebApp.Controllers
                     {
                         model.Entity.CreationDate = DateTime.Now;
                         model.Entity.CreatedBy = User.Identity.Name;
+                        try
+                        {
+                            model.Entity.Consecutivo = Manager().GetBusinessLogic<Recaudos>().Tabla(false).Max(x => x.Consecutivo) + 1;
+                        }
+                        catch
+                        {
+                            model.Entity.Consecutivo = 1;
+                        }
                         model.Entity = Manager().GetBusinessLogic<Recaudos>().Add(model.Entity);
                         model.Entity.IsNew = false;
                     }

@@ -17,6 +17,11 @@ namespace Blazor.Infrastructure.Entities
 
         #region Columnas normales)
 
+        [Column("Consecutivo")]
+        [DDisplayName("RadicacionCuentas.Consecutivo")]
+        [DRequired("RadicacionCuentas.Consecutivo")]
+        public virtual Int64 Consecutivo { get; set; }
+
         [Column("FechaRadicacion", TypeName = "datetime")]
         [DRequired("RadicacionCuentas.FechaRadicacion")]
         [DDisplayName("RadicacionCuentas.FechaRadicacion")]

@@ -13,6 +13,9 @@ using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
+using Blazor.Infrastructure;
+using DevExpress.Xpo;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -32,7 +35,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<CiclosCajas>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<CiclosCajas>().Tabla(true).Include(x=>x.Cajas.Sedes), loadOptions);
         }
 
         public IActionResult List()
@@ -108,6 +111,14 @@ namespace Blazor.WebApp.Controllers
                         if(cajasAbiertas.Contains(model.Entity.CajasId))
                         {
                             throw new Exception($"Esta caja se encuentra actualmete abierta.");
+                        }
+                        try
+                        {
+                            model.Entity.Consecutivo = Manager().GetBusinessLogic<CiclosCajas>().Tabla(false).Max(x => x.Consecutivo) + 1;
+                        }
+                        catch
+                        {
+                            model.Entity.Consecutivo = 1;
                         }
                         model.Entity = Manager().GetBusinessLogic<CiclosCajas>().Add(model.Entity);
                         model.Entity.IsNew = false;

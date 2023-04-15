@@ -12,6 +12,9 @@ namespace Blazor.Infrastructure.Entities
         [Column("ADMISION_ID")]
         public long ADMISION_ID { get; set; }
 
+        [Column("ADMISION_CONSECUTIVO")]
+        public long ADMISION_CONSECUTIVO { get; set; }
+
         [Column("ADMISION_ESTADO")]
         public string ADMISION_ESTADO { get; set; }
 

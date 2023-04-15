@@ -15,110 +15,115 @@ namespace Blazor.Infrastructure.Entities
     public partial class CiclosCajas : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       [Column("FechaApertura", TypeName = "datetime")]
-       [DDisplayName("CiclosCajas.FechaApertura")]
-       [DRequired("CiclosCajas.FechaApertura")]
-       public virtual DateTime FechaApertura { get; set; }
+        [Column("Consecutivo")]
+        [DDisplayName("CiclosCajas.Consecutivo")]
+        [DRequired("CiclosCajas.Consecutivo")]
+        public virtual Int64 Consecutivo { get; set; }
 
-       [Column("ValorApertura")]
-       [DDisplayName("CiclosCajas.ValorApertura")]
-       [DRequired("CiclosCajas.ValorApertura")]
-       public virtual Decimal ValorApertura { get; set; }
+        [Column("FechaApertura", TypeName = "datetime")]
+        [DDisplayName("CiclosCajas.FechaApertura")]
+        [DRequired("CiclosCajas.FechaApertura")]
+        public virtual DateTime FechaApertura { get; set; }
 
-       [Column("FechaCierre", TypeName = "datetime")]
-       [DDisplayName("CiclosCajas.FechaCierre")]
-       public virtual DateTime? FechaCierre { get; set; }
+        [Column("ValorApertura")]
+        [DDisplayName("CiclosCajas.ValorApertura")]
+        [DRequired("CiclosCajas.ValorApertura")]
+        public virtual Decimal ValorApertura { get; set; }
 
-       [Column("ValorCierre")]
-       [DDisplayName("CiclosCajas.ValorCierre")]
-       [DRequired("CiclosCajas.ValorCierre")]
-       public virtual Decimal ValorCierre { get; set; }
+        [Column("FechaCierre", TypeName = "datetime")]
+        [DDisplayName("CiclosCajas.FechaCierre")]
+        public virtual DateTime? FechaCierre { get; set; }
 
-       [Column("TotalFaltante")]
-       [DDisplayName("CiclosCajas.TotalFaltante")]
-       [DRequired("CiclosCajas.TotalFaltante")]
-       public virtual Decimal TotalFaltante { get; set; }
+        [Column("ValorCierre")]
+        [DDisplayName("CiclosCajas.ValorCierre")]
+        [DRequired("CiclosCajas.ValorCierre")]
+        public virtual Decimal ValorCierre { get; set; }
 
-       [Column("TotalSobrante")]
-       [DDisplayName("CiclosCajas.TotalSobrante")]
-       [DRequired("CiclosCajas.TotalSobrante")]
-       public virtual Decimal TotalSobrante { get; set; }
+        [Column("TotalFaltante")]
+        [DDisplayName("CiclosCajas.TotalFaltante")]
+        [DRequired("CiclosCajas.TotalFaltante")]
+        public virtual Decimal TotalFaltante { get; set; }
 
-       [Column("TotalRecaudos")]
-       [DDisplayName("CiclosCajas.TotalRecaudos")]
-       [DRequired("CiclosCajas.TotalRecaudos")]
-       public virtual Decimal TotalRecaudos { get; set; }
+        [Column("TotalSobrante")]
+        [DDisplayName("CiclosCajas.TotalSobrante")]
+        [DRequired("CiclosCajas.TotalSobrante")]
+        public virtual Decimal TotalSobrante { get; set; }
 
-       #endregion
+        [Column("TotalRecaudos")]
+        [DDisplayName("CiclosCajas.TotalRecaudos")]
+        [DRequired("CiclosCajas.TotalRecaudos")]
+        public virtual Decimal TotalRecaudos { get; set; }
 
-       #region Columnas referenciales)
+        #endregion
 
-       [Column("CajasId")]
-       [DDisplayName("CiclosCajas.CajasId")]
-       [DRequired("CiclosCajas.CajasId")]
-       [DRequiredFK("CiclosCajas.CajasId")]
-       public virtual Int64 CajasId { get; set; }
+        #region Columnas referenciales)
 
-       [Column("OpenUsersId")]
-       [DDisplayName("CiclosCajas.OpenUsersId")]
-       [DRequired("CiclosCajas.OpenUsersId")]
-       [DRequiredFK("CiclosCajas.OpenUsersId")]
-       public virtual Int64 OpenUsersId { get; set; }
+        [Column("CajasId")]
+        [DDisplayName("CiclosCajas.CajasId")]
+        [DRequired("CiclosCajas.CajasId")]
+        [DRequiredFK("CiclosCajas.CajasId")]
+        public virtual Int64 CajasId { get; set; }
 
-       [Column("CloseUsersId")]
-       [DDisplayName("CiclosCajas.CloseUsersId")]
-       public virtual Int64? CloseUsersId { get; set; }
+        [Column("OpenUsersId")]
+        [DDisplayName("CiclosCajas.OpenUsersId")]
+        [DRequired("CiclosCajas.OpenUsersId")]
+        [DRequiredFK("CiclosCajas.OpenUsersId")]
+        public virtual Int64 OpenUsersId { get; set; }
 
-       #endregion
+        [Column("CloseUsersId")]
+        [DDisplayName("CiclosCajas.CloseUsersId")]
+        public virtual Int64? CloseUsersId { get; set; }
 
-       #region Propiedades referencias de entrada)
+        #endregion
 
-       [ForeignKey("CajasId")]
-       public virtual Cajas Cajas { get; set; }
+        #region Propiedades referencias de entrada)
 
-       [ForeignKey("CloseUsersId")]
-       public virtual User CloseUsers { get; set; }
+        [ForeignKey("CajasId")]
+        public virtual Cajas Cajas { get; set; }
 
-       [ForeignKey("OpenUsersId")]
-       public virtual User OpenUsers { get; set; }
+        [ForeignKey("CloseUsersId")]
+        public virtual User CloseUsers { get; set; }
 
-       #endregion
+        [ForeignKey("OpenUsersId")]
+        public virtual User OpenUsers { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-       {
-       Expression<Func<CiclosCajas, bool>> expression = entity => entity.Id == this.Id;
-       return expression as Expression<Func<T, bool>>;
-       }
+        #region Reglas expression
 
-       public override List<ExpRecurso> GetAdicionarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<CiclosCajas, bool>> expression = null;
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        {
+            Expression<Func<CiclosCajas, bool>> expression = entity => entity.Id == this.Id;
+            return expression as Expression<Func<T, bool>>;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetAdicionarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<CiclosCajas, bool>> expression = null;
 
-       public override List<ExpRecurso> GetModificarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<CiclosCajas, bool>> expression = null;
+            return rules;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetModificarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<CiclosCajas, bool>> expression = null;
 
-       public override List<ExpRecurso> GetEliminarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<Recaudos, bool>> expression0 = entity => entity.CiclosCajasId == this.Id;
-        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Recaudos"), typeof(Recaudos)));
+            return rules;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetEliminarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<Recaudos, bool>> expression0 = entity => entity.CiclosCajasId == this.Id;
+            rules.Add(new ExpRecurso(expression0.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "Recaudos"), typeof(Recaudos)));
 
-       #endregion
+            return rules;
+        }
+
+        #endregion
     }
- }
+}
