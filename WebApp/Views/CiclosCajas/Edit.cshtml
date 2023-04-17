@@ -31,6 +31,7 @@
                 @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.Consecutivo).ID(Prefix + "Consecutivo").Visible(false))
 
                 @(Html.DControls().Form<CiclosCajasModel>().ReadOnly(Model.TieneCaja)
                     .ID("CiclosCajasModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
@@ -60,7 +61,7 @@
 
                             groupItems.AddSimple().ColSpan(2).Label(x=>x.Text("Consecutivo"))
                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.ValorApertura")))
-                                  .Editor(e => e.NumberBox().ID(Prefix + "IdConsecutivo").Value(Model.Entity.Id).Format("#,##0").ReadOnly(true));
+                                  .Editor(e => e.NumberBox().ID(Prefix + "IdConsecutivo").Value(Model.Entity.Consecutivo).Format("#,##0").ReadOnly(true));
 
                             groupItems.AddSimpleFor(m => m.Entity.ValorApertura).ColSpan(6)
                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.ValorApertura")))

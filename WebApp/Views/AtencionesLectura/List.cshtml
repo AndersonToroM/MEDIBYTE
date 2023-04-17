@@ -82,7 +82,7 @@
     columns.AddFor(m => m.Admisiones.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Paciente"));
     columns.AddFor(m => m.Servicios.Nombre).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Servicio"));
     columns.AddFor(m => m.Atenciones.FechaAtencion).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Fecha"));
-    columns.AddFor(m => m.Admisiones.Id).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.AdmisionesId")).SortOrder(SortOrder.Desc);
+    columns.AddFor(m => m.Admisiones.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.AdmisionesId")).SortOrder(SortOrder.Desc);
 
     })
     )
