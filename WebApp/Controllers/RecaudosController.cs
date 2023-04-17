@@ -283,7 +283,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                result = Manager().GetBusinessLogic<CiclosCajas>().Tabla(true).Where(x => x.OpenUsersId == this.ActualUsuarioId()).ToList();
+                result = Manager().GetBusinessLogic<CiclosCajas>().Tabla(true).ToList();
             }
             return DataSourceLoader.Load(result, loadOptions);
         }

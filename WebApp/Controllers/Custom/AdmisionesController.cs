@@ -208,7 +208,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Entity.Id", e.Message);
+                ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
                 return PartialView("Edit", model);
             }
 
