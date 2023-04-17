@@ -303,6 +303,14 @@ namespace Blazor.BusinessLogic
                 {
                     Recaudos recaudos = new Recaudos();
                     recaudos.Id = 0;
+                    try
+                    {
+                        recaudos.Consecutivo = unitOfWork.Repository<Recaudos>().Table.Max(x => x.Consecutivo) + 1;
+                    }
+                    catch
+                    {
+                        recaudos.Consecutivo = 1;
+                    }
                     recaudos.IsNew = true;
                     recaudos.LastUpdate = DateTime.Now;
                     recaudos.UpdatedBy = userName;
@@ -466,6 +474,14 @@ namespace Blazor.BusinessLogic
                 {
                     Recaudos recaudos = new Recaudos();
                     recaudos.Id = 0;
+                    try
+                    {
+                        recaudos.Consecutivo = unitOfWork.Repository<Recaudos>().Table.Max(x => x.Consecutivo) + 1;
+                    }
+                    catch
+                    {
+                        recaudos.Consecutivo = 1;
+                    }
                     recaudos.IsNew = true;
                     recaudos.LastUpdate = DateTime.Now;
                     recaudos.UpdatedBy = userName;
@@ -926,7 +942,7 @@ namespace Blazor.BusinessLogic
             //}
             for (int i = 0; i < documentos.Count; i++)
             {
-                var datareg = (i+1).ToString("D9") + documentos[i].Registro.Substring(9);
+                var datareg = (i + 1).ToString("D9") + documentos[i].Registro.Substring(9);
                 data.Add(DApp.Util.QutarTildes(datareg));
             }
             File.WriteAllLines(Path.Combine(path, nombreArchivo), data);
