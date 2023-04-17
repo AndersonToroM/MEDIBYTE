@@ -39,7 +39,7 @@
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("CiclosCajas.InformacionApertura"))
                         .Items(groupItems =>
                         {
-                            groupItems.AddSimpleFor(m => m.Entity.Consecutivo).ColSpan(6)
+                            groupItems.AddSimpleFor(m => m.Entity.CajasId).ColSpan(6)
                              .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.CajasId")))
                              .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("CiclosCajas.CajasId")))
                                   .Editor(e => e.SelectBox().ID(Prefix + "CajasId")
@@ -60,7 +60,7 @@
 
                             groupItems.AddSimple().ColSpan(2).Label(x=>x.Text("Consecutivo"))
                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.ValorApertura")))
-                                  .Editor(e => e.NumberBox().ID(Prefix + "IdConsecutivo").Value(Model.Entity.Id).Format("#,##0").ReadOnly(true));
+                                  .Editor(e => e.NumberBox().ID(Prefix + "IdConsecutivo").Value(Model.Entity.Consecutivo).Format("#,##0").ReadOnly(true));
 
                             groupItems.AddSimpleFor(m => m.Entity.ValorApertura).ColSpan(6)
                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("CiclosCajas.ValorApertura")))
