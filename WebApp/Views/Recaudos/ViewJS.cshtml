@@ -50,7 +50,7 @@
 
     function @(Prefix)DisplayExprCiclosCajasId(data) {
         if (data)
-            return "Caja: " + data.Cajas.Nombre + " | Usuario que realizó la apertura: " + (data.OpenUsers != undefined ? data.OpenUsers.UserName : "");
+            return "Caja: " + data.Cajas.Nombre + " | Usuario que hizo la apertura: " + (data.OpenUsers != undefined ? data.OpenUsers.UserName : "");
         else
             return "";
     }
