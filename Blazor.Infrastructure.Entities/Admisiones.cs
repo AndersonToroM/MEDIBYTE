@@ -252,7 +252,7 @@ namespace Blazor.Infrastructure.Entities
         public virtual User UserAprobo { get; set; }
 
         [ForeignKey("ParentescosId")]
-        public virtual User Parentescos { get; set; }
+        public virtual Parentescos Parentescos { get; set; }
 
         #endregion
 
