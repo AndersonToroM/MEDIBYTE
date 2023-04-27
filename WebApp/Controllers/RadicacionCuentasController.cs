@@ -61,12 +61,12 @@ namespace Blazor.WebApp.Controllers
             model.Entity.EmpresasId = Manager().GetBusinessLogic<Empresas>().Tabla().FirstOrDefault().Id;
             var entidad = Manager().GetBusinessLogic<Entidades>().Tabla().FirstOrDefault();
             if (entidad != null)
-                model.Entity.EntidadesId = entidad.Id;
-            model.Entity.IsNew = true;
-            model.Entity.RadicacionArchivos.IsNew = true;
-            model.Process = true;
-            model.Entity.FechaRadicacion = DateTime.Now;
-            return model;
+                //model.Entity.EntidadesId = entidad.Id;
+                model.Entity.IsNew = true;
+                model.Entity.RadicacionArchivos.IsNew = true;
+                model.Process = true;
+                model.Entity.FechaRadicacion = DateTime.Now;
+                return model;
         }
 
         [HttpGet]
@@ -153,7 +153,7 @@ namespace Blazor.WebApp.Controllers
             {
                 try
                 {
-                    model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().FindById(x => x.Id == model.Entity.Id, false);
+                    model.Entity = Manager().GetBusinessLogic<RadicacionCuentas>().FindById(x => x.Id == model.Entity.Id, true);
                     Manager().GetBusinessLogic<RadicacionCuentas>().Remove(model.Entity);
                     return newModel;
                 }
@@ -161,6 +161,10 @@ namespace Blazor.WebApp.Controllers
                 {
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
             return model;
         }
