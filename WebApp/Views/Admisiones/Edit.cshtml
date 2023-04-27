@@ -382,13 +382,14 @@
                                 groupItems.AddSimpleFor(m => m.Entity.ValorCopago).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ValorCopago")))
                                         .Editor(e => e.NumberBox().ID(Prefix + "ValorCopago").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true)
-                                        .ReadOnly(Model.Entity.Facturado)
+                                        .ReadOnly(Model.Entity.Facturado).ReadOnly(!Model.Entity.IsNew)
                                         );
 
                                 groupItems.AddSimpleFor(m => m.Entity.PorcDescAutorizado).ColSpan(2)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.PorcDescAutorizado")))
                                     .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(true)
-                                    .OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado"));
+                                    .OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado")
+                                    );
 
                                 @*groupItems.AddSimpleFor(m => m.Entity.ValorPagarParticular).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ValorPagarParticular")))
