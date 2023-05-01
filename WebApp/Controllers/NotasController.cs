@@ -1,7 +1,7 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.Notas;
 using Blazor.WebApp.Models;
-using DevExpress.XtraReports.UI;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
@@ -16,7 +16,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApp.Reportes.Notas;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -367,14 +366,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-
-                NotasReporte report = new NotasReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var report = Manager().Report<NotasReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)

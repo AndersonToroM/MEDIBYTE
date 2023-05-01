@@ -1,7 +1,7 @@
 ﻿using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
-using Blazor.WebApp.Models;
-using DevExpress.Compression;
+using Blazor.Reports.Facturas;
+using Blazor.Reports.Notas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
@@ -13,13 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using WebApp.Reportes.Facturas;
-using WebApp.Reportes.Notas;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -129,21 +125,14 @@ namespace Blazor.WebApp.Controllers
 
         private string GetPdfFacturaReporte(Facturas factura, Dominus.Backend.DataBase.BusinessLogic manager)
         {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = manager.GetBusinessLogic<Empresas>().FindById(x => x.Id == factura.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { factura.Id };
-
             XtraReport xtraReport = null;
             if (factura.AdmisionesId != null)
             {
-                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
-                xtraReport = report;
+                xtraReport = Manager().Report<FacturasParticularReporte>(factura.Id, User.Identity.Name);
             }
             else
             {
-                FacturasReporte report = new FacturasReporte(informacionReporte);
-                xtraReport = report;
+                xtraReport = Manager().Report<FacturasReporte>(factura.Id, User.Identity.Name);
             }
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
@@ -157,13 +146,7 @@ namespace Blazor.WebApp.Controllers
 
         private string GetPdfNotaReporte(Notas nota, Dominus.Backend.DataBase.BusinessLogic manager)
         {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = manager.GetBusinessLogic<Empresas>().FindById(x => x.Id == nota.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { nota.Id };
-
-            NotasReporte report = new NotasReporte(informacionReporte);
-            XtraReport xtraReport = report;
+            XtraReport xtraReport = Manager().Report<NotasReporte>(nota.Id, User.Identity.Name);
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();

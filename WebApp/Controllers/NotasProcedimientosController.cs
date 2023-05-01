@@ -1,13 +1,10 @@
 ﻿using Blazor.BusinessLogic;
-using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
-using Blazor.Infrastructure.Models;
+using Blazor.Reports.AtencionNotaProcedimientos;
 using Blazor.WebApp.Models;
-using DevExpress.XtraReports.UI;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApp.Reportes.AtencionNotaProcedimientos;
 using WidgetGallery;
 namespace WebApp.Controllers
 {
@@ -86,15 +82,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = atencionesId.ToArray();
-                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
-                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
-
-                AtencionNotaProcedimientosReporte report = new AtencionNotaProcedimientosReporte(informacionReporte);
-                XtraReport xtraReport = report;
+                var report = Manager().Report<AtencionNotaProcedimientosReporte>(atencionesId.ToArray(), User.Identity.Name);
                 return PartialView("_ViewerReport", report);
 
             }

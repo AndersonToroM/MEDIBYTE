@@ -1,6 +1,7 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
-using Blazor.WebApp.Models;
+using Blazor.Reports.Facturas;
+using Blazor.Reports.Notas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
@@ -12,7 +13,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using WebApp.Reportes.Notas;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -105,13 +106,7 @@ namespace Blazor.WebApp.Controllers
 
         private string GetPdfNotaReporte(Notas nota)
         {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == nota.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { nota.Id };
-
-            NotasReporte report = new NotasReporte(informacionReporte);
-            XtraReport xtraReport = report;
+            XtraReport xtraReport = Manager().Report<NotasReporte>(nota.Id, User.Identity.Name);
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();

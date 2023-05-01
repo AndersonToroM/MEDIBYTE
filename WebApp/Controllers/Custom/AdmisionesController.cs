@@ -1,7 +1,8 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.EntregaAdmisiones;
+using Blazor.Reports.Facturas;
 using Blazor.WebApp.Models;
-using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApp.Reportes.EntregaAdmisiones;
-using WebApp.Reportes.Facturas;
 using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
@@ -223,13 +222,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-
-                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
-                XtraReport xtraReport = report;
+                var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
 
             }
@@ -262,19 +255,13 @@ namespace Blazor.WebApp.Controllers
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
                     throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
-                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
-                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
-
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.ParametrosAdicionales.Add("p_FechaDesde", fechaDesde);
-                informacionReporte.ParametrosAdicionales.Add("p_FechaHasta", fechaHasta);
-                informacionReporte.ParametrosAdicionales.Add("p_SedeId", sedeId);
-                informacionReporte.ParametrosAdicionales.Add("p_UsuarioGenero", User.Identity.Name);
-
-                EntregaAdmisionesReporte report = new EntregaAdmisionesReporte(informacionReporte);
-                XtraReport xtraReport = report;
+                var parametros = new Dictionary<string, object>
+                {
+                    { "p_FechaDesde", new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0)},
+                    { "p_FechaHasta", new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59)},
+                    {"p_SedeId", sedeId }
+                };
+                var report = Manager().Report<EntregaAdmisionesReporte>(User.Identity.Name, parametros);
                 return PartialView("_ViewerReport", report);
 
             }
