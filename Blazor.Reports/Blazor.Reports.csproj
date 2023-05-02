@@ -67,7 +67,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DevExpress.Reporting.Core" Version="21.2.6" />
+	  <PackageReference Include="DevExpress.AspNetCore.Common" Version="21.2.6" />
+	  <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="21.2.6" />
+	  <PackageReference Include="DevExpress.CrossPlatform.Printing.DrawingEngine" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>
