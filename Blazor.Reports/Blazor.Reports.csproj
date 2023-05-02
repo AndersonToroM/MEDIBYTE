@@ -1,270 +1,244 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="AtencionesResultado\AtencionesResultadoReporte.repx" />
-    <None Remove="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.repx" />
-    <None Remove="EntregaAdmisiones\EntregaAdmisionesReporte.repx" />
-    <None Remove="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.repx" />
-    <None Remove="FacturaDetalle\FacturaDetalleReporte.repx" />
-    <None Remove="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.repx" />
-    <None Remove="Facturas\CarteraGeneralReporte.vsrepx" />
-    <None Remove="Facturas\CarteraReporte.vsrepx" />
-    <None Remove="Facturas\FacturasParticularReporte.repx" />
-    <None Remove="Facturas\FacturasReporte.repx" />
-    <None Remove="Facturas\TotalCarteraReporte.vsrepx" />
-    <None Remove="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.repx" />
-    <None Remove="HistoriasClinicas\DocumentosAPacientesReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriaClinicasReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.repx" />
-    <None Remove="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.repx" />
-    <None Remove="Incapacidades\IncapacidadesReporte.repx" />
-    <None Remove="IndicacionesMedicas\IndicacionesMedicasReporte.repx" />
-    <None Remove="LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
-    <None Remove="Notas\NotasReporte.repx" />
-    <None Remove="OrdenesMedicamentos\OrdenesMedicamentosReporte.repx" />
-    <None Remove="OrdenesServicios\OrdenesServiciosReporte.repx" />
-    <None Remove="RadicacionCuentas\RadicacionCuentasReporte.repx" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="AtencionesResultado\AtencionesResultadoReporte.repx" />
+		<None Remove="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.repx" />
+		<None Remove="EntregaAdmisiones\EntregaAdmisionesReporte.repx" />
+		<None Remove="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.repx" />
+		<None Remove="FacturaDetalle\FacturaDetalleReporte.repx" />
+		<None Remove="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.repx" />
+		<None Remove="Facturas\CarteraGeneralReporte.vsrepx" />
+		<None Remove="Facturas\CarteraReporte.vsrepx" />
+		<None Remove="Facturas\FacturasParticularReporte.repx" />
+		<None Remove="Facturas\FacturasReporte.repx" />
+		<None Remove="Facturas\TotalCarteraReporte.vsrepx" />
+		<None Remove="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.repx" />
+		<None Remove="HistoriasClinicas\DocumentosAPacientesReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriaClinicasReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.repx" />
+		<None Remove="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.repx" />
+		<None Remove="Incapacidades\IncapacidadesReporte.repx" />
+		<None Remove="IndicacionesMedicas\IndicacionesMedicasReporte.repx" />
+		<None Remove="LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
+		<None Remove="Notas\NotasReporte.repx" />
+		<None Remove="OrdenesMedicamentos\OrdenesMedicamentosReporte.repx" />
+		<None Remove="OrdenesServicios\OrdenesServiciosReporte.repx" />
+		<None Remove="RadicacionCuentas\RadicacionCuentasReporte.repx" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="AtencionesResultado\AtencionesResultadoReporte.repx" />
-    <EmbeddedResource Include="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.repx" />
-    <EmbeddedResource Include="EntregaAdmisiones\EntregaAdmisionesReporte.repx" />
-    <EmbeddedResource Include="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.repx" />
-    <EmbeddedResource Include="FacturaDetalle\FacturaDetalleReporte.repx" />
-    <EmbeddedResource Include="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.repx" />
-    <EmbeddedResource Include="Facturas\CarteraGeneralReporte.vsrepx" />
-    <EmbeddedResource Include="Facturas\CarteraReporte.vsrepx" />
-    <EmbeddedResource Include="Facturas\FacturasParticularReporte.repx" />
-    <EmbeddedResource Include="Facturas\FacturasReporte.repx" />
-    <EmbeddedResource Include="Facturas\TotalCarteraReporte.vsrepx" />
-    <EmbeddedResource Include="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\DocumentosAPacientesReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriaClinicasReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.repx" />
-    <EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.repx" />
-    <EmbeddedResource Include="Incapacidades\IncapacidadesReporte.repx" />
-    <EmbeddedResource Include="IndicacionesMedicas\IndicacionesMedicasReporte.repx" />
-    <EmbeddedResource Include="LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
-    <EmbeddedResource Include="Notas\NotasReporte.repx" />
-    <EmbeddedResource Include="OrdenesMedicamentos\OrdenesMedicamentosReporte.repx" />
-    <EmbeddedResource Include="OrdenesServicios\OrdenesServiciosReporte.repx" />
-    <EmbeddedResource Include="RadicacionCuentas\RadicacionCuentasReporte.repx" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="AtencionesResultado\AtencionesResultadoReporte.repx" />
+		<EmbeddedResource Include="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.repx" />
+		<EmbeddedResource Include="EntregaAdmisiones\EntregaAdmisionesReporte.repx" />
+		<EmbeddedResource Include="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.repx" />
+		<EmbeddedResource Include="FacturaDetalle\FacturaDetalleReporte.repx" />
+		<EmbeddedResource Include="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.repx" />
+		<EmbeddedResource Include="Facturas\CarteraGeneralReporte.vsrepx" />
+		<EmbeddedResource Include="Facturas\CarteraReporte.vsrepx" />
+		<EmbeddedResource Include="Facturas\FacturasParticularReporte.repx" />
+		<EmbeddedResource Include="Facturas\FacturasReporte.repx" />
+		<EmbeddedResource Include="Facturas\TotalCarteraReporte.vsrepx" />
+		<EmbeddedResource Include="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\DocumentosAPacientesReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriaClinicasReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.repx" />
+		<EmbeddedResource Include="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.repx" />
+		<EmbeddedResource Include="Incapacidades\IncapacidadesReporte.repx" />
+		<EmbeddedResource Include="IndicacionesMedicas\IndicacionesMedicasReporte.repx" />
+		<EmbeddedResource Include="LiquidacionHonorarios\LiquidacionHonorariosReporte.vsrepx" />
+		<EmbeddedResource Include="Notas\NotasReporte.repx" />
+		<EmbeddedResource Include="OrdenesMedicamentos\OrdenesMedicamentosReporte.repx" />
+		<EmbeddedResource Include="OrdenesServicios\OrdenesServiciosReporte.repx" />
+		<EmbeddedResource Include="RadicacionCuentas\RadicacionCuentasReporte.repx" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="DevExpress.AspNetCore.Common" Version="21.2.6" />
-	  <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="21.2.6" />
-	  <PackageReference Include="DevExpress.CrossPlatform.Printing.DrawingEngine" Version="1.0.12" />
-	  <PackageReference Include="jQuery.Ajax.Unobtrusive" Version="2.0.20710" />
-	  <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="NAudio.Lame" Version="2.0.0" />
-	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0" />
-	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.4" />
-	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	  <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
-	  <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-	  <PackageReference Include="Polly" Version="7.2.2" />
-	  <PackageReference Include="Serilog" Version="2.10.0" />
-	  <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
-	  <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
-	  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-	  <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
-	  <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
-	  <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DevExpress.AspNetCore.Reporting" Version="21.2.6" />
+		<PackageReference Include="DevExpress.CrossPlatform.Printing.DrawingEngine" Version="1.0.12" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.3" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Blazor.Infrastructure.Entities\Blazor.Infrastructure.Entities.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Blazor.Infrastructure.Entities\Blazor.Infrastructure.Entities.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="AtencionesResultado\AtencionesResultadoReporte.cs">
-      <DependentUpon>AtencionesResultadoReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="AtencionesResultado\AtencionesResultadoReporte.Designer.cs">
-      <DependentUpon>AtencionesResultadoReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.cs">
-      <DependentUpon>AtencionNotaProcedimientosReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.Designer.cs">
-      <DependentUpon>AtencionNotaProcedimientosReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="EntregaAdmisiones\EntregaAdmisionesReporte.cs">
-      <DependentUpon>EntregaAdmisionesReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="EntregaAdmisiones\EntregaAdmisionesReporte.Designer.cs">
-      <DependentUpon>EntregaAdmisionesReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.cs">
-      <DependentUpon>EntregaAdmisionesTotalesSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.Designer.cs">
-      <DependentUpon>EntregaAdmisionesTotalesSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="FacturaDetalle\FacturaDetalleReporte.cs">
-      <DependentUpon>FacturaDetalleReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="FacturaDetalle\FacturaDetalleReporte.Designer.cs">
-      <DependentUpon>FacturaDetalleReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.cs">
-      <DependentUpon>FacturaDetalleTotalCategoriasSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.Designer.cs">
-      <DependentUpon>FacturaDetalleTotalCategoriasSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\CarteraGeneralReporte.cs">
-      <DependentUpon>CarteraGeneralReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\CarteraGeneralReporte.Designer.cs">
-      <DependentUpon>CarteraGeneralReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\CarteraReporte.cs">
-      <DependentUpon>CarteraReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\CarteraReporte.Designer.cs">
-      <DependentUpon>CarteraReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\FacturasParticularReporte.cs">
-      <DependentUpon>FacturasParticularReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\FacturasParticularReporte.Designer.cs">
-      <DependentUpon>FacturasParticularReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\FacturasReporte.cs">
-      <DependentUpon>FacturasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\FacturasReporte.Designer.cs">
-      <DependentUpon>FacturasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\TotalCarteraReporte.cs">
-      <DependentUpon>TotalCarteraReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Facturas\TotalCarteraReporte.Designer.cs">
-      <DependentUpon>TotalCarteraReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.cs">
-      <DependentUpon>HistoriaClinicasNotasAclaratoriasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.Designer.cs">
-      <DependentUpon>HistoriaClinicasNotasAclaratoriasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\DocumentosAPacientesReporte.cs">
-      <DependentUpon>DocumentosAPacientesReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\DocumentosAPacientesReporte.Designer.cs">
-      <DependentUpon>DocumentosAPacientesReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriaClinicasReporte.cs">
-      <DependentUpon>HistoriaClinicasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriaClinicasReporte.Designer.cs">
-      <DependentUpon>HistoriaClinicasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.cs">
-      <DependentUpon>HistoriasClinicasDiagnosticosSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.Designer.cs">
-      <DependentUpon>HistoriasClinicasDiagnosticosSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.cs">
-      <DependentUpon>HistoriasClinicasIncapacidadesSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.Designer.cs">
-      <DependentUpon>HistoriasClinicasIncapacidadesSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.cs">
-      <DependentUpon>HistoriasClinicasIndicacionesMedicasSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.Designer.cs">
-      <DependentUpon>HistoriasClinicasIndicacionesMedicasSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.cs">
-      <DependentUpon>HistoriasClinicasOrdenesMedicamentosSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.Designer.cs">
-      <DependentUpon>HistoriasClinicasOrdenesMedicamentosSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.cs">
-      <DependentUpon>HistoriasClinicasOrdenesServiciosSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.Designer.cs">
-      <DependentUpon>HistoriasClinicasOrdenesServiciosSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.cs">
-      <DependentUpon>HistoriasClinicasRespuestasSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.Designer.cs">
-      <DependentUpon>HistoriasClinicasRespuestasSubReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Incapacidades\IncapacidadesReporte.cs">
-      <DependentUpon>IncapacidadesReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Incapacidades\IncapacidadesReporte.Designer.cs">
-      <DependentUpon>IncapacidadesReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="IndicacionesMedicas\IndicacionesMedicasReporte.cs">
-      <DependentUpon>IndicacionesMedicasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="IndicacionesMedicas\IndicacionesMedicasReporte.Designer.cs">
-      <DependentUpon>IndicacionesMedicasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="LiquidacionHonorarios\LiquidacionHonorariosReporte.cs">
-      <DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="LiquidacionHonorarios\LiquidacionHonorariosReporte.Designer.cs">
-      <DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
-    </Compile>
-    <Compile Update="Notas\NotasReporte.cs">
-      <DependentUpon>NotasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="Notas\NotasReporte.Designer.cs">
-      <DependentUpon>NotasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="OrdenesMedicamentos\OrdenesMedicamentosReporte.cs">
-      <DependentUpon>OrdenesMedicamentosReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="OrdenesMedicamentos\OrdenesMedicamentosReporte.Designer.cs">
-      <DependentUpon>OrdenesMedicamentosReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="OrdenesServicios\OrdenesServiciosReporte.cs">
-      <DependentUpon>OrdenesServiciosReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="OrdenesServicios\OrdenesServiciosReporte.Designer.cs">
-      <DependentUpon>OrdenesServiciosReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="RadicacionCuentas\RadicacionCuentasReporte.cs">
-      <DependentUpon>RadicacionCuentasReporte.repx</DependentUpon>
-    </Compile>
-    <Compile Update="RadicacionCuentas\RadicacionCuentasReporte.Designer.cs">
-      <DependentUpon>RadicacionCuentasReporte.repx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="AtencionesResultado\AtencionesResultadoReporte.cs">
+			<DependentUpon>AtencionesResultadoReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="AtencionesResultado\AtencionesResultadoReporte.Designer.cs">
+			<DependentUpon>AtencionesResultadoReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.cs">
+			<DependentUpon>AtencionNotaProcedimientosReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="AtencionNotaProcedimientos\AtencionNotaProcedimientosReporte.Designer.cs">
+			<DependentUpon>AtencionNotaProcedimientosReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="EntregaAdmisiones\EntregaAdmisionesReporte.cs">
+			<DependentUpon>EntregaAdmisionesReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="EntregaAdmisiones\EntregaAdmisionesReporte.Designer.cs">
+			<DependentUpon>EntregaAdmisionesReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.cs">
+			<DependentUpon>EntregaAdmisionesTotalesSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="EntregaAdmisiones\EntregaAdmisionesTotalesSubReporte.Designer.cs">
+			<DependentUpon>EntregaAdmisionesTotalesSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="FacturaDetalle\FacturaDetalleReporte.cs">
+			<DependentUpon>FacturaDetalleReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="FacturaDetalle\FacturaDetalleReporte.Designer.cs">
+			<DependentUpon>FacturaDetalleReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.cs">
+			<DependentUpon>FacturaDetalleTotalCategoriasSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="FacturaDetalle\FacturaDetalleTotalCategoriasSubReporte.Designer.cs">
+			<DependentUpon>FacturaDetalleTotalCategoriasSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\CarteraGeneralReporte.cs">
+			<DependentUpon>CarteraGeneralReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\CarteraGeneralReporte.Designer.cs">
+			<DependentUpon>CarteraGeneralReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\CarteraReporte.cs">
+			<DependentUpon>CarteraReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\CarteraReporte.Designer.cs">
+			<DependentUpon>CarteraReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\FacturasParticularReporte.cs">
+			<DependentUpon>FacturasParticularReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\FacturasParticularReporte.Designer.cs">
+			<DependentUpon>FacturasParticularReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\FacturasReporte.cs">
+			<DependentUpon>FacturasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\FacturasReporte.Designer.cs">
+			<DependentUpon>FacturasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\TotalCarteraReporte.cs">
+			<DependentUpon>TotalCarteraReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="Facturas\TotalCarteraReporte.Designer.cs">
+			<DependentUpon>TotalCarteraReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.cs">
+			<DependentUpon>HistoriaClinicasNotasAclaratoriasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicasNotasAclaratorias\HistoriaClinicasNotasAclaratoriasReporte.Designer.cs">
+			<DependentUpon>HistoriaClinicasNotasAclaratoriasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\DocumentosAPacientesReporte.cs">
+			<DependentUpon>DocumentosAPacientesReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\DocumentosAPacientesReporte.Designer.cs">
+			<DependentUpon>DocumentosAPacientesReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriaClinicasReporte.cs">
+			<DependentUpon>HistoriaClinicasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriaClinicasReporte.Designer.cs">
+			<DependentUpon>HistoriaClinicasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.cs">
+			<DependentUpon>HistoriasClinicasDiagnosticosSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasDiagnosticosSubReporte.Designer.cs">
+			<DependentUpon>HistoriasClinicasDiagnosticosSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.cs">
+			<DependentUpon>HistoriasClinicasIncapacidadesSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasIncapacidadesSubReporte.Designer.cs">
+			<DependentUpon>HistoriasClinicasIncapacidadesSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.cs">
+			<DependentUpon>HistoriasClinicasIndicacionesMedicasSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasIndicacionesMedicasSubReporte.Designer.cs">
+			<DependentUpon>HistoriasClinicasIndicacionesMedicasSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.cs">
+			<DependentUpon>HistoriasClinicasOrdenesMedicamentosSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesMedicamentosSubReporte.Designer.cs">
+			<DependentUpon>HistoriasClinicasOrdenesMedicamentosSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.cs">
+			<DependentUpon>HistoriasClinicasOrdenesServiciosSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasOrdenesServiciosSubReporte.Designer.cs">
+			<DependentUpon>HistoriasClinicasOrdenesServiciosSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.cs">
+			<DependentUpon>HistoriasClinicasRespuestasSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="HistoriasClinicas\HistoriasClinicasRespuestasSubReporte.Designer.cs">
+			<DependentUpon>HistoriasClinicasRespuestasSubReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Incapacidades\IncapacidadesReporte.cs">
+			<DependentUpon>IncapacidadesReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Incapacidades\IncapacidadesReporte.Designer.cs">
+			<DependentUpon>IncapacidadesReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="IndicacionesMedicas\IndicacionesMedicasReporte.cs">
+			<DependentUpon>IndicacionesMedicasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="IndicacionesMedicas\IndicacionesMedicasReporte.Designer.cs">
+			<DependentUpon>IndicacionesMedicasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="LiquidacionHonorarios\LiquidacionHonorariosReporte.cs">
+			<DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="LiquidacionHonorarios\LiquidacionHonorariosReporte.Designer.cs">
+			<DependentUpon>LiquidacionHonorariosReporte.vsrepx</DependentUpon>
+		</Compile>
+		<Compile Update="Notas\NotasReporte.cs">
+			<DependentUpon>NotasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="Notas\NotasReporte.Designer.cs">
+			<DependentUpon>NotasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="OrdenesMedicamentos\OrdenesMedicamentosReporte.cs">
+			<DependentUpon>OrdenesMedicamentosReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="OrdenesMedicamentos\OrdenesMedicamentosReporte.Designer.cs">
+			<DependentUpon>OrdenesMedicamentosReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="OrdenesServicios\OrdenesServiciosReporte.cs">
+			<DependentUpon>OrdenesServiciosReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="OrdenesServicios\OrdenesServiciosReporte.Designer.cs">
+			<DependentUpon>OrdenesServiciosReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="RadicacionCuentas\RadicacionCuentasReporte.cs">
+			<DependentUpon>RadicacionCuentasReporte.repx</DependentUpon>
+		</Compile>
+		<Compile Update="RadicacionCuentas\RadicacionCuentasReporte.Designer.cs">
+			<DependentUpon>RadicacionCuentasReporte.repx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
 </Project>
