@@ -68,7 +68,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="DevExpress.AspNetCore.Reporting" Version="21.2.6" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
