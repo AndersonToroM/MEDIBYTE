@@ -55,13 +55,13 @@ namespace Blazor.WebApp
                 });
             });
 
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                DevExpress.Printing.CrossPlatform.CustomEngineHelper.RegisterCustomDrawingEngine(
-                    typeof(
-                        DevExpress.CrossPlatform.Printing.DrawingEngine.PangoCrossPlatformEngine
-                    ));
-            }
+            //if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            //{
+            //    DevExpress.Printing.CrossPlatform.CustomEngineHelper.RegisterCustomDrawingEngine(
+            //        typeof(
+            //            DevExpress.CrossPlatform.Printing.DrawingEngine.PangoCrossPlatformEngine
+            //        ));
+            //}
 
             services.Configure<CookiePolicyOptions>(options =>
             {
