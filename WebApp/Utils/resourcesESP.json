@@ -4588,6 +4588,10 @@
     "Description": "Cantidad"
   },
   {
+    "Id": "ServiciosFacturar.ConsecutivoAdmision",
+    "Description": "Consecutivo Admisión"
+  },
+  {
     "Id": "ServiciosFacturar.ConvenioCodigo",
     "Description": "Convenio"
   },

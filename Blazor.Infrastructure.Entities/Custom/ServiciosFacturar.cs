@@ -14,6 +14,11 @@ namespace Blazor.Infrastructure.Entities
         [DRequired("ServiciosFacturar.AdmisionesId")]
         public Int64 AdmisionesId { get; set; }
 
+        [Column("ConsecutivoAdmision")]
+        [DDisplayName("ServiciosFacturar.ConsecutivoAdmision")]
+        [DRequired("ServiciosFacturar.ConsecutivoAdmision")]
+        public Int64 ConsecutivoAdmision { get; set; }
+
         [Column("EmpresasId")]
         [DDisplayName("ServiciosFacturar.EmpresasId")]
         [DRequired("ServiciosFacturar.EmpresasId")]
