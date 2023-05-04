@@ -1,20 +1,18 @@
+using Blazor.BusinessLogic;
+using Blazor.Infrastructure.Entities;
+using Blazor.Reports.OrdenesServicios;
+using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
-using Blazor.Infrastructure.Entities;
-using Blazor.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
-using Newtonsoft.Json;
-using Blazor.BusinessLogic;
-using DevExpress.XtraReports.UI;
-using WebApp.Reportes.OrdenesServicios;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -274,16 +272,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
-                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
-
-                OrdenesServiciosReporte report = new OrdenesServiciosReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var report = Manager().Report<OrdenesServiciosReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)

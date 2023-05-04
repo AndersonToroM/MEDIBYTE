@@ -1,22 +1,19 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.HistoriasClinicas;
 using Blazor.WebApp.Models;
 using DevExpress.Data.ODataLinq.Helpers;
-using DevExpress.XtraReports.UI;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
-using WebApp.Reportes.HistoriasClinicas;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -312,17 +309,8 @@ namespace Blazor.WebApp.Controllers
                 {
                     return new BadRequestObjectResult("El paciente no tiene una historia clinica registrada.");
                 }
-
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = Manager().GetBusinessLogic<HistoriasClinicas>().FindAll(x => x.PacientesId == PacienteId, false).Select(x=>x.Id).ToArray();
-                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name,false);
-                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
-
-                HistoriasClinicasReporte report = new HistoriasClinicasReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var ids = Manager().GetBusinessLogic<HistoriasClinicas>().FindAll(x => x.PacientesId == PacienteId, false).Select(x=>x.Id).ToArray();
+                var report = Manager().Report<HistoriasClinicasReporte>(ids, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)
@@ -337,16 +325,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
-                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
-
-                DocumentosAPacientesReporte report = new DocumentosAPacientesReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var report = Manager().Report<DocumentosAPacientesReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)
@@ -360,16 +339,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
-                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
-
-                HistoriasClinicasReporte report = new HistoriasClinicasReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var report = Manager().Report<HistoriasClinicasReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)

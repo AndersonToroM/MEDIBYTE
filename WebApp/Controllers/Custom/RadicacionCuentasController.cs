@@ -1,8 +1,7 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.RadicacionCuentas;
 using Blazor.WebApp.Models;
-using DevExpress.XtraReports.UI;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using WebApp.Reportes.General.RadicacionCuentasReporte;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -28,7 +26,7 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult RadicarFacturas([FromBody]List<Facturas> models)
+        public IActionResult RadicarFacturas([FromBody] List<Facturas> models)
         {
             RadicacionCuentas factGen = Manager().GetBusinessLogic<RadicacionCuentas>().FindById(x => x.Id == models[0].RadicacionFacturasId, false);
             Estados estado = Manager().GetBusinessLogic<Estados>().FindById(x => x.Tipo == "FACTURA" && x.Nombre == "RADICADA", false);
@@ -47,7 +45,7 @@ namespace Blazor.WebApp.Controllers
                     factura.Estadosid = estado.Id;
                     Manager().GetBusinessLogic<Facturas>().Modify(factura);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     errores.Add(item);
                 }
@@ -88,18 +86,14 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-                XtraReport report = new RadicacionCuentasReporte(informacionReporte);
+                var report = Manager().Report<RadicacionCuentasReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
-            
+
         }
 
     }
