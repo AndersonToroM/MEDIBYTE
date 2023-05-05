@@ -16,6 +16,7 @@ using Blazor.Reports.OrdenesMedicamentos;
 using Blazor.Reports.OrdenesServicios;
 using Blazor.Reports.RadicacionCuentas;
 using DevExpress.XtraReports.UI;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -45,7 +46,7 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(logic.settings);
             ReporteModel reportModel = new ReporteModel();
             reportModel.BD = logic.settings;
-            reportModel.Empresa = unitOfWork.Repository<Empresas>().Table.First();
+            reportModel.Empresa = unitOfWork.Repository<Empresas>().Table.Include(x=>x.LogoArchivos).First();
             if (ids != null && ids.Count() > 0)
             {
                 reportModel.Ids = ids;
