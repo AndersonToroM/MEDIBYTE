@@ -69,11 +69,11 @@ namespace Blazor.BusinessLogic.Jobs
 
                                 await scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
                                 Jobs.Add(jobData);
-                                Console.WriteLine($"Rutina {jobData.Class} para {tenant.Code} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
+                                Console.WriteLine($"Rutina Id={job.Id} {jobData.Class} para {tenant.Code} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
                             }
                             else
                             {
-                                Console.WriteLine($" ::::::::::: Clase ({job.Class} para {tenant.Code}) no existe o esta mal ubicado en el proyecto ::::::::::: ");
+                                Console.WriteLine($" ::::::::::: Id={job.Id} Clase ({job.Class} para {tenant.Code}) no existe o esta mal ubicado en el proyecto ::::::::::: ");
                             }
 
                         }
