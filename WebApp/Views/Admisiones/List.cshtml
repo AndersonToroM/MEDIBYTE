@@ -101,12 +101,12 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.Id).Caption(DApp.DefaultLanguage.GetResource("Admisiones.Consecutivo"));
+        columns.AddFor(m => m.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Admisiones.Consecutivo")).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
         columns.AddFor(m => m.Pacientes.NombreCompleto);
         columns.AddFor(m => m.ProgramacionCitas.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Admisiones.ConsecutivoCita"));
         columns.AddFor(m => m.ProgramacionCitas.Servicios.Nombre);
-        columns.AddFor(m => m.ProgramacionCitas.FechaInicio).Format("dd/MM/yyyy").SortOrder(SortOrder.Desc);
+        columns.AddFor(m => m.ProgramacionCitas.FechaInicio).Format("dd/MM/yyyy");
         columns.AddFor(m => m.ProgramacionCitas.FechaInicio).Caption(DApp.DefaultLanguage.GetResource("Admisiones.HoraInicio")).Format("HH:mm");
         columns.AddFor(m => m.ProgramacionCitas.Servicios.RequiereProfesional);
         columns.AddFor(m => m.ProgramacionCitas.Consultorios.Nombre);

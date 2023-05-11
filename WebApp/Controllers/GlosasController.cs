@@ -144,9 +144,14 @@ namespace Blazor.WebApp.Controllers
             GlosasModel newModel = NewModel(); 
             if (ModelState.IsValid) 
             { 
+                
                 try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<Glosas>().FindById(x => x.Id == model.Entity.Id, false); 
+                {
+                    var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
+                    model.Entity = Manager().GetBusinessLogic<Glosas>().FindById(x => x.Id == model.Entity.Id, false);
+                    factura.Saldo = factura.Saldo + model.Entity.ValorGlosadoFinal;
+                    factura.Estadosid = 15;
+                    Manager().GetBusinessLogic<Facturas>().Modify(factura);
                     Manager().GetBusinessLogic<Glosas>().Remove(model.Entity); 
                     return newModel;
                 } 

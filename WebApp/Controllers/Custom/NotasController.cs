@@ -1,6 +1,7 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
-using Blazor.WebApp.Models;
+using Blazor.Reports.Facturas;
+using Blazor.Reports.Notas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
@@ -12,7 +13,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using WebApp.Reportes.Notas;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -94,7 +95,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 Notas nota = Manager().NotasBusinessLogic().FindById(x => x.Id == id, true);
-                await Manager().NotasBusinessLogic().EnviarEmail(nota, GetPdfNotaReporte(nota), "Envio Nota Manual");
+                await Manager().NotasBusinessLogic().EnviarEmail(nota, "Envio Nota Manual", User.Identity.Name);
                 return Ok();
             }
             catch (Exception e)
@@ -103,23 +104,5 @@ namespace Blazor.WebApp.Controllers
             }
         }
 
-        private string GetPdfNotaReporte(Notas nota)
-        {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == nota.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { nota.Id };
-
-            NotasReporte report = new NotasReporte(informacionReporte);
-            XtraReport xtraReport = report;
-
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return pathPdf;
-        }
     }
 }

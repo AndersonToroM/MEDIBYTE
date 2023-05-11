@@ -5,7 +5,7 @@
   },
   {
     "Id": "\"ServiciosFacturar.SedesNombre",
-    "Description": "Sede"
+    "Description": null
   },
   {
     "Id": "AdicionOrdenes",
@@ -105,7 +105,7 @@
   },
   {
     "Id": "Admisiones.CoberturaPlanBeneficiosId",
-    "Description": "Cobertura o plan beneficios"
+    "Description": "Cobertura o plan de beneficios"
   },
   {
     "Id": "Admisiones.Consecutivo",
@@ -225,15 +225,15 @@
   },
   {
     "Id": "Admisiones.NumeroPoliza",
-    "Description": "Número poliza"
+    "Description": "Número póliza"
   },
   {
     "Id": "Admisiones.NumeroPrescripcion",
-    "Description": "Número prescripción"
+    "Description": "Número de prescripción"
   },
   {
     "Id": "Admisiones.NumeroSuministroPrescripcion",
-    "Description": "Número suministro prescripcion"
+    "Description": "Número suministro prescripción"
   },
   {
     "Id": "Admisiones.ObservacionFactura",
@@ -285,7 +285,7 @@
   },
   {
     "Id": "Admisiones.TiposUsuariosId",
-    "Description": "Tipo usuarios"
+    "Description": "Tipo usuario"
   },
   {
     "Id": "Admisiones.TotalPagarParticular",
@@ -904,6 +904,10 @@
     "Description": "Usuario Cierre"
   },
   {
+    "Id": "CiclosCajas.Consecutivo",
+    "Description": "Consecutivo"
+  },
+  {
     "Id": "CiclosCajas.EstadosId",
     "Description": "Estado"
   },
@@ -942,6 +946,10 @@
   {
     "Id": "CiclosCajas.TotalSobrante",
     "Description": "Total Sobrante"
+  },
+  {
+    "Id": "CiclosCajas.UsuarioCierre",
+    "Description": "Usuario Cierre"
   },
   {
     "Id": "CiclosCajas.ValorApertura",
@@ -4216,6 +4224,10 @@
     "Description": "Radicacion de cuentas"
   },
   {
+    "Id": "RadicacionCuentas.Consecutivo",
+    "Description": "Consecutivo"
+  },
+  {
     "Id": "RadicacionCuentas.EmpresasId",
     "Description": "Empresa"
   },
@@ -4260,6 +4272,10 @@
     "Description": "Caja"
   },
   {
+    "Id": "Recaudos.Consecutivo",
+    "Description": "Consecutivo"
+  },
+  {
     "Id": "Recaudos.EmpresasId",
     "Description": "Empresa"
   },
@@ -4286,6 +4302,10 @@
   {
     "Id": "Recaudos.InformacionTransaccion",
     "Description": "Información de la Transacción"
+  },
+  {
+    "Id": "Recaudos.MediosPago",
+    "Description": "Medio de Pago"
   },
   {
     "Id": "Recaudos.MediosPagoId",
@@ -4566,6 +4586,10 @@
   {
     "Id": "ServiciosFacturar.Cantidad",
     "Description": "Cantidad"
+  },
+  {
+    "Id": "ServiciosFacturar.ConsecutivoAdmision",
+    "Description": "Consecutivo Admisión"
   },
   {
     "Id": "ServiciosFacturar.ConvenioCodigo",

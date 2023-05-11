@@ -88,6 +88,7 @@
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().NumberBoxFor(m => m.Entity.EmpresasId).ID(Prefix + "EmpresasId").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.Consecutivo).ID(Prefix + "Consecutivo").Visible(false))
 
                 @(Html.DControls().NumberBoxFor(m => m.Entity.ProgramacionCitasId).ID(Prefix + "CitasId").Visible(false))
 
@@ -184,6 +185,39 @@
 
                                 groupItems.AddEmpty().ColSpan(6);
 
+                                groupItems.AddSimpleFor(m => m.Entity.Responsable).ColSpan(3)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Responsable", 255)))
+                                .Editor(e => e.TextBox().ID(Prefix + "Responsable").ShowClearButton(true)
+                                .ReadOnly(Model.Entity.Facturado)
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.TelefonoResponsable).ColSpan(2)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Admisiones.TelefonoResponsable", 100)))
+                                .Editor(e => e.TextBox().ID(Prefix + "TelefonoResponsable").ShowClearButton(true)
+                                .ReadOnly(Model.Entity.Facturado)
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.ParentescosId).ColSpan(2)
+                                .Editor(e => e.SelectBox().ID(Prefix + "ParentescosId")
+                                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetParentescosId").Key("Id"))
+                                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
+                                .SearchEnabled(true).ShowClearButton(true)
+                                .ReadOnly(Model.Entity.Facturado)
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.Acompanante).ColSpan(3)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Acompanante", 255)))
+                                .Editor(e => e.TextBox().ID(Prefix + "Acompanante").ShowClearButton(true)
+                                .ReadOnly(Model.Entity.Facturado)
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.TelefonoAcompanante).ColSpan(2)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Admisiones.TelefonoAcompanante", 100)))
+                                .Editor(e => e.TextBox().ID(Prefix + "TelefonoAcompanante").ShowClearButton(true)
+                                .ReadOnly(Model.Entity.Facturado)
+                                );
+
                                 groupItems.AddSimpleFor(m => m.ConsultoriosId).ColSpan(6).Label(x=>x.Text(DApp.DefaultLanguage.GetResource("Admisiones.ConsultorioId")))
                                       .Editor(e => e.SelectBox().ID(Prefix + "ConsultorioId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetConsultoriosId").Key("Id"))
@@ -206,7 +240,7 @@
                                        .Editor(e => e.SelectBox().ID(Prefix + "ServiciosId")
                                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetServiciosId").Key("Id"))
                                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                       .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Nombre")
+                                       .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Codigo","Nombre")
                                        .SearchEnabled(true).ShowClearButton(true).ReadOnly(!Model.Entity.IsNew)
                                        .OnValueChanged($"{Prefix}OnValueChangedServiciosId")
                                   );
@@ -266,39 +300,6 @@
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50).Filter("['EntidadesId','=','"+Model.EntidadesConvenio+"']"))
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
                                       .SearchEnabled(true).ShowClearButton(true)
-                                );
-                                 
-                                groupItems.AddSimpleFor(m => m.Entity.Responsable).ColSpan(3)
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Responsable", 255)))
-                                    .Editor(e => e.TextBox().ID(Prefix + "Responsable").ShowClearButton(true)
-                                    .ReadOnly(Model.Entity.Facturado)
-                                );
-
-                                groupItems.AddSimpleFor(m => m.Entity.TelefonoResponsable).ColSpan(2)
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Admisiones.TelefonoResponsable", 100)))
-                                    .Editor(e => e.TextBox().ID(Prefix + "TelefonoResponsable").ShowClearButton(true)
-                                    .ReadOnly(Model.Entity.Facturado)
-                                );
-
-                              groupItems.AddSimpleFor(m => m.Entity.ParentescosId).ColSpan(2)
-                                    .Editor(e => e.SelectBox().ID(Prefix + "ParentescosId")
-                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetParentescosId").Key("Id"))
-                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                    .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
-                                    .SearchEnabled(true).ShowClearButton(true)
-                                    .ReadOnly(Model.Entity.Facturado)
-                                );
-
-                                groupItems.AddSimpleFor(m => m.Entity.Acompanante).ColSpan(3)
-                                   .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Acompanante", 255)))
-                                   .Editor(e => e.TextBox().ID(Prefix + "Acompanante").ShowClearButton(true)
-                                   .ReadOnly(Model.Entity.Facturado)
-                                );
-
-                                groupItems.AddSimpleFor(m => m.Entity.TelefonoAcompanante).ColSpan(2)
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Admisiones.TelefonoAcompanante", 100)))
-                                    .Editor(e => e.TextBox().ID(Prefix + "TelefonoAcompanante").ShowClearButton(true)
-                                    .ReadOnly(Model.Entity.Facturado)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroAutorizacion).ColSpan(3)
@@ -381,13 +382,14 @@
                                 groupItems.AddSimpleFor(m => m.Entity.ValorCopago).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ValorCopago")))
                                         .Editor(e => e.NumberBox().ID(Prefix + "ValorCopago").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true)
-                                        .ReadOnly(Model.Entity.Facturado)
+                                        .ReadOnly(Model.Entity.Facturado).ReadOnly(!Model.Entity.IsNew)
                                         );
 
                                 groupItems.AddSimpleFor(m => m.Entity.PorcDescAutorizado).ColSpan(2)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.PorcDescAutorizado")))
                                     .Editor(e => e.NumberBox().Min(0).ID(Prefix + "PorcDescAutorizado").Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(true)
-                                    .OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado"));
+                                    .OnValueChanged($"{Prefix}OnValueChangedPorcDescAutorizado")
+                                    );
 
                                 @*groupItems.AddSimpleFor(m => m.Entity.ValorPagarParticular).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ValorPagarParticular")))

@@ -14,7 +14,7 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AdmisionesCorrecion").LoadAction("Get").Key("Admisiones.Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.Admisiones.Id).Caption(DApp.DefaultLanguage.GetResource("Admisiones.Consecutivo"));
+        columns.AddFor(m => m.Admisiones.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Admisiones.Consecutivo"));
         columns.AddFor(m => m.Admisiones.CreatedBy);
         columns.AddFor(m => m.Admisiones.Pacientes.NumeroIdentificacion);
         columns.AddFor(m => m.Admisiones.Pacientes.NombreCompleto);

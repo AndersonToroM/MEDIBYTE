@@ -1,0 +1,492 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model CodeGeneratorModel
+
+<div class="row">
+    <!-- uncomment code for absolute positioning tweek see top comment in css -->
+    <!-- <div class="absolute-wrapper"> </div> -->
+    <!-- Menu -->
+    <div id="LeftMenuIndex" class="side-menu">
+
+        <nav class="navbar navbar-default" role="navigation">
+
+            <!-- Main Menu -->
+            <div class="side-menu-container">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <div class="form-group">
+                            <label for="DataConexion">Conexion </label><i onclick="SearchNewTables()" title="Actualiza las tablas de esta conexion" class="fas fa-sync-alt" style="cursor:pointer; right: 15px;position: absolute; color:#3a74c4"></i>
+                            @(Html.DevExtreme().SelectBox().Value(Model.ConexionActual)
+                            .ID("Conexion")
+                            .DataSource(Model.Conexiones)
+                            .DisplayExpr("Name")
+                            .OnValueChanged("OnValueChangedConexion")
+                            .ValueExpr("NumberConnection")
+                            .Width(270)
+                            )
+                        </div>
+                        <div class="form-group">
+                            <label for="DataConexion">Tipo Objeto </label>
+                            @(Html.DevExtreme().SelectBox().Value(Model.ConexionActual)
+                            .ID("TipoOrigen")
+                            .DataSource(Model.TipoOrigen)
+                            .DisplayExpr("Descripcion")
+                            .OnValueChanged("OnValueChangedTipoOrigen")
+                            .ValueExpr("Id")
+                            .Width(270)
+                            )
+                        </div>
+                        <div class="form-group">
+                            <label for="DataConexion">Framework</label>
+                            @(Html.DevExtreme().SelectBox().Value(Model.FrameworkActual)
+                            .ID("Framework")
+                            .DataSource(Model.Frameworks)
+                            .DisplayExpr("Descripcion")
+                            .OnValueChanged("OnValueChangedFramework")
+                            .ValueExpr("Id")
+                            .Width(270)
+                            )
+                        </div>
+                        <div class="col-sm-12" style="margin-top: 10px;max-width:283px;">
+                            <button id="ButtonGenerate" onclick="CodeGenerate()" type="button" class="btn btn-block btn-primary">
+                                Generar
+                            </button>
+                            <button id="ButtonGenerating" style="display:none" class="btn btn-block btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Generando ...
+                            </button>
+                        </div>
+                        <div class="col-sm-12" style="margin-top: 10px;max-width:283px;">
+                            <div class="progress" style="background-color: white;">
+                                <div id="ProgressBarGenerate" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                            </div>
+                            <div class="form-group logGenerated">
+                                <dl id="ProgressGenerateCode"></dl>
+                            </div>
+
+
+                        </div>
+                        <input type="text" class="form-control" id="connectionId" value="@Model.ConnectionId" hidden />
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div id="TipoOrigenTabla" class="col-sm-7" style="margin-top: 20px;">
+                    @(Html.DevExtreme().TreeList<TableModel>()
+                        .ID("Tables")
+                        .DataSource(Model.Tables)
+                        .KeyExpr("Name")
+                        .FilterRow(filterRow => filterRow.Visible(true))
+                        .ShowRowLines(true).ShowBorders(true).WordWrapEnabled(true)
+                        .Height(500)
+                        .Selection(s => s.Mode(SelectionMode.Multiple).Recursive(false).AllowSelectAll(true))
+                        .Columns(columns =>
+                        {
+                            columns.AddFor(m => m.Code).Caption("Maestro");
+                            columns.AddFor(m => m.Prefix).Caption("Prefijo").Visible(false);
+                            columns.AddFor(m => m.Comment).Caption("Area").Width(120);
+                            columns.Add().Width(35).CellTemplate(
+                                            @<text>
+                                                <i class="fas fa-sync-alt" onclick="RefreshDataTable('<%= data.Name %>')" title="Actualiza los datos de la tabla <%= data.Name %>" style="cursor:pointer; color:#3a74c4"></i>
+                                            </text>
+  );
+ })
+ .ColumnAutoWidth(true)
+ .Scrolling(scrolling => scrolling.Mode(TreeListScrollingMode.Standard))
+ .Paging(paging =>
+                                                        {
+     paging.Enabled(true);
+     paging.PageSize(16);
+ })
+                    )
+                </div>
+                <div id="TipoOrigenRoe" class="col-sm-7" style="margin-top: 20px; display:none;">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <input id="IdNombreRoe" type="text" class="form-control" placeholder="Nombre del Roe" />
+                            </div>
+                            <div class="col-sm-4">
+                                @(Html.DevExtreme().SelectBox().Value(Model.ProyectoArea[0])
+                                    .ID("ProyectoArea")
+                                    .DataSource(Model.ProyectoArea)
+                                )
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:15px">
+                            <div class="col-sm-12">
+                                <textarea id="TextAreaConsulta" placeholder="Escriba su consulta sql ......." class="form-control" style="resize:none" rows="21"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5" style="margin-top:20px;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @(Html.DevExtreme().TreeList<TemplateModel>()
+                                .ID("Templates")
+                                .DataSource(Model.Templates)
+                                .KeyExpr("Name")
+                                .FilterRow(filterRow => filterRow.Visible(true))
+                                .ShowRowLines(true)
+                                .Height(500)
+                                .ShowBorders(true)
+                                .Selection(s => s.Mode(SelectionMode.Multiple).Recursive(false))
+                                .Columns(columns =>
+                                {
+                                    columns.AddFor(m => m.Name).Caption("Plantilla");
+                                })
+                                .ColumnAutoWidth(true)
+                            )
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ErrorModal" tabindex="-1" role="dialog" aria-labelledby="ErrorModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="ErrorModalTitle">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="ErrorModalGenerating">
+                <ul>
+                    @foreach (var error in Model.Errores)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="RefresDataModal" tabindex="-1" role="dialog" aria-labelledby="RefresDataModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="RefresDataModalTitle">Informacion Actualizada</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="RefresDataModalGenerating" style="overflow: auto; height: 500px">
+                <div class="row">
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <thead><tr><th>Columnas</th></tr></thead>
+                            <tbody id="RefresDataColumnsTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <thead><tr><th>Indices</th></tr></thead>
+                            <tbody id="RefresDataIndexesTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <thead><tr><th>FK In</th></tr></thead>
+                            <tbody id="RefresDataFKInTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="col-3">
+                        <table class="table table-sm">
+                            <thead><tr><th>FK Out</th></tr></thead>
+                            <tbody id="RefresDataFKOutTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="NewTablesModal" tabindex="-1" role="dialog" aria-labelledby="NewTablesModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="NewTablesModalTitle">Tablas Agregadas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="NewTablesModalGenerating"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function OnValueChangedTipoOrigen(input) {
+
+  //      $("#Templates").dxTreeList("instance").option("dataSource", null);
+		//$("#Templates").dxTreeList("instance").refresh();
+        if (input.value == 1) {
+            $('#TipoOrigenTabla').show(200);
+            $('#TipoOrigenRoe').hide();
+        } else {
+            $('#TipoOrigenTabla').hide();
+            $('#TipoOrigenRoe').show(200);
+        }
+        var Framework = $('#Framework').dxSelectBox('instance').option("value");
+        var input = { value: Framework };
+        console.log(input);
+        OnValueChangedFramework(input)
+
+    }
+
+    function SearchNewTables() {
+        showLoadIndicator();
+        var Connection = $('#Conexion').dxSelectBox('instance').option("value");
+        $.ajax({
+		    url: "@Url.Action("SearchNewTables","Home")",
+		    data: { NumberConnection : Connection },
+		    type: 'GET',
+            success: function (data) {
+                console.log(data);
+                if (data.Errores) {
+                    var Errores = '<ul>';
+                    for (var i = 0; i < data.Errores.length; i++) {
+                        Errores += '<li>' + data.Errores[i] + '</li>';
+                    }
+                    Errores += '</ul>';
+                    $('#ErrorModalGenerating').html(Errores);
+                    $('#ErrorModal').modal('show');
+                } else {
+                    if (data.NewTables) {
+                        var NewTables = '<ul>';
+                        for (var i = 0; i < data.NewTables.length; i++) {
+                            NewTables += '<li>' + data.NewTables[i] + '</li>';
+                        }
+                        NewTables += '</ul>';
+                        $('#NewTablesModalGenerating').html(NewTables);
+                        $('#NewTablesModal').modal('show');
+                        $("#Tables").dxTreeList("instance").option("dataSource", data.DatasourceTables);
+                        $("#Tables").dxTreeList("instance").refresh();
+                    } else {
+                         DevExpress.ui.notify("No hay nuevas tablas creadas en esta conexion.", "info");
+                    }
+                }
+                hideLoadIndicator();
+		    },
+            error: function (xhr) {
+                hideLoadIndicator();
+                console.log(xhr);
+			    DevExpress.ui.notify("Error: " + xhr.error, "error");
+		    }
+	    });
+    }
+
+
+    var disableRefresh = false;
+    function RefreshDataTable(TableName) {
+
+        if (!disableRefresh) {
+            $("#RefresDataColumnsTableBody").html('');
+            $("#RefresDataIndexesTableBody").html('');
+            $("#RefresDataFKInTableBody").html('');
+            $("#RefresDataFKOutTableBody").html('');
+            var Connection = $('#Conexion').dxSelectBox('instance').option("value");
+            disableRefresh = true;
+            //$("#DivRefreshTable"+TableName).toggleClass("rotate");
+            showLoadIndicator();
+            $.ajax({
+		        url: "@Url.Action("RefreshTable","Home")",
+		        data: { TableName: TableName, NumberConnection:Connection },
+		        type: 'GET',
+                success: function (data) {
+
+                    if (data.Errores) {
+				        var Errores = '<ul>';
+				        for (var i = 0; i < data.Errores.length; i++) {
+					        Errores += '<li>' + data.Errores[i] + '</li>';
+				        }
+				        Errores += '</ul>';
+				        $('#ErrorModalGenerating').html(Errores);
+				        $('#ErrorModal').modal('show');
+			        } else {
+                        $('#RefresDataModalTitle').html("Actualización tabla " + TableName);
+                        for (var i = 0; i < data.Columns.length; i++) {
+                            $('#RefresDataColumnsTableBody').append("<tr><td>"+data.Columns[i]+"</td></tr>");
+                        }
+                        for (var i = 0; i < data.Indexes.length; i++) {
+                            $('#RefresDataIndexesTableBody').append("<tr><td>"+data.Indexes[i]+"</td></tr>");
+                        }
+                        for (var i = 0; i < data.InReferences.length; i++) {
+                            $('#RefresDataFKInTableBody').append("<tr><td>"+data.InReferences[i]+"</td></tr>");
+                        }
+                        for (var i = 0; i < data.OutReferences.length; i++) {
+                           $('#RefresDataFKOutTableBody').append("<tr><td>"+data.OutReferences[i]+"</td></tr>");
+                        }
+
+				        $('#RefresDataModal').modal('show');
+			        }
+                    disableRefresh = false;
+                    //$("#DivRefreshTable"+TableName).toggleClass("rotate");
+                    hideLoadIndicator();
+		        },
+                error: function (xhr) {
+                    disableRefresh = false;
+                    //$("#DivRefreshTable"+TableName).toggleClass("rotate");
+                    hideLoadIndicator();
+                    console.log(xhr);
+			        DevExpress.ui.notify("Error: " + xhr.error, "error");
+		        }
+	        });
+        }
+    }
+
+    function CodeGenerate() {
+        GenerateCode();
+    }
+
+    function OnValueChangedConexion(input) {
+        $("#Tables").dxTreeList("instance").option("dataSource", null);
+		$("#Tables").dxTreeList("instance").refresh();
+	    showLoadIndicator();
+	    $.ajax({
+		    url: "@Url.Action("GetTables","Home")",
+		    data: { NumberConnection: input.value },
+		    type: 'GET',
+		    success: function (data) {
+			    hideLoadIndicator();
+			    if (data.Errores.length > 0) {
+				    var Errores = '<ul>';
+				    for (var i = 0; i < data.Errores.length; i++) {
+					    Errores += '<li>' + data.Errores[i] + '</li>';
+				    }
+				    Errores += '</ul>';
+				    $('#ErrorModalGenerating').html(Errores);
+				    $('#ErrorModal').modal('show');
+			    } else {
+				    $("#Tables").dxTreeList("instance").option("dataSource", data.Tables);
+				    $("#Tables").dxTreeList("instance").refresh();
+			    }
+		    },
+		    error: function (xhr) {
+                hideLoadIndicator();
+                console.log(xhr);
+			    DevExpress.ui.notify("Error: " + xhr.error, "error");
+		    }
+	    });
+    }
+
+    function OnValueChangedFramework(input) {
+        $("#Templates").dxTreeList("instance").option("dataSource", null);
+        $("#Templates").dxTreeList("instance").refresh();
+
+        var TipoOrigen = $('#TipoOrigen').dxSelectBox('instance').option("value");
+
+	    showLoadIndicator();
+	    $.ajax({
+		    url: "@Url.Action("GetTemplates","Home")",
+		    data: { Framework: input.value , TipoOrigen : TipoOrigen},
+		    type: 'GET',
+            success: function (data) {
+			    hideLoadIndicator();
+			    if (data.Errores.length > 0) {
+				    var Errores = '<ul>';
+				    for (var i = 0; i < data.Errores.length; i++) {
+					    Errores += '<li>' + data.Errores[i] + '</li>';
+				    }
+				    Errores += '</ul>';
+				    $('#ErrorModalGenerating').html(Errores);
+				    $('#ErrorModal').modal('show');
+                } else {
+
+                    if (data.FrameworkActual == 1) {
+                        $("#Tables").dxTreeList("columnOption", "Prefix", "visible", false);
+                        $("#Tables").dxTreeList("columnOption", "Comment", "visible", true);
+                    }
+                    if (data.FrameworkActual == 2) {
+                        $("#Tables").dxTreeList("columnOption", "Prefix", "visible", true);
+                        $("#Tables").dxTreeList("columnOption", "Comment", "visible", false);
+                    }
+                    console.log(data.ProyectoArea);
+                    $('#ProyectoArea').dxSelectBox('instance').option("dataSource", data.ProyectoArea);
+                    $('#ProyectoArea').dxSelectBox('instance').option("value", data.ProyectoArea[0]);
+				    $("#Templates").dxTreeList("instance").option("dataSource", data.Templates);
+				    $("#Templates").dxTreeList("instance").refresh();
+			    }
+		    },
+		    error: function (xhr) {
+                hideLoadIndicator();
+                console.log(xhr);
+			    DevExpress.ui.notify("Error: " + xhr.error, "error");
+		    }
+	    });
+    }
+
+    var showLoadIndicator = function () {
+	    $("input").blur();
+	    $("<div>").attr("id", "LoadIndicatorProgress").appendTo("body");
+
+	    $(function () {
+		    $("#LoadIndicatorProgress").dxLoadIndicator({
+			    "hint": "Procesando",
+			    "elementAttr": { "class": "indicatorProgress" }
+		    });
+	    });
+    };
+
+    var hideLoadIndicator = function () {
+	    $("input").blur();
+	    var load = $("#LoadIndicatorProgress");
+	    if (load.length == 1) {
+		    load.remove();
+	    }
+    };
+
+    function GetHeightIndex() {
+        var rowsTreelist = Math.round((window.innerHeight - 97) / 39) -1;
+        $("#Tables").dxTreeList("instance").pageSize(rowsTreelist);
+	    $('#LeftMenuIndex').css("height", window.innerHeight - 57);
+	    $('#Tables').css("height", window.innerHeight - 97);
+        $('#Templates').css("height", window.innerHeight - 150);
+        $("#TextAreaConsulta").attr("rows",rowsTreelist + 6);
+    }
+
+    window.addEventListener("resize", function () {
+        var rowsTreelist = Math.round((window.innerHeight - 97) / 39) -1;
+        $("#Tables").dxTreeList("instance").pageSize(rowsTreelist);
+	    $('#LeftMenuIndex').css("height", window.innerHeight - 57);
+	    $('#Tables').css("height", window.innerHeight - 97);
+        $('#Templates').css("height", window.innerHeight - 150);
+        $("#TextAreaConsulta").attr("rows",rowsTreelist + 6);
+    });
+
+    $(function () {
+        GetHeightIndex();
+        if ('True' == '@(Model.Errores.Count > 0 ? true : false)') {
+            $('#ErrorModal').modal('show');
+        }
+    });
+
+</script>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/site.js"></script>
+<script src="~/js/GenerateHub.js"></script>

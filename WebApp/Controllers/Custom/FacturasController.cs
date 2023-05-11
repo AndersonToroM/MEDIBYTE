@@ -1,5 +1,6 @@
 ﻿using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.Facturas;
 using Blazor.WebApp.Models;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
@@ -13,7 +14,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using WebApp.Reportes.Facturas;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -25,22 +25,15 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-
                 Facturas factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == Id, true);
                 if (factura.AdmisionesId != null)
                 {
-                    FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
-                    XtraReport xtraReport = report;
+                    var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name);
                     return PartialView("_ViewerReport", report);
                 }
                 else
                 {
-                    FacturasReporte report = new FacturasReporte(informacionReporte);
-                    XtraReport xtraReport = report;
+                    var report = Manager().Report<FacturasReporte>(Id, User.Identity.Name);
                     return PartialView("_ViewerReport", report);
                 }
             }
@@ -88,41 +81,13 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 Facturas factura = Manager().FacturasBusinessLogic().FindById(x => x.Id == id, true);
-                await Manager().FacturasBusinessLogic().EnviarEmail(factura, GetPdfReporte(factura), "Envio Factura Manual");
+                await Manager().FacturasBusinessLogic().EnviarEmail(factura, "Envio Factura Manual", User.Identity.Name);
                 return Ok();
             }
             catch (Exception e)
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
-        }
-
-        private string GetPdfReporte(Facturas factura)
-        {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == factura.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { factura.Id };
-
-            XtraReport xtraReport = null;
-            if (factura.AdmisionesId != null)
-            {
-                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
-                xtraReport = report;
-            }
-            else
-            {
-                FacturasReporte report = new FacturasReporte(informacionReporte);
-                xtraReport = report;
-            }
-
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return pathPdf;
         }
 
         [HttpPost]
@@ -171,7 +136,7 @@ namespace Blazor.WebApp.Controllers
                 content += doc.DocumentElement.ChildNodes[3].InnerXml;
 
                 byte[] fileBytes = Encoding.UTF8.GetBytes(content);
-                string fileName = $"{factura.Documentos.Prefijo}{factura.NroConsecutivo }.xml";
+                string fileName = $"{factura.Documentos.Prefijo}{factura.NroConsecutivo}.xml";
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception e)

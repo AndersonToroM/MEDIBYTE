@@ -1,7 +1,7 @@
 ﻿using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
-using Blazor.WebApp.Models;
-using DevExpress.Compression;
+using Blazor.Reports.Facturas;
+using Blazor.Reports.Notas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
@@ -13,13 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using WebApp.Reportes.Facturas;
-using WebApp.Reportes.Notas;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -86,13 +82,12 @@ namespace Blazor.WebApp.Controllers
                         invoice = manager.GetBusinessLogic<Facturas>().Modify(invoice);
                         try
                         {
-                            manager.FacturasBusinessLogic().EnviarEmail(invoice, GetPdfFacturaReporte(invoice, manager), "Envio Factura Evento DIAN");
+                            await manager.FacturasBusinessLogic().EnviarEmail(invoice, "Envio Factura Evento DIAN", User.Identity.Name);
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine($"Error Enviando el correo. | {e.Message}", Console.ForegroundColor = ConsoleColor.Red);
                         }
-
                     }
 
                     var note = manager.GetBusinessLogic<Notas>().FindById(x => (x.Documentos.Prefijo + x.Consecutivo.ToString()) == eventR.NroId, true);
@@ -105,7 +100,7 @@ namespace Blazor.WebApp.Controllers
                         manager.GetBusinessLogic<Notas>().Modify(note);
                         try
                         {
-                            manager.NotasBusinessLogic().EnviarEmail(note, GetPdfNotaReporte(note, manager), "Envio Nota Evento DIAN");
+                            await manager.NotasBusinessLogic().EnviarEmail(note, "Envio Nota Evento DIAN", User.Identity.Name);
                         }
                         catch (Exception e)
                         {
@@ -127,52 +122,7 @@ namespace Blazor.WebApp.Controllers
             }
         }
 
-        private string GetPdfFacturaReporte(Facturas factura, Dominus.Backend.DataBase.BusinessLogic manager)
-        {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = manager.GetBusinessLogic<Empresas>().FindById(x => x.Id == factura.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { factura.Id };
 
-            XtraReport xtraReport = null;
-            if (factura.AdmisionesId != null)
-            {
-                FacturasParticularReporte report = new FacturasParticularReporte(informacionReporte);
-                xtraReport = report;
-            }
-            else
-            {
-                FacturasReporte report = new FacturasReporte(informacionReporte);
-                xtraReport = report;
-            }
-
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return pathPdf;
-        }
-
-        private string GetPdfNotaReporte(Notas nota, Dominus.Backend.DataBase.BusinessLogic manager)
-        {
-            InformacionReporte informacionReporte = new InformacionReporte();
-            informacionReporte.Empresa = manager.GetBusinessLogic<Empresas>().FindById(x => x.Id == nota.EmpresasId, true);
-            informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-            informacionReporte.Ids = new long[] { nota.Id };
-
-            NotasReporte report = new NotasReporte(informacionReporte);
-            XtraReport xtraReport = report;
-
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return pathPdf;
-        }
     }
 
     public class Evento

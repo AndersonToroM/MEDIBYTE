@@ -7,6 +7,7 @@ namespace Dominus.Backend.Application
     public class Tenant
     {
         public string Name { get; set; }
+        public string Code { get; set; }
 
         public bool SendNotifications { get; set; }
 

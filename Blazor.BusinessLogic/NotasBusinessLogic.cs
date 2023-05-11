@@ -1,7 +1,10 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
+using Blazor.Reports.Notas;
 using DevExpress.Compression;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +31,20 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public async Task EnviarEmail(Notas nota, string pathPdf, string eventoEnvio)
+        private string GetPdfNotaReporte(Notas nota, string user)
+        {
+            XtraReport xtraReport = ReportExtentions.Report<NotasReporte>(this.BusinessLogic, nota.Id, user);
+
+            string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
+            PdfExportOptions pdfOptions = new PdfExportOptions();
+            pdfOptions.ConvertImagesToJpeg = false;
+            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
+            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
+            xtraReport.ExportToPdf(pathPdf, pdfOptions);
+            return pathPdf;
+        }
+
+        public async Task EnviarEmail(Notas nota, string eventoEnvio, string user)
         {
             if (string.IsNullOrWhiteSpace(nota.DIANResponse))
             {
@@ -67,7 +83,7 @@ namespace Blazor.BusinessLogic
 
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.zip";
-                archive.AddFile(pathPdf, "/");
+                archive.AddFile(GetPdfNotaReporte(nota, user), "/");
                 archive.AddFile(pathXml, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -76,8 +92,8 @@ namespace Blazor.BusinessLogic
                 Empresas empresas = unitOfWork.Repository<Empresas>().FindById(x => x.Id == nota.EmpresasId, false);
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
-                envioEmailConfig.Origen = "FACTURACION";
-                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion==3?91:92)}";
+                envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
+                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion == 3 ? 91 : 92)}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioNotaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);

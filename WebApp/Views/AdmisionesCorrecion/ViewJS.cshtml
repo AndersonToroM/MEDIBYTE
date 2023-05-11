@@ -124,4 +124,35 @@
         DevExpress.ui.notify("Error en el formulario","error");
     }
 
+    function @(Prefix)GetCitasId() {
+        var cita = $("#@(Prefix)CitasId").dxNumberBox("instance").option("value");
+        return cita;
+    }
+
+    function @(Prefix)GetValorPagoEstadoId() {
+        var estado = $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value");
+        return estado;
+    }
+
+    function @(Prefix)ValidarDocumentos(params) {
+
+        var tipoPago = $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value");
+        var documento = params.value;
+
+        if (tipoPago != null && tipoPago != "" && tipoPago != 0 && tipoPago != 63) {
+            if (documento == null || documento == "" || documento == 0) {
+                params.rule.isValid = false;
+                params.rule.message = "La columna Documento es requerida.";
+                params.validator.validate();
+                return false;
+            }
+        } else {
+            params.rule.isValid = true;
+            params.rule.message = "";
+            params.validator.validate();
+            return true;
+        }
+        return true;
+    }
+
 </script>

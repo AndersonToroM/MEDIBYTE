@@ -18,11 +18,10 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RadicacionCuentas").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.Id).SortOrder(SortOrder.Desc);
+        columns.AddFor(m => m.Consecutivo).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.CreationDate);
         columns.AddFor(m => m.Sedes.Nombre).Caption(DApp.GetResource("FacturasGeneracion.SedesId"));
         columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.GetResource("FacturasGeneracion.EntidadesId"));
-
         columns.AddFor(m => m.FechaRadicacion);
     })
 )

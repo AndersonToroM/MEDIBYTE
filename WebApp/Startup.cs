@@ -1,4 +1,5 @@
 ﻿using Blazor.BusinessLogic;
+using Blazor.BusinessLogic.Jobs;
 using Blazor.Infrastructure.Entities;
 using Blazor.WebReports;
 using DevExpress.AspNetCore;
@@ -24,6 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Blazor.WebApp
 {
@@ -258,13 +260,17 @@ namespace Blazor.WebApp
 
             RetryPolicy retryIfException = Policy.Handle<Exception>().WaitAndRetry(5, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(100, retryAttempt) / 100));
             Dictionary<string, string> resources = null;
-            retryIfException.Execute(() => resources = new Dominus.Backend.DataBase.BusinessLogic(DApp.Tenants.FirstOrDefault().DataBaseSetting).GetBusinessLogic<LanguageResource>().FindAll(x => x.LanguageId == int.Parse(DApp.DefaultLanguage.Id)).ToDictionary(y => y.ResourceKey, z => z.ResourceValue));
+            retryIfException.Execute(() => {
+                var logic = new Dominus.Backend.DataBase.BusinessLogic(DApp.Tenants.FirstOrDefault().DataBaseSetting);
+                resources = logic.GetBusinessLogic<LanguageResource>().FindAll(x => x.LanguageId == int.Parse(DApp.DefaultLanguage.Id)).ToDictionary(y => y.ResourceKey, z => z.ResourceValue);
+            });
             //DApp.DefaultLanguage.AddResource(DApp.DefaultLanguage.Id.ToString(), resources);
 
             DApp.DefaultLanguage.SetAllResources();
 
             DApp.CloudStorageAccount = Configuration["CloudStorageAccount"];
 
+            Task.Run(() => new JobExecution().RunJobs()).Wait();
         }
     }
 }

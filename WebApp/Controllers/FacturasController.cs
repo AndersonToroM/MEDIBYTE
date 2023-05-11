@@ -1,8 +1,9 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.FacturaDetalle;
+using Blazor.Reports.Facturas;
 using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
-using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -11,13 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using Dominus.Backend.Data;
-using System.Linq;
-using Dominus.Backend.Application;
-using WebApp.Reportes.Facturas;
-using DevExpress.XtraReports.UI;
-using WebApp.Reportes.FacturaDetalle;
-using DevExpress.XtraSpreadsheet.Forms;
+using System.Collections.Generic;
+using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -330,16 +326,12 @@ namespace Blazor.WebApp.Controllers
                 if (entidadId <= 0)
                     throw new Exception("El parametro entidadId no fue enviado correctamente al servidor.");
 
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
                 var entidad = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == entidadId,false);
-                informacionReporte.ParametrosAdicionales.Add("p_Nit", entidad.NumeroIdentificacion);
-                informacionReporte.ParametrosAdicionales.Add("p_UsuarioGenero", User.Identity.Name);
-
-                CarteraReporte report = new CarteraReporte();
-                report.SetInformacionReporte(informacionReporte);
-                XtraReport xtraReport = report;
+                var parametros = new Dictionary<string, object>
+                {
+                    {"p_Nit", entidad.NumeroIdentificacion }
+                };
+                var report = Manager().Report<CarteraReporte>(User.Identity.Name, parametros);
                 return PartialView("_ViewerReport", report);
 
             }
@@ -354,16 +346,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                var user = Manager().GetBusinessLogic<User>().FindById(x => x.UserName == User.Identity.Name, false);
-                informacionReporte.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
-
-                CarteraGeneralReporte report = new CarteraGeneralReporte();
-                report.SetInformacionReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var report = Manager().Report<CarteraGeneralReporte>(User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)
@@ -380,18 +363,13 @@ namespace Blazor.WebApp.Controllers
                 if (entidadId <= 0)
                     throw new Exception("El parametro entidadId no fue enviado correctamente al servidor.");
 
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
                 var entidad = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == entidadId, false);
-                informacionReporte.ParametrosAdicionales.Add("p_Nit", entidad.NumeroIdentificacion);
-                informacionReporte.ParametrosAdicionales.Add("p_UsuarioGenero", User.Identity.Name);
-
-                CarteraReporte report = new CarteraReporte();
-                report.SetInformacionReporte(informacionReporte);
-                XtraReport xtraReport = report;
+                var parametros = new Dictionary<string, object>
+                {
+                    {"p_Nit", entidad.NumeroIdentificacion }
+                };
+                var report = Manager().Report<CarteraReporte>(User.Identity.Name, parametros);
                 return PartialView("_ViewerReport", report);
-
             }
             catch (Exception e)
             {
@@ -442,14 +420,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                InformacionReporte informacionReporte = new InformacionReporte();
-                informacionReporte.Empresa = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == this.ActualEmpresaId(), true);
-                informacionReporte.BD = DApp.GetTenantConnection(Request.Host.Value);
-                informacionReporte.Ids = new long[] { Id };
-
-                FacturaDetalleReporte report = new FacturaDetalleReporte(informacionReporte);
-                XtraReport xtraReport = report;
-
+                var report = Manager().Report<FacturaDetalleReporte>(Id,User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)

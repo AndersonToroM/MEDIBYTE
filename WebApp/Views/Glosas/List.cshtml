@@ -18,13 +18,15 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Glosas").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
+        columns.AddFor(m => m.CreationDate).SortOrder(SortOrder.Desc)
+            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Glosas.CreationDate")));
         columns.AddFor(m => m.Facturas).CalculateDisplayValue(new JS(Prefix + "DisplayExprFacturaId"));
         columns.AddFor(m => m.ValorGlosado);
         columns.AddFor(m => m.CausalesGlosas.Descripcion);
         //columns.AddFor(m => m.ValorAceptado);
         //columns.AddFor(m => m.ValorGlosadoFinal);
         columns.AddFor(m => m.ValorAceptado).Format("#,##0.##")
-                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Glosas.ValorAceptado")));
+            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Glosas.ValorAceptado")));
         columns.AddFor(m => m.ValorGlosadoFinal).Format("#,##0.##")
             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Glosas.ValorGlosadoFinal")));
     })

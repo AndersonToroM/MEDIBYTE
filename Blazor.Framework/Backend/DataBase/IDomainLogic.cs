@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
+﻿using Dominus.Backend.Application;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Dominus.Backend.Application;
-using RuleType =  Dominus.Backend.DataBase.RuleType;
 
 namespace Dominus.Backend.DataBase
 {
@@ -346,6 +345,7 @@ namespace Dominus.Backend.DataBase
         public bool CommitTheTransaction { get; set; }
 
         public IUnitOfWork UnitOfWork { get; protected set; }
+        public BusinessLogic BusinessLogic { get; protected set; }
 
         public void CommitTransaction()
         {
