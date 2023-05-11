@@ -81,34 +81,13 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 Facturas factura = Manager().FacturasBusinessLogic().FindById(x => x.Id == id, true);
-                await Manager().FacturasBusinessLogic().EnviarEmail(factura, GetPdfReporte(factura), "Envio Factura Manual");
+                await Manager().FacturasBusinessLogic().EnviarEmail(factura, "Envio Factura Manual", User.Identity.Name);
                 return Ok();
             }
             catch (Exception e)
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
-        }
-
-        private string GetPdfReporte(Facturas factura)
-        {
-            XtraReport xtraReport = null;
-            if (factura.AdmisionesId != null)
-            {
-                xtraReport = Manager().Report<FacturasParticularReporte>(factura.Id, User.Identity.Name);
-            }
-            else
-            {
-                xtraReport = Manager().Report<FacturasParticularReporte>(factura.Id, User.Identity.Name);
-            }
-
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return pathPdf;
         }
 
         [HttpPost]

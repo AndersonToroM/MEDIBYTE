@@ -95,7 +95,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 Notas nota = Manager().NotasBusinessLogic().FindById(x => x.Id == id, true);
-                await Manager().NotasBusinessLogic().EnviarEmail(nota, GetPdfNotaReporte(nota), "Envio Nota Manual");
+                await Manager().NotasBusinessLogic().EnviarEmail(nota, "Envio Nota Manual", User.Identity.Name);
                 return Ok();
             }
             catch (Exception e)
@@ -104,17 +104,5 @@ namespace Blazor.WebApp.Controllers
             }
         }
 
-        private string GetPdfNotaReporte(Notas nota)
-        {
-            XtraReport xtraReport = Manager().Report<NotasReporte>(nota.Id, User.Identity.Name);
-
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return pathPdf;
-        }
     }
 }

@@ -17,12 +17,6 @@ namespace Blazor.Infrastructure.Entities
 
        #region Columnas normales)
 
-       [Column("Class")]
-       [DDisplayName("JobLogs.Class")]
-       [DRequired("JobLogs.Class")]
-       [DStringLength("JobLogs.Class",100)]
-       public virtual String Class { get; set; }
-
        [Column("DateExecution", TypeName = "datetime")]
        [DDisplayName("JobLogs.DateExecution")]
        [DRequired("JobLogs.DateExecution")]
@@ -37,9 +31,22 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("JobLogs.Error")]
        public virtual String Error { get; set; }
 
-       [Column("Result")]
-       [DDisplayName("JobLogs.Result")]
-       public virtual String Result { get; set; }
+       #endregion
+
+       #region Columnas referenciales)
+
+       [Column("JobId")]
+       [DDisplayName("JobLogs.JobId")]
+       [DRequired("JobLogs.JobId")]
+       [DRequiredFK("JobLogs.JobId")]
+       public virtual Int64 JobId { get; set; }
+
+       #endregion
+
+       #region Propiedades referencias de entrada)
+
+       [ForeignKey("JobId")]
+       public virtual Job Job { get; set; }
 
        #endregion
 

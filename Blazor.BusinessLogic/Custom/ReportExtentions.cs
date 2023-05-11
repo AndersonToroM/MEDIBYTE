@@ -16,6 +16,7 @@ using Blazor.Reports.OrdenesMedicamentos;
 using Blazor.Reports.OrdenesServicios;
 using Blazor.Reports.RadicacionCuentas;
 using DevExpress.XtraReports.UI;
+using Dominus.Backend.Application;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Blazor.BusinessLogic
 {
     public static class ReportExtentions
     {
-        #region sobrecargar
+        #region sobrecargas
 
         public static XtraReport Report<T>(this Dominus.Backend.DataBase.BusinessLogic logic, string userName = null, Dictionary<string, object> parametros = null)
         {
@@ -46,21 +47,27 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(logic.settings);
             ReporteModel reportModel = new ReporteModel();
             reportModel.BD = logic.settings;
-            reportModel.Empresa = unitOfWork.Repository<Empresas>().Table.Include(x=>x.LogoArchivos).First();
+            reportModel.Empresa = unitOfWork.Repository<Empresas>().Table.Include(x => x.LogoArchivos).First();
             if (ids != null && ids.Count() > 0)
             {
                 reportModel.Ids = ids;
             }
+            var p_UsuarioGenero = string.Empty;
             if (string.IsNullOrWhiteSpace(userName))
             {
-                userName = "CEO";
+                p_UsuarioGenero = DApp.Util.UserSystem;
+            }
+            else
+            {
+                User user = unitOfWork.Repository<User>().FindById(x => string.Equals(x.UserName, userName), false);
+                p_UsuarioGenero = $"{user.UserName} | {user.Names} {user.LastNames}";
             }
             if (parametros != null && parametros.Count > 0)
             {
                 reportModel.ParametrosAdicionales = parametros;
             }
-            var user = unitOfWork.Repository<User>().FindById(x => string.Equals(x.UserName, userName), false);
-            reportModel.ParametrosAdicionales.Add("P_UsuarioGenero", $"{user.UserName} | {user.Names} {user.LastNames}");
+
+            reportModel.ParametrosAdicionales.Add("P_UsuarioGenero", p_UsuarioGenero);
 
             #endregion
 

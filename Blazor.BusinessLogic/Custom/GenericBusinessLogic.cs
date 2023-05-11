@@ -1,16 +1,9 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Custom;
-using DevExpress.Xpo;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using static Dominus.Backend.Application.Language;
-using LanguageResource = Dominus.Backend.Application.Language.LanguageResource;
 
 namespace Blazor.BusinessLogic
 {
@@ -20,12 +13,14 @@ namespace Blazor.BusinessLogic
         {
             UnitOfWork = unitWork;
             CommitTheTransaction = false;
+            BusinessLogic = new Dominus.Backend.DataBase.BusinessLogic(UnitOfWork.Settings);
         }
 
         public GenericBusinessLogic(DataBaseSetting configuracionBD)
         {
             UnitOfWork = new BlazorUnitWork(configuracionBD);
             CommitTheTransaction = true;
+            BusinessLogic = new Dominus.Backend.DataBase.BusinessLogic(UnitOfWork.Settings);
         }
 
         public int GetSecuence(string prefix)
