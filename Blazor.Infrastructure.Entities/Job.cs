@@ -34,6 +34,12 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("Jobs.Active")]
        public virtual Boolean Active { get; set; }
 
+       [Column("CronSchedule")]
+       [DDisplayName("Jobs.CronSchedule")]
+       [DRequired("Jobs.CronSchedule")]
+       [DStringLength("Jobs.CronSchedule",15)]
+       public virtual String CronSchedule { get; set; }
+
        #endregion
 
        #region Reglas expression
@@ -70,8 +76,8 @@ namespace Blazor.Infrastructure.Entities
        public override List<ExpRecurso> GetEliminarExpression<T>()
        {
         var rules = new List<ExpRecurso>();
-        Expression<Func<JobDetail, bool>> expression0 = entity => entity.JobId == this.Id;
-        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","JobDetails"), typeof(JobDetail)));
+        Expression<Func<JobLog, bool>> expression0 = entity => entity.JobId == this.Id;
+        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","JobLogs"), typeof(JobLog)));
 
        return rules;
        }

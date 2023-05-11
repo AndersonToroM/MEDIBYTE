@@ -19,6 +19,7 @@ namespace Blazor.BusinessLogic
         public ServiciosConsultoriosBusinessLogic(DataBaseSetting configuracionBD) : base(configuracionBD)
         {
         }
+
         public string CargarDatosPlantilla(MemoryStream memoryStream, bool modificaRegistros, string usuario, long idConsultorio)
         {
             Dictionary<string, List<string>> erroresExcel = new Dictionary<string, List<string>>();

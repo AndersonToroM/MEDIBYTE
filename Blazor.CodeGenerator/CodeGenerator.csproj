@@ -1,0 +1,112 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+		<UserSecretsId>43afb719-4314-4ce3-a61d-780030a401c8</UserSecretsId>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="DevExpress.AspNetCore.Common" Version="21.2.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="6.0.16" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.16" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
+		<PackageReference Include="PluralizeService.Core" Version="1.2.21147.2" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+		<PackageReference Include="WebEssentials.AspNetCore.PWA" Version="1.0.65" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Include="wwwroot\lib\devextreme\aspnet\dx.aspnet.mvc.js" />
+		<None Include="wwwroot\lib\devextreme\bootstrap.js" />
+		<None Include="wwwroot\lib\devextreme\bootstrap.min.js" />
+		<None Include="wwwroot\lib\devextreme\cldr.js" />
+		<None Include="wwwroot\lib\devextreme\cldr.min.js" />
+		<None Include="wwwroot\lib\devextreme\cldr\event.js" />
+		<None Include="wwwroot\lib\devextreme\cldr\event.min.js" />
+		<None Include="wwwroot\lib\devextreme\cldr\supplemental.js" />
+		<None Include="wwwroot\lib\devextreme\cldr\supplemental.min.js" />
+		<None Include="wwwroot\lib\devextreme\cldr\unresolved.js" />
+		<None Include="wwwroot\lib\devextreme\cldr\unresolved.min.js" />
+		<None Include="wwwroot\lib\devextreme\dx.all.debug.js" />
+		<None Include="wwwroot\lib\devextreme\dx.all.js" />
+		<None Include="wwwroot\lib\devextreme\dx.mobile.debug.js" />
+		<None Include="wwwroot\lib\devextreme\dx.mobile.js" />
+		<None Include="wwwroot\lib\devextreme\dx.viz-web.debug.js" />
+		<None Include="wwwroot\lib\devextreme\dx.viz-web.js" />
+		<None Include="wwwroot\lib\devextreme\dx.viz.debug.js" />
+		<None Include="wwwroot\lib\devextreme\dx.viz.js" />
+		<None Include="wwwroot\lib\devextreme\dx.web.debug.js" />
+		<None Include="wwwroot\lib\devextreme\dx.web.js" />
+		<None Include="wwwroot\lib\devextreme\globalize.js" />
+		<None Include="wwwroot\lib\devextreme\globalize.min.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\currency.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\currency.min.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\date.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\date.min.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\message.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\message.min.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\number.js" />
+		<None Include="wwwroot\lib\devextreme\globalize\number.min.js" />
+		<None Include="wwwroot\lib\devextreme\jszip.js" />
+		<None Include="wwwroot\lib\devextreme\jszip.min.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.cs.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.de.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.en.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.es.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.fi.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.fr.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.it.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.ja.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.nl.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.pt.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.ru.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.sv.js" />
+		<None Include="wwwroot\lib\devextreme\localization\dx.messages.zh.js" />
+		<None Include="wwwroot\lib\devextreme\translation\config.js" />
+		<None Include="wwwroot\lib\devextreme\translation\devextreme-intl.min.js" />
+		<None Include="wwwroot\lib\devextreme\translation\locale.js" />
+		<None Include="wwwroot\lib\devextreme\translation\polyfill.min.js" />
+		<None Include="wwwroot\lib\devextreme\translation\titles.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-data\africa.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-data\canada.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-data\eurasia.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-data\europe.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-data\usa.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-data\world.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-utils\dx.vectormaputils.debug.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-utils\dx.vectormaputils.js" />
+		<None Include="wwwroot\lib\devextreme\vectormap-utils\dx.vectormaputils.node.js" />
+		<None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+		<None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+		<None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+		<None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+		<None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+		<None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+		<None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+		<None Include="wwwroot\lib\jquery\dist\jquery.js" />
+		<None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+		<None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Reference Include="DevExtreme.AspNet.Core">
+	    <HintPath>..\Libs\DevExtreme.AspNet.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExtreme.AspNet.Data">
+	    <HintPath>..\Libs\DevExtreme.AspNet.Data.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>

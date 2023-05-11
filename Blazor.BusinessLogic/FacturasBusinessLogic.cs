@@ -16,6 +16,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using DevExpress.Spreadsheet;
+using Blazor.Reports.Facturas;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
 
 namespace Blazor.BusinessLogic
 {
@@ -29,7 +32,28 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public async Task EnviarEmail(Facturas factura, string pathPdf, string eventoEnvio)
+        private string GetPdfFacturaReporte(Facturas factura, string user)
+        {
+            XtraReport xtraReport = null;
+            if (factura.AdmisionesId != null)
+            {
+                xtraReport =  ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user);
+            }
+            else
+            {
+                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic,factura.Id, user);
+            }
+
+            string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
+            PdfExportOptions pdfOptions = new PdfExportOptions();
+            pdfOptions.ConvertImagesToJpeg = false;
+            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
+            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
+            xtraReport.ExportToPdf(pathPdf, pdfOptions);
+            return pathPdf;
+        }
+
+        public async Task EnviarEmail(Facturas factura, string eventoEnvio, string user)
         {
             if (string.IsNullOrWhiteSpace(factura.DIANResponse))
             {
@@ -68,7 +92,7 @@ namespace Blazor.BusinessLogic
 
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.zip";
-                archive.AddFile(pathPdf, "/");
+                archive.AddFile(GetPdfFacturaReporte(factura, user), "/");
                 archive.AddFile(pathXml, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -77,7 +101,7 @@ namespace Blazor.BusinessLogic
                 Empresas empresas = unitOfWork.Repository<Empresas>().FindById(x => x.Id == factura.EmpresasId, false);
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
-                envioEmailConfig.Origen = "FACTURACION";
+                envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
                 envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
