@@ -70,7 +70,7 @@ namespace Blazor.BusinessLogic
             envioEmailConfig.ArchivosAdjuntos.Add($"RadicacionCuentasReporte-{data.Consecutivo}.pdf", GetPdfRadicacionCuentasReporte(data));
             envioEmailConfig.Datos = new Dictionary<string, string>
                 {
-                    {"nombreCia", DApp.Util.UserSystem }
+                    {"usuario", DApp.Util.UserSystem }
                 };
 
             new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);

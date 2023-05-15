@@ -9,7 +9,7 @@ namespace Dominus.Backend.Application
 {
     public class Util
     {
-        public string UserSystem = "Sistema | Rutinas programadas o eventos externos.";
+        public string UserSystem = "Sistema CloudOneSoft.";
         public string EmailOrigen_PorDefecto = "POR DEFECTO";
         public string EmailOrigen_Facturacion = "FACTURACION";
 
