@@ -1,0 +1,25 @@
+@{ 
+    string Prefix = "JobLog"; 
+    string UrlClick = Url.Action("Edit", "JobLog"); 
+    string UrlNew = Url.Action("New", "JobLog"); 
+
+    var DataGridConfig = new DataGridConfiguration<JobLog>(Prefix) 
+        .OnClick(UrlClick, new { Id = "Id" }) 
+        .New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew)) 
+        .Exports(true,true) 
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("JobLogs"), "mainPanel"); 
+} 
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<JobLog>(DataGridConfig) 
+    .ID("JobLogDataGrid") 
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("JobLog").LoadAction("Get").Key("Id")) 
+    .Columns(columns => 
+    { 
+        columns.AddFor(m => m.DateExecution); 
+        columns.AddFor(m => m.IsSuccess); 
+        columns.AddFor(m => m.Error); 
+        columns.AddFor(m => m.Job.Id); 
+    }) 
+) 
+</div> 

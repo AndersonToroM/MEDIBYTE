@@ -1,0 +1,83 @@
+@*  Remplazar FATHERModel por el modelo del padre al que pertenece   *@ 
+@* 
+@model FATHERModel 
+@{ 
+    string Prefix = "Job"; 
+    string UrlOnClick = Url.Action("EditDetail", "Job"); 
+    string UrlNew = Url.Action("NewDetail", "Job", new { IdFather = Model.Entity.Id }); 
+
+    var DataGridDetailConfig = new DataGridConfiguration<Job>(Prefix) 
+        .OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm") 
+        .New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm") 
+        .Exports(true,true); 
+} 
+*@ 
+
+
+@* ------------ Descomentar el siguiente codigo si es una edicion en maestro --------------- *@
+@* 
+
+<div class="card cardDeatil"> 
+    <div class="card-body">
+        <div class="box-body table-responsive no-padding"> 
+        @(Html.DControls().DataGridSimple<Job>(DataGridDetailConfig) 
+            .ID("JobDetalleDataGrid") 
+            .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Job").LoadAction("Get").Key("Id")) 
+            .DataSourceOptions(x=>x.Filter("['IdFather','=','"+@Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
+            .Columns(columns => 
+            { 
+             columns.AddFor(m => m.Class); 
+             columns.AddFor(m => m.Description); 
+             columns.AddFor(m => m.Active); 
+             columns.AddFor(m => m.CronSchedule); 
+            }) 
+        ) 
+        </div> 
+        <div id="JobMainPanelForm"></div> 
+    </div> 
+</div> 
+*@ 
+
+
+@* ------------ Descomentar el siguiente codigo si es una edicion en grilla y COMENTAR LOS METODOS OnClick y New del DataGridDetailConfig --------------- *@
+@* 
+<script> 
+     function @(Prefix)OnInitNewRowDetalleDataGrid(model) { 
+         model = GetAuditoryData(model); 
+         model.data.IdFather = "@Model.Entity.Id"; // Cambiar IdFather por el campo foraneo hacia el padre 
+     } 
+</script> 
+<div class="card cardDeatil"> 
+    <div class="card-body">
+        <div class="box-body table-responsive no-padding"> 
+             @(Html.DControls().DataGridSimple<Job>(DataGridDetailConfig) 
+                 .ID("JobDetalleDataGrid") 
+                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Job").LoadAction("Get").Key("Id") 
+                     .InsertAction("AddInGrid").InsertMethod("POST").UpdateAction("ModifyInGrid").UpdateMethod("POST").DeleteAction("DeleteInGrid").DeleteMethod("POST") 
+                 ) 
+                 .DataSourceOptions(x=>x.Filter("['IdFather','=','"+@Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
+                 .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(!Model.Entity.IsNew).AllowUpdating(true).AllowDeleting(true)) 
+                 .OnInitNewRow(Prefix + "OnInitNewRowDetalleDataGrid") 
+                 .OnRowInserted("OnRowInsertedDetalleDataGrid").OnRowUpdated("OnRowUpdatedDetalleDataGrid").OnRowRemoved("OnRowRemovedDetalleDataGrid").OnDataErrorOccurred("OnDataErrorOccurredDetalleDataGrid") 
+                 .Columns(columns => 
+                 { 
+                     columns.AddFor(m => m.Class) 
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Jobs.Class"))) 
+                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Jobs.Class", 100))) 
+                     ; 
+                     columns.AddFor(m => m.Description) 
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Jobs.Description"))) 
+                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Jobs.Description", 255))) 
+                     ; 
+                     columns.AddFor(m => m.Active) 
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Jobs.Active"))); 
+                     columns.AddFor(m => m.CronSchedule) 
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Jobs.CronSchedule"))) 
+                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("Jobs.CronSchedule", 100))) 
+                     ; 
+             }) 
+         ) 
+        </div> 
+    </div> 
+</div> 
+*@ 

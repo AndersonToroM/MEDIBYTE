@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.BusinessLogic
 {
@@ -105,6 +106,16 @@ namespace Blazor.BusinessLogic
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
+                var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                    .FirstOrDefault(x => x.Tipo == 2 && x.IdTipo == nota.Id && !x.Ejecutado);
+                if (job != null)
+                {
+                    job.Ejecutado = true;
+                    job.Exitoso = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+                }
             }
             catch (Exception e)
             {

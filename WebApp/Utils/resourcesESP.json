@@ -3036,6 +3036,30 @@
     "Description": "XML"
   },
   {
+    "Id": "JobLogs.DateExecution",
+    "Description": "Fecha de ejecución"
+  },
+  {
+    "Id": "JobLogs.Error",
+    "Description": "Error"
+  },
+  {
+    "Id": "JobLogs.IsSuccess",
+    "Description": "¿Exitoso?"
+  },
+  {
+    "Id": "Jobs.Active",
+    "Description": "¿Activo?"
+  },
+  {
+    "Id": "Jobs.CronSchedule",
+    "Description": "Cron (Generar desde: www.cronmaker.com)"
+  },
+  {
+    "Id": "Jobs.Description",
+    "Description": "Descripción"
+  },
+  {
     "Id": "LanguageResource",
     "Description": "Recursos"
   },

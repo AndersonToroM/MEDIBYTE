@@ -19,7 +19,7 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (tenant != null)
                 {
-                    await EjecutarTarea(tenant.DataBaseSetting);
+                    await EjecutarRutina(tenant.DataBaseSetting);
                     new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), true);
                 }
             }
@@ -31,7 +31,7 @@ namespace Blazor.BusinessLogic.Jobs
 
         #endregion
 
-        private async Task EjecutarTarea(DataBaseSetting dataBaseSetting)
+        private async Task EjecutarRutina(DataBaseSetting dataBaseSetting)
         {
             await new JobsBusinessLogic(dataBaseSetting).EnvioCorreoEventoAcepta();
         }

@@ -44,8 +44,6 @@ namespace Blazor.BusinessLogic
                 return new NotasDetallesBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(Rips))
                 return new RipsBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
-            if (typeof(T) == typeof(Job))
-                return new JobsBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             return new GenericBusinessLogic<T>(logic.settings);
 
         }
@@ -144,6 +142,10 @@ namespace Blazor.BusinessLogic
         public static ServiciosConsultoriosBusinessLogic ServiciosConsultoriosBusinessLogic(this Dominus.Backend.DataBase.BusinessLogic logic)
         {
             return new ServiciosConsultoriosBusinessLogic(logic.settings);
+        }
+        public static JobsBusinessLogic JobsBusinessLogic(this Dominus.Backend.DataBase.BusinessLogic logic)
+        {
+            return new JobsBusinessLogic(logic.settings);
         }
 
         #region Identificadores estaticos

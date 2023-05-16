@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 
-
 namespace Blazor.BusinessLogic.Jobs
 {
 
@@ -18,7 +17,7 @@ namespace Blazor.BusinessLogic.Jobs
 
     public class JobExecution
     {
-        public static Dictionary<string, IScheduler> DicScheduler = new Dictionary<string, IScheduler>();
+        public static IScheduler Scheduler = null;
         public static List<JobData> Jobs { get; set; } = new List<JobData>();
 
         public async Task RunJobs()
@@ -27,6 +26,11 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (DApp.Tenants != null && DApp.Tenants.Count > 0)
                 {
+                    // Grab the Scheduler instance from the Factory
+                    NameValueCollection props = new NameValueCollection { { "quartz.serializer.type", "binary" } };
+                    StdSchedulerFactory factory = new StdSchedulerFactory(props);
+                    Scheduler = await factory.GetScheduler();
+
                     foreach (var tenant in DApp.Tenants)
                     {
                         DataBaseSetting BD = tenant.DataBaseSetting;
@@ -35,13 +39,8 @@ namespace Blazor.BusinessLogic.Jobs
                             return;
                         }
 
-                        // Grab the Scheduler instance from the Factory
-                        NameValueCollection props = new NameValueCollection { { "quartz.serializer.type", "binary" } };
-                        StdSchedulerFactory factory = new StdSchedulerFactory(props);
-                        IScheduler scheduler = await factory.GetScheduler();
-
                         // and start it off
-                        await scheduler.Start();
+                        await Scheduler.Start();
 
                         List<Job> jobs = new GenericBusinessLogic<Job>(BD).FindAll(x => x.Active);
                         foreach (var job in jobs)
@@ -50,24 +49,25 @@ namespace Blazor.BusinessLogic.Jobs
                             if (type != null)
                             {
                                 JobData jobData = new JobData();
+                                jobData.IdJob = job.Id;
                                 jobData.Class = job.Class;
+                                jobData.TenantCode = tenant.Code;
                                 jobData.CronExpression = job.CronSchedule;
-                                jobData.ConnectionName = tenant.Code;
 
                                 jobData.IJobDetail = JobBuilder.Create(type)
-                                .WithIdentity($"Job_{job.Id}_{jobData.Class}", jobData.Class)
+                                .WithIdentity(jobData.JobKey, jobData.Group)
                                 .UsingJobData("TenantCode", tenant.Code)
                                 .Build();
 
                                 jobData.ITrigger = TriggerBuilder.Create()
-                                    .WithIdentity($"Trigger_{job.Id}_{jobData.Class}", jobData.Class)
-                                    .WithCronSchedule(job.CronSchedule)
+                                    .WithIdentity(jobData.TriggerKey, jobData.Group)
+                                    .WithCronSchedule(jobData.CronExpression)
                                     //.WithSimpleSchedule(x=> x.WithIntervalInSeconds(30).RepeatForever())
                                     .Build();
 
-                                await scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
+                                await Scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
                                 Jobs.Add(jobData);
-                                Console.WriteLine($"Rutina Id={job.Id} {jobData.Class} para {tenant.Code} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
+                                Console.WriteLine($"Rutina Id={jobData.JobKey} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
                             }
                             else
                             {
@@ -75,7 +75,6 @@ namespace Blazor.BusinessLogic.Jobs
                             }
 
                         }
-                        DicScheduler.Add(tenant.Code, scheduler);
                     }
                 }
 
@@ -93,11 +92,25 @@ namespace Blazor.BusinessLogic.Jobs
 
     public class JobData
     {
+        
         public IJobDetail IJobDetail { get; set; }
         public ITrigger ITrigger { get; set; }
+        public long IdJob { get; set; }
         public string Class { get; set; }
         public string CronExpression { get; set; }
-        public string ConnectionName { get; set; }
+        public string TenantCode { get; set; }
+        public string Group
+        {
+            get { return $"{TenantCode}_{Class}"; }
+        }
+        public string JobKey
+        {
+            get { return $"Job_{TenantCode}_{IdJob}_{Class}"; }
+        }
+        public string TriggerKey
+        {
+            get { return $"Trigger_{TenantCode}_{IdJob}_{Class}"; }
+        }
     }
 
     public class ConsoleLogProvider : ILogProvider
