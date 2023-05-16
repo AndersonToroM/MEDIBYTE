@@ -16,8 +16,6 @@ namespace Blazor.BusinessLogic.Jobs
     // docs: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html#cron-expressions
     // cron: http://www.cronmaker.com/?1 or 
 
-    #region JOB EXECUTION
-
     public class JobExecution
     {
         public static Dictionary<string, IScheduler> DicScheduler = new Dictionary<string, IScheduler>();
@@ -132,5 +130,4 @@ namespace Blazor.BusinessLogic.Jobs
         }
     }
 
-    #endregion
 }

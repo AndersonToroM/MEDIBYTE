@@ -44,6 +44,8 @@ namespace Blazor.BusinessLogic
                 return new NotasDetallesBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(Rips))
                 return new RipsBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
+            if (typeof(T) == typeof(Job))
+                return new JobsBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             return new GenericBusinessLogic<T>(logic.settings);
 
         }

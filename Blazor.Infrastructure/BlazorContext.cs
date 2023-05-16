@@ -154,6 +154,7 @@ namespace Blazor.Infrastructure
         public DbSet<EventosDIAN> EventosDIAN { get; set; }
         public DbSet<ParametrosGenerales> ParametrosGenerales { get; set; }
         public DbSet<Secuences> Secuences { get; set; }
+        public DbSet<ConfiguracionEnvioEmailJob> ConfiguracionEnvioEmailJob { get; set; }
 
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }
