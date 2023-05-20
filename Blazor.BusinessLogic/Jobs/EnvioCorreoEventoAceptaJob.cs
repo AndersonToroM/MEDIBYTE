@@ -10,8 +10,6 @@ namespace Blazor.BusinessLogic.Jobs
     [DisallowConcurrentExecution]
     public class EnvioCorreoEventoAceptaJob : IJob
     {
-        #region IniciarJob
-
         public async Task Execute(IJobExecutionContext context)
         {
             var tenant = DApp.Tenants.FirstOrDefault(x => x.Code == context.JobDetail.JobDataMap.GetString("TenantCode"));
@@ -20,16 +18,14 @@ namespace Blazor.BusinessLogic.Jobs
                 if (tenant != null)
                 {
                     await EjecutarRutina(tenant.DataBaseSetting);
-                    new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), true);
+                    new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), true, "Envio Correo Accepta");
                 }
             }
             catch (System.Exception ex)
             {
-                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), false, ex.GetFullErrorMessage());
+                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
             }
         }
-
-        #endregion
 
         private async Task EjecutarRutina(DataBaseSetting dataBaseSetting)
         {
