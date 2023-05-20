@@ -15,71 +15,76 @@ namespace Blazor.Infrastructure.Entities
     public partial class JobLog : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       [Column("DateExecution", TypeName = "datetime")]
-       [DDisplayName("JobLogs.DateExecution")]
-       [DRequired("JobLogs.DateExecution")]
-       public virtual DateTime DateExecution { get; set; }
+        [Column("DateExecution", TypeName = "datetime")]
+        [DDisplayName("JobLogs.DateExecution")]
+        [DRequired("JobLogs.DateExecution")]
+        public virtual DateTime DateExecution { get; set; }
 
-       [Column("IsSuccess")]
-       [DDisplayName("JobLogs.IsSuccess")]
-       [DRequired("JobLogs.IsSuccess")]
-       public virtual Boolean IsSuccess { get; set; }
+        [Column("IsSuccess")]
+        [DDisplayName("JobLogs.IsSuccess")]
+        [DRequired("JobLogs.IsSuccess")]
+        public virtual Boolean IsSuccess { get; set; }
 
-       [Column("Error")]
-       [DDisplayName("JobLogs.Error")]
-       public virtual String Error { get; set; }
+        [Column("Error")]
+        [DDisplayName("JobLogs.Error")]
+        public virtual String Error { get; set; }
 
-       #endregion
+        [Column("Descripcion")]
+        [DDisplayName("JobLogs.Descripcion")]
+        [DStringLength("Jobs.Descripcion", 50)]
+        public virtual String Descripcion { get; set; }
 
-       #region Columnas referenciales)
+        #endregion
 
-       [Column("JobId")]
-       [DDisplayName("JobLogs.JobId")]
-       [DRequired("JobLogs.JobId")]
-       [DRequiredFK("JobLogs.JobId")]
-       public virtual Int64 JobId { get; set; }
+        #region Columnas referenciales)
 
-       #endregion
+        [Column("JobId")]
+        [DDisplayName("JobLogs.JobId")]
+        [DRequired("JobLogs.JobId")]
+        [DRequiredFK("JobLogs.JobId")]
+        public virtual Int64 JobId { get; set; }
 
-       #region Propiedades referencias de entrada)
+        #endregion
 
-       [ForeignKey("JobId")]
-       public virtual Job Job { get; set; }
+        #region Propiedades referencias de entrada)
 
-       #endregion
+        [ForeignKey("JobId")]
+        public virtual Job Job { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-       {
-       Expression<Func<JobLog, bool>> expression = entity => entity.Id == this.Id;
-       return expression as Expression<Func<T, bool>>;
-       }
+        #region Reglas expression
 
-       public override List<ExpRecurso> GetAdicionarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<JobLog, bool>> expression = null;
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        {
+            Expression<Func<JobLog, bool>> expression = entity => entity.Id == this.Id;
+            return expression as Expression<Func<T, bool>>;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetAdicionarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<JobLog, bool>> expression = null;
 
-       public override List<ExpRecurso> GetModificarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<JobLog, bool>> expression = null;
+            return rules;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetModificarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<JobLog, bool>> expression = null;
 
-       public override List<ExpRecurso> GetEliminarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-       return rules;
-       }
+            return rules;
+        }
 
-       #endregion
+        public override List<ExpRecurso> GetEliminarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            return rules;
+        }
+
+        #endregion
     }
- }
+}

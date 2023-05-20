@@ -270,7 +270,9 @@ namespace Blazor.WebApp
 
             DApp.CloudStorageAccount = Configuration["CloudStorageAccount"];
 
-            Task.Run(() => new JobExecution().RunJobs()).Wait();
+            Console.WriteLine("Se inicia Rutinas");
+
+            new JobExecution().RunJobs().GetAwaiter().GetResult();
         }
     }
 }
