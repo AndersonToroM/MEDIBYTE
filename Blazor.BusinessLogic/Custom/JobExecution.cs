@@ -41,58 +41,53 @@ namespace Blazor.BusinessLogic.Jobs
 
                         Console.WriteLine($"Tenant DB: {BD.InitialCatalog} Turn Job: {BD.TurnOnJobs}");
 
-                        if (!BD.TurnOnJobs)
+                        if (BD.TurnOnJobs)
                         {
-                            return;
-                        }
+                            // and start it off
+                            await Scheduler.Start();
 
-                        // and start it off
-                        await Scheduler.Start();
-
-                        List<Job> jobs = new GenericBusinessLogic<Job>(BD).FindAll(x => x.Active);
-                        foreach (var job in jobs)
-                        {
-                            Type type = Type.GetType("Blazor.BusinessLogic.Jobs." + job.Class);
-                            if (type != null)
+                            List<Job> jobs = new GenericBusinessLogic<Job>(BD).FindAll(x => x.Active);
+                            foreach (var job in jobs)
                             {
-                                JobData jobData = new JobData();
-                                jobData.IdJob = job.Id;
-                                jobData.Class = job.Class;
-                                jobData.TenantCode = tenant.Code;
-                                jobData.CronExpression = job.CronSchedule;
+                                Type type = Type.GetType("Blazor.BusinessLogic.Jobs." + job.Class);
+                                if (type != null)
+                                {
+                                    JobData jobData = new JobData();
+                                    jobData.IdJob = job.Id;
+                                    jobData.Class = job.Class;
+                                    jobData.TenantCode = tenant.Code;
+                                    jobData.CronExpression = job.CronSchedule;
 
-                                jobData.IJobDetail = JobBuilder.Create(type)
-                                .WithIdentity(jobData.JobKey, jobData.Group)
-                                .UsingJobData("TenantCode", tenant.Code)
-                                .Build();
-
-                                jobData.ITrigger = TriggerBuilder.Create()
-                                    .WithIdentity(jobData.TriggerKey, jobData.Group)
-                                    .WithCronSchedule(jobData.CronExpression)
-                                    //.WithSimpleSchedule(x=> x.WithIntervalInSeconds(30).RepeatForever())
+                                    jobData.IJobDetail = JobBuilder.Create(type)
+                                    .WithIdentity(jobData.JobKey, jobData.Group)
+                                    .UsingJobData("TenantCode", tenant.Code)
                                     .Build();
 
-                                await Scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
-                                Jobs.Add(jobData);
-                                Console.WriteLine($"Rutina Id={jobData.JobKey} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
+                                    jobData.ITrigger = TriggerBuilder.Create()
+                                        .WithIdentity(jobData.TriggerKey, jobData.Group)
+                                        .WithCronSchedule(jobData.CronExpression)
+                                        //.WithSimpleSchedule(x=> x.WithIntervalInSeconds(30).RepeatForever())
+                                        .Build();
 
-                                try
-                                {
-                                    var logic = new Dominus.Backend.DataBase.BusinessLogic(BD);
-                                    logic.JobsBusinessLogic().SaveJobLog(jobData.Class, true, "Rutina creada.");
+                                    await Scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
+                                    Jobs.Add(jobData);
+                                    Console.WriteLine($"Rutina Id={jobData.JobKey} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
+
+                                    try
+                                    {
+                                        var logic = new Dominus.Backend.DataBase.BusinessLogic(BD);
+                                        logic.JobsBusinessLogic().SaveJobLog(jobData.Class, true, "Rutina creada.");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.GetFullErrorMessage());
+                                    }
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    Console.WriteLine(ex.GetFullErrorMessage());
+                                    Console.WriteLine($" ::::::::::: Id={job.Id} Clase ({job.Class} para {tenant.Code}) no existe o esta mal ubicado en el proyecto ::::::::::: ");
                                 }
-
-
                             }
-                            else
-                            {
-                                Console.WriteLine($" ::::::::::: Id={job.Id} Clase ({job.Class} para {tenant.Code}) no existe o esta mal ubicado en el proyecto ::::::::::: ");
-                            }
-
                         }
                     }
                 }
