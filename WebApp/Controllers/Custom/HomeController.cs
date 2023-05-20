@@ -95,9 +95,9 @@ namespace Blazor.WebApp.Controllers
         public IActionResult GetFilesLog()
         {
             List<ArchivoDescargaModel> logsFiles = new List<ArchivoDescargaModel>();
-            if (Directory.Exists(Program.DirectoryLog))
+            if (Directory.Exists(DApp.PathDirectoryLogs))
             {                
-                DirectoryInfo dirLog = new DirectoryInfo(Program.DirectoryLog);
+                DirectoryInfo dirLog = new DirectoryInfo(DApp.PathDirectoryLogs);
                 dirLog.GetFiles().ToList().ForEach(x =>
                 {
                     logsFiles.Add(new ArchivoDescargaModel
@@ -115,7 +115,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                string pathFile = Path.Combine(Program.DirectoryLog, fileName);
+                string pathFile = Path.Combine(DApp.PathDirectoryLogs, fileName);
                 if (System.IO.File.Exists(pathFile))
                 {
                     FileInfo file = new FileInfo(pathFile);
@@ -134,7 +134,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                string pathFile = Path.Combine(Program.DirectoryLog, fileName);
+                string pathFile = Path.Combine(DApp.PathDirectoryLogs, fileName);
                 if (System.IO.File.Exists(pathFile))
                 {
                     System.IO.File.Delete(pathFile);

@@ -114,7 +114,7 @@ namespace Blazor.WebApp.Controllers
 
             List<long> perfilesId = perfilesUsuarios.Select(x => x.ProfileId).ToList();
             long entidadId = 0;
-            if (perfilesUsuarios.Count == 1 && perfilesUsuarios.Exists(x=>x.Profile.EntidadesId != null))
+            if (perfilesUsuarios.Count == 1 && perfilesUsuarios.Exists(x => x.Profile.EntidadesId != null))
                 entidadId = perfilesUsuarios.First().Profile.EntidadesId.GetValueOrDefault(0);
 
             ClaimsIdentity identity = new ClaimsIdentity(this.GetUserClaims(model), CookieAuthenticationDefaults.AuthenticationScheme);
@@ -203,20 +203,20 @@ namespace Blazor.WebApp.Controllers
             {
                 string title = string.Empty;
                 string nameFile = string.Empty;
-                if(type == 1) // ping log
+                if (type == 1) // ping log
                 {
                     title = "Net;Server;Tiempo de espera;Codigo;Estado;Fecha;Hora;Plataforma;Ubicacion" + Environment.NewLine;
                     nameFile = "LogPingDesdeCliente";
                 }
-                else if(type == 2) // speed test
+                else if (type == 2) // speed test
                 {
                     title = "Fecha;Hora;Plataforma;Tamaño KB;Min KB; Velocidad KB" + Environment.NewLine;
                     nameFile = "LogSpeedTestDesdeCliente";
                 }
 
-                if (!Directory.Exists(Program.DirectoryLog))
-                    Directory.CreateDirectory(Program.DirectoryLog);
-                string pathFile = Path.Combine(Program.DirectoryLog, $"{Request.Host.Host}.{nameFile}.csv");
+                if (!Directory.Exists(DApp.PathDirectoryLogs))
+                    Directory.CreateDirectory(DApp.PathDirectoryLogs);
+                string pathFile = Path.Combine(DApp.PathDirectoryLogs, $"{Request.Host.Host}.{nameFile}.csv");
                 if (System.IO.File.Exists(pathFile))
                 {
                     FileInfo fi = new FileInfo(pathFile);
