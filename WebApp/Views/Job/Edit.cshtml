@@ -63,13 +63,21 @@
         <div>
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
-                    <a href="#MAESTRODETALLE" aria-controls="MAESTRODETALLE" role="tab" data-toggle="tab">
+                    <a href="#ConfiguracionEnvioEmailJob" aria-controls="ConfiguracionEnvioEmailJob" role="tab" data-toggle="tab">
+                        @DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmailJob")
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#JobLog" aria-controls="JobLog" role="tab" data-toggle="tab">
                         @DApp.DefaultLanguage.GetResource("JobLog")
                     </a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="MAESTRODETALLE">
+                <div role="tabpanel" class="tab-pane active" id="ConfiguracionEnvioEmailJob">
+                    <partial name="../ConfiguracionEnvioEmailJob/ListDetail.cshtml" model=Model view-data="ViewData" />
+                </div>
+                <div role="tabpanel" class="tab-pane" id="JobLog">
                     <partial name="../JobLog/ListDetail.cshtml" model=Model view-data="ViewData" />
                 </div>
             </div>

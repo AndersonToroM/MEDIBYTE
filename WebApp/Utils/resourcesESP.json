@@ -1120,6 +1120,30 @@
     "Description": "¿Usa SSL?"
   },
   {
+    "Id": "ConfiguracionEnvioEmailJob",
+    "Description": "Envio Email"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailJob.Ejecutado",
+    "Description": "¿Ejecutado?"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailJob.Error",
+    "Description": "Error"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailJob.Exitoso",
+    "Description": "¿Exitoso?"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailJob.IdTipo",
+    "Description": "Id Tipo BD"
+  },
+  {
+    "Id": "ConfiguracionEnvioEmailJob.Tipo",
+    "Description": "Tipo"
+  },
+  {
     "Id": "ConfiguracionEnvioEmailLog.Asunto",
     "Description": "Asunto"
   },
@@ -3034,6 +3058,10 @@
   {
     "Id": "InterfaceInvoice.XmlUrl",
     "Description": "XML"
+  },
+  {
+    "Id": "JobLog",
+    "Description": "Log"
   },
   {
     "Id": "JobLogs.DateExecution",

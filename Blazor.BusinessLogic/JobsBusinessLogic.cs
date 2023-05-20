@@ -107,7 +107,7 @@ namespace Blazor.BusinessLogic
 
         #endregion
 
-        public async Task EnvioCorreoEventoAcepta()
+        public async Task<bool> EnvioCorreoEventoAcepta()
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             ConfiguracionEnvioEmailJob jobEnvioEmail = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
@@ -116,7 +116,7 @@ namespace Blazor.BusinessLogic
 
             if (jobEnvioEmail == null)
             {
-                return;
+                return false;
             }
 
             try
@@ -143,6 +143,8 @@ namespace Blazor.BusinessLogic
                 jobEnvioEmail.Error = ex.GetFullErrorMessage();
                 unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(jobEnvioEmail);
             }
+
+            return true;
         }
     }
 }

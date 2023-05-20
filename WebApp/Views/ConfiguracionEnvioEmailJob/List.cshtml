@@ -1,0 +1,26 @@
+@{ 
+    string Prefix = "ConfiguracionEnvioEmailJob"; 
+    string UrlClick = Url.Action("Edit", "ConfiguracionEnvioEmailJob"); 
+    string UrlNew = Url.Action("New", "ConfiguracionEnvioEmailJob"); 
+
+    var DataGridConfig = new DataGridConfiguration<ConfiguracionEnvioEmailJob>(Prefix) 
+        .OnClick(UrlClick, new { Id = "Id" }) 
+        .New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew)) 
+        .Exports(true,true) 
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmailJob"), "mainPanel"); 
+} 
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<ConfiguracionEnvioEmailJob>(DataGridConfig) 
+    .ID("ConfiguracionEnvioEmailJobDataGrid") 
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ConfiguracionEnvioEmailJob").LoadAction("Get").Key("Id")) 
+    .Columns(columns => 
+    { 
+        columns.AddFor(m => m.Tipo); 
+        columns.AddFor(m => m.IdTipo); 
+        columns.AddFor(m => m.Ejecutado); 
+        columns.AddFor(m => m.Exitoso); 
+        columns.AddFor(m => m.Error); 
+    }) 
+) 
+</div> 

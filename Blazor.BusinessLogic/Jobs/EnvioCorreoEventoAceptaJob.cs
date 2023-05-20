@@ -17,19 +17,17 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (tenant != null)
                 {
-                    await EjecutarRutina(tenant.DataBaseSetting);
-                    new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), true, "Envio Correo Accepta");
+                    var ejecuto = await new JobsBusinessLogic(tenant.DataBaseSetting).EnvioCorreoEventoAcepta();
+                    if (ejecuto)
+                    {
+                        new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), true, "Envio Correo Accepta");
+                    }
                 }
             }
             catch (System.Exception ex)
             {
                 new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
             }
-        }
-
-        private async Task EjecutarRutina(DataBaseSetting dataBaseSetting)
-        {
-            await new JobsBusinessLogic(dataBaseSetting).EnvioCorreoEventoAcepta();
         }
     }
 }
