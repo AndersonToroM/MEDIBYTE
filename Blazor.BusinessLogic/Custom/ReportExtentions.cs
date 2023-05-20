@@ -53,7 +53,7 @@ namespace Blazor.BusinessLogic
                 reportModel.Ids = ids;
             }
             var p_UsuarioGenero = string.Empty;
-            if (string.IsNullOrWhiteSpace(userName))
+            if (string.IsNullOrWhiteSpace(userName) || userName.Equals(DApp.Util.UserSystem))
             {
                 p_UsuarioGenero = DApp.Util.UserSystem;
             }

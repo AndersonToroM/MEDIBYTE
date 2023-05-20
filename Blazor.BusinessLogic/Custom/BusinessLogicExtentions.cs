@@ -143,6 +143,10 @@ namespace Blazor.BusinessLogic
         {
             return new ServiciosConsultoriosBusinessLogic(logic.settings);
         }
+        public static JobsBusinessLogic JobsBusinessLogic(this Dominus.Backend.DataBase.BusinessLogic logic)
+        {
+            return new JobsBusinessLogic(logic.settings);
+        }
 
         #region Identificadores estaticos
 

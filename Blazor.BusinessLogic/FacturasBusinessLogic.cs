@@ -19,6 +19,7 @@ using DevExpress.Spreadsheet;
 using Blazor.Reports.Facturas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using Dominus.Frontend.Controllers;
 
 namespace Blazor.BusinessLogic
 {
@@ -113,18 +114,22 @@ namespace Blazor.BusinessLogic
                 };
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
+
+                var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                    .FirstOrDefault(x => x.Tipo == 1 && x.IdTipo == factura.Id && !x.Ejecutado);
+                if (job != null)
+                {
+                    job.Ejecutado = true;
+                    job.Exitoso = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+                }
             }
             catch (Exception e)
             {
-                string fullError = e.Message;
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                    fullError += " | " + e.Message;
-                }
-
-                DApp.LogToFile($"{fullError} | {e.StackTrace}");
-                throw new Exception(fullError);
+                DApp.LogToFile($"{e.GetFullErrorMessage()} | {e.StackTrace}");
+                throw new Exception(e.GetFullErrorMessage());
             }
         }
 
