@@ -1,12 +1,14 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Frontend.Controllers;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blazor.BusinessLogic.Jobs
@@ -26,6 +28,8 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (DApp.Tenants != null && DApp.Tenants.Count > 0)
                 {
+                    Console.WriteLine($"Cantidad de tenants: {DApp.Tenants.Count}");
+
                     // Grab the Scheduler instance from the Factory
                     NameValueCollection props = new NameValueCollection { { "quartz.serializer.type", "binary" } };
                     StdSchedulerFactory factory = new StdSchedulerFactory(props);
@@ -34,6 +38,9 @@ namespace Blazor.BusinessLogic.Jobs
                     foreach (var tenant in DApp.Tenants)
                     {
                         DataBaseSetting BD = tenant.DataBaseSetting;
+
+                        Console.WriteLine($"Tenant DB: {BD.InitialCatalog} Turn Job: {BD.TurnOnJobs}");
+
                         if (!BD.TurnOnJobs)
                         {
                             return;
@@ -68,6 +75,18 @@ namespace Blazor.BusinessLogic.Jobs
                                 await Scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
                                 Jobs.Add(jobData);
                                 Console.WriteLine($"Rutina Id={jobData.JobKey} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
+
+                                try
+                                {
+                                    var logic = new Dominus.Backend.DataBase.BusinessLogic(BD);
+                                    logic.JobsBusinessLogic().SaveJobLog(jobData.Class, true, "Rutina creada.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.GetFullErrorMessage());
+                                }
+
+
                             }
                             else
                             {
@@ -92,7 +111,7 @@ namespace Blazor.BusinessLogic.Jobs
 
     public class JobData
     {
-        
+
         public IJobDetail IJobDetail { get; set; }
         public ITrigger ITrigger { get; set; }
         public long IdJob { get; set; }

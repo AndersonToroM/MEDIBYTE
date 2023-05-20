@@ -77,7 +77,7 @@ namespace Blazor.BusinessLogic
             }
         }
 
-        public void SaveJobLog(string nameClass, bool isSuccess, string error = null)
+        public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null , string error = null)
         {
             try
             {
@@ -90,6 +90,7 @@ namespace Blazor.BusinessLogic
                     DateExecution = DateTime.Now,
                     IsSuccess = isSuccess,
                     Error = error,
+                    Descripcion = descripcion,
                     CreatedBy = "Rutina",
                     UpdatedBy = "Rutina",
                     CreationDate = DateTime.Now,
