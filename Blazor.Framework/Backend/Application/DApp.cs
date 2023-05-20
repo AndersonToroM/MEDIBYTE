@@ -14,6 +14,8 @@ namespace Dominus.Backend.Application
 {
     public static class DApp
     {
+        public static string PathDirectoryLogs = Path.Combine(Environment.CurrentDirectory, "wwwroot", "Files", "Logs");
+
         public static List<Tenant> Tenants { get; set; }
 
         public static string UrlService { get; set; }
@@ -68,7 +70,7 @@ namespace Dominus.Backend.Application
         {
             try
             {
-                string pathFile = Path.Combine(Environment.CurrentDirectory, "wwwroot", "Files", "ErrorFile.log");
+                string pathFile = Path.Combine(PathDirectoryLogs, "ErrorFile.log");
                 File.AppendAllText(pathFile, $"{text}{Environment.NewLine}");
             }
             catch
