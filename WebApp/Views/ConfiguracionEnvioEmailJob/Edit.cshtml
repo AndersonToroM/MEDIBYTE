@@ -48,8 +48,8 @@
                                      .Editor(e=>e.CheckBox().ID(Prefix + "Ejecutado").Text(DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmailJob.Ejecutado"))); 
                                 groupItems.AddSimpleFor(m => m.Entity.Exitoso).Label(x=>x.Visible(false)).ColSpan(1) 
                                      .Editor(e=>e.CheckBox().ID(Prefix + "Exitoso").Text(DApp.DefaultLanguage.GetResource("ConfiguracionEnvioEmailJob.Exitoso"))); 
-                                groupItems.AddSimpleFor(m => m.Entity.Error).ColSpan(1) 
-                                     .Editor(e => e.TextBox().ID(Prefix + "Error").ShowClearButton(true)); 
+                                groupItems.AddSimpleFor(m => m.Entity.Detalle).ColSpan(1) 
+                                     .Editor(e => e.TextBox().ID(Prefix + "Detalle").ShowClearButton(true)); 
                          }); 
                     }) 
                 ) 

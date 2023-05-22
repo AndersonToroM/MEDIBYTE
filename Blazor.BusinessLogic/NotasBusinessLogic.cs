@@ -45,8 +45,12 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        public async Task EnviarEmail(Notas nota, string eventoEnvio, string user)
+        public async Task EnviarEmail(long notaId, string eventoEnvio, string user)
         {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var nota = unitOfWork.Repository<Notas>().FindById(x => x.Id == notaId, true);
+
             if (string.IsNullOrWhiteSpace(nota.DIANResponse))
             {
                 throw new Exception("La nota no ha sido aceptada por la dian.");
@@ -56,7 +60,6 @@ namespace Blazor.BusinessLogic
                 throw new Exception("La nota no ha sido aceptada por la dian.");
             }
 
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             try
             {
                 string correo = null;
@@ -77,7 +80,6 @@ namespace Blazor.BusinessLogic
                 doc.LoadXml(content);
                 content = @"<?xml version='1.0' encoding='UTF-8'?>";
                 content += doc.DocumentElement.ChildNodes[3].InnerXml;
-
 
                 string pathXml = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.xml");
                 File.WriteAllText(pathXml, content, Encoding.UTF8);
@@ -107,13 +109,15 @@ namespace Blazor.BusinessLogic
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
                 var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
-                    .FirstOrDefault(x => x.Tipo == 2 && x.IdTipo == nota.Id && !x.Ejecutado);
+                    .FirstOrDefault(x => x.Tipo == 2 && x.IdTipo == nota.Id && !x.Exitoso);
                 if (job != null)
                 {
                     job.Ejecutado = true;
                     job.Exitoso = true;
                     job.LastUpdate = DateTime.Now;
                     job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"Intento {job.Intentos}: {eventoEnvio}. ";
                     unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
                 }
             }

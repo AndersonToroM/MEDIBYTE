@@ -15,64 +15,69 @@ namespace Blazor.Infrastructure.Entities
     public partial class ConfiguracionEnvioEmailJob : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       [Column("Tipo")]
-       [DDisplayName("ConfiguracionEnvioEmailJob.Tipo")]
-       [DRequired("ConfiguracionEnvioEmailJob.Tipo")]
-       public virtual Int32 Tipo { get; set; }
+        [Column("Tipo")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.Tipo")]
+        [DRequired("ConfiguracionEnvioEmailJob.Tipo")]
+        public virtual Int32 Tipo { get; set; }
 
-       [Column("IdTipo")]
-       [DDisplayName("ConfiguracionEnvioEmailJob.IdTipo")]
-       [DRequired("ConfiguracionEnvioEmailJob.IdTipo")]
-       public virtual Int64 IdTipo { get; set; }
+        [Column("IdTipo")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.IdTipo")]
+        [DRequired("ConfiguracionEnvioEmailJob.IdTipo")]
+        public virtual Int64 IdTipo { get; set; }
 
-       [Column("Ejecutado")]
-       [DDisplayName("ConfiguracionEnvioEmailJob.Ejecutado")]
-       [DRequired("ConfiguracionEnvioEmailJob.Ejecutado")]
-       public virtual Boolean Ejecutado { get; set; }
+        [Column("Ejecutado")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.Ejecutado")]
+        [DRequired("ConfiguracionEnvioEmailJob.Ejecutado")]
+        public virtual Boolean Ejecutado { get; set; }
 
-       [Column("Exitoso")]
-       [DDisplayName("ConfiguracionEnvioEmailJob.Exitoso")]
-       [DRequired("ConfiguracionEnvioEmailJob.Exitoso")]
-       public virtual Boolean Exitoso { get; set; }
+        [Column("Exitoso")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.Exitoso")]
+        [DRequired("ConfiguracionEnvioEmailJob.Exitoso")]
+        public virtual Boolean Exitoso { get; set; }
 
-       [Column("Error")]
-       [DDisplayName("ConfiguracionEnvioEmailJob.Error")]
-       public virtual String Error { get; set; }
+        [Column("Detalle")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.Detalle")]
+        public virtual String Detalle { get; set; }
 
-       #endregion
+        [Column("Intentos")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.Intentos")]
+        [DRequired("ConfiguracionEnvioEmailJob.Intentos")]
+        public virtual Int32 Intentos { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-       {
-       Expression<Func<ConfiguracionEnvioEmailJob, bool>> expression = entity => entity.Id == this.Id;
-       return expression as Expression<Func<T, bool>>;
-       }
+        #region Reglas expression
 
-       public override List<ExpRecurso> GetAdicionarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<ConfiguracionEnvioEmailJob, bool>> expression = null;
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        {
+            Expression<Func<ConfiguracionEnvioEmailJob, bool>> expression = entity => entity.Id == this.Id;
+            return expression as Expression<Func<T, bool>>;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetAdicionarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<ConfiguracionEnvioEmailJob, bool>> expression = null;
 
-       public override List<ExpRecurso> GetModificarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<ConfiguracionEnvioEmailJob, bool>> expression = null;
+            return rules;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetModificarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<ConfiguracionEnvioEmailJob, bool>> expression = null;
 
-       public override List<ExpRecurso> GetEliminarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-       return rules;
-       }
+            return rules;
+        }
 
-       #endregion
+        public override List<ExpRecurso> GetEliminarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            return rules;
+        }
+
+        #endregion
     }
- }
+}

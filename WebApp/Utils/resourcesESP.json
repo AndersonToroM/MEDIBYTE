@@ -1124,6 +1124,10 @@
     "Description": "Envio Email"
   },
   {
+    "Id": "ConfiguracionEnvioEmailJob.Detalle",
+    "Description": "Detalle"
+  },
+  {
     "Id": "ConfiguracionEnvioEmailJob.Ejecutado",
     "Description": "¿Ejecutado?"
   },

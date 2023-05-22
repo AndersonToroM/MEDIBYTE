@@ -80,7 +80,8 @@ namespace Blazor.WebApp.Controllers
                         UpdatedBy = "Acepta",
                         LastUpdate = DateTime.Now,
                         CreatedBy = "Acepta",
-                        CreationDate = DateTime.Now
+                        CreationDate = DateTime.Now,
+                        Intentos = 0
                     };
 
                     var invoice = manager.GetBusinessLogic<Facturas>().FindById(x => (x.Documentos.Prefijo + x.NroConsecutivo.ToString()) == eventR.NroId, true);
