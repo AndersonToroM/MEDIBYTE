@@ -38,11 +38,11 @@ namespace Blazor.BusinessLogic
             XtraReport xtraReport = null;
             if (factura.AdmisionesId != null)
             {
-                xtraReport =  ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user);
+                xtraReport = ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user);
             }
             else
             {
-                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic,factura.Id, user);
+                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic, factura.Id, user);
             }
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
@@ -54,8 +54,12 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        public async Task EnviarEmail(Facturas factura, string eventoEnvio, string user)
+        public async Task EnviarEmail(long facturaId, string eventoEnvio, string user)
         {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var factura = unitOfWork.Repository<Facturas>().FindById(x => x.Id == facturaId, true);
+
             if (string.IsNullOrWhiteSpace(factura.DIANResponse))
             {
                 throw new Exception("La factura no ha sido aceptada por la dian.");
@@ -65,7 +69,7 @@ namespace Blazor.BusinessLogic
                 throw new Exception("La factura no ha sido aceptada por la dian.");
             }
 
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
             try
             {
                 string correo = null;
@@ -116,13 +120,15 @@ namespace Blazor.BusinessLogic
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
                 var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
-                    .FirstOrDefault(x => x.Tipo == 1 && x.IdTipo == factura.Id && !x.Ejecutado);
+                    .FirstOrDefault(x => x.Tipo == 1 && x.IdTipo == factura.Id && !x.Exitoso);
                 if (job != null)
                 {
                     job.Ejecutado = true;
                     job.Exitoso = true;
                     job.LastUpdate = DateTime.Now;
                     job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"Intento {job.Intentos}: {eventoEnvio}. ";
                     unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
                 }
             }

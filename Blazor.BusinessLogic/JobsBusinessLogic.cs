@@ -110,38 +110,33 @@ namespace Blazor.BusinessLogic
         public async Task<bool> EnvioCorreoEventoAcepta()
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            ConfiguracionEnvioEmailJob jobEnvioEmail = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+            ConfiguracionEnvioEmailJob job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
                 .OrderBy(x => x.CreationDate)
-                .FirstOrDefault(x => !x.Ejecutado);
+                .FirstOrDefault(x => !x.Exitoso && x.Intentos < 3);
 
-            if (jobEnvioEmail == null)
+            if (job == null)
             {
                 return false;
             }
 
             try
             {
-                if (jobEnvioEmail.Tipo == 1) // Tipo factura
+                if (job.Tipo == 1) // Tipo factura
                 {
-                    Facturas factura = unitOfWork.Repository<Facturas>().Table
-                        .Include(x => x.Empresas)
-                        .Include(x => x.Documentos)
-                        .FirstOrDefault(x => x.Id == jobEnvioEmail.IdTipo);
-                    await new FacturasBusinessLogic(UnitOfWork.Settings).EnviarEmail(factura, "Envio Factura Evento DIAN", DApp.Util.UserSystem);
+                    await new FacturasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Factura Evento DIAN", DApp.Util.UserSystem);
                 }
-                else if (jobEnvioEmail.Tipo == 2) // Tipo Nota
+                else if (job.Tipo == 2) // Tipo Nota
                 {
-                    Notas factura = unitOfWork.Repository<Notas>().Table.FirstOrDefault(x => x.Id == jobEnvioEmail.IdTipo);
-                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(factura, "Envio Nota Evento DIAN", DApp.Util.UserSystem);
+                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem);
                 }
-
             }
             catch (Exception ex)
             {
-                jobEnvioEmail.Ejecutado = true;
-                jobEnvioEmail.Exitoso = false;
-                jobEnvioEmail.Error = ex.GetFullErrorMessage();
-                unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(jobEnvioEmail);
+                job.Ejecutado = true;
+                job.Exitoso = false;
+                job.Intentos++;
+                job.Detalle +=  $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
             }
 
             return true;

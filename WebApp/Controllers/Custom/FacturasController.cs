@@ -80,8 +80,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                Facturas factura = Manager().FacturasBusinessLogic().FindById(x => x.Id == id, true);
-                await Manager().FacturasBusinessLogic().EnviarEmail(factura, "Envio Factura Manual", User.Identity.Name);
+                await Manager().FacturasBusinessLogic().EnviarEmail(id, "Envio Factura Manual", User.Identity.Name);
                 return Ok();
             }
             catch (Exception e)
