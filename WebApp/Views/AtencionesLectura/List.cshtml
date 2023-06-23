@@ -51,56 +51,57 @@
 
         var resultadosSelected = $("#AtencionesLecturaDataGrid").dxDataGrid("instance").getSelectedRowKeys();
         showLoadIndicator();
-            $.ajax({
-                url: "@Url.Action("MarcarLeidos",Prefix)",
-                data: { empleadoId : empleadoSelectedId, admisionesServiciosPrestadosId : resultadosSelected },
-                type: 'POST',
-                success: function (data) {
-                    hideLoadIndicator();
-                    DevExpress.ui.notify("Servicios marcados como leidos correctamente.", "info");
-                    $("#AtencionesLecturaDataGrid").dxDataGrid("instance").refresh();
-                    $("#@(Prefix)PopupMarcarLeidos").dxPopup("instance").hide();
-                },
-                error: function (xhr) {
-                    console.log(xhr);
-                    hideLoadIndicator();
-                    DevExpress.ui.notify("Error: " + xhr.responseText, "error", 4000);
-                    $("#@(Prefix)PopupMarcarLeidos").dxPopup("instance").hide();
-                }
-            });
+        $.ajax({
+            url: "@Url.Action("MarcarLeidos",Prefix)",
+            data: { empleadoId: empleadoSelectedId, admisionesServiciosPrestadosId: resultadosSelected },
+            type: 'POST',
+            success: function (data) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Servicios marcados como leidos correctamente.", "info");
+                $("#AtencionesLecturaDataGrid").dxDataGrid("instance").refresh();
+                $("#@(Prefix)PopupMarcarLeidos").dxPopup("instance").hide();
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error: " + xhr.responseText, "error", 4000);
+                $("#@(Prefix)PopupMarcarLeidos").dxPopup("instance").hide();
+            }
+        });
     }
 
 </script>
 
 <div class="box-body table-responsive no-padding">
-    @(Html.DControls().DataGridSimple<AdmisionesServiciosPrestados>(DataGridConfig)
-    .ID("AtencionesLecturaDataGrid")
-    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AtencionesLectura").LoadAction("GetAtencionesLectura").Key("Id"))
-    .Columns(columns =>
-    {
-    columns.AddFor(m => m.Admisiones.Pacientes.NumeroIdentificacion);
-    columns.AddFor(m => m.Admisiones.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Paciente"));
-    columns.AddFor(m => m.Servicios.Nombre).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Servicio"));
-    columns.AddFor(m => m.Atenciones.FechaAtencion).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Fecha"));
-    columns.AddFor(m => m.Admisiones.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.AdmisionesId")).SortOrder(SortOrder.Desc);
+    @(
+        Html.DControls().DataGridSimple<AdmisionesServiciosPrestados>(DataGridConfig)
+        .ID("AtencionesLecturaDataGrid")
+        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AtencionesLectura").LoadAction("GetAtencionesLectura").Key("Id"))
+        .Columns(columns =>
+        {
+            columns.AddFor(m => m.Admisiones.Pacientes.NumeroIdentificacion);
+            columns.AddFor(m => m.Admisiones.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Paciente"));
+            columns.AddFor(m => m.Servicios.Nombre).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Servicio"));
+            columns.AddFor(m => m.Atenciones.FechaAtencion).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.Fecha")).SortOrder(SortOrder.Desc);
+            columns.AddFor(m => m.Admisiones.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("AtencionesLectura.AdmisionesId"));
 
-    })
-    )
+        })
+        )
 </div>
 
 <div class="row">
     <div class="col-md-12">
         @(Html.DControls().Popup()
-        .ID($"{Prefix}PopupMarcarLeidos")
-        .Width(800)
-        .Height(200)
-        .ShowTitle(true)
-        .Title(DApp.DefaultLanguage.GetResource("AtencionesLectura.MarcarLeidos"))
-        .Visible(false)
-        .DragEnabled(false)
-        .CloseOnOutsideClick(false)
-        .ContentTemplate(new TemplateName($"{Prefix}TemplateMarcarLeidos"))
-        )
+            .ID($"{Prefix}PopupMarcarLeidos")
+            .Width(800)
+            .Height(200)
+            .ShowTitle(true)
+            .Title(DApp.DefaultLanguage.GetResource("AtencionesLectura.MarcarLeidos"))
+            .Visible(false)
+            .DragEnabled(false)
+            .CloseOnOutsideClick(false)
+            .ContentTemplate(new TemplateName($"{Prefix}TemplateMarcarLeidos"))
+            )
 
         @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateMarcarLeidos"))
         {
@@ -109,12 +110,12 @@
                 <div class="form-group col-md-12">
                     <label for="@($"{Prefix}AccionMarcarLeidos")">@DApp.DefaultLanguage.GetResource("AtencionesLectura.MarcarLeidosEmpleadosId"):</label>
                     @(Html.DControls().SelectBox()
-                .ID($"{Prefix}AccionMarcarLeidos").InputAttr("class", "form-control")
-                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AtencionesLectura").LoadAction("GetEmpleadosId").Key("Id"))
-                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
-                .SearchEnabled(true).ShowClearButton(true)
-                )
+                        .ID($"{Prefix}AccionMarcarLeidos").InputAttr("class", "form-control")
+                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AtencionesLectura").LoadAction("GetEmpleadosId").Key("Id"))
+                        .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                        .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
+                        .SearchEnabled(true).ShowClearButton(true)
+                        )
                 </div>
             </div>
 
