@@ -107,7 +107,7 @@ namespace Blazor.BusinessLogic
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
-                envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01";
+                envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01;{factura.Empresas.RazonSocial}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);

@@ -96,7 +96,7 @@ namespace Blazor.BusinessLogic
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
-                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion == 3 ? 91 : 92)}";
+                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion == 3 ? 91 : 92)};{nota.Empresas.RazonSocial}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioNotaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
