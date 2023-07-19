@@ -1129,5 +1129,71 @@ namespace Blazor.BusinessLogic
             }
         }
 
+        public byte[] ExcelExportarSiigo(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.CreateNewDocument();
+                Worksheet worksheet = workbook.Worksheets.Add("Exportar SIIGO");
+                List<VExportarSiigo> data = new GenericBusinessLogic<VExportarSiigo>(this.UnitOfWork).FindAll(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+
+                //Titulos
+                int column = 0;
+                worksheet.Rows[0][column].SetValue("Tipo de comprobante"); column++;
+                worksheet.Rows[0][column].SetValue("Consecutivo"); column++;
+                worksheet.Rows[0][column].SetValue("Tipo identificación"); column++;
+                worksheet.Rows[0][column].SetValue("Numero Identificación"); column++;
+                worksheet.Rows[0][column].SetValue("Razón social (Obligatorio)"); column++;
+                worksheet.Rows[0][column].SetValue("Nombres del tercero (Obligatorio)"); column++;
+                worksheet.Rows[0][column].SetValue("Apellidos del tercero (Obligatorio)"); column++;
+                worksheet.Rows[0][column].SetValue("Nit Entidad copago"); column++;
+                worksheet.Rows[0][column].SetValue("Fecha de elaboración"); column++;
+                worksheet.Rows[0][column].SetValue("Email Contacto"); column++;
+                worksheet.Rows[0][column].SetValue("Código producto"); column++;
+                worksheet.Rows[0][column].SetValue("Descripción producto"); column++;
+                worksheet.Rows[0][column].SetValue("Cantidad producto"); column++;
+                worksheet.Rows[0][column].SetValue("Valor unitario"); column++;
+                worksheet.Rows[0][column].SetValue("Valor Descuento"); column++;
+                worksheet.Rows[0][column].SetValue("Valor Copago"); column++;
+                worksheet.Rows[0][column].SetValue("Valor Forma de Pago"); column++;
+                worksheet.Rows[0][column].SetValue("Fecha Vencimiento"); column++;
+                worksheet.Rows[0][column].SetValue("Observaciones"); column++;
+
+                for (int row = 0; row < data.Count; row++)
+                {
+                    column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Prefijo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Consecutivo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Numero_Identificacion); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Nombres_Tercero); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Apellidos_Tercero); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Nit_Entidad_Copago); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Emision); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Email_Contacto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Codigo_Producto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Descripcion_Producto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Cantidad_Producto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Unitario); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Descuento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Copago); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Subtotal_Factura); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaVencimiento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Observaciones); column++;
+                }
+                worksheet.Columns.AutoFit(0, column);  
+
+                byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
+                workbook.Dispose();
+                return book;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }
