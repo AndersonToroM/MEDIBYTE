@@ -20,6 +20,7 @@ using Blazor.Reports.Facturas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Frontend.Controllers;
+using Blazor.BusinessLogic.Models.Enums;
 
 namespace Blazor.BusinessLogic
 {
@@ -33,7 +34,7 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        private string GetPdfFacturaReporte(Facturas factura, string user)
+        private string GetPdfFacturaReporte(Facturas factura, string nameFile, string user)
         {
             XtraReport xtraReport = null;
             if (factura.AdmisionesId != null)
@@ -45,7 +46,7 @@ namespace Blazor.BusinessLogic
                 xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic, factura.Id, user);
             }
 
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
+            string pathPdf = Path.Combine(Path.GetTempPath(), $"fv{nameFile}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();
             pdfOptions.ConvertImagesToJpeg = false;
             pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
@@ -69,7 +70,6 @@ namespace Blazor.BusinessLogic
                 throw new Exception("La factura no ha sido aceptada por la dian.");
             }
 
-
             try
             {
                 string correo = null;
@@ -92,12 +92,20 @@ namespace Blazor.BusinessLogic
                 content = @"<?xml version='1.0' encoding='UTF-8'?>";
                 content += doc.DocumentElement.ChildNodes[3].InnerXml;
 
-                string pathXml = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.xml");
+                string consecutivoEnvioFE = factura.ConsecutivoFE;
+                if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
+                {
+                    consecutivoEnvioFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
+                    factura.ConsecutivoFE = consecutivoEnvioFE;
+                    unitOfWork.Repository<Facturas>().Modify(factura);
+                }
+
+                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{consecutivoEnvioFE}.xml");
                 File.WriteAllText(pathXml, content, Encoding.UTF8);
 
                 ZipArchive archive = new ZipArchive();
-                archive.FileName = $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.zip";
-                archive.AddFile(GetPdfFacturaReporte(factura, user), "/");
+                archive.FileName = $"z{consecutivoEnvioFE}.zip";
+                archive.AddFile(GetPdfFacturaReporte(factura, consecutivoEnvioFE, user), "/");
                 archive.AddFile(pathXml, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -111,7 +119,7 @@ namespace Blazor.BusinessLogic
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
-                envioEmailConfig.ArchivosAdjuntos.Add($"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.zip", msZip);
+                envioEmailConfig.ArchivosAdjuntos.Add($"z{consecutivoEnvioFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
                     {"nombreCia",$"{empresas.RazonSocial}" }
@@ -120,7 +128,7 @@ namespace Blazor.BusinessLogic
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
                 var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
-                    .FirstOrDefault(x => x.Tipo == 1 && x.IdTipo == factura.Id && !x.Exitoso);
+                    .FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == factura.Id && !x.Exitoso);
                 if (job != null)
                 {
                     job.Ejecutado = true;
