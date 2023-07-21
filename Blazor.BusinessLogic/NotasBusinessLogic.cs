@@ -38,7 +38,7 @@ namespace Blazor.BusinessLogic
         {
             XtraReport xtraReport = ReportExtentions.Report<NotasReporte>(this.BusinessLogic, nota.Id, user);
 
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"nc-{nameFaile}.pdf");
+            string pathPdf = Path.Combine(Path.GetTempPath(), $"{(nota.Documentos.Transaccion == 3 ? "nc" : "nd")}{nameFaile}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();
             pdfOptions.ConvertImagesToJpeg = false;
             pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
