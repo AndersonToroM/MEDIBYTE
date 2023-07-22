@@ -161,6 +161,7 @@ namespace Blazor.Infrastructure
         public DbSet<VEntregaAdmisiones> VEntregaAdmisiones { get; set; }
         public DbSet<VReporteCartera> VReporteCartera { get; set; }
         public DbSet<VContabilizacionRegistro> VContabilizacionRegistro { get; set; }
+        public DbSet<VExportarSiigo> VExportarSiigo { get; set; }
 
         #endregion
 

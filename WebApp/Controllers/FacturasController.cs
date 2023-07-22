@@ -416,6 +416,25 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult ExportarSiigo(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                if (fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                    throw new Exception("Los parametros Fecha Desde y Fecha Hasta no fueron enviados correctamente al servidor.");
+
+                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
+                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
+                byte[] book = Manager().FacturasBusinessLogic().ExcelExportarSiigo(fechaDesde, fechaHasta);
+                return File(book, "application/octet-stream", $"Exportar_SIIGO_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
         public IActionResult ImprimirAnexoFactura(int Id)
         {
             try

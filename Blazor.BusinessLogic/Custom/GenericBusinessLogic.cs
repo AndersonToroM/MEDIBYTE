@@ -1,9 +1,12 @@
-﻿using Blazor.Infrastructure;
+﻿using Blazor.BusinessLogic.Models.Enums;
+using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Custom;
 using Dominus.Backend.Application;
+using Dominus.Backend.Data;
 using Dominus.Backend.DataBase;
 using System;
+using System.Linq;
 
 namespace Blazor.BusinessLogic
 {
@@ -26,7 +29,7 @@ namespace Blazor.BusinessLogic
         public int GetSecuence(string prefix)
         {
             var secuence = UnitOfWork.Repository<Secuences>().FindById(x => x.Id == prefix, false);
-            if(secuence == null)
+            if (secuence == null)
             {
                 secuence = new Secuences { Id = prefix, Secuence = 1 };
                 secuence = UnitOfWork.Repository<Secuences>().Add(secuence);
@@ -37,6 +40,32 @@ namespace Blazor.BusinessLogic
                 secuence = UnitOfWork.Repository<Secuences>().Modify(secuence);
             }
             return secuence.Secuence;
+        }
+
+        public string GetConsecutivoParaEnvioFE()
+        {
+            var empresa = UnitOfWork.Repository<Empresas>().FindById(x => true, false);
+            if (empresa == null)
+            {
+                throw new Exception("Error al encontrar los consecutivos para envio FE.");
+            }
+
+            var consecutivo = string.Empty;
+            consecutivo += empresa.NumeroIdentificacion.PadLeft(10, '0');
+            consecutivo += empresa.CodigoPT;
+            consecutivo += DateTime.Now.ToString("yy");
+            var deciConsec = empresa.ConsecutivoEnvioFE + 1;
+            if (DateTime.Now.Year != empresa.AnioEnvioFE)
+            {
+                empresa.AnioEnvioFE = DateTime.Now.Year;
+                empresa.ConsecutivoEnvioFE = 1;
+                deciConsec = 1;
+            }
+            consecutivo += deciConsec.ToString("X").PadLeft(8, '0');
+            empresa.ConsecutivoEnvioFE = deciConsec;
+            empresa = UnitOfWork.Repository<Empresas>().Modify(empresa);
+
+            return consecutivo;
         }
 
         #region Manejo de Imagenes a Tabla Archivos

@@ -1,4 +1,5 @@
 ﻿using Blazor.BusinessLogic.Jobs;
+using Blazor.BusinessLogic.Models.Enums;
 using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
@@ -121,11 +122,11 @@ namespace Blazor.BusinessLogic
 
             try
             {
-                if (job.Tipo == 1) // Tipo factura
+                if (job.Tipo == (int)TipoDocumento.Factura) // Tipo factura
                 {
                     await new FacturasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Factura Evento DIAN", DApp.Util.UserSystem);
                 }
-                else if (job.Tipo == 2) // Tipo Nota
+                else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
                 {
                     await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem);
                 }
