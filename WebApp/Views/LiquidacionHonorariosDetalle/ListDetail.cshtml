@@ -69,7 +69,7 @@
                     .Columns(columns =>
                     {
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.ProgramacionCitas.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoCita"));
-                        columns.AddFor(m => m.AdmisionesServiciosPrestados.AdmisionesId).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoAdmision"));
+                        columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Atenciones.ConsecutivoAdmision"));
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.Pacientes.NumeroIdentificacion);
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Admisiones.Pacientes.NombreCompleto);
                         columns.AddFor(m => m.AdmisionesServiciosPrestados.Atenciones.FechaAtencion).AllowEditing(false);
