@@ -63,6 +63,25 @@ namespace Blazor.WebApp.Controllers
                 ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admision No. {citaAdmitida.Id} en proceso. Por favor verifique en el listado de admisiones.");
             }
 
+            if (!string.IsNullOrWhiteSpace(model.Entity.NroAutorizacion))
+            {
+                List<long> estadosAdmision = new List<long> { 72, 10079 };
+
+                var citaSeleccion = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
+                var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
+                    .FindById(
+                        x => x.NroAutorizacion == model.Entity.NroAutorizacion &&
+                        !estadosAdmision.Contains(x.EstadosId) &&
+                        x.Id != model.Entity.Id &&
+                        x.ProgramacionCitas.ServiciosId == citaSeleccion.ServiciosId &&
+                        x.PacientesId == citaSeleccion.PacientesId
+                    , true);
+                if (admisionautorizacion != null)
+                {
+                    ModelState.AddModelError("Entity.Id", $"El numero de autorizacion {model.Entity.NroAutorizacion} ya fue registrado en la admision con consecutivo {admisionautorizacion.Id} para el servicio {citaSeleccion.Servicios.Nombre} y el paciente {citaSeleccion.Pacientes.NombreCompleto}.");
+                }
+            }
+
             if (model.Entity.FechaAutorizacion > DateTime.Now)
             {
                 ModelState.AddModelError("Entity.Id", "La fecha de autorizacion no puede ser mayor que la fecha actual.");
