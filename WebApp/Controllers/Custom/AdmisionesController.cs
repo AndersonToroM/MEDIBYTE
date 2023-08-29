@@ -60,12 +60,31 @@ namespace Blazor.WebApp.Controllers
 
             if (citaAdmitida != null && OnState)
             {
-                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admision No. {citaAdmitida.Id} en proceso. Por favor verifique en el listado de admisiones.");
+                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admisión No. {citaAdmitida.Consecutivo} en proceso. Por favor verifique en el listado de admisiones.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Entity.NroAutorizacion))
+            {
+                List<long> estadosAdmision = new List<long> { 72, 10079 };
+
+                var citaSeleccion = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
+                var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
+                    .FindById(
+                        x => x.NroAutorizacion == model.Entity.NroAutorizacion &&
+                        !estadosAdmision.Contains(x.EstadosId) &&
+                        x.Id != model.Entity.Id &&
+                        x.ProgramacionCitas.ServiciosId == citaSeleccion.ServiciosId &&
+                        x.PacientesId == citaSeleccion.PacientesId
+                    , true);
+                if (admisionautorizacion != null)
+                {
+                    ModelState.AddModelError("Entity.Id", $"El número de autorización {model.Entity.NroAutorizacion} ha sido registrado en la admisión consecutivo {admisionautorizacion.Consecutivo}, para el servicio {citaSeleccion.Servicios.Nombre} y el paciente {citaSeleccion.Pacientes.NombreCompleto}.");
+                }
             }
 
             if (model.Entity.FechaAutorizacion > DateTime.Now)
             {
-                ModelState.AddModelError("Entity.Id", "La fecha de autorizacion no puede ser mayor que la fecha actual.");
+                ModelState.AddModelError("Entity.Id", "La fecha de autorización no puede ser mayor que la fecha actual.");
             }
 
             if (!OnState)
@@ -253,7 +272,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                    throw new Exception("Los parámetros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
                 var parametros = new Dictionary<string, object>
                 {
@@ -277,7 +296,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                    throw new Exception("Los parámetros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
                 fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);

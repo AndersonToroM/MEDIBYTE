@@ -51,7 +51,7 @@
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                             .Items(groupItems =>
                             {
-                                groupItems.AddSimpleFor(m => m.Entity.Id).ColSpan(2).Label(x=>x.Text(DApp.DefaultLanguage.GetResource("Admisiones.Consecutivo")))
+                                groupItems.AddSimpleFor(m => m.Entity.Consecutivo).ColSpan(2).Label(x=>x.Text(DApp.DefaultLanguage.GetResource("Admisiones.Consecutivo")))
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.Consecutivo")))
                                     .Editor(e => e.NumberBox().ID(Prefix + "Id").ReadOnly(true)
                                     );

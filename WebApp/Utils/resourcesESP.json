@@ -2248,6 +2248,18 @@
     "Description": "Estado"
   },
   {
+    "Id": "Facturas.ExportarSiigo",
+    "Description": "Exportar SIIGO"
+  },
+  {
+    "Id": "Facturas.ExportarSiigoFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ExportarSiigoFechaHasta",
+    "Description": "Hasta"
+  },
+  {
     "Id": "Facturas.FacturacionElectronica",
     "Description": "Facturación Electrónica"
   },
