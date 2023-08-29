@@ -60,7 +60,7 @@ namespace Blazor.WebApp.Controllers
 
             if (citaAdmitida != null && OnState)
             {
-                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admisi髇 No. {citaAdmitida.Consecutivo} en proceso. Por favor verifique en el listado de admisiones.");
+                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admisi贸n No. {citaAdmitida.Consecutivo} en proceso. Por favor verifique en el listado de admisiones.");
             }
 
             if (!string.IsNullOrWhiteSpace(model.Entity.NroAutorizacion))
@@ -78,13 +78,13 @@ namespace Blazor.WebApp.Controllers
                     , true);
                 if (admisionautorizacion != null)
                 {
-                    ModelState.AddModelError("Entity.Id", $"El n鷐ero de autorizaci髇 {model.Entity.NroAutorizacion} ha sido registrado en la admisi髇 consecutivo {admisionautorizacion.Consecutivo}, para el servicio {citaSeleccion.Servicios.Nombre} y el paciente {citaSeleccion.Pacientes.NombreCompleto}.");
+                    ModelState.AddModelError("Entity.Id", $"El n煤mero de autorizaci贸n {model.Entity.NroAutorizacion} ha sido registrado en la admisi贸n consecutivo {admisionautorizacion.Consecutivo}, para el servicio {citaSeleccion.Servicios.Nombre} y el paciente {citaSeleccion.Pacientes.NombreCompleto}.");
                 }
             }
 
             if (model.Entity.FechaAutorizacion > DateTime.Now)
             {
-                ModelState.AddModelError("Entity.Id", "La fecha de autorizaci髇 no puede ser mayor que la fecha actual.");
+                ModelState.AddModelError("Entity.Id", "La fecha de autorizaci贸n no puede ser mayor que la fecha actual.");
             }
 
             if (!OnState)
@@ -272,7 +272,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los par醡etros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                    throw new Exception("Los par谩metros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
                 var parametros = new Dictionary<string, object>
                 {
@@ -296,7 +296,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los par醡etros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                    throw new Exception("Los par谩metros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
                 fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
