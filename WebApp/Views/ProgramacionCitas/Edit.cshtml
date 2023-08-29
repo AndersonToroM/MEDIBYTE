@@ -262,7 +262,7 @@
 
                                             groupItems.AddSimpleFor(m => m.Entity.FechaInicio).ColSpan(3)
                                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.FechaInicio")))
-                                                  .Editor(e => e.DateBox().ID(Prefix + "FechaInicio").ReadOnly(true).Type(DateBoxType.DateTime)
+                                                  .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaInicio").ReadOnly(true).Type(DateBoxType.DateTime)
                                                   .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).UseMaskBehavior(true));
                                             groupItems.AddSimpleFor(m => m.Entity.HoraInicio).ColSpan(3)
                                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.HoraFinal")))
@@ -272,7 +272,7 @@
 
                                             groupItems.AddSimpleFor(m => m.Entity.FechaFinal).ColSpan(3)
                                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.FechaFinal")))
-                                                  .Editor(e => e.DateBox().ID(Prefix + "FechaFinal").ReadOnly(true).Type(DateBoxType.DateTime)
+                                                  .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaFinal").ReadOnly(true).Type(DateBoxType.DateTime)
                                                   .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).UseMaskBehavior(true));
                                             groupItems.AddSimpleFor(m => m.Entity.HoraFinal).ColSpan(3)
                                               .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.HoraFinal")))

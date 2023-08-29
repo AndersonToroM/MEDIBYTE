@@ -181,7 +181,7 @@
 
                         groupItems.AddSimpleFor(m => m.Entity.FechaVencimiento).ColSpan(4)
                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Notas.FechaVencimiento")))
-                               .Editor(e => e.DateBox().ID(Prefix + "FechaVencimiento").Min(DateTime.Now)
+                               .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaVencimiento").Min(DateTime.Now)
                                .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 
                         groupItems.AddEmpty().ColSpan(8);

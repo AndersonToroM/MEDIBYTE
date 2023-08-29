@@ -130,7 +130,7 @@
                                       .Editor(e => e.TextBox().ID(Prefix + "Consecutivo")
                                       .ReadOnly(true));
                              groupItems.AddSimpleFor(m => m.Entity.FechaApertura).ColSpan(3)
-                                      .Editor(e => e.DateBox().ID(Prefix + "FechaApertura")
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaApertura")
                                       .Type(DateBoxType.DateTime)
                                       .ReadOnly(true)
                                     );

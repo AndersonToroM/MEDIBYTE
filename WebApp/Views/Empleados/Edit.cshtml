@@ -87,7 +87,7 @@
                                      .Editor(e => e.TextBox().ID(Prefix + "SegundoApellido").ShowClearButton(true));
                                 groupItems.AddSimpleFor(m => m.Entity.FechaNacimiento).ColSpan(3)
                                      .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Personas.FechaNacimiento")))
-                                     .Editor(e => e.DateBox().ID(Prefix + "FechaNacimiento")
+                                     .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaNacimiento")
                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
                                 groupItems.AddSimpleFor(m => m.Entity.GenerosId).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Personas.GenerosId")))

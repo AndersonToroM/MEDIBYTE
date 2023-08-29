@@ -48,7 +48,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaInicio).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.FechaInicio")))
-                                    .Editor(e => e.DateBox().ID(Prefix + "FechaInicio").OnValueChanged($"{Prefix}CalcularFechaFinalizacion")
+                                    .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaInicio").OnValueChanged($"{Prefix}CalcularFechaFinalizacion")
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroDias).ColSpan(3)
@@ -57,7 +57,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaFinalizacion).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.FechaInicio")))
-                                    .Editor(e => e.DateBox().ID(Prefix + "FechaFinalizacion")
+                                    .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaFinalizacion")
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
 
                                 groupItems.AddEmpty().ColSpan(3);

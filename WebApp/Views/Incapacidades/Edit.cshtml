@@ -81,12 +81,12 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.Fecha")))
-                                      .Editor(e => e.DateBox().ID(Prefix + "Fecha")
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "Fecha")
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaInicio).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.FechaInicio")))
-                                    .Editor(e => e.DateBox().ID(Prefix + "FechaInicio")
+                                    .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaInicio")
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 
 

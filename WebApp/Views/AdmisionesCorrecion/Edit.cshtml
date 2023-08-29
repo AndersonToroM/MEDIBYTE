@@ -129,7 +129,7 @@
                                       );
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaAutorizacion).ColSpan(3)
-                                      .Editor(e => e.DateBox().ID(Prefix + "FechaAutorizacion")
+                        .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaAutorizacion")
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat))
                                       .ShowClearButton(true).UseMaskBehavior(true)
                                     );

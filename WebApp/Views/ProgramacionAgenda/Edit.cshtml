@@ -70,12 +70,12 @@
                             {
                                 items.AddSimpleFor(m => m.Entity.FechaInicio).ColSpan(3)
                                           .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionAgenda.FechaInicio")))
-                                              .Editor(e => e.DateBox().ID(Prefix + "FechaInicio")
+                                              .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaInicio")
                                               .Min(DateTime.Now).OnValueChanged(Prefix + "OnValueChangedFechas")
                                               .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
                                 items.AddSimpleFor(m => m.Entity.FechaFinal).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionAgenda.FechaFinal")))
-                                      .Editor(e => e.DateBox().ID(Prefix + "FechaFinal")
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaFinal")
                                       .Min(DateTime.Now).OnValueChanged(Prefix + "OnValueChangedFechas")
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 

@@ -1,4 +1,4 @@
-using Blazor.BusinessLogic;
+﻿using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.EntregaAdmisiones;
 using Blazor.Reports.Facturas;
@@ -74,7 +74,7 @@ namespace Blazor.WebApp.Controllers
                 var estadosId = new List<long> { 62, 72, 10068, 10079 };
                 if (estadosId.Contains(admisionDB.EstadosId))
                 {
-                    ModelState.AddModelError("Entity.Id", $"La admisi�n no puede ser modificada ya que se encuentra en estado {admisionDB.Estados.Nombre}");
+                    ModelState.AddModelError("Entity.Id", $"La admisión no puede ser modificada ya que se encuentra en estado {admisionDB.Estados.Nombre}");
                 }
             }
 

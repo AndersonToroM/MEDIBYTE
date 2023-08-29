@@ -74,7 +74,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.Admisiones.Pacientes.FechaNacimiento).ColSpan(3)
                                  .Label(x => x.Text(DApp.GetResource("Atenciones.PacienteFechaNacimiento")))
-                                      .Editor(e => e.DateBox().ID(Prefix + "PacienteFechaNacimiento").ReadOnly(true).DisplayFormat(DApp.DefaultLanguage.DateFormat)
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "PacienteFechaNacimiento").ReadOnly(true).DisplayFormat(DApp.DefaultLanguage.DateFormat)
                                  );
 
                                 groupItems.AddSimple().Template(new TemplateName("TemplateCalcularEdad")).ColSpan(3);
@@ -86,7 +86,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaAtencion).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.FechaAtencion")))
-                                      .Editor(e => e.DateBox().ID(Prefix + "FechaAtencion").Type(DateBoxType.Time).ReadOnly(true)
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaAtencion").Type(DateBoxType.Time).ReadOnly(true)
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat));
 
                                 groupItems.AddSimpleFor(m => m.NombreEntidad).ColSpan(6)

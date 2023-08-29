@@ -56,7 +56,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaRecaudo).ColSpan(6)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Recaudos.FechaRecaudo")))
-                                    .Editor(e => e.DateBox().ID(Prefix + "FechaRecaudo")
+                                    .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaRecaudo")
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.CreatedBy).ColSpan(3)
@@ -164,7 +164,7 @@
                                     .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Recaudos.Referencia", 50)))
                                          .Editor(e => e.TextBox().ID(Prefix + "Referencia").ShowClearButton(true));
                                    tabItem.AddSimpleFor(m => m.Entity.FechaConsignacion).ColSpan(1)
-                                         .Editor(e => e.DateBox().ID(Prefix + "FechaConsignacion")
+                                         .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaConsignacion")
                                          .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
 
                                }

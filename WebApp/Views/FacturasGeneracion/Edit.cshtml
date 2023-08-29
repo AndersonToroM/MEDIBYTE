@@ -182,11 +182,11 @@
                             {
                                 groupItems.AddSimpleFor(m => m.Entity.FechaInicio).ColSpan(1)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("FacturasGeneracion.FechaInicio")))
-                                    .Editor(e => e.DateBox().ID(Prefix + "FechaInicio")
+                                    .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaInicio")
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
                                 groupItems.AddSimpleFor(m => m.Entity.FechaFinal).ColSpan(1)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("FacturasGeneracion.FechaFinal")))
-                                    .Editor(e => e.DateBox().ID(Prefix + "FechaFinal")
+                    .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaFinal")
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
                             });
 
