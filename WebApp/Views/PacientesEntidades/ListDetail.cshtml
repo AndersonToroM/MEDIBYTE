@@ -55,6 +55,7 @@
      function @(Prefix)OnInitNewRowDetalleDataGrid(model) {
          model = GetAuditoryData(model);
          model.data.PacientesId = "@Model.Entity.Id"; // Cambiar IdFather por el campo foraneo hacia el padre
+         model.data.Activo = true;
      }
 
     function @(Prefix)OnRowInsertedDetalleDataGrid(data) {
@@ -86,7 +87,7 @@
                      .InsertAction("AddInGrid").InsertMethod("POST").UpdateAction("ModifyInGrid").UpdateMethod("POST").DeleteAction("DeleteInGrid").DeleteMethod("POST")
                  )
                  .DataSourceOptions(x=>x.Filter("['PacientesId','=','"+@Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
-                 .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(permitirEditar).AllowUpdating(true).AllowDeleting(true))
+                 .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(permitirEditar).AllowUpdating(true).AllowDeleting(false))
                  .OnInitNewRow(Prefix + "OnInitNewRowDetalleDataGrid")
                  .OnRowInserted(Prefix +"OnRowInsertedDetalleDataGrid").OnRowUpdated("OnRowUpdatedDetalleDataGrid").OnRowRemoved("OnRowRemovedDetalleDataGrid").OnDataErrorOccurred("OnDataErrorOccurredDetalleDataGrid")
                  .Columns(columns =>
@@ -98,6 +99,9 @@
                              .DataSource(d => d.Mvc().LoadMethod("POST").Controller("PacientesEntidades").LoadAction("GetEntidadesId").Key("Id"))
                              .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                              .ValueExpr("Id").DisplayExpr("Nombre"));
+
+                    columns.AddFor(m => m.Activo);
+
              })
          )
         </div>

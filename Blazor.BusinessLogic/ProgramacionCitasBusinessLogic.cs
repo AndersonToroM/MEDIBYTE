@@ -464,7 +464,7 @@ namespace Blazor.BusinessLogic
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
-            var pacientes = unitOfWork.Repository<PacientesEntidades>().GetTable(false).Where(x => x.PacientesId == Id);
+            var pacientes = unitOfWork.Repository<PacientesEntidades>().GetTable(false).Where(x => x.PacientesId == Id && x.Activo);
             var entidades = unitOfWork.Repository<Entidades>().GetTable(true);
 
             var result = from entidad in entidades
