@@ -97,8 +97,9 @@ namespace Blazor.WebApp.Controllers
                 ModelState.AddModelError("Error: ", DApp.DefaultLanguage.GetResource("Pacientes.YAEXISTEENTIDAD") + " " + entidadExiste.Entidades.Alias + (entidadExiste.Activo ? " - Activo" : " - Inactivo"));
             }
 
+            var entidadAgregar = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == model.Entity.EntidadesId, true);
             var entidadEPS = entidadesPaciente.FirstOrDefault(x => x.Entidades.TipoEntidades.Codigo == "EPS" && x.Activo && x.Id != model.Entity.Id);
-            if (entidadEPS is not null)
+            if (entidadAgregar.TipoEntidades.Codigo == "EPS" && entidadEPS is not null)
             {
                 ModelState.AddModelError("Error: ", DApp.DefaultLanguage.GetResource("Pacientes.YAEXISTEENTIDADEPS") + " " + entidadEPS.Entidades.Alias);
             }
