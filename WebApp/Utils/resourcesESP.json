@@ -3852,12 +3852,20 @@
     "Description": "Tipo de Sangre"
   },
   {
+    "Id": "Pacientes.YAEXISTEENTIDAD",
+    "Description": "El paciente ya tiene dicha entidad:"
+  },
+  {
     "Id": "Pacientes.YAEXISTEENTIDADEPS",
-    "Description": "El paciente ya tiene una EPS asociada: "
+    "Description": "El paciente ya tiene una EPS asociada activa: "
   },
   {
     "Id": "PacientesEntidades",
     "Description": "Entidades"
+  },
+  {
+    "Id": "PacientesEntidades.Activo",
+    "Description": "¿Activo?"
   },
   {
     "Id": "PacientesEntidades.EntidadesId",

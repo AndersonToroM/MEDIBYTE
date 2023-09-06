@@ -1,6 +1,7 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
+using DevExpress.ClipboardSource.SpreadsheetML;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
@@ -9,6 +10,7 @@ using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -85,15 +87,21 @@ namespace Blazor.WebApp.Controllers
             ViewBag.Accion = "Save";
             var OnState = model.Entity.IsNew;
 
-            bool esEntidadEPS = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == model.Entity.EntidadesId, true).TipoEntidades.Codigo == "EPS";
-            if (esEntidadEPS)
+            var entidadesPaciente = Manager().GetBusinessLogic<PacientesEntidades>().Tabla(true)
+                .Include(x => x.Entidades.TipoEntidades)
+                .Where(x => x.PacientesId == model.Entity.PacientesId).ToList();
+
+            var entidadExiste = entidadesPaciente.FirstOrDefault(x => x.EntidadesId == model.Entity.EntidadesId && x.Id != model.Entity.Id);
+            if (entidadExiste is not null)
             {
-                var data = (from P in Manager().GetBusinessLogic<PacientesEntidades>().FindAll(x => x.PacientesId == model.Entity.PacientesId, true)
-                            join T in Manager().GetBusinessLogic<TipoEntidades>().FindAll(null) on P.Entidades.TipoEntidadesId equals T.Id
-                            where T.Codigo == "EPS"
-                            select P.Entidades).ToList();
-                if (data != null && data.Count > 0)
-                    ModelState.AddModelError("Error: ", DApp.DefaultLanguage.GetResource("Pacientes.YAEXISTEENTIDADEPS") + " " + data.First().Alias);
+                ModelState.AddModelError("Error: ", DApp.DefaultLanguage.GetResource("Pacientes.YAEXISTEENTIDAD") + " " + entidadExiste.Entidades.Alias + (entidadExiste.Activo ? " - Activo" : " - Inactivo"));
+            }
+
+            var entidadAgregar = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == model.Entity.EntidadesId, true);
+            var entidadEPS = entidadesPaciente.FirstOrDefault(x => x.Entidades.TipoEntidades.Codigo == "EPS" && x.Activo && x.Id != model.Entity.Id);
+            if (entidadAgregar.TipoEntidades.Codigo == "EPS" && entidadEPS is not null)
+            {
+                ModelState.AddModelError("Error: ", DApp.DefaultLanguage.GetResource("Pacientes.YAEXISTEENTIDADEPS") + " " + entidadEPS.Entidades.Alias);
             }
 
             if (ModelState.IsValid)
@@ -118,10 +126,6 @@ namespace Blazor.WebApp.Controllers
                 {
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
             return model;
         }
@@ -259,7 +263,7 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions)
         {
             if (this.ActualEntidadId() != 0)
-                return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true).Where(x=>x.Id == this.ActualEntidadId()), loadOptions);
+                return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true).Where(x => x.Id == this.ActualEntidadId()), loadOptions);
             else
                 return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
         }
