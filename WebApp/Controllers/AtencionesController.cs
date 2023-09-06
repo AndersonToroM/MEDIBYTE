@@ -142,10 +142,10 @@ namespace Blazor.WebApp.Controllers
             {
                 throw new Exception("El usuario actual no tiene asociado un empleado. Por favor configurarlo en el maestro de empleados.");
             }
-            if (model.Entity.EmpleadosId != this.ActualUsuarioId())
-            {
-                throw new Exception("El servicio está programado con otro profesional, no es posible continuar con la atención.");
-            }
+            //if (model.Entity.EmpleadosId != this.ActualUsuarioId())
+            //{
+            //    throw new Exception("El servicio está programado con otro profesional, no es posible continuar con la atención.");
+            //}
 
             model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
             model.Entity.EmpleadosId = model.Entity.Empleados.Id;
