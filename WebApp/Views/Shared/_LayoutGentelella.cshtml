@@ -356,8 +356,7 @@
                         }
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        DevExpress.ui.notify("Error de servidor " + xhr.status + " : " + xhr.statusText, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             });
@@ -424,8 +423,7 @@
                             $("#BloqueoPantallaTextoError").html("Contraseña invalida");
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        DevExpress.ui.notify("Error de servidor " + xhr.status + " : " + xhr.statusText, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             }
@@ -454,8 +452,7 @@
                         $("#" + prefix + "DetalleDataGrid").dxDataGrid("instance").refresh();
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        DevExpress.ui.notify("Error de servidor " + xhr.status + " : " + xhr.statusText, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             }
@@ -474,8 +471,7 @@
                         $("#" + prefix + "DetalleDataGrid").dxDataGrid("instance").refresh();
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        DevExpress.ui.notify("Error de servidor " + xhr.status + " : " + xhr.statusText, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             }
@@ -595,17 +591,32 @@
                         $("#" + contenedor).html(data);
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        console.log(xhr);
-                        if (xhr.status == 404) {
-                            DevExpress.ui.notify("La función a la que trata de acceder no se encuentra disponible.", "error");
-                        } else {
-                            DevExpress.ui.notify("Error: " + xhr.responseText, "error", 5000);
-                        }
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
 
             };
+
+            var  ControlErrorExceptionForApp = function(xhr){
+                hideLoadIndicator();
+                console.log(xhr);
+                if (xhr.status == 404) {
+                    DevExpress.ui.notify("La función a la que trata de acceder no se encuentra disponible.", "error");
+                } else if (xhr.status == 400) {
+                    var data = xhr.responseJSON;
+                    var html = '<ul>'
+                    for (var error of data) 
+                    {
+                        html += '<li>' + error + '</li>';
+                    }
+                    html += "</ul>";
+                    DevExpress.ui.dialog.alert(html, 'Error');
+                } 
+                else 
+                {
+                    DevExpress.ui.dialog.alert("Error: " + xhr.responseText, 'Error');
+                }
+            }
 
             var GetViewNavigation = function (url, link, idParameters) {
 
@@ -621,8 +632,7 @@
                         addBread(link, data);
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        DevExpress.ui.notify("Error: " + xhr, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             };
@@ -677,7 +687,7 @@
                         }
                     },
                     error: function (xhr) {
-                        DevExpress.ui.notify("Error: " + xhr, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             };
@@ -940,7 +950,7 @@
                             }
                         },
                         error: function (xhr) {
-                            DevExpress.ui.notify("Error: " + xhr, "error");
+                            ControlErrorExceptionForApp(xhr);
                         }
                     });
                 } else {
@@ -960,7 +970,7 @@
                         addBread(link, data);
                     },
                     error: function (xhr) {
-                        DevExpress.ui.notify("Error: " + xhr, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
             };
@@ -973,7 +983,7 @@
 
                 var error = (actionError == undefined)?
                     function (xhr) {
-                        DevExpress.ui.notify("Error: " + xhr, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }:
                     actionError;
 
@@ -1339,8 +1349,7 @@
                         $("#mainPanel").html(data);
                     },
                     error: function (xhr) {
-                        hideLoadIndicator();
-                        DevExpress.ui.notify("Error: " + xhr, "error");
+                        ControlErrorExceptionForApp(xhr);
                     }
                 });
 

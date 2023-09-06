@@ -82,7 +82,12 @@ namespace Blazor.WebApp.Controllers
                 }
             }
 
-            if (model.Entity.FechaAutorizacion > DateTime.Now)
+            if (model.Entity.FechaAutorizacion.HasValue && DApp.Util.ValidarRangoFecha(model.Entity.FechaAutorizacion.Value))
+            {
+                ModelState.AddModelError("Entity.Id", "La fecha de autorización no tiene un rango de fechas valido.");
+            }
+
+            if (model.Entity.FechaAutorizacion.HasValue && model.Entity.FechaAutorizacion.Value > DateTime.Now)
             {
                 ModelState.AddModelError("Entity.Id", "La fecha de autorización no puede ser mayor que la fecha actual.");
             }
