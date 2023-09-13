@@ -139,6 +139,7 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.Telefono = DApp.Util.QuitarEspacios(model.Entity.Telefono);
                     model.Entity.CodigoPostal = DApp.Util.QuitarEspacios(model.Entity.CodigoPostal);
                     model.Entity.CorreoElectronico = DApp.Util.QuitarEspacios(model.Entity.CorreoElectronico)?.ToLower();
+                    model.Entity.DV = DApp.Util.CalcularDigitoVerificacion(model.Entity.NumeroIdentificacion);
 
                     if (model.Entity.IsNew) 
                     { 
