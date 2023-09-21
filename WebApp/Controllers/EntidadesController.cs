@@ -98,6 +98,7 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.Direccion = DApp.Util.QuitarEspacios(model.Entity.Direccion);
                     model.Entity.CodigoPostal = DApp.Util.QuitarEspacios(model.Entity.CodigoPostal);
                     model.Entity.CodigoReps = DApp.Util.QuitarEspacios(model.Entity.CodigoReps);
+                    model.Entity.DV = DApp.Util.CalcularDigitoVerificacion(model.Entity.NumeroIdentificacion);
 
                     if (model.Entity.IsNew) 
                     { 

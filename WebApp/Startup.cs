@@ -5,6 +5,7 @@ using Blazor.WebReports;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
 using Dominus.Backend.Application;
+using Dominus.Backend.HttpClient;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -168,19 +169,20 @@ namespace Blazor.WebApp
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
             app.UseHsts();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
+            app.UseHsts();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseDAppExceptionHandler();
 
             string pathDicomFiles = Path.Combine(env.ContentRootPath, "ArchivosImagenesDiagnosticas");
             if (!Directory.Exists(pathDicomFiles))

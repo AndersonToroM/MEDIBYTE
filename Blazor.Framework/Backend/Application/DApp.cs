@@ -49,8 +49,8 @@ namespace Dominus.Backend.Application
                 DefaultLanguage = new Language { Id = "2", Code = "ESP", Culture = "es", Name = "Español", DateFormat = "dd/MM/yyyy", TimeFormat = "HH:mm", DateTimeFormat = "dd/MM/yyyy HH:mm" };
                 BusinessRules = new BusinessRule();
                 BusinessRules.Rules = new List<RuleModel>();
-                FechaMinima = new DateTime(1900, 1, 1);
-                FechaMaxima = new DateTime(2100, 12, 31);
+                FechaMinima = new DateTime(1800, 1, 1);
+                FechaMaxima = new DateTime(2900, 12, 31);
                 GetInfoApp();
             }
             catch (Exception)

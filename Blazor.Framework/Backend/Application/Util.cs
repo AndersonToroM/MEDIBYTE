@@ -285,6 +285,15 @@ namespace Dominus.Backend.Application
 
         }
 
+        public bool EsFechaCorrecta(DateTime fecha)
+        {
+            if (fecha < DApp.FechaMinima || fecha > DApp.FechaMaxima)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public string ObtenerContentTypePorExtension(string extension)
         {
             extension = extension.ToLower();

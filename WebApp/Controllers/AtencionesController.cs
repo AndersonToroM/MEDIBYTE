@@ -8,6 +8,7 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Backend.Application;
+using Dominus.Backend.HttpClient;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -125,13 +126,13 @@ namespace Blazor.WebApp.Controllers
 
         private AtencionesModel EditModel(long Id) 
         { 
-
             var admision = Manager().GetBusinessLogic<Admisiones>().Tabla(true)
                 .Include(x=>x.ProgramacionCitas.Entidades)
                 .Include(x=>x.Pacientes.TiposIdentificacion)
                 .Include(x=>x.Pacientes.Generos)
                 .Include(x=>x.ProgramacionCitas.Servicios)
                 .Include(x=>x.ProgramacionCitas.Servicios.TiposServicios)
+                .Include(x=>x.ProgramacionCitas.Empleados)
                 .FirstOrDefault(x => x.Id == Id);
 
             AtencionesModel model = new AtencionesModel();
@@ -140,12 +141,13 @@ namespace Blazor.WebApp.Controllers
             model.Entity.Empleados = Manager().GetBusinessLogic<Empleados>().FindById(x => x.UserId == this.ActualUsuarioId(), false);
             if (model.Entity.Empleados == null)
             {
-                throw new Exception("El usuario actual no tiene asociado un empleado. Por favor configurarlo en el maestro de empleados.");
+                throw new DAppException("El usuario actual no tiene asociado un empleado. Por favor configurarlo en el maestro de empleados.");
             }
-            //if (model.Entity.EmpleadosId != this.ActualUsuarioId())
-            //{
-            //    throw new Exception("El servicio está programado con otro profesional, no es posible continuar con la atención.");
-            //}
+
+            if (admision.ProgramacionCitas.EmpleadosId is not null && model.Entity.EmpleadosId != this.ActualUsuarioId())
+            {
+                throw new DAppException($"La cita está programada con el profesional {admision.ProgramacionCitas.Empleados.NombreCompleto}. No es posible continuar la atención.");
+            }
 
             model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
             model.Entity.EmpleadosId = model.Entity.Empleados.Id;
