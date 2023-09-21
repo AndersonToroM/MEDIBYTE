@@ -82,9 +82,9 @@ namespace Blazor.WebApp.Controllers
                 }
             }
 
-            if (model.Entity.FechaAutorizacion.HasValue && DApp.Util.ValidarRangoFecha(model.Entity.FechaAutorizacion.Value))
+            if (model.Entity.FechaAutorizacion.HasValue && !DApp.Util.EsFechaCorrecta(model.Entity.FechaAutorizacion.Value))
             {
-                ModelState.AddModelError("Entity.Id", "La fecha de autorización no tiene un rango de fechas valido.");
+                ModelState.AddModelError("Entity.Id", "La fecha de la autorización se encuentra fuera de los rangos permitidos (1/1/1800 12:00:00 AM al 31/12/2900 11:59:59 PM).");
             }
 
             if (model.Entity.FechaAutorizacion.HasValue && model.Entity.FechaAutorizacion.Value > DateTime.Now)

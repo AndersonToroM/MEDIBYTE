@@ -285,7 +285,7 @@ namespace Dominus.Backend.Application
 
         }
 
-        public bool ValidarRangoFecha(DateTime fecha)
+        public bool EsFechaCorrecta(DateTime fecha)
         {
             if (fecha < DApp.FechaMinima || fecha > DApp.FechaMaxima)
             {
