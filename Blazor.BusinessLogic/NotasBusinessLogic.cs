@@ -897,5 +897,21 @@ namespace Blazor.BusinessLogic
             //Manager.GetBusinessLogic<InterfaceInvoice>().Modify(factura);
             return content;
         }
+
+        public async Task<string> ObtenerXMLNotaDebito(long idNota)
+        {
+            EDebitNote invoice = GetDebitNote(idNota);
+            string xml = invoice.SerializeToXml();
+            return xml;
+
+        }
+
+        public async Task<string> ObtenerXMLNotaCredito(long idNota)
+        {
+            var invoice = GetCreditNote(idNota);
+            string xml = invoice.SerializeToXml();
+            return xml;
+
+        }
     }
 }

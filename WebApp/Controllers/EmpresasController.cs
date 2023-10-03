@@ -15,11 +15,12 @@ using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using System.IO;
 using Dominus.Backend.Application;
+using System.Threading.Tasks;
 
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class EmpresasController : BaseAppController
     {
 
@@ -55,8 +56,8 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
-        private EmpresasModel EditModel(long Id) 
-        { 
+        private EmpresasModel EditModel(long Id)
+        {
             EmpresasModel model = new EmpresasModel();
             model.Entity = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == Id, true);
             if (model.Entity.CiudadesId > 0)
@@ -71,26 +72,26 @@ namespace Blazor.WebApp.Controllers
             else
                 model.Entity.LogoArchivos.StringToBase64 = DApp.Util.ArrayBytesToString(model.Entity.LogoArchivos.Archivo);
 
-            
+
             model.Entity.IsNew = false;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Edit(EmpresasModel model)
         {
-            return PartialView("Edit",EditModel(model));
+            return PartialView("Edit", EditModel(model));
         }
 
-        private EmpresasModel EditModel(EmpresasModel model) 
-        { 
-            ViewBag.Accion = "Save"; 
-            var OnState = model.Entity.IsNew; 
-            if (ModelState.IsValid) 
-            { 
-                try 
+        private EmpresasModel EditModel(EmpresasModel model)
+        {
+            ViewBag.Accion = "Save";
+            var OnState = model.Entity.IsNew;
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    model.Entity.LastUpdate = DateTime.Now; 
+                    model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
 
                     model.Entity.NumeroIdentificacion = DApp.Util.QuitarEspacios(model.Entity.NumeroIdentificacion);
@@ -101,29 +102,29 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.Direccion = DApp.Util.QuitarEspacios(model.Entity.Direccion);
                     model.Entity.CodigoReps = DApp.Util.QuitarEspacios(model.Entity.CodigoReps);
 
-                    if (model.Entity.IsNew) 
-                    { 
-                        model.Entity.CreationDate = DateTime.Now; 
-                        model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<Empresas>().Add(model.Entity); 
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<Empresas>().Add(model.Entity);
                         model.Entity.IsNew = false;
-                    } 
-                    else 
-                    { 
-                        model.Entity = Manager().GetBusinessLogic<Empresas>().Modify(model.Entity); 
                     }
-                } 
-                catch (Exception e) 
-                { 
+                    else
+                    {
+                        model.Entity = Manager().GetBusinessLogic<Empresas>().Modify(model.Entity);
+                    }
+                }
+                catch (Exception e)
+                {
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
-                } 
+                }
             }
             else
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
-        } 
+            return model;
+        }
 
         #endregion
 
@@ -234,17 +235,17 @@ namespace Blazor.WebApp.Controllers
         }
         [HttpPost]
         public LoadResult GetCiudadesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Ciudades>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetTiposIdentificacionId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposIdentificacion>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetTiposIdentificacionRepresentanteLegalId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposIdentificacion>().Tabla(true), loadOptions);
         }
         [HttpPost]
@@ -288,6 +289,36 @@ namespace Blazor.WebApp.Controllers
             Archivos model = new Archivos();
             model = Manager().GetBusinessLogic<Archivos>().FindById(x => x.Id == Id, true);
             return File(model.Archivo, model.TipoContenido, model.Nombre);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerXMLNotaDebito(int id)
+        {
+            var xml = await Manager().NotasBusinessLogic().ObtenerXMLNotaDebito(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, xml);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "text/xml", $"Nota_{id}.xml");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerXMLNotaCredito(int id)
+        {
+            var xml = await Manager().NotasBusinessLogic().ObtenerXMLNotaCredito(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, xml);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "text/xml", $"Nota_{id}.xml");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerXMLFactura(int id)
+        {
+            var xml = await Manager().FacturasBusinessLogic().ObtenerXMLFactura(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, xml);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "text/xml", $"Factura_{id}.xml");
         }
 
     }
