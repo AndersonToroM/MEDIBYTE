@@ -143,6 +143,13 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
             var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == data.DocumentosId, false);
+
+            var factura = unitOfWork.Repository<Facturas>().FindById(x => x.Id == data.FacturasId, true);
+            if (factura != null && factura.Estadosid == 1087)
+            {
+                throw new Exception($"La factura {factura.Documentos.Prefijo}-{factura.NroConsecutivo} se encuentra en estado anulada.");
+            }
+
             try
             {
                 data.Consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
@@ -896,6 +903,22 @@ namespace Blazor.BusinessLogic
 
             //Manager.GetBusinessLogic<InterfaceInvoice>().Modify(factura);
             return content;
+        }
+
+        public async Task<string> ObtenerXMLNotaDebito(long idNota)
+        {
+            EDebitNote invoice = GetDebitNote(idNota);
+            string xml = invoice.SerializeToXml();
+            return xml;
+
+        }
+
+        public async Task<string> ObtenerXMLNotaCredito(long idNota)
+        {
+            var invoice = GetCreditNote(idNota);
+            string xml = invoice.SerializeToXml();
+            return xml;
+
         }
     }
 }

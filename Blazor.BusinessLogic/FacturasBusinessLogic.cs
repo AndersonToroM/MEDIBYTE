@@ -957,6 +957,13 @@ namespace Blazor.BusinessLogic
             return content;
         }
 
+        public async Task<string> ObtenerXMLFactura(long idFactura)
+        {
+            EInvoice invoice = GetInvoice(idFactura);
+            string xml = invoice.SerializeToXml();
+            return xml;
+        }
+
         public string GenerateFileToCobol(List<long> ids)
         {
             string path = Path.Combine(Path.GetTempPath(), "FilesToCobol");
