@@ -426,6 +426,7 @@ namespace Blazor.BusinessLogic
                 enote.AccountingCustomerParty.Party = new Party2();
                 enote.AccountingCustomerParty.Party.PartyIdentification = nota.Pacientes.TiposIdentificacion.CodigoAlterno;
                 enote.AccountingCustomerParty.Party.ID = nota.Pacientes.NumeroIdentificacion.Trim();
+                //enote.AccountingCustomerParty.Party.PartyName
                 enote.AccountingCustomerParty.Party.Person = new Person { FirstName = nota.Pacientes.NombreCompleto, LastName = nota.Pacientes.PrimerNombre + " " + nota.Pacientes.SegundoNombre + " " + nota.Pacientes.SegundoApellido };
 
                 enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
@@ -732,6 +733,7 @@ namespace Blazor.BusinessLogic
                 enote.AccountingCustomerParty.Party = new Party2();
                 enote.AccountingCustomerParty.Party.PartyIdentification = nota.Pacientes.TiposIdentificacion.CodigoAlterno;
                 enote.AccountingCustomerParty.Party.ID = nota.Pacientes.NumeroIdentificacion.Trim();
+                enote.AccountingCustomerParty.Party.PartyName = new PartyName { Name = nota.Pacientes.NombreCompleto };
                 enote.AccountingCustomerParty.Party.Person = new Person { FirstName = nota.Pacientes.NombreCompleto, LastName = nota.Pacientes.PrimerNombre + " " + nota.Pacientes.SegundoNombre + " " + nota.Pacientes.SegundoApellido };
 
                 enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
