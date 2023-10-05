@@ -144,7 +144,7 @@ namespace Blazor.WebApp.Controllers
                 throw new DAppException("El usuario actual no tiene asociado un empleado. Por favor configurarlo en el maestro de empleados.");
             }
 
-            if (admision.ProgramacionCitas.EmpleadosId is not null && model.Entity.EmpleadosId != this.ActualUsuarioId())
+            if (admision.ProgramacionCitas.EmpleadosId is not null && model.Entity.Empleados.UserId != this.ActualUsuarioId())
             {
                 throw new DAppException($"La cita está programada con el profesional {admision.ProgramacionCitas.Empleados.NombreCompleto}. No es posible continuar la atención.");
             }
