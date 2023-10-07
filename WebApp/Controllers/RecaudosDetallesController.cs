@@ -333,7 +333,7 @@ namespace Blazor.WebApp.Controllers
         {
             Recaudos recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == recaudosId, false);
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true)
-                .Where(x => x.SedesId == recaudo.SedesId && x.EntidadesId == recaudo.EntidadesId && x.EmpresasId == recaudo.EmpresasId)
+                .Where(x => x.SedesId == recaudo.SedesId && x.EntidadesId == recaudo.EntidadesId && x.EmpresasId == recaudo.EmpresasId && x.Saldo > 0 && x.Estadosid != 1087)
                 .OrderByDescending(x => x.Saldo), loadOptions);
         } 
 

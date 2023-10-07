@@ -87,9 +87,11 @@ namespace Blazor.WebApp.Controllers
                 try 
                 {
                     var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
+                    if (model.Entity.ValorGlosado > factura.Saldo)
+                        throw new Exception("El valor glosado es mayor que el saldo de la factura");
                     if (factura.Saldo <  model.Entity.ValorAceptado )
                         throw new Exception("El valor aceptado glosado es mayor que el saldo actual de la factura, saldo factura " + factura.Documentos.Prefijo + " " + factura.NroConsecutivo.ToString() + " Saldo Actual: " + factura.Saldo.ToString());
-                    if (model.Entity.ValorGlosado<model.Entity.ValorAceptado)
+                    if (model.Entity.ValorGlosado < model.Entity.ValorAceptado)
                         throw new Exception("El valor aceptado es mayor que el valor glosado");
                     model.Entity.LastUpdate = DateTime.Now; 
                     model.Entity.UpdatedBy = User.Identity.Name; 
@@ -99,7 +101,7 @@ namespace Blazor.WebApp.Controllers
                         model.Entity.CreatedBy = User.Identity.Name;
                         model.Entity.ValorGlosadoFinal = model.Entity.ValorAceptado;
                         model.Entity = Manager().GetBusinessLogic<Glosas>().Add(model.Entity);
-                        factura.Saldo = factura.Saldo - model.Entity.ValorGlosadoFinal;
+                        //factura.Saldo = factura.Saldo - model.Entity.ValorGlosadoFinal;
                         factura.Estadosid = 17;
                         Manager().GetBusinessLogic<Facturas>().Modify(factura);
                         model.Entity.IsNew = false;
@@ -112,8 +114,8 @@ namespace Blazor.WebApp.Controllers
                         model.Entity = Manager().GetBusinessLogic<Glosas>().Modify(model.Entity);
                         if (oldData.ValorAceptado != model.Entity.ValorAceptado)
                         {
-                            factura.Saldo = factura.Saldo + oldData.ValorGlosadoFinal;
-                            factura.Saldo = factura.Saldo - model.Entity.ValorGlosadoFinal;
+                            //factura.Saldo = factura.Saldo + oldData.ValorGlosadoFinal;
+                            //factura.Saldo = factura.Saldo - model.Entity.ValorGlosadoFinal;
                             factura.Estadosid = 10082;
                             Manager().GetBusinessLogic<Facturas>().Modify(factura);
                         }
@@ -149,7 +151,7 @@ namespace Blazor.WebApp.Controllers
                 {
                     var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
                     model.Entity = Manager().GetBusinessLogic<Glosas>().FindById(x => x.Id == model.Entity.Id, false);
-                    factura.Saldo = factura.Saldo + model.Entity.ValorGlosadoFinal;
+                    //factura.Saldo = factura.Saldo + model.Entity.ValorGlosadoFinal;
                     factura.Estadosid = 15;
                     Manager().GetBusinessLogic<Facturas>().Modify(factura);
                     Manager().GetBusinessLogic<Glosas>().Remove(model.Entity); 

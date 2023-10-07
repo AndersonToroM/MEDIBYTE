@@ -113,6 +113,7 @@
                                         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                         .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("NumeroIdentificacion","Nombre")
                                         .SearchEnabled(true).ShowClearButton(true)
+                                        .ReadOnly(!Model.Entity.IsNew)
                                    );
 
                                    tabItem.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(1)
