@@ -3,7 +3,7 @@
     string Prefix = "RecaudosDetalles"; 
     string UrlDelete = Url.Action("DeleteDetail", "RecaudosDetalles", new { Id = Model.Entity.Id }); 
 
-    var toolbarDetailconfig = new ToolbarDetailConfiguration(Prefix).Delete(UrlDelete).Save().Cancel(); 
+    var toolbarDetailconfig = new ToolbarDetailConfiguration(Prefix).Delete(UrlDelete).Save().Cancel();
 } 
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" /> 

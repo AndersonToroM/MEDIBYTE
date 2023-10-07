@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -99,7 +100,12 @@ namespace Blazor.WebApp.Controllers
                             throw new Exception("El valor aplicado mas las retenciones es mayor que el saldo actual de la factura, saldo factura " + factura.Documentos.Prefijo + " " + factura.NroConsecutivo.ToString() + " Saldo Actual: " + factura.Saldo.ToString());
                         model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Add(model.Entity);
                         factura.Saldo = factura.Saldo - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
-                        factura.Estadosid = 16;
+                        if (factura.Saldo == factura.ValorTotal)
+                            factura.Estadosid = 15;
+                        else if (factura.Saldo > 0)
+                            factura.Estadosid = 79;
+                        else
+                            factura.Estadosid = 16;
                         Manager().GetBusinessLogic<Facturas>().Modify(factura);
                         var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                         recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido + (model.Entity.ValorAplicado);
@@ -119,7 +125,12 @@ namespace Blazor.WebApp.Controllers
                             recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - (oldData.ValorAplicado - model.Entity.ValorAplicado);
                             if (factura.Saldo < 0)
                                 throw new Exception("El valor aplicado mas la retencion es mayor que el saldo actual de la factura, saldo factura " + factura.Documentos.Prefijo + " " + factura.NroConsecutivo.ToString() + " Saldo Actual: " + factura.Saldo.ToString());
-                            factura.Estadosid = 16;
+                            if (factura.Saldo == factura.ValorTotal)
+                                factura.Estadosid = 15;
+                            else if (factura.Saldo > 0)
+                                factura.Estadosid = 79;
+                            else
+                                factura.Estadosid = 16;
                             model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Modify(model.Entity);
                             Manager().GetBusinessLogic<Facturas>().Modify(factura);
                             Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
@@ -135,7 +146,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
+            return NewModelDetail(model.Entity.RecaudosId);
         } 
 
         [HttpPost]
@@ -151,9 +162,9 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid) 
             { 
                 try 
-                { 
+                {
                     model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity); 
+                    Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity);
                     return newModel;
                 } 
                 catch (Exception e) 
@@ -214,6 +225,12 @@ namespace Blazor.WebApp.Controllers
                     var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                     recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - model.Entity.ValorAplicado;
                     factura.Saldo = factura.Saldo + (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                    if (factura.Saldo == factura.ValorTotal)
+                        factura.Estadosid = 15;
+                    else if (factura.Saldo > 0)
+                        factura.Estadosid = 79;
+                    else
+                        factura.Estadosid = 16;
                     Manager().GetBusinessLogic<Facturas>().Modify(factura);
                     Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
                     Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity);
