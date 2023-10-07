@@ -3,7 +3,7 @@
     string Prefix = "RecaudosDetalles"; 
     string UrlDelete = Url.Action("DeleteDetail", "RecaudosDetalles", new { Id = Model.Entity.Id }); 
 
-    var toolbarDetailconfig = new ToolbarDetailConfiguration(Prefix).Delete(UrlDelete).Save().Cancel(); 
+    var toolbarDetailconfig = new ToolbarDetailConfiguration(Prefix).Delete(UrlDelete).Save().Cancel();
 } 
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" /> 
@@ -34,11 +34,11 @@
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RecaudosDetalles").LoadAction("GetFacturasId").Key("Id")
-                                        .LoadParams(new { recaudosId = Model.Entity.RecaudosId })
-                                     )
+                                     .LoadParams(new { recaudosId = Model.Entity.RecaudosId }))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("DescFacturaConSaldo").SearchExpr("NroConsecutivo","Documentos.Prefijo")
                                      .SearchEnabled(true).ShowClearButton(true)
+                                     .ReadOnly(!Model.Entity.IsNew)
                                 );
                                 groupItems.AddSimpleFor(m => m.Entity.ValorAplicado).ColSpan(2)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorAplicado")))
