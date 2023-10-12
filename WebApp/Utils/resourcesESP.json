@@ -4433,7 +4433,7 @@
   },
   {
     "Id": "RecaudosDetalles.ValorRetencion",
-    "Description": "Retención"
+    "Description": "Valor Retención en la fuente"
   },
   {
     "Id": "RIPS",
