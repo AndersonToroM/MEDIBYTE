@@ -71,7 +71,7 @@ namespace Blazor.WebApp.Controllers
             model.Entity = GetEntityData(Id);
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             model.Entity.IsNew = false;
-            model.EsMismoUsuario = model.Entity.CreatedBy == User.Identity.Name;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model; 
         } 
 
@@ -128,7 +128,7 @@ namespace Blazor.WebApp.Controllers
                 ModelState.AddModelError("Entity.Id", "La historia clinica esta cerrada, por lo tanto no se puede modificar");
             }
             model.Entity = GetEntityData(model.Entity.Id);
-            model.EsMismoUsuario = model.Entity.CreatedBy == User.Identity.Name;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             return model; 
         } 
