@@ -52,5 +52,17 @@
         if(data)
             return data.Prefijo + "  " + data.NroConsecutivo;
     }
+    
+    function @(Prefix)OnSelectionChangedFacturaId(item) {
+
+        if(item.value != null)
+        {
+            var factura = $("#@(Prefix)FacturasId").dxSelectBox("instance").option("selectedItem");
+            $("#@(Prefix)ValorSubtotal").dxNumberBox("instance").option("value", factura.ValorSubtotal);
+        }else
+        {
+            $("#@(Prefix)ValorSubtotal").dxNumberBox("instance").option("value", 0);
+        }
+    }
 
     </script>
