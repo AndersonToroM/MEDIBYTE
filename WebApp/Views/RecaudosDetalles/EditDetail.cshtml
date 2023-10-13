@@ -23,37 +23,52 @@
                 @(Html.DControls().NumberBoxFor(m => m.Entity.Id).ID(Prefix + "Id").Visible(false)) 
                 @(Html.DControls().NumberBoxFor(m => m.Entity.RecaudosId).ID(Prefix + "RecaudosId").Visible(false)) 
 
-                @(Html.DControls().Form<RecaudosDetallesModel>()
+            @(
+        Html.DControls().Form<RecaudosDetallesModel>()
                     .ID("RecaudosDetallesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
                     .Items(items =>
                     {
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                             .Items(groupItems =>{
-                                groupItems.AddSimpleFor(m => m.Entity.FacturasId).ColSpan(6)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
-                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
-                                     .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
-                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RecaudosDetalles").LoadAction("GetFacturasId").Key("Id")
-                                     .LoadParams(new { recaudosId = Model.Entity.RecaudosId, esNuevo = Model.Entity.IsNew}))
-                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                     .ValueExpr("Id").DisplayExpr("DescFacturaConSaldo").SearchExpr("NroConsecutivo","Documentos.Prefijo")
-                                     .SearchEnabled(true).ShowClearButton(true)
-                                     .ReadOnly(!Model.Entity.IsNew)
-                                );
-                                groupItems.AddSimpleFor(m => m.Entity.ValorAplicado).ColSpan(2)
-                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorAplicado")))
-                                      .Editor(e=>e.NumberBox().ID(Prefix + "ValorAplicado").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
-                                groupItems.AddSimpleFor(m => m.Entity.ValorRetencion).ColSpan(2)
-                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorRetencion")))
-                                      .Editor(e=>e.NumberBox().ID(Prefix + "ValorRetencion").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
-                                groupItems.AddSimpleFor(m => m.Entity.ValorReteIca).ColSpan(2)
-                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorReteIca")))
-                                      .Editor(e => e.NumberBox().ID(Prefix + "ValorReteIca").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
+                            groupItems.AddSimpleFor(m => m.Entity.FacturasId).ColSpan(3)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
+                            .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("RecaudosDetalles.FacturasId")))
+                             .Editor(e => e.SelectBox().ID(Prefix + "FacturasId")
+                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("RecaudosDetalles").LoadAction("GetFacturasId").Key("Id")
+                             .LoadParams(new { recaudosId = Model.Entity.RecaudosId, esNuevo = Model.Entity.IsNew}))
+                             .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                             .ValueExpr("Id").DisplayExpr("DescFacturaConSaldo").SearchExpr("NroConsecutivo","Documentos.Prefijo")
+                             .OnValueChanged($"{Prefix}OnSelectionChangedFacturaId")
+                             .SearchEnabled(true).ShowClearButton(true)
+                             .ReadOnly(!Model.Entity.IsNew));
+
+                            groupItems.AddSimple().ColSpan(3)
+                            .Template(new TemplateName($"{Prefix}ValorSubtotal")
+                             );
+
+                            groupItems.AddSimpleFor(m => m.Entity.ValorAplicado).ColSpan(2)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorAplicado")))
+                            .Editor(e=>e.NumberBox().ID(Prefix + "ValorAplicado").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
+                            groupItems.AddSimpleFor(m => m.Entity.ValorRetencion).ColSpan(2)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorRetencion")))
+                            .Editor(e=>e.NumberBox().ID(Prefix + "ValorRetencion").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
+                            groupItems.AddSimpleFor(m => m.Entity.ValorReteIca).ColSpan(2)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("RecaudosDetalles.ValorReteIca")))
+                            .Editor(e => e.NumberBox().ID(Prefix + "ValorReteIca").Min(0).Format("#,##0.##").ShowClearButton(true).ShowSpinButtons(true));
                             });
-                    })
+                    }
+        )
              ) 
          } 
          <div asp-validation-summary="All" class="text-danger" id="@(Prefix)ListError"></div> 
      </form> 
 </div> 
 
+@using (Html.DevExtreme().NamedTemplate($"{Prefix}ValorSubtotal"))
+{
+    <div>
+        <label id="labelValorPagar" for="@(Prefix + " ValorSubtotal")">Base de retenciones (Subtotal factura):</label>
+        @(Html.DControls().NumberBoxFor(m => m.SubTotalFactura).Format("#,##0.##").ID(Prefix + "ValorSubtotal").ReadOnly(true))
+    </div>
+
+}

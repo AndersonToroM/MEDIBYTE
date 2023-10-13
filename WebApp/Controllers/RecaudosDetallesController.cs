@@ -57,6 +57,8 @@ namespace Blazor.WebApp.Controllers
         private RecaudosDetallesModel NewModel() 
         { 
             RecaudosDetallesModel model = new RecaudosDetallesModel();
+            var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
+            model.SubTotalFactura = factura.ValorSubtotal;
             model.Entity.IsNew = true;
             return model; 
         } 
@@ -71,7 +73,9 @@ namespace Blazor.WebApp.Controllers
         { 
             RecaudosDetallesModel model = new RecaudosDetallesModel();
             model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == Id, false);
+            var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
             model.Entity.IsNew = false;
+            model.SubTotalFactura = factura.ValorSubtotal;
             return model; 
         } 
 
@@ -110,6 +114,7 @@ namespace Blazor.WebApp.Controllers
                         var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                         recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido + (model.Entity.ValorAplicado);
                         Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
+                        model.SubTotalFactura = factura.ValorSubtotal;
                         model.Entity.IsNew = false;
                     } 
                     else 
@@ -131,6 +136,7 @@ namespace Blazor.WebApp.Controllers
                                 factura.Estadosid = 79;
                             else
                                 factura.Estadosid = 16;
+                            model.SubTotalFactura = factura.ValorSubtotal;
                             model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Modify(model.Entity);
                             Manager().GetBusinessLogic<Facturas>().Modify(factura);
                             Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
@@ -363,8 +369,9 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetRecaudosId(DataSourceLoadOptions loadOptions)
         { 
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true), loadOptions);
-        } 
-       #endregion
+        }
+
+        #endregion
 
     }
 }
