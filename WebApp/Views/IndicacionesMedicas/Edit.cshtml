@@ -56,7 +56,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroOrden).ColSpan(1)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("IndicacionesMedicas.NroOrden")))
-                                      .Editor(e => e.NumberBox().ID(Prefix + "NroOrden").ShowClearButton(true).ShowSpinButtons(true));
+                                      .Editor(e => e.NumberBox().ID(Prefix + "NroOrden").ShowClearButton(true).ShowSpinButtons(true).Disabled(true));
 
                                 groupItems.AddEmpty().ColSpan(1);
 
@@ -72,14 +72,15 @@
                                 groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(1)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("IndicacionesMedicas.Fecha")))
                                       .Editor(e=>e.DateBox().ID(Prefix + "Fecha")
-                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
+                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true).Disabled(true)
+                                      );
                                 groupItems.AddSimpleFor(m => m.Entity.HistoriasClinicasId).ColSpan(1)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("IndicacionesMedicas.HistoriasClinicasId")))
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("IndicacionesMedicas.HistoriasClinicasId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "HistoriasClinicasId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("IndicacionesMedicas").LoadAction("GetHIstoriasClinicasId").Key("Id"))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                     .ValueExpr("Id").DisplayExpr("EnfermedadActual").SearchExpr("EnfermedadActual")
+                                     .ValueExpr("Id").DisplayExpr("Consecutivo").SearchExpr("Consecutivo")
                                      .SearchEnabled(true).ShowClearButton(true).ReadOnly(true)
                                 );
                                 groupItems.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(1)

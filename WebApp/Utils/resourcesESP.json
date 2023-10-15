@@ -2960,6 +2960,14 @@
     "Description": "Incapacidades"
   },
   {
+    "Id": "Incapacidades.DiagnosticosCodigo",
+    "Description": "CIE10"
+  },
+  {
+    "Id": "Incapacidades.DiagnosticosDescripcion",
+    "Description": "Descripción del diagnóstico"
+  },
+  {
     "Id": "Incapacidades.DiagnosticosId",
     "Description": "Diagnostico"
   },
@@ -2978,6 +2986,14 @@
   {
     "Id": "Incapacidades.FechaInicio",
     "Description": "Fecha Inicio"
+  },
+  {
+    "Id": "Incapacidades.FechaLista",
+    "Description": "Fecha emisión"
+  },
+  {
+    "Id": "Incapacidades.HistoriasClinicasConsecutivo",
+    "Description": "Nro. Historia clínica"
   },
   {
     "Id": "Incapacidades.HIstoriasClinicasId",
@@ -3004,12 +3020,28 @@
     "Description": "Paciente"
   },
   {
+    "Id": "Incapacidades.PacientesNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
+    "Id": "Incapacidades.PacientesNumeroIdentificacion",
+    "Description": "Nro. Indentificación del paciente"
+  },
+  {
     "Id": "Incapacidades.ProfesionalId",
     "Description": "Profesional"
   },
   {
+    "Id": "Incapacidades.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
+  },
+  {
     "Id": "Incapacidades.Recomendaciones",
     "Description": "Recomendaciones"
+  },
+  {
+    "Id": "IncapacidadesDetalle.DiagnosticosDescripcion",
+    "Description": "Diagnóstico"
   },
   {
     "Id": "IncapacidadesOrigenes",
@@ -3028,6 +3060,10 @@
     "Description": "Fecha"
   },
   {
+    "Id": "IndicacionesMedicas.HistoriasClinicasConsecutivo",
+    "Description": "Nro. Historia clínica"
+  },
+  {
     "Id": "IndicacionesMedicas.HistoriasClinicasId",
     "Description": "Historia Clinica"
   },
@@ -3040,8 +3076,20 @@
     "Description": "paciente"
   },
   {
+    "Id": "IndicacionesMedicas.PacientesNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
+    "Id": "IndicacionesMedicas.PacientesNumeroIdentificacion",
+    "Description": "Nro. Identificación del paciente"
+  },
+  {
     "Id": "IndicacionesMedicas.ProfesionalId",
     "Description": "Profesional"
+  },
+  {
+    "Id": "IndicacionesMedicas.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
   },
   {
     "Id": "IndicacionesMedicasDetalles",
@@ -3596,6 +3644,10 @@
     "Description": "Ordenes de Medicamentos"
   },
   {
+    "Id": "OrdenesMedicamentos.Consecutivo",
+    "Description": "Nro. Historia clínica"
+  },
+  {
     "Id": "OrdenesMedicamentos.Fecha",
     "Description": "Fecha"
   },
@@ -3612,12 +3664,24 @@
     "Description": "Nro. Orden"
   },
   {
+    "Id": "OrdenesMedicamentos.NumeroIdentificacion",
+    "Description": "Nro. Identificación del paciente"
+  },
+  {
+    "Id": "OrdenesMedicamentos.PacienteNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
     "Id": "OrdenesMedicamentos.PacientesId",
     "Description": "Paciente"
   },
   {
     "Id": "OrdenesMedicamentos.ProfesionalId",
     "Description": "Profesional"
+  },
+  {
+    "Id": "OrdenesMedicamentos.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
   },
   {
     "Id": "OrdenesMedicamentosDetalles",
@@ -3672,6 +3736,10 @@
     "Description": "Ordenes de Servicios"
   },
   {
+    "Id": "OrdenesServicios.Consecutivo",
+    "Description": "Nro. Historia clínica"
+  },
+  {
     "Id": "OrdenesServicios.Fecha",
     "Description": "Fecha"
   },
@@ -3688,12 +3756,24 @@
     "Description": "Nro. Orden"
   },
   {
+    "Id": "OrdenesServicios.NumeroIdentificacion",
+    "Description": "Nro. Identificación del paciente"
+  },
+  {
+    "Id": "OrdenesServicios.PacienteNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
     "Id": "OrdenesServicios.PacientesId",
     "Description": "Paciente"
   },
   {
     "Id": "OrdenesServicios.ProfesionalId",
     "Description": "Profesional"
+  },
+  {
+    "Id": "OrdenesServicios.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
   },
   {
     "Id": "OrdenesServiciosDetalles",

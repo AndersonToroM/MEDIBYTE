@@ -55,7 +55,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroOrden).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("OrdenesServicios.NroOrden")))
-                                      .Editor(e => e.NumberBox().ID(Prefix + "NroOrden").ShowClearButton(true).ShowSpinButtons(true));
+                                      .Editor(e => e.NumberBox().ID(Prefix + "NroOrden").ShowClearButton(true).ShowSpinButtons(true).Disabled(true));
 
                                 groupItems.AddEmpty().ColSpan(9);
 
@@ -66,12 +66,13 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServicios").LoadAction("GetProfesionalId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
-                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                  );
                                 groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("OrdenesServicios.Fecha")))
                                       .Editor(e=>e.DateBox().ID(Prefix + "Fecha")
-                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
+                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
+                                      .Disabled(true));
 
                                 groupItems.AddEmpty().ColSpan(3);
 
@@ -81,8 +82,8 @@
                                       .Editor(e => e.SelectBox().ID(Prefix + "HIstoriasClinicasId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServicios").LoadAction("GetHIstoriasClinicasId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("EnfermedadActual").SearchExpr("EnfermedadActual")
-                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .ValueExpr("Id").DisplayExpr("Consecutivo").SearchExpr("Consecutivo")
+                                      .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                  );
                                 groupItems.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(6)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("OrdenesServicios.PacientesId")))
@@ -91,7 +92,7 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesServicios").LoadAction("GetPacientesId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
-                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                  );
 
                             });

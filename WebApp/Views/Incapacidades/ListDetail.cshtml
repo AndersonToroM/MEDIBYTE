@@ -33,7 +33,7 @@
                 columns.AddFor(m => m.NroOrden);
                 columns.AddFor(m => m.NroDias);
                 columns.AddFor(m => m.FechaInicio);
-                columns.AddFor(m => m.Diagnosticos.Descripcion);
+                columns.AddFor(m => m.Diagnosticos.Descripcion).Caption(DApp.DefaultLanguage.GetResource("IncapacidadesDetalle.DiagnosticosDescripcion"));
                 columns.AddFor(m => m.Observaciones);
             })
         ) 
