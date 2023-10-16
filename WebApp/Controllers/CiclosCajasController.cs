@@ -292,7 +292,7 @@ namespace Blazor.WebApp.Controllers
             var cajasAbiertas = Manager().GetBusinessLogic<CiclosCajas>().FindAll(x => x.CloseUsersId == null).ToList();
 
             var consulta = Manager().GetBusinessLogic<Cajas>().Tabla(true)
-                .Where(x => !x.Estado);
+                .Where(x => x.Estado);
 
             return DataSourceLoader.Load(consulta, loadOptions);
 

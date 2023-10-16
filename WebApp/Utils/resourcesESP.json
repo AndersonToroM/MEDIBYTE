@@ -825,7 +825,7 @@
   },
   {
     "Id": "Cajas.Estado",
-    "Description": "¿Inactiva?"
+    "Description": "Activa"
   },
   {
     "Id": "Cajas.Nombre",
