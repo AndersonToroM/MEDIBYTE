@@ -824,6 +824,10 @@
     "Description": "Consultar"
   },
   {
+    "Id": "Cajas.Estado",
+    "Description": "¿Inactiva?"
+  },
+  {
     "Id": "Cajas.Nombre",
     "Description": "Nombre"
   },

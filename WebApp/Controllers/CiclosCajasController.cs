@@ -289,9 +289,14 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetCajasId(DataSourceLoadOptions loadOptions)
         {
-            var cajasAbiertas = Manager().GetBusinessLogic<CiclosCajas>().FindAll(x => x.CloseUsersId == null).Select(x => x.CajasId).ToList();
+            var cajasAbiertas = Manager().GetBusinessLogic<CiclosCajas>().FindAll(x => x.CloseUsersId == null).ToList();
 
-            return DataSourceLoader.Load(  Manager().GetBusinessLogic<Cajas>().Tabla(true), loadOptions);
+            var consulta = Manager().GetBusinessLogic<Cajas>().Tabla(true)
+                .Where(x => !x.Estado);
+
+            return DataSourceLoader.Load(consulta, loadOptions);
+
+            //return DataSourceLoader.Load(Manager().GetBusinessLogic<Cajas>().Tabla(true), loadOptions);
         } 
         [HttpPost]
         public LoadResult GetCloseUsersId(DataSourceLoadOptions loadOptions, long? closeUserId)
