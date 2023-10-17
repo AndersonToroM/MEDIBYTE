@@ -52,7 +52,8 @@
                                     .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroDias).ColSpan(3)
-                                    .Editor(e => e.NumberBox().Min(0).ShowSpinButtons(true).ID($"{Prefix}NroDias").OnValueChanged($"{Prefix}CalcularFechaFinalizacion"))
+                                    .Editor(e => e.NumberBox().Value(1).Min(1).ShowClearButton(true).ShowSpinButtons(true).ID($"{Prefix}NroDias")
+                                    .OnValueChanged($"{Prefix}CalcularFechaFinalizacion"))
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.NroDias")));
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaFinalizacion).ColSpan(3)
