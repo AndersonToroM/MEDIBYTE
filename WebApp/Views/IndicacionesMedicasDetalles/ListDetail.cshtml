@@ -57,7 +57,7 @@
                      .InsertAction("AddInGrid").InsertMethod("POST").UpdateAction("ModifyInGrid").UpdateMethod("POST").DeleteAction("DeleteInGrid").DeleteMethod("POST")
                  )
                  .DataSourceOptions(x=>x.Filter("['IndicacionesMedicasId','=','" + @Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
-                .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(Model.EsMismoUsuario).AllowUpdating(true).AllowDeleting(true))
+                .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(Model.EsMismoUsuario).AllowUpdating(Model.EsMismoUsuario).AllowDeleting(Model.EsMismoUsuario))
                  .OnInitNewRow(Prefix + "OnInitNewRowDetalleDataGrid")
                  .OnRowInserted("OnRowInsertedDetalleDataGrid").OnRowUpdated("OnRowUpdatedDetalleDataGrid").OnRowRemoved("OnRowRemovedDetalleDataGrid").OnDataErrorOccurred("OnDataErrorOccurredDetalleDataGrid")
                  .Columns(columns =>
