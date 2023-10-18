@@ -68,6 +68,7 @@ namespace Blazor.WebApp.Controllers
             IndicacionesMedicasModel model = new IndicacionesMedicasModel();
             model.Entity = Manager().GetBusinessLogic<IndicacionesMedicas>().FindById(x => x.Id == Id, false);
             model.Entity.IsNew = false;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model; 
         } 
 

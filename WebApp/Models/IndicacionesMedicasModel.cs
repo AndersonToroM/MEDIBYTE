@@ -7,7 +7,9 @@ namespace Blazor.WebApp.Models
    {
       public IndicacionesMedicas Entity { get; set; }
 
-      public IndicacionesMedicasModel()
+        public bool EsMismoUsuario { get; set; }
+
+        public IndicacionesMedicasModel()
       {
          Entity = new IndicacionesMedicas();
       }

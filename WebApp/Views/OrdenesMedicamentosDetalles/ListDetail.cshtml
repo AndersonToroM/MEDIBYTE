@@ -7,8 +7,8 @@
     string UrlNew = Url.Action("NewDetail", "OrdenesMedicamentosDetalles", new { IdFather = Model.Entity.Id }); 
 
     var DataGridDetailConfig = new DataGridConfiguration<OrdenesMedicamentosDetalles>(Prefix) 
-        .OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm") 
-        .New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm") 
+        //.OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm") 
+        //.New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm") 
         .Exports(true,true); 
 } 
  
