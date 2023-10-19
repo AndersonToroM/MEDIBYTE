@@ -122,8 +122,7 @@ namespace Blazor.WebApp.Controllers
                         RecaudosDetalles oldData = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == model.Entity.Id, false);
                         var oldValue = (oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca);
                         var newValue = (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
-                        if (oldValue != newValue)
-                        {
+                       // if (oldValue != newValue)
                             var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
                             var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                             factura.Saldo = factura.Saldo + (oldValue - newValue);
@@ -139,8 +138,7 @@ namespace Blazor.WebApp.Controllers
                             model.SubTotalFactura = factura.ValorSubtotal;
                             model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Modify(model.Entity);
                             Manager().GetBusinessLogic<Facturas>().Modify(factura);
-                            Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
-                        }
+                            Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);   
                     } 
                 } 
                 catch (Exception e) 
