@@ -900,6 +900,10 @@
     "Description": "Ciclos de Cajas"
   },
   {
+    "Id": "CiclosCajas.Caja",
+    "Description": "Caja"
+  },
+  {
     "Id": "CiclosCajas.CajasId",
     "Description": "Caja"
   },
@@ -938,6 +942,10 @@
   {
     "Id": "CiclosCajas.OpenUsersId",
     "Description": "Usuario Apertura"
+  },
+  {
+    "Id": "CiclosCajas.Sede",
+    "Description": "Sede"
   },
   {
     "Id": "CiclosCajas.TotalFaltante",

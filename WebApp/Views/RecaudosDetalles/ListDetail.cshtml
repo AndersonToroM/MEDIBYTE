@@ -6,10 +6,18 @@
     string UrlOnClick = Url.Action("EditDetail", "RecaudosDetalles");
     string UrlNew = Url.Action("NewDetail", "RecaudosDetalles", new { IdFather = Model.Entity.Id });
 
-    var DataGridDetailConfig = new DataGridConfiguration<RecaudosDetalles>(Prefix)
-        .OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm")
-        .New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm")
+    var DataGridDetailConfig = new DataGridConfiguration<RecaudosDetalles>(Prefix);
+
+    if(Model.EsMismoUsuario)
+    {
+        DataGridDetailConfig.OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm")
+        .New(UrlNew, Model.Entity.IsNew, Prefix + "MainPanelForm")
         .Exports(true, true);
+    }else
+    {
+        DataGridDetailConfig.Exports(true,true);
+    }
+        
     string filter = "['EmpresasId','=','" + @Model.Entity.EmpresasId + "','and','SedesId','=','" + @Model.Entity.SedesId + "','and','EntidadesId','=','" + @Model.Entity.EntidadesId + "']";
 
 }
