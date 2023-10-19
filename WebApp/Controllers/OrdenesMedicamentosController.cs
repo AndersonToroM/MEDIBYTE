@@ -71,6 +71,7 @@ namespace Blazor.WebApp.Controllers
             OrdenesMedicamentosModel model = new OrdenesMedicamentosModel();
             model.Entity = Manager().GetBusinessLogic<OrdenesMedicamentos>().FindById(x => x.Id == Id, false);
             model.Entity.IsNew = false;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model; 
         } 
 
@@ -113,7 +114,8 @@ namespace Blazor.WebApp.Controllers
                 { 
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
                 } 
-            } 
+            }
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model; 
         } 
 

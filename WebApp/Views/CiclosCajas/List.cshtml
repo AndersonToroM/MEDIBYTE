@@ -20,7 +20,8 @@
         .Columns(columns =>
         {
             columns.AddFor(m => m.Consecutivo).SortOrder(SortOrder.Desc);
-            columns.AddFor(m => m.Cajas).CustomizeText(Prefix + "DisplayExprCiclosCajasId");
+            columns.AddFor(m => m.Cajas.Sedes.Nombre).Caption(DApp.GetResource("CiclosCajas.Sede"));
+            columns.AddFor(m => m.Cajas.Nombre).Caption(DApp.GetResource("CiclosCajas.Caja"));
             columns.AddFor(m => m.OpenUsers.UserName);
             columns.AddFor(m => m.FechaApertura);
             columns.AddFor(m => m.ValorApertura);

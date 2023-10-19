@@ -7,6 +7,8 @@ namespace Blazor.WebApp.Models
    {
       public OrdenesMedicamentosDiagnosticos Entity { get; set; }
 
+        public bool EsMismoUsuario { get; set; }
+
       public OrdenesMedicamentosDiagnosticosModel()
       {
          Entity = new OrdenesMedicamentosDiagnosticos();

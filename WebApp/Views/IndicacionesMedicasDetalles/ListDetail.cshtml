@@ -7,7 +7,7 @@
     //string UrlNew = Url.Action("NewDetail", "IndicacionesMedicasDetalles", new { IdFather = Model.Entity.Id }); 
 
     var DataGridDetailConfig = new DataGridConfiguration<IndicacionesMedicasDetalles>(Prefix) 
-        .OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm") 
+        //.OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm") 
         //.New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm") 
         .Exports(true,true); 
 } 
@@ -57,7 +57,7 @@
                      .InsertAction("AddInGrid").InsertMethod("POST").UpdateAction("ModifyInGrid").UpdateMethod("POST").DeleteAction("DeleteInGrid").DeleteMethod("POST")
                  )
                  .DataSourceOptions(x=>x.Filter("['IndicacionesMedicasId','=','" + @Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
-                 .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(!Model.Entity.IsNew).AllowUpdating(true).AllowDeleting(true))
+                .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(Model.EsMismoUsuario).AllowUpdating(Model.EsMismoUsuario).AllowDeleting(Model.EsMismoUsuario))
                  .OnInitNewRow(Prefix + "OnInitNewRowDetalleDataGrid")
                  .OnRowInserted("OnRowInsertedDetalleDataGrid").OnRowUpdated("OnRowUpdatedDetalleDataGrid").OnRowRemoved("OnRowRemovedDetalleDataGrid").OnDataErrorOccurred("OnDataErrorOccurredDetalleDataGrid")
                  .Columns(columns =>
