@@ -154,8 +154,27 @@
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetFinalidadConsultaId").Key("Id"))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
+                                     .OnValueChanged($"{Prefix}OnValueChangedEstadoPertenecePrograma")
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );
+
+                                groupItems.AddEmpty().ColSpan(4).Visible(esServicioConsulta);
+
+                                groupItems.AddSimpleFor(m => m.Entity.PertenecePrograma).Label(x => x.Visible(false)).ColSpan(4)
+                                    .Editor(e => e.CheckBox().ID(Prefix + "PertenecePrograma").Text(DApp.DefaultLanguage.GetResource("Atenciones.PertenecePrograma"))
+                                    .Disabled(false).Visible(esServicioConsulta)
+                                );
+                                
+                                groupItems.AddSimpleFor(m => m.Entity.ProgramasId).ColSpan(4).Visible(esServicioConsulta)
+                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.ProgramasId")))
+                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.ProgramasId")))
+                                    .Editor(e => e.SelectBox().ID(Prefix + "ProgramasId")
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetProgramasId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
+                                    .SearchEnabled(true).ShowClearButton(true)
+                                );
+
                                 groupItems.AddSimpleFor(m => m.Entity.FinalidadProcedimientoId).ColSpan(6).Visible(!esServicioConsulta)
                                      .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.FinalidadProcedimientoId")))
                                      .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.FinalidadProcedimientoId")))

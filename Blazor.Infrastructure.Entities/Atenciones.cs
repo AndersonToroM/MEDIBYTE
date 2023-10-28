@@ -36,9 +36,14 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Atenciones.NotaProcedimientos")]
        public virtual String NotaProcedimientos { get; set; }
 
-       #endregion
+        [Column("PertenecePrograma")]
+        [DDisplayName("Atencion.PertenecePrograma")]
+        [DRequired("Atencion.PertenecePrograma")]
+        public virtual Boolean PertenecePrograma { get; set; }
 
-       #region Columnas referenciales)
+        #endregion
+
+        #region Columnas referenciales)
 
        [Column("AdmisionesId")]
        [DDisplayName("Atenciones.AdmisionesId")]
@@ -74,6 +79,10 @@ namespace Blazor.Infrastructure.Entities
         [DRequiredFK("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
         public virtual Int64 TiposIdentificacionPacienteAtencionesAperturaId { get; set; }
 
+        [Column("ProgramasId")]
+        [DDisplayName("Atenciones.ProgramasId")]
+        public virtual Int64? ProgramasId { get; set; }
+
         #endregion
 
         #region Propiedades referencias de entrada)
@@ -98,6 +107,9 @@ namespace Blazor.Infrastructure.Entities
 
         [ForeignKey("TiposIdentificacionPacienteAtencionesAperturaId")]
         public virtual TiposIdentificacion TiposIdentificacion{ get; set; }
+        
+        [ForeignKey("ProgramasId")]
+        public virtual Programas Programas { get; set; }
 
         #endregion
 

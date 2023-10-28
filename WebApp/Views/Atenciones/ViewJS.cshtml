@@ -30,6 +30,24 @@
         var edadCompleta = ObtenerEdadCompleta(fechaNacimiento, fechaAtencion);
         $("#PacientesCalculoEdad").text("Edad: " + edadCompleta.textoEdad);
     }
+    /*
+    function @(Prefix)OnValueChangedEstadoPertenecePrograma() {
+        var fechaNacimiento = $("#@(Prefix)PacienteFechaNacimiento").dxDateBox("instance").option("value");
+        var fechaAtencion = $("#@(Prefix)CreationDate").dxDateBox("instance").option("value");
+        var edadCompleta = ObtenerEdadCompleta(fechaNacimiento, fechaAtencion);
+        $("#PacientesCalculoEdad").text("Edad: " + edadCompleta.textoEdad);
+
+        $("#@(Prefix)DocumentosId").dxSelectBox("instance").option("value", null);
+        $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
+        if (OpcionPago == 63) {
+            $("#@(Prefix)FormasPagosId").dxSelectBox("instance").option("value", null);
+            $("#@(Prefix)MedioPagosId").dxSelectBox("instance").option("value", null);
+        }
+        $("#@(Prefix)ValorCopago").dxNumberBox("instance").option("readOnly", true);
+        $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("readOnly", true);
+
+
+    }*/
 
     function @(Prefix)PopupAbrirHC(data)
     {

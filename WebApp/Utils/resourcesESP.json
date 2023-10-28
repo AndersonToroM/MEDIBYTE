@@ -612,6 +612,14 @@
     "Description": "Tipo de identificación"
   },
   {
+    "Id": "Atenciones.PertenecePrograma",
+    "Description": "¿Pertenece a un programa?"
+  },
+  {
+    "Id": "Atenciones.ProgramasId",
+    "Description": "Programa"
+  },
+  {
     "Id": "Atenciones.TipoHC",
     "Description": "Tipo"
   },
@@ -2674,6 +2682,14 @@
   {
     "Id": "Glosas.Glosa",
     "Description": "Información de la glosa"
+  },
+  {
+    "Id": "Glosas.NroConsecutivo",
+    "Description": "Consecutivo factura"
+  },
+  {
+    "Id": "Glosas.Prefijo",
+    "Description": "Prefijo factura"
   },
   {
     "Id": "Glosas.ValorAceptado",

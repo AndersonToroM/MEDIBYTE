@@ -20,7 +20,8 @@
     {
         columns.AddFor(m => m.CreationDate).SortOrder(SortOrder.Desc)
             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Glosas.CreationDate")));
-        columns.AddFor(m => m.Facturas).CalculateDisplayValue(new JS(Prefix + "DisplayExprFacturaId"));
+        columns.AddFor(m => m.Facturas.Documentos.Prefijo).Caption(DApp.GetResource("Glosas.Prefijo"));
+        columns.AddFor(m => m.Facturas.NroConsecutivo).Caption(DApp.GetResource("Glosas.NroConsecutivo"));
         columns.AddFor(m => m.ValorGlosado);
         columns.AddFor(m => m.CausalesGlosas.Descripcion);
         //columns.AddFor(m => m.ValorAceptado);
