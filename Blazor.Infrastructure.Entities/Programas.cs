@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
@@ -8,9 +9,7 @@ using Dominus.Backend.DataBase;
 
 namespace Blazor.Infrastructure.Entities
 {
-    /// <summary>
-    /// FinalidadConsulta object for mapped table FinalidadConsulta.
-    /// </summary>
+
     [Table("Programas")]
     public partial class Programas : BaseEntity
     {
@@ -26,46 +25,40 @@ namespace Blazor.Infrastructure.Entities
 
         #endregion
 
-        #region Reglas expression
 
-        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-        {
-            Expression<Func<Programas, bool>> expression = entity => entity.Id == this.Id;
-            return expression as Expression<Func<T, bool>>;
-        }
+       #region Reglas expression
 
-        public override List<ExpRecurso> GetAdicionarExpression<T>()
-        {
-            var rules = new List<ExpRecurso>();
-            Expression<Func<Programas, bool>> expression = null;
+       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+       {
+       Expression<Func<Programas, bool>> expression = entity => entity.Id == this.Id;
+       return expression as Expression<Func<T, bool>>;
+       }
 
-            expression = entity => entity.Nombre == this.Nombre;
-            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Programas.Nombre")));
+       public override List<ExpRecurso> GetAdicionarExpression<T>()
+       {
+        var rules = new List<ExpRecurso>();
+        Expression<Func<Programas, bool>> expression = null;
 
-            return rules;
-        }
+       return rules;
+       }
 
-        public override List<ExpRecurso> GetModificarExpression<T>()
-        {
-            var rules = new List<ExpRecurso>();
-            Expression<Func<Programas, bool>> expression = null;
+       public override List<ExpRecurso> GetModificarExpression<T>()
+       {
+        var rules = new List<ExpRecurso>();
+        Expression<Func<Programas, bool>> expression = null;
 
-            expression = entity => !(entity.Id == this.Id && entity.Nombre == this.Nombre)
-                                   && entity.Nombre == this.Nombre;
-            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Programas.Nombre")));
+       return rules;
+       }
 
-            return rules;
-        }
+       public override List<ExpRecurso> GetEliminarExpression<T>()
+       {
+        var rules = new List<ExpRecurso>();
+        Expression<Func<Atenciones, bool>> expression0 = entity => entity.ProgramasId == this.Id;
+        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Atenciones"), typeof(Atenciones)));
 
-        public override List<ExpRecurso> GetEliminarExpression<T>()
-        {
-            var rules = new List<ExpRecurso>();
-            Expression<Func<Atenciones, bool>> expression0 = entity => entity.ProgramasId == this.Id;
-            rules.Add(new ExpRecurso(expression0.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "Atenciones"), typeof(Atenciones)));
+       return rules;
+       }
 
-            return rules;
-        }
-
-        #endregion
+       #endregion
     }
-}
+ }
