@@ -31,7 +31,15 @@
         $("#PacientesCalculoEdad").text("Edad: " + edadCompleta.textoEdad);
     }
     /*
-    function @(Prefix)OnValueChangedEstadoPertenecePrograma() {
+    function @(Prefix)OnValueChangedEstadoPertenecePrograma(estado) {
+
+        if (estado == true) 
+        {
+            var total = ValorNormalCita - (ValorNormalCita * (item.value / 100));
+            $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", total);
+        } else {
+            $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", ValorNormalCita);
+        }
         var fechaNacimiento = $("#@(Prefix)PacienteFechaNacimiento").dxDateBox("instance").option("value");
         var fechaAtencion = $("#@(Prefix)CreationDate").dxDateBox("instance").option("value");
         var edadCompleta = ObtenerEdadCompleta(fechaNacimiento, fechaAtencion);
