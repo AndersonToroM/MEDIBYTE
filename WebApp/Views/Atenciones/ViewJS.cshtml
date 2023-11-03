@@ -31,42 +31,35 @@
         $("#PacientesCalculoEdad").text("Edad: " + edadCompleta.textoEdad);
     }
 
-        /*
-    function @(Prefix)OnValueChangedEstadoPertenecePrograma(estado) {
+     
+    function @(Prefix)OnValueChangedEstadoPertenecePrograma(input) {
 
-        if (estado == true) 
+        if(input.value == true)
         {
-            var total = ValorNormalCita - (ValorNormalCita * (item.value / 100));
-            $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", total);
-        } else {
-            $("#@(Prefix)ValorPagarParticular").dxNumberBox("instance").option("value", ValorNormalCita);
+            $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("readOnly", false);
+        }else
+        {
+            $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("readOnly", true);
+            $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value", null);
         }
-        var fechaNacimiento = $("#@(Prefix)PacienteFechaNacimiento").dxDateBox("instance").option("value");
-        var fechaAtencion = $("#@(Prefix)CreationDate").dxDateBox("instance").option("value");
-        var edadCompleta = ObtenerEdadCompleta(fechaNacimiento, fechaAtencion);
-        $("#PacientesCalculoEdad").text("Edad: " + edadCompleta.textoEdad);
-
-        $("#@(Prefix)DocumentosId").dxSelectBox("instance").option("value", null);
-        $("#@(Prefix)DocumentosId").dxSelectBox("instance").getDataSource().reload();
-        if (OpcionPago == 63) {
-            $("#@(Prefix)FormasPagosId").dxSelectBox("instance").option("value", null);
-            $("#@(Prefix)MedioPagosId").dxSelectBox("instance").option("value", null);
-        }
-        $("#@(Prefix)ValorCopago").dxNumberBox("instance").option("readOnly", true);
-        $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("readOnly", true);
-
-
-    }*/
+    }
 
     function @(Prefix)PopupAbrirHC(data)
     {
         var CausasExternasId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
         var FinalidadConsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
+        var ProgramasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
+        var PertenecePrograma = $("#@(Prefix)PertenecePrograma").dxCheckBox("instance").option("value");
 
         if (CausasExternasId == null || CausasExternasId == "" || CausasExternasId == 0 ||
-        FinalidadConsultaId == null || FinalidadConsultaId == "" || FinalidadConsultaId == 0) {
-            DevExpress.ui.notify("La causa externa y la finalidad son obligatorias para abrir la historia clinica.", "error");
+            FinalidadConsultaId == null || FinalidadConsultaId == "" || FinalidadConsultaId == 0)
+            {
+            DevExpress.ui.notify("La causa externa y la finalidad de la consulta son obligatorias para abrir la historia clinica.", "error");
             return false;
+        } if ((ProgramasId == null || ProgramasId == "" || ProgramasId == 0) && (PertenecePrograma == true))
+        {
+            DevExpress.ui.notify("Debe seleccionar el programa al cual pertene el paciente o desmarcar el campo ¿Pertenece a un programa?", "error");
+            return false
         }
 
         $("#PopupAbrirHC").dxPopup("instance").show();
