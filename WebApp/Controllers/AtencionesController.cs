@@ -432,6 +432,11 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Programas>().Tabla(true), loadOptions);
         }
         [HttpPost]
+        public LoadResult GetEnfermedadesHuerfanasId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<EnfermedadesHuerfanas>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
         public LoadResult GetFinalidadProcedimientoId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<FinalidadProcedimiento>().Tabla(true), loadOptions);

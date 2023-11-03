@@ -156,6 +156,7 @@ namespace Blazor.Infrastructure
         public DbSet<Secuences> Secuences { get; set; }
         public DbSet<ConfiguracionEnvioEmailJob> ConfiguracionEnvioEmailJob { get; set; }
         public DbSet<Programas> Programas { get; set; }
+        public DbSet<EnfermedadesHuerfanas> EnfermedadesHuerfanas { get; set; }
 
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }

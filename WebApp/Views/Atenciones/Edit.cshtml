@@ -157,12 +157,12 @@
                                      .SearchEnabled(true).ShowClearButton(true)
                                 );
 
-                                groupItems.AddSimpleFor(m => m.Entity.PertenecePrograma).Label(x => x.Visible(false)).ColSpan(6).Visible(esServicioConsulta)
+                                groupItems.AddSimpleFor(m => m.Entity.PertenecePrograma).Label(x => x.Visible(false)).ColSpan(2).Visible(esServicioConsulta)
                                     .Editor(e => e.CheckBox().ID(Prefix + "PertenecePrograma").Text(DApp.DefaultLanguage.GetResource("Atenciones.PertenecePrograma"))
                                     .Disabled(false)
                                 );
                                 
-                                groupItems.AddSimpleFor(m => m.Entity.ProgramasId).ColSpan(6).Visible(esServicioConsulta)
+                                groupItems.AddSimpleFor(m => m.Entity.ProgramasId).ColSpan(5).Visible(esServicioConsulta)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.ProgramasId")))
                                     .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.ProgramasId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "ProgramasId")
@@ -191,6 +191,16 @@
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                      .SearchEnabled(true).ShowClearButton(true)
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.EnfermedadesHuerfanasId).ColSpan(5).Visible(esServicioConsulta)
+                                    //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.EnfermedadesHuerfanasId")))
+                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.EnfermedadesHuerfanasId")))
+                                    .Editor(e => e.SelectBox().ID(Prefix + "EnfermedadesHuerfanasId")
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetEnfermedadesHuerfanasId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .ValueExpr("Id").DisplayExpr("NombreV4").SearchExpr("NombreV4", "CIE10")
+                                    .SearchEnabled(true).ShowClearButton(true)
                                 );
 
                                 groupItems.AddEmpty().ColSpan(6).Visible(!esServicioConsulta);

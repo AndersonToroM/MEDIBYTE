@@ -94,7 +94,12 @@ namespace Blazor.WebApp.Controllers
             var totalDiagnosticosHC = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).Any(x => x.HistoriasClinicasId == model.Entity.Id);
             if (!totalDiagnosticosHC)
             {
-                ModelState.AddModelError("Entity.Id", "Para cerrar la historia clinica debe tener al menos un diagnostico registrado.");
+                ModelState.AddModelError("Entity.Id", "Para cerrar la historia clinica debe tener al menos un diagnóstico registrado.");
+            }
+            var diagnosticoPrincipal = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).Any(x => x.HistoriasClinicasId == model.Entity.Id && x.Principal != false); 
+            if (diagnosticoPrincipal == false)
+            {
+                ModelState.AddModelError("Entity.Id", "Para cerrar la historia clinica se debe marcar un diagnóstico como principal.");
             }
             if (model.Entity.Peso <= 0)
             {

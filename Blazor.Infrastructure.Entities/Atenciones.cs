@@ -83,6 +83,10 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("Atenciones.ProgramasId")]
         public virtual Int64? ProgramasId { get; set; }
 
+        [Column("EnfermedadesHuerfanasId")]
+        [DDisplayName("Atenciones.EnfermedadesHuerfanasId")]
+        public virtual Int64? EnfermedadesHuerfanasId { get; set; }
+
         #endregion
 
         #region Propiedades referencias de entrada)
@@ -110,6 +114,9 @@ namespace Blazor.Infrastructure.Entities
         
         [ForeignKey("ProgramasId")]
         public virtual Programas Programas { get; set; }
+
+        [ForeignKey("EnfermedadesHuerfanasId")]
+        public virtual EnfermedadesHuerfanas EnfermedadesHuerfanas { get; set; }
 
         #endregion
 

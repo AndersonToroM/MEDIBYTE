@@ -556,6 +556,10 @@
     "Description": "Empleado"
   },
   {
+    "Id": "Atenciones.EnfermedadesHuerfanasId",
+    "Description": "Enfermedad huérfana"
+  },
+  {
     "Id": "Atenciones.Entidad",
     "Description": "Entidad"
   },
