@@ -218,8 +218,14 @@
                                 {
                                     groupItems.AddSimple().ColSpan(12).Template($"<div class=\"row d-flex justify-content-center subtitle\" >{DApp.DefaultLanguage.GetResource("HistoriasClinicas.SignosVitales")}</div>");
 
-                                    groupItems.AddSimpleFor(m => m.Entity.TensionArterial).ColSpan(4)
-                                         .Editor(e => e.TextBox().ID(Prefix + "TensionArterial").ShowClearButton(true));
+                                    groupItems.AddSimpleFor(m => m.Entity.PresionSistolica).ColSpan(2)
+                                        .Editor(e => e.NumberBox().ID(Prefix + "PresionSistolica").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                    );
+
+                                    groupItems.AddSimpleFor(m => m.Entity.PresionDiastolica).ColSpan(2)
+                                        .Editor(e => e.NumberBox().ID(Prefix + "PresionDiastolica").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                    );
+
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaCardiaca).ColSpan(4)
                                          .Editor(e => e.TextBox().ID(Prefix + "FrecuenciaCardiaca").ShowClearButton(true));
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaRespiratoria).ColSpan(4)

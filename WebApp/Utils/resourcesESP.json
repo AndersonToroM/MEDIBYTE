@@ -2888,6 +2888,14 @@
     "Description": "Paciente"
   },
   {
+    "Id": "HistoriasClinicas.PresionDiastolica",
+    "Description": "Presión diastólica"
+  },
+  {
+    "Id": "HistoriasClinicas.PresionSistolica",
+    "Description": "Presión sistólica"
+  },
+  {
     "Id": "HistoriasClinicas.ProfesionalId",
     "Description": "Profesional"
   },
@@ -4354,6 +4362,10 @@
   {
     "Id": "ProgramacionCitas.PacientesId",
     "Description": "Nombres y Apellidos del Paciente"
+  },
+  {
+    "Id": "ProgramacionCitas.PeriodoReporte0256",
+    "Description": "Período"
   },
   {
     "Id": "ProgramacionCitas.PorcDescAutorizado",

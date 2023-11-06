@@ -100,6 +100,15 @@ namespace Blazor.WebApp.Controllers
                     {
                         model.Entity.LastUpdate = DateTime.Now;
                         model.Entity.UpdatedBy = User.Identity.Name;
+                        if (model.Entity.PresionSistolica.HasValue && model.Entity.PresionDiastolica.HasValue)
+                        {
+                            model.Entity.TensionArterial = $"{model.Entity.PresionSistolica.Value}/{model.Entity.PresionDiastolica.Value}";
+                        }
+                        else
+                        {
+                            model.Entity.TensionArterial = null;
+                        }
+
                         if (model.Entity.IsNew)
                         {
                             model.Entity.CreationDate = DateTime.Now;

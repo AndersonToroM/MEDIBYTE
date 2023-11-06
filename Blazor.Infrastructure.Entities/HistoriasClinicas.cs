@@ -95,6 +95,14 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("HistoriasClinicas.Analisis")]
         public virtual String Analisis { get; set; }
 
+        [Column("PresionSistolica")]
+        [DDisplayName("HistoriasClinicas.PresionSistolica")]
+        public virtual Int16? PresionSistolica { get; set; }
+
+        [Column("PresionDiastolica")]
+        [DDisplayName("HistoriasClinicas.PresionDiastolica")]
+        public virtual Int16? PresionDiastolica { get; set; }
+
         #endregion
 
         #region Columnas referenciales)
