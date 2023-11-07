@@ -133,9 +133,13 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Hallazgos", "Para cerrar la historia clinica debe registrar el hallazgos.");
             }
-            if (string.IsNullOrWhiteSpace(model.Entity.TensionArterial))
+            if (model.Entity.PresionDiastolica == null || model.Entity.PresionDiastolica == 0)
             {
-                ModelState.AddModelError("Entity.TensionArterial", "Para cerrar la historia clinica debe registrar la tensión arterial.");
+                ModelState.AddModelError("Entity.PresionDiastolica", "Para cerrar la historia clinica debe registrar la presión diastólica.");
+            }
+            if (model.Entity.PresionSistolica == null || model.Entity.PresionSistolica == 0)
+            {
+                ModelState.AddModelError("Entity.PresionSistolica", "Para cerrar la historia clinica debe registrar la presión sistólica.");
             }
             if (string.IsNullOrWhiteSpace(model.Entity.FrecuenciaCardiaca))
             {
@@ -157,7 +161,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Analisis", "Para cerrar la historia clinica debe registrar el análisis.");
             }
-
+            
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true)
                 .Include(x => x.HCTipos.Especialidades)
                 .Include(x => x.Atenciones.Admisiones)
@@ -165,6 +169,11 @@ namespace Blazor.WebApp.Controllers
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             model.Entity.IsNew = false;
             model.EsMismoUsuario = true;
+            
+            if (model.Entity.Atenciones.EstadosId == 10077)
+            {
+                ModelState.AddModelError("Entity", "No es posible cerrar esta historia clínica porque la atención se encuentra ANULADA. Contacte con el servicio de soporte");
+            }
 
             var keyPacientes = ModelState.Where(x => x.Key.StartsWith("Entity.Atenciones")).Select(x => x.Key).ToList();
             foreach (var key in keyPacientes)
