@@ -256,12 +256,6 @@ namespace Blazor.Infrastructure.Entities
 
         #endregion
 
-        #region Referencia de salida
-
-        public virtual Atenciones Atenciones { get; set; }
-
-        #endregion
-
         #region Reglas expression
 
         public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()

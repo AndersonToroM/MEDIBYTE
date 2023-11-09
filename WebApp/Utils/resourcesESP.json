@@ -605,7 +605,7 @@
   },
   {
     "Id": "Atenciones.PacienteGenero",
-    "Description": "Genero"
+    "Description": "Sexo"
   },
   {
     "Id": "Atenciones.PacienteNombreCompleto",
@@ -1581,7 +1581,7 @@
   },
   {
     "Id": "Empleados.GenerosId",
-    "Description": "Genero"
+    "Description": "Sexo"
   },
   {
     "Id": "Empleados.NombreCompleto",
@@ -3901,7 +3901,11 @@
   },
   {
     "Id": "Pacientes.GenerosId",
-    "Description": "Genero"
+    "Description": "Sexo"
+  },
+  {
+    "Id": "Pacientes.GenerosIdentidadId",
+    "Description": "Identidad de Genero"
   },
   {
     "Id": "Pacientes.NombreCompleto",
@@ -4414,6 +4418,10 @@
   {
     "Id": "ProgramacionCitas.VerAgenda",
     "Description": "Agenda"
+  },
+  {
+    "Id": "Programas.Nombre",
+    "Description": "Nombre"
   },
   {
     "Id": "Radicacion",
@@ -4985,7 +4993,7 @@
   },
   {
     "Id": "Users.GenderId",
-    "Description": "Genero"
+    "Description": "Sexo"
   },
   {
     "Id": "Users.IdentificationNumber",

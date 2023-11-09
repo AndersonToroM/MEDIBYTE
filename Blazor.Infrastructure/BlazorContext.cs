@@ -62,6 +62,7 @@ namespace Blazor.Infrastructure
         public DbSet<FinalidadProcedimiento> FinalidadProcedimiento { get; set; }
         public DbSet<FormasPagos> FormasPagos { get; set; }
         public DbSet<Generos> Generos { get; set; }
+        public DbSet<GenerosIdentidad> GenerosIdentidad { get; set; }
         public DbSet<Glosas> Glosas { get; set; }
         public DbSet<HistoriasClinicas> HistoriasClinicas { get; set; }
         public DbSet<HorariosAtencion> HorariosAtencion { get; set; }
@@ -179,19 +180,13 @@ namespace Blazor.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-            optionsBuilder.LogTo(Console.WriteLine,LogLevel.Information);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 #endif
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<ProgramacionCitas>()
-            //    .HasOne(e => e.Admisiones)
-            //    .WithOne(e => e.ProgramacionCitas)
-            //    //.HasForeignKey<Admisiones>(e => e.ProgramacionCitasId)
-            //    .IsRequired(false);
-
             base.OnModelCreating(modelBuilder);
         }
     }

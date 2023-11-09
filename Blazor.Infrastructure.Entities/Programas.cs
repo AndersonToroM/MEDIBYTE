@@ -1,5 +1,4 @@
 using System;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
@@ -9,22 +8,22 @@ using Dominus.Backend.DataBase;
 
 namespace Blazor.Infrastructure.Entities
 {
-
+    /// <summary>
+    /// Programas object for mapped table Programas.
+    /// </summary>
     [Table("Programas")]
     public partial class Programas : BaseEntity
     {
 
-        #region Columnas normales)
+       #region Columnas normales)
 
-        [Column("Nombre")]
-        [DDisplayName("Programas.Nombre")]
-        [DRequired("Programas.Nombre")]
-        [DStringLength("Programas.Nombre", 250)]
-        public virtual String Nombre { get; set; }
+       [Column("Nombre")]
+       [DDisplayName("Programas.Nombre")]
+       [DRequired("Programas.Nombre")]
+       [DStringLength("Programas.Nombre",255)]
+       public virtual String Nombre { get; set; }
 
-
-        #endregion
-
+       #endregion
 
        #region Reglas expression
 

@@ -6,9 +6,6 @@ using Dominus.Backend.DataBase;
 
 namespace Blazor.Infrastructure.Entities
 {
-    public partial class Atenciones
-    {
-    }
     public partial class Atenciones_Personas
     {
         public Atenciones Atenciones { get; set; }

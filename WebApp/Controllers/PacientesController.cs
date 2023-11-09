@@ -385,7 +385,17 @@ namespace Blazor.WebApp.Controllers
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposSangre>().Tabla(true), loadOptions);
         }
-
+        [HttpPost]
+        public LoadResult GetGenerosId(DataSourceLoadOptions loadOptions)
+        {
+            List<string> codigos = new List<string>() { "M", "F" };
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Generos>().Tabla(true).Where(x => codigos.Contains(x.Codigo)), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetGenerosIdentidadId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<GenerosIdentidad>().Tabla(true), loadOptions);
+        }
         #endregion
 
         [HttpGet]

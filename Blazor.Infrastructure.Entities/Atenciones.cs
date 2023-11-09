@@ -36,14 +36,14 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Atenciones.NotaProcedimientos")]
        public virtual String NotaProcedimientos { get; set; }
 
-        [Column("PertenecePrograma")]
-        [DDisplayName("Atencion.PertenecePrograma")]
-        [DRequired("Atencion.PertenecePrograma")]
-        public virtual Boolean PertenecePrograma { get; set; }
+       [Column("PertenecePrograma")]
+       [DDisplayName("Atenciones.PertenecePrograma")]
+       [DRequired("Atenciones.PertenecePrograma")]
+       public virtual Boolean PertenecePrograma { get; set; }
 
-        #endregion
+       #endregion
 
-        #region Columnas referenciales)
+       #region Columnas referenciales)
 
        [Column("AdmisionesId")]
        [DDisplayName("Atenciones.AdmisionesId")]
@@ -73,25 +73,25 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Atenciones.AmbitoRealizacionProcedimientoId")]
        public virtual Int64? AmbitoRealizacionProcedimientoId { get; set; }
 
-        [Column("TiposIdentificacionPacienteAtencionesAperturaId")]
-        [DDisplayName("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
-        [DRequired("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
-        [DRequiredFK("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
-        public virtual Int64 TiposIdentificacionPacienteAtencionesAperturaId { get; set; }
+       [Column("TiposIdentificacionPacienteAtencionesAperturaId")]
+       [DDisplayName("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
+       [DRequired("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
+       [DRequiredFK("Atenciones.TiposIdentificacionPacienteAtencionesAperturaId")]
+       public virtual Int64 TiposIdentificacionPacienteAtencionesAperturaId { get; set; }
 
-        [Column("ProgramasId")]
-        [DDisplayName("Atenciones.ProgramasId")]
-        public virtual Int64? ProgramasId { get; set; }
+       [Column("ProgramasId")]
+       [DDisplayName("Atenciones.ProgramasId")]
+       public virtual Int64? ProgramasId { get; set; }
 
-        [Column("EnfermedadesHuerfanasId")]
-        [DDisplayName("Atenciones.EnfermedadesHuerfanasId")]
-        public virtual Int64? EnfermedadesHuerfanasId { get; set; }
+       [Column("EnfermedadesHuerfanasId")]
+       [DDisplayName("Atenciones.EnfermedadesHuerfanasId")]
+       public virtual Int64? EnfermedadesHuerfanasId { get; set; }
 
-        #endregion
+       #endregion
 
-        #region Propiedades referencias de entrada)
+       #region Propiedades referencias de entrada)
 
-        [ForeignKey("AdmisionesId")]
+       [ForeignKey("AdmisionesId")]
        public virtual Admisiones Admisiones { get; set; }
 
        [ForeignKey("AmbitoRealizacionProcedimientoId")]
@@ -103,26 +103,26 @@ namespace Blazor.Infrastructure.Entities
        [ForeignKey("EmpleadosId")]
        public virtual Empleados Empleados { get; set; }
 
+       [ForeignKey("EnfermedadesHuerfanasId")]
+       public virtual EnfermedadesHuerfanas EnfermedadesHuerfanas { get; set; }
+
        [ForeignKey("FinalidadConsultaId")]
        public virtual FinalidadConsulta FinalidadConsulta { get; set; }
 
        [ForeignKey("FinalidadProcedimientoId")]
        public virtual FinalidadProcedimiento FinalidadProcedimiento { get; set; }
 
-        [ForeignKey("TiposIdentificacionPacienteAtencionesAperturaId")]
-        public virtual TiposIdentificacion TiposIdentificacion{ get; set; }
-        
-        [ForeignKey("ProgramasId")]
-        public virtual Programas Programas { get; set; }
+       [ForeignKey("ProgramasId")]
+       public virtual Programas Programas { get; set; }
 
-        [ForeignKey("EnfermedadesHuerfanasId")]
-        public virtual EnfermedadesHuerfanas EnfermedadesHuerfanas { get; set; }
+       [ForeignKey("TiposIdentificacionPacienteAtencionesAperturaId")]
+       public virtual TiposIdentificacion TiposIdentificacionPacienteAtencionesApertura { get; set; }
 
-        #endregion
+       #endregion
 
-        #region Reglas expression
+       #region Reglas expression
 
-        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<Atenciones, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;
@@ -133,6 +133,9 @@ namespace Blazor.Infrastructure.Entities
         var rules = new List<ExpRecurso>();
         Expression<Func<Atenciones, bool>> expression = null;
 
+        expression = entity => entity.AdmisionesId == this.AdmisionesId;
+        rules.Add(new ExpRecurso(expression.ToExpressionNode() , new Recurso("BLL.BUSINESS.UNIQUE", "Atenciones.AdmisionesId" )));
+
        return rules;
        }
 
@@ -140,6 +143,10 @@ namespace Blazor.Infrastructure.Entities
        {
         var rules = new List<ExpRecurso>();
         Expression<Func<Atenciones, bool>> expression = null;
+
+        expression = entity => !(entity.Id == this.Id && entity.AdmisionesId == this.AdmisionesId)
+                               && entity.AdmisionesId == this.AdmisionesId;
+        rules.Add(new ExpRecurso(expression.ToExpressionNode() , new Recurso("BLL.BUSINESS.UNIQUE", "Atenciones.AdmisionesId" )));
 
        return rules;
        }
@@ -150,11 +157,14 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<AdmisionesServiciosPrestados, bool>> expression0 = entity => entity.AtencionesId == this.Id;
         rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","AdmisionesServiciosPrestados"), typeof(AdmisionesServiciosPrestados)));
 
-        Expression<Func<HistoriasClinicas, bool>> expression1 = entity => entity.AtencionesId == this.Id;
-        rules.Add(new ExpRecurso(expression1.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","HistoriasClinicas"), typeof(HistoriasClinicas)));
+        Expression<Func<Atenciones, bool>> expression1 = entity => entity.Id == this.Id;
+        rules.Add(new ExpRecurso(expression1.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Atenciones"), typeof(Atenciones)));
 
-        Expression<Func<RegistroIncapacidades, bool>> expression2 = entity => entity.AtencionesId == this.Id;
-        rules.Add(new ExpRecurso(expression2.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RegistroIncapacidades"), typeof(RegistroIncapacidades)));
+        Expression<Func<HistoriasClinicas, bool>> expression2 = entity => entity.AtencionesId == this.Id;
+        rules.Add(new ExpRecurso(expression2.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","HistoriasClinicas"), typeof(HistoriasClinicas)));
+
+        Expression<Func<RegistroIncapacidades, bool>> expression3 = entity => entity.AtencionesId == this.Id;
+        rules.Add(new ExpRecurso(expression3.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RegistroIncapacidades"), typeof(RegistroIncapacidades)));
 
        return rules;
        }
