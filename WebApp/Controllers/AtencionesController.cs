@@ -152,7 +152,7 @@ namespace Blazor.WebApp.Controllers
 
             if (model.Entity.PertenecePrograma == true)
             {
-                throw new DAppException($"Debe seleccionar el programa al cual pertene el paciente o desmarcar el campo ¿Pertenece a un programa? {admision.ProgramacionCitas.Empleados.NombreCompleto}. No es posible continuar la atención.");
+                throw new DAppException($"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?. No es posible continuar la atención.");
             }
 
             model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
@@ -215,7 +215,7 @@ namespace Blazor.WebApp.Controllers
 
             if (model.Entity.PertenecePrograma == true)
             {
-                ModelState.AddModelError("Entity.Id", $"Debe seleccionar el programa al cual pertene el paciente o desmarcar el campo ¿Pertenece a un programa? No es posible continuar la atención.");
+                ModelState.AddModelError("Entity.Id", $"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?. No es posible continuar la atención.");
             }
 
             foreach (var key in llaves)

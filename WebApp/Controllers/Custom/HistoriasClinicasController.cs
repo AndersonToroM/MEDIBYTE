@@ -28,7 +28,7 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult OpenHC(int atentionId, int hcTipoId, long causaExternaId, long finalidadconsultaId)
+        public IActionResult OpenHC(int atentionId, int hcTipoId, long causaExternaId, long finalidadconsultaId, long? programasId, long enfermedadesHuerfanasId, bool pertenecePrograma)
         {
             HistoriasClinicasModel model = new HistoriasClinicasModel();
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.AtencionesId == atentionId, false);
@@ -73,6 +73,9 @@ namespace Blazor.WebApp.Controllers
 
             aten.CausasExternasId = causaExternaId;
             aten.FinalidadConsultaId = finalidadconsultaId;
+            aten.ProgramasId = programasId;
+            aten.EnfermedadesHuerfanasId = enfermedadesHuerfanasId;
+            aten.PertenecePrograma = pertenecePrograma;
             Manager().GetBusinessLogic<Atenciones>().Modify(aten);
 
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true).Include(x => x.HCTipos.Especialidades).FirstOrDefault(x => x.Id == model.Entity.Id);
@@ -133,23 +136,23 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Hallazgos", "Para cerrar la historia clinica debe registrar el hallazgos.");
             }
-            if (!model.Entity.PresionDiastolica.HasValue)
+            if (!model.Entity.PresionDiastolica.HasValue || model.Entity.PresionDiastolica.Value == 0)
             {
                 ModelState.AddModelError("Entity.PresionDiastolica", "Para cerrar la historia clinica debe registrar la presión diastolica.");
             }
-            if (!model.Entity.PresionSistolica.HasValue)
+            if (!model.Entity.PresionSistolica.HasValue || model.Entity.PresionSistolica.Value == 0)
             {
                 ModelState.AddModelError("Entity.PresionSistolica", "Para cerrar la historia clinica debe registrar la presión sistolica.");
             }
-            if (!model.Entity.FrecuenciaCardiaca.HasValue)
+            if (!model.Entity.FrecuenciaCardiaca.HasValue || model.Entity.FrecuenciaCardiaca.Value == 0)
             {
                 ModelState.AddModelError("Entity.FrecuenciaCardiaca", "Para cerrar la historia clinica debe registrar la frecuencia cardiaca.");
             }
-            if (!model.Entity.FrecuenciaRespiratoria.HasValue)
+            if (!model.Entity.FrecuenciaRespiratoria.HasValue || model.Entity.FrecuenciaRespiratoria.Value == 0)
             {
                 ModelState.AddModelError("Entity.FrecuenciaRespiratoria", "Para cerrar la historia clinica debe registrar la frecuencia respiratoria.");
             }
-            if (!model.Entity.Temperatura.HasValue)
+            if (!model.Entity.Temperatura.HasValue || model.Entity.Temperatura.Value == 0)
             {
                 ModelState.AddModelError("Entity.Temperatura", "Para cerrar la historia clinica debe registrar la temperatura.");
             }
@@ -161,7 +164,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Analisis", "Para cerrar la historia clinica debe registrar el análisis.");
             }
-
+            
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true)
                 .Include(x => x.HCTipos.Especialidades)
                 .Include(x => x.Atenciones.Admisiones)
@@ -169,6 +172,11 @@ namespace Blazor.WebApp.Controllers
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             model.Entity.IsNew = false;
             model.EsMismoUsuario = true;
+            
+            if (model.Entity.Atenciones.EstadosId == 10077)
+            {
+                ModelState.AddModelError("Entity", "No es posible cerrar esta historia clínica porque la atención se encuentra ANULADA. Contacte con el servicio de soporte");
+            }
 
             var keyPacientes = ModelState.Where(x => x.Key.StartsWith("Entity.Atenciones")).Select(x => x.Key).ToList();
             foreach (var key in keyPacientes)

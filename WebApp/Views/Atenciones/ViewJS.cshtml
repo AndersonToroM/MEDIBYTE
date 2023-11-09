@@ -50,6 +50,7 @@
         var FinalidadConsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
         var ProgramasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
         var PertenecePrograma = $("#@(Prefix)PertenecePrograma").dxCheckBox("instance").option("value");
+        var EnfermedadesHuerfanasId = $("#@(Prefix)EnfermedadesHuerfanasId").dxSelectBox("instance").option("value");
 
         if (CausasExternasId == null || CausasExternasId == "" || CausasExternasId == 0 ||
             FinalidadConsultaId == null || FinalidadConsultaId == "" || FinalidadConsultaId == 0)
@@ -58,7 +59,10 @@
             return false;
         } if ((ProgramasId == null || ProgramasId == "" || ProgramasId == 0) && (PertenecePrograma == true))
         {
-            DevExpress.ui.notify("Debe seleccionar el programa al cual pertene el paciente o desmarcar el campo ¿Pertenece a un programa?", "error");
+            DevExpress.ui.notify("Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?", "error");
+            return false
+        } if (EnfermedadesHuerfanasId == null || EnfermedadesHuerfanasId == "" || EnfermedadesHuerfanasId == 0) {
+            DevExpress.ui.notify("Debe seleccionar una opción del listado de enfemedades huérfanas", "error");
             return false
         }
 
@@ -70,6 +74,9 @@
         var hcTipoId = $("#@(Prefix)TipoHC").dxSelectBox("instance").option("value");
         var causaExternaId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
         var finalidadconsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
+        var programasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
+        var enfermedadesHuerfanasId = $("#@(Prefix)EnfermedadesHuerfanasId").dxSelectBox("instance").option("value");
+        var pertenecePrograma = $("#@(Prefix)PertenecePrograma").dxCheckBox("instance").option("value");
 
         if (hcTipoId == null || hcTipoId == "" || hcTipoId == 0) {
             DevExpress.ui.notify("El tipo de historia clinica es obligatorio.", "error");
@@ -81,7 +88,10 @@
                 atentionId: @Model.Entity.Id,
                 hcTipoId: hcTipoId,
                 causaExternaId: causaExternaId,
-                finalidadconsultaId: finalidadconsultaId
+                finalidadconsultaId: finalidadconsultaId,
+                programasId: programasId,
+                enfermedadesHuerfanasId: enfermedadesHuerfanasId,
+                pertenecePrograma: pertenecePrograma
             }
         );
 
