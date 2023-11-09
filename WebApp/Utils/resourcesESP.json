@@ -4332,6 +4332,10 @@
     "Description": "Fecha Asignación"
   },
   {
+    "Id": "ProgramacionCitas.FechaDeseada",
+    "Description": "Fecha Deseada"
+  },
+  {
     "Id": "ProgramacionCitas.FechaFinal",
     "Description": "Fecha final"
   },

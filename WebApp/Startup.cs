@@ -131,7 +131,7 @@ namespace Blazor.WebApp
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 Formatting = Formatting.None,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize, // Esto permite evitar los loops para la serializacion de las foraneas
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore, // Esto permite evitar los loops para la serializacion de las foraneas
                 PreserveReferencesHandling = PreserveReferencesHandling.None
             };
 

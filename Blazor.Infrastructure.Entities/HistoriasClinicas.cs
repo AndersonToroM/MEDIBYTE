@@ -27,6 +27,10 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("HistoriasClinicas.FechaApertura")]
         public virtual DateTime? FechaApertura { get; set; }
 
+        [Column("FechaCierre", TypeName = "datetime")]
+        [DDisplayName("HistoriasClinicas.FechaCierre")]
+        public virtual DateTime? FechaCierre { get; set; }
+
         [Column("MotivoConsulta")]
         [DDisplayName("HistoriasClinicas.MotivoConsulta")]
         public virtual String MotivoConsulta { get; set; }

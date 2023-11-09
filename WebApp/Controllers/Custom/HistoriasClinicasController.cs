@@ -11,7 +11,7 @@ using System.Linq;
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class HistoriasClinicasController
     {
         private HistoriasClinicas GetEntityData(long Id)
@@ -32,7 +32,7 @@ namespace Blazor.WebApp.Controllers
         {
             HistoriasClinicasModel model = new HistoriasClinicasModel();
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.AtencionesId == atentionId, false);
-            Atenciones aten = Manager().GetBusinessLogic<Atenciones>().Tabla(true).Include(x => x.Admisiones.Pacientes).FirstOrDefault(x=>x.Id == atentionId);
+            Atenciones aten = Manager().GetBusinessLogic<Atenciones>().Tabla(true).Include(x => x.Admisiones.Pacientes).FirstOrDefault(x => x.Id == atentionId);
             if (model.Entity == null)
             {
                 Estados est = GetEstado();
@@ -53,9 +53,9 @@ namespace Blazor.WebApp.Controllers
                 model.Entity.IsNew = true;
                 model.Entity.Id = 0;
                 model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Add(model.Entity);
-                var tiposPreguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x=>x.HCTiposId== model.Entity.HCTiposId, false).Select(x=>x.HCPreguntasId).ToList();
+                var tiposPreguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, false).Select(x => x.HCPreguntasId).ToList();
 
-                var respuestas = Manager().GetBusinessLogic<HCRespuestas>().FindAll(x => tiposPreguntas.Contains( x.HCPreguntaId) , true).ToList();
+                var respuestas = Manager().GetBusinessLogic<HCRespuestas>().FindAll(x => tiposPreguntas.Contains(x.HCPreguntaId), true).ToList();
                 if (respuestas != null && respuestas.Count > 0)
                     foreach (var item in respuestas)
                     {
@@ -68,7 +68,7 @@ namespace Blazor.WebApp.Controllers
                         reps.CreatedBy = User.Identity.Name;
                         Manager().GetBusinessLogic<HistoriasClinicasRespuestas>().Add(reps);
                     }
- 
+
             }
 
             aten.CausasExternasId = causaExternaId;
@@ -92,15 +92,15 @@ namespace Blazor.WebApp.Controllers
             {
                 model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Modify(model.Entity);
             }
-            catch{}
-            
+            catch { }
+
             var totalDiagnosticosHC = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).Any(x => x.HistoriasClinicasId == model.Entity.Id);
             if (!totalDiagnosticosHC)
             {
                 ModelState.AddModelError("Entity.Id", "Para cerrar la historia clinica debe tener al menos un diagnóstico registrado.");
             }
-            var diagnosticoPrincipal = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).Any(x => x.HistoriasClinicasId == model.Entity.Id && x.Principal != false); 
-            if (diagnosticoPrincipal == false)
+            var diagnosticoPrincipal = Manager().GetBusinessLogic<HistoriasClinicasDiagnosticos>().Tabla(true).FirstOrDefault(x => x.HistoriasClinicasId == model.Entity.Id && x.Principal != false);
+            if (diagnosticoPrincipal is null)
             {
                 ModelState.AddModelError("Entity.Id", "Para cerrar la historia clinica se debe marcar un diagnóstico como principal.");
             }
@@ -164,7 +164,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Analisis", "Para cerrar la historia clinica debe registrar el análisis.");
             }
-            
+
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true)
                 .Include(x => x.HCTipos.Especialidades)
                 .Include(x => x.Atenciones.Admisiones)
@@ -172,7 +172,7 @@ namespace Blazor.WebApp.Controllers
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             model.Entity.IsNew = false;
             model.EsMismoUsuario = true;
-            
+
             if (model.Entity.Atenciones.EstadosId == 10077)
             {
                 ModelState.AddModelError("Entity", "No es posible cerrar esta historia clínica porque la atención se encuentra ANULADA. Contacte con el servicio de soporte");
@@ -192,7 +192,14 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
                     model.Entity.EstadosId = 19;
+                    model.Entity.FechaCierre = DateTime.Now;
                     model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Modify(model.Entity);
+
+                    var atencion = model.Entity.Atenciones;
+                    atencion.DiagnosticosPrincipalHCId = diagnosticoPrincipal.Id;
+                    atencion.LastUpdate = DateTime.Now;
+                    atencion.UpdatedBy = User.Identity.Name;
+                    Manager().GetBusinessLogic<Atenciones>().Modify(atencion);
                 }
                 catch (Exception e)
                 {
@@ -206,26 +213,6 @@ namespace Blazor.WebApp.Controllers
             }
 
             return PartialView("Edit", model);
-
-            //var estadoIncial = model.Entity.EstadosId;
-            //try
-            //{
-            //    model.Entity.LastUpdate = DateTime.Now;
-            //    model.Entity.UpdatedBy = User.Identity.Name;
-            //    model.Entity.EstadosId = 19;
-            //    model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Modify(model.Entity);
-            //}
-            //catch (Exception e)
-            //{
-            //    model.Entity.EstadosId = estadoIncial;
-            //    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
-            //    return PartialView("Edit", model);
-            //}
-
-            //Manager().AtencionesBusinessLogic().AddAtencion(model.Entity.Atenciones);
-            //ViewBag.Accion = "CerrarHC";
-            //return PartialView("Edit", model);
         }
     }
 }
- 
