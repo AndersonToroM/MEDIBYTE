@@ -227,15 +227,18 @@
                                     );
 
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaCardiaca).ColSpan(4)
-                                         .Editor(e => e.TextBox().ID(Prefix + "FrecuenciaCardiaca").ShowClearButton(true));
+                                         .Editor(e => e.NumberBox().ID(Prefix + "FrecuenciaCardiaca").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                    );
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaRespiratoria).ColSpan(4)
-                                         .Editor(e => e.TextBox().ID(Prefix + "FrecuenciaRespiratoria").ShowClearButton(true));
+                                         .Editor(e => e.NumberBox().ID(Prefix + "FrecuenciaRespiratoria").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                    );
 
                                     groupItems.AddSimpleFor(m => m.Entity.Temperatura).ColSpan(4)
-                                         .Editor(e => e.TextBox().ID(Prefix + "Temperatura").ShowClearButton(true));
+                                         .Editor(e => e.NumberBox().ID(Prefix + "Temperatura").Format("#,##0.#").ShowClearButton(true).ShowSpinButtons(true)
+                                    );
                                     groupItems.AddSimpleFor(m => m.Entity.PerimetroCefalico).ColSpan(4)
-                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(100).Message(DApp.GetStringLengthResource("HistoriasClinicas.PerimetroCefalico", 100)))
-                                         .Editor(e => e.TextBox().ID(Prefix + "PerimetroCefalico").ShowClearButton(true));
+                                        .Editor(e => e.NumberBox().ID(Prefix + "PerimetroCefalico").Format("#,##0.#").ShowClearButton(true).ShowSpinButtons(true)
+                                    );
                                     groupItems.AddSimpleFor(m => m.Entity.DominanciaEstadosId).ColSpan(4)
                                          .Editor(e => e.SelectBox().ID(Prefix + "DominanciaEstadosId")
                                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetDominanciaEstadosId").Key("Id"))

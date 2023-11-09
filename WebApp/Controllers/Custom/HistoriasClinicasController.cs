@@ -133,19 +133,23 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Hallazgos", "Para cerrar la historia clinica debe registrar el hallazgos.");
             }
-            if (string.IsNullOrWhiteSpace(model.Entity.TensionArterial))
+            if (!model.Entity.PresionDiastolica.HasValue)
             {
-                ModelState.AddModelError("Entity.TensionArterial", "Para cerrar la historia clinica debe registrar la tensión arterial.");
+                ModelState.AddModelError("Entity.PresionDiastolica", "Para cerrar la historia clinica debe registrar la presión diastolica.");
             }
-            if (string.IsNullOrWhiteSpace(model.Entity.FrecuenciaCardiaca))
+            if (!model.Entity.PresionSistolica.HasValue)
+            {
+                ModelState.AddModelError("Entity.PresionSistolica", "Para cerrar la historia clinica debe registrar la presión sistolica.");
+            }
+            if (!model.Entity.FrecuenciaCardiaca.HasValue)
             {
                 ModelState.AddModelError("Entity.FrecuenciaCardiaca", "Para cerrar la historia clinica debe registrar la frecuencia cardiaca.");
             }
-            if (string.IsNullOrWhiteSpace(model.Entity.FrecuenciaRespiratoria))
+            if (!model.Entity.FrecuenciaRespiratoria.HasValue)
             {
                 ModelState.AddModelError("Entity.FrecuenciaRespiratoria", "Para cerrar la historia clinica debe registrar la frecuencia respiratoria.");
             }
-            if (string.IsNullOrWhiteSpace(model.Entity.Temperatura))
+            if (!model.Entity.Temperatura.HasValue)
             {
                 ModelState.AddModelError("Entity.Temperatura", "Para cerrar la historia clinica debe registrar la temperatura.");
             }

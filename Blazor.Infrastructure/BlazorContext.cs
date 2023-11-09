@@ -4,11 +4,14 @@ using Dominus.Backend.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Reflection.Metadata;
 
 namespace Blazor.Infrastructure
 {
     public class BlazorContext : DContext
     {
+        #region Db Set
+
         public DbSet<AdministracionHonorarios> AdministracionHonorarios { get; set; }
         public DbSet<AdministracionHonorariosLecturas> AdministracionHonorariosLecturas { get; set; }
         public DbSet<AdministracionHonorariosServicios> AdministracionHonorariosServicios { get; set; }
@@ -167,6 +170,7 @@ namespace Blazor.Infrastructure
 
         #endregion
 
+        #endregion
 
         public BlazorContext(DataBaseSetting setting) : base(setting)
         {
@@ -180,10 +184,15 @@ namespace Blazor.Infrastructure
             base.OnConfiguring(optionsBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
+            //modelBuilder.Entity<ProgramacionCitas>()
+            //    .HasOne(e => e.Admisiones)
+            //    .WithOne(e => e.ProgramacionCitas)
+            //    //.HasForeignKey<Admisiones>(e => e.ProgramacionCitasId)
+            //    .IsRequired(false);
 
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

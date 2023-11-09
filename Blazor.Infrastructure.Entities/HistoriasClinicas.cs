@@ -69,23 +69,19 @@ namespace Blazor.Infrastructure.Entities
 
         [Column("FrecuenciaCardiaca")]
         [DDisplayName("HistoriasClinicas.FrecuenciaCardiaca")]
-        [DStringLength("HistoriasClinicas.FrecuenciaCardiaca", 100)]
-        public virtual String FrecuenciaCardiaca { get; set; }
+        public virtual Int16? FrecuenciaCardiaca { get; set; }
 
         [Column("FrecuenciaRespiratoria")]
         [DDisplayName("HistoriasClinicas.FrecuenciaRespiratoria")]
-        [DStringLength("HistoriasClinicas.FrecuenciaRespiratoria", 100)]
-        public virtual String FrecuenciaRespiratoria { get; set; }
+        public virtual Int16? FrecuenciaRespiratoria { get; set; }
 
         [Column("Temperatura")]
         [DDisplayName("HistoriasClinicas.Temperatura")]
-        [DStringLength("HistoriasClinicas.Temperatura", 100)]
-        public virtual String Temperatura { get; set; }
+        public virtual Decimal? Temperatura { get; set; }
 
         [Column("PerimetroCefalico")]
         [DDisplayName("HistoriasClinicas.PerimetroCefalico")]
-        [DStringLength("HistoriasClinicas.PerimetroCefalico", 100)]
-        public virtual String PerimetroCefalico { get; set; }
+        public virtual Decimal? PerimetroCefalico { get; set; }
 
         [Column("Hallazgos")]
         [DDisplayName("HistoriasClinicas.Hallazgos")]

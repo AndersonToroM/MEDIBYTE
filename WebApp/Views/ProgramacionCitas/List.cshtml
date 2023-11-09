@@ -103,7 +103,7 @@
             columns.AddFor(m => m.Estados.Nombre);
             columns.AddFor(m => m.CreationDate).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.FechaAsignacion"));
             columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.DateFormat).SortOrder(SortOrder.Desc);
-            columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
+            //columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
             columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
             columns.AddFor(m => m.Pacientes.NombreCompleto);
             columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.Entidad"));
@@ -151,20 +151,6 @@
                 </div>
             </div>
             <div class="row">
-                @*<div class="form-group col-md-6">
-            <label for="@($"{Prefix}ReporteFechaDesde")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.ReporteFechaDesde"):</label>
-            @(Html.DControls().DateBox().Value(DateTime.Now)
-            .ID($"{Prefix}ReporteFechaDesde").InputAttr("class", "form-control")
-            .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
-            )
-            </div>
-            <div class="form-group col-md-6">
-            <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.ReporteFechaHasta"):</label>
-            @(Html.DControls().DateBox().Value(DateTime.Now)
-            .ID($"{Prefix}ReporteFechaHasta").InputAttr("class", "form-control")
-            .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
-            )
-            </div>*@
                 <div class="form-group col-md-12">
                     <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.PeriodoReporte0256"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now.AddMonths(-1))

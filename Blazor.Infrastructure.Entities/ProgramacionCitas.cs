@@ -173,6 +173,12 @@ namespace Blazor.Infrastructure.Entities
 
         #endregion
 
+        #region Referencia de salida
+
+        public virtual List<Admisiones> Admisiones { get; set; } = new List<Admisiones>();
+
+        #endregion
+
         #region Reglas expression
 
         public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
