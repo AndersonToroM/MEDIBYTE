@@ -194,13 +194,13 @@
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.EnfermedadesHuerfanasId).ColSpan(5).Visible(esServicioConsulta)
-                                    //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.EnfermedadesHuerfanasId")))
+                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.EnfermedadesHuerfanasId")))
                                     .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.EnfermedadesHuerfanasId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "EnfermedadesHuerfanasId")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetEnfermedadesHuerfanasId").Key("Id"))
                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                    .ValueExpr("Id").DisplayExpr("NombreV4").SearchExpr("NombreV4", "CIE10")
-                                    .SearchEnabled(true).ShowClearButton(true)
+                                    .ValueExpr("Id").DisplayExpr("NombreV4").SearchExpr("NombreV4")
+                                    .SearchEnabled(true).ShowClearButton(true).Value(Model.Entity.EnfermedadesHuerfanasId = 2237)
                                 );
 
                                 groupItems.AddEmpty().ColSpan(6).Visible(!esServicioConsulta);
