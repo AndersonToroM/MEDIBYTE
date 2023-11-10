@@ -244,6 +244,10 @@
     "Description": "Ocupación"
   },
   {
+    "Id": "Admisiones.OcupacionesId",
+    "Description": "Ocupación"
+  },
+  {
     "Id": "Admisiones.PacientesId",
     "Description": "Paciente"
   },
@@ -2272,6 +2276,14 @@
     "Description": "Estado"
   },
   {
+    "Id": "Facturas.ExportarInformeCarteraEntidad",
+    "Description": "Informe cartera por entidad"
+  },
+  {
+    "Id": "Facturas.ExportarInformeGeneralCartera",
+    "Description": "Informe General Cartera"
+  },
+  {
     "Id": "Facturas.ExportarSiigo",
     "Description": "Exportar SIIGO"
   },
@@ -2281,6 +2293,26 @@
   },
   {
     "Id": "Facturas.ExportarSiigoFechaHasta",
+    "Description": "Hasta"
+  },
+  {
+    "Id": "Facturas.ExportEntidadId",
+    "Description": "Entidad"
+  },
+  {
+    "Id": "Facturas.ExportFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ExportFechaHasta",
+    "Description": "Hasta"
+  },
+  {
+    "Id": "Facturas.ExportGeneralFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ExportGeneralFechaHasta",
     "Description": "Hasta"
   },
   {
