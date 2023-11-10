@@ -180,7 +180,7 @@ namespace Blazor.BusinessLogic
 
                     var admision = cita.Admisiones.FirstOrDefault();
 
-                    var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones.FechaAtencion);
+                    var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
                     worksheet.Rows[row][column].SetValue(edad); column++; //Edad
                     worksheet.Rows[row][column].SetValue(admision?.TiposUsuarios?.Codigo); column++; //Regimen
 
