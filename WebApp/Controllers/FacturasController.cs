@@ -402,7 +402,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                if (fechaDesde.Year < 1900 || fechaHasta > DateTime.Now)
+                if (fechaDesde.Year < 2000 || fechaHasta > DateTime.Now)
                     throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Entidad no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
@@ -421,7 +421,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                if (fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                if (fechaDesde.Year < 2000 || fechaHasta > DateTime.Now)
                     throw new Exception("Los parametros Fecha Desde y Fecha Hasta no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);

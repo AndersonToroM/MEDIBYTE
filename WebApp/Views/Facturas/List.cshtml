@@ -320,14 +320,14 @@
                 <div class="form-group col-md-6">
                     <label for="@($"{Prefix}ExportFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ExportFechaDesde"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ExportFechaDesde").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportFechaDesde").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
                 <div class="form-group col-md-6">
                     <label for="@($"{Prefix}ExportFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ExportFechaHasta"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ExportFechaHasta").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportFechaHasta").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
@@ -362,14 +362,14 @@
                 <div class="form-group col-md-6">
                     <label for="@($"{Prefix}ExportGeneralFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ExportGeneralFechaDesde"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ExportGeneralFechaDesde").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportGeneralFechaDesde").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
                 <div class="form-group col-md-6">
                     <label for="@($"{Prefix}ExportGeneralFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ExportGeneralFechaHasta"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ExportGeneralFechaHasta").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportGeneralFechaHasta").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
@@ -404,14 +404,14 @@
                 <div class="form-group col-md-6">
                     <label for="@($"{Prefix}ExportarSiigoFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ExportarSiigoFechaDesde"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ExportarSiigoFechaDesde").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportarSiigoFechaDesde").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
                 <div class="form-group col-md-6">
                     <label for="@($"{Prefix}ExportarSiigoFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ExportarSiigoFechaHasta"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ExportarSiigoFechaHasta").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportarSiigoFechaHasta").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
