@@ -207,7 +207,7 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(estado); column++; //Esttado0256
                     worksheet.Rows[row][column].SetValue(cita.Servicios?.Cups?.Codigo); column++; //CUPS
                     worksheet.Rows[row][column].SetValue(cita.Servicios.Nombre); column++; //Servicio
-                    worksheet.Rows[row][column].SetValue($"{cita.FechaInicio:dd/MM/yyyy}"); column++; //FechaSolicitud
+                    worksheet.Rows[row][column].SetValue($"{cita.CreationDate:dd/MM/yyyy}"); column++; //FechaSolicitud
                     worksheet.Rows[row][column].SetValue($"{cita.FechaDeseada:dd/MM/yyyy}"); column++; //FechaDeseada
                     worksheet.Rows[row][column].SetValue($"{cita.FechaInicio:dd/MM/yyyy}"); column++; //FechaCita
 
