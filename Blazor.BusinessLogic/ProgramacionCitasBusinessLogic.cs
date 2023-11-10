@@ -120,7 +120,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
                     .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
                     //.Where(x => x.Id == 130203 || x.Id == 5724)
-                    .OrderBy(x => x.FechaInicio).ToList();
+                    .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
                 int column = 0;
@@ -257,7 +257,7 @@ namespace Blazor.BusinessLogic
                     if (cita.Servicios.TiposServiciosId == 1)
                     {
                         codCIE10 = admision?.Atenciones?.DiagnosticosPrincipalHC?.Codigo;
-                        codCIE10 = admision?.Atenciones?.DiagnosticosPrincipalHC?.Descripcion;
+                        descCIE10 = admision?.Atenciones?.DiagnosticosPrincipalHC?.Descripcion;
                     }
                     else
                     {
