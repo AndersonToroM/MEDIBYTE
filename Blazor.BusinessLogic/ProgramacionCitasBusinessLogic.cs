@@ -115,7 +115,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Servicios)
                     .Include(x => x.Servicios.Cups)
                     .Include(x => x.Admisiones.Where(x => x.EstadosId != 72)).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
-                    .Where(x => x.FechaInicio.Date >= fechaDesde && x.FechaInicio.Date <= fechaHasta && x.SedesId == sedeId)
+                    .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
                     //.Where(x => x.Id == 10200 || x.Id == 10199)
                     .OrderBy(x => x.FechaInicio).ToList();
 
