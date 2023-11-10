@@ -5112,6 +5112,10 @@
     "Description": "Edad"
   },
   {
+    "Id": "XLSX0256.EnfermedadHuerfana",
+    "Description": "Enfermedad Huérfana"
+  },
+  {
     "Id": "XLSX0256.Entidad",
     "Description": "Entidad"
   },

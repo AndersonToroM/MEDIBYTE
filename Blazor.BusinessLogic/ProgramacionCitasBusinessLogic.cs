@@ -117,6 +117,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Servicios)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Diagnosticos)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.DiagnosticosPrincipalHC)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
                     .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
                     //.Where(x => x.Id == 130203 || x.Id == 5724)
@@ -157,6 +158,7 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodigoAutorizacion")); column++;
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodCIE10")); column++;
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DescCIE10")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.EnfermedadHuerfana")); column++;
 #if DEBUG
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("Id CITA")); column++;
 #endif
@@ -216,7 +218,7 @@ namespace Blazor.BusinessLogic
                         estado = cita.Estados.Nombre;
                     }
 
-                    worksheet.Rows[row][column].SetValue(estado); column++; //Esttado0256
+                    worksheet.Rows[row][column].SetValue(estado); column++; //Estado0256
                     worksheet.Rows[row][column].SetValue(cita.Servicios?.Codigo); column++; //CUPS
                     worksheet.Rows[row][column].SetValue(cita.Servicios?.Nombre); column++; //Servicio
                     worksheet.Rows[row][column].SetValue($"{cita.CreationDate:dd/MM/yyyy}"); column++; //FechaSolicitud
@@ -266,7 +268,7 @@ namespace Blazor.BusinessLogic
                     }
                     worksheet.Rows[row][column].SetValue(codCIE10); column++; //CodCIE10
                     worksheet.Rows[row][column].SetValue(descCIE10); column++; //DescCIE10
-
+                    worksheet.Rows[row][column].SetValue(admision?.Atenciones?.EnfermedadesHuerfanas?.NombreV4); column++; //Enfermedad Huérfana
 #if DEBUG
                     worksheet.Rows[row][column].SetValue(cita.Id); column++; //Id CITA
 #endif
