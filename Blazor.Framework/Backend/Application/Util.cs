@@ -63,6 +63,21 @@ namespace Dominus.Backend.Application
             return new FestivosColombia(anio).Festivos();
         }
 
+        public int CalcularEdad(DateTime? fecha)
+        {
+            return CalcularEdad(fecha, DateTime.Now);
+        }
+
+        public int CalcularEdad(DateTime? fecha, DateTime? fechaCalcular)
+        {
+            if (!fecha.HasValue || !fechaCalcular.HasValue)
+            {
+                return 0;
+            }
+
+            return fechaCalcular.Value.Year - fecha.Value.Year;
+        }
+
         public string CalcularPesoParaBytes(Int64 bytes)
         {
             string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };

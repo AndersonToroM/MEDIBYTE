@@ -122,6 +122,9 @@ namespace Blazor.Infrastructure.Entities
         [ForeignKey("TiposIdentificacionPacienteAtencionesAperturaId")]
         public virtual TiposIdentificacion TiposIdentificacionPacienteAtencionesApertura { get; set; }
 
+        [ForeignKey("DiagnosticosPrincipalHCId")]
+        public virtual Diagnosticos DiagnosticosPrincipalHC { get; set; }
+
         #endregion
 
         #region Reglas expression

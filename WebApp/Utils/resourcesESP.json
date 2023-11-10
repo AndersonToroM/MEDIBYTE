@@ -5066,5 +5066,137 @@
   {
     "Id": "VisorDicom",
     "Description": "Visor DICOM"
+  },
+  {
+    "Id": "XLSX0256.CodCIE10",
+    "Description": "CIE10"
+  },
+  {
+    "Id": "XLSX0256.CodigoAutorizacion",
+    "Description": "Código de autorización"
+  },
+  {
+    "Id": "XLSX0256.CodigoDocumento",
+    "Description": "Código Documento"
+  },
+  {
+    "Id": "XLSX0256.CodigoMunicipio",
+    "Description": "Código municipio"
+  },
+  {
+    "Id": "XLSX0256.CUPS",
+    "Description": "CUPS"
+  },
+  {
+    "Id": "XLSX0256.DescCIE10",
+    "Description": "Descripción CIE10"
+  },
+  {
+    "Id": "XLSX0256.DescDocumento",
+    "Description": "Documento"
+  },
+  {
+    "Id": "XLSX0256.DocProfesional",
+    "Description": "Doc. Profesional"
+  },
+  {
+    "Id": "XLSX0256.DuracionAtencion",
+    "Description": "Duración de la atención"
+  },
+  {
+    "Id": "XLSX0256.DuracionCita",
+    "Description": "Duración de la cita"
+  },
+  {
+    "Id": "XLSX0256.Edad",
+    "Description": "Edad"
+  },
+  {
+    "Id": "XLSX0256.Entidad",
+    "Description": "Entidad"
+  },
+  {
+    "Id": "XLSX0256.Esttado0256",
+    "Description": "Estado 0256"
+  },
+  {
+    "Id": "XLSX0256.FechaCita",
+    "Description": "Fecha de la cita"
+  },
+  {
+    "Id": "XLSX0256.FechaDeseada",
+    "Description": "Fecha deseada por el paciente"
+  },
+  {
+    "Id": "XLSX0256.FechaSolicitud",
+    "Description": "Fecha de solicitud"
+  },
+  {
+    "Id": "XLSX0256.IdentidadGenero",
+    "Description": "Identidad de genero"
+  },
+  {
+    "Id": "XLSX0256.NIT",
+    "Description": "NIT"
+  },
+  {
+    "Id": "XLSX0256.NombrePrograma",
+    "Description": "Nombre del programa"
+  },
+  {
+    "Id": "XLSX0256.NumeroDocumento",
+    "Description": "No. Documento"
+  },
+  {
+    "Id": "XLSX0256.PacienteApellido1",
+    "Description": "Primer apellido"
+  },
+  {
+    "Id": "XLSX0256.PacienteApellido2",
+    "Description": "Segundo apellido"
+  },
+  {
+    "Id": "XLSX0256.PacienteNombre1",
+    "Description": "Primer nombre"
+  },
+  {
+    "Id": "XLSX0256.PacienteNombre2",
+    "Description": "Segundo nombre"
+  },
+  {
+    "Id": "XLSX0256.PacienteNombreCompleto",
+    "Description": "Nombre completo"
+  },
+  {
+    "Id": "XLSX0256.PertenecePrograma",
+    "Description": "Pertenece a un programa"
+  },
+  {
+    "Id": "XLSX0256.Profesional",
+    "Description": "Profesional"
+  },
+  {
+    "Id": "XLSX0256.Regimen",
+    "Description": "Régimen"
+  },
+  {
+    "Id": "XLSX0256.REPS",
+    "Description": "REPS"
+  },
+  {
+    "Id": "XLSX0256.Servicio",
+    "Description": "Servicio"
+  },
+  {
+    "Id": "XLSX0256.Sexo",
+    "Description": "Sexo"
+  },
+  {
+    "Id": "XLSX0256.Telefono",
+    "Description": "Teléfono"
+  },
+  {
+    "Id": "XLSX0256.TipoConsulta",
+    "Description": "Tipo de consulta"
   }
 ]
