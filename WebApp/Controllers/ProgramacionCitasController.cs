@@ -483,7 +483,7 @@ namespace Blazor.WebApp.Controllers
                 var fechaDesde = new DateTime(periodo.Year, periodo.Month, periodo.Day, 0, 0, 0);
                 var fechaHasta = new DateTime(periodo.Year, periodo.Month, DateTime.DaysInMonth(periodo.Year, periodo.Month), 23, 59, 59);
                 byte[] book = Manager().ProgramacionCitasBusinessLogic().DescargarXLSX0256(sedeId, fechaDesde, fechaHasta);
-                return File(book, "application/octet-stream", $"R-0256_{sedeId}_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+                return File(book, "application/octet-stream", $"R-0256_{sedeId}_{fechaDesde.ToString("yyyyMM")}.xlsx");
             }
             catch (Exception e)
             {

@@ -102,8 +102,10 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("0256");
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "0256";
                 List<ProgramacionCitas> data = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
+                    .Include(x => x.Estados)
                     .Include(x => x.Pacientes)
                     .Include(x => x.Pacientes.Generos)
                     .Include(x => x.Pacientes.TiposIdentificacion)
@@ -113,10 +115,11 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Entidades.Ciudades)
                     .Include(x => x.Empleados)
                     .Include(x => x.Servicios)
-                    .Include(x => x.Servicios.Cups)
-                    .Include(x => x.Admisiones.Where(x => x.EstadosId != 72)).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Diagnosticos)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.DiagnosticosPrincipalHC)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
                     .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
-                    //.Where(x => x.Id == 10200 || x.Id == 10199)
+                    //.Where(x => x.Id == 130203 || x.Id == 5724)
                     .OrderBy(x => x.FechaInicio).ToList();
 
                 //Titulos
@@ -154,6 +157,9 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodigoAutorizacion")); column++;
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodCIE10")); column++;
                 worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DescCIE10")); column++;
+#if DEBUG
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("Id CITA")); column++;
+#endif
 
                 var row = 0;
                 foreach (var cita in data)
@@ -187,7 +193,8 @@ namespace Blazor.BusinessLogic
                     var estado = string.Empty;
                     if (cita.EstadosId == 3)
                     {
-                        if (admision == null)
+
+                        if (admision == null && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
                         {
                             estado = "ASIGNADA";
                         }
@@ -204,9 +211,14 @@ namespace Blazor.BusinessLogic
                     {
                         estado = "CANCELADA";
                     }
+                    else
+                    {
+                        estado = cita.Estados.Nombre;
+                    }
+
                     worksheet.Rows[row][column].SetValue(estado); column++; //Esttado0256
-                    worksheet.Rows[row][column].SetValue(cita.Servicios?.Cups?.Codigo); column++; //CUPS
-                    worksheet.Rows[row][column].SetValue(cita.Servicios.Nombre); column++; //Servicio
+                    worksheet.Rows[row][column].SetValue(cita.Servicios?.Codigo); column++; //CUPS
+                    worksheet.Rows[row][column].SetValue(cita.Servicios?.Nombre); column++; //Servicio
                     worksheet.Rows[row][column].SetValue($"{cita.CreationDate:dd/MM/yyyy}"); column++; //FechaSolicitud
                     worksheet.Rows[row][column].SetValue($"{cita.FechaDeseada:dd/MM/yyyy}"); column++; //FechaDeseada
                     worksheet.Rows[row][column].SetValue($"{cita.FechaInicio:dd/MM/yyyy}"); column++; //FechaCita
@@ -254,6 +266,10 @@ namespace Blazor.BusinessLogic
                     }
                     worksheet.Rows[row][column].SetValue(codCIE10); column++; //CodCIE10
                     worksheet.Rows[row][column].SetValue(descCIE10); column++; //DescCIE10
+
+#if DEBUG
+                    worksheet.Rows[row][column].SetValue(cita.Id); column++; //Id CITA
+#endif
 
                 }
 

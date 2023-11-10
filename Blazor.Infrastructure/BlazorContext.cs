@@ -176,6 +176,7 @@ namespace Blazor.Infrastructure
 
         public BlazorContext(DataBaseSetting setting) : base(setting)
         {
+            this.Database.SetCommandTimeout(300);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
