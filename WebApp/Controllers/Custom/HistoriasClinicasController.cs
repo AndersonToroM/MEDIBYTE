@@ -196,7 +196,7 @@ namespace Blazor.WebApp.Controllers
                     model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Modify(model.Entity);
 
                     var atencion = model.Entity.Atenciones;
-                    atencion.DiagnosticosPrincipalHCId = diagnosticoPrincipal.Id;
+                    atencion.DiagnosticosPrincipalHCId = diagnosticoPrincipal.DiagnosticosId;
                     atencion.LastUpdate = DateTime.Now;
                     atencion.UpdatedBy = User.Identity.Name;
                     Manager().GetBusinessLogic<Atenciones>().Modify(atencion);
