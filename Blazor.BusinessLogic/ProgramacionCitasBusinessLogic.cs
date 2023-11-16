@@ -205,9 +205,13 @@ namespace Blazor.BusinessLogic
                             estado = "INCUMPLIDA";
                         }
                     }
-                    else if (cita.EstadosId == 6)
+                    else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month)))
                     {
                         estado = "CUMPLIDA";
+                    }
+                    else if(cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    {
+                        estado = "ASIGNADA";
                     }
                     else if (cita.EstadosId == 8)
                     {
