@@ -253,9 +253,6 @@ namespace Blazor.BusinessLogic
                     {
                         pertenecePrograma = "Si";
                         nombrePrograma = admision?.Atenciones?.Programas?.Nombre;
-                    }else if(admision.EstadosId == 72)
-                    {
-                        nombrePrograma = "Admisión anulada";
                     }
 
                     worksheet.Rows[row][column].SetValue(pertenecePrograma); column++; //PertenecePrograma
