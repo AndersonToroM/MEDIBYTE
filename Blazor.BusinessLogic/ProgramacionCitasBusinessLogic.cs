@@ -120,7 +120,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
                     .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
-                    //.Where(x => x.Id == 130203 || x.Id == 5724)
+                    //.Where(x => x.Id == 126838 || x.Id == 126963 || x.Id == 128935)
                     .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
@@ -209,7 +209,7 @@ namespace Blazor.BusinessLogic
                     {
                         estado = "CUMPLIDA";
                     }
-                    else if(cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
                     {
                         estado = "ASIGNADA";
                     }
@@ -251,9 +251,9 @@ namespace Blazor.BusinessLogic
                     if (admision != null && admision.Atenciones != null && admision.Atenciones.ProgramasId.HasValue)
                     {
                         pertenecePrograma = "Si";
-                        nombrePrograma = admision.Atenciones.Programas.Nombre;
-
+                        nombrePrograma = admision?.Atenciones?.Programas?.Nombre;
                     }
+
                     worksheet.Rows[row][column].SetValue(pertenecePrograma); column++; //PertenecePrograma
                     worksheet.Rows[row][column].SetValue(nombrePrograma); column++; //NombrePrograma
                     worksheet.Rows[row][column].SetValue(admision?.NroAutorizacion); column++; //CodigoAutorizacion
@@ -272,7 +272,13 @@ namespace Blazor.BusinessLogic
                     }
                     worksheet.Rows[row][column].SetValue(codCIE10); column++; //CodCIE10
                     worksheet.Rows[row][column].SetValue(descCIE10); column++; //DescCIE10
-                    worksheet.Rows[row][column].SetValue(admision?.Atenciones?.EnfermedadesHuerfanas?.NombreV4); column++; //Enfermedad Huérfana
+
+                    var enfermedadHuerfana = string.Empty;
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.EnfermedadesHuerfanasId.HasValue)
+                    {
+                        enfermedadHuerfana = admision?.Atenciones?.EnfermedadesHuerfanas?.NombreV4;
+                    }
+                    worksheet.Rows[row][column].SetValue(enfermedadHuerfana); column++; //Enfermedad Huérfana
 #if DEBUG
                     worksheet.Rows[row][column].SetValue(cita.Id); column++; //Id CITA
 #endif
