@@ -121,7 +121,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.Programas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
                     .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
-                    //.Where(x => x.Id == 128935)
+                    //.Where(x => x.Id == 128335)
                     .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
@@ -253,6 +253,9 @@ namespace Blazor.BusinessLogic
                     {
                         pertenecePrograma = "Si";
                         nombrePrograma = admision?.Atenciones?.Programas?.Nombre;
+                    }else if(admision.EstadosId == 72)
+                    {
+                        nombrePrograma = "Admisión anulada";
                     }
 
                     worksheet.Rows[row][column].SetValue(pertenecePrograma); column++; //PertenecePrograma
