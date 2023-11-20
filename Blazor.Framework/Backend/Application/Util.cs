@@ -70,12 +70,18 @@ namespace Dominus.Backend.Application
 
         public int CalcularEdad(DateTime? fecha, DateTime? fechaCalcular)
         {
-            if (!fecha.HasValue || !fechaCalcular.HasValue)
+            if (!fecha.HasValue)
             {
                 return 0;
             }
-
-            return fechaCalcular.Value.Year - fecha.Value.Year;
+            else if (!fechaCalcular.HasValue)
+            {
+                return DateTime.Now.Year - fecha.Value.Year;
+            }
+            else
+            {
+                return fechaCalcular.Value.Year - fecha.Value.Year;
+            }
         }
 
         public string CalcularPesoParaBytes(Int64 bytes)

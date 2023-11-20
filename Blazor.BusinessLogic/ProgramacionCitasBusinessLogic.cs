@@ -116,6 +116,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Empleados)
                     .Include(x => x.Servicios)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Diagnosticos)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.TiposUsuarios)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.DiagnosticosPrincipalHC)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.Programas)
@@ -191,7 +192,13 @@ namespace Blazor.BusinessLogic
 
                     var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
                     worksheet.Rows[row][column].SetValue(edad); column++; //Edad
-                    worksheet.Rows[row][column].SetValue(admision?.TiposUsuarios?.Codigo); column++; //Regimen
+
+                    var regimen = admision?.TiposUsuarios?.Codigo;
+                    if(regimen == null)
+                    {
+                        regimen = "OTRO";
+                    }
+                    worksheet.Rows[row][column].SetValue(regimen); column++; //Regimen
 
                     var estado = string.Empty;
                     if (cita.EstadosId == 3)
