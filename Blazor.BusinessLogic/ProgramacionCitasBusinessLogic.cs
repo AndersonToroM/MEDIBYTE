@@ -121,8 +121,8 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.Programas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
-                    //.Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
-                    .Where(x => x.Id == 128335)
+                    .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
+                    //.Where(x => x.Id == 128335)
                     .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
