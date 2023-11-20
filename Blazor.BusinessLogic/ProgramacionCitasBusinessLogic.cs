@@ -121,8 +121,8 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.Programas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
-                    .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
-                    //.Where(x => x.Id == 128335)
+                    //.Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
+                    .Where(x => x.Id == 128335)
                     .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
@@ -188,13 +188,13 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Generos.Nombre); column++; //Sexo
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Telefono); column++; //Telefono
 
-                    var admision = cita.Admisiones.FirstOrDefault();
+                    var admision = cita.Admisiones.FirstOrDefault(x => x.EstadosId != 72);
 
                     var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
                     worksheet.Rows[row][column].SetValue(edad); column++; //Edad
 
                     var regimen = admision?.TiposUsuarios?.Codigo;
-                    if(regimen == null)
+                    if (regimen == null)
                     {
                         regimen = "OTRO";
                     }
