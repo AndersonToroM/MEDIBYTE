@@ -112,7 +112,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Pacientes.GenerosIdentidad)
                     .Include(x => x.Pacientes.Generos)
                     .Include(x => x.Entidades)
-                    .Include(x => x.Entidades.Ciudades)
+                    .Include(x => x.Empresas.Ciudades)
                     .Include(x => x.Empleados)
                     .Include(x => x.Servicios)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Diagnosticos)
@@ -170,9 +170,9 @@ namespace Blazor.BusinessLogic
                     column = 0;
                     row++;
                     worksheet.Rows[row][column].SetValue(cita.Entidades?.Nombre); column++; //Entidad
-                    worksheet.Rows[row][column].SetValue(cita.Entidades?.NumeroIdentificacion); column++; //NIT
-                    worksheet.Rows[row][column].SetValue(cita.Entidades?.CodigoReps); column++; // REPS
-                    worksheet.Rows[row][column].SetValue(cita.Entidades?.Ciudades.Codigo); column++; //CodigoMunicipio
+                    worksheet.Rows[row][column].SetValue(cita.Empresas?.NumeroIdentificacion); column++; //NIT
+                    worksheet.Rows[row][column].SetValue(cita.Empresas?.CodigoReps); column++; // REPS
+                    worksheet.Rows[row][column].SetValue(cita.Empresas?.Ciudades?.Codigo); column++; //CodigoMunicipio
                     worksheet.Rows[row][column].SetValue(cita.Empleados?.NumeroIdentificacion); column++; //DocProfesional
                     worksheet.Rows[row][column].SetValue(cita.Empleados?.NombreCompleto); column++; //Profesional
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.PrimerNombre); column++; //PacienteNombre1
