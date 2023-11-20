@@ -221,7 +221,11 @@ namespace Blazor.BusinessLogic
                     {
                         estado = "ASIGNADA";
                     }
-                    else if (cita.EstadosId == 8)
+                    else if (cita.EstadosId == 8 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    {
+                        estado = "ASIGNADA";
+                    }
+                    else if (cita.EstadosId == 8 && (cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month))
                     {
                         estado = "CANCELADA";
                     }
