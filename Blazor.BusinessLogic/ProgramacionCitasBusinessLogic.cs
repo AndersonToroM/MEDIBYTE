@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blazor.BusinessLogic
 {
@@ -110,7 +111,7 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Pacientes.Generos)
                     .Include(x => x.Pacientes.TiposIdentificacion)
                     .Include(x => x.Pacientes.GenerosIdentidad)
-                    .Include(x => x.Pacientes.Generos)
+                    .Include(x => x.Pacientes.TiposRegimenes)
                     .Include(x => x.Entidades)
                     .Include(x => x.Empresas.Ciudades)
                     .Include(x => x.Empleados)
@@ -121,8 +122,9 @@ namespace Blazor.BusinessLogic
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.Programas)
                     .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.Empleados)
                     .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
-                    //.Where(x => x.Id == 128335)
+                    //.Where(x => x.Id == 126923)
                     .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
@@ -174,8 +176,24 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(cita.Empresas?.NumeroIdentificacion); column++; //NIT
                     worksheet.Rows[row][column].SetValue(cita.Empresas?.CodigoReps); column++; // REPS
                     worksheet.Rows[row][column].SetValue(cita.Empresas?.Ciudades?.Codigo); column++; //CodigoMunicipio
-                    worksheet.Rows[row][column].SetValue(cita.Empleados?.NumeroIdentificacion); column++; //DocProfesional
-                    worksheet.Rows[row][column].SetValue(cita.Empleados?.NombreCompleto); column++; //Profesional
+
+                    var admision = cita.Admisiones.FirstOrDefault(x => x.EstadosId != 72);
+
+                    var docProfesional = string.Empty;
+                    var profesional = string.Empty;
+                    if (cita.Servicios.RequiereProfesional == true)
+                    {
+                        docProfesional = cita?.Empleados?.NumeroIdentificacion;
+                        profesional = cita?.Empleados?.NombreCompleto;
+                    }
+                    else
+                    {
+                        docProfesional = admision?.Atenciones?.Empleados?.NumeroIdentificacion;
+                        profesional = admision?.Atenciones?.Empleados?.NombreCompleto;
+                    }
+
+                    worksheet.Rows[row][column].SetValue(docProfesional); column++; //DocProfesional
+                    worksheet.Rows[row][column].SetValue(profesional); column++; //Profesional
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.PrimerNombre); column++; //PacienteNombre1
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.SegundoNombre); column++; //PacienteNombre2
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.PrimerApellido); column++; //PacienteApellido1
@@ -188,16 +206,23 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Generos.Nombre); column++; //Sexo
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Telefono); column++; //Telefono
 
-                    var admision = cita.Admisiones.FirstOrDefault(x => x.EstadosId != 72);
+                    
+
+                   
 
                     var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
                     worksheet.Rows[row][column].SetValue(edad); column++; //Edad
 
                     var regimen = admision?.TiposUsuarios?.Codigo;
-                    if (regimen == null)
+                    if (admision == null || regimen == null)
                     {
-                        regimen = "OTRO";
+                        regimen = cita.Pacientes?.TiposRegimenes?.CodigoIndicadores;
+                        if (regimen == null)
+                        {
+                            regimen = "S/R";
+                        }
                     }
+
                     worksheet.Rows[row][column].SetValue(regimen); column++; //Regimen
 
                     var estado = string.Empty;
