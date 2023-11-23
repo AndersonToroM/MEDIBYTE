@@ -192,6 +192,8 @@ namespace Blazor.WebApp.Controllers
                 .Include(x => x.Empleados)
                 .FirstOrDefault(x => x.AdmisionesId == admision.Id);
 
+                model.Entity.LastUpdate = DateTime.Now;
+                model.Entity.UpdatedBy = User.Identity.Name;
                 model.Entity.IsNew = false;
             }
 
@@ -227,12 +229,23 @@ namespace Blazor.WebApp.Controllers
             { 
                 try 
                 { 
-                    model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name;
-                    model.Entity.CreationDate = DateTime.Now;
-                    model.Entity.CreatedBy = User.Identity.Name;
-                    model.Entity = Manager().AtencionesBusinessLogic().AddAtencion(model.Entity);
-                    model.Entity.IsNew = false;
+                    if(model.Entity.IsNew)
+                    {
+                        model.Entity.LastUpdate = DateTime.Now;
+                        model.Entity.UpdatedBy = User.Identity.Name;
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity.FechaFinAtencion = DateTime.Now;
+                        model.Entity = Manager().AtencionesBusinessLogic().AddAtencion(model.Entity);
+                        model.Entity.IsNew = false;
+                    }else
+                    {
+                        model.Entity.LastUpdate = DateTime.Now;
+                        model.Entity.UpdatedBy = User.Identity.Name;
+                        model.Entity.FechaFinAtencion = DateTime.Now;
+                        model.Entity.EstadosId = 10076;
+                        model.Entity = Manager().AtencionesBusinessLogic().Modify(model.Entity);
+                    }
                 } 
                 catch (Exception e) 
                 { 

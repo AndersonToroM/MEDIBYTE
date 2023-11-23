@@ -41,6 +41,10 @@ namespace Blazor.Infrastructure.Entities
         [DRequired("Atenciones.PertenecePrograma")]
         public virtual Boolean PertenecePrograma { get; set; }
 
+        [Column("FechaFinAtencion", TypeName = "datetime")]
+        [DDisplayName("Atenciones.FechaFinAtencion")]
+        public virtual DateTime? FechaFinAtencion { get; set; }
+
         #endregion
 
         #region Columnas referenciales)

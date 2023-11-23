@@ -246,7 +246,8 @@ namespace Blazor.BusinessLogic
                     {
                         estado = "ASIGNADA";
                     }
-                    else if (cita.EstadosId == 8 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    else if (cita.EstadosId == 8 || cita.EstadosId == 4 || cita.EstadosId == 5 || cita.EstadosId == 10078
+                        && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
                     {
                         estado = "ASIGNADA";
                     }
@@ -270,9 +271,13 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(duracionServicio); column++; //DuracionCita
 
                     var duracionAtencion = 0;
-                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null && admision.Atenciones.HistoriasClinicas.FechaCierre.HasValue)
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null && 
+                        admision.Atenciones.HistoriasClinicas.FechaCierre.HasValue && admision.Atenciones.FechaFinAtencion.HasValue)
                     {
                         duracionAtencion = (int)(admision.Atenciones.HistoriasClinicas.FechaCierre.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
+                    }else if(admision != null && admision.Atenciones != null && admision.Atenciones.FechaFinAtencion.HasValue)
+                    {
+                        duracionAtencion = (int)(admision.Atenciones.FechaFinAtencion.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
                     }
                     worksheet.Rows[row][column].SetValue(duracionAtencion); column++; //DuracionAtencion
 
