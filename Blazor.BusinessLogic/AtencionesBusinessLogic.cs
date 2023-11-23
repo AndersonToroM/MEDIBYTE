@@ -54,6 +54,40 @@ namespace Blazor.BusinessLogic
             }
         }
 
+        public Atenciones EditAtencion(Atenciones data)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                data.EstadosId = 10076; // Estado atentida
+                data = unitOfWork.Repository<Atenciones>().Modify(data);
+
+                var admision = unitOfWork.Repository<Admisiones>().FindById(x => x.Id == data.AdmisionesId, false);
+                admision.EstadosId = 62;
+                unitOfWork.Repository<Admisiones>().Modify(admision);
+
+                var cita = unitOfWork.Repository<ProgramacionCitas>().FindById(x => x.Id == admision.ProgramacionCitasId, false);
+                cita.EstadosId = 6;
+                unitOfWork.Repository<ProgramacionCitas>().Modify(cita);
+
+                var admisionesServiciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().FindAll(x => x.AdmisionesId == admision.Id, false);
+                admisionesServiciosPrestados.ForEach(x =>
+                {
+                    x.AtencionesId = data.Id;
+                    unitOfWork.Repository<AdmisionesServiciosPrestados>().Modify(x);
+                });
+
+                unitOfWork.CommitTransaction();
+                return data;
+            }
+            catch (Exception e)
+            {
+                unitOfWork.RollbackTransaction();
+                throw e;
+            }
+        }
+
         public Atenciones AnularAtencion(Atenciones data)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);

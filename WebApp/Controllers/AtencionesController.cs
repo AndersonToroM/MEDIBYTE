@@ -243,8 +243,7 @@ namespace Blazor.WebApp.Controllers
                         model.Entity.LastUpdate = DateTime.Now;
                         model.Entity.UpdatedBy = User.Identity.Name;
                         model.Entity.FechaFinAtencion = DateTime.Now;
-                        model.Entity.EstadosId = 10076;
-                        model.Entity = Manager().AtencionesBusinessLogic().Modify(model.Entity);
+                        model.Entity = Manager().AtencionesBusinessLogic().EditAtencion(model.Entity);
                     }
                 } 
                 catch (Exception e) 
