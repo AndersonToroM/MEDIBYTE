@@ -61,6 +61,7 @@ namespace Blazor.BusinessLogic
             try
             {
                 data.EstadosId = 10076; // Estado atentida
+                data.FechaAtencion = data.CreationDate;
                 data = unitOfWork.Repository<Atenciones>().Modify(data);
 
                 var admision = unitOfWork.Repository<Admisiones>().FindById(x => x.Id == data.AdmisionesId, false);

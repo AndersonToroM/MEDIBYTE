@@ -228,8 +228,8 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid) 
             { 
                 try 
-                { 
-                    if(model.Entity.IsNew)
+                {
+                    if (model.Entity.IsNew)
                     {
                         model.Entity.LastUpdate = DateTime.Now;
                         model.Entity.UpdatedBy = User.Identity.Name;
