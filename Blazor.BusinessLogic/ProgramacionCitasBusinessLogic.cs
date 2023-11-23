@@ -246,14 +246,14 @@ namespace Blazor.BusinessLogic
                     {
                         estado = "ASIGNADA";
                     }
-                    else if (cita.EstadosId == 8 || cita.EstadosId == 4 || cita.EstadosId == 5 || cita.EstadosId == 10078
-                        && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
-                    {
-                        estado = "ASIGNADA";
-                    }
                     else if (cita.EstadosId == 8 && (cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month))
                     {
                         estado = "CANCELADA";
+                    }
+                    else if (cita.EstadosId == 8 || cita.EstadosId == 4 || cita.EstadosId == 5 || cita.EstadosId == 10078
+                       && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    {
+                        estado = "ASIGNADA";
                     }
                     else
                     {
