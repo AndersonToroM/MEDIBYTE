@@ -205,7 +205,7 @@
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaFinAtencion).ColSpan(6).Visible(!esServicioConsulta)
-                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.FechaFinAtencion")))
+                                  .ValidationRules(rules => rules.AddRange().Message(DApp.GetRequiredResource("Atenciones.FechaFinAtencion")))
                                       .Editor(e => e.DateBox().ID(Prefix + "FechaFinAtencion").Type(DateBoxType.DateTime).ReadOnly(true)
                                       );
 
