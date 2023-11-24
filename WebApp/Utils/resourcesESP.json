@@ -580,6 +580,10 @@
     "Description": "Fecha Atención"
   },
   {
+    "Id": "Atenciones.FechaFinAtencion",
+    "Description": "Fin de la atención"
+  },
+  {
     "Id": "Atenciones.Filial",
     "Description": "Filial"
   },

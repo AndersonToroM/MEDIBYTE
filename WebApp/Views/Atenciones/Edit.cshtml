@@ -204,7 +204,12 @@
                                     .SearchEnabled(true).ShowClearButton(true).Value(Model.Entity.EnfermedadesHuerfanasId = 2237)
                                 );
 
-                                groupItems.AddEmpty().ColSpan(6).Visible(!esServicioConsulta);
+                                groupItems.AddSimpleFor(m => m.Entity.FechaFinAtencion).ColSpan(6).Visible(!esServicioConsulta)
+                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.FechaFinAtencion")))
+                                      .Editor(e => e.DateBox().ID(Prefix + "FechaFinAtencion").Type(DateBoxType.DateTime).ReadOnly(true)
+                                      );
+
+                                groupItems.AddEmpty().ColSpan(12).Visible(!esServicioConsulta);
 
                                 groupItems.AddSimpleFor(m => m.Entity.NotaProcedimientos).ColSpan(12).Visible(!esServicioConsulta)
                                      //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.NotaProcedimientos")))
