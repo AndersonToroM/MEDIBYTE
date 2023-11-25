@@ -24,6 +24,7 @@
                              .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                              .ValueExpr("Id").DisplayExpr("Nombre"));
         columns.AddFor(m => m.Nombre);
+        columns.AddFor(m => m.Estado).Caption(DApp.DefaultLanguage.GetResource("Cajas.Estado"));
     })
 ) 
 </div> 

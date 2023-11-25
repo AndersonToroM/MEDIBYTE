@@ -115,7 +115,7 @@ namespace Blazor.WebApp
                     //options.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects; //Esto hace que se agregue la propriedad $type Si esta configurado como ".Object" a las respuestas JSON
                     //options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None; // Esto hace que se agregue la propiedad $id a las respuestas JSON
                     options.SerializerSettings.ContractResolver = new DefaultContractResolver(); //Esto hace que las propiedades de las respuestas JSON se conviertan en CamelCase 
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
                     options.SerializerSettings.DateFormatString = "yyyy-MM-ddTHH:mm:ss.fff";
                 })
@@ -131,7 +131,7 @@ namespace Blazor.WebApp
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 Formatting = Formatting.None,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize, // Esto permite evitar los loops para la serializacion de las foraneas
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore, // Esto permite evitar los loops para la serializacion de las foraneas
                 PreserveReferencesHandling = PreserveReferencesHandling.None
             };
 

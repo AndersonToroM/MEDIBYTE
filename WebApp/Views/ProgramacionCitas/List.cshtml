@@ -8,7 +8,7 @@
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Exports(true, true).SetStorage()
         .AddButtons(new List<ButtonToolbar>
-        {
+                {
             new ButtonToolbar
             {
                 Action = $"{Prefix}MostrarModalDescargarXLSX0256",
@@ -25,14 +25,14 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Location = ToolbarItemLocation.After
             }
-        })
+                })
         .ToolbarTop(DApp.DefaultLanguage.GetResource("ProgramacionCitas"), "mainPanel");
 }
 
 <script>
 
-    function @(Prefix)OnCellClickSchedulerVerAgenda(){}
-    function @(Prefix)SchedulerVerAgendaOnAppointmentDblClick(){}
+    function @(Prefix)OnCellClickSchedulerVerAgenda(){ }
+    function @(Prefix)SchedulerVerAgendaOnAppointmentDblClick(){ }
 
     function @(Prefix)MostrarModalDisponibilidadProfesional()
     {
@@ -63,7 +63,7 @@
                 DevExpress.ui.notify("Error: " + xhr.responseText, "error");
             }
         });
-     }
+    }
 
     function @(Prefix)MostrarModalDescargarXLSX0256()
     {
@@ -75,54 +75,50 @@
         $("#@(Prefix)Errores").html("");
 
         var sedeId = $("#@(Prefix)ReporteSedeId").dxSelectBox("instance").option("value");
-        var fechaDesde = $("#@(Prefix)ReporteFechaDesde").dxDateBox("instance").option("value");
-        var fechaHasta = $("#@(Prefix)ReporteFechaHasta").dxDateBox("instance").option("value");
+        var periodo = $("#@(Prefix)PeriodoReporte0256").dxDateBox("instance").option("value");
 
-        if (sedeId == 0 || sedeId == "" || sedeId == null || fechaDesde == null || fechaHasta == null) {
-            DevExpress.ui.notify("Error: Los campos Sede, Fecha desde y Fecha Hasta son obligatorios.", "error", 4000);
-            return false;
-        }
+        console.log("periodo: ", periodo)
 
-        if (fechaHasta < fechaDesde) {
-            DevExpress.ui.notify("Error: Fecha Desde no puede ser superior a Fecha Hasta.", "error", 4000);
+        if (sedeId == 0 || sedeId == "" || sedeId == null || periodo == null) {
+            DevExpress.ui.notify("Error: Los campos Sede y Período son obligatorios.", "error", 4000);
             return false;
         }
 
         DescargarArchivo(
-                "@Url.Action("DescargarXLSX0256", Prefix)",
-                undefined,
-                { sedeId: sedeId, fechaDesde: fechaDesde.toISOString(), fechaHasta: fechaHasta.toISOString() }
-            );
+            "@Url.Action("DescargarXLSX0256", Prefix)",
+            undefined,
+            { sedeId: sedeId, periodo: periodo.toISOString() }
+        );
     }
 
 </script>
 
 <div class="box-body table-responsive no-padding">
     @(Html.DControls().DataGridSimple<ProgramacionCitas>(DataGridConfig)
-    .ID("ProgramacionCitasDataGrid")
-    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProgramacionCitas").LoadAction("Get").Key("Id"))
-    .Columns(columns =>
-    {
-        columns.AddFor(m => m.Consecutivo).SortOrder(SortOrder.Desc);
-        columns.AddFor(m => m.Estados.Nombre);
-        columns.AddFor(m => m.CreationDate).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.FechaAsignacion"));
-        columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.DateFormat).SortOrder(SortOrder.Desc);
-        columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
-        columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
-        columns.AddFor(m => m.Pacientes.NombreCompleto);
-        columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.Entidad"));
-        columns.AddFor(m => m.Consultorios.Nombre);
-        columns.AddFor(m => m.Empleados.NombreCompleto);
-        columns.AddFor(m => m.Sedes.Nombre);
-        columns.AddFor(m => m.Convenios.Nombre);
-        columns.AddFor(m => m.TiposCitas.Nombre);
-        columns.AddFor(m => m.Servicios.Nombre);
-        columns.AddFor(m => m.Observaciones);
-        columns.AddFor(m => m.MotivoCancelacion);
-        columns.AddFor(m => m.MotivoReprogramacion);
-        columns.AddFor(m => m.PorcDescAutorizado).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.PorcDescAutorizado"));
-    })
-)
+        .ID("ProgramacionCitasDataGrid")
+        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ProgramacionCitas").LoadAction("Get").Key("Id"))
+        .Columns(columns =>
+        {
+            columns.AddFor(m => m.Consecutivo).SortOrder(SortOrder.Desc);
+            columns.AddFor(m => m.Estados.Nombre);
+            columns.AddFor(m => m.CreationDate).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.FechaAsignacion"));
+            columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.DateFormat).SortOrder(SortOrder.Desc);
+            //columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
+            columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
+            columns.AddFor(m => m.Pacientes.NombreCompleto);
+            columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.Entidad"));
+            columns.AddFor(m => m.Consultorios.Nombre);
+            columns.AddFor(m => m.Empleados.NombreCompleto);
+            columns.AddFor(m => m.Sedes.Nombre);
+            columns.AddFor(m => m.Convenios.Nombre);
+            columns.AddFor(m => m.TiposCitas.Nombre);
+            columns.AddFor(m => m.Servicios.Nombre);
+            columns.AddFor(m => m.Observaciones);
+            columns.AddFor(m => m.MotivoCancelacion);
+            columns.AddFor(m => m.MotivoReprogramacion);
+            columns.AddFor(m => m.PorcDescAutorizado).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.PorcDescAutorizado"));
+        })
+        )
 </div>
 
 <div class="row">
@@ -137,7 +133,7 @@
             .DragEnabled(false)
             .CloseOnOutsideClick(false)
             .ContentTemplate(new TemplateName($"{Prefix}TemplateDescargarXLSX0256"))
-        )
+            )
 
         @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateDescargarXLSX0256"))
         {
@@ -151,23 +147,18 @@
                         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                         .ValueExpr("Id").DisplayExpr("Nombre")
                         .SearchEnabled(true).ShowClearButton(true)
-                    )
+                        )
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteFechaDesde")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.ReporteFechaDesde"):</label>
-                    @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteFechaDesde").InputAttr("class", "form-control")
-                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
-                    )
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.ReporteFechaHasta"):</label>
-                    @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteFechaHasta").InputAttr("class", "form-control")
-                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
-                    )
+                <div class="form-group col-md-12">
+                    <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.PeriodoReporte0256"):</label>
+                    @(Html.DControls().DateBox().Value(DateTime.Now.AddMonths(-1))
+                        .ID($"{Prefix}PeriodoReporte0256").InputAttr("class", "form-control").Max(DateTime.Now.AddMonths(-1))
+                        .DisplayFormat(Format.MonthAndYear).CalendarOptions(x => x.MaxZoomLevel(CalendarZoomLevel.Year).MinZoomLevel(CalendarZoomLevel.Century))
+                        .Placeholder("Seleccione periodo ...")
+                        .ShowClearButton(true).UseMaskBehavior(true)
+                        )
                 </div>
             </div>
 
@@ -197,7 +188,7 @@
                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                     .ValueExpr("Id").DisplayExpr("NombreCompleto")
                     .SearchEnabled(true)
-                )
+                    )
             </div>
             <div class="col-xl-2"><button class="btn btn-block btn-primary btn-sm" style="margin-top: 30px;" onclick="@(Prefix)VerDisponibilidadProfesional()">Consultar</button></div>
             <div style="height: 30px; width:100%;">

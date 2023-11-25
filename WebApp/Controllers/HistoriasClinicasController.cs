@@ -71,7 +71,7 @@ namespace Blazor.WebApp.Controllers
             model.Entity = GetEntityData(Id);
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             model.Entity.IsNew = false;
-            model.EsMismoUsuario = model.Entity.CreatedBy == User.Identity.Name;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model; 
         } 
 
@@ -100,6 +100,15 @@ namespace Blazor.WebApp.Controllers
                     {
                         model.Entity.LastUpdate = DateTime.Now;
                         model.Entity.UpdatedBy = User.Identity.Name;
+                        if (model.Entity.PresionSistolica.HasValue && model.Entity.PresionDiastolica.HasValue)
+                        {
+                            model.Entity.TensionArterial = $"{model.Entity.PresionSistolica.Value}/{model.Entity.PresionDiastolica.Value}";
+                        }
+                        else
+                        {
+                            model.Entity.TensionArterial = null;
+                        }
+
                         if (model.Entity.IsNew)
                         {
                             model.Entity.CreationDate = DateTime.Now;
@@ -128,7 +137,7 @@ namespace Blazor.WebApp.Controllers
                 ModelState.AddModelError("Entity.Id", "La historia clinica esta cerrada, por lo tanto no se puede modificar");
             }
             model.Entity = GetEntityData(model.Entity.Id);
-            model.EsMismoUsuario = model.Entity.CreatedBy == User.Identity.Name;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             model.Preguntas = Manager().GetBusinessLogic<HCTiposPreguntas>().FindAll(x => x.HCTiposId == model.Entity.HCTiposId, true).Select(x => x.HCPreguntas).ToList();
             return model; 
         } 

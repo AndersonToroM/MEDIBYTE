@@ -244,6 +244,10 @@
     "Description": "Ocupación"
   },
   {
+    "Id": "Admisiones.OcupacionesId",
+    "Description": "Ocupación"
+  },
+  {
     "Id": "Admisiones.PacientesId",
     "Description": "Paciente"
   },
@@ -556,6 +560,10 @@
     "Description": "Empleado"
   },
   {
+    "Id": "Atenciones.EnfermedadesHuerfanasId",
+    "Description": "Enfermedad huérfana"
+  },
+  {
     "Id": "Atenciones.Entidad",
     "Description": "Entidad"
   },
@@ -570,6 +578,10 @@
   {
     "Id": "Atenciones.FechaAtencion",
     "Description": "Fecha Atención"
+  },
+  {
+    "Id": "Atenciones.FechaFinAtencion",
+    "Description": "Fin de la atención"
   },
   {
     "Id": "Atenciones.Filial",
@@ -601,7 +613,7 @@
   },
   {
     "Id": "Atenciones.PacienteGenero",
-    "Description": "Genero"
+    "Description": "Sexo"
   },
   {
     "Id": "Atenciones.PacienteNombreCompleto",
@@ -610,6 +622,14 @@
   {
     "Id": "Atenciones.PacientesTiposIdentificacion",
     "Description": "Tipo de identificación"
+  },
+  {
+    "Id": "Atenciones.PertenecePrograma",
+    "Description": "¿Pertenece a un programa?"
+  },
+  {
+    "Id": "Atenciones.ProgramasId",
+    "Description": "Programa"
   },
   {
     "Id": "Atenciones.TipoHC",
@@ -824,6 +844,10 @@
     "Description": "Consultar"
   },
   {
+    "Id": "Cajas.Estado",
+    "Description": "Activa"
+  },
+  {
     "Id": "Cajas.Nombre",
     "Description": "Nombre"
   },
@@ -896,6 +920,10 @@
     "Description": "Ciclos de Cajas"
   },
   {
+    "Id": "CiclosCajas.Caja",
+    "Description": "Caja"
+  },
+  {
     "Id": "CiclosCajas.CajasId",
     "Description": "Caja"
   },
@@ -934,6 +962,10 @@
   {
     "Id": "CiclosCajas.OpenUsersId",
     "Description": "Usuario Apertura"
+  },
+  {
+    "Id": "CiclosCajas.Sede",
+    "Description": "Sede"
   },
   {
     "Id": "CiclosCajas.TotalFaltante",
@@ -1557,7 +1589,7 @@
   },
   {
     "Id": "Empleados.GenerosId",
-    "Description": "Genero"
+    "Description": "Sexo"
   },
   {
     "Id": "Empleados.NombreCompleto",
@@ -2248,6 +2280,14 @@
     "Description": "Estado"
   },
   {
+    "Id": "Facturas.ExportarInformeCarteraEntidad",
+    "Description": "Informe cartera por entidad"
+  },
+  {
+    "Id": "Facturas.ExportarInformeGeneralCartera",
+    "Description": "Informe General Cartera"
+  },
+  {
     "Id": "Facturas.ExportarSiigo",
     "Description": "Exportar SIIGO"
   },
@@ -2257,6 +2297,26 @@
   },
   {
     "Id": "Facturas.ExportarSiigoFechaHasta",
+    "Description": "Hasta"
+  },
+  {
+    "Id": "Facturas.ExportEntidadId",
+    "Description": "Entidad"
+  },
+  {
+    "Id": "Facturas.ExportFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ExportFechaHasta",
+    "Description": "Hasta"
+  },
+  {
+    "Id": "Facturas.ExportGeneralFechaDesde",
+    "Description": "Desde"
+  },
+  {
+    "Id": "Facturas.ExportGeneralFechaHasta",
     "Description": "Hasta"
   },
   {
@@ -2664,6 +2724,14 @@
     "Description": "Información de la glosa"
   },
   {
+    "Id": "Glosas.NroConsecutivo",
+    "Description": "Consecutivo factura"
+  },
+  {
+    "Id": "Glosas.Prefijo",
+    "Description": "Prefijo factura"
+  },
+  {
     "Id": "Glosas.ValorAceptado",
     "Description": "Valor Aceptado"
   },
@@ -2856,6 +2924,14 @@
     "Description": "Paciente"
   },
   {
+    "Id": "HistoriasClinicas.PresionDiastolica",
+    "Description": "Presión diastólica"
+  },
+  {
+    "Id": "HistoriasClinicas.PresionSistolica",
+    "Description": "Presión sistólica"
+  },
+  {
     "Id": "HistoriasClinicas.ProfesionalId",
     "Description": "Profesional"
   },
@@ -2960,6 +3036,14 @@
     "Description": "Incapacidades"
   },
   {
+    "Id": "Incapacidades.DiagnosticosCodigo",
+    "Description": "CIE10"
+  },
+  {
+    "Id": "Incapacidades.DiagnosticosDescripcion",
+    "Description": "Descripción del diagnóstico"
+  },
+  {
     "Id": "Incapacidades.DiagnosticosId",
     "Description": "Diagnostico"
   },
@@ -2978,6 +3062,14 @@
   {
     "Id": "Incapacidades.FechaInicio",
     "Description": "Fecha Inicio"
+  },
+  {
+    "Id": "Incapacidades.FechaLista",
+    "Description": "Fecha emisión"
+  },
+  {
+    "Id": "Incapacidades.HistoriasClinicasConsecutivo",
+    "Description": "Nro. Historia clínica"
   },
   {
     "Id": "Incapacidades.HIstoriasClinicasId",
@@ -3004,12 +3096,28 @@
     "Description": "Paciente"
   },
   {
+    "Id": "Incapacidades.PacientesNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
+    "Id": "Incapacidades.PacientesNumeroIdentificacion",
+    "Description": "Nro. Indentificación del paciente"
+  },
+  {
     "Id": "Incapacidades.ProfesionalId",
     "Description": "Profesional"
   },
   {
+    "Id": "Incapacidades.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
+  },
+  {
     "Id": "Incapacidades.Recomendaciones",
     "Description": "Recomendaciones"
+  },
+  {
+    "Id": "IncapacidadesDetalle.DiagnosticosDescripcion",
+    "Description": "Diagnóstico"
   },
   {
     "Id": "IncapacidadesOrigenes",
@@ -3028,6 +3136,10 @@
     "Description": "Fecha"
   },
   {
+    "Id": "IndicacionesMedicas.HistoriasClinicasConsecutivo",
+    "Description": "Nro. Historia clínica"
+  },
+  {
     "Id": "IndicacionesMedicas.HistoriasClinicasId",
     "Description": "Historia Clinica"
   },
@@ -3040,8 +3152,20 @@
     "Description": "paciente"
   },
   {
+    "Id": "IndicacionesMedicas.PacientesNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
+    "Id": "IndicacionesMedicas.PacientesNumeroIdentificacion",
+    "Description": "Nro. Identificación del paciente"
+  },
+  {
     "Id": "IndicacionesMedicas.ProfesionalId",
     "Description": "Profesional"
+  },
+  {
+    "Id": "IndicacionesMedicas.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
   },
   {
     "Id": "IndicacionesMedicasDetalles",
@@ -3596,6 +3720,10 @@
     "Description": "Ordenes de Medicamentos"
   },
   {
+    "Id": "OrdenesMedicamentos.Consecutivo",
+    "Description": "Nro. Historia clínica"
+  },
+  {
     "Id": "OrdenesMedicamentos.Fecha",
     "Description": "Fecha"
   },
@@ -3612,12 +3740,24 @@
     "Description": "Nro. Orden"
   },
   {
+    "Id": "OrdenesMedicamentos.NumeroIdentificacion",
+    "Description": "Nro. Identificación del paciente"
+  },
+  {
+    "Id": "OrdenesMedicamentos.PacienteNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
     "Id": "OrdenesMedicamentos.PacientesId",
     "Description": "Paciente"
   },
   {
     "Id": "OrdenesMedicamentos.ProfesionalId",
     "Description": "Profesional"
+  },
+  {
+    "Id": "OrdenesMedicamentos.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
   },
   {
     "Id": "OrdenesMedicamentosDetalles",
@@ -3672,6 +3812,10 @@
     "Description": "Ordenes de Servicios"
   },
   {
+    "Id": "OrdenesServicios.Consecutivo",
+    "Description": "Nro. Historia clínica"
+  },
+  {
     "Id": "OrdenesServicios.Fecha",
     "Description": "Fecha"
   },
@@ -3688,12 +3832,24 @@
     "Description": "Nro. Orden"
   },
   {
+    "Id": "OrdenesServicios.NumeroIdentificacion",
+    "Description": "Nro. Identificación del paciente"
+  },
+  {
+    "Id": "OrdenesServicios.PacienteNombreCompleto",
+    "Description": "Nombre del paciente"
+  },
+  {
     "Id": "OrdenesServicios.PacientesId",
     "Description": "Paciente"
   },
   {
     "Id": "OrdenesServicios.ProfesionalId",
     "Description": "Profesional"
+  },
+  {
+    "Id": "OrdenesServicios.ProfesionalNombreCompleto",
+    "Description": "Nombre del profesional"
   },
   {
     "Id": "OrdenesServiciosDetalles",
@@ -3781,7 +3937,11 @@
   },
   {
     "Id": "Pacientes.GenerosId",
-    "Description": "Genero"
+    "Description": "Sexo"
+  },
+  {
+    "Id": "Pacientes.GenerosIdentidadId",
+    "Description": "Identidad de Genero"
   },
   {
     "Id": "Pacientes.NombreCompleto",
@@ -4208,6 +4368,10 @@
     "Description": "Fecha Asignación"
   },
   {
+    "Id": "ProgramacionCitas.FechaDeseada",
+    "Description": "Fecha Deseada"
+  },
+  {
     "Id": "ProgramacionCitas.FechaFinal",
     "Description": "Fecha final"
   },
@@ -4242,6 +4406,10 @@
   {
     "Id": "ProgramacionCitas.PacientesId",
     "Description": "Nombres y Apellidos del Paciente"
+  },
+  {
+    "Id": "ProgramacionCitas.PeriodoReporte0256",
+    "Description": "Período"
   },
   {
     "Id": "ProgramacionCitas.PorcDescAutorizado",
@@ -4290,6 +4458,10 @@
   {
     "Id": "ProgramacionCitas.VerAgenda",
     "Description": "Agenda"
+  },
+  {
+    "Id": "Programas.Nombre",
+    "Description": "Nombre"
   },
   {
     "Id": "Radicacion",
@@ -4433,7 +4605,7 @@
   },
   {
     "Id": "RecaudosDetalles.ValorRetencion",
-    "Description": "Retención"
+    "Description": "Valor Retención en la fuente"
   },
   {
     "Id": "RIPS",
@@ -4861,7 +5033,7 @@
   },
   {
     "Id": "Users.GenderId",
-    "Description": "Genero"
+    "Description": "Sexo"
   },
   {
     "Id": "Users.IdentificationNumber",
@@ -4898,5 +5070,141 @@
   {
     "Id": "VisorDicom",
     "Description": "Visor DICOM"
+  },
+  {
+    "Id": "XLSX0256.CodCIE10",
+    "Description": "CIE10"
+  },
+  {
+    "Id": "XLSX0256.CodigoAutorizacion",
+    "Description": "Código de autorización"
+  },
+  {
+    "Id": "XLSX0256.CodigoDocumento",
+    "Description": "Código Documento"
+  },
+  {
+    "Id": "XLSX0256.CodigoMunicipio",
+    "Description": "Código municipio"
+  },
+  {
+    "Id": "XLSX0256.CUPS",
+    "Description": "CUPS"
+  },
+  {
+    "Id": "XLSX0256.DescCIE10",
+    "Description": "Descripción CIE10"
+  },
+  {
+    "Id": "XLSX0256.DescDocumento",
+    "Description": "Documento"
+  },
+  {
+    "Id": "XLSX0256.DocProfesional",
+    "Description": "Doc. Profesional"
+  },
+  {
+    "Id": "XLSX0256.DuracionAtencion",
+    "Description": "Duración de la atención"
+  },
+  {
+    "Id": "XLSX0256.DuracionCita",
+    "Description": "Duración de la cita"
+  },
+  {
+    "Id": "XLSX0256.Edad",
+    "Description": "Edad"
+  },
+  {
+    "Id": "XLSX0256.EnfermedadHuerfana",
+    "Description": "Enfermedad Huérfana"
+  },
+  {
+    "Id": "XLSX0256.Entidad",
+    "Description": "Entidad"
+  },
+  {
+    "Id": "XLSX0256.Esttado0256",
+    "Description": "Estado 0256"
+  },
+  {
+    "Id": "XLSX0256.FechaCita",
+    "Description": "Fecha de la cita"
+  },
+  {
+    "Id": "XLSX0256.FechaDeseada",
+    "Description": "Fecha deseada por el paciente"
+  },
+  {
+    "Id": "XLSX0256.FechaSolicitud",
+    "Description": "Fecha de solicitud"
+  },
+  {
+    "Id": "XLSX0256.IdentidadGenero",
+    "Description": "Identidad de genero"
+  },
+  {
+    "Id": "XLSX0256.NIT",
+    "Description": "NIT"
+  },
+  {
+    "Id": "XLSX0256.NombrePrograma",
+    "Description": "Nombre del programa"
+  },
+  {
+    "Id": "XLSX0256.NumeroDocumento",
+    "Description": "No. Documento"
+  },
+  {
+    "Id": "XLSX0256.PacienteApellido1",
+    "Description": "Primer apellido"
+  },
+  {
+    "Id": "XLSX0256.PacienteApellido2",
+    "Description": "Segundo apellido"
+  },
+  {
+    "Id": "XLSX0256.PacienteNombre1",
+    "Description": "Primer nombre"
+  },
+  {
+    "Id": "XLSX0256.PacienteNombre2",
+    "Description": "Segundo nombre"
+  },
+  {
+    "Id": "XLSX0256.PacienteNombreCompleto",
+    "Description": "Nombre completo"
+  },
+  {
+    "Id": "XLSX0256.PertenecePrograma",
+    "Description": "Pertenece a un programa"
+  },
+  {
+    "Id": "XLSX0256.Profesional",
+    "Description": "Profesional"
+  },
+  {
+    "Id": "XLSX0256.Regimen",
+    "Description": "Régimen"
+  },
+  {
+    "Id": "XLSX0256.REPS",
+    "Description": "REPS"
+  },
+  {
+    "Id": "XLSX0256.Servicio",
+    "Description": "Servicio"
+  },
+  {
+    "Id": "XLSX0256.Sexo",
+    "Description": "Sexo"
+  },
+  {
+    "Id": "XLSX0256.Telefono",
+    "Description": "Teléfono"
+  },
+  {
+    "Id": "XLSX0256.TipoConsulta",
+    "Description": "Tipo de consulta"
   }
 ]

@@ -1,15 +1,22 @@
 @*  Remplazar FATHERModel por el modelo del padre al que pertenece   *@ 
  
 @model OrdenesMedicamentosModel 
-@{ 
+@{
     string Prefix = "OrdenesMedicamentosDiagnosticos"; 
     string UrlOnClick = Url.Action("EditDetail", "OrdenesMedicamentosDiagnosticos"); 
-    string UrlNew = Url.Action("NewDetail", "OrdenesMedicamentosDiagnosticos", new { IdFather = Model.Entity.Id }); 
+    string UrlNew = Url.Action("NewDetail", "OrdenesMedicamentosDiagnosticos", new { IdFather = Model.Entity.Id });
 
-    var DataGridDetailConfig = new DataGridConfiguration<OrdenesMedicamentosDiagnosticos>(Prefix) 
-        .OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm") 
-        .New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm") 
-        .Exports(true,true); 
+    var DataGridDetailConfig = new DataGridConfiguration<OrdenesMedicamentosDiagnosticos>(Prefix);
+
+    if(Model.EsMismoUsuario)
+    {
+        DataGridDetailConfig.OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm")
+        .New(UrlNew, Model.Entity.IsNew, Prefix + "MainPanelForm")
+        .Exports(true, true);
+    }else
+    {
+        DataGridDetailConfig.Exports(true,true);
+    }
 } 
  
 

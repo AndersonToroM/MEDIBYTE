@@ -330,8 +330,8 @@ function MeasureConnectionSpeed(logSpeedTest) {
             DevExpress.ui.notify(`Su conexion de internet esta presentando lentitud. (${speedKbps} Kbps)`, "warning", 1000);
         if (logSpeedTest.length >= 500 && !isSendingLogSpeedTest)
             SendLogSpeedTestServer(logSpeedTest);
-        if (logSpeedTest.length % 10 == 0)
-            console.info(`Tiempo promedio descarga de 0.5 MG: ${speedKbps} Kbps`);
+        //if (logSpeedTest.length % 10 == 0)
+        //    console.info(`Tiempo promedio descarga de 0.5 MG: ${speedKbps} Kbps`);
 
         logSpeedTest.push(GetLogSpeedTestMessage(speedKbps));
         localStorage.setItem(SiisoSpeedTestStorage, JSON.stringify(logSpeedTest));

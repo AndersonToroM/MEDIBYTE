@@ -183,13 +183,15 @@
                                                  .OnValueChanged($"{Prefix}HabilitarBotonVerAgenda")
                                             );
 
-                                            groupItems.AddSimpleFor(m => m.Entity.Cantidad).ColSpan(2)
+                                            groupItems.AddSimpleFor(m => m.Entity.Cantidad).ColSpan(3)
                                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.Cantidad")))
                                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("ProgramacionCitas.Cantidad")))
                                                 .Editor(e => e.NumberBox().ID(Prefix + "Cantidad").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true))
                                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.Cantidad")));
 
-                                            groupItems.AddEmpty().ColSpan(4);
+                                            groupItems.AddSimpleFor(m => m.Entity.FechaDeseada).ColSpan(3)
+                                                  .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaDeseada").Type(DateBoxType.Date)
+                                                  .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).UseMaskBehavior(true));
 
                                             groupItems.AddSimpleFor(m => m.Entity.EspecialidadesId).ColSpan(9)
                                              .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.EspecialidadesId")))

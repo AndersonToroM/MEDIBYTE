@@ -16,16 +16,16 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.NroOrden);
-        columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
-        columns.AddFor(m => m.Pacientes.NombreCompleto);
-        columns.AddFor(m => m.Profesional.NombreCompleto);
-        columns.AddFor(m => m.Fecha).SortOrder(SortOrder.Desc);
-        columns.AddFor(m => m.HIstoriasClinicas.EnfermedadActual);
-        columns.AddFor(m => m.NroDias);
-        columns.AddFor(m => m.FechaInicio);
-        columns.AddFor(m => m.Diagnosticos.Descripcion);
-        columns.AddFor(m => m.Observaciones);
+            columns.AddFor(m => m.Fecha).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.FechaLista")).SortOrder(SortOrder.Desc);
+            columns.AddFor(m => m.HIstoriasClinicas.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.HistoriasClinicasConsecutivo"));
+            columns.AddFor(m => m.NroOrden);
+            columns.AddFor(m => m.Pacientes.NumeroIdentificacion).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.PacientesNumeroIdentificacion"));
+            columns.AddFor(m => m.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.PacientesNombreCompleto"));
+            columns.AddFor(m => m.Profesional.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.ProfesionalNombreCompleto"));
+            columns.AddFor(m => m.FechaInicio);
+            columns.AddFor(m => m.NroDias);
+            columns.AddFor(m => m.Diagnosticos.Codigo).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.DiagnosticosCodigo"));
+            columns.AddFor(m => m.Diagnosticos.Descripcion).Caption(DApp.DefaultLanguage.GetResource("Incapacidades.DiagnosticosDescripcion"));
     })
 ) 
 </div> 

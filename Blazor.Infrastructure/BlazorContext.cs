@@ -4,11 +4,14 @@ using Dominus.Backend.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Reflection.Metadata;
 
 namespace Blazor.Infrastructure
 {
     public class BlazorContext : DContext
     {
+        #region Db Set
+
         public DbSet<AdministracionHonorarios> AdministracionHonorarios { get; set; }
         public DbSet<AdministracionHonorariosLecturas> AdministracionHonorariosLecturas { get; set; }
         public DbSet<AdministracionHonorariosServicios> AdministracionHonorariosServicios { get; set; }
@@ -59,6 +62,7 @@ namespace Blazor.Infrastructure
         public DbSet<FinalidadProcedimiento> FinalidadProcedimiento { get; set; }
         public DbSet<FormasPagos> FormasPagos { get; set; }
         public DbSet<Generos> Generos { get; set; }
+        public DbSet<GenerosIdentidad> GenerosIdentidad { get; set; }
         public DbSet<Glosas> Glosas { get; set; }
         public DbSet<HistoriasClinicas> HistoriasClinicas { get; set; }
         public DbSet<HorariosAtencion> HorariosAtencion { get; set; }
@@ -155,6 +159,9 @@ namespace Blazor.Infrastructure
         public DbSet<ParametrosGenerales> ParametrosGenerales { get; set; }
         public DbSet<Secuences> Secuences { get; set; }
         public DbSet<ConfiguracionEnvioEmailJob> ConfiguracionEnvioEmailJob { get; set; }
+        public DbSet<Programas> Programas { get; set; }
+        public DbSet<EnfermedadesHuerfanas> EnfermedadesHuerfanas { get; set; }
+        public DbSet<Ocupaciones> Ocupaciones { get; set; }
 
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }
@@ -165,23 +172,24 @@ namespace Blazor.Infrastructure
 
         #endregion
 
+        #endregion
 
         public BlazorContext(DataBaseSetting setting) : base(setting)
         {
+            this.Database.SetCommandTimeout(300);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-            optionsBuilder.LogTo(Console.WriteLine,LogLevel.Information);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
 #endif
             base.OnConfiguring(optionsBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
-
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

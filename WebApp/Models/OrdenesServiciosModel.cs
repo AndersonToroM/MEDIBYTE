@@ -7,6 +7,8 @@ namespace Blazor.WebApp.Models
    {
       public OrdenesServicios Entity { get; set; }
 
+        public bool EsMismoUsuario { get; set; }
+
       public OrdenesServiciosModel()
       {
          Entity = new OrdenesServicios();

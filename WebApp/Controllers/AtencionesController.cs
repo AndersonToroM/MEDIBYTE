@@ -13,6 +13,7 @@ using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -149,6 +150,11 @@ namespace Blazor.WebApp.Controllers
                 throw new DAppException($"La cita está programada con el profesional {admision.ProgramacionCitas.Empleados.NombreCompleto}. No es posible continuar la atención.");
             }
 
+            if (model.Entity.PertenecePrograma == true)
+            {
+                throw new DAppException($"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?. No es posible continuar la atención.");
+            }
+
             model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
             model.Entity.EmpleadosId = model.Entity.Empleados.Id;
 
@@ -186,6 +192,8 @@ namespace Blazor.WebApp.Controllers
                 .Include(x => x.Empleados)
                 .FirstOrDefault(x => x.AdmisionesId == admision.Id);
 
+                model.Entity.LastUpdate = DateTime.Now;
+                model.Entity.UpdatedBy = User.Identity.Name;
                 model.Entity.IsNew = false;
             }
 
@@ -206,6 +214,12 @@ namespace Blazor.WebApp.Controllers
             var OnState = model.Entity.IsNew;
 
             var llaves = ModelState.Where(x => x.Key.Contains("Entity.Admisiones.")).Select(x => x.Key).ToList();
+
+            if (model.Entity.PertenecePrograma == true)
+            {
+                ModelState.AddModelError("Entity.Id", $"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?. No es posible continuar la atención.");
+            }
+
             foreach (var key in llaves)
             {
                 ModelState.Remove(key);
@@ -214,13 +228,23 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid) 
             { 
                 try 
-                { 
-                    model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name;
-                    model.Entity.CreationDate = DateTime.Now;
-                    model.Entity.CreatedBy = User.Identity.Name;
-                    model.Entity = Manager().AtencionesBusinessLogic().AddAtencion(model.Entity);
-                    model.Entity.IsNew = false;
+                {
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.LastUpdate = DateTime.Now;
+                        model.Entity.UpdatedBy = User.Identity.Name;
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity.FechaFinAtencion = DateTime.Now;
+                        model.Entity = Manager().AtencionesBusinessLogic().AddAtencion(model.Entity);
+                        model.Entity.IsNew = false;
+                    }else
+                    {
+                        model.Entity.LastUpdate = DateTime.Now;
+                        model.Entity.UpdatedBy = User.Identity.Name;
+                        model.Entity.FechaFinAtencion = DateTime.Now;
+                        model.Entity = Manager().AtencionesBusinessLogic().EditAtencion(model.Entity);
+                    }
                 } 
                 catch (Exception e) 
                 { 
@@ -231,7 +255,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-
+          
             model.Entity = Manager().GetBusinessLogic<Atenciones>().Tabla(true)
                 .Include(x => x.Admisiones.ProgramacionCitas.Entidades)
                 .Include(x => x.Admisiones.Pacientes.TiposIdentificacion)
@@ -240,7 +264,7 @@ namespace Blazor.WebApp.Controllers
                 .Include(x => x.Admisiones.ProgramacionCitas.Servicios.TiposServicios)
                 .FirstOrDefault(x => x.Id == model.Entity.Id);
 
-            return model; 
+            return model;
         } 
 
         [HttpPost]
@@ -425,6 +449,16 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetFinalidadConsultaId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<FinalidadConsulta>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetProgramasId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Programas>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetEnfermedadesHuerfanasId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<EnfermedadesHuerfanas>().Tabla(true), loadOptions);
         }
         [HttpPost]
         public LoadResult GetFinalidadProcedimientoId(DataSourceLoadOptions loadOptions)

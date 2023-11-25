@@ -21,6 +21,7 @@ using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Frontend.Controllers;
 using Blazor.BusinessLogic.Models.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Blazor.BusinessLogic
 {
@@ -1010,8 +1011,12 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("Informe Cartera");
-                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).FindAll(x => x.EntidadId == entidadId && x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "Informe de cartera por entidad";
+                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).Tabla()
+                    .Where(x => x.EntidadId == entidadId && x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta)
+                    .OrderBy(x => x.Fecha_Emision).ToList();
+
 
                 //Titulos
                 int column = 0;
@@ -1080,8 +1085,12 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("Informe General Cartera");
-                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).FindAll(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "Informe de cartera general";
+                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).Tabla()
+                    .Where(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta)
+                    .OrderBy(x => x.Fecha_Emision).ToList();
+
 
                 //Titulos
                 int column = 0;
@@ -1150,8 +1159,12 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("Exportar SIIGO");
-                List<VExportarSiigo> data = new GenericBusinessLogic<VExportarSiigo>(this.UnitOfWork).FindAll(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "Exportar SIIGO";
+                List<VExportarSiigo> data = new GenericBusinessLogic<VExportarSiigo>(this.UnitOfWork).Tabla()
+                    .Where(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta)
+                    .OrderBy(x => x.Fecha_Emision).ToList();
+
 
                 //Titulos
                 int column = 0;

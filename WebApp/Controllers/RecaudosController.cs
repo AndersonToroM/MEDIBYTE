@@ -16,6 +16,7 @@ using Blazor.BusinessLogic;
 using DevExpress.CodeParser.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Dominus.Backend.HttpClient;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -60,7 +61,7 @@ namespace Blazor.WebApp.Controllers
             RecaudosModel model = new RecaudosModel();
             model.Entity.IsNew = true;
             model.Entity.FechaRecaudo = DateTime.Now;
-            model.Entity.CiclosCajas = Manager().GetBusinessLogic<CiclosCajas>().FindById(x => x.OpenUsers.UserName == User.Identity.Name, true);
+            model.Entity.CiclosCajas = Manager().GetBusinessLogic<CiclosCajas>().FindById(x => x.OpenUsers.UserName == User.Identity.Name && x.CloseUsersId == null, true);
             if (model.Entity.CiclosCajas != null)
                 model.Entity.CiclosCajasId = model.Entity.CiclosCajas.Id;
             model.Entity.Empresas = Manager().GetBusinessLogic<Empresas>().FindById(x => x.Id == long.Parse(User.FindFirst("EmpresaId").Value), false);
@@ -80,6 +81,7 @@ namespace Blazor.WebApp.Controllers
             RecaudosModel model = new RecaudosModel();
             model.Entity = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == Id, false);
             model.Entity.IsNew = false;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model;
         }
 
@@ -129,6 +131,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model;
         }
 

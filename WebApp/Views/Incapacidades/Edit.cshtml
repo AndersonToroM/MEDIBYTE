@@ -55,7 +55,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroOrden).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.NroOrden")))
-                                      .Editor(e => e.NumberBox().ID(Prefix + "NroOrden").ShowClearButton(true).ShowSpinButtons(true));
+                                      .Editor(e => e.NumberBox().ID(Prefix + "NroOrden").ShowClearButton(true).ShowSpinButtons(true).Disabled(true));
 
                                 groupItems.AddEmpty().ColSpan(9);
 
@@ -66,7 +66,7 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetProfesionalId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
-                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                  );
 
                                 groupItems.AddSimpleFor(m => m.Entity.PacientesId).ColSpan(6)
@@ -76,25 +76,30 @@
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetPacientesId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("NombreCompleto").SearchExpr("NumeroIdentificacion", "PrimerNombre", "SegundoNombre", "PrimerApellido", "SegundoApellido")
-                                      .SearchEnabled(true).ShowClearButton(true)
+                                      .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                  );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.Fecha")))
                                       .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "Fecha")
-                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
+                                      .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true).Disabled(true)
+                                      );
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaInicio).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.FechaInicio")))
                                     .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaInicio")
-                                    .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
+                                    .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true).Disabled(true)
+                                    );
 
 
                                 groupItems.AddSimpleFor(m => m.Entity.NroDias).ColSpan(3)
-                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.NroDias")));
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.NroDias")))
+                                .Editor(e => e.NumberBox().ID(Prefix + "NroDias").Disabled(true)
+                                );
 
                                 groupItems.AddSimpleFor(m => m.Entity.EsProrroga).Label(x => x.Visible(false)).ColSpan(3)
-                                       .Editor(e => e.CheckBox().ID(Prefix + "EsProrroga").Text(DApp.DefaultLanguage.GetResource("Incapacidades.EsProrroga")));
+                                       .Editor(e => e.CheckBox().ID(Prefix + "EsProrroga").Text(DApp.DefaultLanguage.GetResource("Incapacidades.EsProrroga")).Disabled(true)
+                                       );
 
                                 groupItems.AddSimpleFor(m => m.Entity.DiagnosticosId).ColSpan(6)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.DiagnosticosId")))
@@ -105,7 +110,7 @@
                                     )
                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                     .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Descripcion")
-                                    .SearchEnabled(true).ShowClearButton(true)
+                                    .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                );
 
                                 groupItems.AddSimpleFor(m => m.Entity.IncapacidadesOrigenesId).ColSpan(6)
@@ -115,11 +120,11 @@
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetIncapacidadesOrigenesId").Key("Id"))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                      .ValueExpr("Id").DisplayExpr("Descripcion").SearchExpr("Descripcion")
-                                     .SearchEnabled(true).ShowClearButton(true)
+                                     .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(12)
-                                      .Editor(e => e.TextArea().ID(Prefix + "Observaciones").Height(200));
+                                      .Editor(e => e.TextArea().ID(Prefix + "Observaciones").Height(200).ReadOnly(true));
                             });
                     })
                 )

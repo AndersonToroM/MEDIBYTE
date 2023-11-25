@@ -224,7 +224,12 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<CausasExternas>().Tabla(true), loadOptions);
         }
         [HttpPost]
+        public LoadResult GetOcupacionesId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Ocupaciones>().Tabla(true), loadOptions);
+        }
 
+        [HttpPost]
         public LoadResult GetParentescosId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Parentescos>().Tabla(true), loadOptions);

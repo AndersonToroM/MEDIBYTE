@@ -27,6 +27,10 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("HistoriasClinicas.FechaApertura")]
         public virtual DateTime? FechaApertura { get; set; }
 
+        [Column("FechaCierre", TypeName = "datetime")]
+        [DDisplayName("HistoriasClinicas.FechaCierre")]
+        public virtual DateTime? FechaCierre { get; set; }
+
         [Column("MotivoConsulta")]
         [DDisplayName("HistoriasClinicas.MotivoConsulta")]
         public virtual String MotivoConsulta { get; set; }
@@ -69,23 +73,19 @@ namespace Blazor.Infrastructure.Entities
 
         [Column("FrecuenciaCardiaca")]
         [DDisplayName("HistoriasClinicas.FrecuenciaCardiaca")]
-        [DStringLength("HistoriasClinicas.FrecuenciaCardiaca", 100)]
-        public virtual String FrecuenciaCardiaca { get; set; }
+        public virtual Int16? FrecuenciaCardiaca { get; set; }
 
         [Column("FrecuenciaRespiratoria")]
         [DDisplayName("HistoriasClinicas.FrecuenciaRespiratoria")]
-        [DStringLength("HistoriasClinicas.FrecuenciaRespiratoria", 100)]
-        public virtual String FrecuenciaRespiratoria { get; set; }
+        public virtual Int16? FrecuenciaRespiratoria { get; set; }
 
         [Column("Temperatura")]
         [DDisplayName("HistoriasClinicas.Temperatura")]
-        [DStringLength("HistoriasClinicas.Temperatura", 100)]
-        public virtual String Temperatura { get; set; }
+        public virtual Decimal? Temperatura { get; set; }
 
         [Column("PerimetroCefalico")]
         [DDisplayName("HistoriasClinicas.PerimetroCefalico")]
-        [DStringLength("HistoriasClinicas.PerimetroCefalico", 100)]
-        public virtual String PerimetroCefalico { get; set; }
+        public virtual Decimal? PerimetroCefalico { get; set; }
 
         [Column("Hallazgos")]
         [DDisplayName("HistoriasClinicas.Hallazgos")]
@@ -94,6 +94,14 @@ namespace Blazor.Infrastructure.Entities
         [Column("Analisis")]
         [DDisplayName("HistoriasClinicas.Analisis")]
         public virtual String Analisis { get; set; }
+
+        [Column("PresionSistolica")]
+        [DDisplayName("HistoriasClinicas.PresionSistolica")]
+        public virtual Int16? PresionSistolica { get; set; }
+
+        [Column("PresionDiastolica")]
+        [DDisplayName("HistoriasClinicas.PresionDiastolica")]
+        public virtual Int16? PresionDiastolica { get; set; }
 
         #endregion
 

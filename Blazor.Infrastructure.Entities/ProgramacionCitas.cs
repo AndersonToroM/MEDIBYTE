@@ -32,6 +32,10 @@ namespace Blazor.Infrastructure.Entities
         [DRequired("ProgramacionCitas.FechaFinal")]
         public virtual DateTime FechaFinal { get; set; }
 
+        [Column("FechaDeseada", TypeName = "datetime")]
+        [DDisplayName("ProgramacionCitas.FechaDeseada")]
+        public virtual DateTime? FechaDeseada { get; set; }
+
         [Column("Cantidad")]
         [DDisplayName("ProgramacionCitas.Cantidad")]
         [DRequired("ProgramacionCitas.Cantidad")]

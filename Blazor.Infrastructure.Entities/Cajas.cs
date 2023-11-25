@@ -23,11 +23,16 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("Cajas.Nombre",150)]
        public virtual String Nombre { get; set; }
 
-       #endregion
+        [Column("Estado")]
+        [DDisplayName("Cajas.Estado")]
+        [DRequired("Cajas.Estado")]
+        public virtual Boolean Estado { get; set; }
 
-       #region Columnas referenciales)
+        #endregion
 
-       [Column("SedesId")]
+        #region Columnas referenciales)
+
+        [Column("SedesId")]
        [DDisplayName("Cajas.SedesId")]
        [DRequired("Cajas.SedesId")]
        [DRequiredFK("Cajas.SedesId")]

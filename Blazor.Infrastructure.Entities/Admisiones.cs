@@ -198,6 +198,10 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("Admisiones.ParentescosId")]
         public virtual Int64? ParentescosId { get; set; }
 
+        [Column("OcupacionesId")]
+        [DDisplayName("Admisiones.OcupacionesId")]
+        public virtual Int64? OcupacionesId { get; set; }
+
 
         #endregion
 
@@ -253,6 +257,9 @@ namespace Blazor.Infrastructure.Entities
 
         [ForeignKey("ParentescosId")]
         public virtual Parentescos Parentescos { get; set; }
+
+        [ForeignKey("OcupacionesId")]
+        public virtual Ocupaciones Ocupaciones { get; set; }
 
         #endregion
 

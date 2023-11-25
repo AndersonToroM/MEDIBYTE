@@ -36,9 +36,9 @@
                     .ID("CajasModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model) 
                     .Items(items => 
                     { 
-                         items.AddGroup().ColCount(2).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                         items.AddGroup().ColCount(3).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                              .Items(groupItems =>{
-                                groupItems.AddSimpleFor(m => m.Entity.SedesId).ColSpan(1) 
+                                groupItems.AddSimpleFor(m => m.Entity.SedesId).ColSpan(5) 
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Cajas.SedesId"))) 
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Cajas.SedesId"))) 
                                      .Editor(e => e.SelectBox().ID(Prefix + "SedesId") 
@@ -47,10 +47,14 @@
                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre") 
                                      .SearchEnabled(true).ShowClearButton(true) 
                                 ); 
-                                groupItems.AddSimpleFor(m => m.Entity.Nombre).ColSpan(1) 
+                                groupItems.AddSimpleFor(m => m.Entity.Nombre).ColSpan(5) 
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Cajas.Nombre"))) 
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(150).Message(DApp.GetStringLengthResource("Cajas.Nombre", 150))) 
-                                     .Editor(e => e.TextBox().ID(Prefix + "Nombre").ShowClearButton(true)); 
+                                     .Editor(e => e.TextBox().ID(Prefix + "Nombre").ShowClearButton(true));
+
+                                groupItems.AddSimpleFor(m => m.Entity.Estado).Label(x => x.Visible(false)).ColSpan(2)
+                                .Editor(e => e.CheckBox().ID(Prefix + "Estado").Text(DApp.DefaultLanguage.GetResource("Cajas.Estado")).Disabled(false)
+                                );
                          }); 
                     }) 
                 ) 
