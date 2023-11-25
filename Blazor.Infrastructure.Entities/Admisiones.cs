@@ -104,11 +104,11 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("Admisiones.TelefonoAcompanante")]
         [DStringLength("Admisiones.TelefonoAcompanante", 100)]
         public virtual String TelefonoAcompanante { get; set; }
-
+        /*
         [Column("Ocupacion")]
         [DDisplayName("Admisiones.Ocupacion")]
         [DStringLength("Admisiones.Ocupacion", 255)]
-        public virtual String Ocupacion { get; set; }
+        public virtual String Ocupacion { get; set; }*/
 
         #endregion
 
