@@ -153,7 +153,7 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("ProgramacionCitas.PeriodoReporte0256"):</label>
-                    @(Html.DControls().DateBox().Value(DateTime.Now.AddMonths(-1))
+                    @(Html.DControls().DateBox()
                         .ID($"{Prefix}PeriodoReporte0256").InputAttr("class", "form-control").Max(DateTime.Now.AddMonths(-1))
                         .DisplayFormat(Format.MonthAndYear).CalendarOptions(x => x.MaxZoomLevel(CalendarZoomLevel.Year).MinZoomLevel(CalendarZoomLevel.Century))
                         .Placeholder("Seleccione periodo ...")
