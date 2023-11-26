@@ -229,8 +229,7 @@ namespace Blazor.BusinessLogic
                     if (cita.EstadosId == 3)
 
                     {
-                       if (admision == null && 
-                          ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                       if (admision == null && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
                        {
                             estado = "ASIGNADA";
                        }
