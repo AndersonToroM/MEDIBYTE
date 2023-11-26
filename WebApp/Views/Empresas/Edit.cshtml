@@ -43,6 +43,9 @@
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().NumberBoxFor(m => m.Entity.TiposPersonasId).ID(Prefix + "TiposPersonasId").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.AnioEnvioFE).ID(Prefix + "AnioEnvioFE").Visible(false))
+                @(Html.DControls().NumberBoxFor(m => m.Entity.ConsecutivoEnvioFE).ID(Prefix + "ConsecutivoEnvioFE").Visible(false))
+                @(Html.DControls().TextBoxFor(m => m.Entity.CodigoPT).ID(Prefix + "CodigoPT").Visible(false))
 
                 @(Html.DControls().NumberBoxFor(m => m.Entity.LogoArchivosId).ID(Prefix + "LogoArchivosId").Visible(false))
 

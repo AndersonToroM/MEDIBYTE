@@ -1,4 +1,5 @@
-﻿using Blazor.Infrastructure;
+﻿using Blazor.BusinessLogic.Models.Enums;
+using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Blazor.Reports.Notas;
@@ -7,6 +8,7 @@ using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.BusinessLogic
 {
@@ -31,11 +34,11 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        private string GetPdfNotaReporte(Notas nota, string user)
+        private string GetPdfNotaReporte(Notas nota, string nameFaile, string user)
         {
             XtraReport xtraReport = ReportExtentions.Report<NotasReporte>(this.BusinessLogic, nota.Id, user);
 
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.pdf");
+            string pathPdf = Path.Combine(Path.GetTempPath(), $"{(nota.Documentos.Transaccion == 3 ? "nc" : "nd")}{nameFaile}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();
             pdfOptions.ConvertImagesToJpeg = false;
             pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
@@ -44,8 +47,12 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        public async Task EnviarEmail(Notas nota, string eventoEnvio, string user)
+        public async Task EnviarEmail(long notaId, string eventoEnvio, string user)
         {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var nota = unitOfWork.Repository<Notas>().FindById(x => x.Id == notaId, true);
+
             if (string.IsNullOrWhiteSpace(nota.DIANResponse))
             {
                 throw new Exception("La nota no ha sido aceptada por la dian.");
@@ -55,7 +62,6 @@ namespace Blazor.BusinessLogic
                 throw new Exception("La nota no ha sido aceptada por la dian.");
             }
 
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             try
             {
                 string correo = null;
@@ -77,13 +83,20 @@ namespace Blazor.BusinessLogic
                 content = @"<?xml version='1.0' encoding='UTF-8'?>";
                 content += doc.DocumentElement.ChildNodes[3].InnerXml;
 
+                string consecutivoEnvioFE = nota.ConsecutivoFE;
+                if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
+                {
+                    consecutivoEnvioFE = new GenericBusinessLogic<Notas>(unitOfWork).GetConsecutivoParaEnvioFE();
+                    nota.ConsecutivoFE = consecutivoEnvioFE;
+                    unitOfWork.Repository<Notas>().Modify(nota);
+                }
 
-                string pathXml = Path.Combine(Path.GetTempPath(), $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.xml");
+                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{consecutivoEnvioFE}.xml");
                 File.WriteAllText(pathXml, content, Encoding.UTF8);
 
                 ZipArchive archive = new ZipArchive();
-                archive.FileName = $"{nota.Documentos.Prefijo}-{nota.Consecutivo}.zip";
-                archive.AddFile(GetPdfNotaReporte(nota, user), "/");
+                archive.FileName = $"z{consecutivoEnvioFE}.zip";
+                archive.AddFile(GetPdfNotaReporte(nota, consecutivoEnvioFE, user), "/");
                 archive.AddFile(pathXml, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -93,11 +106,11 @@ namespace Blazor.BusinessLogic
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
-                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion == 3 ? 91 : 92)}";
+                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion == 3 ? 91 : 92)};{nota.Empresas.RazonSocial}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioNotaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
-                envioEmailConfig.ArchivosAdjuntos.Add($"{nota.Documentos.Prefijo}-{nota.Consecutivo}.zip", msZip);
+                envioEmailConfig.ArchivosAdjuntos.Add($"z{consecutivoEnvioFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
                     {"nombreCia",$"{empresas.RazonSocial}" }
@@ -105,18 +118,23 @@ namespace Blazor.BusinessLogic
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
+                var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                    .FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Nota && x.IdTipo == nota.Id && !x.Exitoso);
+                if (job != null)
+                {
+                    job.Ejecutado = true;
+                    job.Exitoso = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"Intento {job.Intentos}: {eventoEnvio}. ";
+                    unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+                }
             }
             catch (Exception e)
             {
-                string fullError = e.Message;
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                    fullError += " | " + e.Message;
-                }
-
-                DApp.LogToFile($"{fullError} | {e.StackTrace}");
-                throw new Exception(fullError);
+                DApp.LogToFile($"{e.GetFullErrorMessage()} | {e.StackTrace}");
+                throw new Exception(e.GetFullErrorMessage());
             }
         }
 
@@ -125,6 +143,13 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
             var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == data.DocumentosId, false);
+
+            var factura = unitOfWork.Repository<Facturas>().FindById(x => x.Id == data.FacturasId, true);
+            if (factura != null && factura.Estadosid == 1087)
+            {
+                throw new Exception($"La factura {factura.Documentos.Prefijo}-{factura.NroConsecutivo} se encuentra en estado anulada.");
+            }
+
             try
             {
                 data.Consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
@@ -401,6 +426,7 @@ namespace Blazor.BusinessLogic
                 enote.AccountingCustomerParty.Party = new Party2();
                 enote.AccountingCustomerParty.Party.PartyIdentification = nota.Pacientes.TiposIdentificacion.CodigoAlterno;
                 enote.AccountingCustomerParty.Party.ID = nota.Pacientes.NumeroIdentificacion.Trim();
+                //enote.AccountingCustomerParty.Party.PartyName
                 enote.AccountingCustomerParty.Party.Person = new Person { FirstName = nota.Pacientes.NombreCompleto, LastName = nota.Pacientes.PrimerNombre + " " + nota.Pacientes.SegundoNombre + " " + nota.Pacientes.SegundoApellido };
 
                 enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
@@ -707,6 +733,7 @@ namespace Blazor.BusinessLogic
                 enote.AccountingCustomerParty.Party = new Party2();
                 enote.AccountingCustomerParty.Party.PartyIdentification = nota.Pacientes.TiposIdentificacion.CodigoAlterno;
                 enote.AccountingCustomerParty.Party.ID = nota.Pacientes.NumeroIdentificacion.Trim();
+                enote.AccountingCustomerParty.Party.PartyName = new PartyName { Name = nota.Pacientes.NombreCompleto };
                 enote.AccountingCustomerParty.Party.Person = new Person { FirstName = nota.Pacientes.NombreCompleto, LastName = nota.Pacientes.PrimerNombre + " " + nota.Pacientes.SegundoNombre + " " + nota.Pacientes.SegundoApellido };
 
                 enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
@@ -878,6 +905,22 @@ namespace Blazor.BusinessLogic
 
             //Manager.GetBusinessLogic<InterfaceInvoice>().Modify(factura);
             return content;
+        }
+
+        public async Task<string> ObtenerXMLNotaDebito(long idNota)
+        {
+            EDebitNote invoice = GetDebitNote(idNota);
+            string xml = invoice.SerializeToXml();
+            return xml;
+
+        }
+
+        public async Task<string> ObtenerXMLNotaCredito(long idNota)
+        {
+            var invoice = GetCreditNote(idNota);
+            string xml = invoice.SerializeToXml();
+            return xml;
+
         }
     }
 }

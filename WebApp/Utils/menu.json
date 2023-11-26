@@ -361,8 +361,11 @@
       {
         "Name": "MediosEntregas",
         "Resource": "MediosEntregas"
+      },
+      {
+        "Name": "Programas",
+        "Resource": "Programas"
       }
-
     ]
   }
 ]

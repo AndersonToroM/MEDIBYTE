@@ -74,7 +74,7 @@ namespace Blazor.WebApp.Controllers
             HistoriasClinicasModel model = new HistoriasClinicasModel();
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true).FirstOrDefault(x => x.Id == Id);
             model.Entity.IsNew = false;
-            model.EsMismoUsuario = model.Entity.CreatedBy == User.Identity.Name;
+            model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model;
         }
     }

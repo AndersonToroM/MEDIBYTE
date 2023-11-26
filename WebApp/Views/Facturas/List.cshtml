@@ -4,8 +4,9 @@
     string UrlNew = Url.Action("New", "Facturas");
     string ImprimirReporteCartera = Url.Action("ImprimirReporteCartera", "Facturas");
     string ImprimirCarteraGeneralReporte = Url.Action("ImprimirReporteCarteraGeneral", "Facturas");
-    string ImprimirInformeCartera = Url.Action("ImprimirInformeCartera", "Facturas");
-    string ImprimirInformeCarteraGeneral = Url.Action("ImprimirInformeCarteraGeneral", "Facturas");
+    string ExportarInformeCarteraEntidad = Url.Action("ExportarInformeCarteraEntidad", "Facturas");
+    string ExportarInformeCarteraGeneral = Url.Action("ExportarInformeCarteraGeneral", "Facturas");
+    string ExportarSiigo = Url.Action("ExportarSiigo", "Facturas");
 
     var DataGridConfig = new DataGridConfiguration<Facturas>(Prefix)
     .OnClick(UrlClick, new { Id = "Id" })
@@ -30,21 +31,30 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
             },
-            
+
             new ButtonToolbar
             {
-                Action = $"{Prefix}MostrarModalImprimirIormeCartera",
+                Action = $"{Prefix}MostrarModalExportarSiigo",
                 Icon = "xlsxfile",
-                Text = DApp.DefaultLanguage.GetResource("Facturas.ImprimirInformeCartera"),
+                Text = DApp.DefaultLanguage.GetResource("Facturas.ExportarSiigo"),
+                LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                Location = ToolbarItemLocation.Before
+            },
+
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}MostrarModalExportarIormeCarteraEntidad",
+                Icon = "xlsxfile",
+                Text = DApp.DefaultLanguage.GetResource("Facturas.ExportarInformeCarteraEntidad"),
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
             },
             
             new ButtonToolbar
             {
-                Action = $"{Prefix}MostrarModalImprimirIormGeneralCartera",
+                Action = $"{Prefix}MostrarModalExportarIormGeneralCartera",
                 Icon = "xlsxfile",
-                Text = DApp.DefaultLanguage.GetResource("Facturas.ImprimirInformeGeneralCartera"),
+                Text = DApp.DefaultLanguage.GetResource("Facturas.ExportarInformeGeneralCartera"),
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
             }
@@ -114,40 +124,60 @@
         });
     }
     
-    function @(Prefix)MostrarModalImprimirIormeCartera()
+    function @(Prefix)MostrarModalExportarSiigo() 
     {
-        $("#@(Prefix)PopupImprimirInformeCartera").dxPopup("instance").show();
+        $("#@(Prefix)PopupExportarSiigo").dxPopup("instance").show();
     }
 
-    function @(Prefix)ImprimirInformeCartera() {
+    
+    function @(Prefix)ExportarSiigo() {
 
         $("#@(Prefix)Errores").html("");
 
-        var entidadId = $("#@(Prefix)ReporteEntidadId").dxSelectBox("instance").option("value");
-        var fechaDesde = moment($("#@(Prefix)ReporteFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
-        var fechaHasta = moment($("#@(Prefix)ReporteFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
+        var fechaDesde = moment($("#@(Prefix)ExportarSiigoFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
+        var fechaHasta = moment($("#@(Prefix)ExportarSiigoFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
 
          DescargarArchivo(
-                "@Url.Action("XLSXInformeCartera", Prefix)",
+            "@Url.Action("ExportarSiigo", Prefix)",
+                undefined,
+                { fechaDesde: fechaDesde, fechaHasta: fechaHasta }
+         );
+    }
+
+    function @(Prefix)MostrarModalExportarIormeCarteraEntidad()
+    {
+        $("#@(Prefix)PopupExportarInformeCarteraEntidad").dxPopup("instance").show();
+    }
+
+    function @(Prefix)ExportarInformeCarteraEntidad() {
+
+        $("#@(Prefix)Errores").html("");
+
+        var entidadId = $("#@(Prefix)ExportEntidadId").dxSelectBox("instance").option("value");
+        var fechaDesde = moment($("#@(Prefix)ExportFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
+        var fechaHasta = moment($("#@(Prefix)ExportFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
+
+         DescargarArchivo(
+                "@Url.Action("ExcelInformeCarteraEntidad", Prefix)",
                 undefined,
                 { entidadId: entidadId, fechaDesde: fechaDesde, fechaHasta: fechaHasta }
          );
     }
 
-    function @(Prefix)MostrarModalImprimirIormGeneralCartera()
+    function @(Prefix)MostrarModalExportarIormGeneralCartera()
     {
-        $("#@(Prefix)PopupImprimirInformeGeneralCartera").dxPopup("instance").show();
+        $("#@(Prefix)PopupExportarInformeGeneralCartera").dxPopup("instance").show();
     }
 
-    function @(Prefix)ImprimirInformeGeneralCartera() {
+    function @(Prefix)ExportarInformeGeneralCartera() {
 
         $("#@(Prefix)Errores").html("");
 
-        var fechaDesde = moment($("#@(Prefix)ReporteGeneralFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
-        var fechaHasta = moment($("#@(Prefix)ReporteGeneralFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
+        var fechaDesde = moment($("#@(Prefix)ExportGeneralFechaDesde").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");
+        var fechaHasta = moment($("#@(Prefix)ExportGeneralFechaHasta").dxDateBox("instance").option("value")).format("YYYY-MM-DDTHH:mm:ss");;
 
          DescargarArchivo(
-            "@Url.Action("ImprimirInformeGeneralCartera", Prefix)",
+                "@Url.Action("ExportarInformeGeneralCartera", Prefix)",
                 undefined,
                 { fechaDesde: fechaDesde, fechaHasta: fechaHasta }
          );
@@ -260,25 +290,25 @@
 <div class="row">
     <div class="col-md-12">
         @(Html.DControls().Popup()
-            .ID($"{Prefix}PopupImprimirInformeCartera")
+            .ID($"{Prefix}PopupExportarInformeCarteraEntidad")
             .Width(800)
             .Height(280)
             .ShowTitle(true)
-            .Title(DApp.DefaultLanguage.GetResource("Facturas.ImprimirInformeCartera"))
+            .Title(DApp.DefaultLanguage.GetResource("Facturas.ExportarInformeCarteraEntidad"))
             .Visible(false)
             .DragEnabled(false)
             .CloseOnOutsideClick(false)
-            .ContentTemplate(new TemplateName($"{Prefix}TemplateImprimirInformeCartera"))
+            .ContentTemplate(new TemplateName($"{Prefix}TemplateExportarInformeCarteraEntidad"))
             )
 
-        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateImprimirInformeCartera"))
+        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateExportarInformeCarteraEntidad"))
         {
             <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="@($"{Prefix}ReporteSedeId")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteEntidadId"):</label>
+                    <label for="@($"{Prefix}ExportSedeId")">@DApp.DefaultLanguage.GetResource("Facturas.ExportEntidadId"):</label>
                     @(Html.DControls().SelectBox()
-                        .ID($"{Prefix}ReporteEntidadId").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportEntidadId").InputAttr("class", "form-control")
                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller(Prefix).LoadAction("GetEntidadesId").Key("Id"))
                         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                         .ValueExpr("Id").DisplayExpr("NitYNombre").SearchExpr("NumeroIdentificacion", "Nombre")
@@ -288,23 +318,23 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteFechaDesde"):</label>
+                    <label for="@($"{Prefix}ExportFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ExportFechaDesde"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteFechaDesde").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportFechaDesde").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteFechaHasta"):</label>
+                    <label for="@($"{Prefix}ExportFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ExportFechaHasta"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteFechaHasta").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportFechaHasta").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center">
-                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ImprimirInformeCartera()">DESCARGAR</button>
+                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ExportarInformeCarteraEntidad()">DESCARGAR</button>
             </div>
         }
 
@@ -313,40 +343,82 @@
 <div class="row">
     <div class="col-md-12">
                 @(Html.DControls().Popup()
-                    .ID($"{Prefix}PopupImprimirInformeGeneralCartera")
+                    .ID($"{Prefix}PopupExportarInformeGeneralCartera")
                     .Width(550)
                     .Height(200)
                     .ShowTitle(true)
-                    .Title(DApp.DefaultLanguage.GetResource("Facturas.ImprimirInformeGeneralCartera"))
+                    .Title(DApp.DefaultLanguage.GetResource("Facturas.ExportarInformeGeneralCartera"))
                     .Visible(false)
                     .DragEnabled(false)
                     .CloseOnOutsideClick(false)
-                    .ContentTemplate(new TemplateName($"{Prefix}TemplateImprimirInformeGeneralCartera"))
+                    .ContentTemplate(new TemplateName($"{Prefix}TemplateExportarInformeGeneralCartera"))
                     )
 
-        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateImprimirInformeGeneralCartera"))
+        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateExportarInformeGeneralCartera"))
         {
             <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
             
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteGeneralFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteGeneralFechaDesde"):</label>
+                    <label for="@($"{Prefix}ExportGeneralFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ExportGeneralFechaDesde"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteGeneralFechaDesde").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportGeneralFechaDesde").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="@($"{Prefix}ReporteGeneralFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ReporteGeneralFechaHasta"):</label>
+                    <label for="@($"{Prefix}ExportGeneralFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ExportGeneralFechaHasta"):</label>
                     @(Html.DControls().DateBox().Value(DateTime.Now)
-                        .ID($"{Prefix}ReporteGeneralFechaHasta").InputAttr("class", "form-control")
+                        .ID($"{Prefix}ExportGeneralFechaHasta").InputAttr("class", "form-control").Max(DateTime.Now)
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
                         )
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center">
-                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ImprimirInformeGeneralCartera()">DESCARGAR</button>
+                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ExportarInformeGeneralCartera()">DESCARGAR</button>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @(Html.DControls().Popup()
+            .ID($"{Prefix}PopupExportarSiigo")
+            .Width(550)
+            .Height(200)
+            .ShowTitle(true)
+            .Title(DApp.DefaultLanguage.GetResource("Facturas.ExportarSiigo"))
+            .Visible(false)
+            .DragEnabled(false)
+            .CloseOnOutsideClick(false)
+            .ContentTemplate(new TemplateName($"{Prefix}TemplateExportarSiigo"))
+            )
+
+        @using (Html.DevExtreme().NamedTemplate($"{Prefix}TemplateExportarSiigo"))
+        {
+            <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="@($"{Prefix}ExportarSiigoFechaDesde")">@DApp.DefaultLanguage.GetResource("Facturas.ExportarSiigoFechaDesde"):</label>
+                    @(Html.DControls().DateBox().Value(DateTime.Now)
+                        .ID($"{Prefix}ExportarSiigoFechaDesde").InputAttr("class", "form-control").Max(DateTime.Now)
+                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
+                        )
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="@($"{Prefix}ExportarSiigoFechaHasta")">@DApp.DefaultLanguage.GetResource("Facturas.ExportarSiigoFechaHasta"):</label>
+                    @(Html.DControls().DateBox().Value(DateTime.Now)
+                        .ID($"{Prefix}ExportarSiigoFechaHasta").InputAttr("class", "form-control").Max(DateTime.Now)
+                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true)
+                        )
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <button class="btn btn-dark btn" id="@(Prefix)ButtonAccept" onclick="@(Prefix)ExportarSiigo()">DESCARGAR</button>
             </div>
         }
     </div>

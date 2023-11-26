@@ -1,4 +1,4 @@
-using Blazor.BusinessLogic;
+﻿using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.EntregaAdmisiones;
 using Blazor.Reports.Facturas;
@@ -60,12 +60,36 @@ namespace Blazor.WebApp.Controllers
 
             if (citaAdmitida != null && OnState)
             {
-                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admision No. {citaAdmitida.Id} en proceso. Por favor verifique en el listado de admisiones.");
+                ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admisión No. {citaAdmitida.Consecutivo} en proceso. Por favor verifique en el listado de admisiones.");
             }
 
-            if (model.Entity.FechaAutorizacion > DateTime.Now)
+            if (!string.IsNullOrWhiteSpace(model.Entity.NroAutorizacion))
             {
-                ModelState.AddModelError("Entity.Id", "La fecha de autorizacion no puede ser mayor que la fecha actual.");
+                List<long> estadosAdmision = new List<long> { 72, 10079 };
+
+                var citaSeleccion = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.ProgramacionCitasId, true);
+                var admisionautorizacion = Manager().GetBusinessLogic<Admisiones>()
+                    .FindById(
+                        x => x.NroAutorizacion == model.Entity.NroAutorizacion &&
+                        !estadosAdmision.Contains(x.EstadosId) &&
+                        x.Id != model.Entity.Id &&
+                        x.ProgramacionCitas.ServiciosId == citaSeleccion.ServiciosId &&
+                        x.PacientesId == citaSeleccion.PacientesId
+                    , true);
+                if (admisionautorizacion != null)
+                {
+                    ModelState.AddModelError("Entity.Id", $"El número de autorización {model.Entity.NroAutorizacion} ha sido registrado en la admisión consecutivo {admisionautorizacion.Consecutivo}, para el servicio {citaSeleccion.Servicios.Nombre} y el paciente {citaSeleccion.Pacientes.NombreCompleto}.");
+                }
+            }
+
+            if (model.Entity.FechaAutorizacion.HasValue && !DApp.Util.EsFechaCorrecta(model.Entity.FechaAutorizacion.Value))
+            {
+                ModelState.AddModelError("Entity.Id", "La fecha de la autorización se encuentra fuera de los rangos permitidos (1/1/1800 12:00:00 AM al 31/12/2900 11:59:59 PM).");
+            }
+
+            if (model.Entity.FechaAutorizacion.HasValue && model.Entity.FechaAutorizacion.Value > DateTime.Now)
+            {
+                ModelState.AddModelError("Entity.Id", "La fecha de autorización no puede ser mayor que la fecha actual.");
             }
 
             if (!OnState)
@@ -74,7 +98,7 @@ namespace Blazor.WebApp.Controllers
                 var estadosId = new List<long> { 62, 72, 10068, 10079 };
                 if (estadosId.Contains(admisionDB.EstadosId))
                 {
-                    ModelState.AddModelError("Entity.Id", $"La admisi�n no puede ser modificada ya que se encuentra en estado {admisionDB.Estados.Nombre}");
+                    ModelState.AddModelError("Entity.Id", $"La admisión no puede ser modificada ya que se encuentra en estado {admisionDB.Estados.Nombre}");
                 }
             }
 
@@ -253,7 +277,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                    throw new Exception("Los parámetros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
                 var parametros = new Dictionary<string, object>
                 {
@@ -277,7 +301,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                    throw new Exception("Los parámetros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
                 fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);

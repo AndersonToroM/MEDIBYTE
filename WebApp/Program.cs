@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using Dominus.Backend.Application;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -12,16 +13,14 @@ namespace Blazor.WebApp
 {
     public class Program
     {
-        public static string DirectoryLog = Path.Combine(Environment.CurrentDirectory, "wwwroot", "Files", "Logs");
-
         public static void Main(string[] args)
         {
             CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("es");
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 
-            if (!Directory.Exists(DirectoryLog))
-                Directory.CreateDirectory(DirectoryLog);
+            if (!Directory.Exists(DApp.PathDirectoryLogs))
+                Directory.CreateDirectory(DApp.PathDirectoryLogs);
 
             var assembly = Assembly.GetExecutingAssembly().GetName();
 
@@ -30,7 +29,7 @@ namespace Blazor.WebApp
             .Enrich.WithProperty("Application", $"{assembly.Name}")
             //.WriteTo.Console()
             .Filter.ByExcluding(c => c.MessageTemplate.Text.Contains("Authorization was successful"))
-            .WriteTo.File(Path.Combine(DirectoryLog, "log.log"),
+            .WriteTo.File(Path.Combine(DApp.PathDirectoryLogs, "log.log"),
                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning,
                     rollingInterval: RollingInterval.Day,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")

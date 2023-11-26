@@ -16,12 +16,12 @@
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("OrdenesMedicamentos").LoadAction("Get").Key("Id"))
     .Columns(columns =>
     {
-        columns.AddFor(m => m.NroOrden);
-        columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
-        columns.AddFor(m => m.Pacientes.NombreCompleto);
-        columns.AddFor(m => m.Profesional.NombreCompleto);
-        columns.AddFor(m => m.Fecha).SortOrder(SortOrder.Desc);
-        columns.AddFor(m => m.HIstoriasClinicas.EnfermedadActual);        
+            columns.AddFor(m => m.Fecha).SortOrder(SortOrder.Desc);
+            columns.AddFor(m => m.HIstoriasClinicas.Consecutivo).Caption(DApp.DefaultLanguage.GetResource("OrdenesMedicamentos.Consecutivo"));
+            columns.AddFor(m => m.NroOrden);
+            columns.AddFor(m => m.Pacientes.NumeroIdentificacion).Caption(DApp.DefaultLanguage.GetResource("OrdenesMedicamentos.NumeroIdentificacion"));
+            columns.AddFor(m => m.Pacientes.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("OrdenesMedicamentos.PacienteNombreCompleto"));
+            columns.AddFor(m => m.Profesional.NombreCompleto).Caption(DApp.DefaultLanguage.GetResource("OrdenesMedicamentos.ProfesionalNombreCompleto"));
     })
 ) 
 </div> 

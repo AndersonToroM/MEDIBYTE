@@ -1,14 +1,15 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Frontend.Controllers;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
-
 
 namespace Blazor.BusinessLogic.Jobs
 {
@@ -16,11 +17,9 @@ namespace Blazor.BusinessLogic.Jobs
     // docs: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html#cron-expressions
     // cron: http://www.cronmaker.com/?1 or 
 
-    #region JOB EXECUTION
-
     public class JobExecution
     {
-        public static Dictionary<string, IScheduler> DicScheduler = new Dictionary<string, IScheduler>();
+        public static IScheduler Scheduler = null;
         public static List<JobData> Jobs { get; set; } = new List<JobData>();
 
         public async Task RunJobs()
@@ -29,55 +28,67 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (DApp.Tenants != null && DApp.Tenants.Count > 0)
                 {
+                    Console.WriteLine($"Cantidad de tenants: {DApp.Tenants.Count}");
+
+                    // Grab the Scheduler instance from the Factory
+                    NameValueCollection props = new NameValueCollection { { "quartz.serializer.type", "binary" } };
+                    StdSchedulerFactory factory = new StdSchedulerFactory(props);
+                    Scheduler = await factory.GetScheduler();
+
                     foreach (var tenant in DApp.Tenants)
                     {
                         DataBaseSetting BD = tenant.DataBaseSetting;
-                        if (!BD.TurnOnJobs)
+
+                        Console.WriteLine($"Tenant DB: {BD.InitialCatalog} Turn Job: {BD.TurnOnJobs}");
+
+                        if (BD.TurnOnJobs)
                         {
-                            return;
-                        }
+                            // and start it off
+                            await Scheduler.Start();
 
-                        // Grab the Scheduler instance from the Factory
-                        NameValueCollection props = new NameValueCollection { { "quartz.serializer.type", "binary" } };
-                        StdSchedulerFactory factory = new StdSchedulerFactory(props);
-                        IScheduler scheduler = await factory.GetScheduler();
-
-                        // and start it off
-                        await scheduler.Start();
-
-                        List<Job> jobs = new GenericBusinessLogic<Job>(BD).FindAll(x => x.Active);
-                        foreach (var job in jobs)
-                        {
-                            Type type = Type.GetType("Blazor.BusinessLogic.Jobs." + job.Class);
-                            if (type != null)
+                            List<Job> jobs = new GenericBusinessLogic<Job>(BD).FindAll(x => x.Active);
+                            foreach (var job in jobs)
                             {
-                                JobData jobData = new JobData();
-                                jobData.Class = job.Class;
-                                jobData.CronExpression = job.CronSchedule;
-                                jobData.ConnectionName = tenant.Code;
+                                Type type = Type.GetType("Blazor.BusinessLogic.Jobs." + job.Class);
+                                if (type != null)
+                                {
+                                    JobData jobData = new JobData();
+                                    jobData.IdJob = job.Id;
+                                    jobData.Class = job.Class;
+                                    jobData.TenantCode = tenant.Code;
+                                    jobData.CronExpression = job.CronSchedule;
 
-                                jobData.IJobDetail = JobBuilder.Create(type)
-                                .WithIdentity($"Job_{job.Id}_{jobData.Class}", jobData.Class)
-                                .UsingJobData("TenantCode", tenant.Code)
-                                .Build();
-
-                                jobData.ITrigger = TriggerBuilder.Create()
-                                    .WithIdentity($"Trigger_{job.Id}_{jobData.Class}", jobData.Class)
-                                    .WithCronSchedule(job.CronSchedule)
-                                    //.WithSimpleSchedule(x=> x.WithIntervalInSeconds(30).RepeatForever())
+                                    jobData.IJobDetail = JobBuilder.Create(type)
+                                    .WithIdentity(jobData.JobKey, jobData.Group)
+                                    .UsingJobData("TenantCode", tenant.Code)
                                     .Build();
 
-                                await scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
-                                Jobs.Add(jobData);
-                                Console.WriteLine($"Rutina Id={job.Id} {jobData.Class} para {tenant.Code} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
-                            }
-                            else
-                            {
-                                Console.WriteLine($" ::::::::::: Id={job.Id} Clase ({job.Class} para {tenant.Code}) no existe o esta mal ubicado en el proyecto ::::::::::: ");
-                            }
+                                    jobData.ITrigger = TriggerBuilder.Create()
+                                        .WithIdentity(jobData.TriggerKey, jobData.Group)
+                                        .WithCronSchedule(jobData.CronExpression)
+                                        //.WithSimpleSchedule(x=> x.WithIntervalInSeconds(30).RepeatForever())
+                                        .Build();
 
+                                    await Scheduler.ScheduleJob(jobData.IJobDetail, jobData.ITrigger);
+                                    Jobs.Add(jobData);
+                                    Console.WriteLine($"Rutina Id={jobData.JobKey} creada - " + DateTime.Now.ToLongTimeString() + " -> " + job.Description);
+
+                                    try
+                                    {
+                                        var logic = new Dominus.Backend.DataBase.BusinessLogic(BD);
+                                        logic.JobsBusinessLogic().SaveJobLog(jobData.Class, true, "Rutina creada.");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.GetFullErrorMessage());
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine($" ::::::::::: Id={job.Id} Clase ({job.Class} para {tenant.Code}) no existe o esta mal ubicado en el proyecto ::::::::::: ");
+                                }
+                            }
                         }
-                        DicScheduler.Add(tenant.Code, scheduler);
                     }
                 }
 
@@ -95,11 +106,25 @@ namespace Blazor.BusinessLogic.Jobs
 
     public class JobData
     {
+
         public IJobDetail IJobDetail { get; set; }
         public ITrigger ITrigger { get; set; }
+        public long IdJob { get; set; }
         public string Class { get; set; }
         public string CronExpression { get; set; }
-        public string ConnectionName { get; set; }
+        public string TenantCode { get; set; }
+        public string Group
+        {
+            get { return $"{TenantCode}_{Class}"; }
+        }
+        public string JobKey
+        {
+            get { return $"Job_{TenantCode}_{IdJob}_{Class}"; }
+        }
+        public string TriggerKey
+        {
+            get { return $"Trigger_{TenantCode}_{IdJob}_{Class}"; }
+        }
     }
 
     public class ConsoleLogProvider : ILogProvider
@@ -132,5 +157,4 @@ namespace Blazor.BusinessLogic.Jobs
         }
     }
 
-    #endregion
 }

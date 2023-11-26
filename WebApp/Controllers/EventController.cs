@@ -72,6 +72,18 @@ namespace Blazor.WebApp.Controllers
 
                     manager.GetBusinessLogic<EventosDIAN>().Add(eventR);
 
+                    var job = new ConfiguracionEnvioEmailJob
+                    {
+                        Id = 0,
+                        Ejecutado = false,
+                        Exitoso = false,
+                        UpdatedBy = "Acepta",
+                        LastUpdate = DateTime.Now,
+                        CreatedBy = "Acepta",
+                        CreationDate = DateTime.Now,
+                        Intentos = 0
+                    };
+
                     var invoice = manager.GetBusinessLogic<Facturas>().FindById(x => (x.Documentos.Prefijo + x.NroConsecutivo.ToString()) == eventR.NroId, true);
                     if (invoice != null && (string.IsNullOrWhiteSpace(invoice.DIANResponse) || string.IsNullOrWhiteSpace(invoice.DIANResponse) || !invoice.DIANResponse.Contains("Aceptado")))
                     {
@@ -80,14 +92,20 @@ namespace Blazor.WebApp.Controllers
                         invoice.DIANResponse = eventR.TipoEvento + " " + eventR.Descripcion;
                         invoice.XmlUrl = eventR.XmlDoc;
                         invoice = manager.GetBusinessLogic<Facturas>().Modify(invoice);
-                        try
-                        {
-                            await manager.FacturasBusinessLogic().EnviarEmail(invoice, "Envio Factura Evento DIAN", User.Identity.Name);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine($"Error Enviando el correo. | {e.Message}", Console.ForegroundColor = ConsoleColor.Red);
-                        }
+
+                        job.Tipo = 1;
+                        job.IdTipo = invoice.Id;
+                        manager.GetBusinessLogic<ConfiguracionEnvioEmailJob>().Add(job);
+
+                        //try
+                        //{
+                        //    await manager.FacturasBusinessLogic().EnviarEmail(invoice, "Envio Factura Evento DIAN", User.Identity.Name);
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    Console.WriteLine($"Error Enviando el correo. | {e.Message}", Console.ForegroundColor = ConsoleColor.Red);
+                        //}
+
                     }
 
                     var note = manager.GetBusinessLogic<Notas>().FindById(x => (x.Documentos.Prefijo + x.Consecutivo.ToString()) == eventR.NroId, true);
@@ -98,14 +116,19 @@ namespace Blazor.WebApp.Controllers
                         note.DIANResponse = eventR.TipoEvento + " " + eventR.Descripcion;
                         note.XmlUrl = eventR.XmlDoc;
                         manager.GetBusinessLogic<Notas>().Modify(note);
-                        try
-                        {
-                            await manager.NotasBusinessLogic().EnviarEmail(note, "Envio Nota Evento DIAN", User.Identity.Name);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine($"Error Enviando el correo. | {e.Message}", Console.ForegroundColor = ConsoleColor.Red);
-                        }
+
+                        job.Tipo = 2;
+                        job.IdTipo = note.Id;
+                        manager.GetBusinessLogic<ConfiguracionEnvioEmailJob>().Add(job);
+
+                        //try
+                        //{
+                        //    await manager.NotasBusinessLogic().EnviarEmail(note, "Envio Nota Evento DIAN", User.Identity.Name);
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    Console.WriteLine($"Error Enviando el correo. | {e.Message}", Console.ForegroundColor = ConsoleColor.Red);
+                        //}
                     }
 
                     if (invoice == null && note == null)

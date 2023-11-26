@@ -9,7 +9,7 @@ namespace Dominus.Backend.Application
 {
     public class Util
     {
-        public string UserSystem = "Sistema | Rutinas programadas o eventos externos.";
+        public string UserSystem = "Sistema SIISO.";
         public string EmailOrigen_PorDefecto = "POR DEFECTO";
         public string EmailOrigen_Facturacion = "FACTURACION";
 
@@ -61,6 +61,27 @@ namespace Dominus.Backend.Application
         public List<DiaFestivo> Festivos(int anio)
         {
             return new FestivosColombia(anio).Festivos();
+        }
+
+        public int CalcularEdad(DateTime? fecha)
+        {
+            return CalcularEdad(fecha, DateTime.Now);
+        }
+
+        public int CalcularEdad(DateTime? fecha, DateTime? fechaCalcular)
+        {
+            if (!fecha.HasValue)
+            {
+                return 0;
+            }
+            else if (!fechaCalcular.HasValue)
+            {
+                return DateTime.Now.Year - fecha.Value.Year;
+            }
+            else
+            {
+                return fechaCalcular.Value.Year - fecha.Value.Year;
+            }
         }
 
         public string CalcularPesoParaBytes(Int64 bytes)
@@ -283,6 +304,15 @@ namespace Dominus.Backend.Application
 
             return numero;
 
+        }
+
+        public bool EsFechaCorrecta(DateTime fecha)
+        {
+            if (fecha < DApp.FechaMinima || fecha > DApp.FechaMaxima)
+            {
+                return false;
+            }
+            return true;
         }
 
         public string ObtenerContentTypePorExtension(string extension)

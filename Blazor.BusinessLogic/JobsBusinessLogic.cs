@@ -1,15 +1,15 @@
-﻿using Blazor.Infrastructure;
+﻿using Blazor.BusinessLogic.Jobs;
+using Blazor.BusinessLogic.Models.Enums;
+using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
-using Blazor.Reports.RadicacionCuentas;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
+using Microsoft.EntityFrameworkCore;
+using Quartz;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Blazor.BusinessLogic
 {
@@ -23,7 +23,62 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public void SaveJobLog(string nameClass, bool isSuccess, string error = null)
+        #region Internal methods
+
+        public void ActualizarJob(Job job, string host)
+        {
+            try
+            {
+                BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+                var tenant = DApp.GetTenant(host);
+                if (tenant == null)
+                {
+                    throw new Exception($"No existe tenant para el host {host}");
+                }
+
+                var jobBD = unitOfWork.Repository<Job>().FindById(x => x.Id == job.Id, false);
+                if (jobBD == null)
+                {
+                    throw new Exception($"No existe rutina {job.Id}");
+                }
+
+                var jobQuartz = JobExecution.Jobs.FirstOrDefault(x => x.TenantCode.Equals(tenant.Code) && x.IdJob == jobBD.Id && x.Class.Equals(jobBD.Class));
+                if (jobQuartz == null)
+                {
+                    throw new Exception($"No existe un job quartz para {tenant.Code}, {jobBD.Id}, {jobBD.Class}");
+                }
+
+                var jobKey = new JobKey(jobQuartz.JobKey, jobQuartz.Group);
+                var triggerKey = new TriggerKey(jobQuartz.TriggerKey, jobQuartz.Group);
+
+                if (!jobBD.CronSchedule.Equals(job.CronSchedule))
+                {
+                    jobQuartz.ITrigger = TriggerBuilder.Create()
+                                    .WithIdentity(jobQuartz.TriggerKey, jobQuartz.Group)
+                                    .WithCronSchedule(job.CronSchedule)
+                                    .Build();
+
+                    JobExecution.Scheduler.RescheduleJob(triggerKey, jobQuartz.ITrigger).GetAwaiter().GetResult();
+                }
+
+                if (job.Active && !jobBD.Active)
+                {
+                    JobExecution.Scheduler.ResumeJob(jobKey).GetAwaiter().GetResult();
+                }
+                else if (!job.Active && jobBD.Active)
+                {
+                    JobExecution.Scheduler.PauseJob(jobKey).GetAwaiter().GetResult();
+                }
+
+                unitOfWork.Repository<Job>().Modify(job);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.GetFullErrorMessage());
+            }
+        }
+
+        public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null , string error = null)
         {
             try
             {
@@ -36,6 +91,7 @@ namespace Blazor.BusinessLogic
                     DateExecution = DateTime.Now,
                     IsSuccess = isSuccess,
                     Error = error,
+                    Descripcion = descripcion,
                     CreatedBy = "Rutina",
                     UpdatedBy = "Rutina",
                     CreationDate = DateTime.Now,
@@ -50,43 +106,41 @@ namespace Blazor.BusinessLogic
             }
         }
 
-        public void PruebaDeRutina()
+        #endregion
+
+        public async Task<bool> EnvioCorreoEventoAcepta()
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            RadicacionCuentas data = unitOfWork.Repository<RadicacionCuentas>().Table.FirstOrDefault();
+            ConfiguracionEnvioEmailJob job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                .OrderBy(x => x.CreationDate)
+                .FirstOrDefault(x => !x.Exitoso && x.Intentos < 3);
 
-            if (data == null)
+            if (job == null)
             {
-                throw new Exception("No se encontro datos en RadicacionCuentas");
+                return false;
             }
 
-            EmailModelConfig envioEmailConfig = new EmailModelConfig();
-            envioEmailConfig.Origen = DApp.Util.EmailOrigen_PorDefecto;
-            envioEmailConfig.Asunto = $"Test rutina - envia un formato de radicacion cuentas";
-            envioEmailConfig.MetodoUso = "Test rutina";
-            envioEmailConfig.Template = "EmailPruebaEnvioCorreo";
-            envioEmailConfig.Destinatarios.Add("edwin.aguiar@outlook.com");
-            envioEmailConfig.Destinatarios.Add("anderson.toromuriel@gmail.com");
-            envioEmailConfig.ArchivosAdjuntos.Add($"RadicacionCuentasReporte-{data.Consecutivo}.pdf", GetPdfRadicacionCuentasReporte(data));
-            envioEmailConfig.Datos = new Dictionary<string, string>
+            try
+            {
+                if (job.Tipo == (int)TipoDocumento.Factura) // Tipo factura
                 {
-                    {"nombreCia", DApp.Util.UserSystem }
-                };
+                    await new FacturasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Factura Evento DIAN", DApp.Util.UserSystem);
+                }
+                else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
+                {
+                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem);
+                }
+            }
+            catch (Exception ex)
+            {
+                job.Ejecutado = true;
+                job.Exitoso = false;
+                job.Intentos++;
+                job.Detalle +=  $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+            }
 
-            new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
-
-        }
-
-        private Stream GetPdfRadicacionCuentasReporte(RadicacionCuentas data)
-        {
-            XtraReport xtraReport = ReportExtentions.Report<RadicacionCuentasReporte>(this.BusinessLogic, data.Id);
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"RadicacionCuentasReporte-{data.Consecutivo}.pdf");
-            PdfExportOptions pdfOptions = new PdfExportOptions();
-            pdfOptions.ConvertImagesToJpeg = false;
-            pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
-            pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
-            xtraReport.ExportToPdf(pathPdf, pdfOptions);
-            return new MemoryStream(File.ReadAllBytes(pathPdf));
+            return true;
         }
     }
 }

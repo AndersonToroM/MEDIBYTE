@@ -31,15 +31,39 @@
         $("#PacientesCalculoEdad").text("Edad: " + edadCompleta.textoEdad);
     }
 
+     
+    function @(Prefix)OnValueChangedEstadoPertenecePrograma(input) {
+
+        if(input.value == true)
+        {
+            $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("readOnly", false);
+        }else
+        {
+            $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("readOnly", true);
+            $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value", null);
+        }
+    }
+
     function @(Prefix)PopupAbrirHC(data)
     {
         var CausasExternasId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
         var FinalidadConsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
+        var ProgramasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
+        var PertenecePrograma = $("#@(Prefix)PertenecePrograma").dxCheckBox("instance").option("value");
+        var EnfermedadesHuerfanasId = $("#@(Prefix)EnfermedadesHuerfanasId").dxSelectBox("instance").option("value");
 
         if (CausasExternasId == null || CausasExternasId == "" || CausasExternasId == 0 ||
-        FinalidadConsultaId == null || FinalidadConsultaId == "" || FinalidadConsultaId == 0) {
-            DevExpress.ui.notify("La causa externa y la finalidad son obligatorias para abrir la historia clinica.", "error");
+            FinalidadConsultaId == null || FinalidadConsultaId == "" || FinalidadConsultaId == 0)
+            {
+            DevExpress.ui.notify("La causa externa y la finalidad de la consulta son obligatorias para abrir la historia clinica.", "error");
             return false;
+        } if ((ProgramasId == null || ProgramasId == "" || ProgramasId == 0) && (PertenecePrograma == true))
+        {
+            DevExpress.ui.notify("Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?", "error");
+            return false
+        } if (EnfermedadesHuerfanasId == null || EnfermedadesHuerfanasId == "" || EnfermedadesHuerfanasId == 0) {
+            DevExpress.ui.notify("Debe seleccionar una opción del listado de enfemedades huérfanas", "error");
+            return false
         }
 
         $("#PopupAbrirHC").dxPopup("instance").show();
@@ -50,6 +74,9 @@
         var hcTipoId = $("#@(Prefix)TipoHC").dxSelectBox("instance").option("value");
         var causaExternaId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
         var finalidadconsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
+        var programasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
+        var enfermedadesHuerfanasId = $("#@(Prefix)EnfermedadesHuerfanasId").dxSelectBox("instance").option("value");
+        var pertenecePrograma = $("#@(Prefix)PertenecePrograma").dxCheckBox("instance").option("value");
 
         if (hcTipoId == null || hcTipoId == "" || hcTipoId == 0) {
             DevExpress.ui.notify("El tipo de historia clinica es obligatorio.", "error");
@@ -61,7 +88,10 @@
                 atentionId: @Model.Entity.Id,
                 hcTipoId: hcTipoId,
                 causaExternaId: causaExternaId,
-                finalidadconsultaId: finalidadconsultaId
+                finalidadconsultaId: finalidadconsultaId,
+                programasId: programasId,
+                enfermedadesHuerfanasId: enfermedadesHuerfanasId,
+                pertenecePrograma: pertenecePrograma
             }
         );
 

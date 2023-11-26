@@ -10,6 +10,7 @@ using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -469,17 +470,20 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult DescargarXLSX0256(long sedeId, DateTime fechaDesde, DateTime fechaHasta)
+        public IActionResult DescargarXLSX0256(long sedeId, DateTime periodo)
         {
             try
             {
-                if (sedeId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
-                    throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Sede no fueron enviados correctamente al servidor.");
+                if (sedeId <= 0)
+                    throw new Exception("Los parametros no fueron enviados correctamente al servidor.");
 
-                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
-                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
+                if (periodo < DateTime.MinValue)
+                    throw new Exception($"El período fue enviado incorrectamente. {periodo.ToShortDateString()}");
+
+                var fechaDesde = new DateTime(periodo.Year, periodo.Month, periodo.Day, 0, 0, 0);
+                var fechaHasta = new DateTime(periodo.Year, periodo.Month, DateTime.DaysInMonth(periodo.Year, periodo.Month), 23, 59, 59);
                 byte[] book = Manager().ProgramacionCitasBusinessLogic().DescargarXLSX0256(sedeId, fechaDesde, fechaHasta);
-                return File(book, "application/octet-stream", $"R-0256_{sedeId}_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+                return File(book, "application/octet-stream", $"R-0256_{sedeId}_{fechaDesde.ToString("yyyyMM")}.xlsx");
             }
             catch (Exception e)
             {

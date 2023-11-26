@@ -1,0 +1,84 @@
+@*  Remplazar FATHERModel por el modelo del padre al que pertenece   *@
+
+@model JobModel
+@{
+    string Prefix = "ConfiguracionEnvioEmailJob";
+    string UrlOnClick = Url.Action("EditDetail", "ConfiguracionEnvioEmailJob");
+    string UrlNew = Url.Action("NewDetail", "ConfiguracionEnvioEmailJob", new { IdFather = Model.Entity.Id });
+
+    var DataGridDetailConfig = new DataGridConfiguration<ConfiguracionEnvioEmailJob>(Prefix)
+        //.OnClick(UrlOnClick, new { Id = "Id" }, Prefix + "MainPanelForm")
+        //.New(UrlNew,Model.Entity.IsNew,Prefix + "MainPanelForm")
+        .Exports(true, true);
+}
+
+<script>
+    function @(Prefix)CalculateDisplayValueTipo(item) {
+        return (item.Tipo == 1 ? "Factura" : "Nota");
+    }
+</script>
+
+
+
+@* ------------ Descomentar el siguiente codigo si es una edicion en maestro --------------- *@
+
+<div class="card cardDeatil">
+    <div class="card-body">
+        <div class="box-body table-responsive no-padding">
+            @(Html.DControls().DataGridSimple<ConfiguracionEnvioEmailJob>(DataGridDetailConfig)
+                .ID("ConfiguracionEnvioEmailJobDetalleDataGrid")
+                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ConfiguracionEnvioEmailJob").LoadAction("Get").Key("Id"))
+                .Columns(columns =>
+                {
+                    columns.AddFor(m => m.CreationDate).SortOrder(SortOrder.Desc);
+                    columns.AddFor(m => m.Tipo).CalculateCellValue(Prefix + "CalculateDisplayValueTipo");
+                    columns.AddFor(m => m.IdTipo);
+                    columns.AddFor(m => m.Ejecutado);
+                    columns.AddFor(m => m.Exitoso);
+                    columns.AddFor(m => m.Detalle);
+                })
+                )
+        </div>
+    </div>
+</div>
+
+
+
+@* ------------ Descomentar el siguiente codigo si es una edicion en grilla y COMENTAR LOS METODOS OnClick y New del DataGridDetailConfig --------------- *@
+@*
+<script>
+     function @(Prefix)OnInitNewRowDetalleDataGrid(model) {
+         model = GetAuditoryData(model);
+         model.data.IdFather = "@Model.Entity.Id"; // Cambiar IdFather por el campo foraneo hacia el padre
+     }
+</script>
+<div class="card cardDeatil">
+    <div class="card-body">
+        <div class="box-body table-responsive no-padding">
+             @(Html.DControls().DataGridSimple<ConfiguracionEnvioEmailJob>(DataGridDetailConfig)
+                 .ID("ConfiguracionEnvioEmailJobDetalleDataGrid")
+                 .DataSource(d => d.Mvc().LoadMethod("POST").Controller("ConfiguracionEnvioEmailJob").LoadAction("Get").Key("Id")
+                     .InsertAction("AddInGrid").InsertMethod("POST").UpdateAction("ModifyInGrid").UpdateMethod("POST").DeleteAction("DeleteInGrid").DeleteMethod("POST")
+                 )
+                 .DataSourceOptions(x=>x.Filter("['IdFather','=','"+@Model.Entity.Id+"']")) // Cambiar IdFather por el campo foraneo hacia el padre
+                 .Editing(editing => editing.Mode(GridEditMode.Batch).AllowAdding(!Model.Entity.IsNew).AllowUpdating(true).AllowDeleting(true))
+                 .OnInitNewRow(Prefix + "OnInitNewRowDetalleDataGrid")
+                 .OnRowInserted("OnRowInsertedDetalleDataGrid").OnRowUpdated("OnRowUpdatedDetalleDataGrid").OnRowRemoved("OnRowRemovedDetalleDataGrid").OnDataErrorOccurred("OnDataErrorOccurredDetalleDataGrid")
+                 .Columns(columns =>
+                 {
+                     columns.AddFor(m => m.Tipo).Format("#,##0.##")
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ConfiguracionEnvioEmailJob.Tipo")));
+                     columns.AddFor(m => m.IdTipo).Format("#,##0.##")
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ConfiguracionEnvioEmailJob.IdTipo")));
+                     columns.AddFor(m => m.Ejecutado)
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ConfiguracionEnvioEmailJob.Ejecutado")));
+                     columns.AddFor(m => m.Exitoso)
+                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ConfiguracionEnvioEmailJob.Exitoso")));
+                     columns.AddFor(m => m.Error)
+                     ;
+             })
+         )
+        </div>
+    </div>
+</div>
+*@

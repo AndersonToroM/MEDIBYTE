@@ -1,0 +1,25 @@
+@{
+    string Prefix = "Job";
+    string UrlClick = Url.Action("Edit", "Job");
+    string UrlNew = Url.Action("New", "Job");
+
+    var DataGridConfig = new DataGridConfiguration<Job>(Prefix)
+        .OnClick(UrlClick, new { Id = "Id" })
+        //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
+        .Exports(true, true)
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("Jobs"), "mainPanel");
+}
+
+<div class="box-body table-responsive no-padding">
+    @(Html.DControls().DataGridSimple<Job>(DataGridConfig)
+        .ID("JobDataGrid")
+        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Job").LoadAction("Get").Key("Id"))
+        .Columns(columns =>
+        {
+            columns.AddFor(m => m.Id);
+            columns.AddFor(m => m.Description);
+            columns.AddFor(m => m.Active);
+            columns.AddFor(m => m.CronSchedule);
+        })
+        )
+</div>

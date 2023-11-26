@@ -3,9 +3,11 @@ using Blazor.Infrastructure.Entities;
 namespace Blazor.WebApp.Models
 {
 
-   public partial class RecaudosModel
-   {
-      public Recaudos Entity { get; set; }
+    public partial class RecaudosModel
+    {
+        public Recaudos Entity { get; set; }
+
+        public bool EsMismoUsuario{ get; set;}
 
       public RecaudosModel()
       {

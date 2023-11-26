@@ -251,16 +251,16 @@ namespace Blazor.WebApp.Controllers
                 if (string.IsNullOrWhiteSpace(detalleAnulacion))
                     throw new Exception($"El motivo de anulación es obligatorio.");
 
-                var admision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == consecutivoAdmision, true);
+                var admision = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Consecutivo == consecutivoAdmision, true);
                 if (admision == null)
                     throw new Exception($"La admision No. {consecutivoAdmision} no existe.");
-                if(admision.ProgramacionCitas.Consecutivo != consecutivoCita)
+                if (admision.ProgramacionCitas.Consecutivo != consecutivoCita)
                     throw new Exception($"La admision No. {consecutivoAdmision} no corresponde a la cita No. {consecutivoCita}. Por favor verifique los consecutivos.");
 
-                var atencion = Manager().GetBusinessLogic<Atenciones>().FindById(x => x.AdmisionesId == consecutivoAdmision, true);
+                var atencion = Manager().GetBusinessLogic<Atenciones>().FindById(x => x.Admisiones.Consecutivo == consecutivoAdmision, true);
                 if (atencion == null)
                     throw new Exception($"La admision No. {consecutivoAdmision} no tiene una atencion realizada aun.");
-                if(atencion.EstadosId == 10077 && admision.EstadosId == 10079 && admision.ProgramacionCitas.EstadosId == 10078)
+                if (atencion.EstadosId == 10077 && admision.EstadosId == 10079 && admision.ProgramacionCitas.EstadosId == 10078)
                     throw new Exception($"La atención, admisión y cita ya se encuentra en estado \"Anulada en Atención\".");
 
                 atencion.DetalleAnulacion = detalleAnulacion;

@@ -113,8 +113,8 @@ namespace Blazor.WebApp.Controllers
                 { 
                     ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
                 } 
-            }  
-            return model; 
+            }
+            return NewModelDetail(model.Entity.HistoriasClinicasId);
         } 
 
         [HttpPost]

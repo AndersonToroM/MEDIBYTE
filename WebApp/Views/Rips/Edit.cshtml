@@ -75,14 +75,14 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaRemision).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.FechaRemision")))
-                                      .Editor(e => e.DateBox().ID(Prefix + "FechaRemision").Type(DateBoxType.DateTime)
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaRemision").Type(DateBoxType.DateTime)
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder("yyyy-MM")
                                       .ReadOnly(true)
                                       );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Periodo).ColSpan(3)
                                   .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Rips.Periodo")))
-                                      .Editor(e => e.DateBox().ID(Prefix + "Periodo").Type(DateBoxType.Date)
+                                      .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "Periodo").Type(DateBoxType.Date)
                                       .DisplayFormat(Format.MonthAndYear).CalendarOptions(x=>x.MaxZoomLevel(CalendarZoomLevel.Year).MinZoomLevel(CalendarZoomLevel.Century))
                                       .ShowClearButton(true).UseMaskBehavior(true)
                                       );

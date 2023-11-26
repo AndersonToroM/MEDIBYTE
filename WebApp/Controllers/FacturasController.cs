@@ -10,6 +10,7 @@ using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -356,7 +357,7 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult ImprimirInformeCartera(long entidadId)
+        public IActionResult DescargarInformeCartera(long entidadId)
         {
             try
             {
@@ -378,11 +379,11 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult XLSXInformeCartera(long entidadId, DateTime fechaDesde, DateTime fechaHasta)
+        public IActionResult ExcelInformeCarteraEntidad(long entidadId, DateTime fechaDesde, DateTime fechaHasta)
         {
             try
             {
-                if (entidadId <= 0 || fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                if (entidadId <= 0 || fechaDesde.Year < 2000 || fechaHasta > DateTime.Now)
                     throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Entidad no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
@@ -397,11 +398,11 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult ImprimirInformeGeneralCartera(DateTime fechaDesde, DateTime fechaHasta)
+        public IActionResult ExportarInformeGeneralCartera(DateTime fechaDesde, DateTime fechaHasta)
         {
             try
             {
-                if (fechaDesde.Year < 1900 || fechaHasta.Year < 1900)
+                if (fechaDesde.Year < 2000 || fechaHasta > DateTime.Now)
                     throw new Exception("Los parametros Fecha Desde, Fecha Hasta y Entidad no fueron enviados correctamente al servidor.");
 
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
@@ -412,6 +413,25 @@ namespace Blazor.WebApp.Controllers
             catch (Exception e)
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage()); 
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ExportarSiigo(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                if (fechaDesde.Year < 2000 || fechaHasta > DateTime.Now)
+                    throw new Exception("Los parametros Fecha Desde y Fecha Hasta no fueron enviados correctamente al servidor.");
+
+                fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
+                fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
+                byte[] book = Manager().FacturasBusinessLogic().ExcelExportarSiigo(fechaDesde, fechaHasta);
+                return File(book, "application/octet-stream", $"Exportar_SIIGO_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
         }
 

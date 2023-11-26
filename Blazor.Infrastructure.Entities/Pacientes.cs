@@ -127,6 +127,12 @@ namespace Blazor.Infrastructure.Entities
         [DRequiredFK("Pacientes.GenerosId")]
         public virtual Int64 GenerosId { get; set; }
 
+        [Column("GenerosIdentidadId")]
+        [DDisplayName("Pacientes.GenerosIdentidadId")]
+        [DRequired("Pacientes.GenerosIdentidadId")]
+        [DRequiredFK("Pacientes.GenerosIdentidadId")]
+        public virtual Int64 GenerosIdentidadId { get; set; }
+
         [Column("EstadosCivilesId")]
         [DDisplayName("Pacientes.EstadosCivilesId")]
         public virtual Int64? EstadosCivilesId { get; set; }
@@ -153,6 +159,9 @@ namespace Blazor.Infrastructure.Entities
 
         [ForeignKey("GenerosId")]
         public virtual Generos Generos { get; set; }
+
+        [ForeignKey("GenerosIdentidadId")]
+        public virtual GenerosIdentidad GenerosIdentidad { get; set; }
 
         [ForeignKey("TiposAfiliadosId")]
         public virtual TiposAfiliados TiposAfiliados { get; set; }

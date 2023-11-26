@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -56,6 +57,8 @@ namespace Blazor.WebApp.Controllers
         private RecaudosDetallesModel NewModel() 
         { 
             RecaudosDetallesModel model = new RecaudosDetallesModel();
+            var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
+            model.SubTotalFactura = factura.ValorSubtotal;
             model.Entity.IsNew = true;
             return model; 
         } 
@@ -70,7 +73,9 @@ namespace Blazor.WebApp.Controllers
         { 
             RecaudosDetallesModel model = new RecaudosDetallesModel();
             model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == Id, false);
+            var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
             model.Entity.IsNew = false;
+            model.SubTotalFactura = factura.ValorSubtotal;
             return model; 
         } 
 
@@ -99,11 +104,17 @@ namespace Blazor.WebApp.Controllers
                             throw new Exception("El valor aplicado mas las retenciones es mayor que el saldo actual de la factura, saldo factura " + factura.Documentos.Prefijo + " " + factura.NroConsecutivo.ToString() + " Saldo Actual: " + factura.Saldo.ToString());
                         model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Add(model.Entity);
                         factura.Saldo = factura.Saldo - (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
-                        factura.Estadosid = 16;
+                        if (factura.Saldo == factura.ValorTotal)
+                            factura.Estadosid = 15;
+                        else if (factura.Saldo > 0)
+                            factura.Estadosid = 79;
+                        else
+                            factura.Estadosid = 16;
                         Manager().GetBusinessLogic<Facturas>().Modify(factura);
                         var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                         recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido + (model.Entity.ValorAplicado);
                         Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
+                        model.SubTotalFactura = factura.ValorSubtotal;
                         model.Entity.IsNew = false;
                     } 
                     else 
@@ -111,19 +122,23 @@ namespace Blazor.WebApp.Controllers
                         RecaudosDetalles oldData = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == model.Entity.Id, false);
                         var oldValue = (oldData.ValorAplicado + oldData.ValorRetencion + oldData.ValorReteIca);
                         var newValue = (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
-                        if (oldValue != newValue)
-                        {
+                       // if (oldValue != newValue)
                             var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.FacturasId, true);
                             var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                             factura.Saldo = factura.Saldo + (oldValue - newValue);
                             recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - (oldData.ValorAplicado - model.Entity.ValorAplicado);
                             if (factura.Saldo < 0)
                                 throw new Exception("El valor aplicado mas la retencion es mayor que el saldo actual de la factura, saldo factura " + factura.Documentos.Prefijo + " " + factura.NroConsecutivo.ToString() + " Saldo Actual: " + factura.Saldo.ToString());
-                            factura.Estadosid = 16;
+                            if (factura.Saldo == factura.ValorTotal)
+                                factura.Estadosid = 15;
+                            else if (factura.Saldo > 0)
+                                factura.Estadosid = 79;
+                            else
+                                factura.Estadosid = 16;
+                            model.SubTotalFactura = factura.ValorSubtotal;
                             model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().Modify(model.Entity);
                             Manager().GetBusinessLogic<Facturas>().Modify(factura);
-                            Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
-                        }
+                            Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);   
                     } 
                 } 
                 catch (Exception e) 
@@ -135,7 +150,7 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
+            return NewModelDetail(model.Entity.RecaudosId);
         } 
 
         [HttpPost]
@@ -151,9 +166,9 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid) 
             { 
                 try 
-                { 
+                {
                     model.Entity = Manager().GetBusinessLogic<RecaudosDetalles>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity); 
+                    Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity);
                     return newModel;
                 } 
                 catch (Exception e) 
@@ -214,6 +229,12 @@ namespace Blazor.WebApp.Controllers
                     var recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == model.Entity.RecaudosId, false);
                     recaudo.ValorTotalRecibido = recaudo.ValorTotalRecibido - model.Entity.ValorAplicado;
                     factura.Saldo = factura.Saldo + (model.Entity.ValorAplicado + model.Entity.ValorRetencion + model.Entity.ValorReteIca);
+                    if (factura.Saldo == factura.ValorTotal)
+                        factura.Estadosid = 15;
+                    else if (factura.Saldo > 0)
+                        factura.Estadosid = 79;
+                    else
+                        factura.Estadosid = 16;
                     Manager().GetBusinessLogic<Facturas>().Modify(factura);
                     Manager().GetBusinessLogic<Recaudos>().Modify(recaudo);
                     Manager().GetBusinessLogic<RecaudosDetalles>().Remove(model.Entity);
@@ -329,20 +350,26 @@ namespace Blazor.WebApp.Controllers
         #region Datasource Combobox Foraneos 
 
         [HttpPost]
-        public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions,long recaudosId)
+        public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions,long recaudosId, bool esNuevo)
         {
             Recaudos recaudo = Manager().GetBusinessLogic<Recaudos>().FindById(x => x.Id == recaudosId, false);
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true)
-                .Where(x => x.SedesId == recaudo.SedesId && x.EntidadesId == recaudo.EntidadesId && x.EmpresasId == recaudo.EmpresasId)
-                .OrderByDescending(x => x.Saldo), loadOptions);
+            var consulta = Manager().GetBusinessLogic<Facturas>().Tabla(true)
+                .Where(x => x.SedesId == recaudo.SedesId && x.EntidadesId == recaudo.EntidadesId && x.EmpresasId == recaudo.EmpresasId && x.Estadosid != 1087);
+            if (esNuevo)
+            { 
+                consulta = consulta.Where(x => x.Saldo > 0); 
+            }
+       
+            return DataSourceLoader.Load(consulta, loadOptions);
         } 
 
         [HttpPost]
         public LoadResult GetRecaudosId(DataSourceLoadOptions loadOptions)
         { 
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Recaudos>().Tabla(true), loadOptions);
-        } 
-       #endregion
+        }
+
+        #endregion
 
     }
 }

@@ -19,6 +19,9 @@ using DevExpress.Spreadsheet;
 using Blazor.Reports.Facturas;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using Dominus.Frontend.Controllers;
+using Blazor.BusinessLogic.Models.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Blazor.BusinessLogic
 {
@@ -32,19 +35,19 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        private string GetPdfFacturaReporte(Facturas factura, string user)
+        private string GetPdfFacturaReporte(Facturas factura, string nameFile, string user)
         {
             XtraReport xtraReport = null;
             if (factura.AdmisionesId != null)
             {
-                xtraReport =  ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user);
+                xtraReport = ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user);
             }
             else
             {
-                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic,factura.Id, user);
+                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic, factura.Id, user);
             }
 
-            string pathPdf = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.pdf");
+            string pathPdf = Path.Combine(Path.GetTempPath(), $"fv{nameFile}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();
             pdfOptions.ConvertImagesToJpeg = false;
             pdfOptions.ImageQuality = PdfJpegImageQuality.Medium;
@@ -53,8 +56,12 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        public async Task EnviarEmail(Facturas factura, string eventoEnvio, string user)
+        public async Task EnviarEmail(long facturaId, string eventoEnvio, string user)
         {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var factura = unitOfWork.Repository<Facturas>().FindById(x => x.Id == facturaId, true);
+
             if (string.IsNullOrWhiteSpace(factura.DIANResponse))
             {
                 throw new Exception("La factura no ha sido aceptada por la dian.");
@@ -64,7 +71,6 @@ namespace Blazor.BusinessLogic
                 throw new Exception("La factura no ha sido aceptada por la dian.");
             }
 
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             try
             {
                 string correo = null;
@@ -87,12 +93,20 @@ namespace Blazor.BusinessLogic
                 content = @"<?xml version='1.0' encoding='UTF-8'?>";
                 content += doc.DocumentElement.ChildNodes[3].InnerXml;
 
-                string pathXml = Path.Combine(Path.GetTempPath(), $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.xml");
+                string consecutivoEnvioFE = factura.ConsecutivoFE;
+                if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
+                {
+                    consecutivoEnvioFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
+                    factura.ConsecutivoFE = consecutivoEnvioFE;
+                    unitOfWork.Repository<Facturas>().Modify(factura);
+                }
+
+                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{consecutivoEnvioFE}.xml");
                 File.WriteAllText(pathXml, content, Encoding.UTF8);
 
                 ZipArchive archive = new ZipArchive();
-                archive.FileName = $"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.zip";
-                archive.AddFile(GetPdfFacturaReporte(factura, user), "/");
+                archive.FileName = $"z{consecutivoEnvioFE}.zip";
+                archive.AddFile(GetPdfFacturaReporte(factura, consecutivoEnvioFE, user), "/");
                 archive.AddFile(pathXml, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -102,29 +116,35 @@ namespace Blazor.BusinessLogic
 
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
-                envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01";
+                envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01;{factura.Empresas.RazonSocial}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
-                envioEmailConfig.ArchivosAdjuntos.Add($"{factura.Documentos.Prefijo}-{factura.NroConsecutivo}.zip", msZip);
+                envioEmailConfig.ArchivosAdjuntos.Add($"z{consecutivoEnvioFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
                     {"nombreCia",$"{empresas.RazonSocial}" }
                 };
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
+
+                var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                    .FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == factura.Id && !x.Exitoso);
+                if (job != null)
+                {
+                    job.Ejecutado = true;
+                    job.Exitoso = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"Intento {job.Intentos}: {eventoEnvio}. ";
+                    unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+                }
             }
             catch (Exception e)
             {
-                string fullError = e.Message;
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                    fullError += " | " + e.Message;
-                }
-
-                DApp.LogToFile($"{fullError} | {e.StackTrace}");
-                throw new Exception(fullError);
+                DApp.LogToFile($"{e.GetFullErrorMessage()} | {e.StackTrace}");
+                throw new Exception(e.GetFullErrorMessage());
             }
         }
 
@@ -938,6 +958,13 @@ namespace Blazor.BusinessLogic
             return content;
         }
 
+        public async Task<string> ObtenerXMLFactura(long idFactura)
+        {
+            EInvoice invoice = GetInvoice(idFactura);
+            string xml = invoice.SerializeToXml();
+            return xml;
+        }
+
         public string GenerateFileToCobol(List<long> ids)
         {
             string path = Path.Combine(Path.GetTempPath(), "FilesToCobol");
@@ -984,8 +1011,12 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("Informe Cartera");
-                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).FindAll(x => x.EntidadId == entidadId && x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "Informe de cartera por entidad";
+                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).Tabla()
+                    .Where(x => x.EntidadId == entidadId && x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta)
+                    .OrderBy(x => x.Fecha_Emision).ToList();
+
 
                 //Titulos
                 int column = 0;
@@ -1054,8 +1085,12 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("Informe General Cartera");
-                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).FindAll(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta, false);
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "Informe de cartera general";
+                List<VReporteCartera> data = new GenericBusinessLogic<VReporteCartera>(this.UnitOfWork).Tabla()
+                    .Where(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta)
+                    .OrderBy(x => x.Fecha_Emision).ToList();
+
 
                 //Titulos
                 int column = 0;
@@ -1107,6 +1142,76 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row + 1][column].SetValue(data[row].Pagos_Recibidos); column++;
                 }
                 worksheet.Columns.AutoFit(0, column);
+
+                byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
+                workbook.Dispose();
+                return book;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public byte[] ExcelExportarSiigo(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                Workbook workbook = new Workbook();
+                workbook.CreateNewDocument();
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "Exportar SIIGO";
+                List<VExportarSiigo> data = new GenericBusinessLogic<VExportarSiigo>(this.UnitOfWork).Tabla()
+                    .Where(x => x.Fecha_Emision >= fechaDesde && x.Fecha_Emision <= fechaHasta)
+                    .OrderBy(x => x.Fecha_Emision).ToList();
+
+
+                //Titulos
+                int column = 0;
+                worksheet.Rows[0][column].SetValue("Tipo de comprobante"); column++;
+                worksheet.Rows[0][column].SetValue("Consecutivo"); column++;
+                worksheet.Rows[0][column].SetValue("Tipo identificación"); column++;
+                worksheet.Rows[0][column].SetValue("Numero Identificación"); column++;
+                worksheet.Rows[0][column].SetValue("Razón social (Obligatorio)"); column++;
+                worksheet.Rows[0][column].SetValue("Nombres del tercero (Obligatorio)"); column++;
+                worksheet.Rows[0][column].SetValue("Apellidos del tercero (Obligatorio)"); column++;
+                worksheet.Rows[0][column].SetValue("Nit Entidad copago"); column++;
+                worksheet.Rows[0][column].SetValue("Fecha de elaboración"); column++;
+                worksheet.Rows[0][column].SetValue("Email Contacto"); column++;
+                worksheet.Rows[0][column].SetValue("Código producto"); column++;
+                worksheet.Rows[0][column].SetValue("Descripción producto"); column++;
+                worksheet.Rows[0][column].SetValue("Cantidad producto"); column++;
+                worksheet.Rows[0][column].SetValue("Valor unitario"); column++;
+                worksheet.Rows[0][column].SetValue("Valor Descuento"); column++;
+                worksheet.Rows[0][column].SetValue("Valor Copago"); column++;
+                worksheet.Rows[0][column].SetValue("Valor Forma de Pago"); column++;
+                worksheet.Rows[0][column].SetValue("Fecha Vencimiento"); column++;
+                worksheet.Rows[0][column].SetValue("Observaciones"); column++;
+
+                for (int row = 0; row < data.Count; row++)
+                {
+                    column = 0;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Prefijo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Consecutivo); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Tipo_Documento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Numero_Identificacion); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Razon_Social); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Nombres_Tercero); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Apellidos_Tercero); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Nit_Entidad_Copago); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Fecha_Emision); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Email_Contacto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Codigo_Producto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Descripcion_Producto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Cantidad_Producto); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Unitario); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Descuento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Valor_Copago); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Subtotal_Factura); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaVencimiento); column++;
+                    worksheet.Rows[row + 1][column].SetValue(data[row].Observaciones); column++;
+                }
+                worksheet.Columns.AutoFit(0, column);  
 
                 byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
                 workbook.Dispose();

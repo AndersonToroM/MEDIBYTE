@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blazor.BusinessLogic
 {
@@ -102,48 +103,230 @@ namespace Blazor.BusinessLogic
             {
                 Workbook workbook = new Workbook();
                 workbook.CreateNewDocument();
-                Worksheet worksheet = workbook.Worksheets.Add("0256");
+                Worksheet worksheet = workbook.Worksheets.ActiveWorksheet as Worksheet;
+                worksheet.Name = "0256";
                 List<ProgramacionCitas> data = new GenericBusinessLogic<ProgramacionCitas>(this.UnitOfWork).Tabla()
+                    .Include(x => x.Estados)
                     .Include(x => x.Pacientes)
                     .Include(x => x.Pacientes.Generos)
                     .Include(x => x.Pacientes.TiposIdentificacion)
-                    .Include(x => x.Sedes)
+                    .Include(x => x.Pacientes.GenerosIdentidad)
+                    .Include(x => x.Pacientes.TiposRegimenes)
                     .Include(x => x.Entidades)
-                    .Where(x => x.EstadosId == 6 && x.FechaInicio.Date >= fechaDesde && x.FechaInicio.Date <= fechaHasta && x.SedesId == sedeId)
-                    .OrderBy(x => x.FechaInicio).ToList();
+                    .Include(x => x.Empresas.Ciudades)
+                    .Include(x => x.Empleados)
+                    .Include(x => x.Servicios)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Diagnosticos)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.TiposUsuarios)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.DiagnosticosPrincipalHC)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.EnfermedadesHuerfanas)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones.Programas)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.HistoriasClinicas)
+                    .Include(x => x.Admisiones).ThenInclude(x => x.Atenciones).ThenInclude(x => x.Empleados)
+                    .Where(x => x.CreationDate.Date >= fechaDesde && x.CreationDate.Date <= fechaHasta && x.SedesId == sedeId)
+                    //.Where(x => x.Id == 126923)
+                    .OrderBy(x => x.CreationDate).ToList();
 
                 //Titulos
                 int column = 0;
-                worksheet.Rows[0][column].SetValue("T. DOCUMENTO"); column++;
-                worksheet.Rows[0][column].SetValue("NO. DE DOCUMENTO"); column++;
-                worksheet.Rows[0][column].SetValue("FECHA DE NACIMIENTO"); column++;
-                worksheet.Rows[0][column].SetValue("SEXO"); column++;
-                worksheet.Rows[0][column].SetValue("PRIMER NOMBRE"); column++;
-                worksheet.Rows[0][column].SetValue("SEGUNDO NOMBRE"); column++;
-                worksheet.Rows[0][column].SetValue("PRIMER APELLIDO"); column++;
-                worksheet.Rows[0][column].SetValue("SEGUNDO APELLIDO"); column++;
-                worksheet.Rows[0][column].SetValue("FECHA DE LA SOLICITUD DE LA CITA"); column++;
-                worksheet.Rows[0][column].SetValue("FECHA DE LA CITA"); column++;
-                worksheet.Rows[0][column].SetValue("SEDE"); column++;
-                worksheet.Rows[0][column].SetValue("ENTIDAD"); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Entidad")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.NIT")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.REPS")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodigoMunicipio")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DocProfesional")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Profesional")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.PacienteNombre1")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.PacienteNombre2")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.PacienteApellido1")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.PacienteApellido2")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.PacienteNombreCompleto")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodigoDocumento")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DescDocumento")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.NumeroDocumento")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.IdentidadGenero")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Sexo")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Telefono")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Edad")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Regimen")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Esttado0256")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CUPS")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.Servicio")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.FechaSolicitud")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.FechaDeseada")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.FechaCita")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DuracionCita")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DuracionAtencion")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.TipoConsulta")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.PertenecePrograma")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.NombrePrograma")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodigoAutorizacion")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.CodCIE10")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.DescCIE10")); column++;
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("XLSX0256.EnfermedadHuerfana")); column++;
+#if DEBUG
+                worksheet.Rows[0][column].SetValue(DApp.GetResource("Id CITA")); column++;
+#endif
 
-                for (int row = 0; row < data.Count; row++)
+                var row = 0;
+                foreach (var cita in data)
                 {
                     column = 0;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.TiposIdentificacion.Codigo); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.NumeroIdentificacion); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.FechaNacimiento.Date); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.Generos.Codigo); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerNombre); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.SegundoNombre); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.PrimerApellido); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Pacientes.SegundoApellido); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].CreationDate.Date); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].FechaInicio.Date); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Sedes.Nombre); column++;
-                    worksheet.Rows[row + 1][column].SetValue(data[row].Entidades?.Nombre); column++;
+                    row++;
+                    worksheet.Rows[row][column].SetValue(cita.Entidades?.Nombre); column++; //Entidad
+                    worksheet.Rows[row][column].SetValue(cita.Empresas?.NumeroIdentificacion); column++; //NIT
+                    worksheet.Rows[row][column].SetValue(cita.Empresas?.CodigoReps); column++; // REPS
+                    worksheet.Rows[row][column].SetValue(cita.Empresas?.Ciudades?.Codigo); column++; //CodigoMunicipio
+
+                    var admision = cita.Admisiones.FirstOrDefault(x => x.EstadosId != 72);
+
+                    var docProfesional = string.Empty;
+                    var profesional = string.Empty;
+                    if (cita.Servicios.RequiereProfesional == true)
+                    {
+                        docProfesional = cita?.Empleados?.NumeroIdentificacion;
+                        profesional = cita?.Empleados?.NombreCompleto;
+                    }
+                    else
+                    {
+                        docProfesional = admision?.Atenciones?.Empleados?.NumeroIdentificacion;
+                        profesional = admision?.Atenciones?.Empleados?.NombreCompleto;
+                    }
+
+                    worksheet.Rows[row][column].SetValue(docProfesional); column++; //DocProfesional
+                    worksheet.Rows[row][column].SetValue(profesional); column++; //Profesional
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.PrimerNombre); column++; //PacienteNombre1
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.SegundoNombre); column++; //PacienteNombre2
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.PrimerApellido); column++; //PacienteApellido1
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.SegundoApellido); column++; //PacienteApellido2
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.NombreCompleto); column++; //PacienteNombreCompleto
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.TiposIdentificacion.Codigo); column++; //CodigoDocumento
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.TiposIdentificacion.Nombre); column++; //DescDocumento
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.NumeroIdentificacion); column++; //NumeroDocumento
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.GenerosIdentidad.Nombre); column++; //IdentidadGenero
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.Generos.Nombre); column++; //Sexo
+                    worksheet.Rows[row][column].SetValue(cita.Pacientes?.Telefono); column++; //Telefono
+
+                    
+
+                   
+
+                    var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
+                    worksheet.Rows[row][column].SetValue(edad); column++; //Edad
+
+                    var regimen = admision?.TiposUsuarios?.Codigo;
+                    if (admision == null || regimen == null)
+                    {
+                        regimen = cita.Pacientes?.TiposRegimenes?.CodigoIndicadores;
+                        if (regimen == null)
+                        {
+                            regimen = "S/R";
+                        }
+                    }
+
+                    worksheet.Rows[row][column].SetValue(regimen); column++; //Regimen
+
+                    var estado = string.Empty;
+                    if (cita.EstadosId == 3)
+                    {
+
+                        if (admision == null && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                        {
+                            estado = "ASIGNADA";
+                        }
+                        else
+                        {
+                            estado = "INCUMPLIDA";
+                        }
+                    }
+                    else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    {
+                        estado = "CUMPLIDA";
+                    }
+                    else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    {
+                        estado = "ASIGNADA";
+                    }
+                    else if (cita.EstadosId == 8 && (cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month))
+                    {
+                        estado = "CANCELADA";
+                    }
+                    else if (cita.EstadosId == 8 || cita.EstadosId == 4 || cita.EstadosId == 5 || cita.EstadosId == 10078
+                       && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    {
+                        estado = "ASIGNADA";
+                    }
+                    else
+                    {
+                        estado = cita.Estados.Nombre;
+                    }
+
+                    worksheet.Rows[row][column].SetValue(estado); column++; //Estado0256
+                    worksheet.Rows[row][column].SetValue(cita.Servicios?.Codigo); column++; //CUPS
+                    worksheet.Rows[row][column].SetValue(cita.Servicios?.Nombre); column++; //Servicio
+                    worksheet.Rows[row][column].SetValue($"{cita.CreationDate:dd/MM/yyyy}"); column++; //FechaSolicitud
+                    worksheet.Rows[row][column].SetValue($"{cita.FechaDeseada:dd/MM/yyyy}"); column++; //FechaDeseada
+                    worksheet.Rows[row][column].SetValue($"{cita.FechaInicio:dd/MM/yyyy}"); column++; //FechaCita
+
+                    var duracionServicio = cita.EstadosIdTipoDuracion == 10080 ? cita.Duracion * 60 : cita.Duracion;
+                    worksheet.Rows[row][column].SetValue(duracionServicio); column++; //DuracionCita
+
+                    var duracionAtencion = 0;
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null && 
+                        admision.Atenciones.HistoriasClinicas.FechaCierre.HasValue && admision.Atenciones.FechaFinAtencion.HasValue)
+                    {
+                        duracionAtencion = (int)(admision.Atenciones.HistoriasClinicas.FechaCierre.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
+                    }else if(admision != null && admision.Atenciones != null && admision.Atenciones.FechaFinAtencion.HasValue)
+                    {
+                        duracionAtencion = (int)(admision.Atenciones.FechaFinAtencion.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
+                    }
+                    worksheet.Rows[row][column].SetValue(duracionAtencion); column++; //DuracionAtencion
+
+                    var tipoConsulta = "Primera Vez";
+                    if (admision != null && admision.EsControl)
+                    {
+                        tipoConsulta = "Control";
+                    }
+                    worksheet.Rows[row][column].SetValue(tipoConsulta); column++; //TipoConsulta
+
+                    var pertenecePrograma = "No";
+                    var nombrePrograma = string.Empty;
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.ProgramasId.HasValue)
+                    {
+                        pertenecePrograma = "Si";
+                        nombrePrograma = admision?.Atenciones?.Programas?.Nombre;
+                    }
+
+                    worksheet.Rows[row][column].SetValue(pertenecePrograma); column++; //PertenecePrograma
+                    worksheet.Rows[row][column].SetValue(nombrePrograma); column++; //NombrePrograma
+                    worksheet.Rows[row][column].SetValue(admision?.NroAutorizacion); column++; //CodigoAutorizacion
+
+                    var codCIE10 = string.Empty;
+                    var descCIE10 = string.Empty;
+                    if (cita.Servicios.TiposServiciosId == 1)
+                    {
+                        codCIE10 = admision?.Atenciones?.DiagnosticosPrincipalHC?.Codigo;
+                        descCIE10 = admision?.Atenciones?.DiagnosticosPrincipalHC?.Descripcion;
+                    }
+                    else
+                    {
+                        codCIE10 = admision?.Diagnosticos?.Codigo;
+                        descCIE10 = admision?.Diagnosticos?.Descripcion;
+                    }
+                    worksheet.Rows[row][column].SetValue(codCIE10); column++; //CodCIE10
+                    worksheet.Rows[row][column].SetValue(descCIE10); column++; //DescCIE10
+
+                    var enfermedadHuerfana = string.Empty;
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.EnfermedadesHuerfanasId.HasValue)
+                    {
+                        enfermedadHuerfana = admision?.Atenciones?.EnfermedadesHuerfanas?.NombreV4;
+                    }
+                    worksheet.Rows[row][column].SetValue(enfermedadHuerfana); column++; //Enfermedad Huérfana
+#if DEBUG
+                    worksheet.Rows[row][column].SetValue(cita.Id); column++; //Id CITA
+#endif
 
                 }
+
                 worksheet.Columns.AutoFit(0, column);
 
                 byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
@@ -464,7 +647,7 @@ namespace Blazor.BusinessLogic
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
-            var pacientes = unitOfWork.Repository<PacientesEntidades>().GetTable(false).Where(x => x.PacientesId == Id);
+            var pacientes = unitOfWork.Repository<PacientesEntidades>().GetTable(false).Where(x => x.PacientesId == Id && x.Activo);
             var entidades = unitOfWork.Repository<Entidades>().GetTable(true);
 
             var result = from entidad in entidades
@@ -494,7 +677,7 @@ namespace Blazor.BusinessLogic
 
         public override ProgramacionCitas Add(ProgramacionCitas data)
         {
-            if(data.TiposCitasId == 1)
+            if (data.TiposCitasId == 1)
             {
                 var disponibilidad = ConsultarDisponibilidad(data.ServiciosId, data.ConsultoriosId, data.EmpleadosId, data.FechaInicio, data.Duracion, data.EstadosIdTipoDuracion);
                 if (disponibilidad.ContainsKey("Disponible"))

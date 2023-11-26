@@ -120,6 +120,15 @@
                                     .ValueExpr("Id").DisplayExpr("Nombre")
                                     .SearchEnabled(true).ShowClearButton(true)
                             );
+                            groupItems.AddSimpleFor(m => m.Entity.GenerosIdentidadId).ColSpan(3)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.GenerosIdentidadId")))
+                            .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.GenerosIdentidadId")))
+                                    .Editor(e => e.SelectBox().ID(Prefix + "GenerosIdentidadId")
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetGenerosIdentidadId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .ValueExpr("Id").DisplayExpr("Nombre")
+                                    .SearchEnabled(true).ShowClearButton(true)
+                            );
                             groupItems.AddSimpleFor(m => m.Entity.EstadosCivilesId).ColSpan(3)
                                     .Editor(e => e.SelectBox().ID(Prefix + "EstadosCivilesId")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetEstadosCivilesId").Key("Id"))

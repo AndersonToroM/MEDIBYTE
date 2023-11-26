@@ -15,73 +15,78 @@ namespace Blazor.Infrastructure.Entities
     public partial class PacientesEntidades : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       #endregion
+        [Column("Activo")]
+        [DDisplayName("PacientesEntidades.Activo")]
+        [DRequired("PacientesEntidades.Activo")]
+        public virtual Boolean Activo { get; set; }
 
-       #region Columnas referenciales)
+        #endregion
 
-       [Column("PacientesId")]
-       [DDisplayName("PacientesEntidades.PacientesId")]
-       [DRequired("PacientesEntidades.PacientesId")]
-       [DRequiredFK("PacientesEntidades.PacientesId")]
-       public virtual Int64 PacientesId { get; set; }
+        #region Columnas referenciales)
 
-       [Column("EntidadesId")]
-       [DDisplayName("PacientesEntidades.EntidadesId")]
-       [DRequired("PacientesEntidades.EntidadesId")]
-       [DRequiredFK("PacientesEntidades.EntidadesId")]
-       public virtual Int64 EntidadesId { get; set; }
+        [Column("PacientesId")]
+        [DDisplayName("PacientesEntidades.PacientesId")]
+        [DRequired("PacientesEntidades.PacientesId")]
+        [DRequiredFK("PacientesEntidades.PacientesId")]
+        public virtual Int64 PacientesId { get; set; }
 
-       #endregion
+        [Column("EntidadesId")]
+        [DDisplayName("PacientesEntidades.EntidadesId")]
+        [DRequired("PacientesEntidades.EntidadesId")]
+        [DRequiredFK("PacientesEntidades.EntidadesId")]
+        public virtual Int64 EntidadesId { get; set; }
 
-       #region Propiedades referencias de entrada)
+        #endregion
 
-       [ForeignKey("EntidadesId")]
-       public virtual Entidades Entidades { get; set; }
+        #region Propiedades referencias de entrada)
 
-       [ForeignKey("PacientesId")]
-       public virtual Pacientes Pacientes { get; set; }
+        [ForeignKey("EntidadesId")]
+        public virtual Entidades Entidades { get; set; }
 
-       #endregion
+        [ForeignKey("PacientesId")]
+        public virtual Pacientes Pacientes { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-       {
-       Expression<Func<PacientesEntidades, bool>> expression = entity => entity.Id == this.Id;
-       return expression as Expression<Func<T, bool>>;
-       }
+        #region Reglas expression
 
-       public override List<ExpRecurso> GetAdicionarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<PacientesEntidades, bool>> expression = null;
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        {
+            Expression<Func<PacientesEntidades, bool>> expression = entity => entity.Id == this.Id;
+            return expression as Expression<Func<T, bool>>;
+        }
 
-        expression = entity => entity.EntidadesId == this.EntidadesId && entity.PacientesId == this.PacientesId;
-        rules.Add(new ExpRecurso(expression.ToExpressionNode() , new Recurso("BLL.BUSINESS.UNIQUE", "PacientesEntidades.EntidadesId" , "PacientesEntidades.PacientesId" )));
+        public override List<ExpRecurso> GetAdicionarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<PacientesEntidades, bool>> expression = null;
 
-       return rules;
-       }
+            expression = entity => entity.EntidadesId == this.EntidadesId && entity.PacientesId == this.PacientesId;
+            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "PacientesEntidades.EntidadesId", "PacientesEntidades.PacientesId")));
 
-       public override List<ExpRecurso> GetModificarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<PacientesEntidades, bool>> expression = null;
+            return rules;
+        }
 
-        expression = entity => !(entity.Id == this.Id && entity.EntidadesId == this.EntidadesId && entity.PacientesId == this.PacientesId)
-                               && entity.EntidadesId == this.EntidadesId && entity.PacientesId == this.PacientesId;
-        rules.Add(new ExpRecurso(expression.ToExpressionNode() , new Recurso("BLL.BUSINESS.UNIQUE", "PacientesEntidades.EntidadesId" , "PacientesEntidades.PacientesId" )));
+        public override List<ExpRecurso> GetModificarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<PacientesEntidades, bool>> expression = null;
 
-       return rules;
-       }
+            expression = entity => !(entity.Id == this.Id && entity.EntidadesId == this.EntidadesId && entity.PacientesId == this.PacientesId)
+                                   && entity.EntidadesId == this.EntidadesId && entity.PacientesId == this.PacientesId;
+            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "PacientesEntidades.EntidadesId", "PacientesEntidades.PacientesId")));
 
-       public override List<ExpRecurso> GetEliminarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-       return rules;
-       }
+            return rules;
+        }
 
-       #endregion
+        public override List<ExpRecurso> GetEliminarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            return rules;
+        }
+
+        #endregion
     }
- }
+}

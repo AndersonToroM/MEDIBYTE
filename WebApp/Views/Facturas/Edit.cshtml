@@ -116,6 +116,7 @@
                 @(Html.DControls().TextBoxFor(m => m.Entity.IdDbusiness).ID(Prefix + "IdDbusiness").Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.UrlReport).ID(Prefix + "UrlReport").Visible(false))
                 @(Html.DControls().CheckBoxFor(m => m.Entity.TieneNotas).ID(Prefix + "TieneNotas").Visible(false))
+                @(Html.DControls().TextBoxFor(m => m.Entity.ConsecutivoFE).ID(Prefix + "ConsecutivoFE").Visible(false))
 
                 @(Html.DControls().Form<FacturasModel>
             ()
@@ -139,7 +140,7 @@
                         .Editor(e => e.NumberBox().ID(Prefix + "NroConsecutivo").Format("#,##0.##").ReadOnly(true));
                     groupItems.AddSimpleFor(m => m.Entity.Fecha).ColSpan(4)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Facturas.Fecha")))
-                        .Editor(e => e.DateBox().ID(Prefix + "Fecha")
+                        .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "Fecha")
                         .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ReadOnly(true));
 
                     groupItems.AddSimpleFor(m => m.Entity.OrdenCompra).ColSpan(4)
@@ -248,7 +249,7 @@
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Facturas.CUFE", 255)))
                                 .Editor(e => e.TextBox().ID(Prefix + "CUFE").ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.IssueDate).ColSpan(1)
-                                .Editor(e => e.DateBox().ID(Prefix + "IssueDate")
+                                .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "IssueDate")
                                 .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.DIANResponse).ColSpan(1)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("Facturas.DIANResponse", 1024)))

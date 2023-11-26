@@ -37,7 +37,7 @@ namespace Blazor.Infrastructure.Entities
        [Column("CronSchedule")]
        [DDisplayName("Jobs.CronSchedule")]
        [DRequired("Jobs.CronSchedule")]
-       [DStringLength("Jobs.CronSchedule",15)]
+       [DStringLength("Jobs.CronSchedule", 100)]
        public virtual String CronSchedule { get; set; }
 
        #endregion

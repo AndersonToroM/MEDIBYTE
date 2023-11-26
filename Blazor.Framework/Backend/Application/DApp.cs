@@ -14,6 +14,8 @@ namespace Dominus.Backend.Application
 {
     public static class DApp
     {
+        public static string PathDirectoryLogs = Path.Combine(Environment.CurrentDirectory, "wwwroot", "Files", "Logs");
+
         public static List<Tenant> Tenants { get; set; }
 
         public static string UrlService { get; set; }
@@ -34,6 +36,9 @@ namespace Dominus.Backend.Application
         public static Util Util { get; set; } = new Util();
         public static InfoApp InfoApp { get; set; }
 
+        public static DateTime FechaMinima { get; private set; }
+        public static DateTime FechaMaxima { get; private set; }
+
         static DApp()
         {
             try
@@ -44,6 +49,8 @@ namespace Dominus.Backend.Application
                 DefaultLanguage = new Language { Id = "2", Code = "ESP", Culture = "es", Name = "Español", DateFormat = "dd/MM/yyyy", TimeFormat = "HH:mm", DateTimeFormat = "dd/MM/yyyy HH:mm" };
                 BusinessRules = new BusinessRule();
                 BusinessRules.Rules = new List<RuleModel>();
+                FechaMinima = new DateTime(1800, 1, 1);
+                FechaMaxima = new DateTime(2900, 12, 31);
                 GetInfoApp();
             }
             catch (Exception)
@@ -68,7 +75,7 @@ namespace Dominus.Backend.Application
         {
             try
             {
-                string pathFile = Path.Combine(Environment.CurrentDirectory, "wwwroot", "Files", "ErrorFile.log");
+                string pathFile = Path.Combine(PathDirectoryLogs, "ErrorFile.log");
                 File.AppendAllText(pathFile, $"{text}{Environment.NewLine}");
             }
             catch
