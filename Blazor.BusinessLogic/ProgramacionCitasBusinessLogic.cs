@@ -206,9 +206,9 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Generos.Nombre); column++; //Sexo
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Telefono); column++; //Telefono
 
-                    
 
-                   
+
+
 
                     var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
                     worksheet.Rows[row][column].SetValue(edad); column++; //Edad
@@ -229,15 +229,18 @@ namespace Blazor.BusinessLogic
                     if (cita.EstadosId == 3)
 
                     {
-                       if (admision == null && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)
-                            || (cita.FechaInicio.Year > cita.CreationDate.Year)))
-                       {
+                        var fechaInicio = new DateTime(cita.FechaInicio.Year, cita.FechaInicio.Month, 1);
+                        var fechaCreacion = new DateTime(cita.CreationDate.Year, cita.CreationDate.Month, 1);
+
+                        if (admision == null && (fechaInicio > fechaCreacion
+                             || (cita.FechaInicio.Year > cita.CreationDate.Year)))
+                        {
                             estado = "ASIGNADA";
-                       }
-                       else
-                       {
-                           estado = "INCUMPLIDA";
-                       }
+                        }
+                        else
+                        {
+                            estado = "INCUMPLIDA";
+                        }
                     }
 
                     else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month)))
@@ -273,11 +276,12 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(duracionServicio); column++; //DuracionCita
 
                     var duracionAtencion = 0;
-                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null && 
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null &&
                         admision.Atenciones.HistoriasClinicas.FechaCierre.HasValue && admision.Atenciones.FechaFinAtencion.HasValue)
                     {
                         duracionAtencion = (int)(admision.Atenciones.HistoriasClinicas.FechaCierre.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
-                    }else if(admision != null && admision.Atenciones != null && admision.Atenciones.FechaFinAtencion.HasValue)
+                    }
+                    else if (admision != null && admision.Atenciones != null && admision.Atenciones.FechaFinAtencion.HasValue)
                     {
                         duracionAtencion = (int)(admision.Atenciones.FechaFinAtencion.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
                     }
