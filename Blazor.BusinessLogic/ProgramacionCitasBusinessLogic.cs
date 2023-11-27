@@ -206,9 +206,9 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Generos.Nombre); column++; //Sexo
                     worksheet.Rows[row][column].SetValue(cita.Pacientes?.Telefono); column++; //Telefono
 
-                    
 
-                   
+
+
 
                     var edad = DApp.Util.CalcularEdad(cita.Pacientes?.FechaNacimiento, admision?.Atenciones?.FechaAtencion);
                     worksheet.Rows[row][column].SetValue(edad); column++; //Edad
@@ -226,34 +226,34 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(regimen); column++; //Regimen
 
                     var estado = string.Empty;
+                    var fechaInicio = new DateTime(cita.FechaInicio.Year, cita.FechaInicio.Month, 1);
+                    var fechaCreacion = new DateTime(cita.CreationDate.Year, cita.CreationDate.Month, 1);
                     if (cita.EstadosId == 3)
-
                     {
-                       if (admision == null && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)
-                            || (cita.FechaInicio.Year > cita.CreationDate.Year)))
-                       {
+                        if (admision == null && (fechaInicio > fechaCreacion
+                             || (cita.FechaInicio.Year > cita.CreationDate.Year)))
+                        {
                             estado = "ASIGNADA";
-                       }
-                       else
-                       {
-                           estado = "INCUMPLIDA";
-                       }
+                        }
+                        else
+                        {
+                            estado = "INCUMPLIDA";
+                        }
                     }
-
-                    else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    else if (cita.EstadosId == 6 && (fechaInicio == fechaCreacion))
                     {
                         estado = "CUMPLIDA";
                     }
-                    else if (cita.EstadosId == 6 && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                    else if (cita.EstadosId == 6 && (fechaInicio > fechaCreacion))
                     {
                         estado = "ASIGNADA";
                     }
-                    else if (cita.EstadosId == 8 && (cita.FechaInicio.Year + cita.FechaInicio.Month) == (cita.CreationDate.Year + cita.CreationDate.Month))
+                    else if (cita.EstadosId == 8 && fechaInicio == fechaCreacion)
                     {
                         estado = "CANCELADA";
                     }
                     else if (cita.EstadosId == 8 || cita.EstadosId == 4 || cita.EstadosId == 5 || cita.EstadosId == 10078
-                       && ((cita.FechaInicio.Year + cita.FechaInicio.Month) > (cita.CreationDate.Year + cita.CreationDate.Month)))
+                       && (fechaInicio > fechaCreacion))
                     {
                         estado = "ASIGNADA";
                     }
@@ -273,11 +273,12 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row][column].SetValue(duracionServicio); column++; //DuracionCita
 
                     var duracionAtencion = 0;
-                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null && 
+                    if (admision != null && admision.Atenciones != null && admision.Atenciones.HistoriasClinicas != null &&
                         admision.Atenciones.HistoriasClinicas.FechaCierre.HasValue && admision.Atenciones.FechaFinAtencion.HasValue)
                     {
                         duracionAtencion = (int)(admision.Atenciones.HistoriasClinicas.FechaCierre.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
-                    }else if(admision != null && admision.Atenciones != null && admision.Atenciones.FechaFinAtencion.HasValue)
+                    }
+                    else if (admision != null && admision.Atenciones != null && admision.Atenciones.FechaFinAtencion.HasValue)
                     {
                         duracionAtencion = (int)(admision.Atenciones.FechaFinAtencion.Value - admision.Atenciones.FechaAtencion).TotalMinutes;
                     }
