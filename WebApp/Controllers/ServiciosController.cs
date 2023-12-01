@@ -58,7 +58,15 @@ namespace Blazor.WebApp.Controllers
             ServiciosModel model = new ServiciosModel();
             model.Entity.IsNew = true;
             model.Entity.EmpresasId = this.ActualEmpresaId();
-            model.Entity.TiposImpuestosId = Manager().GetBusinessLogic<EsquemasImpuestos>().FindById(x => x.Codigo == "ZY", false).Id;
+            var impuesto = Manager().GetBusinessLogic<EsquemasImpuestos>().FindById(x => x.Id == 15, false);
+            if (true)
+            {
+                model.Entity.TiposImpuestosId = impuesto.Id;
+            }
+            else
+            {
+                throw new Exception("El esquema de impuesto numero 15 (ZZ - No Aplica) no se encuentra registrado en el sistema. Por favor comunicarse con su administrador.");
+            }
             model.Entity.EstadosIdTipoDuracion = 10081;
 
             return model; 
