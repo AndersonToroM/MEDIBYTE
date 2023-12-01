@@ -58,7 +58,7 @@ namespace Blazor.WebApp.Controllers
             ServiciosModel model = new ServiciosModel();
             model.Entity.IsNew = true;
             model.Entity.EmpresasId = this.ActualEmpresaId();
-            model.Entity.TiposImpuestosId = Manager().GetBusinessLogic<EsquemasImpuestos>().FindById(x => x.Codigo == "ZY", false).Id;
+            model.Entity.TiposImpuestosId = 15;
             model.Entity.EstadosIdTipoDuracion = 10081;
 
             return model; 
