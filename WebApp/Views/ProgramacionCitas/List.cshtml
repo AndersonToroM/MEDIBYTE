@@ -103,7 +103,7 @@
             columns.AddFor(m => m.Estados.Nombre);
             columns.AddFor(m => m.CreationDate).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.FechaAsignacion"));
             columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.DateFormat).SortOrder(SortOrder.Desc);
-            //columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
+            columns.AddFor(m => m.FechaInicio).Format(DApp.DefaultLanguage.TimeFormat).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.HoraInicio"));
             columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
             columns.AddFor(m => m.Pacientes.NombreCompleto);
             columns.AddFor(m => m.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("ProgramacionCitas.Entidad"));
