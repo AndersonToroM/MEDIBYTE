@@ -1039,7 +1039,7 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue("VALOR RETEICA"); column++;
                 worksheet.Rows[0][column].SetValue("VALOR GLOSA"); column++;
                 worksheet.Rows[0][column].SetValue("VALOR ACEPTADO GLOSA"); column++;
-                worksheet.Rows[0][column].SetValue("SALDO POR COBRAR"); column++;
+                worksheet.Rows[0][column].SetValue("SALDO POR COBRAR (Aplicados todos los recaudos)"); column++;
                 worksheet.Rows[0][column].SetValue("PAGOS RECIBIDOS"); column++;
 
                 for (int row = 0; row < data.Count; row++)
@@ -1113,7 +1113,7 @@ namespace Blazor.BusinessLogic
                 worksheet.Rows[0][column].SetValue("VALOR RETEICA"); column++;
                 worksheet.Rows[0][column].SetValue("VALOR GLOSA"); column++;
                 worksheet.Rows[0][column].SetValue("VALOR ACEPTADO GLOSA"); column++;
-                worksheet.Rows[0][column].SetValue("SALDO POR COBRAR"); column++;
+                worksheet.Rows[0][column].SetValue("SALDO POR COBRAR (Aplicados todos los recaudos)"); column++;
                 worksheet.Rows[0][column].SetValue("PAGOS RECIBIDOS"); column++;
 
                 for (int row = 0; row < data.Count; row++)
