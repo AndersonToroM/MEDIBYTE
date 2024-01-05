@@ -389,7 +389,7 @@ namespace Blazor.WebApp.Controllers
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
                 fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
                 byte[] book = Manager().FacturasBusinessLogic().ExcelInformeCartera(entidadId, fechaDesde, fechaHasta);
-                return File(book, "application/octet-stream", $"Informe_Cartera_Por_Entidad_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+                return File(book, "application/octet-stream", $"Informe_Facturacion_Por_Entidad_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
             }
             catch (Exception e)
             {
@@ -408,7 +408,7 @@ namespace Blazor.WebApp.Controllers
                 fechaDesde = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 0, 0, 0);
                 fechaHasta = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 23, 59, 59);
                 byte[] book = Manager().FacturasBusinessLogic().ExcelInformeGeneralCartera(fechaDesde, fechaHasta);
-                return File(book, "application/octet-stream", $"Informe_General_Cartera_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
+                return File(book, "application/octet-stream", $"Informe_General_Facturacion_{fechaDesde.ToString("ddMMyyyy")}_{fechaHasta.ToString("ddMMyyyy")}.xlsx");
             }
             catch (Exception e)
             {
