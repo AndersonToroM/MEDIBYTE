@@ -2281,11 +2281,11 @@
   },
   {
     "Id": "Facturas.ExportarInformeCarteraEntidad",
-    "Description": "Informe cartera por entidad"
+    "Description": "Informe de facturación por entidad"
   },
   {
     "Id": "Facturas.ExportarInformeGeneralCartera",
-    "Description": "Informe General Cartera"
+    "Description": "Informe General de Facturación"
   },
   {
     "Id": "Facturas.ExportarSiigo",
@@ -2361,15 +2361,15 @@
   },
   {
     "Id": "Facturas.ImprimirInformeCartera",
-    "Description": "Informe cartera por entidad"
+    "Description": "Informe facturación por entidad"
   },
   {
     "Id": "Facturas.ImprimirInformeCarteraGeneral",
-    "Description": "Informe cartera general"
+    "Description": "Informe general de facturación"
   },
   {
     "Id": "Facturas.ImprimirInformeGeneralCartera",
-    "Description": "Informe General Cartera"
+    "Description": "Informe General Facturación"
   },
   {
     "Id": "Facturas.IssueDate",
