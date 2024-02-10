@@ -7,6 +7,15 @@
     string UrlDelete = Url.Action("Delete", "Admisiones", new { Id = Model.Entity.Id });
     string UrlBack = Url.Action("ListPartial", "Admisiones");
 
+    bool enviadoDian = false;
+    if (!string.IsNullOrWhiteSpace(Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse))
+    {
+        if (Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse.Contains("DIAN Aceptado"))
+        {
+            enviadoDian = true;
+        }
+    }
+
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("Admisiones"))
         .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000604736-admisiones")
@@ -21,7 +30,7 @@
                 Action = $"{Prefix}EnviarDIAN",
                 Id = $"{Prefix}EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarDIAN"),
-                Disabled = Model.Entity.IsNew || !Model.Entity.Facturado,
+                Disabled = Model.Entity.IsNew || !Model.Entity.Facturado || enviadoDian,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"
@@ -41,7 +50,7 @@
                 Action = $"{Prefix}FacturaIndividual",
                 Id = $"{Prefix}FacturaIndividual",
                 Text = @DApp.DefaultLanguage.GetResource("Admisiones.Facturar"),
-                Disabled = Model.Entity.IsNew || (Model.Entity.EstadosId == 61),
+                Disabled = Model.Entity.IsNew || (Model.Entity.EstadosId == 61) || Model.Entity.Facturado,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "doc"
