@@ -8,11 +8,14 @@
     string UrlBack = Url.Action("ListPartial", "Admisiones");
 
     bool enviadoDian = false;
-    if (!string.IsNullOrWhiteSpace(Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse))
+    if(Model.Entity.FacturaCopagoCuotaModeradora != null)
     {
-        if (Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse.Contains("DIAN Aceptado"))
+        if (!string.IsNullOrWhiteSpace(Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse))
         {
-            enviadoDian = true;
+            if (Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse.Contains("DIAN Aceptado"))
+            {
+                enviadoDian = true;
+            }
         }
     }
 
