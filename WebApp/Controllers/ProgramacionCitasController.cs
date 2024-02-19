@@ -141,8 +141,17 @@ namespace Blazor.WebApp.Controllers
                     {
                         var citaBd = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.Id, false);
                         List<long> estados = new List<long> { 4, 5, 6, 7, 8, 9, 10078 };
-                        if (estados.Contains(citaBd.EstadosId))
-                            model.Entity.EstadosId = citaBd.EstadosId;
+                        if (!estados.Contains(citaBd.EstadosId))
+                            citaBd.EstadosId = model.Entity.EstadosId;
+
+                        citaBd.Observaciones = model.Entity.Observaciones;
+                        citaBd.FechaInicio = model.Entity.FechaInicio;
+                        citaBd.EmpleadosId = model.Entity.EmpleadosId;
+                        citaBd.HoraInicio = model.Entity.HoraInicio;
+                        citaBd.FechaFinal = model.Entity.FechaFinal;
+                        citaBd.HoraFinal = model.Entity.HoraFinal;
+                        citaBd.ConsultoriosId = model.Entity.ConsultoriosId;
+                        citaBd.Duracion = model.Entity.Duracion;
 
                         model.Entity = Manager().GetBusinessLogic<ProgramacionCitas>().Modify(model.Entity);
                     }
