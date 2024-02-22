@@ -162,6 +162,10 @@ namespace Blazor.Infrastructure
         public DbSet<Programas> Programas { get; set; }
         public DbSet<EnfermedadesHuerfanas> EnfermedadesHuerfanas { get; set; }
         public DbSet<Ocupaciones> Ocupaciones { get; set; }
+        public DbSet<ViaIngresoServicioSalud> ViaIngresoServicioSalud{ get; set; }
+        public DbSet<ModalidadAtencion> ModalidadAtencion { get; set; }
+        public DbSet<GrupoServciosRips> GrupoServciosRips { get; set; }
+        public DbSet<HabilitacionServciosRips> HabilitacionServciosRips { get; set; }
 
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }
