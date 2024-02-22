@@ -25,6 +25,7 @@
     function @(Prefix)OnValueChangedServiciosId() {
 
         var servicio = $("#@(Prefix)ServiciosId").dxSelectBox("instance").option("selectedItem");
+        
         if (servicio != null) {
             $("#@(Prefix)EstadosIdTipoDuracion").dxSelectBox("instance").option("value", servicio.EstadosIdTipoDuracion);
             $("#@(Prefix)Duracion").dxNumberBox("instance").option("value", servicio.Duracion);

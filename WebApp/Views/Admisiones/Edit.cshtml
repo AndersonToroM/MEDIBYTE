@@ -7,9 +7,19 @@
     string UrlDelete = Url.Action("Delete", "Admisiones", new { Id = Model.Entity.Id });
     string UrlBack = Url.Action("ListPartial", "Admisiones");
 
-    bool esServicioConsulta = Model.Entity.ProgramacionCitas.Servicios.TiposServicios.Nombre == "Consulta";
+    bool esServicioConsulta = true;
+    if(!Model.Entity.IsNew)
+    {
+        esServicioConsulta = Model.Entity.ProgramacionCitas.Servicios.TiposServicios.Nombre == "Consulta";
+    }else
+    {
+        esServicioConsulta = false;
+    }
+
+    //bool esServicioConsulta = Model.Entity.ProgramacionCitas.Servicios.TiposServicios.Nombre == "Consulta";
 
     bool enviadoDian = false;
+
     if(Model.Entity.FacturaCopagoCuotaModeradora != null)
     {
         if (!string.IsNullOrWhiteSpace(Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse))
