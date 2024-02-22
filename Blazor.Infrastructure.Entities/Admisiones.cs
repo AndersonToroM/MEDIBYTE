@@ -204,7 +204,7 @@ namespace Blazor.Infrastructure.Entities
        public virtual Int64 ModalidadAtencionId { get; set; }
 
        [Column("ViaIngresoServicioSaludId")]
-       [DDisplayName("Admisiones.ViaIngresoServicioSaludId")]]
+       [DDisplayName("Admisiones.ViaIngresoServicioSaludId")]
        public virtual Int64? ViaIngresoServicioSaludId { get; set; }
 
        #endregion
