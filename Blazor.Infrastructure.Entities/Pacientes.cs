@@ -143,9 +143,7 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("CodPaisOrigenId")]
        [DDisplayName("Pacientes.CodPaisOrigenId")]
-       [DRequired("Pacientes.CodPaisOrigenId")]
-       [DRequiredFK("Pacientes.CodPaisOrigenId")]
-       public virtual Int64 CodPaisOrigenId { get; set; }
+       public virtual Int64? CodPaisOrigenId { get; set; }
 
        [Column("ZonaTerritorialResidenciaId")]
        [DDisplayName("Pacientes.ZonaTerritorialResidenciaId")]
