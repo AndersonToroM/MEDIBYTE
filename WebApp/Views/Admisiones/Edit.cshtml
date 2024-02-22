@@ -160,7 +160,7 @@
                         .SearchEnabled(true).ShowClearButton(true)
                         .ReadOnly(Model.Entity.Facturado)
                         );
-
+                        
                             groupItems.AddSimpleFor(m => m.Entity.ModalidadAtencionId).ColSpan(4)
                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ModalidadAtencionId")))
                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Admisiones.ModalidadAtencionId")))
@@ -172,7 +172,7 @@
                             .ReadOnly(Model.Entity.Facturado)
                         );
 
-                            groupItems.AddSimpleFor(m => m.Entity.ViaIngresoServicioSaludId).ColSpan(4).Visible(esServicioConsulta)
+                            groupItems.AddSimpleFor(m => m.Entity.ViaIngresoServicioSaludId).ColSpan(4).Visible(!esServicioConsulta)
                         .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ViaIngresoServicioSaludId")))
                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Admisiones.ViaIngresoServicioSaludId")))
                         .Editor(e => e.SelectBox().ID(Prefix + "ViaIngresoServicioSaludId")
@@ -183,7 +183,7 @@
                         .ReadOnly(Model.Entity.Facturado)
                         );
 
-                            groupItems.AddEmpty().ColSpan(4).Visible(!esServicioConsulta);
+                            groupItems.AddEmpty().ColSpan(4).Visible(esServicioConsulta);
 
                             groupItems.AddSimpleFor(m => m.Entity.Responsable).ColSpan(3)
                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Admisiones.Responsable", 255)))
