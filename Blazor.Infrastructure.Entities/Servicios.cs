@@ -118,6 +118,14 @@ namespace Blazor.Infrastructure.Entities
        [DRequiredFK("Servicios.EstadosIdTipoDuracion")]
        public virtual Int64 EstadosIdTipoDuracion { get; set; }
 
+       [Column("GrupoServciosRipsId")]
+       [DDisplayName("Servicios.GrupoServciosRipsId")]
+       public virtual Int64? GrupoServciosRipsId { get; set; }
+
+       [Column("HabilitacionServciosRipsId")]
+       [DDisplayName("Servicios.HabilitacionServciosRipsId")]
+       public virtual Int64? HabilitacionServciosRipsId { get; set; }
+
        #endregion
 
        #region Propiedades referencias de entrada)
@@ -142,6 +150,12 @@ namespace Blazor.Infrastructure.Entities
 
        [ForeignKey("EstadosId")]
        public virtual Estados Estados { get; set; }
+
+       [ForeignKey("GrupoServciosRipsId")]
+       public virtual GrupoServciosRips GrupoServciosRips { get; set; }
+
+       [ForeignKey("HabilitacionServciosRipsId")]
+       public virtual HabilitacionServciosRips HabilitacionServciosRips { get; set; }
 
        [ForeignKey("TiposServiciosId")]
        public virtual TiposServicios TiposServicios { get; set; }
@@ -200,26 +214,26 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<ImagenesDiagnosticas, bool>> expression5 = entity => entity.ServiciosId == this.Id;
         rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ImagenesDiagnosticas"), typeof(ImagenesDiagnosticas)));
 
-        Expression<Func<NotasDetalles, bool>> expression7 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression7.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","NotasDetalles"), typeof(NotasDetalles)));
+        Expression<Func<NotasDetalles, bool>> expression6 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression6.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","NotasDetalles"), typeof(NotasDetalles)));
 
-        Expression<Func<PreciosServicios, bool>> expression8 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression8.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","PreciosServicios"), typeof(PreciosServicios)));
+        Expression<Func<PreciosServicios, bool>> expression7 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression7.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","PreciosServicios"), typeof(PreciosServicios)));
 
-        Expression<Func<ProgramacionCitas, bool>> expression9 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression9.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProgramacionCitas"), typeof(ProgramacionCitas)));
+        Expression<Func<ProgramacionCitas, bool>> expression8 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression8.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProgramacionCitas"), typeof(ProgramacionCitas)));
 
-        Expression<Func<ProgramacionDisponible, bool>> expression10 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression10.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProgramacionDisponible"), typeof(ProgramacionDisponible)));
+        Expression<Func<ProgramacionDisponible, bool>> expression9 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression9.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProgramacionDisponible"), typeof(ProgramacionDisponible)));
 
-        Expression<Func<ServiciosConsultorios, bool>> expression11 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression11.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ServiciosConsultorios"), typeof(ServiciosConsultorios)));
+        Expression<Func<ServiciosConsultorios, bool>> expression10 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression10.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ServiciosConsultorios"), typeof(ServiciosConsultorios)));
 
-        Expression<Func<ServiciosEmpleados, bool>> expression12 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression12.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ServiciosEmpleados"), typeof(ServiciosEmpleados)));
+        Expression<Func<ServiciosEmpleados, bool>> expression11 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression11.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ServiciosEmpleados"), typeof(ServiciosEmpleados)));
 
-        Expression<Func<ServiciosSedes, bool>> expression13 = entity => entity.ServiciosId == this.Id;
-        rules.Add(new ExpRecurso(expression13.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ServiciosSedes"), typeof(ServiciosSedes)));
+        Expression<Func<ServiciosSedes, bool>> expression12 = entity => entity.ServiciosId == this.Id;
+        rules.Add(new ExpRecurso(expression12.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ServiciosSedes"), typeof(ServiciosSedes)));
 
        return rules;
        }

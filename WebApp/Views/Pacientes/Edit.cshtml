@@ -149,31 +149,51 @@
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONADITIONAL"))
                             .Items(groupItems =>{
 
+                                groupItems.AddSimpleFor(m => m.Entity.CorreoElectronico).ColSpan(3)
+                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Pacientes.CorreoElectronico", 200)))
+                                      .Editor(e => e.TextBox().ID(Prefix + "CorreoElectronico").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.Telefono).ColSpan(4)
+                                groupItems.AddSimpleFor(m => m.Entity.Telefono).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.Telefono")))
                                     .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Pacientes.Telefono", 45)))
                                      .Editor(e => e.TextBox().ID(Prefix + "Telefono").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.Direccion).ColSpan(4)
+                                groupItems.AddSimpleFor(m => m.Entity.Direccion).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.Direccion")))
                                     .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Pacientes.Direccion", 250)))
                                      .Editor(e => e.TextBox().ID(Prefix + "Direccion").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.CorreoElectronico).ColSpan(4)
-                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(200).Message(DApp.GetStringLengthResource("Pacientes.CorreoElectronico", 200)))
-                                      .Editor(e => e.TextBox().ID(Prefix + "CorreoElectronico").ShowClearButton(true));
+                                     groupItems.AddSimpleFor(m => m.Entity.ZonaTerritorialResidenciaId).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.ZonaTerritorialResidenciaId")))
+                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.ZonaTerritorialResidenciaId")))
+                                .Editor(e => e.SelectBox().ID(Prefix + "ZonaTerritorialResidenciaId")
+                                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetZonaTerritorialResidenciaId").Key("Id"))
+                                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                .ValueExpr("Id").DisplayExpr("Nombre")
+                                .SearchEnabled(true).ShowClearButton(true)
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.CodPaisOrigenId).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.CodPaisOrigenId")))
+                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.CodPaisOrigenId")))
+                                .Editor(e => e.SelectBox().ID(Prefix + "Paises")
+                                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetCodPaisOrigenId").Key("Id"))
+                                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                .ValueExpr("Id").DisplayExpr("Nombre")
+                                .SearchEnabled(true).ShowClearButton(true)
+                                );
 
                                 groupItems.AddSimpleFor(m => m.Entity.PaisId).ColSpan(3)
-                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.PaisId")))
-                                        .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.PaisId")))
-                                      .Editor(e => e.SelectBox().ID(Prefix + "Paises")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Sedes").LoadAction("GetPaisesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.PaisesId")))
+                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.PaisesId")))
+                                .Editor(e => e.SelectBox().ID(Prefix + "PaisesId")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetPaisesId").Key("Id"))
+                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50)).Value(1).ReadOnly(true)
                                       .ValueExpr("Id").DisplayExpr("Nombre")
                                       .SearchEnabled(true).ShowClearButton(true)
                                       .OnValueChanged(Prefix + "OnValueChangedPaises")
                                  );
+
                                 groupItems.AddSimpleFor(m => m.Entity.DepartamentoId).ColSpan(3)
                                        .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.DepartamentoId")))
                                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.DepartamentoId")))
@@ -184,7 +204,7 @@
                                        .SearchEnabled(true).ShowClearButton(true)
                                        .OnValueChanged(Prefix + "OnValueChangedDepartamentos")
                                   );
-                                groupItems.AddSimpleFor(m => m.Entity.CiudadesId).ColSpan(4)
+                                groupItems.AddSimpleFor(m => m.Entity.CiudadesId).ColSpan(3)
                                      .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.CiudadesId")))
                                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.CiudadesId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "CiudadesId")
@@ -198,7 +218,7 @@
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(6).Message(DApp.GetStringLengthResource("Pacientes.CodigoPostal", 6)))
                                       .Editor(e => e.TextBox().ID(Prefix + "CodigoPostal").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.TiposRegimenesId).ColSpan(6)
+                                groupItems.AddSimpleFor(m => m.Entity.TiposRegimenesId).ColSpan(4)
                                      .Editor(e => e.SelectBox().ID(Prefix + "TiposRegimenesId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetTiposRegimenesId").Key("Id"))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))

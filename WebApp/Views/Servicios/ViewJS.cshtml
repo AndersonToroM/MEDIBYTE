@@ -38,6 +38,11 @@
             return data.Codigo + " | " + data.Descripcion;
     }
 
+    function @(Prefix)DisplayExprHabilitacionServciosRipsId(data) {
+        if (data)
+            return data.Codigo + " | " + data.Nombre + " | " + data.Descripcion;
+    }
+
     function @(Prefix)FormSuccess(data)
     {
         hideLoadIndicator();

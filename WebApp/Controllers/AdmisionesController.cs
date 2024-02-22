@@ -224,11 +224,20 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<CausasExternas>().Tabla(true), loadOptions);
         }
         [HttpPost]
+        public LoadResult GetViaIngresoServicioSaludId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ViaIngresoServicioSalud>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
         public LoadResult GetOcupacionesId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Ocupaciones>().Tabla(true), loadOptions);
         }
-
+        [HttpPost]
+        public LoadResult GetModalidadAtencionId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ModalidadAtencion>().Tabla(true), loadOptions);
+        }
         [HttpPost]
         public LoadResult GetParentescosId(DataSourceLoadOptions loadOptions)
         {

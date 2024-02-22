@@ -5,7 +5,7 @@
   },
   {
     "Id": "\"ServiciosFacturar.SedesNombre",
-    "Description": null
+    "Description": "Sede"
   },
   {
     "Id": "AdicionOrdenes",
@@ -212,6 +212,10 @@
     "Description": "Medio de pago"
   },
   {
+    "Id": "Admisiones.ModalidadAtencionId",
+    "Description": "Modalidad de atención"
+  },
+  {
     "Id": "Admisiones.ModalidadesContratacionId",
     "Description": "Modalidades contratación"
   },
@@ -326,6 +330,10 @@
   {
     "Id": "Admisiones.ValorPagoEstadosId",
     "Description": "Valor Pago"
+  },
+  {
+    "Id": "Admisiones.ViaIngresoServicioSaludId",
+    "Description": "Vía de ingreso"
   },
   {
     "Id": "AdmisionesCorrecion",
@@ -530,6 +538,10 @@
   {
     "Id": "Atenciones.Anular",
     "Description": "Anular"
+  },
+  {
+    "Id": "Atenciones.CausaMotivoAtencionId",
+    "Description": "Causa externa o motivo de atención"
   },
   {
     "Id": "Atenciones.CausasExternasId",
@@ -3908,6 +3920,10 @@
     "Description": "Código Postal"
   },
   {
+    "Id": "Pacientes.CodPaisOrigenId",
+    "Description": "País de origen"
+  },
+  {
     "Id": "Pacientes.CorreoElectronico",
     "Description": "Correo electronico"
   },
@@ -3956,12 +3972,8 @@
     "Description": "Observaciones"
   },
   {
-    "Id": "Pacientes.PaisesId",
-    "Description": "Pais"
-  },
-  {
     "Id": "Pacientes.PaisId",
-    "Description": "Pais"
+    "Description": "País de residencia"
   },
   {
     "Id": "Pacientes.PrimerApellido",
@@ -4018,6 +4030,10 @@
   {
     "Id": "Pacientes.YAEXISTEENTIDADEPS",
     "Description": "El paciente ya tiene una EPS asociada activa: "
+  },
+  {
+    "Id": "Pacientes.ZonaTerritorialResidenciaId",
+    "Description": "Zona territoral"
   },
   {
     "Id": "PacientesEntidades",
@@ -4770,6 +4786,14 @@
   {
     "Id": "Servicios.GranContribuyente",
     "Description": "¿Es gran contribuyente?"
+  },
+  {
+    "Id": "Servicios.GrupoServciosRipsId",
+    "Description": "Grupo del servicio"
+  },
+  {
+    "Id": "Servicios.HabilitacionServciosRipsId",
+    "Description": "Código grupo del servicio (RIPS)"
   },
   {
     "Id": "Servicios.Nombre",

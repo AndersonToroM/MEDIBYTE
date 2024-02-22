@@ -411,6 +411,11 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true), loadOptions);
         }
         [HttpPost]
+        public LoadResult GetCausaMotivoAtencionId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<CausaMotivoAtencion>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
         public LoadResult GetEstadosId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Estados>().Tabla(true).Where(x=>x.Tipo == "ATENCION"), loadOptions);

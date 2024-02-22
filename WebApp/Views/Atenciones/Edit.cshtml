@@ -138,11 +138,11 @@
                                  );
 
 
-                                groupItems.AddSimpleFor(m => m.Entity.CausasExternasId).ColSpan(6)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.CausasExternasId")))
-                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.CausasExternasId")))
-                                      .Editor(e => e.SelectBox().ID(Prefix + "CausasExternasId")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetCausasExternasId").Key("Id"))
+                                groupItems.AddSimpleFor(m => m.Entity.CausaMotivoAtencionId).ColSpan(6)
+                                      .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.CausaMotivoAtencionId")))
+                                      .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.CausaMotivoAtencionId")))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "CausaMotivoAtencionId")
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetCausaMotivoAtencionId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                       .SearchEnabled(true).ShowClearButton(true)
@@ -201,7 +201,7 @@
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetEnfermedadesHuerfanasId").Key("Id"))
                                     .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                     .ValueExpr("Id").DisplayExpr("NombreV4").SearchExpr("NombreV4")
-                                    .SearchEnabled(true).ShowClearButton(true).Value(Model.Entity.EnfermedadesHuerfanasId = 2237)
+                                    .SearchEnabled(true).ShowClearButton(true)
                                 );
 
                                 groupItems.AddSimpleFor(m => m.Entity.FechaFinAtencion).ColSpan(6).Visible(!esServicioConsulta)

@@ -7,7 +7,7 @@ namespace Blazor.Infrastructure.Entities
     public partial class Pacientes
     {
         [NotMapped]
-        [DDisplayName("Pacientes.PaisesId")]
+        [DDisplayName("Pacientes.PaisId")]
         public long? PaisId { get; set; }
         [NotMapped]
         [DDisplayName("Pacientes.DepartamentosId")]

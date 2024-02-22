@@ -355,6 +355,11 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposRegimenes>().Tabla(true), loadOptions);
         }
         [HttpPost]
+        public LoadResult GetCodPaisOrigenId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Paises>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
         public LoadResult GetDepartamentosId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Departamentos>().Tabla(true), loadOptions);
@@ -384,6 +389,11 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetTiposSangreId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposSangre>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetZonaTerritorialResidenciaId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ZonaTerritorialResidencia>().Tabla(true), loadOptions);
         }
         [HttpPost]
         public LoadResult GetGenerosId(DataSourceLoadOptions loadOptions)

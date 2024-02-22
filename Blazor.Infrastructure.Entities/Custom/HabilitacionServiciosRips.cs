@@ -4,20 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Blazor.Infrastructure.Entities
 {
 
-    public partial class Servicios
+    public partial class HabilitacionServciosRips
     {
 
         [NotMapped]
-        [DDisplayName("Servicios.DescripcionCompleta")]
+        [DDisplayName("HabilitacionServciosRips.DescripcionCompleta")]
         public string DescripcionCompleta
         {
             get
             {
-                return Codigo + " | " + Nombre ;
+                return Codigo + " | " + Nombre + " | " + Descripcion;
             }
             private set
             {
             }
         }
+
     }
 }

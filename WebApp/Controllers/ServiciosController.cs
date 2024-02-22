@@ -240,7 +240,17 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetEspecialidadesId(DataSourceLoadOptions loadOptions)
         { 
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Especialidades>().Tabla(true), loadOptions);
-        } 
+        }
+        [HttpPost]
+        public LoadResult GetGrupoServciosRipsId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<GrupoServciosRips>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetHabilitacionServciosRipsId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<HabilitacionServciosRips>().Tabla(true), loadOptions);
+        }
         [HttpPost]
         public LoadResult GetEstadosId(DataSourceLoadOptions loadOptions)
         { 
