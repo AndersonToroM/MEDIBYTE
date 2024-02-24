@@ -149,8 +149,8 @@
                                  );
 
                                 groupItems.AddSimpleFor(m => m.Entity.FinalidadConsultaId).ColSpan(6).Visible(esServicioConsulta)
-                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.FinalidadConsultaId")))
-                                     .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.FinalidadConsultaId")))
+                                     //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.FinalidadConsultaId")))
+                                     //.ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.FinalidadConsultaId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "FinalidadConsultaId")
                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetFinalidadConsultaId").Key("Id"))
                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))

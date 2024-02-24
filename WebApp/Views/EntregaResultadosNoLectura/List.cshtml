@@ -24,8 +24,8 @@
     .ID("EntregaResultadosNoLecturaDataGrid") 
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("EntregaResultadosNoLectura").LoadAction("Get").Key("Id")) 
     .Columns(columns => 
-    { 
-        columns.AddFor(m => m.Fecha).Format("dd/MM/yyyy");
+    {
+        columns.AddFor(m => m.Fecha).Format("dd/MM/yyyy").SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.Fecha).Caption(DApp.DefaultLanguage.GetResource("EntregaResultados.Hora")).Format("HH:mm");
         columns.AddFor(m => m.Pacientes.NumeroIdentificacion);
         columns.AddFor(m => m.Pacientes.NombreCompleto).CalculateFilterExpression("CalculateFilterExpressionNombreCompleto");

@@ -81,7 +81,7 @@ namespace Blazor.WebApp.Controllers
             {
                 Ciudades ciudad = Manager().GetBusinessLogic<Ciudades>().FindById(x => x.Id == model.Entity.CiudadesId, true);
                 model.Entity.DepartamentoId = ciudad.DepartamentosId;
-                model.Entity.PaisId = ciudad.Departamentos.PaisesId;
+                model.Entity.PaisId = ciudad.Departamentos.PaisId;
                 model.Entity.IsNew = false;
             }
             model.Entity.IsNew = false;
@@ -355,7 +355,7 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposRegimenes>().Tabla(true), loadOptions);
         }
         [HttpPost]
-        public LoadResult GetCodPaisOrigenId(DataSourceLoadOptions loadOptions)
+        public LoadResult GetPaisesId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Paises>().Tabla(true), loadOptions);
         }
@@ -365,9 +365,9 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Departamentos>().Tabla(true), loadOptions);
         }
         [HttpPost]
-        public LoadResult GetPaisesId(DataSourceLoadOptions loadOptions)
+        public LoadResult GetPaisesOrigenId(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Paises>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<PaisesOrigen>().Tabla(true), loadOptions);
         }
 
         [HttpPost]

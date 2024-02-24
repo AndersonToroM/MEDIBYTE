@@ -3916,12 +3916,12 @@
     "Description": "Ciudad"
   },
   {
-    "Id": "Pacientes.CodigoPostal",
-    "Description": "Código Postal"
+    "Id": "Pacientes.CiudadResidencia",
+    "Description": "Ciudad de residencia"
   },
   {
-    "Id": "Pacientes.CodPaisOrigenId",
-    "Description": "País de origen"
+    "Id": "Pacientes.CodigoPostal",
+    "Description": "Código Postal"
   },
   {
     "Id": "Pacientes.CorreoElectronico",
@@ -3972,8 +3972,16 @@
     "Description": "Observaciones"
   },
   {
+    "Id": "Pacientes.PaisesOrigenId",
+    "Description": "País de origen"
+  },
+  {
     "Id": "Pacientes.PaisId",
     "Description": "País de residencia"
+  },
+  {
+    "Id": "Pacientes.PaisOrigen",
+    "Description": "Nacionalidad"
   },
   {
     "Id": "Pacientes.PrimerApellido",

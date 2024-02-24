@@ -141,13 +141,13 @@ namespace Blazor.Infrastructure.Entities
        [DRequiredFK("Pacientes.GenerosIdentidadId")]
        public virtual Int64 GenerosIdentidadId { get; set; }
 
-       [Column("CodPaisOrigenId")]
-       [DDisplayName("Pacientes.CodPaisOrigenId")]
-       public virtual Int64? CodPaisOrigenId { get; set; }
-
        [Column("ZonaTerritorialResidenciaId")]
        [DDisplayName("Pacientes.ZonaTerritorialResidenciaId")]
        public virtual Int64? ZonaTerritorialResidenciaId { get; set; }
+
+       [Column("PaisesOrigenId")]
+       [DDisplayName("Pacientes.PaisesOrigenId")]
+       public virtual Int64? PaisesOrigenId { get; set; }
 
        #endregion
 
@@ -171,8 +171,8 @@ namespace Blazor.Infrastructure.Entities
        [ForeignKey("GenerosIdentidadId")]
        public virtual GenerosIdentidad GenerosIdentidad { get; set; }
 
-       [ForeignKey("CodPaisOrigenId")]
-       public virtual Paises CodPaisOrigen { get; set; }
+       [ForeignKey("PaisesOrigenId")]
+       public virtual PaisesOrigen PaisesOrigen { get; set; }
 
        [ForeignKey("TiposAfiliadosId")]
        public virtual TiposAfiliados TiposAfiliados { get; set; }

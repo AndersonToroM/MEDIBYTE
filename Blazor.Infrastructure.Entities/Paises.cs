@@ -31,7 +31,6 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("CodigoISO3166Num")]
        [DDisplayName("Paises.CodigoISO3166Num")]
-       [DRequired("Paises.CodigoISO3166Num")]
        [DStringLength("Paises.CodigoISO3166Num",5)]
        public virtual String CodigoISO3166Num { get; set; }
 
@@ -64,11 +63,8 @@ namespace Blazor.Infrastructure.Entities
        public override List<ExpRecurso> GetEliminarExpression<T>()
        {
         var rules = new List<ExpRecurso>();
-        Expression<Func<Departamentos, bool>> expression0 = entity => entity.PaisesId == this.Id;
+        Expression<Func<Departamentos, bool>> expression0 = entity => entity.PaisId == this.Id;
         rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Departamentos"), typeof(Departamentos)));
-
-        Expression<Func<Pacientes, bool>> expression1 = entity => entity.CodPaisOrigenId == this.Id;
-        rules.Add(new ExpRecurso(expression1.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Pacientes"), typeof(Pacientes)));
 
        return rules;
        }

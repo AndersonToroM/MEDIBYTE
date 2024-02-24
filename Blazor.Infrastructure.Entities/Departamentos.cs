@@ -37,7 +37,7 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Departamentos.PaisesId")]
        [DRequired("Departamentos.PaisesId")]
        [DRequiredFK("Departamentos.PaisesId")]
-       public virtual Int64 PaisesId { get; set; }
+       public virtual Int64 PaisId { get; set; }
 
        #endregion
 

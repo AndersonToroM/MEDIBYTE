@@ -39,7 +39,7 @@
                          items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                              .Items(groupItems =>
                                      {
-                                groupItems.AddSimpleFor(m => m.Entity.PaisesId).ColSpan(4)
+                                groupItems.AddSimpleFor(m => m.Entity.PaisId).ColSpan(4)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Departamentos.PaisesId")))
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Departamentos.PaisesId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "PaisesId")

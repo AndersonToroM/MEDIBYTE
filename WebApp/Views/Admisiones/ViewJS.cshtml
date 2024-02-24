@@ -280,6 +280,7 @@
 
     function @(Prefix)OnSelectionChangedCitas(item) {
 
+        var tipoServicio = 0;
         var Cita = item.selectedRowsData[0];
         if (Cita) {
             $("#@(Prefix)CitasId").dxNumberBox("instance").option("value", Cita.Id);
@@ -293,6 +294,18 @@
             $("#@(Prefix)Cantidad").dxNumberBox("instance").option("value", Cita.Cantidad);
             $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", 10067);
             $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", Cita.PorcDescAutorizado);
+            /*
+            tipoServicio = Cita.Servicios.TiposServiciosId;
+
+            console.log("TS: ", tipoServicio);
+
+            if(tipoServicio == 1)
+            {
+                $("#@(Prefix)ViaIngresoServicioSaludId").dxSelectBox("instance").option("visible", false);
+            }else
+            {
+                $("#@(Prefix)ViaIngresoServicioSaludId").dxSelectBox("instance").option("visible", true);
+            }*/
 
             if (AdmisionNueva) {
                 ValorNormalCita = Cita.Servicios.TarifaPlena * Cita.Cantidad;
