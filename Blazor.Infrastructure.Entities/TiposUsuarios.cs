@@ -23,16 +23,21 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("TiposUsuarios.Descripcion",1024)]
        public virtual String Descripcion { get; set; }
 
-        [Column("Codigo")]
-        [DDisplayName("TiposUsuarios.Codigo")]
-        [DStringLength("TiposUsuarios.Codigo", 5)]
-        public virtual String Codigo { get; set; }
+       [Column("Codigo")]
+       [DDisplayName("TiposUsuarios.Codigo")]
+       [DStringLength("TiposUsuarios.Codigo",5)]
+       public virtual String Codigo { get; set; }
 
-        #endregion
+       [Column("CodigoRips")]
+       [DDisplayName("TiposUsuarios.CodigoRips")]
+       [DStringLength("TiposUsuarios.CodigoRips",5)]
+       public virtual String CodigoRips { get; set; }
 
-        #region Reglas expression
+       #endregion
 
-        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+       #region Reglas expression
+
+       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<TiposUsuarios, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;
