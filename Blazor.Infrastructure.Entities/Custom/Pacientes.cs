@@ -8,7 +8,7 @@ namespace Blazor.Infrastructure.Entities
     {
         [NotMapped]
         [DDisplayName("Pacientes.PaisId")]
-        public long? PaisId { get; set; }
+        public long? PaisesId { get; set; }
         [NotMapped]
         [DDisplayName("Pacientes.DepartamentosId")]
         public long? DepartamentoId { get; set; }

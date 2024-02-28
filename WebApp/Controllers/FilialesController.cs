@@ -72,7 +72,7 @@ namespace Blazor.WebApp.Controllers
             {
                 Ciudades ciudad = Manager().GetBusinessLogic<Ciudades>().FindById(x => x.Id == model.Entity.CiudadesId, true);
                 model.DepartamentoId = ciudad.DepartamentosId;
-                model.PaisId = ciudad.Departamentos.PaisId;
+                model.PaisId = ciudad.Departamentos.PaisesId;
                 model.Entity.IsNew = false;
             }
             return model; 

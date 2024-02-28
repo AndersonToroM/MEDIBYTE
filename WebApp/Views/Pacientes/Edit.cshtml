@@ -183,10 +183,10 @@
                                 .SearchEnabled(true).ShowClearButton(true)
                                 );
 
-                                groupItems.AddSimpleFor(m => m.Entity.PaisId).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.PaisesId).ColSpan(3)
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Pacientes.PaisesId")))
                                     .ValidationRules(rules => rules.AddRange().Min(1).Max(1).Message(DApp.GetRequiredResource("Pacientes.PaisesId")))
-                                    .Editor(e => e.SelectBox().ID(Prefix + "PaisesId")
+                                    .Editor(e => e.SelectBox().ID(Prefix + "PaisId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetPaisesId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Nombre")
@@ -199,7 +199,7 @@
                                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.DepartamentoId")))
                                        .Editor(e => e.SelectBox().ID(Prefix + "Departamentos")
                                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetDepartamentosId").Key("Id"))
-                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50).Filter("['PaisesId','=','"+Model.Entity.PaisId+"']"))
+                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50).Filter("['PaisId','=','"+Model.Entity.PaisesId+"']"))
                                        .ValueExpr("Id").DisplayExpr("Nombre")
                                        .SearchEnabled(true).ShowClearButton(true)
                                        .OnValueChanged(Prefix + "OnValueChangedDepartamentos")
