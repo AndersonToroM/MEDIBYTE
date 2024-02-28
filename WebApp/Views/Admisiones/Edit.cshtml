@@ -8,7 +8,7 @@
     string UrlBack = Url.Action("ListPartial", "Admisiones");
 
     bool esServicioConsulta = false;
-    if(!Model.Entity.IsNew)
+    if(!Model.Entity.IsNew && Model.Entity.ProgramacionCitas.Servicios != null)
     {
         esServicioConsulta = Model.Entity.ProgramacionCitas.Servicios.TiposServicios.Nombre == "Consulta";
     }else
