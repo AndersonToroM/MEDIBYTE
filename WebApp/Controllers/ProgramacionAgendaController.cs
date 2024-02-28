@@ -318,7 +318,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetEmpleados(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true).Where(x=>x.TipoEmpleados == 2), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(false).Where(x=>x.TipoEmpleados == 2), loadOptions);
         }
         [HttpPost]
         public Dictionary<string, Object> GetServiciosPorConsultorios(List<long> consultoriosId, long id)
