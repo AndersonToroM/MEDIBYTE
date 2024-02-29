@@ -199,7 +199,7 @@
                                     .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.EnfermedadesHuerfanasId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "EnfermedadesHuerfanasId")
                                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetEnfermedadesHuerfanasId").Key("Id"))
-                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50).Sort("Id",true))
                                     .ValueExpr("Id").DisplayExpr("NombreV4").SearchExpr("NombreV4")
                                     .SearchEnabled(true).ShowClearButton(true)
                                 );
