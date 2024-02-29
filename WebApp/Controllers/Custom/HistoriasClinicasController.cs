@@ -28,7 +28,7 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult OpenHC(int atentionId, int hcTipoId, long causaExternaId, long finalidadconsultaId, long? programasId, long enfermedadesHuerfanasId, bool pertenecePrograma)
+        public IActionResult OpenHC(int atentionId, int hcTipoId, long CausaMotivoAtencionId, long finalidadconsultaId, long? programasId, long enfermedadesHuerfanasId, bool pertenecePrograma)
         {
             HistoriasClinicasModel model = new HistoriasClinicasModel();
             model.Entity = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.AtencionesId == atentionId, false);
@@ -71,7 +71,7 @@ namespace Blazor.WebApp.Controllers
 
             }
 
-            aten.CausasExternasId = causaExternaId;
+            aten.CausaMotivoAtencionId = CausaMotivoAtencionId;
             aten.FinalidadConsultaId = finalidadconsultaId;
             aten.ProgramasId = programasId;
             aten.EnfermedadesHuerfanasId = enfermedadesHuerfanasId;
