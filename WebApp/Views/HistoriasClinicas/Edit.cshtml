@@ -156,14 +156,14 @@
                                  );
 
 
-                             groupItems.AddSimpleFor(m => m.Entity.Atenciones.CausasExternasId).ColSpan(6)
-                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.CausasExternasId")))
-                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.CausasExternasId")))
-                                       .Editor(e => e.SelectBox().ID(Prefix + "CausasExternasId")
-                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetCausasExternasId").Key("Id"))
-                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                       .ValueExpr("Id").DisplayExpr("Nombre")
-                                       .ReadOnly(true)
+                                groupItems.AddSimpleFor(m => m.Entity.Atenciones.CausaMotivoAtencionId).ColSpan(6)
+                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Atenciones.CausaMotivoAtencionId")))
+                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Atenciones.CausaMotivoAtencionId")))
+                                    .Editor(e => e.SelectBox().ID(Prefix + "CausaMotivoAtencionId")
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetCausaMotivoAtencionId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .ValueExpr("Id").DisplayExpr("Nombre")
+                                    .ReadOnly(true)
                                   );
 
                              groupItems.AddSimpleFor(m => m.Entity.Atenciones.FinalidadConsultaId).ColSpan(6)
@@ -459,10 +459,10 @@
 {
     <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
     <div class="form-group">
-        <label for="@($"{Prefix}CausaExternaId")">@DApp.DefaultLanguage.GetResource("Atenciones.CausasExternasId"):</label>
-        @(Html.DControls().SelectBoxFor(x => x.Entity.Atenciones.CausasExternasId)
+        <label for="@($"{Prefix}CausaMotivoAtencionId")">@DApp.DefaultLanguage.GetResource("Atenciones.CausasExternasId"):</label>
+        @(Html.DControls().SelectBoxFor(x => x.Entity.Atenciones.CausaMotivoAtencionId)
         .ID(Prefix + "NuevoCausaExternaId").InputAttr("class", "form-control")
-        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetCausasExternasId").Key("Id"))
+        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Atenciones").LoadAction("GetCausaMotivoAtencionId").Key("Id"))
         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
         .ValueExpr("Id").DisplayExpr("Nombre")
         .SearchEnabled(true).ShowClearButton(true)

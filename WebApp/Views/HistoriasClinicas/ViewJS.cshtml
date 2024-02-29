@@ -12,11 +12,11 @@
 
     function ModificarDatosAtencion() {
 
-        var causaExterna = $("#@(Prefix)NuevoCausaExternaId").dxSelectBox("instance").option("value");
+        var CausaMotivoAtencion = $("#@(Prefix)NuevoCausaExternaId").dxSelectBox("instance").option("value");
         var finalidadConsulta = $("#@(Prefix)NuevoFinalidadConsultaId").dxSelectBox("instance").option("value");
         var esControl = $("#@(Prefix)NuevoEsControl").dxCheckBox("instance").option("value");
 
-        if(causaExterna == null || causaExterna == "" || causaExterna == 0 ||
+        if (CausaMotivoAtencion == null || CausaMotivoAtencion == "" || CausaMotivoAtencion == 0 ||
         finalidadConsulta == null || finalidadConsulta == "" || finalidadConsulta == 0){
             DevExpress.ui.notify("La Causa externa y la Finalidad consulta es obligatoria.", "error");
             return false;
@@ -26,7 +26,7 @@
         $.ajax({
             url: "@UrlModificarDatos",
             type: 'POST',
-            data: { id: @(Model.Entity.Id), causaExternaId: causaExterna, finalidadConsultaId: finalidadConsulta, esControl: esControl},
+            data: { id: @(Model.Entity.Id), CausaMotivoAtencionId: CausaMotivoAtencion, finalidadConsultaId: finalidadConsulta, esControl: esControl },
             success: function (data) {
                 $("#@(Prefix)PopupModificarDatosAtencion").dxPopup("instance").hide();
                 hideLoadIndicator();
