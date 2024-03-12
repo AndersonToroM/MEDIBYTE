@@ -907,6 +907,13 @@ namespace Blazor.BusinessLogic
             return content;
         }
 
+        /// <summary>
+        /// https://localhost:44333/empresas/ObtenerXMLNotaDebito?id=10531
+        /// https://localhost:44333/empresas/ObtenerXMLNotaCredito?id=10531
+        /// </summary>
+        /// <param name="idNota"></param>
+        /// <returns></returns>
+
         public async Task<string> ObtenerXMLNotaDebito(long idNota)
         {
             EDebitNote invoice = GetDebitNote(idNota);

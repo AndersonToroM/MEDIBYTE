@@ -578,6 +578,12 @@ namespace Blazor.BusinessLogic
             }
         }
 
+        /// <summary>
+        /// https://localhost:44333/empresas/ObtenerXMLFactura?id=74131
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public EInvoice GetInvoice(long idFactura)
         {
             Facturas factura = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Facturas>()
@@ -653,10 +659,7 @@ namespace Blazor.BusinessLogic
             invoice.CustomizationID = "10";
             invoice.ID = factura.Documentos.Prefijo + "" + factura.NroConsecutivo.ToString();
             invoice.DocumentCurrencyCode = "COP";
-            if (factura.FehaInicial > factura.FechaFinal)
-            {
-                invoice.InvoicePeriod = new InvoicePeriod { StartDate = (DateTime)factura.FehaInicial, EndDate = (DateTime)factura.FechaFinal };
-            }
+            invoice.InvoicePeriod = new InvoicePeriod { StartDate = factura.FehaInicial, EndDate = factura.FechaFinal };
 
             invoice.AccountingSupplierParty = new AccountingSupplierParty();
             invoice.AccountingSupplierParty.AdditionalAccountID = factura.Empresas.TiposPersonas.Codigo;
@@ -770,43 +773,43 @@ namespace Blazor.BusinessLogic
                     {
                         SectorSalud ss = new SectorSalud();
                         if (!string.IsNullOrWhiteSpace(factura.Entidades.CodigoReps))
-                            ss.CodPrestadorServicio = factura.Entidades.CodigoReps.TrimStart().TrimEnd();
+                            ss.CodPrestadorServicio = factura.Entidades.CodigoReps.Trim();
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.NumeroIdentificacion))
-                            ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.TrimStart().TrimEnd();
+                            ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.Trim();
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.TiposIdentificacion.Codigo))
-                            ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.TrimStart().TrimEnd();
+                            ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.Trim();
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerApellido))
-                            ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.TrimStart().TrimEnd());
+                            ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.Trim());
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoApellido))
-                            ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.TrimStart().TrimEnd());
+                            ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.Trim());
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerNombre))
-                            ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.TrimStart().TrimEnd());
+                            ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.Trim());
 
                         if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoNombre))
-                            ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.TrimStart().TrimEnd());
+                            ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.Trim());
 
                         if (item.TiposUsuarios != null)
-                            ss.TipoUsuario = item.TiposUsuarios.Id.ToString().TrimStart().TrimEnd();
+                            ss.TipoUsuario = item.TiposUsuarios.Id.ToString().Trim();
 
                         ss.ModContratoPago = item.Convenios.ModalidadesContratacion.Id.ToString("D2");
                         ss.Cobertura = item.CoberturaPlanBeneficios.Id.ToString("D2");
 
                         if (!string.IsNullOrWhiteSpace(item.NroAutorizacion))
-                            ss.NumAutorizacion = item.NroAutorizacion.TrimStart().TrimEnd();
+                            ss.NumAutorizacion = item.NroAutorizacion.Trim();
 
                         if (!string.IsNullOrWhiteSpace(item.NumeroPrescripcion))
-                            ss.NumPrescripcion = item.NumeroPrescripcion.TrimStart().TrimEnd();
+                            ss.NumPrescripcion = item.NumeroPrescripcion.Trim();
                         if (!string.IsNullOrWhiteSpace(item.NumeroSuministroPrescripcion))
-                            ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.TrimStart().TrimEnd();
+                            ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.Trim();
                         if (!string.IsNullOrWhiteSpace(item.Convenios.NroContrato))
-                            ss.Numcontrato = item.Convenios.NroContrato.TrimStart().TrimEnd();
+                            ss.Numcontrato = item.Convenios.NroContrato.Trim();
                         if (!string.IsNullOrWhiteSpace(item.NumeroPoliza))
-                            ss.NumPoliza = item.NumeroPoliza.TrimStart().TrimEnd();
+                            ss.NumPoliza = item.NumeroPoliza.Trim();
 
                         ss.FechaInicio = factura.FehaInicial;
                         ss.FechaFinal = factura.FechaFinal;
@@ -883,7 +886,7 @@ namespace Blazor.BusinessLogic
             {
                 InvoiceLine data = new InvoiceLine();
                 data.ID = (i + 1);
-                data.StandardItemIdentification = new StandardItemIdentification { ID = factura.FacturasDetalles[i].Servicios.Codigo.TrimStart().TrimEnd(), schemeID = "999" };
+                data.StandardItemIdentification = new StandardItemIdentification { ID = factura.FacturasDetalles[i].Servicios.Codigo.Trim(), schemeID = "999" };
                 data.InvoicedQuantity = factura.FacturasDetalles[i].Cantidad;
                 data.UnitCode = "NAR";
                 data.LineExtensionAmount = factura.FacturasDetalles[i].SubTotalValue - factura.FacturasDetalles[i].DiscountValue;
