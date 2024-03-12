@@ -290,7 +290,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetModalidadesContratacionId(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<ModalidadesContratacion>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ModalidadesContratacion>().Tabla(true).Where(x => x.Estado), loadOptions);
         }
         #endregion
 

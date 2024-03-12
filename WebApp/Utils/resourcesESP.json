@@ -1293,7 +1293,7 @@
   },
   {
     "Id": "Convenios.ModalidadesContratacionId",
-    "Description": "Modalidad de contratación"
+    "Description": "Modalidad de pago"
   },
   {
     "Id": "Convenios.Nombre",

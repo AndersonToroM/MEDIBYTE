@@ -107,6 +107,8 @@ namespace Blazor.WebApp.Controllers
                 dataAdmision.Acompanante = model.Entity.Acompanante;
                 dataAdmision.ParentescosId = model.Entity.ParentescosId;
                 dataAdmision.OcupacionesId = model.Entity.OcupacionesId;
+                dataAdmision.ViaIngresoServicioSaludId = model.Entity.ViaIngresoServicioSaludId;
+                dataAdmision.ModalidadAtencionId = model.Entity.ModalidadAtencionId;
                 dataAdmision.NumeroPrescripcion = model.Entity.NumeroPrescripcion;
                 dataAdmision.NumeroSuministroPrescripcion = model.Entity.NumeroSuministroPrescripcion;
                 dataAdmision.ValorPagoEstadosId = model.Entity.ValorPagoEstadosId;
