@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
@@ -442,6 +443,20 @@ namespace Blazor.WebApp.Controllers
             {
                 var report = Manager().Report<FacturaDetalleReporte>(Id,User.Identity.Name);
                 return PartialView("_ViewerReport", report);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EnviarRips(int id)
+        {
+            try
+            {
+                await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name);
+                return Ok();
             }
             catch (Exception e)
             {

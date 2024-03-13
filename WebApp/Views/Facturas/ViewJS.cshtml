@@ -3,6 +3,7 @@
     string Prefix = "Facturas";
     string UrlReport = Url.Action("ImprimirFacturaPorId", Prefix, new { Id = Model.Entity.Id });
     string UrlEnviarDian = Url.Action("EnviarFacturaDIAN", Prefix, new { id = Model.Entity.Id });
+    string UrlEnviarRips = Url.Action("EnviarRips", Prefix, new { id = Model.Entity.Id });
     string UrlEnviarFactura = Url.Action("EnviarFactura", Prefix, new { id = Model.Entity.Id });
     string UrlModificarDatos = Url.Action("ModificarDatosFactura", Prefix);
 }
@@ -102,6 +103,25 @@
                 hideLoadIndicator();
                 DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
                 $("#mainPanel").html(data);
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
+            }
+        });
+    }
+
+    function EnviarRips() {
+
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlEnviarRips",
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Envio de los RIPS satisfactorio", "info");
+                //$("#mainPanel").html(data);
             },
             error: function (xhr) {
                 console.log(xhr);

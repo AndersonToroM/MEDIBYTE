@@ -1,10 +1,18 @@
-﻿using Blazor.Infrastructure;
+﻿using Blazor.BusinessLogic.Models.Enums;
+using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
+using Blazor.Reports.Facturas;
 using DevExpress.Compression;
+using DevExpress.Security;
+using DevExpress.Spreadsheet;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,16 +20,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using DevExpress.Spreadsheet;
-using Blazor.Reports.Facturas;
-using DevExpress.XtraPrinting;
-using DevExpress.XtraReports.UI;
-using Dominus.Frontend.Controllers;
-using Blazor.BusinessLogic.Models.Enums;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.BusinessLogic
 {
@@ -33,6 +34,102 @@ namespace Blazor.BusinessLogic
 
         public FacturasBusinessLogic(DataBaseSetting configuracionBD) : base(configuracionBD)
         {
+        }
+
+        public async Task EnviarRips(long facturaId, string user)
+        {
+            await Task.Delay(100);
+            var json = await GetRipsJson(facturaId, user);
+        }
+
+        /// <summary>
+        /// https://localhost:44333/empresas/ObtenerJsonRips?id=2378
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<string> GetRipsJson(long facturaId, string user)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var factura = unitOfWork.Repository<Facturas>().Table
+                .Include(x => x.Empresas.TiposRegimenContable)
+                .Include(x => x.Empresas.TiposPersonas)
+                .Include(x => x.Empresas.TiposIdentificacion)
+                .Include(x => x.Empresas.Ciudades)
+                .Include(x => x.Empresas.Ciudades.Departamentos)
+                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
+                .Include(x => x.Convenio)
+                .Include(x => x.Sedes)
+                .Include(x => x.Sedes.Ciudades)
+                .Include(x => x.Sedes.Ciudades.Departamentos)
+                .Include(x => x.Sedes.Ciudades.Departamentos.Paises)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Pacientes.TiposIdentificacion)
+                .Include(x => x.Pacientes.Ciudades)
+                .Include(x => x.Pacientes.Ciudades.Departamentos)
+                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
+                .Include(x => x.Pacientes.Generos)
+                .Include(x => x.Pacientes.ZonaTerritorialResidencia)
+                .Include(x => x.Entidades)
+                .Include(x => x.Entidades.Ciudades)
+                .Include(x => x.Entidades.TiposPersonas)
+                .Include(x => x.Entidades.TiposIdentificacion)
+                .Include(x => x.Entidades.Ciudades.Departamentos)
+                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
+                .Include(x => x.Documentos)
+                .Include(x => x.FormasPagos)
+                .Include(x => x.Admisiones.CoberturaPlanBeneficios)
+                .FirstOrDefault(x => x.Id == facturaId);
+
+
+            RipsRootJson ripsRootJson = new RipsRootJson();
+
+            var xmlfile = await GetFileXMLAcepta(factura.XmlUrl, $"{DateTime.Now:yyyyMMddHHmmssfff}");
+            ripsRootJson.XmlFevFile = Convert.ToBase64String(File.ReadAllBytes(xmlfile));
+
+            ripsRootJson.Rips.NumDocumentoIdObligado = factura.Empresas.NumeroIdentificacion;
+            ripsRootJson.Rips.NumFactura = $"{factura.Documentos.Prefijo}{factura.NroConsecutivo}";
+
+            if (factura.PacientesId.HasValue)
+            {
+                UsuarioRips usuarioRips = new UsuarioRips();
+                usuarioRips.TipoDocumentoIdentificacion = factura.Pacientes.TiposIdentificacion.Codigo;
+                usuarioRips.NumDocumentoIdentificacion = factura.Pacientes.NumeroIdentificacion;
+                usuarioRips.TipoUsuario = "02"; // /*U03*/ "tipoUsuario": "02", //Tabla:Admisiones join CoberturaPlanBeneficios Campo:CoberturaPlanBeneficios.CodigoRips
+                usuarioRips.TipoUsuario = factura.Pacientes.NumeroIdentificacion;
+                usuarioRips.FechaNacimiento = factura.Pacientes.FechaNacimiento.ToString("yyyy-MM-dd");
+                usuarioRips.CodSexo = factura.Pacientes.Generos.Codigo;
+                usuarioRips.CodPaisResidencia = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+                usuarioRips.CodMunicipioResidencia = factura.Pacientes.Ciudades.Codigo;
+                usuarioRips.CodZonaTerritorialResidencia = factura.Pacientes.ZonaTerritorialResidencia.Codigo;
+                usuarioRips.Incapacidad = "??"; //Indica si se generó o no una incapacidad durante la atención, valores aceptados SI/NO
+                usuarioRips.Consecutivo = 1;
+                usuarioRips.CodPaisOrigen = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+
+                var serviciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().Table
+                    .Include(x=>x.Atenciones)
+                    .Include(x=>x.Atenciones.Admisiones)
+                    .Include(x=>x.Atenciones.Admisiones.ModalidadAtencion)
+                    .Where(x => x.FacturasId == factura.Id);
+
+                foreach (var servicio in serviciosPrestados)
+                {
+                    ProcedimientoRips procedimientoRips = new ProcedimientoRips();
+                    procedimientoRips.CodPrestador = factura.Empresas.CodigoReps;
+                    procedimientoRips.FechaInicioAtencion = servicio.Atenciones.FechaAtencion.ToString("yyyy-MM-dd");
+                    procedimientoRips.NumAutorizacion = servicio.Atenciones.Admisiones.NroAutorizacion;
+                    procedimientoRips.ModalidadGrupoServicioTecSal = servicio.Atenciones.Admisiones.ModalidadAtencion.Codigo;
+                }
+
+
+            }
+            else
+            {
+
+            }
+
+            return JsonConvert.SerializeObject(ripsRootJson, Newtonsoft.Json.Formatting.Indented);
         }
 
         private string GetPdfFacturaReporte(Facturas factura, string nameFile, string user)
@@ -54,6 +151,26 @@ namespace Blazor.BusinessLogic
             pdfOptions.PdfACompatibility = PdfACompatibility.PdfA2b;
             xtraReport.ExportToPdf(pathPdf, pdfOptions);
             return pathPdf;
+        }
+
+        private async Task<string> GetFileXMLAcepta(string xmlUrl, string nameFile)
+        {
+            byte[] contentarray = null;
+            HttpClient http = new HttpClient();
+            var response = await http.GetAsync(xmlUrl);
+            if (response.IsSuccessStatusCode)
+                contentarray = await response.Content.ReadAsByteArrayAsync();
+            else
+                throw new Exception($"Error en descargar XMl desde acepta. | {response.StatusCode} - {response.ReasonPhrase}");
+            string content = Encoding.UTF8.GetString(contentarray);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content);
+            content = @"<?xml version='1.0' encoding='UTF-8'?>";
+            content += doc.DocumentElement.ChildNodes[3].InnerXml;
+
+            string pathXml = Path.Combine(Path.GetTempPath(), $"ad{nameFile}.xml");
+            File.WriteAllText(pathXml, content, Encoding.UTF8);
+            return pathXml;
         }
 
         public async Task EnviarEmail(long facturaId, string eventoEnvio, string user)
@@ -79,20 +196,6 @@ namespace Blazor.BusinessLogic
                 else
                     correo = unitOfWork.Repository<Entidades>().GetTable().FirstOrDefault(x => x.Id == factura.EntidadesId)?.CorreoElectronico;
 
-                byte[] contentarray = null;
-
-                HttpClient http = new HttpClient();
-                var response = await http.GetAsync(factura.XmlUrl);
-                if (response.IsSuccessStatusCode)
-                    contentarray = await response.Content.ReadAsByteArrayAsync();
-                else
-                    throw new Exception($"Error en descargar XMl desde acepta. | {response.StatusCode} - {response.ReasonPhrase}");
-                string content = Encoding.UTF8.GetString(contentarray);
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(content);
-                content = @"<?xml version='1.0' encoding='UTF-8'?>";
-                content += doc.DocumentElement.ChildNodes[3].InnerXml;
-
                 string consecutivoEnvioFE = factura.ConsecutivoFE;
                 if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
                 {
@@ -101,8 +204,7 @@ namespace Blazor.BusinessLogic
                     unitOfWork.Repository<Facturas>().Modify(factura);
                 }
 
-                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{consecutivoEnvioFE}.xml");
-                File.WriteAllText(pathXml, content, Encoding.UTF8);
+                string pathXml = await GetFileXMLAcepta(factura.XmlUrl, consecutivoEnvioFE);
 
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"z{consecutivoEnvioFE}.zip";
@@ -1214,7 +1316,7 @@ namespace Blazor.BusinessLogic
                     worksheet.Rows[row + 1][column].SetValue(data[row].FechaVencimiento); column++;
                     worksheet.Rows[row + 1][column].SetValue(data[row].Observaciones); column++;
                 }
-                worksheet.Columns.AutoFit(0, column);  
+                worksheet.Columns.AutoFit(0, column);
 
                 byte[] book = workbook.SaveDocument(DocumentFormat.Xlsx);
                 workbook.Dispose();

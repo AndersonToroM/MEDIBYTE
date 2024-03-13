@@ -2284,6 +2284,10 @@
     "Description": "Enviar DIAN"
   },
   {
+    "Id": "Facturas.EnviarRips",
+    "Description": "Enviar RIPS"
+  },
+  {
     "Id": "Facturas.ErrorReference",
     "Description": "Error"
   },

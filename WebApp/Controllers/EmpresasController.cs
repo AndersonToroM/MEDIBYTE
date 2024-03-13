@@ -321,5 +321,14 @@ namespace Blazor.WebApp.Controllers
             return File(bytes, "text/xml", $"Factura_{id}.xml");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ObtenerJsonRips(int id)
+        {
+            var json = await Manager().FacturasBusinessLogic().GetRipsJson(id, User.Identity.Name);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, json);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/json", $"Factura_{id}.json");
+        }
     }
 }

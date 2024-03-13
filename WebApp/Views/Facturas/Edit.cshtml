@@ -72,6 +72,15 @@
             },
             new ButtonToolbar
             {
+                Action = "EnviarRips",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
+                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "expand"
+            },
+            new ButtonToolbar
+            {
                 Action = "EnviarFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarCorreo"),
                 Disabled = Model.Entity.IsNew || !enviadoDian,
