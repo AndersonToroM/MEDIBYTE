@@ -48,7 +48,7 @@ public class ProcedimientoRips
     public string CodProcedimiento { get; set; }
 
     [JsonProperty("codServicio")]
-    public int CodServicio { get; set; }
+    public int? CodServicio { get; set; }
 
     [JsonProperty("tipoPagoModerador")]
     public string TipoPagoModerador { get; set; }
