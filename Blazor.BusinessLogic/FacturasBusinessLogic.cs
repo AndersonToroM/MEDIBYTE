@@ -78,10 +78,13 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Entidades.Ciudades.Departamentos)
                 .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
                 .Include(x => x.Documentos)
-                .Include(x => x.FormasPagos)
                 .Include(x => x.Admisiones.CoberturaPlanBeneficios)
                 .FirstOrDefault(x => x.Id == facturaId);
 
+            if (factura.PacientesId.HasValue)
+            {
+                throw new Exception("La factura no es de tipo institucional.");
+            }
 
             RipsRootJson ripsRootJson = new RipsRootJson();
 
@@ -91,42 +94,56 @@ namespace Blazor.BusinessLogic
             ripsRootJson.Rips.NumDocumentoIdObligado = factura.Empresas.NumeroIdentificacion;
             ripsRootJson.Rips.NumFactura = $"{factura.Documentos.Prefijo}{factura.NroConsecutivo}";
 
-            if (factura.PacientesId.HasValue)
+            UsuarioRips usuarioRips = new UsuarioRips();
+            usuarioRips.TipoDocumentoIdentificacion = factura.Pacientes.TiposIdentificacion.Codigo;
+            usuarioRips.NumDocumentoIdentificacion = factura.Pacientes.NumeroIdentificacion;
+            usuarioRips.TipoUsuario = factura.Admisiones.CoberturaPlanBeneficios.CodigoRips;
+            usuarioRips.TipoUsuario = factura.Pacientes.NumeroIdentificacion;
+            usuarioRips.FechaNacimiento = factura.Pacientes.FechaNacimiento.ToString("yyyy-MM-dd");
+            usuarioRips.CodSexo = factura.Pacientes.Generos.Codigo;
+            usuarioRips.CodPaisResidencia = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+            usuarioRips.CodMunicipioResidencia = factura.Pacientes.Ciudades.Codigo;
+            usuarioRips.CodZonaTerritorialResidencia = factura.Pacientes.ZonaTerritorialResidencia.Codigo;
+            usuarioRips.Incapacidad = "NO"; //Crear bool en atenciones para guardar si se genero o no incapacidad despues de cerrar la historia clinica
+            usuarioRips.Consecutivo = 1;
+            usuarioRips.CodPaisOrigen = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+
+            var serviciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().Table
+                .Include(x => x.Atenciones)
+                .Include(x => x.Atenciones.Empleados)
+                .Include(x => x.Atenciones.Empleados.TiposIdentificacion)
+                .Include(x => x.Atenciones.Admisiones)
+                .Include(x => x.Atenciones.Admisiones.Diagnosticos)
+                .Include(x => x.Atenciones.Admisiones.ModalidadAtencion)
+                .Include(x => x.Servicios.Cups)
+                .Include(x => x.Facturas)
+                .Where(x => x.FacturasId == factura.Id);
+
+            int consecutivo = 1;
+            foreach (var servicio in serviciosPrestados)
             {
-                UsuarioRips usuarioRips = new UsuarioRips();
-                usuarioRips.TipoDocumentoIdentificacion = factura.Pacientes.TiposIdentificacion.Codigo;
-                usuarioRips.NumDocumentoIdentificacion = factura.Pacientes.NumeroIdentificacion;
-                usuarioRips.TipoUsuario = "02"; // /*U03*/ "tipoUsuario": "02", //Tabla:Admisiones join CoberturaPlanBeneficios Campo:CoberturaPlanBeneficios.CodigoRips
-                usuarioRips.TipoUsuario = factura.Pacientes.NumeroIdentificacion;
-                usuarioRips.FechaNacimiento = factura.Pacientes.FechaNacimiento.ToString("yyyy-MM-dd");
-                usuarioRips.CodSexo = factura.Pacientes.Generos.Codigo;
-                usuarioRips.CodPaisResidencia = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo;
-                usuarioRips.CodMunicipioResidencia = factura.Pacientes.Ciudades.Codigo;
-                usuarioRips.CodZonaTerritorialResidencia = factura.Pacientes.ZonaTerritorialResidencia.Codigo;
-                usuarioRips.Incapacidad = "??"; //Indica si se generó o no una incapacidad durante la atención, valores aceptados SI/NO
-                usuarioRips.Consecutivo = 1;
-                usuarioRips.CodPaisOrigen = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo;
-
-                var serviciosPrestados = unitOfWork.Repository<AdmisionesServiciosPrestados>().Table
-                    .Include(x=>x.Atenciones)
-                    .Include(x=>x.Atenciones.Admisiones)
-                    .Include(x=>x.Atenciones.Admisiones.ModalidadAtencion)
-                    .Where(x => x.FacturasId == factura.Id);
-
-                foreach (var servicio in serviciosPrestados)
-                {
-                    ProcedimientoRips procedimientoRips = new ProcedimientoRips();
-                    procedimientoRips.CodPrestador = factura.Empresas.CodigoReps;
-                    procedimientoRips.FechaInicioAtencion = servicio.Atenciones.FechaAtencion.ToString("yyyy-MM-dd");
-                    procedimientoRips.NumAutorizacion = servicio.Atenciones.Admisiones.NroAutorizacion;
-                    procedimientoRips.ModalidadGrupoServicioTecSal = servicio.Atenciones.Admisiones.ModalidadAtencion.Codigo;
-                }
-
-
-            }
-            else
-            {
-
+                ProcedimientoRips procedimientoRips = new ProcedimientoRips();
+                procedimientoRips.CodPrestador = factura.Empresas?.CodigoReps;
+                procedimientoRips.CodComplicacion = null;
+                procedimientoRips.CodDiagnosticoPrincipal = servicio.Atenciones.Admisiones?.Diagnosticos?.Codigo;
+                procedimientoRips.CodDiagnosticoRelacionado = null;
+                procedimientoRips.CodProcedimiento = servicio.Servicios?.Cups?.Codigo;
+                procedimientoRips.CodServicio = servicio.Servicios.HabilitacionServciosRips.Codigo;
+                procedimientoRips.TipoPagoModerador = servicio.Atenciones?.Admisiones?.ValorPagoEstados?.C
+                procedimientoRips.FechaInicioAtencion = servicio.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd");
+                procedimientoRips.FinalidadTecnologiaSalud = servicio.Atenciones.FinalidadConsulta.CodigoRips;
+                procedimientoRips.GrupoServicios = servicio.Servicios.GrupoServciosRips.Codigo;
+                procedimientoRips.IdMIPRES = null;
+                procedimientoRips.ModalidadGrupoServicioTecSal = servicio.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
+                procedimientoRips.NumAutorizacion = servicio.Atenciones?.Admisiones?.NroAutorizacion;
+                procedimientoRips.NumDocumentoIdentificacion = servicio.Atenciones?.Empleados?.NumeroIdentificacion;
+                procedimientoRips.NumFEVPagoModerador = servicio.Facturas.ValorTotal.ToString(); // ?????????? porque es string y dice que es el valor total, no tiene sentido
+                procedimientoRips.TipoDocumentoIdentificacion = servicio.Atenciones.Empleados.TiposIdentificacion.Codigo;
+                procedimientoRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
+                procedimientoRips.ViaIngresoServicioSalud = servicio.Atenciones?.Admisiones.ViaIngresoServicioSalud.Codigo;
+                procedimientoRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
+                procedimientoRips.Consecutivo = consecutivo;
+                consecutivo++;
             }
 
             return JsonConvert.SerializeObject(ripsRootJson, Newtonsoft.Json.Formatting.Indented);

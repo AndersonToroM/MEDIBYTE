@@ -17,6 +17,7 @@
         }
     }
 
+    bool esInstitucional = !Model.Entity.PacientesId.HasValue;
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("Facturas"))
@@ -74,7 +75,7 @@
             {
                 Action = "EnviarRips",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
-                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"

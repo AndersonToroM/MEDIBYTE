@@ -63,19 +63,19 @@ public class ProcedimientoRips
     public string GrupoServicios { get; set; }
 
     [JsonProperty("idMIPRES")]
-    public object IdMIPRES { get; set; }
+    public string IdMIPRES { get; set; }
 
     [JsonProperty("modalidadGrupoServicioTecSal")]
     public string ModalidadGrupoServicioTecSal { get; set; }
 
     [JsonProperty("numAutorizacion")]
-    public object NumAutorizacion { get; set; }
+    public string NumAutorizacion { get; set; }
 
     [JsonProperty("numDocumentoIdentificacion")]
     public string NumDocumentoIdentificacion { get; set; }
 
     [JsonProperty("numFEVPagoModerador")]
-    public object NumFEVPagoModerador { get; set; }
+    public string NumFEVPagoModerador { get; set; }
 
     [JsonProperty("tipoDocumentoIdentificacion")]
     public string TipoDocumentoIdentificacion { get; set; }
