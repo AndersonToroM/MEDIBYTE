@@ -29,6 +29,11 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("Estados.Tipo",30)]
        public virtual String Tipo { get; set; }
 
+       [Column("CodigoRips")]
+       [DDisplayName("Estados.CodigoRips")]
+       [DStringLength("Estados.CodigoRips",10)]
+       public virtual String CodigoRips { get; set; }
+
        #endregion
 
        #region Reglas expression
