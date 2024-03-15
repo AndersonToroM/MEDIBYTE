@@ -50,11 +50,6 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("Users.IdentificationNumber",20)]
        public virtual String IdentificationNumber { get; set; }
 
-       [Column("IdentificationTypeId")]
-       [DDisplayName("Users.IdentificationTypeId")]
-       [DStringLength("Users.IdentificationTypeId",3)]
-       public virtual String IdentificationTypeId { get; set; }
-
        [Column("GenderId")]
        [DDisplayName("Users.GenderId")]
        [DStringLength("Users.GenderId",1)]
@@ -64,6 +59,26 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Users.IsActive")]
        [DRequired("Users.IsActive")]
        public virtual Boolean IsActive { get; set; }
+
+       [Column("PasswordRips")]
+       [DDisplayName("Users.PasswordRips")]
+       [DStringLength("Users.PasswordRips",255)]
+       public virtual String PasswordRips { get; set; }
+
+       #endregion
+
+       #region Columnas referenciales)
+
+       [Column("IdentificationTypeId")]
+       [DDisplayName("Users.IdentificationTypeId")]
+       public virtual Int64? IdentificationTypeId { get; set; }
+
+       #endregion
+
+       #region Propiedades referencias de entrada)
+
+       [ForeignKey("IdentificationTypeId")]
+       public virtual TiposIdentificacion IdentificationType { get; set; }
 
        #endregion
 

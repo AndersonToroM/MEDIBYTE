@@ -324,7 +324,7 @@ namespace Blazor.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ObtenerJsonRips(int id)
         {
-            var json = await Manager().FacturasBusinessLogic().GetRipsJson(id, User.Identity.Name);
+            var json = await Manager().FacturasBusinessLogic().GetRipsJson(id);
             var path = Path.GetTempFileName();
             System.IO.File.WriteAllText(path, json);
             var bytes = System.IO.File.ReadAllBytes(path);

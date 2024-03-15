@@ -12,6 +12,7 @@ namespace Blazor.Infrastructure
     {
         #region Db Set
 
+        public DbSet<ResultadoIntegracionRips> ResultadoIntegracionRips { get; set; }
         public DbSet<AdministracionHonorarios> AdministracionHonorarios { get; set; }
         public DbSet<AdministracionHonorariosLecturas> AdministracionHonorariosLecturas { get; set; }
         public DbSet<AdministracionHonorariosServicios> AdministracionHonorariosServicios { get; set; }

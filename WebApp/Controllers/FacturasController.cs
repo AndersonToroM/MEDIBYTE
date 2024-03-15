@@ -455,8 +455,8 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name);
-                return Ok();
+                var resultado = await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name, Request.Host.Value);
+                return Ok(resultado);
             }
             catch (Exception e)
             {

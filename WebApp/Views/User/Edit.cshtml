@@ -38,10 +38,34 @@
         return true;
     }
 
+    function ConfirmingPasswordRips(params) {
+
+        var PasswordReal = $("#PasswordRealRips").dxTextBox("instance").option("value");
+        var ConfirmPassword = params.value;
+
+        if (PasswordReal != ConfirmPassword) {
+            params.rule.isValid = false;
+            params.rule.message = "La contraseña y su confirmación no coinciden";
+            params.validator.validate();
+            return false;
+        } else {
+            params.rule.isValid = true;
+            params.rule.message = "";
+            params.validator.validate();
+            return true;
+        }
+        return true;
+    }
+
     function OnValueChangedPassword(input) {
-        console.log(input);
         if (input.previousValue != input.value) {
-            $("#UserModifyPassword").dxCheckBox("instance").option("value", true);
+            $("#@(Prefix)ModifyPassword").dxCheckBox("instance").option("value", true);
+        }
+    }
+
+    function OnValueChangedPasswordRips(input) {
+        if (input.previousValue != input.value) {
+            $("#@(Prefix)ModifyPasswordRips").dxCheckBox("instance").option("value", true);
         }
     }
 
@@ -52,6 +76,16 @@
 
     function @(Prefix)OnClickBotonCambiarModoConfirmarPassword() {
         var passwordEditor = $("#ConfirmPassword").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+    }
+
+    function @(Prefix)OnClickBotonCambiarModoPasswordRips() {
+        var passwordEditor = $("#PasswordRealRips").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+    }
+
+    function @(Prefix)OnClickBotonCambiarModoConfirmarPasswordRips() {
+        var passwordEditor = $("#ConfirmPasswordRips").dxTextBox("instance");
         passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
     }
 
@@ -70,6 +104,7 @@
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.DateTime).Visible(false))
                 @(Html.DControls().CheckBoxFor(m => m.ModifyPassword).ID(Prefix + "ModifyPassword").Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.ModifyPasswordRips).ID(Prefix + "ModifyPasswordRips").Visible(false))
 
                 @(Html.DControls().Form<UserModel>()
                     .ID("UserModelForm").ColCount(1).ShowValidationSummary(false).FormData(Model)
@@ -77,14 +112,15 @@
                     {
                         items.AddGroup()
                             .Caption("Incio de Sesión")
-                            .ColCount(3)
+                            .ColCount(12)
                             .Items(groupItems =>
                             {
-                                groupItems.AddSimpleFor(m => m.Entity.UserName)
+                                groupItems.AddSimpleFor(m => m.Entity.UserName).ColSpan(4)
                                     .Editor(e => e.TextBox().ShowClearButton(true))
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Users.UserName")))
                                     .ValidationRules(rules => rules.AddStringLength().Min(1).Max(50).Message(DApp.GetStringLengthResource("Users.UserName", 50)));
-                                groupItems.AddSimpleFor(m => m.Entity.Password)
+                                
+                                groupItems.AddSimpleFor(m => m.Entity.Password).ColSpan(4)
                                     .Editor(e => e.TextBox().Mode(TextBoxMode.Password).ID("PasswordReal").ShowClearButton(true)
                                         .OnValueChanged("OnValueChangedPassword")
                                         .Buttons(buttons =>
@@ -101,7 +137,8 @@
                                     )
                                     .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Users.Password")))
                                     .ValidationRules(rules => rules.AddStringLength().Min(1).Max(255).Message(DApp.GetStringLengthResource("Users.Password", 255)));
-                                groupItems.AddSimple().Label(l => l.Text("Confirmar Contraseña"))
+
+                                groupItems.AddSimple().Label(l => l.Text("Confirmar Contraseña")).ColSpan(4)
                                     .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID("ConfirmPassword").Value(Model.Entity.Password)
                                         .Buttons(buttons =>
                                         {
@@ -116,6 +153,40 @@
                                         })
                                     )
                                     .ValidationRules(rules => rules.AddCustom().ValidationCallback("ConfirmingPassword"));
+
+                                groupItems.AddEmpty().ColSpan(4);
+                                groupItems.AddSimpleFor(x=>x.Entity.PasswordRips).ColSpan(4)
+                                    .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID("PasswordRealRips").Value(Model.Entity.PasswordRips)
+                                        .OnValueChanged("OnValueChangedPasswordRips")
+                                        .Buttons(buttons =>
+                                        {
+                                            buttons.Add()
+                                                .Name($"{Prefix}BotonCambiarModoPasswordRips")
+                                                .Location(TextEditorButtonLocation.After)
+                                                .Widget(w => w.Button()
+                                                    .Type(ButtonType.Normal)
+                                                    .Icon(Url.Content("~/images/eye_open_icon.png"))
+                                                    .OnClick($"{Prefix}OnClickBotonCambiarModoPasswordRips")
+                                                );
+                                        })
+                                    );
+
+                                groupItems.AddSimple().Label(l => l.Text("Confirmar Contraseña RIPS")).ColSpan(4)
+                                    .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID("ConfirmPasswordRips").Value(Model.Entity.PasswordRips)
+                                        .Buttons(buttons =>
+                                        {
+                                            buttons.Add()
+                                                .Name($"{Prefix}BotonCambiarModoConfirmarPasswordRips")
+                                                .Location(TextEditorButtonLocation.After)
+                                                .Widget(w => w.Button()
+                                                    .Type(ButtonType.Normal)
+                                                    .Icon(Url.Content("~/images/eye_open_icon.png"))
+                                                    .OnClick($"{Prefix}OnClickBotonCambiarModoConfirmarPasswordRips")
+                                                );
+                                        })
+                                    )
+                                    .ValidationRules(rules => rules.AddCustom().ValidationCallback("ConfirmingPasswordRips"));
+
                             });
                         items.AddGroup()
                             .Caption("Información Adicional")

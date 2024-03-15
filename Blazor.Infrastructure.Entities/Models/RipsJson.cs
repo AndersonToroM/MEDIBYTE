@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Blazor.Infrastructure.Entities.Models;
 
@@ -136,4 +138,85 @@ public class UsuarioRips
 
     [JsonProperty("servicios")]
     public ServiciosRips Servicios { get; set; } = new ServiciosRips();
+}
+
+public class ResultadosValidacionRips
+{
+    [JsonProperty("clase")]
+    public string Clase { get; set; }
+
+    [JsonProperty("codigo")]
+    public string Codigo { get; set; }
+
+    [JsonProperty("descripcion")]
+    public string Descripcion { get; set; }
+
+    [JsonProperty("observaciones")]
+    public string Observaciones { get; set; }
+
+    [JsonProperty("pathFuente")]
+    public string PathFuente { get; set; }
+
+    [JsonProperty("fuente")]
+    public string Fuente { get; set; }
+}
+
+public class LoginIntegracionRips
+{
+    [JsonProperty("persona")]
+    public LoginPersonaRips Persona { get; set; } = new LoginPersonaRips();
+
+    [JsonProperty("clave")]
+    public string Clave { get; set; }
+
+    [JsonProperty("nit")]
+    public string Nit { get; set; }
+
+    [JsonProperty("codigoPrestador")]
+    public string CodigoPrestador { get; set; }
+
+    [JsonProperty("nomPrestador")]
+    public string NomPrestador { get; set; }
+
+    [JsonProperty("tipoMecanismoValidacion")]
+    public int TipoMecanismoValidacion { get; set; }
+
+    [JsonProperty("token")]
+    public string Token { get; set; }
+
+    [JsonProperty("usuarioSispro")]
+    public string UsuarioSispro { get; set; }
+
+    [JsonProperty("reps")]
+    public bool Reps { get; set; }
+}
+
+public class LoginIdentificacionRips
+{
+    [JsonProperty("tipo")]
+    public string Tipo { get; set; }
+
+    [JsonProperty("numero")]
+    public string Numero { get; set; }
+}
+
+public class LoginPersonaRips
+{
+    [JsonProperty("identificacion")]
+    public LoginIdentificacionRips Identificacion { get; set; } = new LoginIdentificacionRips();
+}
+
+public class ResultadoLoginRips
+{
+    [JsonProperty("token")]
+    public string Token { get; set; }
+
+    [JsonProperty("login")]
+    public bool Login { get; set; }
+
+    [JsonProperty("registrado")]
+    public bool Registrado { get; set; }
+
+    [JsonProperty("errors")]
+    public object Errors { get; set; }
 }

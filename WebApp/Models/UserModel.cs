@@ -7,6 +7,7 @@ namespace Blazor.WebApp.Models
     {
         public User Entity { get; set; }
         public bool ModifyPassword { get; set; }
+        public bool ModifyPasswordRips { get; set; }
 
         public UserModel()
         {

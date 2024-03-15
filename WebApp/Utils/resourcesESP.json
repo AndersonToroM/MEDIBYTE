@@ -2288,6 +2288,10 @@
     "Description": "Enviar RIPS"
   },
   {
+    "Id": "Facturas.ErroresIntegracionRIPS",
+    "Description": "Errores integración RIPS"
+  },
+  {
     "Id": "Facturas.ErrorReference",
     "Description": "Error"
   },
@@ -5094,6 +5098,10 @@
   {
     "Id": "Users.Password",
     "Description": "Contraseña"
+  },
+  {
+    "Id": "Users.PasswordRips",
+    "Description": "Contraseña para integración con RIPS"
   },
   {
     "Id": "Users.UserName",
