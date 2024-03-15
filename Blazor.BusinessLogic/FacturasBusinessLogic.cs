@@ -189,6 +189,11 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Servicios.HabilitacionServciosRips)
                 .Include(x => x.Servicios.GrupoServciosRips)
                 .Include(x => x.Facturas)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.PaisesOrigen)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstados)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadConsulta)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadProcedimiento)
+
                 .Where(x => x.FacturasId == fac.Id)
                 .ToList();
 
@@ -216,9 +221,9 @@ namespace Blazor.BusinessLogic
                 usuarioRips.NumDocumentoIdentificacion = admision.Pacientes.NumeroIdentificacion;
                 usuarioRips.TipoUsuario = admision.Pacientes.NumeroIdentificacion;
                 usuarioRips.FechaNacimiento = admision.Pacientes.FechaNacimiento.ToString("yyyy-MM-dd");
-                usuarioRips.CodPaisOrigen = admision.Pacientes.Ciudades?.Departamentos?.Paises?.Codigo;
+                usuarioRips.CodPaisOrigen = admision.Pacientes.PaisesOrigen?.CodigoISO3166Num;
                 usuarioRips.CodSexo = admision.Pacientes.Generos?.Codigo;
-                usuarioRips.CodPaisResidencia = admision.Pacientes.Ciudades?.Departamentos?.Paises?.Codigo;
+                usuarioRips.CodPaisResidencia = admision.Pacientes.Ciudades?.Departamentos?.Paises?.CodigoISO3166Num;
                 usuarioRips.CodMunicipioResidencia = admision.Pacientes.Ciudades?.Codigo;
                 usuarioRips.CodZonaTerritorialResidencia = admision.Pacientes.ZonaTerritorialResidencia?.Codigo;
                 usuarioRips.TipoUsuario = admision.CoberturaPlanBeneficios.CodigoRips;
@@ -236,11 +241,17 @@ namespace Blazor.BusinessLogic
                     procedimientoRips.CodComplicacion = null;
                     procedimientoRips.CodDiagnosticoPrincipal = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones?.Diagnosticos?.Codigo;
                     procedimientoRips.CodDiagnosticoRelacionado = null;
-                    procedimientoRips.CodProcedimiento = servicio.Servicios?.Cups?.Codigo;
+                    if(servicio.Servicios.CupsId != null)
+                    {
+                        procedimientoRips.CodProcedimiento = servicio.Servicios?.Cups?.Codigo;
+                    }else
+                    {
+                        procedimientoRips.CodProcedimiento = servicio.Servicios?.Codigo;
+                    }
                     procedimientoRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
                     procedimientoRips.TipoPagoModerador = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
-                    procedimientoRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd");
-                    procedimientoRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.FinalidadConsulta?.CodigoRips;
+                    procedimientoRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
+                    procedimientoRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.FinalidadProcedimiento?.CodigoRips;
                     procedimientoRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
                     procedimientoRips.IdMIPRES = null;
                     procedimientoRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;

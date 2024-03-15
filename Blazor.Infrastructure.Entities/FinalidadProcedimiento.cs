@@ -22,6 +22,12 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("FinalidadProcedimiento.Nombre",250)]
        public virtual String Nombre { get; set; }
 
+       [Column("CodigoRips")]
+       [DDisplayName("FinalidadProcedimiento.CodigoRips")]
+       [DRequired("FinalidadProcedimiento.CodigoRips")]
+       [DStringLength("FinalidadProcedimiento.CodigoRips",10)]
+       public virtual String CodigoRips { get; set; }
+
        #endregion
 
        #region Reglas expression
