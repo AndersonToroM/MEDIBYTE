@@ -135,12 +135,21 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("Facturas.ConsecutivoFE")]
         [DStringLength("Facturas.ConsecutivoFE", 40)]
         public virtual String ConsecutivoFE { get; set; }
-        
+
+        [Column("CodigoUnicoValidacionRips")]
+        [DDisplayName("Facturas.CodigoUnicoValidacionRips")]
+        [DStringLength("Facturas.CodigoUnicoValidacionRips", 255)]
+        public virtual String CodigoUnicoValidacionRips { get; set; }
+
+        [Column("FechaRadicacionRips", TypeName = "datetime")]
+        [DDisplayName("Facturas.FechaRadicacionRips")]
+        public virtual DateTime? FechaRadicacionRips { get; set; }
+
         #endregion
 
         #region Columnas referenciales)
 
-       [Column("SedesId")]
+        [Column("SedesId")]
        [DDisplayName("Facturas.SedesId")]
        [DRequired("Facturas.SedesId")]
        [DRequiredFK("Facturas.SedesId")]

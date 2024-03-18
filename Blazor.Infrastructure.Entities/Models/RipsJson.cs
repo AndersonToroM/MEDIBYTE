@@ -140,6 +140,33 @@ public class UsuarioRips
     public ServiciosRips Servicios { get; set; } = new ServiciosRips();
 }
 
+public class RespuestaIntegracionRips
+{
+    [JsonProperty("resultState")]
+    public bool ResultState { get; set; }
+
+    [JsonProperty("procesoId")]
+    public int ProcesoId { get; set; }
+
+    [JsonProperty("numFactura")]
+    public string NumFactura { get; set; }
+
+    [JsonProperty("codigoUnicoValidacion")]
+    public string CodigoUnicoValidacion { get; set; }
+
+    [JsonProperty("codigoUnicoValidacionToShow")]
+    public string CodigoUnicoValidacionToShow { get; set; }
+
+    [JsonProperty("fechaRadicacion")]
+    public DateTime FechaRadicacion { get; set; }
+
+    [JsonProperty("rutaArchivos")]
+    public object RutaArchivos { get; set; }
+
+    [JsonProperty("resultadosValidacion")]
+    public List<ResultadosValidacionRips> ResultadosValidacion { get; set; }
+}
+
 public class ResultadosValidacionRips
 {
     [JsonProperty("clase")]
@@ -206,7 +233,7 @@ public class LoginPersonaRips
     public LoginIdentificacionRips Identificacion { get; set; } = new LoginIdentificacionRips();
 }
 
-public class ResultadoLoginRips
+public class RespuestaLoginRips
 {
     [JsonProperty("token")]
     public string Token { get; set; }

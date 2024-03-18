@@ -1,4 +1,5 @@
-﻿using Blazor.BusinessLogic.Models.Enums;
+﻿using Blazor.BusinessLogic.Models;
+using Blazor.BusinessLogic.Models.Enums;
 using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
@@ -39,7 +40,7 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        private async Task<ResultadoLoginRips> GetTokenRips(string user, string host)
+        private async Task<RespuestaLoginRips> GetTokenRips(string user, string host)
         {
             var services = DApp.GetTenant(host).Services;
             var urlRips = services[DApp.Util.ServiceRips];
@@ -90,10 +91,10 @@ namespace Blazor.BusinessLogic
             var content = new StringContent(jsonLogin, Encoding.UTF8, "application/json");
             var httpResult = await http.PostAsync(_urlLoginSISPRO, content);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
-            ResultadoLoginRips resultadoLoginRips = new ResultadoLoginRips();
+            RespuestaLoginRips resultadoLoginRips = new RespuestaLoginRips();
             if (httpResult.StatusCode == HttpStatusCode.OK)
             {
-                resultadoLoginRips = JsonConvert.DeserializeObject<ResultadoLoginRips>(jsonResult);
+                resultadoLoginRips = JsonConvert.DeserializeObject<RespuestaLoginRips>(jsonResult);
             }
             else
             {
@@ -106,11 +107,16 @@ namespace Blazor.BusinessLogic
 
         public async Task<ResultadoIntegracionRips> EnviarRips(long facturaId, string user, string host)
         {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
+
             ResultadoIntegracionRips resultado = new ResultadoIntegracionRips();
             resultado.CreatedBy = user;
             resultado.UpdatedBy = user;
             resultado.CreationDate = DateTime.Now;
             resultado.LastUpdate = DateTime.Now;
+            resultado.Tipo = (int)TipoDocumento.Factura;
+            resultado.IdTipo = facturaId;
             try
             {
                 var token = await GetTokenRips(user, host);
@@ -130,6 +136,13 @@ namespace Blazor.BusinessLogic
                 resultado.HttpStatus = (int)httpResult.StatusCode;
                 resultado.JsonResult = jsonResult;
                 resultado.HuboError = false;
+
+                if (httpResult.StatusCode == HttpStatusCode.OK) {
+                    var ripsResult = JsonConvert.DeserializeObject<RespuestaIntegracionRips>(jsonResult);
+                    fac.CodigoUnicoValidacionRips = ripsResult.CodigoUnicoValidacion;
+                    fac.FechaRadicacionRips = ripsResult.FechaRadicacion;
+                    unitOfWork.Repository<Facturas>().Modify(fac);
+                }
             }
             catch (Exception ex)
             {
@@ -137,10 +150,59 @@ namespace Blazor.BusinessLogic
                 resultado.Error = ex.GetFullErrorMessage();
             }
 
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.Repository<ResultadoIntegracionRips>().Add(resultado);
-
+            
             return resultado;
+        }
+
+        public async Task<ArchivoDescargaModel> DescargarXMLDIAN(long facturaId)
+        {
+            ArchivoDescargaModel archivoDescargaModel = new ArchivoDescargaModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            var fac = unitOfWork.Repository<Facturas>().Table
+                .Include(x=>x.Documentos)
+                .FirstOrDefault(x => x.Id == facturaId);
+
+            string nombre = $"{fac.IssueDate:yyyyMMddHHmmss}-JsonRips-{fac.Documentos.Prefijo}{fac.NroConsecutivo}";
+
+            var pathXML = await GetFileXMLDIAN(fac.XmlUrl, archivoDescargaModel.Nombre);
+
+            archivoDescargaModel.Nombre = $"{nombre}.xml";
+            archivoDescargaModel.ContentType = "application/json";
+            archivoDescargaModel.Archivo = File.ReadAllBytes(pathXML);
+
+            return archivoDescargaModel;
+        }
+
+        public ArchivoDescargaModel GetJsonRipsFile(long facturaId)
+        {
+            ArchivoDescargaModel archivoDescargaModel = new ArchivoDescargaModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            var fac = unitOfWork.Repository<Facturas>().Table
+                .Include(x => x.Documentos)
+                .FirstOrDefault(x => x.Id == facturaId);
+
+            var query = unitOfWork.Repository<ResultadoIntegracionRips>().Table
+                .OrderBy(x => x.Id)
+                .Where(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == facturaId);
+
+            if (!string.IsNullOrWhiteSpace(fac.CodigoUnicoValidacionRips) && fac.FechaRadicacionRips.HasValue)
+            {
+                query.Where(x => x.HttpStatus == (int)HttpStatusCode.OK);
+            }
+
+            var resultadoRips = query.OrderBy(x => x.Id).LastOrDefault();
+
+            if (resultadoRips == null)
+            {
+                throw new Exception("No se ha realizado ninguna integracion con los RIPS de esta factura.");
+            }
+
+            archivoDescargaModel.Nombre = $"{DateTime.Now:yyyyMMddHHmmss}-JsonRips-{fac.Documentos.Prefijo}{fac.NroConsecutivo}.json";
+            archivoDescargaModel.ContentType = "application/json";
+            archivoDescargaModel.Archivo = Encoding.ASCII.GetBytes(resultadoRips.JsonResult);
+
+            return archivoDescargaModel;
         }
 
         /// <summary>
@@ -206,7 +268,7 @@ namespace Blazor.BusinessLogic
 
             RipsRootJson ripsRootJson = new RipsRootJson();
 
-            var xmlfile = await GetFileXMLAcepta(fac.XmlUrl, $"{DateTime.Now:yyyyMMddHHmmssfff}");
+            var xmlfile = await GetFileXMLDIAN(fac.XmlUrl, $"{DateTime.Now:yyyyMMddHHmmssfff}");
             ripsRootJson.XmlFevFile = Convert.ToBase64String(File.ReadAllBytes(xmlfile));
 
             ripsRootJson.Rips.NumDocumentoIdObligado = fac.Empresas.NumeroIdentificacion;
@@ -302,7 +364,7 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        private async Task<string> GetFileXMLAcepta(string xmlUrl, string nameFile)
+        private async Task<string> GetFileXMLDIAN(string xmlUrl, string nameFile)
         {
             byte[] contentarray = null;
             HttpClient http = new HttpClient();
@@ -353,7 +415,7 @@ namespace Blazor.BusinessLogic
                     unitOfWork.Repository<Facturas>().Modify(factura);
                 }
 
-                string pathXml = await GetFileXMLAcepta(factura.XmlUrl, consecutivoEnvioFE);
+                string pathXml = await GetFileXMLDIAN(factura.XmlUrl, consecutivoEnvioFE);
 
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"z{consecutivoEnvioFE}.zip";

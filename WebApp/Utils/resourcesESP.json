@@ -2252,6 +2252,14 @@
     "Description": "CUFE"
   },
   {
+    "Id": "Facturas.DescargarJsonRips",
+    "Description": "Descargar Json RIPS"
+  },
+  {
+    "Id": "Facturas.DescargarXMLDIAN",
+    "Description": "Descargar XML DIAN"
+  },
+  {
     "Id": "Facturas.DescFactura",
     "Description": "Factura"
   },
@@ -2289,7 +2297,7 @@
   },
   {
     "Id": "Facturas.ErroresIntegracionRIPS",
-    "Description": "Errores integración RIPS"
+    "Description": "Integración RIPS"
   },
   {
     "Id": "Facturas.ErrorReference",

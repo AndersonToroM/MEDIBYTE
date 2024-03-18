@@ -4,6 +4,8 @@
     string UrlReport = Url.Action("ImprimirFacturaPorId", Prefix, new { Id = Model.Entity.Id });
     string UrlEnviarDian = Url.Action("EnviarFacturaDIAN", Prefix, new { id = Model.Entity.Id });
     string UrlEnviarRips = Url.Action("EnviarRips", Prefix, new { id = Model.Entity.Id });
+    string UrlDescargarJsonRips = Url.Action("DescargarJsonRips", Prefix, new { id = Model.Entity.Id });
+    string UrlDescargarXMLDIAN = Url.Action("DescargarXMLDIAN", Prefix, new { id = Model.Entity.Id });
     string UrlEnviarFactura = Url.Action("EnviarFactura", Prefix, new { id = Model.Entity.Id });
     string UrlModificarDatos = Url.Action("ModificarDatosFactura", Prefix);
 }
@@ -112,7 +114,7 @@
         });
     }
 
-    function EnviarRips() {
+    function @(Prefix)EnviarRips() {
 
         showLoadIndicator();
         $.ajax({
@@ -121,20 +123,23 @@
             success: function (data) {
                 hideLoadIndicator();
 
+                console.log("EnviarRips", data);
+
+                $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
+
                 if (data.HuboError) {
-                    DevExpress.ui.notify(data.Error, "error", 5000);
+                    $("#@(Prefix)labelRipsResultado").text(data.Error);
+                    $("#@(Prefix)labelRipsResultado").addClass("text-danger");
+                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", true);
+
                 } else {
+
+                    $("#@(Prefix)labelRipsResultado").removeClass("text-danger");
+                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
                     if (data.HttpStatus != 200) {
-
-                        var jsonResult = JSON.parse(data.JsonResult)
-                        console.log("jsonResult", jsonResult);
-
-                        $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
-                        $("#@(Prefix)GridErroresIntegracionRips").dxDataGrid("instance").option("dataSource", jsonResult.resultadosValidacion);
-
-                        DevExpress.ui.notify("La integración con RIPS mostro los siguientes errores.", "error", 5000);
+                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips respondio con errores. Descargue el JSON para verificarlos.");
                     } else {
-                        DevExpress.ui.notify("Envio de los RIPS satisfactorio", "info");
+                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips fue satisfactoria.");
                     }
                 }
             },
@@ -148,6 +153,14 @@
 
     function @(Prefix)CerrarPopupErroresIntegracionRIPS() {
         $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").hide();
+    }
+
+    function @(Prefix)DescargarJSONRips() {
+        DescargarArchivo("@UrlDescargarJsonRips")
+    }
+
+    function @(Prefix)DescargarXMLDIAN() {
+        DescargarArchivo("@UrlDescargarXMLDIAN")
     }
 
     function @(Prefix)DisplayExprDocumentosId(item) {

@@ -456,7 +456,41 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 var resultado = await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name, Request.Host.Value);
-                return Ok(resultado);
+                IntegracionRipsModel integracionRipsModel = new IntegracionRipsModel
+                {
+                    Error = resultado.Error,
+                    HuboError = resultado.HuboError,
+                    HttpStatus = resultado.HttpStatus,
+                };
+                return Ok(integracionRipsModel);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DescargarXMLDIAN(int id)
+        {
+            try
+            {
+                var resultado = await Manager().FacturasBusinessLogic().DescargarXMLDIAN(id);
+                return File(resultado.Archivo, resultado.ContentType, resultado.Nombre);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DescargarJsonRips(int id)
+        {
+            try
+            {
+                var resultado = Manager().FacturasBusinessLogic().GetJsonRipsFile(id);
+                return File(resultado.Archivo, resultado.ContentType, resultado.Nombre);
             }
             catch (Exception e)
             {

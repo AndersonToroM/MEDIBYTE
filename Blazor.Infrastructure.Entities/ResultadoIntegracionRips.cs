@@ -17,6 +17,16 @@ namespace Blazor.Infrastructure.Entities
 
        #region Columnas normales)
 
+       [Column("Tipo")]
+       [DDisplayName("ResultadoIntegracionRips.Tipo")]
+       [DRequired("ResultadoIntegracionRips.Tipo")]
+       public virtual Int32 Tipo { get; set; }
+
+       [Column("IdTipo")]
+       [DDisplayName("ResultadoIntegracionRips.IdTipo")]
+       [DRequired("ResultadoIntegracionRips.IdTipo")]
+       public virtual Int64 IdTipo { get; set; }
+
        [Column("HuboError")]
        [DDisplayName("ResultadoIntegracionRips.HuboError")]
        [DRequired("ResultadoIntegracionRips.HuboError")]

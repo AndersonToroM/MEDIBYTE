@@ -73,12 +73,30 @@
             },
             new ButtonToolbar
             {
-                Action = "EnviarRips",
+                Action = $"{Prefix}DescargarXMLDIAN",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarXMLDIAN"),
+                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Location = ToolbarItemLocation.Before,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                Icon = "doc"
+            },
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}EnviarRips",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
                 Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"
+            },
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}DescargarJSONRips",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarJsonRips"),
+                Disabled = Model.Entity.IsNew,
+                Location = ToolbarItemLocation.Before,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                Icon = "doc"
             },
             new ButtonToolbar
             {
@@ -471,7 +489,7 @@
 @(Html.DControls().Popup()
     .ID($"{Prefix}PopupErroresIntegracionRIPS")
     .Width(1024)
-    .Height(550)
+    .Height(200)
     .ShowTitle(true)
     .Title(DApp.DefaultLanguage.GetResource("Facturas.ErroresIntegracionRIPS"))
     .Visible(false)
@@ -484,10 +502,12 @@
 {
     <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
     <div class="form-group">
-        @(Html.DControls().DataGrid().ID(Prefix + "GridErroresIntegracionRips").Height(400).Width(950)
-        .Export(x => x.FileName($"Errores integracion rips {Model.Entity.Documentos.Prefijo}-{Model.Entity.NroConsecutivo}").AllowExportSelectedData(false).Enabled(true).ExcelWrapTextEnabled(true)))
+        <div class="row d-flex justify-content-center">
+            <label id="@(Prefix)labelRipsResultado" style="font-size:x-large;"></label>
+        </div>
     </div>
     <div class="row d-flex justify-content-center">
-        <button class="btn btn-dark btn" onclick="@(Prefix)CerrarPopupErroresIntegracionRIPS()">ACEPTAR</button>
+        <button class="btn btn-dark btn" onclick="@(Prefix)CerrarPopupErroresIntegracionRIPS()">Cerrar</button>
+        <button disabled id="@(Prefix)buttonDescargarJsonRips" class="btn btn-secondary btn" onclick="@(Prefix)DescargarJSONRips()">Descargar JSON</button>
     </div>
 }
