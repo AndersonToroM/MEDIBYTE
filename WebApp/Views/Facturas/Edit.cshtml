@@ -17,6 +17,7 @@
         }
     }
 
+    bool enviadoRips = !string.IsNullOrWhiteSpace(Model.Entity.CodigoUnicoValidacionRips);
     bool esInstitucional = !Model.Entity.PacientesId.HasValue;
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
@@ -25,7 +26,7 @@
         //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
         .AddButtons(new List<ButtonToolbar>()
-                {
+                        {
             new ButtonToolbar
             {
                 Action = "MostrarPopudModificarDatosFactura",
@@ -84,7 +85,7 @@
             {
                 Action = $"{Prefix}EnviarRips",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
-                Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional,
+                Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional || enviadoRips,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"
@@ -116,7 +117,7 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
             }*/
-                })
+                        })
         .Back(UrlBack);
 
     var DataGridDetailConfig = new DataGridConfiguration<ServiciosFacturar>(Prefix)
@@ -293,6 +294,19 @@
                             tabItem.AddSimpleFor(m => m.Entity.UrlTracking).ColSpan(1)
                         .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2048).Message(DApp.GetStringLengthResource("Facturas.UrlTracking", 2048)))
                         .Editor(e => e.TextArea().ID(Prefix + "UrlTracking").ReadOnly(true));
+
+                        });
+
+                            tabItems.Add()
+                        .Title(DApp.GetResource("Facturas.TabRips"))
+                        .Items(tabItem =>
+                        {
+                            tabItem.AddSimpleFor(m => m.Entity.CodigoUnicoValidacionRips).ColSpan(1)
+                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Facturas.CodigoUnicoValidacionRips", 255)))
+                        .Editor(e => e.TextBox().ID(Prefix + "CodigoUnicoValidacionRips").ReadOnly(true));
+                            tabItem.AddSimpleFor(m => m.Entity.FechaRadicacionRips).ColSpan(1)
+                        .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaRadicacionRips")
+                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
 
                         });
 

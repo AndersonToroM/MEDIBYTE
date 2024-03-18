@@ -2248,6 +2248,10 @@
     "Description": "Adquitiente P. Natural"
   },
   {
+    "Id": "Facturas.CodigoUnicoValidacionRips",
+    "Description": "Código Único de validación"
+  },
+  {
     "Id": "Facturas.CUFE",
     "Description": "CUFE"
   },
@@ -2360,6 +2364,10 @@
     "Description": "Fecha Final"
   },
   {
+    "Id": "Facturas.FechaRadicacionRips",
+    "Description": "Fecha de Radicación"
+  },
+  {
     "Id": "Facturas.FehaInicial",
     "Description": "Fecha Inicial"
   },
@@ -2466,6 +2474,10 @@
   {
     "Id": "Facturas.SedesId",
     "Description": "Sede"
+  },
+  {
+    "Id": "Facturas.TabRips",
+    "Description": "Rips"
   },
   {
     "Id": "Facturas.TieneNotas",
