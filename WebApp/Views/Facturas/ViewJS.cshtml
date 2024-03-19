@@ -138,9 +138,9 @@
                     $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
                     $("#@(Prefix)GridErroresIntegracionRips").dxDataGrid("instance").option("dataSource", data.Respuesta.resultadosValidacion);
                     if (data.HuboErrorRips) {
-                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips respondio con errores.");
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips presenta errores.");
                     } else {
-                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips fue satisfactoria.");
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips fue satisfactoria.");
                     }
                 }
             },

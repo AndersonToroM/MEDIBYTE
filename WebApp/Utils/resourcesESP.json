@@ -2301,7 +2301,7 @@
   },
   {
     "Id": "Facturas.ErroresIntegracionRIPS",
-    "Description": "Integración RIPS"
+    "Description": "Validación RIPS"
   },
   {
     "Id": "Facturas.ErrorReference",
