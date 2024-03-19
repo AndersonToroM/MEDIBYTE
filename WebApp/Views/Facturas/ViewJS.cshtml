@@ -137,9 +137,9 @@
                     $("#@(Prefix)labelRipsResultado").removeClass("text-danger");
                     $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
                     if (data.HttpStatus != 200) {
-                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips respondio con errores. Descargue el JSON para verificarlos.");
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips presenta errores. Descargue el JSON para verificarlos.");
                     } else {
-                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips fue satisfactoria.");
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips fue satisfactoria.");
                     }
                 }
             },

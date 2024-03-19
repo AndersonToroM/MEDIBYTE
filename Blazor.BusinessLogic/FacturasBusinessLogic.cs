@@ -195,7 +195,7 @@ namespace Blazor.BusinessLogic
 
             if (resultadoRips == null)
             {
-                throw new Exception("No se ha realizado ninguna integracion con los RIPS de esta factura.");
+                throw new Exception("No se ha realizado ninguna validación de los RIPS de esta factura.");
             }
 
             archivoDescargaModel.Nombre = $"{DateTime.Now:yyyyMMddHHmmss}-JsonRips-{fac.Documentos.Prefijo}{fac.NroConsecutivo}.json";
@@ -253,7 +253,6 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Facturas)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.PaisesOrigen)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstados)
-                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadConsulta)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadProcedimiento)
 
                 .Where(x => x.FacturasId == fac.Id)
