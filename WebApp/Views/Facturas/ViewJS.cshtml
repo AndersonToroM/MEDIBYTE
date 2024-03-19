@@ -123,11 +123,11 @@
             success: function (data) {
                 hideLoadIndicator();
 
-                console.log("EnviarRips", data);
+                console.log("EnviarRips", data)
 
                 $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
 
-                if (data.HuboError) {
+                if (data.HuboErrorIntegracion) {
                     $("#@(Prefix)labelRipsResultado").text(data.Error);
                     $("#@(Prefix)labelRipsResultado").addClass("text-danger");
                     $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", true);
@@ -136,8 +136,9 @@
 
                     $("#@(Prefix)labelRipsResultado").removeClass("text-danger");
                     $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
-                    if (data.HttpStatus != 200) {
-                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips respondio con errores. Descargue el JSON para verificarlos.");
+                    $("#@(Prefix)GridErroresIntegracionRips").dxDataGrid("instance").option("dataSource", data.Respuesta.resultadosValidacion);
+                    if (data.HuboErrorRips) {
+                        $("#@(Prefix)labelRipsResultado").text("La integración con los rips respondio con errores.");
                     } else {
                         $("#@(Prefix)labelRipsResultado").text("La integración con los rips fue satisfactoria.");
                     }

@@ -456,13 +456,7 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 var resultado = await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name, Request.Host.Value);
-                IntegracionRipsModel integracionRipsModel = new IntegracionRipsModel
-                {
-                    Error = resultado.Error,
-                    HuboError = resultado.HuboError,
-                    HttpStatus = resultado.HttpStatus,
-                };
-                return Ok(integracionRipsModel);
+                return Ok(resultado);
             }
             catch (Exception e)
             {

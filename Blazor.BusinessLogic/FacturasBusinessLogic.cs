@@ -73,7 +73,7 @@ namespace Blazor.BusinessLogic
             }
             else
             {
-                if (usuario.IdentificationType == null || string.IsNullOrWhiteSpace(usuario.IdentificationType.Codigo) || 
+                if (usuario.IdentificationType == null || string.IsNullOrWhiteSpace(usuario.IdentificationType.Codigo) ||
                     string.IsNullOrWhiteSpace(usuario.IdentificationNumber) || usuario.IdentificationNumber.Length < 5)
                 {
                     throw new Exception($"El usuario {user} no tiene el numero de identificación o el tipo de identificación correctamente diligenciados en su maestro.");
@@ -105,8 +105,10 @@ namespace Blazor.BusinessLogic
         }
 
 
-        public async Task<ResultadoIntegracionRips> EnviarRips(long facturaId, string user, string host)
+        public async Task<IntegracionRipsModel> EnviarRips(long facturaId, string user, string host)
         {
+            IntegracionRipsModel integracionRipsModel = new IntegracionRipsModel();
+
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
 
@@ -136,23 +138,48 @@ namespace Blazor.BusinessLogic
                 resultado.HttpStatus = (int)httpResult.StatusCode;
                 resultado.JsonResult = jsonResult;
                 resultado.HuboError = false;
+                integracionRipsModel.HttpStatus = resultado.HttpStatus;
+                integracionRipsModel.HuboErrorIntegracion = resultado.HuboError;
 
-                if (httpResult.StatusCode == HttpStatusCode.OK) {
+                if (httpResult.StatusCode == HttpStatusCode.OK)
+                {
                     var ripsResult = JsonConvert.DeserializeObject<RespuestaIntegracionRips>(jsonResult);
-                    fac.CodigoUnicoValidacionRips = ripsResult.CodigoUnicoValidacion;
-                    fac.FechaRadicacionRips = ripsResult.FechaRadicacion;
-                    unitOfWork.Repository<Facturas>().Modify(fac);
+                    integracionRipsModel.Respuesta = ripsResult;
+
+                    if (string.IsNullOrWhiteSpace(ripsResult.CodigoUnicoValidacion))
+                    {
+                        integracionRipsModel.HuboErrorRips = true;
+                    }
+                    else
+                    {
+                        integracionRipsModel.HuboErrorRips = false;
+                        fac.CodigoUnicoValidacionRips = ripsResult.CodigoUnicoValidacion;
+                        fac.FechaRadicacionRips = ripsResult.FechaRadicacion;
+                        unitOfWork.Repository<Facturas>().Modify(fac);
+                    }
+                }
+                else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var ripsResult = JsonConvert.DeserializeObject<RespuestaIntegracionRips>(jsonResult);
+                    integracionRipsModel.Respuesta = ripsResult;
+                    integracionRipsModel.HuboErrorRips = true;
+                }
+                else
+                {
+                    resultado.Error = resultado.JsonResult;
                 }
             }
             catch (Exception ex)
             {
                 resultado.HuboError = true;
                 resultado.Error = ex.GetFullErrorMessage();
+                integracionRipsModel.HuboErrorIntegracion = resultado.HuboError;
+                integracionRipsModel.Error = resultado.Error;
             }
 
             unitOfWork.Repository<ResultadoIntegracionRips>().Add(resultado);
-            
-            return resultado;
+
+            return integracionRipsModel;
         }
 
         public async Task<ArchivoDescargaModel> DescargarXMLDIAN(long facturaId)
@@ -160,7 +187,7 @@ namespace Blazor.BusinessLogic
             ArchivoDescargaModel archivoDescargaModel = new ArchivoDescargaModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             var fac = unitOfWork.Repository<Facturas>().Table
-                .Include(x=>x.Documentos)
+                .Include(x => x.Documentos)
                 .FirstOrDefault(x => x.Id == facturaId);
 
             string nombre = $"{fac.IssueDate:yyyyMMddHHmmss}-JsonRips-{fac.Documentos.Prefijo}{fac.NroConsecutivo}";
@@ -303,10 +330,11 @@ namespace Blazor.BusinessLogic
                     procedimientoRips.CodComplicacion = null;
                     procedimientoRips.CodDiagnosticoPrincipal = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones?.Diagnosticos?.Codigo;
                     procedimientoRips.CodDiagnosticoRelacionado = null;
-                    if(servicio.Servicios.CupsId != null)
+                    if (servicio.Servicios.CupsId != null)
                     {
                         procedimientoRips.CodProcedimiento = servicio.Servicios?.Cups?.Codigo;
-                    }else
+                    }
+                    else
                     {
                         procedimientoRips.CodProcedimiento = servicio.Servicios?.Codigo;
                     }
