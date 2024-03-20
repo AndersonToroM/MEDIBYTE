@@ -123,8 +123,6 @@
             success: function (data) {
                 hideLoadIndicator();
 
-                console.log("EnviarRips", data)
-
                 $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
 
                 if (data.HuboErrorIntegracion) {

@@ -95,10 +95,79 @@ public class ProcedimientoRips
     public int Consecutivo { get; set; }
 }
 
+public class ConsultaRips
+{
+    [JsonProperty("codPrestador")]
+    public string CodPrestador { get; set; }
+
+    [JsonProperty("fechaInicioAtencion")]
+    public string FechaInicioAtencion { get; set; }
+
+    [JsonProperty("numAutorizacion")]
+    public string NumAutorizacion { get; set; }
+
+    [JsonProperty("codConsulta")]
+    public string CodConsulta { get; set; }
+
+    [JsonProperty("modalidadGrupoServicioTecSal")]
+    public string ModalidadGrupoServicioTecSal { get; set; }
+
+    [JsonProperty("grupoServicios")]
+    public string GrupoServicios { get; set; }
+
+    [JsonProperty("codServicio")]
+    public int? CodServicio { get; set; }
+
+    [JsonProperty("finalidadTecnologiaSalud")]
+    public string FinalidadTecnologiaSalud { get; set; }
+
+    [JsonProperty("causaMotivoAtencion")]
+    public string CausaMotivoAtencion { get; set; }
+
+    [JsonProperty("codDiagnosticoPrincipal")]
+    public string CodDiagnosticoPrincipal { get; set; }
+
+    [JsonProperty("codDiagnosticoRelacionado1")]
+    public string CodDiagnosticoRelacionado1 { get; set; }
+
+    [JsonProperty("codDiagnosticoRelacionado2")]
+    public string CodDiagnosticoRelacionado2 { get; set; }
+
+    [JsonProperty("codDiagnosticoRelacionado3")]
+    public string CodDiagnosticoRelacionado3 { get; set; }
+
+    [JsonProperty("tipoDiagnosticoPrincipal")]
+    public string TipoDiagnosticoPrincipal { get; set; }
+
+    [JsonProperty("tipoDocumentoIdentificacion")]
+    public string TipoDocumentoIdentificacion { get; set; }
+
+    [JsonProperty("numDocumentoIdentificacion")]
+    public string NumDocumentoIdentificacion { get; set; }
+
+    [JsonProperty("vrServicio")]
+    public long VrServicio { get; set; }
+
+    [JsonProperty("tipoPagoModerador")]
+    public string TipoPagoModerador { get; set; }
+
+    [JsonProperty("valorPagoModerador")]
+    public long ValorPagoModerador { get; set; }
+
+    [JsonProperty("numFEVPagoModerador")]
+    public string NumFEVPagoModerador { get; set; }
+
+    [JsonProperty("consecutivo")]
+    public int Consecutivo { get; set; }
+}
+
 public class ServiciosRips
 {
     [JsonProperty("procedimientos")]
     public List<ProcedimientoRips> Procedimientos { get; set; } = new List<ProcedimientoRips>();
+
+    [JsonProperty("consultas")]
+    public List<ConsultaRips> Consultas { get; set; }
 }
 
 public class UsuarioRips

@@ -262,6 +262,8 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Empleados)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Empleados.TiposIdentificacion)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadConsulta)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.CausasExternas)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.DiagnosticosPrincipalHC)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.ZonaTerritorialResidencia)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.TiposIdentificacion)
@@ -320,46 +322,123 @@ namespace Blazor.BusinessLogic
                 usuarioRips.Incapacidad = tieneIncapacidad ? "SI" : "NO";
 
                 int consecutivoProcedimiento = 1;
+                int consecutivoConsulta = 1;
                 var serviciosFacturados = facturasDetalles.Where(x => x.AdmisionesServiciosPrestados.Atenciones.AdmisionesId == admision.Id).ToList();
                 foreach (var servicio in serviciosFacturados)
                 {
-                    ProcedimientoRips procedimientoRips = new ProcedimientoRips();
-                    procedimientoRips.Consecutivo = consecutivoProcedimiento;
-                    procedimientoRips.CodPrestador = fac.Empresas?.CodigoReps;
-                    procedimientoRips.CodComplicacion = null;
-                    procedimientoRips.CodDiagnosticoPrincipal = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones?.Diagnosticos?.Codigo;
-                    procedimientoRips.CodDiagnosticoRelacionado = null;
-                    if (servicio.Servicios.CupsId != null)
+                    if (servicio.Servicios.TiposServiciosId == 1) // Consulta
                     {
-                        procedimientoRips.CodProcedimiento = servicio.Servicios?.Cups?.Codigo;
-                    }
-                    else
-                    {
-                        procedimientoRips.CodProcedimiento = servicio.Servicios?.Codigo;
-                    }
-                    procedimientoRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
-                    procedimientoRips.TipoPagoModerador = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
-                    procedimientoRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
-                    procedimientoRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.FinalidadProcedimiento?.CodigoRips;
-                    procedimientoRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
-                    procedimientoRips.IdMIPRES = null;
-                    procedimientoRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
-                    procedimientoRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.NroAutorizacion;
-                    procedimientoRips.NumDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Empleados?.NumeroIdentificacion;
-                    procedimientoRips.TipoDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones.Empleados?.TiposIdentificacion?.Codigo;
-                    procedimientoRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
-                    procedimientoRips.ViaIngresoServicioSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ViaIngresoServicioSalud?.Codigo;
-                    procedimientoRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
-                    procedimientoRips.NumFEVPagoModerador = null;
+                        ConsultaRips consultaRips = new ConsultaRips();
 
-                    if (servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
-                    {
-                        var facturaCopagoCuotaModeradora = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
-                        procedimientoRips.NumFEVPagoModerador = $"{facturaCopagoCuotaModeradora.Documentos.Prefijo}{facturaCopagoCuotaModeradora.NroConsecutivo}";
+                        consultaRips.Consecutivo = consecutivoConsulta;
+                        consultaRips.CodPrestador = fac.Empresas?.CodigoReps;
+                        consultaRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd");
+                        consultaRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados?.Atenciones?.Admisiones.NroAutorizacion;
+                        if (servicio.Servicios.CupsId != null)
+                        {
+                            consultaRips.CodConsulta = servicio.Servicios?.Cups?.Codigo;
+                        }
+                        else
+                        {
+                            consultaRips.CodConsulta = servicio.Servicios?.Codigo;
+                        }
+                        consultaRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
+                        consultaRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
+                        consultaRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
+                        consultaRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados?.Atenciones?.FinalidadConsulta?.CodigoRips;
+                        consultaRips.CausaMotivoAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.CausasExternas?.CodigoRips;
+                        
+                        var diagonosticos = unitOfWork.Repository<HistoriasClinicasDiagnosticos>().Table
+                            .Include(x=>x.Diagnosticos)
+                            .Where(a => a.HistoriasClinicas.AtencionesId == admision.Atenciones.Id)
+                            .OrderBy(x=>x.Id).ToList();
+                        if (diagonosticos == null || !diagonosticos.Any())
+                        {
+                            consultaRips.CodDiagnosticoPrincipal = null;
+                            consultaRips.CodDiagnosticoRelacionado1 = null;
+                            consultaRips.CodDiagnosticoRelacionado2 = null;
+                            consultaRips.CodDiagnosticoRelacionado3 = null;
+                        }
+                        else
+                        {
+                            var diagnosticoPrincipal = diagonosticos.FirstOrDefault(x => x.Principal);
+                            if (diagnosticoPrincipal != null)
+                            {
+                                consultaRips.CodDiagnosticoPrincipal = diagnosticoPrincipal.Diagnosticos?.Codigo;
+                                consultaRips.TipoDiagnosticoPrincipal = diagnosticoPrincipal.TiposDiagnosticos?.CodigoRips;
+                            }
+
+                            var otrosDiagnosticos = diagonosticos.Where(x => x.Id != diagnosticoPrincipal.Id).OrderBy(x => x.Id).ToList();
+                            if (otrosDiagnosticos != null && otrosDiagnosticos.Any())
+                            {
+                                consultaRips.CodDiagnosticoRelacionado1 = otrosDiagnosticos[0]?.Diagnosticos?.Codigo;
+                                if (otrosDiagnosticos.Count > 1)
+                                {
+                                    consultaRips.CodDiagnosticoRelacionado2 = otrosDiagnosticos[1]?.Diagnosticos?.Codigo;
+                                }
+                                if (otrosDiagnosticos.Count > 2)
+                                {
+                                    consultaRips.CodDiagnosticoRelacionado3 = otrosDiagnosticos[2]?.Diagnosticos?.Codigo;
+                                }
+                            }
+                        }
+
+                        consultaRips.NumDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Empleados?.NumeroIdentificacion;
+                        consultaRips.TipoDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones.Empleados?.TiposIdentificacion?.Codigo;
+                        consultaRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
+                        consultaRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
+
+                        if (servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
+                        {
+                            var facturaCopagoCuotaModeradora = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
+                            consultaRips.NumFEVPagoModerador = $"{facturaCopagoCuotaModeradora.Documentos.Prefijo}{facturaCopagoCuotaModeradora.NroConsecutivo}";
+                        }
+
+                        consecutivoConsulta++;
+                        usuarioRips.Servicios.Consultas.Add(consultaRips);
                     }
 
-                    consecutivoProcedimiento++;
-                    usuarioRips.Servicios.Procedimientos.Add(procedimientoRips);
+                    if (servicio.Servicios.TiposServiciosId == 2) // Procedimiento
+                    {
+                        ProcedimientoRips procedimientoRips = new ProcedimientoRips();
+
+                        procedimientoRips.Consecutivo = consecutivoProcedimiento;
+                        procedimientoRips.CodPrestador = fac.Empresas?.CodigoReps;
+                        procedimientoRips.CodComplicacion = null;
+                        procedimientoRips.CodDiagnosticoPrincipal = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones?.Diagnosticos?.Codigo;
+                        procedimientoRips.CodDiagnosticoRelacionado = null;
+                        if (servicio.Servicios.CupsId != null)
+                        {
+                            procedimientoRips.CodProcedimiento = servicio.Servicios?.Cups?.Codigo;
+                        }
+                        else
+                        {
+                            procedimientoRips.CodProcedimiento = servicio.Servicios?.Codigo;
+                        }
+                        procedimientoRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
+                        procedimientoRips.TipoPagoModerador = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
+                        procedimientoRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
+                        procedimientoRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.FinalidadProcedimiento?.CodigoRips;
+                        procedimientoRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
+                        procedimientoRips.IdMIPRES = null;
+                        procedimientoRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
+                        procedimientoRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.NroAutorizacion;
+                        procedimientoRips.NumDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Empleados?.NumeroIdentificacion;
+                        procedimientoRips.TipoDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones.Empleados?.TiposIdentificacion?.Codigo;
+                        procedimientoRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
+                        procedimientoRips.ViaIngresoServicioSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ViaIngresoServicioSalud?.Codigo;
+                        procedimientoRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
+                        procedimientoRips.NumFEVPagoModerador = null;
+
+                        if (servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
+                        {
+                            var facturaCopagoCuotaModeradora = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
+                            procedimientoRips.NumFEVPagoModerador = $"{facturaCopagoCuotaModeradora.Documentos.Prefijo}{facturaCopagoCuotaModeradora.NroConsecutivo}";
+                        }
+
+                        consecutivoProcedimiento++;
+                        usuarioRips.Servicios.Procedimientos.Add(procedimientoRips);
+                    }
 
                 }
 
