@@ -20,8 +20,7 @@ namespace Blazor.Infrastructure.Entities
        [Column("Codigo")]
        [DDisplayName("HabilitacionServciosRips.Codigo")]
        [DRequired("HabilitacionServciosRips.Codigo")]
-       [DStringLength("HabilitacionServciosRips.Codigo",5)]
-       public virtual int Codigo { get; set; }
+       public virtual Int32 Codigo { get; set; }
 
        [Column("Nombre")]
        [DDisplayName("HabilitacionServciosRips.Nombre")]
