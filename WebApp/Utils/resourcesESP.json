@@ -4116,6 +4116,10 @@
     "Description": "Cambiar Estado"
   },
   {
+    "Id": "ParametrosGenerales.ConfirmarPasswordIntegracionFE",
+    "Description": "Confirmar Contraseña"
+  },
+  {
     "Id": "ParametrosGenerales.ConsecutivoAdmision",
     "Description": "Consecutivo Admisión"
   },
@@ -4148,8 +4152,16 @@
     "Description": "Lectura de resultados"
   },
   {
+    "Id": "ParametrosGenerales.PasswordIntegracionFE",
+    "Description": "Contraseña"
+  },
+  {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",
     "Description": "Esta función cambiara el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atencion\". "
+  },
+  {
+    "Id": "ParametrosGenerales.UsuarioIntegracionFE",
+    "Description": "Usuario"
   },
   {
     "Id": "Parentescos.Descripcion",

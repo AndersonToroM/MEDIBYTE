@@ -6,6 +6,7 @@ namespace Blazor.WebApp.Models
    public partial class ParametrosGeneralesModel
    {
       public ParametrosGenerales Entity { get; set; }
+      public bool ModifyPasswordIntegracionFE { get; set; }
 
       public ParametrosGeneralesModel()
       {

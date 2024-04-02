@@ -13,6 +13,7 @@ namespace Dominus.Backend.Application
         public string EmailOrigen_PorDefecto = "POR DEFECTO";
         public string EmailOrigen_Facturacion = "FACTURACION";
         public string ServiceRips = "Rips";
+        public string ServiceFE = "Saphety";
 
         public string QutarTildes(string data)
         {

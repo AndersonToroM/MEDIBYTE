@@ -107,4 +107,39 @@
         DevExpress.ui.notify("Error en el formulario","error");
     }
 
+    function @(Prefix)ConfirmingPasswordIntegracionFE(params) {
+
+        var PasswordReal = $("#@(Prefix)PasswordIntegracionFE").dxTextBox("instance").option("value");
+        var ConfirmPassword = params.value;
+
+        if (PasswordReal != ConfirmPassword) {
+            params.rule.isValid = false;
+            params.rule.message = "La contraseña y su confirmación no coinciden";
+            params.validator.validate();
+            return false;
+        } else {
+            params.rule.isValid = true;
+            params.rule.message = "";
+            params.validator.validate();
+            return true;
+        }
+        return true;
+    }
+
+    function @(Prefix)OnValueChangedPasswordIntegracionFE(input) {
+        if (input.previousValue != input.value) {
+            $("#@(Prefix)ModifyPasswordIntegracionFE").dxCheckBox("instance").option("value", true);
+        }
+    }
+
+    function @(Prefix)OnClickBotonCambiarModoPasswordIntegracionFE() {
+        var passwordEditor = $("#@(Prefix)PasswordIntegracionFE").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+    }
+
+    function @(Prefix)OnClickBotonCambiarModoConfirmarPasswordIntegracionFE() {
+        var passwordEditor = $("#@(Prefix)ConfirmPasswordIntegracionFE").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+    }
+
 </script>

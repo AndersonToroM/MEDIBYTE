@@ -31,11 +31,53 @@
                 @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Type(DateBoxType.Time).Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.Time).Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.ModifyPasswordIntegracionFE).ID(Prefix + "ModifyPasswordIntegracionFE").Visible(false))
 
                 @(Html.DControls().Form<ParametrosGeneralesModel>()
                     .ID("ParametrosGeneralesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
                     .Items(items =>
                     {
+                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.IntegracionFE"))
+                            .Items(groupItems =>{
+ 
+                                groupItems.AddSimpleFor(m => m.Entity.UsuarioIntegracionFE).ColSpan(6)
+                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ParametrosGenerales.FechaDesdeAtenciones")))
+                                      .Editor(e=>e.TextBox().ID(Prefix + "UsuarioIntegracionFE")
+                                      .ShowClearButton(true)
+                                      );
+                                groupItems.AddSimpleFor(x=>x.Entity.PasswordIntegracionFE).ColSpan(3)
+                                    .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID($"{Prefix}PasswordIntegracionFE").Value(Model.Entity.PasswordIntegracionFE)
+                                        .OnValueChanged($"{Prefix}OnValueChangedPasswordIntegracionFE")
+                                        .Buttons(buttons =>
+                                        {
+                                            buttons.Add()
+                                                .Name($"{Prefix}BotonCambiarModoPasswordIntegracionFE")
+                                                .Location(TextEditorButtonLocation.After)
+                                                .Widget(w => w.Button()
+                                                    .Type(ButtonType.Normal)
+                                                    .Icon(Url.Content("~/images/eye_open_icon.png"))
+                                                    .OnClick($"{Prefix}OnClickBotonCambiarModoPasswordIntegracionFE")
+                                                );
+                                        })
+                                    );
+
+                                groupItems.AddSimple().Label(l => l.Text(DApp.DefaultLanguage.GetResource("ParametrosGenerales.ConfirmarPasswordIntegracionFE"))).ColSpan(3)
+                                    .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID($"{Prefix}ConfirmPasswordIntegracionFE").Value(Model.Entity.PasswordIntegracionFE)
+                                        .Buttons(buttons =>
+                                        {
+                                            buttons.Add()
+                                                .Name($"{Prefix}BotonCambiarModoConfirmarPasswordIntegracionFE")
+                                                .Location(TextEditorButtonLocation.After)
+                                                .Widget(w => w.Button()
+                                                    .Type(ButtonType.Normal)
+                                                    .Icon(Url.Content("~/images/eye_open_icon.png"))
+                                                    .OnClick($"{Prefix}OnClickBotonCambiarModoConfirmarPasswordIntegracionFE")
+                                                );
+                                        })
+                                    )
+                                    .ValidationRules(rules => rules.AddCustom().ValidationCallback($"{Prefix}ConfirmingPasswordIntegracionFE"));
+                            });
+
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Atenciones"))
                             .Items(groupItems =>{
                                 groupItems.AddSimpleFor(m => m.Entity.HabilitarAnteciones).Label(x=>x.Visible(false)).ColSpan(2)
@@ -89,7 +131,6 @@
                                       .Text(DApp.DefaultLanguage.GetResource("ParametrosGenerales.EsObligatorioAudioLectura"))
                                       );
                             });
-
                     })
                 )
             }
