@@ -60,7 +60,12 @@ namespace Blazor.Infrastructure.Entities
         [DRequired("Users.IsActive")]
         public virtual Boolean IsActive { get; set; }
 
-       #endregion
+        [Column("PasswordRips")]
+        [DDisplayName("Users.PasswordRips")]
+        [DStringLength("Users.PasswordRips", 255)]
+        public virtual String PasswordRips { get; set; }
+
+        #endregion
 
         #region Columnas referenciales)
 

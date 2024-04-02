@@ -1,5 +1,6 @@
 ﻿using Blazor.BusinessLogic.Models;
 using Blazor.BusinessLogic.Models.Enums;
+using Blazor.BusinessLogic.ServiciosExternos;
 using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
@@ -10,7 +11,6 @@ using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Dominus.Backend.Security;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -20,7 +20,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -29,9 +28,6 @@ namespace Blazor.BusinessLogic
 {
     public class FacturasBusinessLogic : GenericBusinessLogic<Facturas>
     {
-        private const string _urlLoginSISPRO = "/api/Auth/LoginSISPRO";
-        private const string _urlCargarFevRips = "/api/PaquetesFevRips/CargarFevRips";
-
         public FacturasBusinessLogic(IUnitOfWork unitWork) : base(unitWork)
         {
         }
@@ -40,146 +36,53 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        private async Task<RespuestaLoginRips> GetTokenRips(string user, string host)
-        {
-            var services = DApp.GetTenant(host).Services;
-            var urlRips = services[DApp.Util.ServiceRips];
-            HttpClient http = new HttpClient();
-            http.BaseAddress = new Uri(urlRips);
-            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            var empresa = unitOfWork.Repository<Empresas>().Table.FirstOrDefault();
-            var usuario = unitOfWork.Repository<User>().Table
-                .Include(x => x.IdentificationType)
-                .FirstOrDefault(x => x.UserName == user);
-
-            if (empresa == null)
-            {
-                throw new Exception($"Empresa no encontrada.");
-            }
-            else
-            {
-                if (string.IsNullOrWhiteSpace(empresa.NumeroIdentificacion))
-                {
-                    throw new Exception($"El numero de identificación de la empresa no esta diligenciado en su maestra.");
-                }
-            }
-
-
-            if (usuario == null)
-            {
-                throw new Exception($"Usuario {user} no encontrado.");
-            }
-            else
-            {
-                if (usuario.IdentificationType == null || string.IsNullOrWhiteSpace(usuario.IdentificationType.Codigo) ||
-                    string.IsNullOrWhiteSpace(usuario.IdentificationNumber) || usuario.IdentificationNumber.Length < 5)
-                {
-                    throw new Exception($"El usuario {user} no tiene el numero de identificación o el tipo de identificación correctamente diligenciados en su maestro.");
-                }
-            }
-
-            LoginIntegracionRips loginIntegracionRips = new LoginIntegracionRips();
-            loginIntegracionRips.Persona.Identificacion.Tipo = usuario.IdentificationType.Codigo;
-            loginIntegracionRips.Persona.Identificacion.Numero = usuario.IdentificationNumber;
-            loginIntegracionRips.Nit = empresa.NumeroIdentificacion;
-            loginIntegracionRips.Clave = Cryptography.Decrypt(usuario.PasswordRips);
-            loginIntegracionRips.Reps = true;
-
-            var jsonLogin = JsonConvert.SerializeObject(loginIntegracionRips, Newtonsoft.Json.Formatting.Indented);
-            var content = new StringContent(jsonLogin, Encoding.UTF8, "application/json");
-            var httpResult = await http.PostAsync(_urlLoginSISPRO, content);
-            var jsonResult = await httpResult.Content.ReadAsStringAsync();
-            RespuestaLoginRips resultadoLoginRips = new RespuestaLoginRips();
-            if (httpResult.StatusCode == HttpStatusCode.OK)
-            {
-                resultadoLoginRips = JsonConvert.DeserializeObject<RespuestaLoginRips>(jsonResult);
-            }
-            else
-            {
-                throw new Exception($"Error en LoginSISPRO. Estado: {httpResult.StatusCode.ToString()}. Error: {jsonResult}");
-            }
-
-            return resultadoLoginRips;
-        }
-
-
         public async Task<IntegracionRipsModel> EnviarRips(long facturaId, string user, string host)
         {
-            IntegracionRipsModel integracionRipsModel = new IntegracionRipsModel();
-
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
-
             ResultadoIntegracionRips resultado = new ResultadoIntegracionRips();
-            resultado.CreatedBy = user;
-            resultado.UpdatedBy = user;
-            resultado.CreationDate = DateTime.Now;
-            resultado.LastUpdate = DateTime.Now;
-            resultado.Tipo = (int)TipoDocumento.Factura;
-            resultado.IdTipo = facturaId;
+            IntegracionRipsModel resultadoIntegracionRips = new IntegracionRipsModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             try
             {
-                var token = await GetTokenRips(user, host);
+                var empresa = unitOfWork.Repository<Empresas>().Table.FirstOrDefault();
+                var usuario = unitOfWork.Repository<User>().Table
+                    .Include(x => x.IdentificationType)
+                    .FirstOrDefault(x => x.UserName == user);
 
-                var services = DApp.GetTenant(host).Services;
-                var urlRips = services[DApp.Util.ServiceRips];
+                var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
+
+                IntegracionRips integracionRips = new IntegracionRips(empresa, usuario);
+
+                resultado.CreatedBy = user;
+                resultado.UpdatedBy = user;
+                resultado.CreationDate = DateTime.Now;
+                resultado.LastUpdate = DateTime.Now;
+                resultado.Tipo = (int)TipoDocumento.Factura;
+                resultado.IdTipo = facturaId;
+
                 var json = await GetRipsJson(facturaId);
+                resultadoIntegracionRips = await integracionRips.EnviarRipsFactura(fac, json, host);
 
-                HttpClient http = new HttpClient();
-                http.BaseAddress = new Uri(urlRips);
-                http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
+                resultado.HttpStatus = resultadoIntegracionRips.HttpStatus;
+                resultado.JsonResult = resultadoIntegracionRips.JsonResult;
+                resultado.HuboError = resultadoIntegracionRips.HuboErrorRips || resultadoIntegracionRips.HuboErrorIntegracion;
+                resultado.Error = resultadoIntegracionRips.Error;
 
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var httpResult = await http.PostAsync(_urlCargarFevRips, content);
-                var jsonResult = await httpResult.Content.ReadAsStringAsync();
-                resultado.HttpStatus = (int)httpResult.StatusCode;
-                resultado.JsonResult = jsonResult;
-                resultado.HuboError = false;
-                integracionRipsModel.HttpStatus = resultado.HttpStatus;
-                integracionRipsModel.HuboErrorIntegracion = resultado.HuboError;
-
-                if (httpResult.StatusCode == HttpStatusCode.OK)
+                if (!resultado.HuboError)
                 {
-                    var ripsResult = JsonConvert.DeserializeObject<RespuestaIntegracionRips>(jsonResult);
-                    integracionRipsModel.Respuesta = ripsResult;
-
-                    if (string.IsNullOrWhiteSpace(ripsResult.CodigoUnicoValidacion))
-                    {
-                        integracionRipsModel.HuboErrorRips = true;
-                    }
-                    else
-                    {
-                        integracionRipsModel.HuboErrorRips = false;
-                        fac.CodigoUnicoValidacionRips = ripsResult.CodigoUnicoValidacion;
-                        fac.FechaRadicacionRips = ripsResult.FechaRadicacion;
-                        unitOfWork.Repository<Facturas>().Modify(fac);
-                    }
-                }
-                else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var ripsResult = JsonConvert.DeserializeObject<RespuestaIntegracionRips>(jsonResult);
-                    integracionRipsModel.Respuesta = ripsResult;
-                    integracionRipsModel.HuboErrorRips = true;
-                }
-                else
-                {
-                    resultado.Error = resultado.JsonResult;
-                }
+                    fac.FechaRadicacionRips = resultadoIntegracionRips.Respuesta.FechaRadicacion;
+                    fac.CodigoUnicoValidacionRips = resultadoIntegracionRips.Respuesta.CodigoUnicoValidacion;
+                    unitOfWork.Repository<Facturas>().Modify(fac);
+                }                
             }
             catch (Exception ex)
             {
                 resultado.HuboError = true;
                 resultado.Error = ex.GetFullErrorMessage();
-                integracionRipsModel.HuboErrorIntegracion = resultado.HuboError;
-                integracionRipsModel.Error = resultado.Error;
             }
 
             unitOfWork.Repository<ResultadoIntegracionRips>().Add(resultado);
 
-            return integracionRipsModel;
+            return resultadoIntegracionRips;
         }
 
         public async Task<ArchivoDescargaModel> DescargarXMLDIAN(long facturaId)
@@ -347,11 +250,11 @@ namespace Blazor.BusinessLogic
                         consultaRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
                         consultaRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados?.Atenciones?.FinalidadConsulta?.CodigoRips;
                         consultaRips.CausaMotivoAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.CausasExternas?.CodigoRips;
-                        
+
                         var diagonosticos = unitOfWork.Repository<HistoriasClinicasDiagnosticos>().Table
-                            .Include(x=>x.Diagnosticos)
+                            .Include(x => x.Diagnosticos)
                             .Where(a => a.HistoriasClinicas.AtencionesId == admision.Atenciones.Id)
-                            .OrderBy(x=>x.Id).ToList();
+                            .OrderBy(x => x.Id).ToList();
                         if (diagonosticos == null || !diagonosticos.Any())
                         {
                             consultaRips.CodDiagnosticoPrincipal = null;

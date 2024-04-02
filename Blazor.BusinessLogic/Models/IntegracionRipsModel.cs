@@ -10,6 +10,7 @@ namespace Blazor.BusinessLogic.Models
         public bool HuboErrorRips { get; set; }
         public string Error { get; set; }
         public int? HttpStatus { get; set; }
+        public string JsonResult { get; set; }
         public RespuestaIntegracionRips Respuesta { get; set;}
     }
 }
