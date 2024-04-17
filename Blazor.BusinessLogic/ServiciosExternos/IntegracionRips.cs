@@ -31,7 +31,7 @@ public class IntegracionRips
         _host = host;
     }
 
-    private HttpClient GetHttpClient()
+    private HttpClient BuildHttpClient()
     {
         var services = DApp.GetTenant(_host).Services;
         var urlRips = services[DApp.Util.ServiceFE];
@@ -43,7 +43,7 @@ public class IntegracionRips
 
     private async Task<RespuestaLoginRips> GetTokenRips()
     {
-        var http = GetHttpClient();
+        var http = BuildHttpClient();
 
         if (_empresa == null)
         {
@@ -99,7 +99,7 @@ public class IntegracionRips
         try
         {
             var token = await GetTokenRips();
-            var http = GetHttpClient();
+            var http = BuildHttpClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
 
             var content = new StringContent(ripsJson, Encoding.UTF8, "application/json");

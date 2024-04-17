@@ -148,6 +148,11 @@ namespace Blazor.BusinessLogic
             return new JobsBusinessLogic(logic.settings);
         }
 
+        public static DocumentosBusinessLogic DocumentosBusinessLogic(this Dominus.Backend.DataBase.BusinessLogic logic)
+        {
+            return new DocumentosBusinessLogic(logic.settings);
+        }
+
         #region Identificadores estaticos
 
         public static List<KeyValue> GetIdentificationTypes(this Dominus.Backend.DataBase.BusinessLogic logic)

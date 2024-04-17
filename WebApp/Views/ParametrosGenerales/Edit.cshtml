@@ -10,9 +10,7 @@
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("ParametrosGenerales"))
         .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew);
-    //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
-    //.Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
-    //.Back(UrlBack);
+
 }
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" />
@@ -76,6 +74,15 @@
                                         })
                                     )
                                     .ValidationRules(rules => rules.AddCustom().ValidationCallback($"{Prefix}ConfirmingPasswordIntegracionFE"));
+
+                            groupItems.AddSimpleFor(x => x.Entity.CompanyIdFE).ColSpan(6)
+                                .ValidationRules(rules => rules.AddStringLength().Min(36).Max(36).Message(DApp.GetStringLengthResource("ParametrosGenerales.CompanyIdFE", 36))) 
+                                .Editor(e => e.TextBox().ShowClearButton(true).ID($"{Prefix}CompanyIdFE"));
+
+                            groupItems.AddSimpleFor(x => x.Entity.OperadorFE).ColSpan(3)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(30).Message(DApp.GetStringLengthResource("ParametrosGenerales.OperadorFE", 30)))
+                                .Editor(e => e.TextBox().ShowClearButton(true).ID($"{Prefix}OperadorFE"));
+
                             });
 
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Atenciones"))

@@ -11,10 +11,10 @@ public class FEResultJson<T>
     public bool IsValid { get; set; }
 
     [JsonProperty("Warnings")]
-    public List<object> Warnings { get; set; }
+    public List<string> Warnings { get; set; }
 
     [JsonProperty("Errors")]
-    public List<object> Errors { get; set; }
+    public List<string> Errors { get; set; }
 
     [JsonProperty("ResultData")]
     public T ResultData { get; set; }
@@ -356,6 +356,61 @@ public class FeWithholdingTaxTotal
 
     [JsonProperty("WithholdingTaxCategory")]
     public string WithholdingTaxCategory { get; set; }
+}
+
+#endregion
+
+#region Clases para respuesta de Series
+
+public class FEResultadoSeries
+{
+    [JsonProperty("Id")]
+    public string Id { get; set; }
+
+    [JsonProperty("CompanyId")]
+    public string CompanyId { get; set; }
+
+    [JsonProperty("Name")]
+    public string Name { get; set; }
+
+    [JsonProperty("AuthorizationNumber")]
+    public string AuthorizationNumber { get; set; }
+
+    [JsonProperty("Prefix")]
+    public string Prefix { get; set; }
+
+    [JsonProperty("ValidFrom")]
+    public DateTime ValidFrom { get; set; }
+
+    [JsonProperty("ValidTo")]
+    public DateTime ValidTo { get; set; }
+
+    [JsonProperty("StartValue")]
+    public int StartValue { get; set; }
+
+    [JsonProperty("EndValue")]
+    public int EndValue { get; set; }
+
+    [JsonProperty("EfectiveValue")]
+    public object EfectiveValue { get; set; }
+
+    [JsonProperty("DocumentType")]
+    public string DocumentType { get; set; }
+
+    [JsonProperty("SerieType")]
+    public string SerieType { get; set; }
+
+    [JsonProperty("TechnicalKey")]
+    public string TechnicalKey { get; set; }
+
+    [JsonProperty("Status")]
+    public string Status { get; set; }
+
+    [JsonProperty("AutoIncrement")]
+    public bool AutoIncrement { get; set; }
+
+    [JsonProperty("ExternalKey")]
+    public string ExternalKey { get; set; }
 }
 
 #endregion

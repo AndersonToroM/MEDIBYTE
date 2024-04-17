@@ -11,7 +11,20 @@
         .Title(DApp.DefaultLanguage.GetResource("Documentos")) 
         .Save(DApp.ActionViewSecurity(Context, UrlSave),Model.Entity.IsNew) 
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew)) 
-        .Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew) 
+        .Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
+        .AddButtons(new List<ButtonToolbar>()
+                                {
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}ObtenerDatosSeries",
+                Id = $"{Prefix}ObtenerDatosSeries",
+                Text = @DApp.DefaultLanguage.GetResource("Documentos.ObtenerDatosSeries"),
+                Disabled = Model.Entity.IsNew,
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "download"
+            }
+        })
         .Back(UrlBack); 
 }
 
@@ -77,9 +90,12 @@
                                 groupItems.AddSimpleFor(m => m.Entity.FechaHasta).ColSpan(3)
                                       .Editor(e=>e.DateBox().ID(Prefix + "FechaHasta")
                                       .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).ShowClearButton(true).UseMaskBehavior(true));
-                                groupItems.AddSimpleFor(m => m.Entity.LlaveUnica).ColSpan(4)
-                               .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Documentos.LlaveUnica", 250)))
-                                    .Editor(e => e.TextBox().ID(Prefix + "LlaveUnica").ShowClearButton(true));
+                                groupItems.AddSimpleFor(m => m.Entity.LlaveUnica).ColSpan(6)
+                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Documentos.LlaveUnica", 250)))
+                                    .Editor(e => e.TextBox().ID(Prefix + "LlaveUnica").ReadOnly(true));
+                                groupItems.AddSimpleFor(m => m.Entity.ExternalKey).ColSpan(6)
+                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(30).Message(DApp.GetStringLengthResource("Documentos.ExternalKey", 30)))
+                                    .Editor(e => e.TextBox().ID(Prefix + "ExternalKey").ReadOnly(true));
                             });
                     })
                 ) 

@@ -1528,6 +1528,10 @@
     "Description": "¿Es para facturación de paciente?"
   },
   {
+    "Id": "Documentos.ExternalKey",
+    "Description": "Llave Externa"
+  },
+  {
     "Id": "Documentos.FechaDesde",
     "Description": "Fecha Desde"
   },
@@ -1538,6 +1542,10 @@
   {
     "Id": "Documentos.LlaveUnica",
     "Description": "Llave Unica"
+  },
+  {
+    "Id": "Documentos.ObtenerDatosSeries",
+    "Description": "Obtener Datos FE"
   },
   {
     "Id": "Documentos.Prefijo",
@@ -4116,6 +4124,10 @@
     "Description": "Cambiar Estado"
   },
   {
+    "Id": "ParametrosGenerales.CompanyIdFE",
+    "Description": "Id de la compañía"
+  },
+  {
     "Id": "ParametrosGenerales.ConfirmarPasswordIntegracionFE",
     "Description": "Confirmar Contraseña"
   },
@@ -4148,8 +4160,16 @@
     "Description": "Habilitar"
   },
   {
+    "Id": "ParametrosGenerales.IntegracionFE",
+    "Description": "Parametros Facturacion Electronica"
+  },
+  {
     "Id": "ParametrosGenerales.Lecturas",
     "Description": "Lectura de resultados"
+  },
+  {
+    "Id": "ParametrosGenerales.OperadorFE",
+    "Description": "Operador"
   },
   {
     "Id": "ParametrosGenerales.PasswordIntegracionFE",

@@ -36,10 +36,10 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        public async Task<IntegracionFEModel> EnviarFacturaDian(long facturaId, string user, string host)
+        public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(long facturaId, string user, string host)
         {
             ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
-            IntegracionFEModel integracionFEModel = new IntegracionFEModel();
+            IntegracionEnviarFEModel integracionFEModel = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             try
             {
@@ -61,7 +61,7 @@ namespace Blazor.BusinessLogic
                 resultadoIntegracionFE.HttpStatus = integracionFEModel.HttpStatus;
                 resultadoIntegracionFE.JsonResult = integracionFEModel.JsonResult;
                 resultadoIntegracionFE.HuboError = integracionFEModel.HuboErrorFE || integracionFEModel.HuboErrorIntegracion;
-                resultadoIntegracionFE.Error = integracionFEModel.Error;
+                resultadoIntegracionFE.Error = integracionFEModel.ErrorIntegration;
 
                 if (!resultadoIntegracionFE.HuboError)
                 {

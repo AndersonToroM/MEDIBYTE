@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace Blazor.BusinessLogic
 {
+
     public class ConveniosServiciosBusinessLogic : GenericBusinessLogic<ConveniosServicios>
     {
         public ConveniosServiciosBusinessLogic(IUnitOfWork unitWork) : base(unitWork)

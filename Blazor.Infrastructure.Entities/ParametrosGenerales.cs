@@ -52,6 +52,10 @@ namespace Blazor.Infrastructure.Entities
         [DStringLength("ParametrosGenerales.OperadorFE", 30)]
         public virtual String OperadorFE { get; set; }
 
+        [Column("CompanyIdFE")]
+        [DDisplayName("ParametrosGenerales.CompanyIdFE")]
+        public virtual Guid? CompanyIdFE { get; set; }
+
         #endregion
 
         #region Reglas expression
