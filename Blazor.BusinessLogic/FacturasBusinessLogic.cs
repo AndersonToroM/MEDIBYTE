@@ -36,10 +36,292 @@ namespace Blazor.BusinessLogic
         {
         }
 
+        public async Task<IntegracionFEModel> EnviarFacturaDian(long facturaId, string user, string host)
+        {
+            ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
+            IntegracionFEModel integracionFEModel = new IntegracionFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            try
+            {
+                var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+                var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
+
+                IntegracionFE integracionRips = new IntegracionFE(parametros, host);
+
+                resultadoIntegracionFE.CreatedBy = user;
+                resultadoIntegracionFE.UpdatedBy = user;
+                resultadoIntegracionFE.CreationDate = DateTime.Now;
+                resultadoIntegracionFE.LastUpdate = DateTime.Now;
+                resultadoIntegracionFE.Tipo = (int)TipoDocumento.Factura;
+                resultadoIntegracionFE.IdTipo = facturaId;
+
+                var json = GetFEJson(facturaId);
+                integracionFEModel = await integracionRips.EnviarFacturaDian(json);
+
+                resultadoIntegracionFE.HttpStatus = integracionFEModel.HttpStatus;
+                resultadoIntegracionFE.JsonResult = integracionFEModel.JsonResult;
+                resultadoIntegracionFE.HuboError = integracionFEModel.HuboErrorFE || integracionFEModel.HuboErrorIntegracion;
+                resultadoIntegracionFE.Error = integracionFEModel.Error;
+
+                if (!resultadoIntegracionFE.HuboError)
+                {
+                    fac.IdDocumentoFE = integracionFEModel.IdDocumentFE;
+                    unitOfWork.Repository<Facturas>().Modify(fac);
+
+                    // hacer llamada para obtener status del documento, si sale mal crear tarea programada para que haga reitentos
+                }
+
+            }
+            catch (Exception ex)
+            {
+                resultadoIntegracionFE.HuboError = true;
+                resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
+
+            return integracionFEModel;
+        }
+
+        /// <summary>
+        /// https://localhost:44333/empresas/ObtenerJsonFE?id=68282
+        /// </summary>
+        /// <param name="idFactura"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string GetFEJson(long facturaId)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var fac = unitOfWork.Repository<Facturas>().Table
+                .Include(x => x.Empresas.TiposIdentificacion)
+                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
+                .Include(x => x.Documentos)
+                .Include(x => x.Entidades)
+                .Include(x => x.Entidades.TiposPersonas)
+                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
+                .Include(x => x.Entidades.TiposIdentificacion)
+                .Include(x => x.Entidades.EntidadesResponsabilidadesFiscales).ThenInclude(x => x.ResponsabilidadesFiscales)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
+                .Include(x => x.Pacientes.TiposIdentificacion)
+                .Include(x => x.Convenio.ModalidadesContratacion)
+                .Include(x => x.MediosPago)
+                .Include(x => x.FormasPagos)
+                .FirstOrDefault(x => x.Id == facturaId);
+
+            if (fac == null)
+            {
+                throw new Exception($"La factura con el Id {facturaId} no se encuentra registrada en el sistema.");
+            }
+
+            var facDetalles = unitOfWork.Repository<FacturasDetalles>().Table
+                .Include(x => x.Servicios)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios)
+                .Where(x => x.FacturasId == fac.Id)
+                .ToList();
+
+            FeRootJson feRootJson = new FeRootJson();
+            feRootJson.Currency = "COP";
+            feRootJson.SeriePrefix = fac.Documentos.Prefijo;
+            feRootJson.SerieNumber = fac.NroConsecutivo.ToString();
+            feRootJson.OperationType = "SS-CUFE";
+            feRootJson.IssueDate = fac.Fecha;
+            feRootJson.DeliveryDate = fac.Fecha;
+            feRootJson.DueDate = fac.ConvenioId.HasValue ? (fac.Convenio.PeriodicidadPago.HasValue ? fac.Fecha.AddDays(fac.Convenio.PeriodicidadPago.Value).ToString("yyyy-MM-dd") : fac.Fecha.ToString("yyyy-MM-dd")) : fac.Fecha.ToString("yyyy-MM-dd");
+            feRootJson.CorrelationDocumentId = fac.ConsecutivoFE;
+            feRootJson.SerieExternalKey = fac.Documentos.ExternalKey;
+
+            feRootJson.IssuerParty.Identification.DocumentNumber = fac.Empresas.NumeroIdentificacion;
+            feRootJson.IssuerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
+            feRootJson.IssuerParty.Identification.CountryCode = fac.Empresas.Ciudades.Departamentos.Paises.Codigo;
+            feRootJson.IssuerParty.Identification.CountryCode = fac.Empresas.DV;
+
+            FEPaymentMeans fEPaymentMeans = new FEPaymentMeans();
+            fEPaymentMeans.Code = fac.MediosPago.Codigo;
+            fEPaymentMeans.Mean = fac.FormasPagos.Codigo;
+            fEPaymentMeans.DueDate = fac.ConvenioId.HasValue ? (fac.Convenio.PeriodicidadPago.HasValue ? fac.Fecha.AddDays(fac.Convenio.PeriodicidadPago.Value).ToString("yyyy-MM-dd") : fac.Fecha.ToString("yyyy-MM-dd")) : fac.Fecha.ToString("yyyy-MM-dd");
+            feRootJson.PaymentMeans.Add(fEPaymentMeans);
+
+            feRootJson.BillingPeriod.From = fac.FehaInicial.ToString("yyyy-MM-dd");
+            feRootJson.BillingPeriod.To = fac.FechaFinal.ToString("yyyy-MM-dd");
+
+            feRootJson.Total.GrossAmount = fac.ValorSubtotal.ToString("F2");
+            feRootJson.Total.TotalBillableAmount = fac.ValorSubtotal.ToString("F2");
+            feRootJson.Total.PayableAmount = fac.ValorTotal.ToString("F2");
+            feRootJson.Total.TaxableAmount = "0";
+
+            if (!string.IsNullOrWhiteSpace(fac.Observaciones))
+                feRootJson.Notes.Add(fac.Observaciones);
+            else
+                feRootJson.Notes = null;
+
+            if (fac.EsFacturaInstitucional)
+            {
+                feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
+                feRootJson.CustomerParty.Email = fac.Entidades.CorreoElectronico;
+                feRootJson.CustomerParty.TaxScheme = "ZZ"; //dentificador del Régimen Fiscal del adquirente ???
+                feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
+                feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
+                feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
+                feRootJson.CustomerParty.Identification.CountryCode = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.CustomerParty.Identification.CheckDigit = fac.Entidades.DV;
+                feRootJson.CustomerParty.Name = fac.Entidades.Nombre;
+                feRootJson.CustomerParty.Address.DepartmentCode = fac.Entidades.Ciudades.Departamentos.Codigo;
+                feRootJson.CustomerParty.Address.CityCode = fac.Entidades.Ciudades.Codigo;
+                feRootJson.CustomerParty.Address.AddressLine = fac.Entidades.Direccion;
+                feRootJson.CustomerParty.Address.Country = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.Total.PrePaidTotalAmount = fac.ValorCopagoCuotaModeradora.ToString("F2");
+            }
+            else
+            {
+                feRootJson.CustomerParty.LegalType = "Natural";
+                feRootJson.CustomerParty.Email = fac.Pacientes.CorreoElectronico;
+                feRootJson.CustomerParty.TaxScheme = "ZZ";
+                feRootJson.CustomerParty.ResponsabilityTypes = null;
+                feRootJson.CustomerParty.Identification.DocumentNumber = fac.Pacientes.NumeroIdentificacion;
+                feRootJson.CustomerParty.Identification.DocumentType = fac.Pacientes.TiposIdentificacion.Codigo;
+                feRootJson.CustomerParty.Identification.CountryCode = fac.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.CustomerParty.Identification.CheckDigit = fac.Pacientes.DV;
+                feRootJson.CustomerParty.Name = fac.Pacientes.NombreCompleto;
+                feRootJson.CustomerParty.Address.DepartmentCode = fac.Pacientes.Ciudades.Departamentos.Codigo;
+                feRootJson.CustomerParty.Address.CityCode = fac.Pacientes.Ciudades.Codigo;
+                feRootJson.CustomerParty.Address.AddressLine = fac.Pacientes.Direccion;
+                feRootJson.CustomerParty.Address.Country = fac.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.Total.PrePaidTotalAmount = "0";
+                feRootJson.PrepaidPayments = null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(fac.ReferenciaFactura))
+            {
+                feRootJson.DocumentReferences.Add(new FeDocumentReference
+                {
+                    DocumentReferred = fac.ReferenciaFactura,
+                    IssueDate = fac.Fecha.ToString("yyyy-MM-dd"),
+                    Type = "OtherReference"
+                });
+            }
+
+            int numberLine = 1;
+            foreach (var facDetalle in facDetalles)
+            {
+                FeLine feLine = new FeLine();
+                feLine.Number = numberLine.ToString();
+                feLine.Quantity = facDetalle.Cantidad.ToString();
+                feLine.QuantityUnitOfMeasure = "NAR";
+                feLine.ExcludeVat = "true";
+                feLine.UnitPrice = facDetalle.ValorServicio.ToString("F2");
+                feLine.GrossAmount = facDetalle.SubTotal.ToString("F2");
+                feLine.NetAmount = facDetalle.ValorTotal.ToString("F2");
+                feLine.Item.Gtin = facDetalle.Servicios.Codigo;
+                feLine.Item.Description = facDetalle.Servicios.Nombre;
+
+                if (fac.EsFacturaInstitucional)
+                {
+                    feLine.WithholdingTaxSubTotals.Add(new FeWithholdingTaxSubTotal
+                    {
+                        WithholdingTaxCategory = "RETERENTA",
+                        TaxPercentage = fac.Entidades.PorcentajeRetefuente.ToString("F1"),
+                        TaxableAmount = fac.ValorTotal.ToString("F2"),
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2")
+                    });
+                    feLine.WithholdingTaxSubTotals.Add(new FeWithholdingTaxSubTotal
+                    {
+                        WithholdingTaxCategory = "RETEICA",
+                        TaxPercentage = fac.Entidades.PorcentajeReteIca.ToString("F1"),
+                        TaxableAmount = fac.ValorTotal.ToString("F2"),
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2")
+                    });
+                    feLine.WithholdingTaxTotals.Add(new FeWithholdingTaxTotal
+                    {
+                        WithholdingTaxCategory = "RETERENTA",
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2")
+                    });
+                    feLine.WithholdingTaxTotals.Add(new FeWithholdingTaxTotal
+                    {
+                        WithholdingTaxCategory = "RETEICA",
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2")
+                    });
+
+                    if (facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
+                    {
+                        FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
+                        var facturaCopagoCuotaModeradora = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
+                        fePrepaidPayment.PaidDate = facturaCopagoCuotaModeradora.Fecha;
+                        fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorCopagoCuotaModeradora.ToString("F2");
+                        feRootJson.PrepaidPayments.Add(fePrepaidPayment);
+                    }
+
+                    FeCollection feCollection = new FeCollection();
+                    feCollection.Name = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.NombreCompleto;
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "CODIGO_PRESTADOR",
+                        Value = fac.Empresas.CodigoReps
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "MODALIDAD_PAGO",
+                        Value = fac.Convenio.ModalidadesContratacion.Descripcion,
+                        CodeListName = "salud_cobertura.gc",
+                        CodeListCode = fac.Convenio.ModalidadesContratacion.CodigoRips
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "OBERTURA_PLAN_BENEFICIOS",
+                        Value = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.Descripcion,
+                        CodeListName = "salud_cobertura.gc",
+                        CodeListCode = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.CodigoRips
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "NUMERO_CONTRATO",
+                        Value = fac.Convenio.NroContrato
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "NUMERO_POLIZA",
+                        Value = fac.Convenio.NroPoliza
+                    });
+                    var admision = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones;
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "COPAGO",
+                        Value = admision.ValorPagoEstadosId == 58 ? admision.ValorCopago.ToString("F2") : "0"
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "CUOTA_MODERADORA",
+                        Value = admision.ValorPagoEstadosId == 59 ? admision.ValorCopago.ToString("F2") : "0"
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "CUOTA_RECUPERACION",
+                        Value = admision.ValorPagoEstadosId == 68 ? admision.ValorCopago.ToString("F2") : "0"
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "PAGOS_COMPARTIDOS",
+                        Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString("F2") : "0"
+                    });
+
+                    feRootJson.HealthcareData.Collections.Add(feCollection);
+                }
+
+                feRootJson.Lines.Add(feLine);
+                numberLine++;
+            }
+
+            return JsonConvert.SerializeObject(feRootJson, Newtonsoft.Json.Formatting.Indented);
+        }
+
         public async Task<IntegracionRipsModel> EnviarRips(long facturaId, string user, string host)
         {
-            ResultadoIntegracionRips resultado = new ResultadoIntegracionRips();
-            IntegracionRipsModel resultadoIntegracionRips = new IntegracionRipsModel();
+            ResultadoIntegracionRips resultadoIntegracionRips = new ResultadoIntegracionRips();
+            IntegracionRipsModel integracionRipsModel = new IntegracionRipsModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             try
             {
@@ -50,27 +332,27 @@ namespace Blazor.BusinessLogic
 
                 var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
 
-                IntegracionRips integracionRips = new IntegracionRips(empresa, usuario);
+                IntegracionRips integracionRips = new IntegracionRips(empresa, usuario, host);
 
-                resultado.CreatedBy = user;
-                resultado.UpdatedBy = user;
-                resultado.CreationDate = DateTime.Now;
-                resultado.LastUpdate = DateTime.Now;
-                resultado.Tipo = (int)TipoDocumento.Factura;
-                resultado.IdTipo = facturaId;
+                resultadoIntegracionRips.CreatedBy = user;
+                resultadoIntegracionRips.UpdatedBy = user;
+                resultadoIntegracionRips.CreationDate = DateTime.Now;
+                resultadoIntegracionRips.LastUpdate = DateTime.Now;
+                resultadoIntegracionRips.Tipo = (int)TipoDocumento.Factura;
+                resultadoIntegracionRips.IdTipo = facturaId;
 
                 var json = await GetRipsJson(facturaId);
-                resultadoIntegracionRips = await integracionRips.EnviarRipsFactura(json, host);
+                integracionRipsModel = await integracionRips.EnviarRipsFactura(json);
 
-                resultado.HttpStatus = resultadoIntegracionRips.HttpStatus;
-                resultado.JsonResult = resultadoIntegracionRips.JsonResult;
-                resultado.HuboError = resultadoIntegracionRips.HuboErrorRips || resultadoIntegracionRips.HuboErrorIntegracion;
-                resultado.Error = resultadoIntegracionRips.Error;
+                resultadoIntegracionRips.HttpStatus = integracionRipsModel.HttpStatus;
+                resultadoIntegracionRips.JsonResult = integracionRipsModel.JsonResult;
+                resultadoIntegracionRips.HuboError = integracionRipsModel.HuboErrorRips || integracionRipsModel.HuboErrorIntegracion;
+                resultadoIntegracionRips.Error = integracionRipsModel.Error;
 
-                if (!resultado.HuboError)
+                if (!resultadoIntegracionRips.HuboError)
                 {
-                    fac.FechaRadicacionRips = resultadoIntegracionRips.Respuesta.FechaRadicacion;
-                    fac.CodigoUnicoValidacionRips = resultadoIntegracionRips.Respuesta.CodigoUnicoValidacion;
+                    fac.FechaRadicacionRips = integracionRipsModel.Respuesta.FechaRadicacion;
+                    fac.CodigoUnicoValidacionRips = integracionRipsModel.Respuesta.CodigoUnicoValidacion;
                     fac.UpdatedBy = user;
                     fac.LastUpdate = DateTime.Now;
                     unitOfWork.Repository<Facturas>().Modify(fac);
@@ -78,13 +360,13 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception ex)
             {
-                resultado.HuboError = true;
-                resultado.Error = ex.GetFullErrorMessage();
+                resultadoIntegracionRips.HuboError = true;
+                resultadoIntegracionRips.Error = ex.GetFullErrorMessage();
             }
 
-            unitOfWork.Repository<ResultadoIntegracionRips>().Add(resultado);
+            unitOfWork.Repository<ResultadoIntegracionRips>().Add(resultadoIntegracionRips);
 
-            return resultadoIntegracionRips;
+            return integracionRipsModel;
         }
 
         public ArchivoDescargaModel GetJsonRipsFile(long facturaId)
@@ -133,7 +415,12 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Documentos)
                 .FirstOrDefault(x => x.Id == facturaId);
 
-            if (fac == null || fac.PacientesId.HasValue)
+            if (fac == null)
+            {
+                throw new Exception($"La factura con el Id {facturaId} no se encuentra registrada en el sistema.");
+            }
+
+            if (!fac.EsFacturaInstitucional)
             {
                 throw new Exception("La factura no es de tipo institucional.");
             }
@@ -169,7 +456,6 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.PaisesOrigen)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstados)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadProcedimiento)
-
                 .Where(x => x.FacturasId == fac.Id)
                 .ToList();
 
@@ -900,396 +1186,6 @@ namespace Blazor.BusinessLogic
                 unitOfWork.RollbackTransaction();
                 throw (e);
             }
-        }
-
-        /// <summary>
-        /// https://localhost:44333/empresas/ObtenerXMLFactura?id=74131
-        /// </summary>
-        /// <param name="idFactura"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public EInvoice GetInvoice(long idFactura)
-        {
-            Facturas factura = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Facturas>()
-                .Tabla().Include(x => x.Empresas)
-                .Include(x => x.Empresas.TiposRegimenContable)
-                .Include(x => x.Empresas.TiposPersonas)
-                .Include(x => x.Empresas.TiposIdentificacion)
-                .Include(x => x.Empresas.Ciudades)
-                .Include(x => x.Empresas.Ciudades.Departamentos)
-                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
-                .Include(x => x.Convenio)
-                .Include(x => x.Sedes)
-                .Include(x => x.Sedes.Ciudades)
-                .Include(x => x.Sedes.Ciudades.Departamentos)
-                .Include(x => x.Sedes.Ciudades.Departamentos.Paises)
-                .Include(x => x.Pacientes)
-                .Include(x => x.Pacientes.TiposIdentificacion)
-                .Include(x => x.Pacientes.Ciudades)
-                .Include(x => x.Pacientes.Ciudades.Departamentos)
-                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
-                .Include(x => x.Entidades)
-                .Include(x => x.Entidades.Ciudades)
-                .Include(x => x.Entidades.TiposPersonas)
-                .Include(x => x.Entidades.TiposIdentificacion)
-                .Include(x => x.Entidades.Ciudades.Departamentos)
-                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
-                .Include(x => x.Documentos)
-                .FirstOrDefault(x => x.Id == idFactura);
-            factura.FacturasDetalles = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<FacturasDetalles>().Tabla()
-                .Include(x => x.Servicios)
-                .Include(x => x.Servicios.Cups)
-                .Include(x => x.Servicios.TiposImpuestos)
-
-                .Where(x => x.FacturasId == idFactura).ToList();
-
-            List<Admisiones> admisiones = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<AdmisionesServiciosPrestados>().Tabla()
-                    .Include(x => x.Admisiones.TiposUsuarios)
-                    .Include(x => x.Admisiones.Pacientes)
-                    .Include(x => x.Admisiones.Pacientes.TiposIdentificacion)
-                    .Include(x => x.Admisiones.Convenios)
-                    .Include(x => x.Admisiones.Convenios.ModalidadesContratacion)
-                    .Include(x => x.Admisiones.CoberturaPlanBeneficios)
-                    .Include(x => x.Admisiones.ValorPagoEstados)
-                    .Where(x => x.FacturasId == idFactura).Select(x => x.Admisiones).Distinct().ToList();
-
-
-            TaxScheme taxSchemeClient = null;
-
-            if (factura.Empresas != null)
-            {
-                factura.Empresas.EmpresasEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasEsquemasImpuestos>().FindAll(x => x.EmpresasId == factura.EmpresasId, true);
-                factura.Empresas.EmpresasResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasResponsabilidadesFiscales>().FindAll(x => x.EmpresasId == factura.EmpresasId, true);
-            }
-
-            if (factura.Entidades != null)
-            {
-                factura.Entidades.EntidadesEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EntidadesEsquemasImpuestos>().FindAll(x => x.EntidadesId == factura.EntidadesId, true);
-                factura.Entidades.EntidadesResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EntidadesResponsabilidadesFiscales>().FindAll(x => x.EntidadesId == factura.EntidadesId, true);
-                taxSchemeClient = new TaxScheme { ID = factura.Entidades.GetCodigoImpuestoRecaudados(), Name = factura.Entidades.GetNombreImpuestoRecaudados() };
-            }
-
-            List<TotalByTaxScheme> InvoiceDetailsByTax = factura.FacturasDetalles.GroupBy(x => new { x.Servicios.TiposImpuestos.Codigo, x.PorcImpuesto }).Select(g => new TotalByTaxScheme { TaxSchemeCode = g.Key.Codigo, TaxPercentaje = g.Key.PorcImpuesto, Value = g.Sum(x => Math.Round(x.ValorServicio * x.Cantidad, 2)), DiscountValue = g.Sum(x => Math.Round(x.DiscountValue, 2)), TaxValue = g.Sum(x => Math.Round(x.TaxValue, 2)) }).ToList();
-
-            EInvoice invoice = new EInvoice();
-
-            invoice.IssueDate = factura.Fecha;
-            invoice.IssueTime = factura.Fecha;
-            if (factura.Documentos.Contingencia)
-                invoice.InvoiceTypeCode = "03";
-            else
-                invoice.InvoiceTypeCode = "01";
-
-            invoice.CustomizationID = "10";
-            invoice.ID = factura.Documentos.Prefijo + "" + factura.NroConsecutivo.ToString();
-            invoice.DocumentCurrencyCode = "COP";
-            invoice.InvoicePeriod = new InvoicePeriod { StartDate = factura.FehaInicial, EndDate = factura.FechaFinal };
-
-            invoice.AccountingSupplierParty = new AccountingSupplierParty();
-            invoice.AccountingSupplierParty.AdditionalAccountID = factura.Empresas.TiposPersonas.Codigo;
-            invoice.AccountingSupplierParty.Party = new Party();
-            invoice.AccountingSupplierParty.Party.PartyIdentification = factura.Empresas.TiposIdentificacion.CodigoAlterno;
-            invoice.AccountingSupplierParty.Party.ID = factura.Empresas.NumeroIdentificacion;
-            invoice.AccountingSupplierParty.Party.schemeID = factura.Empresas.DV;
-            invoice.AccountingSupplierParty.Party.PartyName = new PartyName { Name = factura.Empresas.RazonSocial };
-            invoice.AccountingSupplierParty.Party.PhysicalLocation = new PhysicalLocation();
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address = new Address();
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address.ID = factura.Empresas.Ciudades.Codigo;
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address.CityName = factura.Empresas.Ciudades.Nombre;
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address.CountrySubentity = factura.Empresas.Ciudades.Departamentos.Nombre;
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address.CountrySubentityCode = factura.Empresas.Ciudades.Departamentos.Codigo;
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = factura.Empresas.Direccion };
-
-            invoice.AccountingSupplierParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = factura.Empresas.Ciudades.Departamentos.Paises.Codigo, Name = factura.Empresas.Ciudades.Departamentos.Paises.Nombre };
-
-            invoice.AccountingSupplierParty.Party.PartyTaxScheme = new PartyTaxScheme { RegistrationName = factura.Empresas.RazonSocial, TaxLevelCode = factura.Empresas.GetResponsabilidadesFiscales(), TaxScheme = new TaxScheme { ID = factura.Empresas.GetCodigoImpuestoRecaudados(), Name = factura.Empresas.GetNombreImpuestoRecaudados() }, ListName = factura.Empresas.TiposRegimenContable.Codigo };
-
-            invoice.AccountingSupplierParty.Party.SellerContact = new SellerContact { ElectronicMail = factura.Empresas.CorreoElectronico };
-
-            invoice.SellerSupplierParty = new SellerSupplierParty();
-            invoice.SellerSupplierParty.ID = factura.Sedes.Codigo;
-            invoice.SellerSupplierParty.Party = new Party1();
-
-            invoice.SellerSupplierParty.Party.PartyName = new PartyName { Name = factura.Sedes.Nombre };
-            invoice.SellerSupplierParty.Party.PhysicalLocation = new PhysicalLocation();
-
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address = new Address();
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address.ID = factura.Sedes.Ciudades.Codigo;
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address.CityName = factura.Sedes.Ciudades.Nombre;
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address.CountrySubentity = factura.Sedes.Ciudades.Departamentos.Nombre;
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address.CountrySubentityCode = factura.Sedes.Ciudades.Departamentos.Codigo;
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = factura.Sedes.Direccion };
-            invoice.SellerSupplierParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = factura.Sedes.Ciudades.Departamentos.Paises.Codigo, Name = factura.Sedes.Ciudades.Departamentos.Paises.Nombre };
-
-            if (factura.Pacientes != null)
-            {
-                invoice.AccountingCustomerParty = new AccountingCustomerParty();
-                invoice.AccountingCustomerParty.AdditionalAccountID = "2";
-                invoice.AccountingCustomerParty.Party = new Party2();
-                invoice.AccountingCustomerParty.Party.PartyIdentification = factura.Pacientes.TiposIdentificacion.CodigoAlterno;
-                invoice.AccountingCustomerParty.Party.ID = factura.Pacientes.NumeroIdentificacion.Trim();
-                invoice.AccountingCustomerParty.Party.Person = new Person { FirstName = $"{factura.Pacientes.PrimerNombre} {factura.Pacientes.SegundoNombre}", LastName = $"{factura.Pacientes.PrimerApellido} {factura.Pacientes.SegundoApellido}" };
-
-                invoice.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
-
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.ID = factura.Pacientes.Ciudades.Codigo;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName = factura.Pacientes.Ciudades.Nombre;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentity = factura.Pacientes.Ciudades.Departamentos.Nombre;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentityCode = factura.Pacientes.Ciudades.Departamentos.Codigo;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = factura.Pacientes.Direccion };
-
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = factura.Pacientes.Ciudades.Departamentos.Paises.Codigo, Name = factura.Pacientes.Ciudades.Departamentos.Paises.Nombre };
-                invoice.PaymentMeans = new PaymentMeans { ID = ((factura.FormasPagos.Codigo == "1") ? "1" : "2"), PaymentDueDate = factura.Fecha.AddDays(0) };
-
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme = new PartyTaxScheme2();
-
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationName = factura.Pacientes.NombreCompleto;
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode = "R-99-PN";
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.ListName = "No aplica";
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme = new TaxScheme { ID = "ZZ", Name = "No aplica" };
-
-            }
-            else
-            {
-                invoice.AccountingCustomerParty = new AccountingCustomerParty();
-                invoice.AccountingCustomerParty.AdditionalAccountID = factura.Entidades.TiposPersonas.Codigo;
-
-                invoice.AccountingCustomerParty.Party = new Party2();
-                invoice.AccountingCustomerParty.Party.PartyIdentification = factura.Entidades.TiposIdentificacion.CodigoAlterno;
-                invoice.AccountingCustomerParty.Party.ID = factura.Entidades.NumeroIdentificacion.Trim();
-                invoice.AccountingCustomerParty.Party.schemeID = factura.Entidades.DV;
-                invoice.AccountingCustomerParty.Party.PartyName = new PartyName { Name = factura.Entidades.Nombre };
-
-                invoice.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
-
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.ID = factura.Entidades.Ciudades.Codigo;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName = factura.Entidades.Ciudades.Nombre;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentity = factura.Entidades.Ciudades.Departamentos.Nombre;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentityCode = factura.Entidades.Ciudades.Departamentos.Codigo;
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = factura.Entidades.Direccion };
-
-                invoice.AccountingCustomerParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = factura.Entidades.Ciudades.Departamentos.Paises.Codigo, Name = factura.Entidades.Ciudades.Departamentos.Paises.Nombre };
-
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme = new PartyTaxScheme2();
-
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationName = factura.Entidades.Nombre;
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode = factura.Entidades.GetResponsabilidadesFiscales();
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.ListName = factura.Entidades.GetRegimenFiscal();
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme = new TaxScheme { ID = taxSchemeClient.ID, Name = taxSchemeClient.Name };
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress = new Address();
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.ID = factura.Entidades.Ciudades.Codigo;
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CityName = factura.Entidades.Ciudades.Nombre;
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CountrySubentity = factura.Entidades.Ciudades.Departamentos.Nombre;
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CountrySubentityCode = factura.Entidades.Ciudades.Departamentos.Codigo;
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.AddressLine = new AddressLine { Line = factura.Entidades.Direccion };
-
-                invoice.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.Country = new CountryE { IdentificationCode = factura.Entidades.Ciudades.Departamentos.Paises.Codigo, Name = factura.Entidades.Ciudades.Departamentos.Paises.Nombre };
-
-                invoice.CustomizationID = "SS-CUFE";
-
-                invoice.PaymentMeans = new PaymentMeans { ID = factura.FormasPagos.Codigo, PaymentDueDate = factura.Fecha.AddDays(factura.Convenio.PeriodicidadPago.GetValueOrDefault(0)) };
-
-                if (admisiones != null && admisiones.Count > 0)
-                {
-                    invoice.SectorSalud = new List<SectorSalud>();
-
-                    foreach (var item in admisiones)
-                    {
-                        SectorSalud ss = new SectorSalud();
-                        if (!string.IsNullOrWhiteSpace(factura.Entidades.CodigoReps))
-                            ss.CodPrestadorServicio = factura.Entidades.CodigoReps.Trim();
-
-                        if (!string.IsNullOrWhiteSpace(item.Pacientes.NumeroIdentificacion))
-                            ss.NumIdentificacionUsuario = item.Pacientes.NumeroIdentificacion.Trim();
-
-                        if (!string.IsNullOrWhiteSpace(item.Pacientes.TiposIdentificacion.Codigo))
-                            ss.TipoIdentificacionUsuario = item.Pacientes.TiposIdentificacion.Codigo.Trim();
-
-                        if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerApellido))
-                            ss.PrimerApellido = NormalizeString.Normalize(item.Pacientes.PrimerApellido.Trim());
-
-                        if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoApellido))
-                            ss.SegundoApellido = NormalizeString.Normalize(item.Pacientes.SegundoApellido.Trim());
-
-                        if (!string.IsNullOrWhiteSpace(item.Pacientes.PrimerNombre))
-                            ss.PrimerNombre = NormalizeString.Normalize(item.Pacientes.PrimerNombre.Trim());
-
-                        if (!string.IsNullOrWhiteSpace(item.Pacientes.SegundoNombre))
-                            ss.SegundoNombre = NormalizeString.Normalize(item.Pacientes.SegundoNombre.Trim());
-
-                        if (item.TiposUsuarios != null)
-                            ss.TipoUsuario = item.TiposUsuarios.Id.ToString().Trim();
-
-                        ss.ModContratoPago = item.Convenios.ModalidadesContratacion.Id.ToString("D2");
-                        ss.Cobertura = item.CoberturaPlanBeneficios.Id.ToString("D2");
-
-                        if (!string.IsNullOrWhiteSpace(item.NroAutorizacion))
-                            ss.NumAutorizacion = item.NroAutorizacion.Trim();
-
-                        if (!string.IsNullOrWhiteSpace(item.NumeroPrescripcion))
-                            ss.NumPrescripcion = item.NumeroPrescripcion.Trim();
-                        if (!string.IsNullOrWhiteSpace(item.NumeroSuministroPrescripcion))
-                            ss.NumSuministroPrescripcion = item.NumeroSuministroPrescripcion.Trim();
-                        if (!string.IsNullOrWhiteSpace(item.Convenios.NroContrato))
-                            ss.Numcontrato = item.Convenios.NroContrato.Trim();
-                        if (!string.IsNullOrWhiteSpace(item.NumeroPoliza))
-                            ss.NumPoliza = item.NumeroPoliza.Trim();
-
-                        ss.FechaInicio = factura.FehaInicial;
-                        ss.FechaFinal = factura.FechaFinal;
-                        if (item.ValorPagoEstadosId == 58)
-                            ss.Copago = item.ValorCopago;
-                        else
-                            ss.Copago = 0;
-                        if (item.ValorPagoEstadosId == 59)
-                            ss.CuotaModeradora = item.ValorCopago;
-                        else
-                            ss.CuotaModeradora = 0;
-                        if (item.ValorPagoEstadosId == 68)
-                            ss.CoutaRecuperacion = item.ValorCopago;
-                        else
-                            ss.CoutaRecuperacion = 0;
-                        if (item.ValorPagoEstadosId == 69)
-                            ss.PagoVoluntario = item.ValorCopago;
-                        else
-                            ss.PagoVoluntario = 0;
-
-                        invoice.SectorSalud.Add(ss);
-                    }
-                }
-            }
-
-            invoice.PrePaidPayment = new List<PrePaidPayment>();
-            invoice.PrePaidPayment.Add(new PrePaidPayment { ID = 1, PaidAmount = factura.ValorCopagoCuotaModeradora, ReceivedDate = factura.Fecha });
-
-            invoice.TaxTotal = new List<TaxTotal>();
-
-            foreach (var item in InvoiceDetailsByTax)
-            {
-                if (item.TaxValue > 0)
-                {
-                    TaxTotal tax = new TaxTotal { TaxAmount = item.TaxValue };
-                    tax.TaxSubtotal = new TaxSubtotal();
-                    tax.TaxSubtotal.TaxableAmount = (item.TaxValue > 0) ? item.Value - item.DiscountValue : 0;
-                    tax.TaxSubtotal.TaxAmount = item.TaxValue;
-                    if (item.TaxSchemeCode == "22")
-                    {
-                        tax.TaxSubtotal.BaseUnitMeasure = "B%";
-                        tax.TaxSubtotal.UnitCode = "NAR";
-                        tax.TaxSubtotal.PerUnitAmount = new PerUnitAmountType { Value = 50 };
-                    }
-                    tax.TaxSubtotal.TaxCategory = new TaxCategory();
-                    if (item.TaxSchemeCode != "22")
-                        tax.TaxSubtotal.TaxCategory.Percent = new PercentType { Value = item.TaxPercentaje };
-                    tax.TaxSubtotal.TaxCategory.TaxScheme = new TaxScheme { ID = item.TaxSchemeCode, Name = item.TaxSchemeName };
-
-                    invoice.TaxTotal.Add(tax);
-                }
-            }
-
-            if (invoice.TaxTotal.Count == 0)
-                invoice.TaxTotal = null;
-
-            invoice.LegalMonetaryTotal = new LegalMonetaryTotal();
-            invoice.LegalMonetaryTotal.LineExtensionAmount = factura.ValorSubtotal - factura.ValorDescuentos;
-            invoice.LegalMonetaryTotal.TaxExclusiveAmount = factura.ValorImpuestos;
-
-            invoice.LegalMonetaryTotal.TaxExclusiveBaseAmount = factura.ValorImpuestos > 0 ? (factura.ValorSubtotal - factura.ValorDescuentos) : 0;
-
-            invoice.LegalMonetaryTotal.TaxInclusiveAmount = (factura.ValorSubtotal - factura.ValorDescuentos + factura.ValorImpuestos);
-            invoice.LegalMonetaryTotal.PrePaidAmount = new PrePaidAmountType { Value = factura.ValorCopagoCuotaModeradora };
-
-            invoice.LegalMonetaryTotal.AllowanceLineAmount = new AllowanceLineAmountType { Value = factura.ValorDescuentos };
-            invoice.LegalMonetaryTotal.PayableAmount = factura.ValorTotal;
-            invoice.LegalMonetaryTotal.PayableExpectedAmount = factura.ValorTotal;
-            invoice.LegalMonetaryTotal.TextAmount = DApp.Util.NumeroEnLetras(factura.ValorTotal);
-            invoice.LegalMonetaryTotal.LineCountNumeric = new LineCountNumericType { Value = factura.FacturasDetalles.Count };
-            invoice.InvoiceLine = new List<InvoiceLine>();
-
-            for (int i = 0; i < factura.FacturasDetalles.Count; i++)
-            {
-                InvoiceLine data = new InvoiceLine();
-                data.ID = (i + 1);
-                data.StandardItemIdentification = new StandardItemIdentification { ID = factura.FacturasDetalles[i].Servicios.Codigo.Trim(), schemeID = "999" };
-                data.InvoicedQuantity = factura.FacturasDetalles[i].Cantidad;
-                data.UnitCode = "NAR";
-                data.LineExtensionAmount = factura.FacturasDetalles[i].SubTotalValue - factura.FacturasDetalles[i].DiscountValue;
-                //data.NetLineExtensionAmount = new NetLineExtensionAmountType { Value = InvoiceDetails[i].TotalValue }  ;
-                data.Price = new Price { PriceAmount = factura.FacturasDetalles[i].ValorServicio, BaseQuantity = factura.FacturasDetalles[i].Cantidad };
-                data.Item = new Item { Description = new List<string>() };
-                data.Item.AddDescription(DApp.Util.QutarTildes(factura.FacturasDetalles[i].Servicios.Nombre));
-
-                if (factura.FacturasDetalles[i].PorcDescuento > 0)
-                {
-                    data.AllowanceCharge = new List<AllowanceCharge>();
-                    AllowanceCharge discount = new AllowanceCharge();
-                    discount.ID = 1;
-                    discount.ChargeIndicator = false;
-                    discount.AllowanceChargeReason = "Descuento general";
-                    discount.MultiplierFactorNumeric = factura.FacturasDetalles[i].PorcDescuento;
-                    discount.BaseAmount = factura.FacturasDetalles[i].SubTotalValue;
-                    discount.Amount = factura.FacturasDetalles[i].DiscountValue;
-                    data.AllowanceCharge.Add(discount);
-                }
-                if (factura.FacturasDetalles[i].TaxValue > 0)
-                {
-                    data.TaxTotal = new TaxTotal();
-                    data.TaxTotal.TaxAmount = factura.FacturasDetalles[i].TaxValue;
-                    data.TaxTotal.TaxSubtotal = new TaxSubtotal { TaxableAmount = factura.FacturasDetalles[i].TaxValue > 0 ? factura.FacturasDetalles[i].SubTotalValue - factura.FacturasDetalles[i].DiscountValue : 0, TaxAmount = factura.FacturasDetalles[i].TaxValue };
-                    data.TaxTotal.TaxSubtotal.TaxCategory = new TaxCategory();
-                    data.TaxTotal.TaxSubtotal.TaxCategory.Percent = new PercentType { Value = factura.FacturasDetalles[i].PorcImpuesto };
-                    data.TaxTotal.TaxSubtotal.TaxCategory.TaxScheme = new TaxScheme { ID = factura.FacturasDetalles[i].Servicios.TiposImpuestos.Codigo, Name = factura.FacturasDetalles[i].Servicios.TiposImpuestos.Descripcion };
-                }
-                invoice.InvoiceLine.Add(data);
-
-            }
-
-            invoice.InvoiceControl = new InvoiceControl();
-            if (factura.Documentos.ResolucionDian == null || factura.Documentos.ResolucionDian == 0)
-                throw new Exception("El documento no tiene una resolucion de la DIAN");
-
-            invoice.InvoiceControl.InvoiceAuthorization = factura.Documentos.ResolucionDian.GetValueOrDefault(0);
-            invoice.InvoiceControl.AuthorizationPeriod = new InvoicePeriod { StartDate = (DateTime)factura.Documentos.FechaDesde, EndDate = (DateTime)factura.Documentos.FechaHasta };
-            invoice.InvoiceControl.AuthorizedInvoices = new AuthorizedInvoice { Prefix = factura.Documentos.Prefijo, To = factura.Documentos.ConsecutivoHasta.GetValueOrDefault(0), From = factura.Documentos.ConsecutivoDesde.GetValueOrDefault(0), TechnicalKey = factura.Documentos.LlaveUnica };
-
-            return invoice;
-        }
-
-        public async Task<string> SendEInvioceAsync(long idFactura, string urlAcepta)
-        {
-            string content = "";
-            EInvoice invoice = GetInvoice(idFactura);
-            string xml = invoice.SerializeToXml();
-            //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
-            HttpClient http = new HttpClient();
-            var nvc = new List<KeyValuePair<string, string>>();
-            nvc.Add(new KeyValuePair<string, string>("docid", invoice.ID));
-            nvc.Add(new KeyValuePair<string, string>("comando", "emitir"));
-            nvc.Add(new KeyValuePair<string, string>("parametros", ""));
-            nvc.Add(new KeyValuePair<string, string>("datos", xml));
-
-            //var con = new FormUrlEncodedContent(nvc);
-
-            var encodedItems = nvc.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
-            var encodedContent = new StringContent(String.Join("&", encodedItems), null, "application/x-www-form-urlencoded");
-
-            var response = await http.PostAsync(urlAcepta, encodedContent);
-            if (response.IsSuccessStatusCode)
-            {
-                content = await response.Content.ReadAsStringAsync();
-            }
-            else
-            {
-                throw new Exception($"Error Acepta: {response.StatusCode} | {response.RequestMessage.RequestUri} | {response.Content?.ReadAsStringAsync()} ");
-            }
-            return content;
-        }
-
-        public async Task<string> ObtenerXMLFactura(long idFactura)
-        {
-            EInvoice invoice = GetInvoice(idFactura);
-            string xml = invoice.SerializeToXml();
-            return xml;
         }
 
         public string GenerateFileToCobol(List<long> ids)

@@ -314,11 +314,8 @@ namespace Blazor.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ObtenerXMLFactura(int id)
         {
-            var xml = await Manager().FacturasBusinessLogic().ObtenerXMLFactura(id);
-            var path = Path.GetTempFileName();
-            System.IO.File.WriteAllText(path, xml);
-            var bytes = System.IO.File.ReadAllBytes(path);
-            return File(bytes, "text/xml", $"Factura_{id}.xml");
+            var xml = await Manager().FacturasBusinessLogic().DescargarXMLDIAN(id);
+            return File(xml.Archivo, "text/xml", xml.Nombre);
         }
 
         [HttpGet]
@@ -328,7 +325,17 @@ namespace Blazor.WebApp.Controllers
             var path = Path.GetTempFileName();
             System.IO.File.WriteAllText(path, json);
             var bytes = System.IO.File.ReadAllBytes(path);
-            return File(bytes, "application/json", $"Factura_{id}.json");
+            return File(bytes, "application/json", $"Factura_{id}_Rips.json");
+        }
+
+        [HttpGet]
+        public IActionResult ObtenerJsonFE(int id)
+        {
+            var json = Manager().FacturasBusinessLogic().GetFEJson(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, json);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/json", $"Factura_{id}_FE.json");
         }
     }
 }

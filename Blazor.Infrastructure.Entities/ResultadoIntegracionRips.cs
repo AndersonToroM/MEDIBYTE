@@ -78,4 +78,4 @@ namespace Blazor.Infrastructure.Entities
 
        #endregion
     }
- }
+}

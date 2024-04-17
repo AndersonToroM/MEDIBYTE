@@ -22,19 +22,28 @@ public class IntegracionRips
     private readonly Empresas _empresa;
     private readonly User _user;
 
-    public IntegracionRips(Empresas empresa, User user)
+    private readonly string _host;
+
+    public IntegracionRips(Empresas empresa, User user, string host)
     {
         _empresa = empresa;
         _user = user;
+        _host = host;
     }
 
-    private async Task<RespuestaLoginRips> GetTokenRips(string host)
+    private HttpClient GetHttpClient()
     {
-        var services = DApp.GetTenant(host).Services;
-        var urlRips = services[DApp.Util.ServiceRips];
+        var services = DApp.GetTenant(_host).Services;
+        var urlRips = services[DApp.Util.ServiceFE];
         HttpClient http = new HttpClient();
         http.BaseAddress = new Uri(urlRips);
         http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        return http;
+    }
+
+    private async Task<RespuestaLoginRips> GetTokenRips()
+    {
+        var http = GetHttpClient();
 
         if (_empresa == null)
         {
@@ -83,19 +92,14 @@ public class IntegracionRips
         }
     }
 
-    public async Task<IntegracionRipsModel> EnviarRipsFactura(string ripsJson, string host)
+    public async Task<IntegracionRipsModel> EnviarRipsFactura(string ripsJson)
     {
         IntegracionRipsModel integracionRipsModel = new IntegracionRipsModel();
 
         try
         {
-            var token = await GetTokenRips(host);
-            var services = DApp.GetTenant(host).Services;
-            var urlRips = services[DApp.Util.ServiceRips];
-
-            HttpClient http = new HttpClient();
-            http.BaseAddress = new Uri(urlRips);
-            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var token = await GetTokenRips();
+            var http = GetHttpClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
 
             var content = new StringContent(ripsJson, Encoding.UTF8, "application/json");

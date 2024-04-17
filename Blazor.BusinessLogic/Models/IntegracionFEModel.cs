@@ -1,4 +1,7 @@
-﻿namespace Blazor.BusinessLogic.Models
+﻿using Blazor.Infrastructure.Entities.Models;
+using System;
+
+namespace Blazor.BusinessLogic.Models
 {
     public class IntegracionFEModel
     {
@@ -7,5 +10,6 @@
         public string Error { get; set; }
         public int? HttpStatus { get; set; }
         public string JsonResult { get; set; }
+        public Guid IdDocumentFE { get; set; }
     }
 }

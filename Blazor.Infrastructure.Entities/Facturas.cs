@@ -145,6 +145,10 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("Facturas.FechaRadicacionRips")]
         public virtual DateTime? FechaRadicacionRips { get; set; }
 
+        [Column("IdDocumentoFE")]
+        [DDisplayName("Facturas.IdDocumentoFE")]
+        public virtual Guid? IdDocumentoFE { get; set; }
+
         #endregion
 
         #region Columnas referenciales)

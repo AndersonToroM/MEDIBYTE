@@ -47,6 +47,11 @@ namespace Blazor.Infrastructure.Entities
         [DStringLength("ParametrosGenerales.PasswordIntegracionFE", 255)]
         public virtual String PasswordIntegracionFE { get; set; }
 
+        [Column("OperadorFE")]
+        [DDisplayName("ParametrosGenerales.OperadorFE")]
+        [DStringLength("ParametrosGenerales.OperadorFE", 30)]
+        public virtual String OperadorFE { get; set; }
+
         #endregion
 
         #region Reglas expression
