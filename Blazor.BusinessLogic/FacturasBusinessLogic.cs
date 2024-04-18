@@ -198,14 +198,15 @@ namespace Blazor.BusinessLogic
                 feRootJson.CustomerParty.LegalType = "Natural";
                 feRootJson.CustomerParty.Email = fac.Pacientes.CorreoElectronico;
                 feRootJson.CustomerParty.TaxScheme = "ZZ";
-                feRootJson.CustomerParty.ResponsabilityTypes = null;
+                feRootJson.CustomerParty.ResponsabilityTypes = new List<string>();
+                feRootJson.CustomerParty.ResponsabilityTypes.Add("R-99-PN");
                 feRootJson.CustomerParty.Identification.DocumentNumber = fac.Pacientes.NumeroIdentificacion;
                 feRootJson.CustomerParty.Identification.DocumentType = fac.Pacientes.TiposIdentificacion.CodigoFE;
                 feRootJson.CustomerParty.Identification.CountryCode = fac.Pacientes.Ciudades.Departamentos.Paises.Codigo;
                 //feRootJson.CustomerParty.Identification.CheckDigit = fac.Pacientes.DV;
                 feRootJson.CustomerParty.Person.FirstName = fac.Pacientes.PrimerNombre;
-                feRootJson.CustomerParty.Person.MiddleName = fac.Pacientes.PrimerApellido;
-                feRootJson.CustomerParty.Person.FamilyName = fac.Pacientes.SegundoApellido;
+                feRootJson.CustomerParty.Person.MiddleName = fac.Pacientes.SegundoNombre;
+                feRootJson.CustomerParty.Person.FamilyName = fac.Pacientes.PrimerApellido;
                 feRootJson.CustomerParty.Address.DepartmentCode = fac.Pacientes.Ciudades.Departamentos.Codigo;
                 feRootJson.CustomerParty.Address.CityCode = fac.Pacientes.Ciudades.Codigo;
                 feRootJson.CustomerParty.Address.AddressLine = fac.Pacientes.Direccion;
@@ -231,7 +232,7 @@ namespace Blazor.BusinessLogic
                 {
                     DocumentReferred = fac.OrdenCompra,
                     IssueDate = fac.Fecha.ToString("yyyy-MM-dd"),
-                    Type = "OtherReference"
+                    Type = "OrderReference"
                 }
                 );
             }
@@ -346,54 +347,9 @@ namespace Blazor.BusinessLogic
                     feCollection.Name = "Usuario";
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "CODIGO_PRESTADOR",
-                        Value = fac.Empresas.CodigoReps
-                    });/*
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "MODALIDAD_PAGO",
-                        Value = fac.Convenio.ModalidadesContratacion.Descripcion,
-                        CodeListName = "salud_cobertura.gc",
-                        CodeListCode = fac.Convenio.ModalidadesContratacion.CodigoRips
+                        Name = "NA",
+                        Value = "NA"
                     });
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "OBERTURA_PLAN_BENEFICIOS",
-                        Value = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.Descripcion,
-                        CodeListName = "salud_cobertura.gc",
-                        CodeListCode = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.CodigoRips
-                    });
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "NUMERO_CONTRATO",
-                        Value = fac.Convenio.NroContrato
-                    });
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "NUMERO_POLIZA",
-                        Value = fac.Convenio.NroPoliza
-                    });
-                    var admision = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones;
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "COPAGO",
-                        Value = admision.ValorPagoEstadosId == 58 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
-                    });
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "CUOTA_MODERADORA",
-                        Value = admision.ValorPagoEstadosId == 59 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
-                    });
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "CUOTA_RECUPERACION",
-                        Value = admision.ValorPagoEstadosId == 68 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
-                    });
-                    feCollection.NameValues.Add(new FeNameValue
-                    {
-                        Name = "PAGOS_COMPARTIDOS",
-                        Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
-                    });*/
 
                     feRootJson.HealthcareData.Collections.Add(feCollection);
                 }
