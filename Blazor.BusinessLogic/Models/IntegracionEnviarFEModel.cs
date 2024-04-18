@@ -25,6 +25,12 @@ namespace Blazor.BusinessLogic.Models
         public int? HttpStatus { get; set; }
         public string JsonResult { get; set; }
 
+        public string Name { get; set; }
+        public DateTime ValidFrom { get; set; }
+        public DateTime ValidTo { get; set; }
+        public int StartValue { get; set; }
+        public int EndValue { get; set; }
+        public string AuthorizationNumber { get; set; }
         public string TechnicalKey { get; set; }
         public string ExternalKey { get; set; }
 

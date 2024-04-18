@@ -128,7 +128,13 @@ namespace Blazor.BusinessLogic
             feRootJson.Currency = "COP";
             feRootJson.SeriePrefix = fac.Documentos.Prefijo;
             feRootJson.SerieNumber = fac.NroConsecutivo.ToString();
-            feRootJson.OperationType = "SS-CUFE";
+            if(fac.EsCopagoModeradora)
+            {
+                feRootJson.OperationType = "SS-Recaudo";
+            }else
+            {
+                feRootJson.OperationType = "SS-CUFE";
+            }
             feRootJson.IssueDate = fac.Fecha;
             feRootJson.DeliveryDate = fac.Fecha;
             feRootJson.DueDate = fac.ConvenioId.HasValue ? (fac.Convenio.PeriodicidadPago.HasValue ? fac.Fecha.AddDays(fac.Convenio.PeriodicidadPago.Value).ToString("yyyy-MM-dd") : fac.Fecha.ToString("yyyy-MM-dd")) : fac.Fecha.ToString("yyyy-MM-dd");
@@ -138,7 +144,7 @@ namespace Blazor.BusinessLogic
             feRootJson.IssuerParty.Identification.DocumentNumber = fac.Empresas.NumeroIdentificacion;
             feRootJson.IssuerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
             feRootJson.IssuerParty.Identification.CountryCode = fac.Empresas.Ciudades.Departamentos.Paises.Codigo;
-            feRootJson.IssuerParty.Identification.CountryCode = fac.Empresas.DV;
+            feRootJson.IssuerParty.Identification.CheckDigit = fac.Empresas.DV;
 
             FEPaymentMeans fEPaymentMeans = new FEPaymentMeans();
             fEPaymentMeans.Code = fac.MediosPago.Codigo;
@@ -163,7 +169,7 @@ namespace Blazor.BusinessLogic
             {
                 feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
                 feRootJson.CustomerParty.Email = fac.Entidades.CorreoElectronico;
-                feRootJson.CustomerParty.TaxScheme = "ZZ"; //dentificador del Régimen Fiscal del adquirente ???
+                feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
                 feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
                 feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
                 feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
@@ -256,7 +262,7 @@ namespace Blazor.BusinessLogic
                     }
 
                     FeCollection feCollection = new FeCollection();
-                    feCollection.Name = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.NombreCompleto;
+                    feCollection.Name = "Usuario";
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = "CODIGO_PRESTADOR",

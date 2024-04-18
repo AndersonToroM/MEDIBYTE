@@ -25,6 +25,12 @@
                     return false;
                 }
 
+                $("#@(Prefix)Descripcion").dxTextBox("instance").option("value", data.Name);
+                $("#@(Prefix)ResolucionDian").dxTextBox("instance").option("value", data.AuthorizationNumber);
+                $("#@(Prefix)ConsecutivoDesde").dxNumberBox("instance").option("value", data.StartValue);
+                $("#@(Prefix)ConsecutivoHasta").dxNumberBox("instance").option("value", data.EndValue);
+                $("#@(Prefix)FechaDesde").dxDateBox("instance").option("value", data.ValidFrom);
+                $("#@(Prefix)FechaHasta").dxDateBox("instance").option("value", data.ValidTo);
                 $("#@(Prefix)LlaveUnica").dxTextBox("instance").option("value", data.TechnicalKey);
                 $("#@(Prefix)ExternalKey").dxTextBox("instance").option("value", data.ExternalKey);
             },

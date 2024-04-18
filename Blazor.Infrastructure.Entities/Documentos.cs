@@ -25,7 +25,6 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("Descripcion")]
        [DDisplayName("Documentos.Descripcion")]
-       [DRequired("Documentos.Descripcion")]
        [DStringLength("Documentos.Descripcion",250)]
        public virtual String Descripcion { get; set; }
 

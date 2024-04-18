@@ -52,6 +52,12 @@ namespace Blazor.BusinessLogic
 
                     integracionSeriesFEModel.ExternalKey = docSerie.ExternalKey;
                     integracionSeriesFEModel.TechnicalKey = docSerie.TechnicalKey;
+                    integracionSeriesFEModel.AuthorizationNumber = docSerie.AuthorizationNumber;
+                    integracionSeriesFEModel.StartValue = docSerie.StartValue;
+                    integracionSeriesFEModel.EndValue = docSerie.EndValue;
+                    integracionSeriesFEModel.ValidFrom = docSerie.ValidFrom;
+                    integracionSeriesFEModel.ValidTo = docSerie.ValidTo;
+                    integracionSeriesFEModel.Name = docSerie.Name;
                 }
             }
             catch (Exception ex)
