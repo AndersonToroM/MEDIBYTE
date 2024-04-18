@@ -221,7 +221,19 @@ namespace Blazor.BusinessLogic
                     DocumentReferred = fac.ReferenciaFactura,
                     IssueDate = fac.Fecha.ToString("yyyy-MM-dd"),
                     Type = "OtherReference"
-                });
+                }
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(fac.OrdenCompra))
+            {
+                feRootJson.DocumentReferences.Add(new FeDocumentReference
+                {
+                    DocumentReferred = fac.OrdenCompra,
+                    IssueDate = fac.Fecha.ToString("yyyy-MM-dd"),
+                    Type = "OtherReference"
+                }
+                );
             }
 
             int numberLine = 1;
