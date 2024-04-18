@@ -9,6 +9,7 @@ using DevExpress.Compression;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using DevExpress.XtraSpreadsheet.Model.NumberFormatting;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
@@ -16,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,6 +25,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.BusinessLogic
 {
@@ -138,9 +141,17 @@ namespace Blazor.BusinessLogic
             feRootJson.IssueDate = fac.Fecha;
             feRootJson.DeliveryDate = fac.Fecha;
             feRootJson.DueDate = fac.ConvenioId.HasValue ? (fac.Convenio.PeriodicidadPago.HasValue ? fac.Fecha.AddDays(fac.Convenio.PeriodicidadPago.Value).ToString("yyyy-MM-dd") : fac.Fecha.ToString("yyyy-MM-dd")) : fac.Fecha.ToString("yyyy-MM-dd");
+
+            string consecutivoEnvioFE = fac.ConsecutivoFE;
+            if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
+            {
+                consecutivoEnvioFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
+                fac.ConsecutivoFE = consecutivoEnvioFE;
+                unitOfWork.Repository<Facturas>().Modify(fac);
+            }
+
             feRootJson.CorrelationDocumentId = fac.ConsecutivoFE;
             feRootJson.SerieExternalKey = fac.Documentos.ExternalKey;
-
             feRootJson.IssuerParty.Identification.DocumentNumber = fac.Empresas.NumeroIdentificacion;
             feRootJson.IssuerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
             feRootJson.IssuerParty.Identification.CountryCode = fac.Empresas.Ciudades.Departamentos.Paises.Codigo;
@@ -155,9 +166,9 @@ namespace Blazor.BusinessLogic
             feRootJson.BillingPeriod.From = fac.FehaInicial.ToString("yyyy-MM-dd");
             feRootJson.BillingPeriod.To = fac.FechaFinal.ToString("yyyy-MM-dd");
 
-            feRootJson.Total.GrossAmount = fac.ValorSubtotal.ToString("F2");
-            feRootJson.Total.TotalBillableAmount = fac.ValorSubtotal.ToString("F2");
-            feRootJson.Total.PayableAmount = fac.ValorTotal.ToString("F2");
+            feRootJson.Total.GrossAmount = fac.ValorSubtotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.TotalBillableAmount = fac.ValorSubtotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.PayableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture);
             feRootJson.Total.TaxableAmount = "0";
 
             if (!string.IsNullOrWhiteSpace(fac.Observaciones))
@@ -180,7 +191,7 @@ namespace Blazor.BusinessLogic
                 feRootJson.CustomerParty.Address.CityCode = fac.Entidades.Ciudades.Codigo;
                 feRootJson.CustomerParty.Address.AddressLine = fac.Entidades.Direccion;
                 feRootJson.CustomerParty.Address.Country = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
-                feRootJson.Total.PrePaidTotalAmount = fac.ValorCopagoCuotaModeradora.ToString("F2");
+                feRootJson.Total.PrePaidTotalAmount = fac.ValorCopagoCuotaModeradora.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
@@ -189,10 +200,12 @@ namespace Blazor.BusinessLogic
                 feRootJson.CustomerParty.TaxScheme = "ZZ";
                 feRootJson.CustomerParty.ResponsabilityTypes = null;
                 feRootJson.CustomerParty.Identification.DocumentNumber = fac.Pacientes.NumeroIdentificacion;
-                feRootJson.CustomerParty.Identification.DocumentType = fac.Pacientes.TiposIdentificacion.Codigo;
+                feRootJson.CustomerParty.Identification.DocumentType = fac.Pacientes.TiposIdentificacion.CodigoFE;
                 feRootJson.CustomerParty.Identification.CountryCode = fac.Pacientes.Ciudades.Departamentos.Paises.Codigo;
-                feRootJson.CustomerParty.Identification.CheckDigit = fac.Pacientes.DV;
-                feRootJson.CustomerParty.Name = fac.Pacientes.NombreCompleto;
+                //feRootJson.CustomerParty.Identification.CheckDigit = fac.Pacientes.DV;
+                feRootJson.CustomerParty.Person.FirstName = fac.Pacientes.PrimerNombre;
+                feRootJson.CustomerParty.Person.MiddleName = fac.Pacientes.PrimerApellido;
+                feRootJson.CustomerParty.Person.FamilyName = fac.Pacientes.SegundoApellido;
                 feRootJson.CustomerParty.Address.DepartmentCode = fac.Pacientes.Ciudades.Departamentos.Codigo;
                 feRootJson.CustomerParty.Address.CityCode = fac.Pacientes.Ciudades.Codigo;
                 feRootJson.CustomerParty.Address.AddressLine = fac.Pacientes.Direccion;
@@ -216,12 +229,12 @@ namespace Blazor.BusinessLogic
             {
                 FeLine feLine = new FeLine();
                 feLine.Number = numberLine.ToString();
-                feLine.Quantity = facDetalle.Cantidad.ToString();
+                feLine.Quantity = facDetalle.Cantidad.ToString("F2", CultureInfo.InvariantCulture);
                 feLine.QuantityUnitOfMeasure = "NAR";
                 feLine.ExcludeVat = "true";
-                feLine.UnitPrice = facDetalle.ValorServicio.ToString("F2");
-                feLine.GrossAmount = facDetalle.SubTotal.ToString("F2");
-                feLine.NetAmount = facDetalle.ValorTotal.ToString("F2");
+                feLine.UnitPrice = facDetalle.ValorServicio.ToString(CultureInfo.InvariantCulture);
+                feLine.GrossAmount = facDetalle.SubTotal.ToString(CultureInfo.InvariantCulture);
+                feLine.NetAmount = facDetalle.ValorTotal.ToString(CultureInfo.InvariantCulture);
                 feLine.Item.Gtin = facDetalle.Servicios.Codigo;
                 feLine.Item.Description = facDetalle.Servicios.Nombre;
 
@@ -230,26 +243,26 @@ namespace Blazor.BusinessLogic
                     feLine.WithholdingTaxSubTotals.Add(new FeWithholdingTaxSubTotal
                     {
                         WithholdingTaxCategory = "RETERENTA",
-                        TaxPercentage = fac.Entidades.PorcentajeRetefuente.ToString("F1"),
-                        TaxableAmount = fac.ValorTotal.ToString("F2"),
-                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2")
+                        TaxPercentage = fac.Entidades.PorcentajeRetefuente.ToString(CultureInfo.InvariantCulture),
+                        TaxableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture),
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
                     feLine.WithholdingTaxSubTotals.Add(new FeWithholdingTaxSubTotal
                     {
                         WithholdingTaxCategory = "RETEICA",
-                        TaxPercentage = fac.Entidades.PorcentajeReteIca.ToString("F1"),
-                        TaxableAmount = fac.ValorTotal.ToString("F2"),
-                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2")
+                        TaxPercentage = fac.Entidades.PorcentajeReteIca.ToString(CultureInfo.InvariantCulture),
+                        TaxableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture),
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
                     feLine.WithholdingTaxTotals.Add(new FeWithholdingTaxTotal
                     {
                         WithholdingTaxCategory = "RETERENTA",
-                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2")
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
                     feLine.WithholdingTaxTotals.Add(new FeWithholdingTaxTotal
                     {
                         WithholdingTaxCategory = "RETEICA",
-                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2")
+                        TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
 
                     if (facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
@@ -257,7 +270,7 @@ namespace Blazor.BusinessLogic
                         FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
                         var facturaCopagoCuotaModeradora = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
                         fePrepaidPayment.PaidDate = facturaCopagoCuotaModeradora.Fecha;
-                        fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorCopagoCuotaModeradora.ToString("F2");
+                        fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorTotal.ToString(CultureInfo.InvariantCulture);
                         feRootJson.PrepaidPayments.Add(fePrepaidPayment);
                     }
 
@@ -296,23 +309,79 @@ namespace Blazor.BusinessLogic
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = "COPAGO",
-                        Value = admision.ValorPagoEstadosId == 58 ? admision.ValorCopago.ToString("F2") : "0"
+                        Value = admision.ValorPagoEstadosId == 58 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = "CUOTA_MODERADORA",
-                        Value = admision.ValorPagoEstadosId == 59 ? admision.ValorCopago.ToString("F2") : "0"
+                        Value = admision.ValorPagoEstadosId == 59 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = "CUOTA_RECUPERACION",
-                        Value = admision.ValorPagoEstadosId == 68 ? admision.ValorCopago.ToString("F2") : "0"
+                        Value = admision.ValorPagoEstadosId == 68 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = "PAGOS_COMPARTIDOS",
-                        Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString("F2") : "0"
+                        Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
+
+                    feRootJson.HealthcareData.Collections.Add(feCollection);
+                }else
+                {
+                    FeCollection feCollection = new FeCollection();
+                    feCollection.Name = "Usuario";
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "CODIGO_PRESTADOR",
+                        Value = fac.Empresas.CodigoReps
+                    });/*
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "MODALIDAD_PAGO",
+                        Value = fac.Convenio.ModalidadesContratacion.Descripcion,
+                        CodeListName = "salud_cobertura.gc",
+                        CodeListCode = fac.Convenio.ModalidadesContratacion.CodigoRips
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "OBERTURA_PLAN_BENEFICIOS",
+                        Value = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.Descripcion,
+                        CodeListName = "salud_cobertura.gc",
+                        CodeListCode = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.CodigoRips
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "NUMERO_CONTRATO",
+                        Value = fac.Convenio.NroContrato
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "NUMERO_POLIZA",
+                        Value = fac.Convenio.NroPoliza
+                    });
+                    var admision = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones;
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "COPAGO",
+                        Value = admision.ValorPagoEstadosId == 58 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "CUOTA_MODERADORA",
+                        Value = admision.ValorPagoEstadosId == 59 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "CUOTA_RECUPERACION",
+                        Value = admision.ValorPagoEstadosId == 68 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
+                    });
+                    feCollection.NameValues.Add(new FeNameValue
+                    {
+                        Name = "PAGOS_COMPARTIDOS",
+                        Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
+                    });*/
 
                     feRootJson.HealthcareData.Collections.Add(feCollection);
                 }
