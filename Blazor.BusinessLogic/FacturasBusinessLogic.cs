@@ -89,9 +89,9 @@ namespace Blazor.BusinessLogic
                         integracionFEModel.Errores.AddRange(resultDocumento.Errores);
                         integracionFEModel.HuboErrorFE = resultDocumento.HuboErrorFE;
                         integracionFEModel.HuboErrorIntegracion = resultDocumento.HuboErrorIntegracion;
+                        integracionFEModel.HttpStatus = resultDocumento.HttpStatus;
 
-                        var job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table.Any(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == facturaId);
-                        if (!job)
+                        if (resultDocumento.HttpStatus.HasValue && resultDocumento.HttpStatus != 200)
                         {
                             ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
                             {
