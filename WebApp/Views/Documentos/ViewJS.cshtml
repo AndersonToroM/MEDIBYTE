@@ -16,12 +16,9 @@
                 hideLoadIndicator();
                 console.log("ObtenerDatosSeries", data);
 
-                if (data.HuboErrorIntegracion) {
-                    DevExpress.ui.dialog.alert(data.ErrorIntegracion, "Error de integración", true);
-                    return false;
-                }
-                if (data.HuboErrorFE && data.ErroresRespuesta) {
-                    DevExpress.ui.dialog.alert(data.ErroresRespuesta[0], "Error de integración", true);
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Error Integración FE");
                     return false;
                 }
 
@@ -33,6 +30,8 @@
                 $("#@(Prefix)FechaHasta").dxDateBox("instance").option("value", data.ValidTo);
                 $("#@(Prefix)LlaveUnica").dxTextBox("instance").option("value", data.TechnicalKey);
                 $("#@(Prefix)ExternalKey").dxTextBox("instance").option("value", data.ExternalKey);
+
+                DevExpress.ui.notify("Obtención de series para FE satisfactorio", "info");
             },
             error: function (xhr) {
                 console.log(xhr);

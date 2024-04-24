@@ -485,23 +485,8 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                //Facturas factura = Manager().FacturasBusinessLogic().FindById(x => x.Id == id, false);
-
-                //var result = await Manager().FacturasBusinessLogic().EnviarFacturaDian(id, User.Identity.Name, Request.Host.Value);
-
-                //if (result.Contains("ERROR"))
-                //{
-                //    factura.ErrorReference = result;
-                //    factura.UrlTracking = "";
-                //}
-                //else
-                //{
-                //    factura.ErrorReference = "";
-                //    factura.UrlTracking = result;
-                //}
-                //factura = Manager().FacturasBusinessLogic().Modify(factura);
-
-                return PartialView("Edit", EditModel(id));
+                var result = await Manager().FacturasBusinessLogic().EnviarFacturaDian(id, User.Identity.Name, Request.Host.Value);
+                return Ok(result);
             }
             catch (Exception e)
             {

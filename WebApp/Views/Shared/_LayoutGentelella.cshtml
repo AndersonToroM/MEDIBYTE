@@ -31,7 +31,7 @@
     <script src="~/Themes/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 
     @*ICONS: https://fontawesome.com/v4.7/icons/*@
-    <link href="~/Themes/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet"> 
+    <link href="~/Themes/gentelella/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/Themes/gentelella/vendors/nprogress/nprogress.css" rel="stylesheet">
 
     <link href="~/lib/devexpress/analytics-core/dist/css/dx-analytics.common.css" rel="stylesheet" />
@@ -60,14 +60,14 @@
     <script src="~/lib/devextreme/aspnet/dx.aspnet.data.js"></script>
     <script src="~/lib/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     @*<script src="~/lib/devextreme/cldr.js"></script>
-        <script src="~/lib/devextreme/cldr/event.min.js"></script>
-        <script src="~/lib/devextreme/cldr/supplemental.min.js"></script>
-        <script src="~/lib/devextreme/cldr/unresolved.min.js"></script>
-        <script src="~/lib/globalize/dist/globalize.js"></script>
-        <script src="~/lib/globalize/dist/globalize/message.js"></script>
-        <script src="~/lib/globalize/dist/globalize/number.js"></script>
-        <script src="~/lib/globalize/dist/globalize/currency.js"></script>
-        <script src="~/lib/globalize/dist/globalize/date.js"></script>*@
+    <script src="~/lib/devextreme/cldr/event.min.js"></script>
+    <script src="~/lib/devextreme/cldr/supplemental.min.js"></script>
+    <script src="~/lib/devextreme/cldr/unresolved.min.js"></script>
+    <script src="~/lib/globalize/dist/globalize.js"></script>
+    <script src="~/lib/globalize/dist/globalize/message.js"></script>
+    <script src="~/lib/globalize/dist/globalize/number.js"></script>
+    <script src="~/lib/globalize/dist/globalize/currency.js"></script>
+    <script src="~/lib/globalize/dist/globalize/date.js"></script>*@
 
     <script src="~/js/platform_1.3.5.js"></script>
 
@@ -140,37 +140,37 @@
                             <ul class="nav side-menu" id="sidebar-menu-container-options">
                                 @{
                                     var menu = appstate.GetMenu();
-                                    @if (appstate.SwitchApp == 1)
+                                                @if (appstate.SwitchApp == 1)
                                     {
                                         foreach (var module in menu)
                                         {
-                                            @if (module.Options.Exists(x => x.Havepermission))
+                                                        @if (module.Options.Exists(x => x.Havepermission))
                                             {
-                                                <li style="width: 100%;">
-                                                    <a><i class="@module.Icon"></i> @module.Module <span class="fa fa-chevron-down"></span></a>
-                                                    <ul class="nav child_menu">
-                                                        @foreach (var option in module.Options)
+                                                            <li style="width: 100%;">
+                                                                <a><i class="@module.Icon"></i> @module.Module <span class="fa fa-chevron-down"></span></a>
+                                                                <ul class="nav child_menu">
+                                                                    @foreach (var option in module.Options)
                                                         {
                                                             if (option.Havepermission)
                                                             {
-                                                                <li class="menu-option">
-                                                                    @if (option.Name.Equals("VisorDicom"))
+                                                                            <li class="menu-option">
+                                                                                @if (option.Name.Equals("VisorDicom"))
                                                                     {
-                                                                        <a href="@Url.Action("DicomViewer","Home")" target="_blank">
-                                                                            @option.Resource
-                                                                        </a>
+                                                                                    <a href="@Url.Action("DicomViewer","Home")" target="_blank">
+                                                                                        @option.Resource
+                                                                                    </a>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <a onclick="GetViewOnContainer('@Url.Action("ListPartial",option.Name)')" dataTargetOption="@option.Name" href="javascript:void(0);">
-                                                                            @option.Resource
-                                                                        </a>
+                                                                                    <a onclick="GetViewOnContainer('@Url.Action("ListPartial",option.Name)')" dataTargetOption="@option.Name" href="javascript:void(0);">
+                                                                                        @option.Resource
+                                                                                    </a>
                                                                     }
-                                                                </li>
+                                                                            </li>
                                                             }
                                                         }
-                                                    </ul>
-                                                </li>
+                                                                </ul>
+                                                            </li>
                                             }
                                         }
                                     }
@@ -225,7 +225,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    @if (appstate.Usuario.UserName.Equals("SUPERCEO",StringComparison.OrdinalIgnoreCase))
+                                    @if (appstate.Usuario.UserName.Equals("SUPERCEO", StringComparison.OrdinalIgnoreCase))
                                     {
                                         <li> <a class="dropdown-item" href="/Languages/List" target="_blank"><i class="fa fa-language pull-right"></i>Recursos</a></li>
                                         <li> <a class="dropdown-item" href="/Job/List" target="_blank"><i class="fa fa-language pull-right"></i>Rutinas</a></li>
@@ -239,33 +239,33 @@
 
 
                             @*<li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
-                                </a>
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                <li>
-                                <a>
-                                <span class="image"><img src="~/images/GenericAvatar.png" alt="Profile Image" /></span>
-                                <span>
-                                <span>John Smith</span>
-                                <span class="time">3 mins ago</span>
-                                </span>
-                                <span class="message">
-                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                </span>
-                                </a>
-                                </li>
-                                <li>
-                                <div class="text-center">
-                                <a>
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                                </a>
-                                </div>
-                                </li>
-                                </ul>
-                                </li>*@
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge bg-green">6</span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                            <li>
+                            <a>
+                            <span class="image"><img src="~/images/GenericAvatar.png" alt="Profile Image" /></span>
+                            <span>
+                            <span>John Smith</span>
+                            <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                            Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                            </a>
+                            </li>
+                            <li>
+                            <div class="text-center">
+                            <a>
+                            <strong>See All Alerts</strong>
+                            <i class="fa fa-angle-right"></i>
+                            </a>
+                            </div>
+                            </li>
+                            </ul>
+                            </li>*@
 
                         </ul>
                     </nav>
@@ -279,11 +279,11 @@
         <!-- /page content -->
         <!-- footer content -->
         @*<footer>
-            <div class="pull-right">
-            <img src="~/images/logo_letras_negro-G.png" width="100" height="20" />
-            </div>
-            <div class="clearfix"></div>
-            </footer>*@
+        <div class="pull-right">
+        <img src="~/images/logo_letras_negro-G.png" width="100" height="20" />
+        </div>
+        <div class="clearfix"></div>
+        </footer>*@
         <!-- /footer content -->
     </div>
     </div>
@@ -295,17 +295,17 @@
 
     <!-- Modal para bloqueo de pantalla -->
     @(Html.DControls().Popup()
-    .ID("BloqueoPantalla").Width(300).Height(190).ShowTitle(true)
-    .Title(appstate.Usuario.Names + " " + appstate.Usuario.LastNames).ShowCloseButton(false)
-    .Visible(false).DragEnabled(false)
-    .ContentTemplate(new TemplateName("TemplateBloqueoPantalla"))
-    )
+        .ID("BloqueoPantalla").Width(300).Height(190).ShowTitle(true)
+        .Title(appstate.Usuario.Names + " " + appstate.Usuario.LastNames).ShowCloseButton(false)
+        .Visible(false).DragEnabled(false)
+        .ContentTemplate(new TemplateName("TemplateBloqueoPantalla"))
+        )
     @using (Html.DevExtreme().NamedTemplate("TemplateBloqueoPantalla"))
     {
         <div class="form-group">
             @(Html.DControls().TextBox().ID("BloqueoPantallaContrasena").Mode(TextBoxMode.Password).Placeholder("Contraseña")
-        .OnEnterKey("DesBloqueoPantalla").InputAttr("class", "form-control")
-        )
+                .OnEnterKey("DesBloqueoPantalla").InputAttr("class", "form-control")
+                )
         </div>
         <div class="form-group">
             <button class="btn btn-dark btn-block" onclick="DesBloqueoPantalla()">ACEPTAR</button>
@@ -315,12 +315,12 @@
 
     <!-- Modal para visor de reporteria -->
     @(Html.DControls().Popup()
-    .ID("VisorReporteria")
-    .ShowTitle(true).Title("Visor Reporte").ShowCloseButton(true)
-    .Visible(false).DragEnabled(false).FullScreen(false)
-    .Width("90%").Height("90%")
-    .ContentTemplate(new TemplateName("TemplateReporteria"))
-    )
+        .ID("VisorReporteria")
+        .ShowTitle(true).Title("Visor Reporte").ShowCloseButton(true)
+        .Visible(false).DragEnabled(false).FullScreen(false)
+        .Width("90%").Height("90%")
+        .ContentTemplate(new TemplateName("TemplateReporteria"))
+        )
     @using (Html.DevExtreme().NamedTemplate("TemplateReporteria"))
     {
         <div class="modal-body" id="ContenidoReporte" style="height:100%;"></div>
@@ -340,1032 +340,1029 @@
     <script src="~/js/search_menu.js"></script>
 
     <script>
-            DevExpress.localization.locale('@(DApp.DefaultLanguage.Culture)');
-            dataMenuModules = JSON.parse('@Html.Raw(Json.Serialize(menu))');
-            SiisoRunGeoLocalizacion();
+        DevExpress.localization.locale('@(DApp.DefaultLanguage.Culture)');
+        dataMenuModules = JSON.parse('@Html.Raw(Json.Serialize(menu))');
+        SiisoRunGeoLocalizacion();
 
-            $(function () {
-                $.ajax({
-                    url: '@Url.Action("ObtenerPreferenciasUsuario", "Home")',
-                    data: { bloqueoPantalla: localStorage.getItem("dataUser") },
-                    type: 'POST',
-                    success: function (data) {
-                        hideLoadIndicator();
-                        if (data.BloqueoPantalla) {
-                            BloqueoPantalla();
-                        }
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
+        $(function () {
+            $.ajax({
+                url: '@Url.Action("ObtenerPreferenciasUsuario", "Home")',
+                data: { bloqueoPantalla: localStorage.getItem("dataUser") },
+                type: 'POST',
+                success: function (data) {
+                    hideLoadIndicator();
+                    if (data.BloqueoPantalla) {
+                        BloqueoPantalla();
                     }
-                });
-            });
-
-            var showLoadIndicator = function () {
-                $("#mainPanel").append('<div id="LoadIndicatorProgress" class="loading"><div class="loader"></div></div>');
-            };
-
-            var hideLoadIndicator = function () {
-                var load = $("#LoadIndicatorProgress");
-                if (load.length == 1) {
-                    load.remove();
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
                 }
-            };
+            });
+        });
 
-            function OnRowInsertedDetalleDataGrid(data) {
-                DevExpress.ui.notify("Registro guardado correctamente.","info");
+        var showLoadIndicator = function () {
+            $("#mainPanel").append('<div id="LoadIndicatorProgress" class="loading"><div class="loader"></div></div>');
+        };
+
+        var hideLoadIndicator = function () {
+            var load = $("#LoadIndicatorProgress");
+            if (load.length == 1) {
+                load.remove();
+            }
+        };
+
+        function OnRowInsertedDetalleDataGrid(data) {
+            DevExpress.ui.notify("Registro guardado correctamente.", "info");
+        }
+
+        function OnRowUpdatedDetalleDataGrid(data) {
+            DevExpress.ui.notify("Registro guardado correctamente.", "info");
+        }
+
+        function OnRowRemovedDetalleDataGrid(data) {
+            DevExpress.ui.notify("Registro eliminado correctamente.", "info");
+        }
+
+        function OnDataErrorOccurredDetalleDataGrid(data) {
+            console.log(data);
+            DevExpress.ui.notify("Un error a ocurrido", "error");
+        }
+
+        function BloqueoPantalla() {
+            $("#BloqueoPantalla").dxPopup("instance").show();
+            localStorage.setItem("dataUser", true);
+            $("#sidebar-menu").hide();
+            $("#mainPanel").hide();
+        }
+
+        function DesBloqueoPantalla() {
+
+            var pass = $("#BloqueoPantallaContrasena").dxTextBox("instance").option("value");
+            if (pass == null || pass == "") {
+                $("#BloqueoPantallaTextoError").html("Contraseña invalida");
+                return false;
             }
 
-            function OnRowUpdatedDetalleDataGrid(data) {
-                DevExpress.ui.notify("Registro guardado correctamente.","info");
-            }
+            showLoadIndicator();
+            $.ajax({
+                url: '@Url.Action("DesBloqueoPantalla", "Home")',
+                data: { password: pass },
+                type: 'POST',
+                success: function (data) {
+                    hideLoadIndicator();
+                    if (data) {
+                        localStorage.removeItem("dataUser");
+                        $("#sidebar-menu").show();
+                        $("#mainPanel").show();
+                        $("#BloqueoPantalla").dxPopup("instance").hide();
+                        $("#BloqueoPantallaTextoError").html("");
+                        $("#BloqueoPantallaContrasena").dxTextBox("instance").option("value", null);
+                    }
+                    else
+                        $("#BloqueoPantallaTextoError").html("Contraseña invalida");
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                }
+            });
+        }
 
-            function OnRowRemovedDetalleDataGrid(data) {
-                DevExpress.ui.notify("Registro eliminado correctamente.","info");
-            }
-
-            function OnDataErrorOccurredDetalleDataGrid(data) {
-                console.log(data);
-                DevExpress.ui.notify("Un error a ocurrido","error");
-            }
-
-            function BloqueoPantalla() {
-                $("#BloqueoPantalla").dxPopup("instance").show();
-                localStorage.setItem("dataUser", true);
-                $("#sidebar-menu").hide();
-                $("#mainPanel").hide();
-            }
-
-            function DesBloqueoPantalla() {
-
-                var pass = $("#BloqueoPantallaContrasena").dxTextBox("instance").option("value");
-                if (pass == null || pass == "") {
-                    $("#BloqueoPantallaTextoError").html("Contraseña invalida");
+        //Se usa para maestros detalles que estan dentro del form de devexpress
+        function SaveFormAjaxDetail(prefix, prefunction) {
+            if (prefunction != undefined) {
+                if (!prefunction) {
                     return false;
                 }
-
-                showLoadIndicator();
-                $.ajax({
-                    url: '@Url.Action("DesBloqueoPantalla", "Home")',
-                    data: { password : pass},
-                    type: 'POST',
-                    success: function (data) {
-                        hideLoadIndicator();
-                        if (data) {
-                            localStorage.removeItem("dataUser");
-                            $("#sidebar-menu").show();
-                            $("#mainPanel").show();
-                            $("#BloqueoPantalla").dxPopup("instance").hide();
-                            $("#BloqueoPantallaTextoError").html("");
-                            $("#BloqueoPantallaContrasena").dxTextBox("instance").option("value",null);
-                        }
-                        else
-                            $("#BloqueoPantallaTextoError").html("Contraseña invalida");
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
             }
 
-            //Se usa para maestros detalles que estan dentro del form de devexpress
-            function SaveFormAjaxDetail(prefix, prefunction) {
-                if (prefunction != undefined) {
-                    if (!prefunction) {
-                        return false;
-                    }
+            showLoadIndicator();
+            var form = $("#" + prefix + "Form");
+            var url = form.attr('action');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: function (data) {
+
+                    console.log("result SaveFormAjaxDetail");
+
+                    hideLoadIndicator();
+                    $("#" + prefix + "MainPanelForm").html(data);
+                    $("#" + prefix + "DetalleDataGrid").dxDataGrid("instance").refresh();
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
                 }
+            });
+        }
 
-                showLoadIndicator();
-                var form = $("#" + prefix + "Form");
-                var url = form.attr('action');
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(), // serializes the form's elements.
-                    success: function (data) {
+        function DeleteFormAjaxDetail(prefix, url) {
 
-                        console.log("result SaveFormAjaxDetail");
+            showLoadIndicator();
+            var form = $("#" + prefix + "Form");
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: function (data) {
+                    hideLoadIndicator();
+                    $("#" + prefix + "MainPanelForm").html(data);
+                    $("#" + prefix + "DetalleDataGrid").dxDataGrid("instance").refresh();
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                }
+            });
+        }
 
-                        hideLoadIndicator();
-                        $("#" + prefix + "MainPanelForm").html(data);
-                        $("#" + prefix + "DetalleDataGrid").dxDataGrid("instance").refresh();
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
+        /////////////////////////////////////////////////////////////////////////////////
+
+        function DisableButtonsAndSubmit(prefix) {
+            showLoadIndicator();
+            if ($("#" + prefix + "Save").length == 1) {
+                $("#" + prefix + "Save").dxButton("instance").option("disabled", true);
             }
-
-            function DeleteFormAjaxDetail(prefix, url) {
-
-                showLoadIndicator();
-                var form = $("#" + prefix + "Form");
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(), // serializes the form's elements.
-                    success: function (data) {
-                        hideLoadIndicator();
-                        $("#" + prefix + "MainPanelForm").html(data);
-                        $("#" + prefix + "DetalleDataGrid").dxDataGrid("instance").refresh();
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
+            if ($("#" + prefix + "New").length == 1) {
+                $("#" + prefix + "New").dxButton("instance").option("disabled", true);
             }
-
-            /////////////////////////////////////////////////////////////////////////////////
-
-            function DisableButtonsAndSubmit(prefix)
-            {
-                showLoadIndicator();
-                if ($("#" + prefix + "Save").length == 1) {
-                    $("#" + prefix + "Save").dxButton("instance").option("disabled", true);
-                }
-                if ($("#" + prefix + "New").length == 1) {
-                    $("#" + prefix + "New").dxButton("instance").option("disabled", true);
-                }
-                if ($("#" + prefix + "Delete").length == 1) {
-                    $("#" + prefix + "Delete").dxButton("instance").option("disabled", true);
-                }
-                $("#" + prefix + "Form").submit();
+            if ($("#" + prefix + "Delete").length == 1) {
+                $("#" + prefix + "Delete").dxButton("instance").option("disabled", true);
             }
+            $("#" + prefix + "Form").submit();
+        }
 
-            var BtnSave_click = function (prefix, prefunction) {
-                if (prefunction != undefined) {
-                    if (prefunction) {
-                        DisableButtonsAndSubmit(prefix)
-                    }
-                } else {
+        var BtnSave_click = function (prefix, prefunction) {
+            if (prefunction != undefined) {
+                if (prefunction) {
                     DisableButtonsAndSubmit(prefix)
                 }
-            };
+            } else {
+                DisableButtonsAndSubmit(prefix)
+            }
+        };
 
-            var BtnSaveValidationGroup_click = function (params) {
-                var form = params.validationGroup.validate();
-                if (form.isValid) {
-                    BtnSave_click(params.prefixForm, params.preFunctionSave);
-                }
-            };
+        var BtnSaveValidationGroup_click = function (params) {
+            var form = params.validationGroup.validate();
+            if (form.isValid) {
+                BtnSave_click(params.prefixForm, params.preFunctionSave);
+            }
+        };
 
-            function RemoveContainer(container, prefunction) {
-                if (prefunction != undefined) {
-                    if (prefunction) {
-                        $("#" + container + "MainPanelForm").html("");
-                    }
-                } else {
+        function RemoveContainer(container, prefunction) {
+            if (prefunction != undefined) {
+                if (prefunction) {
                     $("#" + container + "MainPanelForm").html("");
                 }
+            } else {
+                $("#" + container + "MainPanelForm").html("");
             }
+        }
 
-            function DeleteFormAction(Prefix, UrlDelete, prefunction) {
+        function DeleteFormAction(Prefix, UrlDelete, prefunction) {
 
-                if (prefunction != undefined) {
-                    if (prefunction) {
-                        $('#' + Prefix + 'Form').attr('action', UrlDelete);
-                        $('#' + Prefix + 'Form').submit();
-                    }
-                } else {
+            if (prefunction != undefined) {
+                if (prefunction) {
                     $('#' + Prefix + 'Form').attr('action', UrlDelete);
                     $('#' + Prefix + 'Form').submit();
                 }
+            } else {
+                $('#' + Prefix + 'Form').attr('action', UrlDelete);
+                $('#' + Prefix + 'Form').submit();
             }
+        }
 
-            function CalculateFilterExpressionNombreCompleto(filterValue, selectedFilterOperation) {
-                try {
+        function CalculateFilterExpressionNombreCompleto(filterValue, selectedFilterOperation) {
+            try {
 
-                    var selectorInit = "";
-                    if (this.dataField.lastIndexOf(".") > -1) {
-                        selectorInit = this.dataField.substring(0, this.dataField.lastIndexOf(".") + 1);
-                    }
-
-                    return [
-                        [`${selectorInit}PrimerNombre`, selectedFilterOperation, filterValue], "or",
-                        [`${selectorInit}SegundoNombre`, selectedFilterOperation, filterValue], "or",
-                        [`${selectorInit}PrimerApellido`, selectedFilterOperation, filterValue], "or",
-                        [`${selectorInit}SegundoApellido`, selectedFilterOperation, filterValue]
-                    ];
-
-                } catch (error) {
-                    console.error(error);
-                    return [];
+                var selectorInit = "";
+                if (this.dataField.lastIndexOf(".") > -1) {
+                    selectorInit = this.dataField.substring(0, this.dataField.lastIndexOf(".") + 1);
                 }
+
+                return [
+                    [`${selectorInit}PrimerNombre`, selectedFilterOperation, filterValue], "or",
+                    [`${selectorInit}SegundoNombre`, selectedFilterOperation, filterValue], "or",
+                    [`${selectorInit}PrimerApellido`, selectedFilterOperation, filterValue], "or",
+                    [`${selectorInit}SegundoApellido`, selectedFilterOperation, filterValue]
+                ];
+
+            } catch (error) {
+                console.error(error);
+                return [];
             }
+        }
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            function update(pref) {
+        function update(pref) {
 
-                var url = '@Url.Action("EditModel", "T004", new { area = "UNOSEC" })';
+            var url = '@Url.Action("EditModel", "T004", new { area = "UNOSEC" })';
 
-                //JSON.stringify(pref);
+            //JSON.stringify(pref);
 
-                $.post(
-                    url,
-                    pref,
-                    function (data, status, xhr) {
+            $.post(
+                url,
+                pref,
+                function (data, status, xhr) {
 
-                        if (status == "success")
-                            DevExpress.ui.notify("CHANGED","success");
-                        else
-                            console.log("Error " + (xhr != null ? xhr.error : ""));
+                    if (status == "success")
+                        DevExpress.ui.notify("CHANGED", "success");
+                    else
+                        console.log("Error " + (xhr != null ? xhr.error : ""));
 
-                    }
-                );
-            }
-
-            var GetViewOnContainer = function (url, idContainer, idParameters) {
-
-                showLoadIndicator();
-
-                $.ajax({
-                    url: url,
-                    data: idParameters,
-                    type: 'GET',
-                    contentType: "text/html",
-                    success: function (data) {
-                        hideLoadIndicator();
-                        var contenedor = (idContainer == undefined ? "mainPanel" : idContainer);
-                        $("#" + contenedor).html(data);
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
-
-            };
-
-            var  ControlErrorExceptionForApp = function(xhr){
-                hideLoadIndicator();
-                console.log(xhr);
-                if (xhr.status == 404) {
-                    DevExpress.ui.notify("La función a la que trata de acceder no se encuentra disponible.", "error");
-                } else if (xhr.status == 400) {
-                    var data = xhr.responseJSON;
-                    var html = '<ul>'
-                    for (var error of data) 
-                    {
-                        html += '<li>' + error + '</li>';
-                    }
-                    html += "</ul>";
-                    DevExpress.ui.dialog.alert(html, 'Error');
-                } 
-                else 
-                {
-                    DevExpress.ui.dialog.alert("Error: " + xhr.responseText, 'Error');
                 }
+            );
+        }
+
+        var GetViewOnContainer = function (url, idContainer, idParameters) {
+
+            showLoadIndicator();
+
+            $.ajax({
+                url: url,
+                data: idParameters,
+                type: 'GET',
+                contentType: "text/html",
+                success: function (data) {
+                    hideLoadIndicator();
+                    var contenedor = (idContainer == undefined ? "mainPanel" : idContainer);
+                    $("#" + contenedor).html(data);
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                }
+            });
+
+        };
+
+        var ControlErrorExceptionForApp = function (xhr) {
+            hideLoadIndicator();
+            console.log(xhr);
+            if (xhr.status == 404) {
+                DevExpress.ui.notify("La función a la que trata de acceder no se encuentra disponible.", "error");
+            } else if (xhr.status == 400) {
+                var data = xhr.responseJSON;
+                var html = '<ul>'
+                for (var error of data) {
+                    html += '<li>' + error + '</li>';
+                }
+                html += "</ul>";
+                DevExpress.ui.dialog.alert(html, 'Error');
             }
+            else {
+                DevExpress.ui.dialog.alert("Error: " + xhr.responseText, 'Error');
+            }
+        }
 
-            var GetViewNavigation = function (url, link, idParameters) {
+        var GetViewNavigation = function (url, link, idParameters) {
 
-                showLoadIndicator();
+            showLoadIndicator();
 
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    data: idParameters,
-                    contentType: "text/html",
-                    success: function (data) {
-                        hideLoadIndicator();
-                        addBread(link, data);
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
-            };
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: idParameters,
+                contentType: "text/html",
+                success: function (data) {
+                    hideLoadIndicator();
+                    addBread(link, data);
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                }
+            });
+        };
 
 
-            var GetDeleteById = function (urlDelete, idParameters, urlResult, idContainer, maestro) {
+        var GetDeleteById = function (urlDelete, idParameters, urlResult, idContainer, maestro) {
 
-                $.ajax({
-                    url: urlDelete,
-                    data: idParameters,
-                    type: 'DELETE',
-                    contentType: "text/html",
-                    success: function (data) {
-                        hideLoadIndicator();
-                        if (data.error) {
-                            var errores = "<ul>";
-                            for (var i in data.error) {
-                                errores += "<li>" + data.error[i] + "</li>";
-                            }
-                            $("#" + maestro + "ListError").html(errores + "</ul>")
-                        } else {
-
-                            var breads = getBread(maestro + "DetailBread")[0].children;
-
-                            if (breads.length > 0) {
-
-                                if (breads[breads.length - 1] != undefined)
-                                    breads[breads.length - 1].remove();
-
-                                if (breads[breads.length - 1] != undefined) {
-                                    var textCurrent = breads[breads.length - 1].innerText;
-                                    breads[breads.length - 1].remove();
-                                }
-
-                                var preBreads = "";
-
-                                for (var i = 0; i < breads.length; i++) {
-                                    preBreads += breads[i].outerHTML;
-                                }
-
-                                if (breads.length == 0) {
-                                    RouteNavigation = "";
-                                } else {
-                                    itemCurrent = "<li><a class='current'>" + textCurrent + "</a></li>";
-                                    RouteNavigation = String(preBreads) + String(itemCurrent);
-                                }
-                            }
-
-                            hideLoadIndicator();
-                            DevExpress.ui.notify("Registro eliminado correctamente", "info");
-                            GetViewOnContainer(urlResult, idContainer);
+            $.ajax({
+                url: urlDelete,
+                data: idParameters,
+                type: 'DELETE',
+                contentType: "text/html",
+                success: function (data) {
+                    hideLoadIndicator();
+                    if (data.error) {
+                        var errores = "<ul>";
+                        for (var i in data.error) {
+                            errores += "<li>" + data.error[i] + "</li>";
                         }
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
-            };
-
-            var setToolbarTop = function (IdToolbarTop, grid , titleOption) {
-                $(document).prop("title", titleOption + " | CloudOneSoft");
-                $("#" + grid.element[0].id).dxDataGrid("instance").option("visible", false);
-                var itemsGrid = grid.toolbarOptions.items;
-
-                $(function () {
-                    $("#" + grid.element[0].id).dxDataGrid("instance").option("onToolbarPreparing", function (datagrid) { datagrid.toolbarOptions.items = [] });
-                    if ($("#" + IdToolbarTop) != null) {
-                        for (var item in itemsGrid) {
-                            //$("#" + IdToolbarTop).dxToolbar("option").items.unshift(grid.toolbarOptions.items[item]);
-                        }
-                        $("#" + IdToolbarTop).dxToolbar("repaint");
-                        $("#" + grid.element[0].id).dxDataGrid("instance").option("visible", true);
-                    }
-                });
-            };
-
-            var GetToolbar = function (grid, url, idContainer, toolbarConfig, functionDeleteList, IdToolbarTop, navLink) {
-                var component;
-                var items;
-                if (IdToolbarTop != undefined && IdToolbarTop != "") {
-                    items = $("#" + IdToolbarTop).dxToolbar("option").items;
-                    component = $("#" + grid).dxDataGrid("instance");
-                } else {
-                    items = grid.toolbarOptions.items;
-                    component = grid.component;
-                    grid = grid.element[0].id;
-                }
-                setButtons(toolbarConfig, items, component, url, idContainer, functionDeleteList, navLink, grid);
-            }
-
-
-            var setButtons = function (toolbarConfig, items, component, url, idContainer, functionDeleteList, navLink, gridId) {
-
-                if (toolbarConfig.ButtonNew) {
-                    items.unshift({
-                        location: "after",
-                        widget: "dxButton",
-                        options:
-                            {
-                                elementAttr: {
-                                    id: gridId + "Add",
-                                    class : "buttongridtoolbarDetail"
-                                },
-                            type: "default",
-                                text: "Nuevo",
-                                icon: "add",
-                                disabled: toolbarConfig.DisabledNew == undefined ? false : toolbarConfig.DisabledNew,
-                                onClick: function (e) {
-                                    if (navLink != undefined) {
-                                        GetViewNavigation(url, navLink);
-                                        saveLastTab(navLink.prefixPadre);
-                                    } else {
-                                        GetViewOnContainer(url, idContainer);
-                                    }
-                                }
-                            }
-                    });
-                }
-
-                if (toolbarConfig.ListNewButtons != undefined) {
-                    var ListNewButtons = toolbarConfig.ListNewButtons;
-                    for (var i in toolbarConfig.ListNewButtons) {
-
-                        console.log(ListNewButtons[i]);
-
-                        items.unshift({
-                        locateInMenu: ListNewButtons[i].LocateInMenu,
-                        location: ListNewButtons[i].Location,
-                        widget: "dxButton",
-                        options:
-                            {
-                                elementAttr: {
-                                    id: ListNewButtons[i].Id
-                                },
-                            type: "normal",
-                                text: ListNewButtons[i].Text,
-                                icon: ListNewButtons[i].Icon,
-                                disabled: ListNewButtons[i].Disabled,
-                                onClick: ListNewButtons[i].Action
-                            }
-                        });
-                    }
-                }
-
-                if (toolbarConfig.DeleteList) {
-                    items.unshift({
-                        locateInMenu: 'always',
-                        widget: "dxButton",
-                        options:
-                            {
-                                elementAttr: {
-                                    id: gridId + "DeleteList"
-                                },
-                                text: "Eliminar Registros Seleccionados",
-                                icon: "remove",
-                                onClick: functionDeleteList
-                            }
-                    });
-                }
-
-                if (toolbarConfig.ExportSelected) {
-                    items.unshift({
-                        locateInMenu: 'always',
-                        widget: "dxButton",
-                        options:
-                            {
-                                elementAttr: {
-                                    id: gridId + "ExportSelected"
-                                },
-                                text: "Exportar Filas Seleccionadas",
-                                icon: "exportselected",
-                                onClick: function () {
-                                    component.exportToExcel(true);
-                                }
-                            }
-                    });
-                }
-
-                if (toolbarConfig.ExportAll) {
-                    items.unshift({
-                        locateInMenu: 'always',
-                        widget: "dxButton",
-                        options:
-                            {
-                                elementAttr: {
-                                    id: gridId + "ExportAll"
-                                },
-                                text: "Exportar Todo",
-                                icon: "exportxlsx",
-                                onClick: function () {
-                                    component.exportToExcel(false);
-                                }
-                            }
-                    });
-                }
-            }
-
-            var GetToolbarGrid = function (grid, url, idParameters, idContainer, toolbarConfig, functionDeleteList, IdToolbarTop, navLink) {
-
-                if (toolbarConfig.ButtonNew) {
-                    grid.toolbarOptions.items.unshift({
-                        location: "after",
-                        widget: "dxButton",
-                        options:
-                            {
-                            text: "Nuevo",
-                            type: "default",
-                                icon: "add",
-                                onClick: function (e) {
-                                    if (navLink != undefined) {
-                                        GetViewNavigation(url, navLink, idParameters);
-                                    } else {
-                                        GetViewOnContainer(url, idContainer);
-                                    }
-                                }
-                            }
-                    });
-                }
-
-                if (toolbarConfig.Button) {
-
-                    if (toolbarConfig.NewOptions != undefined) {
-
-                        for (var i in toolbarConfig.NewOptions) {
-                            grid.toolbarOptions.items.unshift(toolbarConfig.NewOptions[i]);
-                        }
-                    }
-
-                    if (toolbarConfig.DeleteList) {
-                        grid.toolbarOptions.items.unshift({
-                            locateInMenu: 'always',
-                            widget: "dxButton",
-                            options:
-                                {
-                                    text: "Eliminar Registros Seleccionados",
-                                    icon: "remove",
-                                    onClick: functionDeleteList
-                                }
-                        });
-                    }
-                    if (toolbarConfig.ExportSelected) {
-                        grid.toolbarOptions.items.unshift({
-                            locateInMenu: 'always',
-                            widget: "dxButton",
-                            options:
-                                {
-                                    text: "Exportar Filas Seleccionadas",
-                                    icon: "exportselected",
-                                    onClick: function () {
-                                        grid.component.exportToExcel(true);
-                                    }
-                                }
-                        });
-                    }
-                    if (toolbarConfig.ExportAll) {
-                        grid.toolbarOptions.items.unshift({
-                            locateInMenu: 'always',
-                            widget: "dxButton",
-                            options:
-                                {
-                                    text: "Exportar Todo",
-                                    icon: "exportxlsx",
-                                    onClick: function () {
-                                        grid.component.exportToExcel(true);
-                                    }
-                                }
-                        });
-                    }
-                }
-
-                if (IdToolbarTop != undefined && IdToolbarTop != "") {
-
-                    var toolBarGet = $("#" + IdToolbarTop);
-
-                    if (toolBarGet != null) {
-                        for (var item in grid.toolbarOptions.items) {
-                            if (grid.toolbarOptions.items[item].name == "searchPanel") {
-                                grid.toolbarOptions.items[item].location = "center"
-                            }
-                            toolBarGet.dxToolbar("option").items.unshift(grid.toolbarOptions.items[item]);
-                            toolBarGet.dxToolbar("repaint");
-                        }
-                        grid.toolbarOptions.items = [];
-                    }
-                }
-            };
-
-            var DeleteList = function (url, models, model) {
-
-                if (models.length > 0) {
-                    $.ajax({
-                        url: url,
-                        data: JSON.stringify(models),
-                        contentType: "application/json",
-                        type: 'POST',
-                        success: function (data) {
-
-                            if (data.error.length > 0) {
-                                var errores = "<ul>";
-                                for (var i in data.error) {
-                                    errores += "<li>" + data.error[i] + "</li>";
-                                }
-                                DevExpress.ui.dialog.alert((errores + "</ul>"), "Eliminación", true);
-
-                            } else {
-                                DevExpress.ui.notify("Registro eliminado correctamente", "info");
-                            }
-
-                            if ($("#" + model + "Model_grid").length == 1) {
-                                $("#" + model + "Model_grid").dxDataGrid("instance").refresh();
-                            }
-
-                            if ($("#" + model).length == 1) {
-                                $("#" + model).dxDataGrid("instance").refresh();
-                            }
-                        },
-                        error: function (xhr) {
-                            ControlErrorExceptionForApp(xhr);
-                        }
-                    });
-                } else {
-                    DevExpress.ui.notify("No se ha seleccionado ningun registro", "info");
-                }
-            };
-
-
-            function GridCellTemplate(url, link, idParameters) {
-
-                $.ajax({
-                    url: url,
-                    data: idParameters,
-                    type: 'GET',
-                    contentType: "text/html",
-                    success: function (data) {
-                        addBread(link, data);
-                    },
-                    error: function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }
-                });
-            };
-
-            //Funciones Adicionales
-
-                //Realiza la solicitud AJax controlando la respuesta mediante una función
-                //Se puede controlar el Error, pero es Opcional
-            function SetActionRequest(url, parameters, actionSucces, actionError) {
-
-                var error = (actionError == undefined)?
-                    function (xhr) {
-                        ControlErrorExceptionForApp(xhr);
-                    }:
-                    actionError;
-
-                $.ajax({
-                    url: url,
-                    data: parameters,
-                    type: 'GET',
-                    contentType: "application/json",
-                    success: actionSucces,
-                    error: error
-                });
-
-            }
-
-                //Asigna el valor de un SELECTBOX mediante una Solitud
-            function SetValueRequest(url, parameters, attribute, idSetComponent, actionError) {
-
-                SetActionRequest(
-                    url, parameters,
-                    function (data) {
-                        SetItemObject(idSetComponent, data, attribute);
-                    },
-                    actionError
-                );
-            }
-
-                //Asigna el valor de un SELECTBOX mediante un Objeto
-            function SetItemObject(idSetComponent, item, attribute) {
-
-                getComponent(idSetComponent).option('items', Array(item));
-                getComponent(idSetComponent).option('value', attribute);
-
-            }
-
-                //Obtiene la instancia de un Componente
-            function getComponent(idComponent) {
-
-                var Component = $("#" + idComponent);
-                var instancedComponent = "";
-
-                if (Component.length == 0) {
-
-                    console.log("Identificador " + idComponent + " No Encontrado");
-
-                } else if (Component.length == 1) {
-
-                    if (Component.hasClass("dx-selectbox")) {
-                        instancedComponent = Component.dxSelectBox("instance");
-
-                    } else if (Component.hasClass("dx-checkbox")) {
-                        instancedComponent = Component.dxCheckBox("instance");
-
-                    } else if (Component.hasClass("dx-numerbox")) {
-                        instancedComponent = Component.dxNumberBox("instance");
-
-                    } else if (Component.hasClass("dx-datebox")) {
-                        instancedComponent = Component.dxDateBox("instance");
-
-                    } else if (Component.hasClass("dx-textarea")) {
-                        instancedComponent = Component.dxTextArea("instance");
-
-                    } else if (Component.hasClass("dx-textbox")) {
-                        instancedComponent = Component.dxTextBox("instance");
-                    }
-                    else if (Component.hasClass("dx-datagrid")) {
-                        instancedComponent = Component.dxDataGrid("instance");
-
+                        $("#" + maestro + "ListError").html(errores + "</ul>")
                     } else {
-                        console.log("Tipo de Componente para Identificador " + idComponent + " No Encontrado");
-                    }
 
-                } else if (Component.length > 1) {
-                    console.log("Identificador " + idComponent + " No Es Unico");
-                }
+                        var breads = getBread(maestro + "DetailBread")[0].children;
 
-                return instancedComponent;
-            }
+                        if (breads.length > 0) {
 
-            //Evita el Cierre de los DroDowns
-            var evitClose = function () {
+                            if (breads[breads.length - 1] != undefined)
+                                breads[breads.length - 1].remove();
 
-                $('.dropdownContainer').on({
-                    "click": function (event) {
-                        $(".dropdownContainer").addClass("show");
-                        $(".dropdownContent").addClass("show");
-                    }
-                });
-            }
+                            if (breads[breads.length - 1] != undefined) {
+                                var textCurrent = breads[breads.length - 1].innerText;
+                                breads[breads.length - 1].remove();
+                            }
 
-
-            //Efectos de los Calapsables
-
-            function collapseEffects() {
-
-                var shown = $(".card .panel-collapse.show");
-
-                for (var i = 0; i < shown.length; i++) {
-                    var headersId = shown[i].parentElement.children[0].id;
-                    $("#" + headersId + " .deployer i").css({ "transform": "rotate(180deg)", "transition-duration": "0ms" });
-                }
-
-                $(".deployer").click(function (e) {
-
-                    var header = e.currentTarget.parentElement.id;
-                    var collapse = $(e.currentTarget.dataset.target).attr("class");
-                    var parent = e.currentTarget.parentElement.parentElement.classList[1];
-                    var scroll = $("#MainPanelContent").scrollTop() + $("#" + header).offset().top;
-                    var rotate = "0";
-
-
-                    if (collapse.indexOf("show") == -1) {
-                        //$('#MainPanelContent').animate({ scrollTop: scroll - 10 }, 500);
-                        rotate = "180";
-                    }
-
-
-                    if (parent != undefined) {
-                        var containerIn = $(e.currentTarget.dataset.target)[0].dataset.parent;
-
-                        if (containerIn) {
-                            $("." + parent + " > .card-header > .deployer i").css({ "transform": "rotate(0deg)", "transition-duration": "500ms" });
-                        }
-                        $("#" + header + " .deployer i").css({ "transform": "rotate(" + rotate + "deg)", "transition-duration": "500ms" });
-
-                    } else {
-                        var container = $(e.currentTarget.dataset.target)[0].dataset.parent;
-
-                        if (container) {
-                            $(container + " > .card > .card-header > .deployer i").css({ "transform": "rotate(0deg)", "transition-duration": "500ms" });
-                        }
-                        $("#" + header + " .deployer i").css({ "transform": "rotate(" + rotate + "deg)", "transition-duration": "500ms" });
-                    }
-
-                });
-            };
-
-            //Paginación Migajas de Pan and Tabs
-
-            var RouteNavigation = "";
-            var TabNavigation = [];
-
-            function clearStorage() {
-                for (var item in sessionStorage) {
-                    if (item.includes("Storage")) {
-                        sessionStorage.removeItem(item);
-                    }
-                }
-            }
-
-            function clearCurrentStorage(storegeKeySave){
-
-                $.each($(".gridToolbar.PersistentDataGrid"), function (index, value) {
-                    if (storegeKeySave != value.id + "Storage") {
-                        sessionStorage.removeItem(value.id + "Storage");
-                    }
-                });
-            }
-
-            function clearAheadStorage() {
-                var Grids = $(".gridToolbar.PersistentDataGrid");
-                var LastGridId = Grids[Grids.length - 1].id;
-                var found = false;
-
-                for (var item in sessionStorage) {
-
-                    if (item.includes("Storage")) {
-
-                        if (found) {
-                            sessionStorage.removeItem(item);
-                        }
-                        if (!found && item == LastGridId + "Storage") {
-                            found = true;
-                        }
-
-                    }
-
-                }
-            }
-
-            function setTab(Prefix) {
-
-                $(".card-persistent .nav-link").removeClass("active");
-                $(".card-persistent .tab-content .tab-pane").removeClass("active show");
-                var found = false;
-
-                $.each(TabNavigation, function (index, value) {
-                    found = (value.key == Prefix);
-
-                    if (found) {
-                        for (var item in value.value) {
-                            $(".card-persistent .nav-link[href='" + value.value[item] + "']").addClass("active");
-                            $(".card-persistent .tab-content .tab-pane" + value.value[item]).addClass("active show");
-                        }
-
-                        TabNavigation.splice(index, TabNavigation.length - 1);
-                        return false;
-                    }
-                });
-
-            }
-
-            function saveLastTab(Prefix) {
-
-                TabNavigation = TabNavigation.filter(function (value, index, arr) {
-                    return value.key != Prefix
-                });
-
-                $.each($(".card-persistent .nav-link.active"), function (key, value) {
-                    var obj = TabNavigation.find((data) => data.key == Prefix);
-                    if (obj) {
-                        obj.value.push(value.hash);
-                    } else {
-                        TabNavigation.push({ key: Prefix, value: [value.hash] });
-                    }
-                });
-
-                return TabNavigation;
-            }
-
-            function moveViewToTab(prefixPadre, idGrid) {
-
-                setTab(prefixPadre);
-
-                $(document).ready(function(){
-                    $("#" + idGrid).dxDataGrid("instance").option("onContentReady", function () {
-                        this.option("onContentReady",null);
-                        $("#" + idGrid)[0].scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
-
-                        clearAheadStorage();
-                    });
-                });
-            }
-
-            function addBread(link, data) {
-
-                var preItem = RouteNavigation.split("<li><a class='current'>")[0];
-                var item = "<li class='linked' onClick=breadLink(" + JSON.stringify(link) + ",this)><a href='#'>" + link.text + "</a></li>";
-                var itemCurrent = "<li><a class='current'>" + link.textCurrent + "</a></li>";
-
-                $("#" + link.idContainer).html(data);
-
-                RouteNavigation = String(preItem) + String(item) + String(itemCurrent);
-
-
-                $('#MainPanelContent').animate({ scrollTop: '0px' }, 500);
-            };
-
-            function breadLink(link, target) {
-
-                var condition = (link.preFunction == undefined) ? true : eval(link.preFunction + "()") ;
-
-                if (condition) {
-
-                    showLoadIndicator();
-
-                    var breads = getBread(target.parentElement.id)[0].children;
-
-                    $.get(link.url, link.parameters)
-                        .done(function (data) {
-
-                            hideLoadIndicator();
-
-                            var previous = false;
                             var preBreads = "";
 
-                            for (var i = (breads.length - 1); i >= 0; i--) {
-                                if (!previous) {
-                                    if (breads[i] == target) {
-                                        breads[i].remove();
-                                        previous = true;
-                                    } else {
-                                        breads[i].remove();
-                                    }
-                                } else {
-                                    preBreads += breads[i].outerHTML;
-                                }
+                            for (var i = 0; i < breads.length; i++) {
+                                preBreads += breads[i].outerHTML;
                             }
-
-                            var itemCurrent = "";
 
                             if (breads.length == 0) {
                                 RouteNavigation = "";
                             } else {
-                                itemCurrent = "<li><a class='current'>" + link.text + "</a></li>";
+                                itemCurrent = "<li><a class='current'>" + textCurrent + "</a></li>";
                                 RouteNavigation = String(preBreads) + String(itemCurrent);
                             }
+                        }
 
-                            $("#" + link.idContainer).html(data);
-                            moveViewToTab(link.prefixPadre, link.idGrid);
-                        })
-                        .fail(function (error) {
-                            hideLoadIndicator();
-                            DevExpress.ui.notify("Error " + error.status + " | " + error.statusText);
-                        });
+                        hideLoadIndicator();
+                        DevExpress.ui.notify("Registro eliminado correctamente", "info");
+                        GetViewOnContainer(urlResult, idContainer);
+                    }
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
                 }
-            };
+            });
+        };
 
-            function getLinkComponet(idList, idContainer, text, url, current, preFunction, prefixPadre, idGrid) {
+        var setToolbarTop = function (IdToolbarTop, grid, titleOption) {
+            $(document).prop("title", titleOption + " | CloudOneSoft");
+            $("#" + grid.element[0].id).dxDataGrid("instance").option("visible", false);
+            var itemsGrid = grid.toolbarOptions.items;
 
-                var link = {
-                    idList: idList,
-                    idContainer: idContainer,
-                    text: text,
-                    url: url,
-                    textCurrent: current,
-                    preFunction: preFunction,
-                    prefixPadre: prefixPadre,
-                    idGrid: idGrid
-                };
-                eval(link.preFunction);
-                return link;
-            };
+            $(function () {
+                $("#" + grid.element[0].id).dxDataGrid("instance").option("onToolbarPreparing", function (datagrid) { datagrid.toolbarOptions.items = [] });
+                if ($("#" + IdToolbarTop) != null) {
+                    for (var item in itemsGrid) {
+                        //$("#" + IdToolbarTop).dxToolbar("option").items.unshift(grid.toolbarOptions.items[item]);
+                    }
+                    $("#" + IdToolbarTop).dxToolbar("repaint");
+                    $("#" + grid.element[0].id).dxDataGrid("instance").option("visible", true);
+                }
+            });
+        };
 
-            function getLink(idList, idContainer, text, url, current, parameters) {
-                var link = {
-                    idList: idList,
-                    idContainer: idContainer,
-                    text: text,
-                    url: url,
-                    textCurrent: current,
-                    parameters: parameters
-                };
+        var GetToolbar = function (grid, url, idContainer, toolbarConfig, functionDeleteList, IdToolbarTop, navLink) {
+            var component;
+            var items;
+            if (IdToolbarTop != undefined && IdToolbarTop != "") {
+                items = $("#" + IdToolbarTop).dxToolbar("option").items;
+                component = $("#" + grid).dxDataGrid("instance");
+            } else {
+                items = grid.toolbarOptions.items;
+                component = grid.component;
+                grid = grid.element[0].id;
+            }
+            setButtons(toolbarConfig, items, component, url, idContainer, functionDeleteList, navLink, grid);
+        }
 
-                return link;
-            };
 
-            function setBread(idBread, content) {
-                $("#" + idBread).append(content);
+        var setButtons = function (toolbarConfig, items, component, url, idContainer, functionDeleteList, navLink, gridId) {
+
+            if (toolbarConfig.ButtonNew) {
+                items.unshift({
+                    location: "after",
+                    widget: "dxButton",
+                    options:
+                    {
+                        elementAttr: {
+                            id: gridId + "Add",
+                            class: "buttongridtoolbarDetail"
+                        },
+                        type: "default",
+                        text: "Nuevo",
+                        icon: "add",
+                        disabled: toolbarConfig.DisabledNew == undefined ? false : toolbarConfig.DisabledNew,
+                        onClick: function (e) {
+                            if (navLink != undefined) {
+                                GetViewNavigation(url, navLink);
+                                saveLastTab(navLink.prefixPadre);
+                            } else {
+                                GetViewOnContainer(url, idContainer);
+                            }
+                        }
+                    }
+                });
             }
 
-            function getBread(idBread) {
-                return $("ol#" + idBread);
-            }
+            if (toolbarConfig.ListNewButtons != undefined) {
+                var ListNewButtons = toolbarConfig.ListNewButtons;
+                for (var i in toolbarConfig.ListNewButtons) {
 
+                    console.log(ListNewButtons[i]);
 
-
-            var NotificacionM1 = function (msg, type, icon, from, align, delay) {
-
-                $.notify({
-                    icon: (icon == undefined ? "add_alert" : icon),
-                    message: msg
-
-                }, {
-                        type: (type == undefined ? "primary" : type),
-                        delay: (delay == undefined ? 2000 : delay),
-                        placement: {
-                            from: (from == undefined ? "bottom" : from),
-                            align: (align == undefined ? "right" : align)
+                    items.unshift({
+                        locateInMenu: ListNewButtons[i].LocateInMenu,
+                        location: ListNewButtons[i].Location,
+                        widget: "dxButton",
+                        options:
+                        {
+                            elementAttr: {
+                                id: ListNewButtons[i].Id
+                            },
+                            type: "normal",
+                            text: ListNewButtons[i].Text,
+                            icon: ListNewButtons[i].Icon,
+                            disabled: ListNewButtons[i].Disabled,
+                            onClick: ListNewButtons[i].Action
                         }
                     });
-            };
+                }
+            }
 
+            if (toolbarConfig.DeleteList) {
+                items.unshift({
+                    locateInMenu: 'always',
+                    widget: "dxButton",
+                    options:
+                    {
+                        elementAttr: {
+                            id: gridId + "DeleteList"
+                        },
+                        text: "Eliminar Registros Seleccionados",
+                        icon: "remove",
+                        onClick: functionDeleteList
+                    }
+                });
+            }
 
-            function GetViewInMainPanel(url,idParameters) {
-                showLoadIndicator();
+            if (toolbarConfig.ExportSelected) {
+                items.unshift({
+                    locateInMenu: 'always',
+                    widget: "dxButton",
+                    options:
+                    {
+                        elementAttr: {
+                            id: gridId + "ExportSelected"
+                        },
+                        text: "Exportar Filas Seleccionadas",
+                        icon: "exportselected",
+                        onClick: function () {
+                            component.exportToExcel(true);
+                        }
+                    }
+                });
+            }
+
+            if (toolbarConfig.ExportAll) {
+                items.unshift({
+                    locateInMenu: 'always',
+                    widget: "dxButton",
+                    options:
+                    {
+                        elementAttr: {
+                            id: gridId + "ExportAll"
+                        },
+                        text: "Exportar Todo",
+                        icon: "exportxlsx",
+                        onClick: function () {
+                            component.exportToExcel(false);
+                        }
+                    }
+                });
+            }
+        }
+
+        var GetToolbarGrid = function (grid, url, idParameters, idContainer, toolbarConfig, functionDeleteList, IdToolbarTop, navLink) {
+
+            if (toolbarConfig.ButtonNew) {
+                grid.toolbarOptions.items.unshift({
+                    location: "after",
+                    widget: "dxButton",
+                    options:
+                    {
+                        text: "Nuevo",
+                        type: "default",
+                        icon: "add",
+                        onClick: function (e) {
+                            if (navLink != undefined) {
+                                GetViewNavigation(url, navLink, idParameters);
+                            } else {
+                                GetViewOnContainer(url, idContainer);
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (toolbarConfig.Button) {
+
+                if (toolbarConfig.NewOptions != undefined) {
+
+                    for (var i in toolbarConfig.NewOptions) {
+                        grid.toolbarOptions.items.unshift(toolbarConfig.NewOptions[i]);
+                    }
+                }
+
+                if (toolbarConfig.DeleteList) {
+                    grid.toolbarOptions.items.unshift({
+                        locateInMenu: 'always',
+                        widget: "dxButton",
+                        options:
+                        {
+                            text: "Eliminar Registros Seleccionados",
+                            icon: "remove",
+                            onClick: functionDeleteList
+                        }
+                    });
+                }
+                if (toolbarConfig.ExportSelected) {
+                    grid.toolbarOptions.items.unshift({
+                        locateInMenu: 'always',
+                        widget: "dxButton",
+                        options:
+                        {
+                            text: "Exportar Filas Seleccionadas",
+                            icon: "exportselected",
+                            onClick: function () {
+                                grid.component.exportToExcel(true);
+                            }
+                        }
+                    });
+                }
+                if (toolbarConfig.ExportAll) {
+                    grid.toolbarOptions.items.unshift({
+                        locateInMenu: 'always',
+                        widget: "dxButton",
+                        options:
+                        {
+                            text: "Exportar Todo",
+                            icon: "exportxlsx",
+                            onClick: function () {
+                                grid.component.exportToExcel(true);
+                            }
+                        }
+                    });
+                }
+            }
+
+            if (IdToolbarTop != undefined && IdToolbarTop != "") {
+
+                var toolBarGet = $("#" + IdToolbarTop);
+
+                if (toolBarGet != null) {
+                    for (var item in grid.toolbarOptions.items) {
+                        if (grid.toolbarOptions.items[item].name == "searchPanel") {
+                            grid.toolbarOptions.items[item].location = "center"
+                        }
+                        toolBarGet.dxToolbar("option").items.unshift(grid.toolbarOptions.items[item]);
+                        toolBarGet.dxToolbar("repaint");
+                    }
+                    grid.toolbarOptions.items = [];
+                }
+            }
+        };
+
+        var DeleteList = function (url, models, model) {
+
+            if (models.length > 0) {
                 $.ajax({
                     url: url,
-                    data: idParameters,
-                    type: 'GET',
-                    contentType: "text/html",
+                    data: JSON.stringify(models),
+                    contentType: "application/json",
+                    type: 'POST',
                     success: function (data) {
-                        hideLoadIndicator();
-                        $("#mainPanel").html(data);
+
+                        if (data.error.length > 0) {
+                            var errores = "<ul>";
+                            for (var i in data.error) {
+                                errores += "<li>" + data.error[i] + "</li>";
+                            }
+                            DevExpress.ui.dialog.alert((errores + "</ul>"), "Eliminación", true);
+
+                        } else {
+                            DevExpress.ui.notify("Registro eliminado correctamente", "info");
+                        }
+
+                        if ($("#" + model + "Model_grid").length == 1) {
+                            $("#" + model + "Model_grid").dxDataGrid("instance").refresh();
+                        }
+
+                        if ($("#" + model).length == 1) {
+                            $("#" + model).dxDataGrid("instance").refresh();
+                        }
                     },
                     error: function (xhr) {
                         ControlErrorExceptionForApp(xhr);
                     }
                 });
+            } else {
+                DevExpress.ui.notify("No se ha seleccionado ningun registro", "info");
+            }
+        };
+
+
+        function GridCellTemplate(url, link, idParameters) {
+
+            $.ajax({
+                url: url,
+                data: idParameters,
+                type: 'GET',
+                contentType: "text/html",
+                success: function (data) {
+                    addBread(link, data);
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                }
+            });
+        };
+
+        //Funciones Adicionales
+
+        //Realiza la solicitud AJax controlando la respuesta mediante una función
+        //Se puede controlar el Error, pero es Opcional
+        function SetActionRequest(url, parameters, actionSucces, actionError) {
+
+            var error = (actionError == undefined) ?
+                function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                } :
+                actionError;
+
+            $.ajax({
+                url: url,
+                data: parameters,
+                type: 'GET',
+                contentType: "application/json",
+                success: actionSucces,
+                error: error
+            });
+
+        }
+
+        //Asigna el valor de un SELECTBOX mediante una Solitud
+        function SetValueRequest(url, parameters, attribute, idSetComponent, actionError) {
+
+            SetActionRequest(
+                url, parameters,
+                function (data) {
+                    SetItemObject(idSetComponent, data, attribute);
+                },
+                actionError
+            );
+        }
+
+        //Asigna el valor de un SELECTBOX mediante un Objeto
+        function SetItemObject(idSetComponent, item, attribute) {
+
+            getComponent(idSetComponent).option('items', Array(item));
+            getComponent(idSetComponent).option('value', attribute);
+
+        }
+
+        //Obtiene la instancia de un Componente
+        function getComponent(idComponent) {
+
+            var Component = $("#" + idComponent);
+            var instancedComponent = "";
+
+            if (Component.length == 0) {
+
+                console.log("Identificador " + idComponent + " No Encontrado");
+
+            } else if (Component.length == 1) {
+
+                if (Component.hasClass("dx-selectbox")) {
+                    instancedComponent = Component.dxSelectBox("instance");
+
+                } else if (Component.hasClass("dx-checkbox")) {
+                    instancedComponent = Component.dxCheckBox("instance");
+
+                } else if (Component.hasClass("dx-numerbox")) {
+                    instancedComponent = Component.dxNumberBox("instance");
+
+                } else if (Component.hasClass("dx-datebox")) {
+                    instancedComponent = Component.dxDateBox("instance");
+
+                } else if (Component.hasClass("dx-textarea")) {
+                    instancedComponent = Component.dxTextArea("instance");
+
+                } else if (Component.hasClass("dx-textbox")) {
+                    instancedComponent = Component.dxTextBox("instance");
+                }
+                else if (Component.hasClass("dx-datagrid")) {
+                    instancedComponent = Component.dxDataGrid("instance");
+
+                } else {
+                    console.log("Tipo de Componente para Identificador " + idComponent + " No Encontrado");
+                }
+
+            } else if (Component.length > 1) {
+                console.log("Identificador " + idComponent + " No Es Unico");
+            }
+
+            return instancedComponent;
+        }
+
+        //Evita el Cierre de los DroDowns
+        var evitClose = function () {
+
+            $('.dropdownContainer').on({
+                "click": function (event) {
+                    $(".dropdownContainer").addClass("show");
+                    $(".dropdownContent").addClass("show");
+                }
+            });
+        }
+
+
+        //Efectos de los Calapsables
+
+        function collapseEffects() {
+
+            var shown = $(".card .panel-collapse.show");
+
+            for (var i = 0; i < shown.length; i++) {
+                var headersId = shown[i].parentElement.children[0].id;
+                $("#" + headersId + " .deployer i").css({ "transform": "rotate(180deg)", "transition-duration": "0ms" });
+            }
+
+            $(".deployer").click(function (e) {
+
+                var header = e.currentTarget.parentElement.id;
+                var collapse = $(e.currentTarget.dataset.target).attr("class");
+                var parent = e.currentTarget.parentElement.parentElement.classList[1];
+                var scroll = $("#MainPanelContent").scrollTop() + $("#" + header).offset().top;
+                var rotate = "0";
+
+
+                if (collapse.indexOf("show") == -1) {
+                    //$('#MainPanelContent').animate({ scrollTop: scroll - 10 }, 500);
+                    rotate = "180";
+                }
+
+
+                if (parent != undefined) {
+                    var containerIn = $(e.currentTarget.dataset.target)[0].dataset.parent;
+
+                    if (containerIn) {
+                        $("." + parent + " > .card-header > .deployer i").css({ "transform": "rotate(0deg)", "transition-duration": "500ms" });
+                    }
+                    $("#" + header + " .deployer i").css({ "transform": "rotate(" + rotate + "deg)", "transition-duration": "500ms" });
+
+                } else {
+                    var container = $(e.currentTarget.dataset.target)[0].dataset.parent;
+
+                    if (container) {
+                        $(container + " > .card > .card-header > .deployer i").css({ "transform": "rotate(0deg)", "transition-duration": "500ms" });
+                    }
+                    $("#" + header + " .deployer i").css({ "transform": "rotate(" + rotate + "deg)", "transition-duration": "500ms" });
+                }
+
+            });
+        };
+
+        //Paginación Migajas de Pan and Tabs
+
+        var RouteNavigation = "";
+        var TabNavigation = [];
+
+        function clearStorage() {
+            for (var item in sessionStorage) {
+                if (item.includes("Storage")) {
+                    sessionStorage.removeItem(item);
+                }
+            }
+        }
+
+        function clearCurrentStorage(storegeKeySave) {
+
+            $.each($(".gridToolbar.PersistentDataGrid"), function (index, value) {
+                if (storegeKeySave != value.id + "Storage") {
+                    sessionStorage.removeItem(value.id + "Storage");
+                }
+            });
+        }
+
+        function clearAheadStorage() {
+            var Grids = $(".gridToolbar.PersistentDataGrid");
+            var LastGridId = Grids[Grids.length - 1].id;
+            var found = false;
+
+            for (var item in sessionStorage) {
+
+                if (item.includes("Storage")) {
+
+                    if (found) {
+                        sessionStorage.removeItem(item);
+                    }
+                    if (!found && item == LastGridId + "Storage") {
+                        found = true;
+                    }
+
+                }
+
+            }
+        }
+
+        function setTab(Prefix) {
+
+            $(".card-persistent .nav-link").removeClass("active");
+            $(".card-persistent .tab-content .tab-pane").removeClass("active show");
+            var found = false;
+
+            $.each(TabNavigation, function (index, value) {
+                found = (value.key == Prefix);
+
+                if (found) {
+                    for (var item in value.value) {
+                        $(".card-persistent .nav-link[href='" + value.value[item] + "']").addClass("active");
+                        $(".card-persistent .tab-content .tab-pane" + value.value[item]).addClass("active show");
+                    }
+
+                    TabNavigation.splice(index, TabNavigation.length - 1);
+                    return false;
+                }
+            });
+
+        }
+
+        function saveLastTab(Prefix) {
+
+            TabNavigation = TabNavigation.filter(function (value, index, arr) {
+                return value.key != Prefix
+            });
+
+            $.each($(".card-persistent .nav-link.active"), function (key, value) {
+                var obj = TabNavigation.find((data) => data.key == Prefix);
+                if (obj) {
+                    obj.value.push(value.hash);
+                } else {
+                    TabNavigation.push({ key: Prefix, value: [value.hash] });
+                }
+            });
+
+            return TabNavigation;
+        }
+
+        function moveViewToTab(prefixPadre, idGrid) {
+
+            setTab(prefixPadre);
+
+            $(document).ready(function () {
+                $("#" + idGrid).dxDataGrid("instance").option("onContentReady", function () {
+                    this.option("onContentReady", null);
+                    $("#" + idGrid)[0].scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+
+                    clearAheadStorage();
+                });
+            });
+        }
+
+        function addBread(link, data) {
+
+            var preItem = RouteNavigation.split("<li><a class='current'>")[0];
+            var item = "<li class='linked' onClick=breadLink(" + JSON.stringify(link) + ",this)><a href='#'>" + link.text + "</a></li>";
+            var itemCurrent = "<li><a class='current'>" + link.textCurrent + "</a></li>";
+
+            $("#" + link.idContainer).html(data);
+
+            RouteNavigation = String(preItem) + String(item) + String(itemCurrent);
+
+
+            $('#MainPanelContent').animate({ scrollTop: '0px' }, 500);
+        };
+
+        function breadLink(link, target) {
+
+            var condition = (link.preFunction == undefined) ? true : eval(link.preFunction + "()");
+
+            if (condition) {
+
+                showLoadIndicator();
+
+                var breads = getBread(target.parentElement.id)[0].children;
+
+                $.get(link.url, link.parameters)
+                    .done(function (data) {
+
+                        hideLoadIndicator();
+
+                        var previous = false;
+                        var preBreads = "";
+
+                        for (var i = (breads.length - 1); i >= 0; i--) {
+                            if (!previous) {
+                                if (breads[i] == target) {
+                                    breads[i].remove();
+                                    previous = true;
+                                } else {
+                                    breads[i].remove();
+                                }
+                            } else {
+                                preBreads += breads[i].outerHTML;
+                            }
+                        }
+
+                        var itemCurrent = "";
+
+                        if (breads.length == 0) {
+                            RouteNavigation = "";
+                        } else {
+                            itemCurrent = "<li><a class='current'>" + link.text + "</a></li>";
+                            RouteNavigation = String(preBreads) + String(itemCurrent);
+                        }
+
+                        $("#" + link.idContainer).html(data);
+                        moveViewToTab(link.prefixPadre, link.idGrid);
+                    })
+                    .fail(function (error) {
+                        hideLoadIndicator();
+                        DevExpress.ui.notify("Error " + error.status + " | " + error.statusText);
+                    });
+            }
+        };
+
+        function getLinkComponet(idList, idContainer, text, url, current, preFunction, prefixPadre, idGrid) {
+
+            var link = {
+                idList: idList,
+                idContainer: idContainer,
+                text: text,
+                url: url,
+                textCurrent: current,
+                preFunction: preFunction,
+                prefixPadre: prefixPadre,
+                idGrid: idGrid
+            };
+            eval(link.preFunction);
+            return link;
+        };
+
+        function getLink(idList, idContainer, text, url, current, parameters) {
+            var link = {
+                idList: idList,
+                idContainer: idContainer,
+                text: text,
+                url: url,
+                textCurrent: current,
+                parameters: parameters
+            };
+
+            return link;
+        };
+
+        function setBread(idBread, content) {
+            $("#" + idBread).append(content);
+        }
+
+        function getBread(idBread) {
+            return $("ol#" + idBread);
+        }
+
+
+
+        var NotificacionM1 = function (msg, type, icon, from, align, delay) {
+
+            $.notify({
+                icon: (icon == undefined ? "add_alert" : icon),
+                message: msg
+
+            }, {
+                type: (type == undefined ? "primary" : type),
+                delay: (delay == undefined ? 2000 : delay),
+                placement: {
+                    from: (from == undefined ? "bottom" : from),
+                    align: (align == undefined ? "right" : align)
+                }
+            });
+        };
+
+
+        function GetViewInMainPanel(url, idParameters) {
+            showLoadIndicator();
+            $.ajax({
+                url: url,
+                data: idParameters,
+                type: 'GET',
+                contentType: "text/html",
+                success: function (data) {
+                    hideLoadIndicator();
+                    $("#mainPanel").html(data);
+                },
+                error: function (xhr) {
+                    ControlErrorExceptionForApp(xhr);
+                }
+            });
 
         };
 
-            function setFocusFirstElement() {
-                var element = getEnabledElement();
-                //if (element.length != 0) {
-                //    getComponent(element[0].id).focus();
-                //}
-            }
+        function setFocusFirstElement() {
+            var element = getEnabledElement();
+            //if (element.length != 0) {
+            //    getComponent(element[0].id).focus();
+            //}
+        }
 
-            function getEnabledElement() {
-                var Elements = $('#mainPanel .dx-texteditor:not(.dx-state-disabled):not(.dx-state-readonly):not(.dx-state-invisible):not(.dx-datagrid-search-panel):visible');
+        function getEnabledElement() {
+            var Elements = $('#mainPanel .dx-texteditor:not(.dx-state-disabled):not(.dx-state-readonly):not(.dx-state-invisible):not(.dx-datagrid-search-panel):visible');
 
-                return Elements.length == 0 ? [] : Elements;
+            return Elements.length == 0 ? [] : Elements;
         }
 
         function focusSequence(Prefix) {
@@ -1374,16 +1371,16 @@
 
         function keyNavigationPane() {
             return false;
-            }
+        }
 
-            function GetAuditoryData(model) {
-                model.data.CreationDate = new Date();
-                model.data.LastUpdate = new Date();
-                model.data.UpdatedBy = "@appstate.Usuario.Names";
-                model.data.CreatedBy = "@appstate.Usuario.Names";
-                model.data.Id = 0;
-                return model;
-                }
+        function GetAuditoryData(model) {
+            model.data.CreationDate = new Date();
+            model.data.LastUpdate = new Date();
+            model.data.UpdatedBy = "@appstate.Usuario.Names";
+            model.data.CreatedBy = "@appstate.Usuario.Names";
+            model.data.Id = 0;
+            return model;
+        }
 
         // Funcion para descargar un archivo desde MVC Net Core
         function DescargarArchivo(url, path, parameters) {
@@ -1407,7 +1404,7 @@
                 link.click();
                 document.body.removeChild(link);
             } catch (e) {
-                DevExpress.ui.notify(e,"error");
+                DevExpress.ui.notify(e, "error");
             }
         }
 
@@ -1420,6 +1417,31 @@
             else {
                 return uri + separator + key + "=" + value;
             }
+        }
+
+        function MostrarDialogoDeAlerta(mensajes, titulo) {
+           
+            console.log("MostrarDialogoDeAlerta", !Array.isArray(mensajes));
+
+            if (!Array.isArray(mensajes)) {
+                mensajes = [mensajes];
+            }
+
+            console.log("titulo", titulo);
+
+            if (titulo == undefined || titulo == '') {
+                titulo = "Mensaje";
+            }
+
+            var errores = "<ul>"
+            for (var i in mensajes) {
+                errores += "<li>" + mensajes[i] + "</li>";
+            }
+            errores += "</ul>";
+
+            console.log("errores", errores);
+
+            DevExpress.ui.dialog.alert(errores, titulo, true);
         }
 
     </script>

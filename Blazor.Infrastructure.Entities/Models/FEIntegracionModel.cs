@@ -29,10 +29,10 @@ public class RespuestaStatus
     public string Status { get; set; }
 
     [JsonProperty("ValidationErrors")]
-    public List<Validaciones> ValidationErrors { get; set; } = new List<Validaciones>();
+    public List<ValidacionesError> ValidationErrors { get; set; } = new List<ValidacionesError>();
 }
 
-public class Validaciones
+public class ValidacionesError
 {
     [JsonProperty("Field")]
     public string Field { get; set; }
@@ -41,10 +41,10 @@ public class Validaciones
     public string Code { get; set; }
 
     [JsonProperty("Description")]
-    public object Description { get; set; }
+    public string Description { get; set; }
 
-    //[JsonProperty("ExplanationValues")]
-    //public List<object> ExplanationValues { get; set; }
+    [JsonProperty("ExplanationValues")]
+    public List<string> ExplanationValues { get; set; }
 }
 
 #endregion
@@ -80,7 +80,7 @@ public class RespuestaFeTokenJson
 
 #endregion
 
-#region Clases para Enviar Factura
+#region Clases para documento
 
 public class FeRootJson
 {
@@ -372,6 +372,93 @@ public class FeWithholdingTaxTotal
 
     [JsonProperty("WithholdingTaxCategory")]
     public string WithholdingTaxCategory { get; set; }
+}
+
+public class FeRespuestaConsultaDocumento
+{
+    [JsonProperty("DocumentStatusReason")]
+    public object DocumentStatusReason { get; set; }
+
+    [JsonProperty("DocumentStatusReasonCode")]
+    public object DocumentStatusReasonCode { get; set; }
+
+    [JsonProperty("PaymentStatus")]
+    public string PaymentStatus { get; set; }
+
+    [JsonProperty("PaymentCorrelationId")]
+    public object PaymentCorrelationId { get; set; }
+
+    [JsonProperty("IsPdfGenerated")]
+    public bool IsPdfGenerated { get; set; }
+
+    [JsonProperty("Id")]
+    public string Id { get; set; }
+
+    [JsonProperty("DocumentType")]
+    public string DocumentType { get; set; }
+
+    [JsonProperty("DocumentSubType")]
+    public string DocumentSubType { get; set; }
+
+    [JsonProperty("DocumentNumber")]
+    public string DocumentNumber { get; set; }
+
+    [JsonProperty("OriginId")]
+    public string OriginId { get; set; }
+
+    [JsonProperty("OriginName")]
+    public string OriginName { get; set; }
+
+    [JsonProperty("OriginCode")]
+    public string OriginCode { get; set; }
+
+    [JsonProperty("DestinationId")]
+    public string DestinationId { get; set; }
+
+    [JsonProperty("DestinationName")]
+    public string DestinationName { get; set; }
+
+    [JsonProperty("DestinationCode")]
+    public string DestinationCode { get; set; }
+
+    [JsonProperty("DocumentDate")]
+    public DateTime DocumentDate { get; set; }
+
+    [JsonProperty("CreationDate")]
+    public DateTime CreationDate { get; set; }
+
+    [JsonProperty("DocumentStatus")]
+    public string DocumentStatus { get; set; }
+
+    [JsonProperty("DocumentStatusDate")]
+    public DateTime DocumentStatusDate { get; set; }
+
+    [JsonProperty("DocumentStatusApplicationResponseInvalidSignature")]
+    public bool DocumentStatusApplicationResponseInvalidSignature { get; set; }
+
+    [JsonProperty("CommunicationStatus")]
+    public object CommunicationStatus { get; set; }
+
+    [JsonProperty("CommunicationStatusComments")]
+    public object CommunicationStatusComments { get; set; }
+
+    [JsonProperty("MainEmailNotification")]
+    public string MainEmailNotification { get; set; }
+
+    [JsonProperty("MainEmailNotificationStatus")]
+    public string MainEmailNotificationStatus { get; set; }
+
+    [JsonProperty("MainEmailNotificationStatusReason")]
+    public string MainEmailNotificationStatusReason { get; set; }
+
+    [JsonProperty("Currency")]
+    public string Currency { get; set; }
+
+    [JsonProperty("TotalAmount")]
+    public double TotalAmount { get; set; }
+
+    [JsonProperty("Cufe")]
+    public string Cufe { get; set; }
 }
 
 #endregion

@@ -2,8 +2,6 @@
 using Blazor.BusinessLogic.ServiciosExternos;
 using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
-using Blazor.Infrastructure.Entities.Models;
-using DevExpress.Xpo;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using System;
@@ -63,7 +61,7 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 integracionSeriesFEModel.HuboErrorIntegracion = true;
-                integracionSeriesFEModel.ErrorIntegracion = ex.GetFullErrorMessage();
+                integracionSeriesFEModel.Errores.Add(ex.GetFullErrorMessage());
             }
 
             integracionSeriesFEModel.ResultadoSeries = null;

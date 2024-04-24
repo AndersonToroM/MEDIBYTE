@@ -103,8 +103,15 @@
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
+                
+                console.log(data)
+
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Error Integración FE");
+                    return false;
+                } 
                 DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
-                $("#mainPanel").html(data);
             },
             error: function (xhr) {
                 console.log(xhr);
