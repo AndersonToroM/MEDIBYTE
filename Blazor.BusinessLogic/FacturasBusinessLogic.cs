@@ -41,15 +41,21 @@ namespace Blazor.BusinessLogic
 
         public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(long facturaId, string user, string host)
         {
-            facturaId = 10132;
-
             ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
             IntegracionEnviarFEModel integracionFEModel = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
             try
             {
                 var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
                 var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
+
+                if (fac.IdDocumentoFE.HasValue &&
+                    fac.IssueDate.HasValue &&
+                    !string.IsNullOrWhiteSpace(fac.DIANResponse) && fac.DIANResponse.Equals("Certified", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Esta factura ya fue enviada a la DIAN.");
+                }
 
                 IntegracionFE integracionRips = new IntegracionFE(parametros, host);
 
@@ -73,9 +79,11 @@ namespace Blazor.BusinessLogic
                     fac.IdDocumentoFE = integracionFEModel.IdDocumentFE;
                     fac.UpdatedBy = user;
                     unitOfWork.Repository<Facturas>().Modify(fac);
+                    unitOfWork.CommitTransaction();
+
                     var resultDocumento = await ConsultarEstadoDocumento(fac.Id, user, host);
 
-                    if (resultDocumento.HuboErrorFE || resultDocumento.HuboErrorIntegracion)
+                    if ((resultDocumento.HuboErrorFE || resultDocumento.HuboErrorIntegracion) && resultDocumento.Status.Equals("WithErrors", StringComparison.OrdinalIgnoreCase))
                     {
                         integracionFEModel.Errores.AddRange(resultDocumento.Errores);
                         integracionFEModel.HuboErrorFE = resultDocumento.HuboErrorFE;
@@ -108,7 +116,7 @@ namespace Blazor.BusinessLogic
             }
 
             unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
-
+            unitOfWork.CommitTransaction();
             return integracionFEModel;
         }
 
@@ -119,6 +127,7 @@ namespace Blazor.BusinessLogic
             ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
             IntegracionConsultarEstadoFEModel integracionConsultarEstadoFEModel = new IntegracionConsultarEstadoFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
             try
             {
                 var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
@@ -147,6 +156,7 @@ namespace Blazor.BusinessLogic
                     fac.DIANResponse = integracionConsultarEstadoFEModel.DocumentStatus;
                     fac.UpdatedBy = user;
                     unitOfWork.Repository<Facturas>().Modify(fac);
+                    unitOfWork.CommitTransaction();
                 }
             }
             catch (Exception ex)
@@ -158,7 +168,7 @@ namespace Blazor.BusinessLogic
             }
 
             unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
-
+            unitOfWork.CommitTransaction();
             return integracionConsultarEstadoFEModel;
         }
 

@@ -208,7 +208,7 @@ public class IntegracionFE
 
             _urlGetDatosDocumento = string.Format(_urlGetDatosDocumento, _parametrosGenerales.OperadorFE, idDocumento.ToString("D"));
 
-            var httpResult = await http.GetAsync(_urlGetSeries);
+            var httpResult = await http.GetAsync(_urlGetDatosDocumento);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
             integracionConsultarEstadoFEModel.HttpStatus = (int)httpResult.StatusCode;
             integracionConsultarEstadoFEModel.JsonResult = jsonResult;
