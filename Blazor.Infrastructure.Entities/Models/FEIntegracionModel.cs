@@ -461,6 +461,15 @@ public class FeRespuestaConsultaDocumento
     public string Cufe { get; set; }
 }
 
+public class FeResutoGetXml
+{
+    [JsonProperty("FileName")]
+    public string FileName { get; set; }
+
+    [JsonProperty("Content")]
+    public string Content { get; set; }
+}
+
 #endregion
 
 #region Clases para respuesta de Series

@@ -24,6 +24,7 @@ public class IntegracionFE
     private readonly string _urlGetSeries = "v2/{0}/companies/{1}/series/getall";
     private string _urlGetEstadoDocumento = "v2/{0}/outbounddocuments/{1}/status";
     private string _urlGetDatosDocumento = "v2/{0}/outbounddocuments/{1}";
+    private string _urlGetXmlDocumento = "v2/{0}/outbounddocuments/{1}/ubl";
 
     private readonly ParametrosGenerales _parametrosGenerales;
 
@@ -243,6 +244,45 @@ public class IntegracionFE
         }
 
         return integracionConsultarEstadoFEModel;
+    }
+
+    public async Task<IntegracionXmlFEModel> GetXmlFile(Guid idDocumento)
+    {
+        IntegracionXmlFEModel integracionXmlFEModel = new IntegracionXmlFEModel();
+        try
+        {
+            var token = GetToken();
+            var http = BuildHttpClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
+
+            _urlGetXmlDocumento = string.Format(_urlGetXmlDocumento, _parametrosGenerales.OperadorFE, idDocumento.ToString("D"));
+            
+            var httpResult = await http.GetAsync(_urlGetXmlDocumento);
+            var jsonResult = await httpResult.Content.ReadAsStringAsync();
+            integracionXmlFEModel.HttpStatus = (int)httpResult.StatusCode;
+            integracionXmlFEModel.JsonResult = jsonResult;
+
+            if (httpResult.StatusCode == HttpStatusCode.OK)
+            {
+                var feResult = JsonConvert.DeserializeObject<FEResultJson<FeResutoGetXml>>(jsonResult);
+                integracionXmlFEModel.FileName = feResult.ResultData.FileName;
+                integracionXmlFEModel.ContentBase64 = feResult.ResultData.Content;
+                integracionXmlFEModel.HuboErrorFE = false;
+            }
+            else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
+            {
+                var feResult = JsonConvert.DeserializeObject<FEResultJson<FeResutoGetXml>>(jsonResult);
+                integracionXmlFEModel.Errores = feResult.Errors;
+                integracionXmlFEModel.HuboErrorFE = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            integracionXmlFEModel.HuboErrorIntegracion = true;
+            integracionXmlFEModel.Errores.Add(ex.GetFullErrorMessage());
+        }
+
+        return integracionXmlFEModel;
     }
 
     public async Task<IntegracionSeriesFEModel> GetResultadoSeries()

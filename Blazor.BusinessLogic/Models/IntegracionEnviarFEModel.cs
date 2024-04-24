@@ -1,16 +1,39 @@
 ﻿using Blazor.Infrastructure.Entities.Models;
-using Newtonsoft.Json;
+using Dominus.Backend.Application;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Blazor.BusinessLogic.Models
 {
+    public class IntegracionXmlFEModel : IntegracionFEBase
+    {
+        public string FileName { get; set; }
+        public string ContentBase64 { get; set; }
+        public string PathFile { get; set; }
+        public string ContentType
+        {
+            get
+            {
+                return DApp.Util.ObtenerContentTypePorExtension(FileName);
+            }
+        }
+
+        public byte[] ContentBytes
+        {
+            get
+            {
+                return Convert.FromBase64String(ContentBase64);
+            }
+        }
+    }
+
     public class IntegracionConsultarEstadoFEModel : IntegracionFEBase
     {
         public string Status { get; set; }
-        public string Cufe {  get; set; }
-        public DateTime IssueDate {  get; set; }
-        public string DocumentStatus {  get; set; }
+        public string Cufe { get; set; }
+        public DateTime IssueDate { get; set; }
+        public string DocumentStatus { get; set; }
 
     }
 

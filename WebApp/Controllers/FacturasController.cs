@@ -23,7 +23,7 @@ using WidgetGallery;
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class FacturasController : BaseAppController
     {
 
@@ -46,7 +46,7 @@ namespace Blazor.WebApp.Controllers
             return View("List");
         }
 
-       
+
 
         public IActionResult ListPartial()
         {
@@ -59,12 +59,12 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", NewModel());
         }
 
-        private FacturasModel NewModel() 
-        { 
+        private FacturasModel NewModel()
+        {
             FacturasModel model = new FacturasModel();
             model.Entity.IsNew = true;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpGet]
         public IActionResult Edit(long Id)
@@ -72,8 +72,8 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
-        private FacturasModel EditModel(long Id) 
-        { 
+        private FacturasModel EditModel(long Id)
+        {
             FacturasModel model = new FacturasModel();
             model.Entity = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == Id, true);
             //if ( !string.IsNullOrWhiteSpace( model.Entity.IdDbusiness) && model.Entity.IdDbusiness != Guid.Empty.ToString())
@@ -94,48 +94,48 @@ namespace Blazor.WebApp.Controllers
             //    model.UrlReport = GetUrlReport(report);
             //}
             model.Entity.IsNew = false;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Edit(FacturasModel model)
         {
-            return PartialView("Edit",EditModel(model));
+            return PartialView("Edit", EditModel(model));
         }
 
-        private FacturasModel EditModel(FacturasModel model) 
-        { 
-            ViewBag.Accion = "Save"; 
-            var OnState = model.Entity.IsNew; 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name; 
-                    if (model.Entity.IsNew) 
-                    { 
-                        model.Entity.CreationDate = DateTime.Now; 
-                        model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<Facturas>().Add(model.Entity); 
+        private FacturasModel EditModel(FacturasModel model)
+        {
+            ViewBag.Accion = "Save";
+            var OnState = model.Entity.IsNew;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity.LastUpdate = DateTime.Now;
+                    model.Entity.UpdatedBy = User.Identity.Name;
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<Facturas>().Add(model.Entity);
                         model.Entity.IsNew = false;
-                    } 
-                    else 
-                    { 
-                        model.Entity = Manager().GetBusinessLogic<Facturas>().Modify(model.Entity); 
-                    } 
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
+                    }
+                    else
+                    {
+                        model.Entity = Manager().GetBusinessLogic<Facturas>().Modify(model.Entity);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
             }
             else
             {
                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Delete(FacturasModel model)
@@ -144,26 +144,26 @@ namespace Blazor.WebApp.Controllers
         }
 
         private FacturasModel DeleteModel(FacturasModel model)
-        { 
-            ViewBag.Accion = "Delete"; 
-            FacturasModel newModel = NewModel(); 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<Facturas>().Remove(model.Entity); 
+        {
+            ViewBag.Accion = "Delete";
+            FacturasModel newModel = NewModel();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == model.Entity.Id, false);
+                    Manager().GetBusinessLogic<Facturas>().Remove(model.Entity);
                     return newModel;
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
-            } 
-            return model; 
-        } 
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
+            }
+            return model;
+        }
 
-        #endregion 
+        #endregion
 
         #region Functions Detail 
         /*
@@ -262,13 +262,13 @@ namespace Blazor.WebApp.Controllers
         } 
 
         */
-        #endregion 
+        #endregion
 
         #region Datasource Combobox Foraneos 
 
         [HttpPost]
         public LoadResult GetEmpresasId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Empresas>().Tabla(true), loadOptions);
         }
 
@@ -280,27 +280,27 @@ namespace Blazor.WebApp.Controllers
 
         [HttpPost]
         public LoadResult GetEntidadesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Entidades>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetEstadosid(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Estados>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetFilialesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Filiales>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetPacientesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Pacientes>().Tabla(true), loadOptions);
-        } 
+        }
         [HttpPost]
         public LoadResult GetSedesId(DataSourceLoadOptions loadOptions)
-        { 
+        {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Sedes>().Tabla(true), loadOptions);
         }
         [HttpPost]
@@ -331,7 +331,7 @@ namespace Blazor.WebApp.Controllers
                 if (entidadId <= 0)
                     throw new Exception("El parametro entidadId no fue enviado correctamente al servidor.");
 
-                var entidad = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == entidadId,false);
+                var entidad = Manager().GetBusinessLogic<Entidades>().FindById(x => x.Id == entidadId, false);
                 var parametros = new Dictionary<string, object>
                 {
                     {"p_Nit", entidad.NumeroIdentificacion }
@@ -416,7 +416,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage()); 
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
         }
 
@@ -444,7 +444,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                var report = Manager().Report<FacturaDetalleReporte>(Id,User.Identity.Name);
+                var report = Manager().Report<FacturaDetalleReporte>(Id, User.Identity.Name);
                 return PartialView("_ViewerReport", report);
             }
             catch (Exception e)
@@ -499,7 +499,7 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                await Manager().FacturasBusinessLogic().EnviarEmail(id, "Envio Factura Manual", User.Identity.Name);
+                await Manager().FacturasBusinessLogic().EnviarEmail(id, "Envio Factura Manual", User.Identity.Name, Request.Host.Value);
                 return Ok();
             }
             catch (Exception e)
@@ -615,8 +615,8 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                var resultado = await Manager().FacturasBusinessLogic().DescargarXMLDIAN(id);
-                return File(resultado.Archivo, resultado.ContentType, resultado.Nombre);
+                var resultado = await Manager().FacturasBusinessLogic().GetArchivoXmlDIAN(id, User.Identity.Name, Request.Host.Value);
+                return File(resultado.ContentBytes, resultado.ContentType, resultado.FileName);
             }
             catch (Exception e)
             {

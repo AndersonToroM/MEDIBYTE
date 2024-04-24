@@ -314,14 +314,14 @@ namespace Blazor.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ObtenerXMLFactura(int id)
         {
-            var xml = await Manager().FacturasBusinessLogic().DescargarXMLDIAN(id);
-            return File(xml.Archivo, "text/xml", xml.Nombre);
+            var xmlDian = await Manager().FacturasBusinessLogic().GetArchivoXmlDIAN(id,  User.Identity.Name, Request.Host.Value);
+            return File(xmlDian.ContentBytes, xmlDian.ContentType, xmlDian.FileName);
         }
 
         [HttpGet]
         public async Task<IActionResult> ObtenerJsonRips(int id)
         {
-            var json = await Manager().FacturasBusinessLogic().GetRipsJson(id);
+            var json = await Manager().FacturasBusinessLogic().GetRipsJson(id, User.Identity.Name, Request.Host.Value);
             var path = Path.GetTempFileName();
             System.IO.File.WriteAllText(path, json);
             var bytes = System.IO.File.ReadAllBytes(path);

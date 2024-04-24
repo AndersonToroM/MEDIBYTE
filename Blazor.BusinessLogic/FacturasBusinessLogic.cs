@@ -9,11 +9,13 @@ using DevExpress.Compression;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
+using DevExpress.XtraRichEdit.Import.Html;
 using DevExpress.XtraSpreadsheet.Model.NumberFormatting;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,8 @@ namespace Blazor.BusinessLogic
         {
         }
 
+        private const string _validadDIAN = "Certified";
+
         public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(long facturaId, string user, string host)
         {
             ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
@@ -53,7 +57,7 @@ namespace Blazor.BusinessLogic
 
                 if (fac.IdDocumentoFE.HasValue &&
                     fac.IssueDate.HasValue &&
-                    !string.IsNullOrWhiteSpace(fac.DIANResponse) && fac.DIANResponse.Equals("Certified", StringComparison.OrdinalIgnoreCase))
+                    !string.IsNullOrWhiteSpace(fac.DIANResponse) && fac.DIANResponse.Equals(_validadDIAN, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new Exception("Esta factura ya fue enviada a la DIAN.");
                 }
@@ -84,13 +88,13 @@ namespace Blazor.BusinessLogic
 
                     var resultDocumento = await ConsultarEstadoDocumento(fac.Id, user, host);
 
+                    integracionFEModel.Errores.AddRange(resultDocumento.Errores);
+                    integracionFEModel.HuboErrorFE = resultDocumento.HuboErrorFE;
+                    integracionFEModel.HuboErrorIntegracion = resultDocumento.HuboErrorIntegracion;
+                    integracionFEModel.HttpStatus = resultDocumento.HttpStatus;
+
                     if ((resultDocumento.HuboErrorFE || resultDocumento.HuboErrorIntegracion) && resultDocumento.Status.Equals("WithErrors", StringComparison.OrdinalIgnoreCase))
                     {
-                        integracionFEModel.Errores.AddRange(resultDocumento.Errores);
-                        integracionFEModel.HuboErrorFE = resultDocumento.HuboErrorFE;
-                        integracionFEModel.HuboErrorIntegracion = resultDocumento.HuboErrorIntegracion;
-                        integracionFEModel.HttpStatus = resultDocumento.HttpStatus;
-
                         if (resultDocumento.HttpStatus.HasValue && resultDocumento.HttpStatus != 200)
                         {
                             ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
@@ -108,6 +112,29 @@ namespace Blazor.BusinessLogic
                                 UpdatedBy = user
                             };
                             unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
+                        }
+                    }
+                    else
+                    {
+                        var envioCorreo = await EnviarEmail(facturaId, "Envio Factura Manual", user, host);
+                        if (!envioCorreo)
+                        {
+                            ConfiguracionEnvioEmailJob configuracionEnvioEmailJob = new ConfiguracionEnvioEmailJob
+                            {
+                                Id = 0,
+                                Host = host,
+                                Tipo = (int)TipoDocumento.Factura,
+                                IdTipo = fac.Id,
+                                Ejecutado = false,
+                                Exitoso = false,
+                                Intentos = 1,
+                                Detalle = $"| Intento 1: {string.Join(", ", resultDocumento.Errores)} | ",
+                                CreationDate = DateTime.Now,
+                                LastUpdate = DateTime.Now,
+                                CreatedBy = user,
+                                UpdatedBy = user
+                            };
+                            unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Add(configuracionEnvioEmailJob);
                         }
                     }
                 }
@@ -198,6 +225,61 @@ namespace Blazor.BusinessLogic
             unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
             unitOfWork.CommitTransaction();
             return integracionConsultarEstadoFEModel;
+        }
+
+        public async Task<IntegracionXmlFEModel> GetArchivoXmlDIAN(long facturaId, string user, string host)
+        {
+            ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
+            IntegracionXmlFEModel integracionXmlFEModel = new IntegracionXmlFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            try
+            {
+                var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+                var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
+
+                if (!fac.IdDocumentoFE.HasValue ||
+                    !fac.IssueDate.HasValue ||
+                    string.IsNullOrWhiteSpace(fac.DIANResponse) || !fac.DIANResponse.Equals(_validadDIAN, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Esta factura no esta validada en la DIAN.");
+                }
+
+                IntegracionFE integracionRips = new IntegracionFE(parametros, host);
+
+                resultadoIntegracionFE.CreatedBy = user;
+                resultadoIntegracionFE.UpdatedBy = user;
+                resultadoIntegracionFE.CreationDate = DateTime.Now;
+                resultadoIntegracionFE.LastUpdate = DateTime.Now;
+                resultadoIntegracionFE.Tipo = (int)TipoDocumento.Factura;
+                resultadoIntegracionFE.IdTipo = facturaId;
+
+                integracionXmlFEModel = await integracionRips.GetXmlFile(fac.IdDocumentoFE.Value);
+
+                resultadoIntegracionFE.HttpStatus = integracionXmlFEModel.HttpStatus;
+                resultadoIntegracionFE.JsonResult = integracionXmlFEModel.JsonResult;
+                resultadoIntegracionFE.HuboError = integracionXmlFEModel.HuboErrorFE || integracionXmlFEModel.HuboErrorIntegracion;
+                resultadoIntegracionFE.Error = string.Join(", ", integracionXmlFEModel.Errores);
+
+                if (!resultadoIntegracionFE.HuboError)
+                {
+
+
+                    string pathXml = Path.Combine(Path.GetTempPath(), integracionXmlFEModel.FileName);
+                    File.WriteAllBytes(pathXml, integracionXmlFEModel.ContentBytes);
+                    integracionXmlFEModel.PathFile = pathXml;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultadoIntegracionFE.HuboError = true;
+                resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
+                integracionXmlFEModel.Errores.Add(ex.GetFullErrorMessage());
+                integracionXmlFEModel.HuboErrorFE = true;
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
+            unitOfWork.CommitTransaction();
+            return integracionXmlFEModel;
         }
 
         /// <summary>
@@ -504,7 +586,7 @@ namespace Blazor.BusinessLogic
                 resultadoIntegracionRips.Tipo = (int)TipoDocumento.Factura;
                 resultadoIntegracionRips.IdTipo = facturaId;
 
-                var json = await GetRipsJson(facturaId);
+                var json = await GetRipsJson(facturaId, user, host);
                 integracionRipsModel = await integracionRips.EnviarRipsFactura(json);
 
                 resultadoIntegracionRips.HttpStatus = integracionRipsModel.HttpStatus;
@@ -569,7 +651,7 @@ namespace Blazor.BusinessLogic
         /// <param name="idFactura"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<string> GetRipsJson(long facturaId)
+        public async Task<string> GetRipsJson(long facturaId, string user, string host)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
@@ -631,8 +713,8 @@ namespace Blazor.BusinessLogic
 
             RipsRootJson ripsRootJson = new RipsRootJson();
 
-            var xmlfile = await GetFileXMLDIAN(fac.XmlUrl, $"{DateTime.Now:yyyyMMddHHmmssfff}");
-            ripsRootJson.XmlFevFile = Convert.ToBase64String(File.ReadAllBytes(xmlfile));
+            var xmlfile = await GetArchivoXmlDIAN(fac.Id, user, host);
+            ripsRootJson.XmlFevFile = xmlfile.ContentBase64;
 
             ripsRootJson.Rips.NumDocumentoIdObligado = fac.Empresas.NumeroIdentificacion;
             ripsRootJson.Rips.NumFactura = $"{fac.Documentos.Prefijo}{fac.NroConsecutivo}";
@@ -805,56 +887,13 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        public async Task<ArchivoDescargaModel> DescargarXMLDIAN(long facturaId)
-        {
-            ArchivoDescargaModel archivoDescargaModel = new ArchivoDescargaModel();
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            var fac = unitOfWork.Repository<Facturas>().Table
-                .Include(x => x.Documentos)
-                .FirstOrDefault(x => x.Id == facturaId);
-
-            string nombre = $"{fac.IssueDate:yyyyMMddHHmmss}-JsonRips-{fac.Documentos.Prefijo}{fac.NroConsecutivo}";
-
-            var pathXML = await GetFileXMLDIAN(fac.XmlUrl, archivoDescargaModel.Nombre);
-
-            archivoDescargaModel.Nombre = $"{nombre}.xml";
-            archivoDescargaModel.ContentType = "application/json";
-            archivoDescargaModel.Archivo = File.ReadAllBytes(pathXML);
-
-            return archivoDescargaModel;
-        }
-
-        private async Task<string> GetFileXMLDIAN(string xmlUrl, string nameFile)
-        {
-            byte[] contentarray = null;
-            HttpClient http = new HttpClient();
-            var response = await http.GetAsync(xmlUrl);
-            if (response.IsSuccessStatusCode)
-                contentarray = await response.Content.ReadAsByteArrayAsync();
-            else
-                throw new Exception($"Error en descargar XMl desde acepta. | {response.StatusCode} - {response.ReasonPhrase}");
-            string content = Encoding.UTF8.GetString(contentarray);
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(content);
-            content = @"<?xml version='1.0' encoding='UTF-8'?>";
-            content += doc.DocumentElement.ChildNodes[3].InnerXml;
-
-            string pathXml = Path.Combine(Path.GetTempPath(), $"ad{nameFile}.xml");
-            File.WriteAllText(pathXml, content, Encoding.UTF8);
-            return pathXml;
-        }
-
-        public async Task EnviarEmail(long facturaId, string eventoEnvio, string user)
+        public async Task<bool> EnviarEmail(long facturaId, string eventoEnvio, string user, string host)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
             var factura = unitOfWork.Repository<Facturas>().FindById(x => x.Id == facturaId, true);
 
-            if (string.IsNullOrWhiteSpace(factura.DIANResponse))
-            {
-                throw new Exception("La factura no ha sido aceptada por la dian.");
-            }
-            else if (!factura.DIANResponse.Contains("DIAN Aceptado"))
+            if (string.IsNullOrWhiteSpace(factura.CUFE) || !factura.IssueDate.HasValue || !string.Equals(factura.DIANResponse, _validadDIAN, StringComparison.OrdinalIgnoreCase))
             {
                 throw new Exception("La factura no ha sido aceptada por la dian.");
             }
@@ -875,12 +914,12 @@ namespace Blazor.BusinessLogic
                     unitOfWork.Repository<Facturas>().Modify(factura);
                 }
 
-                string pathXml = await GetFileXMLDIAN(factura.XmlUrl, consecutivoEnvioFE);
+                var xmlDian = await GetArchivoXmlDIAN(factura.Id, user, host);
 
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"z{consecutivoEnvioFE}.zip";
                 archive.AddFile(GetPdfFacturaReporte(factura, consecutivoEnvioFE, user), "/");
-                archive.AddFile(pathXml, "/");
+                archive.AddFile(xmlDian.PathFile, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
                 msZip = new MemoryStream(msZip.ToArray());
@@ -913,11 +952,13 @@ namespace Blazor.BusinessLogic
                     job.Detalle += $"| Intento {job.Intentos}: {eventoEnvio} | ";
                     unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
                 }
+
+                return true;
             }
             catch (Exception e)
             {
                 DApp.LogToFile($"{e.GetFullErrorMessage()} | {e.StackTrace}");
-                throw new Exception(e.GetFullErrorMessage());
+                return false;
             }
         }
 
