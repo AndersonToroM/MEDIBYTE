@@ -11,7 +11,7 @@
     bool enviadoDian = false;
     if (!string.IsNullOrWhiteSpace(Model.Entity.DIANResponse))
     {
-        if (Model.Entity.DIANResponse.Contains("DIAN Aceptado"))
+        if (Model.Entity.DIANResponse.Equals("Certified", StringComparison.OrdinalIgnoreCase))
         {
             enviadoDian = true;
         }
