@@ -16,33 +16,38 @@ namespace Blazor.Infrastructure.Entities
 
         #region Columnas normales)
 
+        [Column("Host")]
+        [DDisplayName("ResultadoIntegracionFEJob.Host")]
+        [DStringLength("ResultadoIntegracionFEJob.Host", 250)]
+        public virtual String Host { get; set; }
+
         [Column("Tipo")]
-        [DDisplayName("ConfiguracionEnvioEmailJob.Tipo")]
-        [DRequired("ConfiguracionEnvioEmailJob.Tipo")]
+        [DDisplayName("ResultadoIntegracionFEJob.Tipo")]
+        [DRequired("ResultadoIntegracionFEJob.Tipo")]
         public virtual Int32 Tipo { get; set; }
 
         [Column("IdTipo")]
-        [DDisplayName("ConfiguracionEnvioEmailJob.IdTipo")]
-        [DRequired("ConfiguracionEnvioEmailJob.IdTipo")]
+        [DDisplayName("ResultadoIntegracionFEJob.IdTipo")]
+        [DRequired("ResultadoIntegracionFEJob.IdTipo")]
         public virtual Int64 IdTipo { get; set; }
 
         [Column("Ejecutado")]
-        [DDisplayName("ConfiguracionEnvioEmailJob.Ejecutado")]
-        [DRequired("ConfiguracionEnvioEmailJob.Ejecutado")]
+        [DDisplayName("ResultadoIntegracionFEJob.Ejecutado")]
+        [DRequired("ResultadoIntegracionFEJob.Ejecutado")]
         public virtual Boolean Ejecutado { get; set; }
 
         [Column("Exitoso")]
-        [DDisplayName("ConfiguracionEnvioEmailJob.Exitoso")]
-        [DRequired("ConfiguracionEnvioEmailJob.Exitoso")]
+        [DDisplayName("ResultadoIntegracionFEJob.Exitoso")]
+        [DRequired("ResultadoIntegracionFEJob.Exitoso")]
         public virtual Boolean Exitoso { get; set; }
 
         [Column("Detalle")]
-        [DDisplayName("ConfiguracionEnvioEmailJob.Detalle")]
+        [DDisplayName("ResultadoIntegracionFEJob.Detalle")]
         public virtual String Detalle { get; set; }
 
         [Column("Intentos")]
-        [DDisplayName("ConfiguracionEnvioEmailJob.Intentos")]
-        [DRequired("ConfiguracionEnvioEmailJob.Intentos")]
+        [DDisplayName("ResultadoIntegracionFEJob.Intentos")]
+        [DRequired("ResultadoIntegracionFEJob.Intentos")]
         public virtual Int32 Intentos { get; set; }
 
         #endregion

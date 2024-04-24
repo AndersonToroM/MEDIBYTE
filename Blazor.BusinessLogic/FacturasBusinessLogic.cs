@@ -26,6 +26,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
+using static Quartz.Logging.OperationName;
 
 namespace Blazor.BusinessLogic
 {
@@ -89,21 +90,25 @@ namespace Blazor.BusinessLogic
                         integracionFEModel.HuboErrorFE = resultDocumento.HuboErrorFE;
                         integracionFEModel.HuboErrorIntegracion = resultDocumento.HuboErrorIntegracion;
 
-                        ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
+                        var job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table.Any(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == facturaId);
+                        if (!job)
                         {
-                            Id = 0,
-                            Tipo = (int)TipoDocumento.Factura,
-                            IdTipo = fac.Id,
-                            Ejecutado = false,
-                            Exitoso = false,
-                            Intentos = 1,
-                            Detalle = string.Join(", ", resultDocumento.Errores),
-                            CreationDate = DateTime.Now,
-                            LastUpdate = DateTime.Now,
-                            CreatedBy = user,
-                            UpdatedBy = user
-                        };
-                        unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
+                            ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
+                            {
+                                Id = 0,
+                                Tipo = (int)TipoDocumento.Factura,
+                                IdTipo = fac.Id,
+                                Ejecutado = false,
+                                Exitoso = false,
+                                Intentos = 1,
+                                Detalle = $"| Intento 1: {string.Join(", ", resultDocumento.Errores)} | ",
+                                CreationDate = DateTime.Now,
+                                LastUpdate = DateTime.Now,
+                                CreatedBy = user,
+                                UpdatedBy = user
+                            };
+                            unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
+                        }
                     }
                 }
             }
@@ -120,7 +125,7 @@ namespace Blazor.BusinessLogic
             return integracionFEModel;
         }
 
-        public async Task<IntegracionConsultarEstadoFEModel> ConsultarEstadoDocumento(long facturaId, string user, string host)
+        public async Task<IntegracionConsultarEstadoFEModel> ConsultarEstadoDocumento(long facturaId, string user, string host, bool esRutina = false)
         {
             await Task.Delay(1000);
 
@@ -165,6 +170,29 @@ namespace Blazor.BusinessLogic
                 resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
                 integracionConsultarEstadoFEModel.Errores.Add(ex.GetFullErrorMessage());
                 integracionConsultarEstadoFEModel.HuboErrorFE = true;
+            }
+
+            if (esRutina)
+            {
+                var job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table.FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == facturaId);
+                if (job != null)
+                {
+                    job.Ejecutado = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    job.Intentos++;
+                    if (resultadoIntegracionFE.HuboError)
+                    {
+                        job.Exitoso = false;
+                        job.Detalle += $"| Intento {job.Intentos}: {string.Join(", ", integracionConsultarEstadoFEModel.Errores)} | ";
+                    }
+                    else
+                    {
+                        job.Exitoso = true;
+                    }
+                    unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
+                }
+
             }
 
             unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
@@ -882,7 +910,7 @@ namespace Blazor.BusinessLogic
                     job.LastUpdate = DateTime.Now;
                     job.UpdatedBy = user;
                     job.Intentos++;
-                    job.Detalle += $"Intento {job.Intentos}: {eventoEnvio}. ";
+                    job.Detalle += $"| Intento {job.Intentos}: {eventoEnvio} | ";
                     unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
                 }
             }

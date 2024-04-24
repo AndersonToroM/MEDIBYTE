@@ -78,7 +78,7 @@ namespace Blazor.BusinessLogic
             }
         }
 
-        public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null , string error = null)
+        public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null, string error = null)
         {
             try
             {
@@ -136,8 +136,44 @@ namespace Blazor.BusinessLogic
                 job.Ejecutado = true;
                 job.Exitoso = false;
                 job.Intentos++;
-                job.Detalle +=  $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                job.Detalle += $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
                 unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+            }
+
+            return true;
+        }
+
+        public async Task<bool> IntegracionConsultaDocumentoFEJob()
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            ResultadoIntegracionFEJob job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table
+                .OrderBy(x => x.CreationDate)
+                .FirstOrDefault(x => !x.Exitoso && x.Intentos < 3);
+
+            if (job == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                if (job.Tipo == (int)TipoDocumento.Factura) // Tipo factura
+                {
+                    await new FacturasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, true);
+                }
+                //else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
+                //{
+                //      await new NotasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host);
+                //    
+                //}
+            }
+            catch (Exception ex)
+            {
+                job.Ejecutado = true;
+                job.Exitoso = false;
+                job.Intentos++;
+                job.Detalle += $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
             }
 
             return true;
