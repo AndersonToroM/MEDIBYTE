@@ -29,7 +29,7 @@
                         {
             new ButtonToolbar
             {
-                Action = "MostrarPopudModificarDatosFactura",
+                Action = $"{Prefix}MostrarPopudModificarDatosFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.ModificarDatosFactura"),
                 Disabled = Model.Entity.IsNew || !string.IsNullOrWhiteSpace(Model.Entity.CUFE),
                 Location = ToolbarItemLocation.After,
@@ -47,7 +47,7 @@
             },*/
             new ButtonToolbar
             {
-                Action = "ImprimirFacturaPorId",
+                Action = $"{Prefix}ImprimirFacturaPorId",
                 Text = @DApp.DefaultLanguage.GetResource("DEFAULT.Imprimir"),
                 Disabled = Model.Entity.IsNew,
                 Location = ToolbarItemLocation.After,
@@ -56,7 +56,7 @@
             },
             new ButtonToolbar
             {
-                Action = "ImprimirAnexoFactura",
+                Action = $"{Prefix}ImprimirAnexoFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.ImprimirAnexo"),
                 Disabled = (Model.Entity.IsNew),
                 Location = ToolbarItemLocation.After,
@@ -65,7 +65,7 @@
             },
             new ButtonToolbar
             {
-                Action = "EnviarDIAN",
+                Action = $"{Prefix}EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarDIAN"),
                 Disabled = Model.Entity.IsNew || enviadoDian,
                 Location = ToolbarItemLocation.After,
@@ -80,6 +80,15 @@
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"
+            },
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}ConsultarEstadoDocumentoDIAN",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.ConsultarEstadoDocumentoDIAN"),
+                Disabled = Model.Entity.IsNew,
+                Location = ToolbarItemLocation.Before,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                Icon = "pulldown"
             },
             new ButtonToolbar
             {
@@ -101,7 +110,7 @@
             },
             new ButtonToolbar
             {
-                Action = "EnviarFactura",
+                Action = $"{Prefix}EnviarFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarCorreo"),
                 Disabled = Model.Entity.IsNew || !enviadoDian,
                 Location = ToolbarItemLocation.After,
@@ -278,23 +287,16 @@
                         {
                             tabItem.AddSimple().Template(new TemplateName($"{Prefix}BotonValidacionDIAN"));
                             tabItem.AddSimpleFor(m => m.Entity.CUFE).ColSpan(1)
-                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Facturas.CUFE", 255)))
-                        .Editor(e => e.TextBox().ID(Prefix + "CUFE").ReadOnly(true));
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Facturas.CUFE", 255)))
+                                .Editor(e => e.TextBox().ID(Prefix + "CUFE").ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.IssueDate).ColSpan(1)
-                        .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "IssueDate")
-                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
+                                .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "IssueDate")
+                                .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.DIANResponse).ColSpan(1)
-                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("Facturas.DIANResponse", 1024)))
-                        .Editor(e => e.TextArea().ID(Prefix + "DIANResponse").ReadOnly(true));
-                            tabItem.AddSimpleFor(m => m.Entity.XmlUrl).ColSpan(1)
-                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2048).Message(DApp.GetStringLengthResource("Facturas.XmlUrl", 2048)))
-                        .Editor(e => e.TextArea().ID(Prefix + "XmlUrl").ReadOnly(true));
-                            tabItem.AddSimpleFor(m => m.Entity.ErrorReference).ColSpan(1)
-                        .Editor(e => e.TextBox().ID(Prefix + "ErrorReference").ReadOnly(true));
-                            tabItem.AddSimpleFor(m => m.Entity.UrlTracking).ColSpan(1)
-                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2048).Message(DApp.GetStringLengthResource("Facturas.UrlTracking", 2048)))
-                        .Editor(e => e.TextArea().ID(Prefix + "UrlTracking").ReadOnly(true));
-
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("Facturas.DIANResponse", 1024)))
+                                .Editor(e => e.TextBox().ID(Prefix + "DIANResponse").ReadOnly(true));
+                            tabItem.AddSimpleFor(m => m.Entity.IdDocumentoFE).ColSpan(1)
+                                .Editor(e => e.TextBox().ID(Prefix + "IdDocumentoFE").ReadOnly(true));
                         });
 
                             tabItems.Add()
@@ -464,7 +466,7 @@
         @(Html.DControls().TextArea().ID(Prefix + "CambioObservaciones").Placeholder(DApp.DefaultLanguage.GetResource("Facturas.Observaciones")).InputAttr("class", "form-control"))
     </div>
     <div class="row d-flex justify-content-center">
-        <button class="btn btn-dark btn" onclick="ModificarDatosFactura()">MODIFICAR</button>
+        <button class="btn btn-dark btn" onclick="@(Prefix)ModificarDatosFactura()">MODIFICAR</button>
     </div>
 }
 

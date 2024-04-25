@@ -2260,6 +2260,10 @@
     "Description": "Código Único de validación"
   },
   {
+    "Id": "Facturas.ConsultarEstadoDocumentoDIAN",
+    "Description": "Consultar Estado Documento FE"
+  },
+  {
     "Id": "Facturas.CUFE",
     "Description": "CUFE"
   },
@@ -2390,6 +2394,10 @@
   {
     "Id": "Facturas.GenerateFileToCobol",
     "Description": "Generar Archivos Siesa 8.5"
+  },
+  {
+    "Id": "Facturas.IdDocumentoFE",
+    "Description": "Identificacion Documento FE"
   },
   {
     "Id": "Facturas.ImprimirAnexo",

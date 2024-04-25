@@ -8,11 +8,12 @@
     string UrlDescargarXMLDIAN = Url.Action("DescargarXMLDIAN", Prefix, new { id = Model.Entity.Id });
     string UrlEnviarFactura = Url.Action("EnviarFactura", Prefix, new { id = Model.Entity.Id });
     string UrlModificarDatos = Url.Action("ModificarDatosFactura", Prefix);
+    string UrlConsultarEstadoDocumentoDIAN = Url.Action("ConsultarEstadoDocumentoDIAN", Prefix, new { id = Model.Entity.Id });
 }
 
 <script>
 
-    function ImprimirAnexoFactura() {
+    function @(Prefix)ImprimirAnexoFactura() {
         showLoadIndicator();
         $.ajax({
             url: "@Url.Action("ImprimirAnexoFactura", Prefix, new { Id = Model.Entity.Id })",
@@ -30,11 +31,11 @@
         });
     }
 
-    function MostrarPopudModificarDatosFactura() {
+    function @(Prefix)MostrarPopudModificarDatosFactura() {
         $("#@(Prefix)PopupModificarDatosFactura").dxPopup("instance").show();
     }
 
-    function ModificarDatosFactura() {
+    function @(Prefix)ModificarDatosFactura() {
 
         var CambioOrdenCompra = $("#@(Prefix)CambioOrdenCompra").dxTextBox("instance").option("value");
         var CambioReferenciaFactura = $("#@(Prefix)CambioReferenciaFactura").dxTextBox("instance").option("value");
@@ -59,7 +60,7 @@
         });
     }
 
-    function ImprimirFacturaPorId() {
+    function @(Prefix)ImprimirFacturaPorId() {
 
         showLoadIndicator();
         $.ajax({
@@ -78,7 +79,7 @@
         });
     }
 
-    function EnviarFactura() {
+    function @(Prefix)EnviarFactura() {
 
         showLoadIndicator();
         $.ajax({
@@ -95,7 +96,7 @@
         });
     }
 
-    function EnviarDIAN() {
+    function @(Prefix)EnviarDIAN() {
 
         showLoadIndicator();
         $.ajax({
@@ -103,7 +104,7 @@
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-                
+
                 console.log(data)
 
                 if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
@@ -111,6 +112,7 @@
                     MostrarDialogoDeAlerta(data.Errores, "Error Integración FE");
                     return false;
                 } 
+                SetDataIntegracionFE(data);
                 DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
             },
             error: function (xhr) {
@@ -119,6 +121,40 @@
                 DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
             }
         });
+    }
+
+    function @(Prefix)ConsultarEstadoDocumentoDIAN() {
+
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlConsultarEstadoDocumentoDIAN",
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+
+                console.log(data)
+
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Error Consulta de Datos FE");
+                    return false;
+                }
+                SetDataIntegracionFE(data);
+                DevExpress.ui.notify("Consulta de Datos FE satisfactorio.", "info");
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
+            }
+        });
+    }
+
+    function SetDataIntegracionFE(integracion) {
+        $("#@(Prefix)CUFE").dxTextBox("instance").option("value", integracion.Cufe);
+        $("#@(Prefix)IssueDate").dxDateBox("instance").option("value", integracion.IssueDate);
+        $("#@(Prefix)DIANResponse").dxTextBox("instance").option("value", integracion.DocumentStatus);
+        $("#@(Prefix)IdDocumentoFE").dxTextBox("instance").option("value", integracion.IdDocumentFE);
     }
 
     function @(Prefix)EnviarRips() {

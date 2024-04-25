@@ -1,4 +1,5 @@
 using Blazor.BusinessLogic;
+using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.FacturaDetalle;
 using Blazor.Reports.Facturas;
@@ -478,36 +479,6 @@ namespace Blazor.WebApp.Controllers
 
         }
 
-        public string serverUrl;
-
-        [HttpGet]
-        public async Task<IActionResult> EnviarFacturaDIAN(long id)
-        {
-            try
-            {
-                var result = await Manager().FacturasBusinessLogic().EnviarFacturaDian(id, User.Identity.Name, Request.Host.Value);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EnviarFactura(long id)
-        {
-            try
-            {
-                await Manager().FacturasBusinessLogic().EnviarEmail(id, "Envio Factura Manual", User.Identity.Name, Request.Host.Value);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
-            }
-        }
-
         [HttpPost]
         public IActionResult ModificarDatosFactura(long id, string cambioOrdenCompra, string cambioReferenciaFactura, string cambioObservaciones)
         {
@@ -530,37 +501,6 @@ namespace Blazor.WebApp.Controllers
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
 
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> DownloadInvoiceFileXML(long id)
-        {
-            try
-            {
-                var data = Request.Host.ToString();
-                var factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == id, true);
-
-                byte[] contentarray = null;
-                HttpClient http = new HttpClient();
-                var response = await http.GetAsync(factura.XmlUrl);
-                if (response.IsSuccessStatusCode)
-                    contentarray = await response.Content.ReadAsByteArrayAsync();
-                else
-                    throw new Exception($"Error en descargar XMl desde acepta. | {response.StatusCode} - {response.ReasonPhrase}");
-                string content = Encoding.UTF8.GetString(contentarray);
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(content);
-                content = @"<?xml version='1.0' encoding='UTF-8'?>";
-                content += doc.DocumentElement.ChildNodes[3].InnerXml;
-
-                byte[] fileBytes = Encoding.UTF8.GetBytes(content);
-                string fileName = $"{factura.Documentos.Prefijo}{factura.NroConsecutivo}.xml";
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-            }
-            catch (Exception e)
-            {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
-            }
         }
 
         public IActionResult ListInterface()
@@ -597,12 +537,40 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> EnviarRips(int id)
+        public async Task<IActionResult> EnviarFacturaDIAN(long id)
         {
             try
             {
-                var resultado = await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name, Request.Host.Value);
-                return Ok(resultado);
+                IntegracionEnviarFEModel result = await Manager().FacturasBusinessLogic().EnviarFacturaDian(id, User.Identity.Name, Request.Host.Value);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConsultarEstadoDocumentoDIAN(long id)
+        {
+            try
+            {
+                IntegracionEnviarFEModel result = await Manager().FacturasBusinessLogic().ConsultarEstadoDocumento(id, User.Identity.Name, Request.Host.Value);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EnviarFactura(long id)
+        {
+            try
+            {
+                await Manager().FacturasBusinessLogic().EnviarEmail(id, "Envio Factura Manual", User.Identity.Name, Request.Host.Value);
+                return Ok();
             }
             catch (Exception e)
             {
@@ -617,6 +585,20 @@ namespace Blazor.WebApp.Controllers
             {
                 var resultado = await Manager().FacturasBusinessLogic().GetArchivoXmlDIAN(id, User.Identity.Name, Request.Host.Value);
                 return File(resultado.ContentBytes, resultado.ContentType, resultado.FileName);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EnviarRips(int id)
+        {
+            try
+            {
+                var resultado = await Manager().FacturasBusinessLogic().EnviarRips(id, User.Identity.Name, Request.Host.Value);
+                return Ok(resultado);
             }
             catch (Exception e)
             {

@@ -28,18 +28,13 @@ namespace Blazor.BusinessLogic.Models
         }
     }
 
-    public class IntegracionConsultarEstadoFEModel : IntegracionFEBase
+    public class IntegracionEnviarFEModel : IntegracionFEBase
     {
+        public Guid? IdDocumentFE { get; set; }
         public string Status { get; set; }
         public string Cufe { get; set; }
         public DateTime IssueDate { get; set; }
         public string DocumentStatus { get; set; }
-
-    }
-
-    public class IntegracionEnviarFEModel : IntegracionFEBase
-    {
-        public Guid IdDocumentFE { get; set; }
     }
 
     public class IntegracionSeriesFEModel : IntegracionFEBase

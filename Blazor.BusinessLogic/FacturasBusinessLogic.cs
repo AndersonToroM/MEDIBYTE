@@ -85,17 +85,19 @@ namespace Blazor.BusinessLogic
                     fac.UpdatedBy = user;
                     unitOfWork.Repository<Facturas>().Modify(fac);
                     unitOfWork.CommitTransaction();
+                    integracionFEModel.IdDocumentFE = fac.IdDocumentoFE;
 
-                    var resultDocumento = await ConsultarEstadoDocumento(fac.Id, user, host);
+                    await Task.Delay(1000);
+                    integracionFEModel = await ConsultarEstadoDocumento(fac.Id, user, host);
 
-                    integracionFEModel.Errores.AddRange(resultDocumento.Errores);
-                    integracionFEModel.HuboErrorFE = resultDocumento.HuboErrorFE;
-                    integracionFEModel.HuboErrorIntegracion = resultDocumento.HuboErrorIntegracion;
-                    integracionFEModel.HttpStatus = resultDocumento.HttpStatus;
+                    integracionFEModel.Errores.AddRange(integracionFEModel.Errores);
+                    integracionFEModel.HuboErrorFE = integracionFEModel.HuboErrorFE;
+                    integracionFEModel.HuboErrorIntegracion = integracionFEModel.HuboErrorIntegracion;
+                    integracionFEModel.HttpStatus = integracionFEModel.HttpStatus;
 
-                    if ((resultDocumento.HuboErrorFE || resultDocumento.HuboErrorIntegracion) && resultDocumento.Status.Equals("WithErrors", StringComparison.OrdinalIgnoreCase))
+                    if ((integracionFEModel.HuboErrorFE || integracionFEModel.HuboErrorIntegracion) && integracionFEModel.Status.Equals("WithErrors", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (resultDocumento.HttpStatus.HasValue && resultDocumento.HttpStatus != 200)
+                        if (integracionFEModel.HttpStatus.HasValue && integracionFEModel.HttpStatus != 200)
                         {
                             ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
                             {
@@ -105,7 +107,7 @@ namespace Blazor.BusinessLogic
                                 Ejecutado = false,
                                 Exitoso = false,
                                 Intentos = 1,
-                                Detalle = $"| Intento 1: {string.Join(", ", resultDocumento.Errores)} | ",
+                                Detalle = $"| Intento 1: {string.Join(", ", integracionFEModel.Errores)} | ",
                                 CreationDate = DateTime.Now,
                                 LastUpdate = DateTime.Now,
                                 CreatedBy = user,
@@ -128,7 +130,7 @@ namespace Blazor.BusinessLogic
                                 Ejecutado = false,
                                 Exitoso = false,
                                 Intentos = 1,
-                                Detalle = $"| Intento 1: {string.Join(", ", resultDocumento.Errores)} | ",
+                                Detalle = $"| Intento 1: {string.Join(", ", integracionFEModel.Errores)} | ",
                                 CreationDate = DateTime.Now,
                                 LastUpdate = DateTime.Now,
                                 CreatedBy = user,
@@ -152,18 +154,17 @@ namespace Blazor.BusinessLogic
             return integracionFEModel;
         }
 
-        public async Task<IntegracionConsultarEstadoFEModel> ConsultarEstadoDocumento(long facturaId, string user, string host, bool esRutina = false)
+        public async Task<IntegracionEnviarFEModel> ConsultarEstadoDocumento(long facturaId, string user, string host, bool esRutina = false)
         {
-            await Task.Delay(1000);
-
             ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
-            IntegracionConsultarEstadoFEModel integracionConsultarEstadoFEModel = new IntegracionConsultarEstadoFEModel();
+            IntegracionEnviarFEModel integracionConsultarEstadoFEModel = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
             try
             {
                 var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
                 var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
+
 
                 IntegracionFE integracionRips = new IntegracionFE(parametros, host);
 
@@ -175,21 +176,24 @@ namespace Blazor.BusinessLogic
                 resultadoIntegracionFE.IdTipo = facturaId;
 
                 integracionConsultarEstadoFEModel = await integracionRips.ConsultarEstadoDocumento(fac.IdDocumentoFE.Value);
+                integracionConsultarEstadoFEModel.IdDocumentFE = fac.IdDocumentoFE;
 
                 resultadoIntegracionFE.HttpStatus = integracionConsultarEstadoFEModel.HttpStatus;
                 resultadoIntegracionFE.JsonResult = integracionConsultarEstadoFEModel.JsonResult;
                 resultadoIntegracionFE.HuboError = integracionConsultarEstadoFEModel.HuboErrorFE || integracionConsultarEstadoFEModel.HuboErrorIntegracion;
                 resultadoIntegracionFE.Error = string.Join(", ", integracionConsultarEstadoFEModel.Errores);
+                fac.DIANResponse = integracionConsultarEstadoFEModel.DocumentStatus;
 
                 if (!resultadoIntegracionFE.HuboError)
                 {
                     fac.CUFE = integracionConsultarEstadoFEModel.Cufe;
                     fac.IssueDate = integracionConsultarEstadoFEModel.IssueDate;
-                    fac.DIANResponse = integracionConsultarEstadoFEModel.DocumentStatus;
                     fac.UpdatedBy = user;
-                    unitOfWork.Repository<Facturas>().Modify(fac);
-                    unitOfWork.CommitTransaction();
                 }
+
+                unitOfWork.Repository<Facturas>().Modify(fac);
+                unitOfWork.CommitTransaction();
+
             }
             catch (Exception ex)
             {

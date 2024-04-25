@@ -137,9 +137,9 @@ public class IntegracionFE
         return integracionFEModel;
     }
 
-    public async Task<IntegracionConsultarEstadoFEModel> ConsultarEstadoDocumento(Guid idDocumento)
+    public async Task<IntegracionEnviarFEModel> ConsultarEstadoDocumento(Guid idDocumento)
     {
-        IntegracionConsultarEstadoFEModel integracionConsultarEstadoFEModel = new IntegracionConsultarEstadoFEModel();
+        IntegracionEnviarFEModel integracionConsultarEstadoFEModel = new IntegracionEnviarFEModel();
         try
         {
             var token = GetToken();
@@ -198,9 +198,9 @@ public class IntegracionFE
         return integracionConsultarEstadoFEModel;
     }
 
-    private async Task<IntegracionConsultarEstadoFEModel> ConsultarDatosDocumento(Guid idDocumento)
+    private async Task<IntegracionEnviarFEModel> ConsultarDatosDocumento(Guid idDocumento)
     {
-        IntegracionConsultarEstadoFEModel integracionConsultarEstadoFEModel = new IntegracionConsultarEstadoFEModel();
+        IntegracionEnviarFEModel integracionConsultarEstadoFEModel = new IntegracionEnviarFEModel();
         try
         {
             var token = GetToken();
