@@ -56,6 +56,11 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("ParametrosGenerales.CompanyIdFE")]
         public virtual Guid? CompanyIdFE { get; set; }
 
+        [Column("EmailRecepcionFE")]
+        [DDisplayName("ParametrosGenerales.EmailRecepcionFE")]
+        [DStringLength("ParametrosGenerales.EmailRecepcionFE", 250)]
+        public virtual String EmailRecepcionFE { get; set; }
+
         #endregion
 
         #region Reglas expression

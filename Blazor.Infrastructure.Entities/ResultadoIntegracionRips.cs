@@ -15,67 +15,72 @@ namespace Blazor.Infrastructure.Entities
     public partial class ResultadoIntegracionRips : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       [Column("Tipo")]
-       [DDisplayName("ResultadoIntegracionRips.Tipo")]
-       [DRequired("ResultadoIntegracionRips.Tipo")]
-       public virtual Int32 Tipo { get; set; }
+        [Column("Tipo")]
+        [DDisplayName("ResultadoIntegracionRips.Tipo")]
+        [DRequired("ResultadoIntegracionRips.Tipo")]
+        public virtual Int32 Tipo { get; set; }
 
-       [Column("IdTipo")]
-       [DDisplayName("ResultadoIntegracionRips.IdTipo")]
-       [DRequired("ResultadoIntegracionRips.IdTipo")]
-       public virtual Int64 IdTipo { get; set; }
+        [Column("IdTipo")]
+        [DDisplayName("ResultadoIntegracionRips.IdTipo")]
+        [DRequired("ResultadoIntegracionRips.IdTipo")]
+        public virtual Int64 IdTipo { get; set; }
 
-       [Column("HuboError")]
-       [DDisplayName("ResultadoIntegracionRips.HuboError")]
-       [DRequired("ResultadoIntegracionRips.HuboError")]
-       public virtual Boolean HuboError { get; set; }
+        [Column("Api")]
+        [DDisplayName("ResultadoIntegracionRips.Api")]
+        [DStringLength("ResultadoIntegracionRips.Api", 2048)]
+        public virtual String Api { get; set; }
 
-       [Column("Error")]
-       [DDisplayName("ResultadoIntegracionRips.Error")]
-       public virtual String Error { get; set; }
+        [Column("HuboError")]
+        [DDisplayName("ResultadoIntegracionRips.HuboError")]
+        [DRequired("ResultadoIntegracionRips.HuboError")]
+        public virtual Boolean HuboError { get; set; }
 
-       [Column("HttpStatus")]
-       [DDisplayName("ResultadoIntegracionRips.HttpStatus")]
-       public virtual Int32? HttpStatus { get; set; }
+        [Column("Error")]
+        [DDisplayName("ResultadoIntegracionRips.Error")]
+        public virtual String Error { get; set; }
 
-       [Column("JsonResult")]
-       [DDisplayName("ResultadoIntegracionRips.JsonResult")]
-       public virtual String JsonResult { get; set; }
+        [Column("HttpStatus")]
+        [DDisplayName("ResultadoIntegracionRips.HttpStatus")]
+        public virtual Int32? HttpStatus { get; set; }
 
-       #endregion
+        [Column("JsonResult")]
+        [DDisplayName("ResultadoIntegracionRips.JsonResult")]
+        public virtual String JsonResult { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-       {
-       Expression<Func<ResultadoIntegracionRips, bool>> expression = entity => entity.Id == this.Id;
-       return expression as Expression<Func<T, bool>>;
-       }
+        #region Reglas expression
 
-       public override List<ExpRecurso> GetAdicionarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<ResultadoIntegracionRips, bool>> expression = null;
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        {
+            Expression<Func<ResultadoIntegracionRips, bool>> expression = entity => entity.Id == this.Id;
+            return expression as Expression<Func<T, bool>>;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetAdicionarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<ResultadoIntegracionRips, bool>> expression = null;
 
-       public override List<ExpRecurso> GetModificarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<ResultadoIntegracionRips, bool>> expression = null;
+            return rules;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetModificarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<ResultadoIntegracionRips, bool>> expression = null;
 
-       public override List<ExpRecurso> GetEliminarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-       return rules;
-       }
+            return rules;
+        }
 
-       #endregion
+        public override List<ExpRecurso> GetEliminarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            return rules;
+        }
+
+        #endregion
     }
 }

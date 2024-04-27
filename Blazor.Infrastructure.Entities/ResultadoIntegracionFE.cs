@@ -17,30 +17,35 @@ namespace Blazor.Infrastructure.Entities
         #region Columnas normales)
 
         [Column("Tipo")]
-        [DDisplayName("ResultadoIntegracionRips.Tipo")]
-        [DRequired("ResultadoIntegracionRips.Tipo")]
+        [DDisplayName("ResultadoIntegracionFE.Tipo")]
+        [DRequired("ResultadoIntegracionFE.Tipo")]
         public virtual Int32 Tipo { get; set; }
 
         [Column("IdTipo")]
-        [DDisplayName("ResultadoIntegracionRips.IdTipo")]
-        [DRequired("ResultadoIntegracionRips.IdTipo")]
+        [DDisplayName("ResultadoIntegracionFE.IdTipo")]
+        [DRequired("ResultadoIntegracionFE.IdTipo")]
         public virtual Int64 IdTipo { get; set; }
 
+        [Column("Api")]
+        [DDisplayName("ResultadoIntegracionFE.Api")]
+        [DStringLength("ResultadoIntegracionFE.Api", 2048)]
+        public virtual String Api { get; set; }
+
         [Column("HuboError")]
-        [DDisplayName("ResultadoIntegracionRips.HuboError")]
-        [DRequired("ResultadoIntegracionRips.HuboError")]
+        [DDisplayName("ResultadoIntegracionFE.HuboError")]
+        [DRequired("ResultadoIntegracionFE.HuboError")]
         public virtual Boolean HuboError { get; set; }
 
         [Column("Error")]
-        [DDisplayName("ResultadoIntegracionRips.Error")]
+        [DDisplayName("ResultadoIntegracionFE.Error")]
         public virtual String Error { get; set; }
 
         [Column("HttpStatus")]
-        [DDisplayName("ResultadoIntegracionRips.HttpStatus")]
+        [DDisplayName("ResultadoIntegracionFE.HttpStatus")]
         public virtual Int32? HttpStatus { get; set; }
 
         [Column("JsonResult")]
-        [DDisplayName("ResultadoIntegracionRips.JsonResult")]
+        [DDisplayName("ResultadoIntegracionFE.JsonResult")]
         public virtual String JsonResult { get; set; }
 
         #endregion

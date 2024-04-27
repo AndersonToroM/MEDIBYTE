@@ -34,7 +34,6 @@ namespace Blazor.BusinessLogic.Models
         public string Status { get; set; } = string.Empty;
         public string Cufe { get; set; }
         public DateTime IssueDate { get; set; }
-        public string DocumentStatus { get; set; } = string.Empty;
     }
 
     public class IntegracionSeriesFEModel : IntegracionFEBase
@@ -58,6 +57,7 @@ namespace Blazor.BusinessLogic.Models
         public List<string> Errores { get; set; } = new List<string>();
         public int? HttpStatus { get; set; }
         public string JsonResult { get; set; }
+        public string Api { get; set; } = string.Empty;
     }
 
 }

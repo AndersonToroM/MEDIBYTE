@@ -55,6 +55,7 @@
 
     function @(Prefix)EnviarDIAN() {
 
+        $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", true);
         showLoadIndicator();
         $.ajax({
             url: "@UrlEnviarDian",
@@ -67,14 +68,16 @@
                 if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
 
                     MostrarDialogoDeAlerta(data.Errores, "Error Integración FE");
+                    $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
                     return false;
                 }
-                SetDataIntegracionFE(data);
+
                 DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
             },
             error: function (xhr) {
                 console.log(xhr);
                 hideLoadIndicator();
+                $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
                 DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
             }
         });

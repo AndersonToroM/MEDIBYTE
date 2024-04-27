@@ -50,7 +50,7 @@ public class IntegracionFE
 
         if (string.IsNullOrWhiteSpace(_parametrosGenerales.OperadorFE))
         {
-            throw new Exception($"El el operador para facturacion electronica no se encuentra parametrizado correctamente.");
+            throw new Exception($"El operador para facturacion electronica no se encuentra parametrizado correctamente.");
         }
 
         if (string.IsNullOrWhiteSpace(_parametrosGenerales.UsuarioIntegracionFE) || string.IsNullOrWhiteSpace(_parametrosGenerales.PasswordIntegracionFE))
@@ -102,49 +102,51 @@ public class IntegracionFE
 
     public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(string feJson)
     {
-        IntegracionEnviarFEModel integracionFEModel = new IntegracionEnviarFEModel();
+        IntegracionEnviarFEModel resultadoEnviarDoc = new IntegracionEnviarFEModel();
         try
         {
             var token = GetToken();
             var http = BuildHttpClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
+            resultadoEnviarDoc.Api = _urlEnviarFactura;
 
             var content = new StringContent(feJson, Encoding.UTF8, "application/json");
             var httpResult = await http.PostAsync(_urlEnviarFactura, content);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
-            integracionFEModel.HttpStatus = (int)httpResult.StatusCode;
-            integracionFEModel.JsonResult = jsonResult;
+            resultadoEnviarDoc.HttpStatus = (int)httpResult.StatusCode;
+            resultadoEnviarDoc.JsonResult = jsonResult;
 
             if (httpResult.StatusCode == HttpStatusCode.OK)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<Guid>>(jsonResult);
-                integracionFEModel.IdDocumentFE = feResult.ResultData;
-                integracionFEModel.HuboErrorFE = false;
+                resultadoEnviarDoc.IdDocumentFE = feResult.ResultData;
+                resultadoEnviarDoc.HuboErrorFE = false;
+                resultadoEnviarDoc.Status = "Received";
             }
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<string>>(jsonResult);
-                integracionFEModel.HuboErrorFE = true;
+                resultadoEnviarDoc.HuboErrorFE = true;
 
                 if (feResult.ListaErrores.Any())
                 {
-                    integracionFEModel.Errores = feResult.ListaErrores;
+                    resultadoEnviarDoc.Errores = feResult.ListaErrores;
                 }
-                integracionFEModel.Status = "BadRequest";
+                resultadoEnviarDoc.Status = "BadRequest";
             }
         }
         catch (Exception ex)
         {
-            integracionFEModel.HuboErrorIntegracion = true;
-            integracionFEModel.Errores.Add(ex.GetFullErrorMessage());
+            resultadoEnviarDoc.HuboErrorIntegracion = true;
+            resultadoEnviarDoc.Errores.Add(ex.GetFullErrorMessage());
         }
 
-        return integracionFEModel;
+        return resultadoEnviarDoc;
     }
 
     public async Task<IntegracionEnviarFEModel> ConsultarEstadoDocumento(Guid idDocumento)
     {
-        IntegracionEnviarFEModel integracionConsultarEstadoFEModel = new IntegracionEnviarFEModel();
+        IntegracionEnviarFEModel resultadoConsultarDoc = new IntegracionEnviarFEModel();
         try
         {
             var token = GetToken();
@@ -152,24 +154,22 @@ public class IntegracionFE
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
 
             _urlGetEstadoDocumento = string.Format(_urlGetEstadoDocumento, _parametrosGenerales.OperadorFE, idDocumento.ToString("D"));
+            resultadoConsultarDoc.Api = _urlGetEstadoDocumento;
 
             var httpResult = await http.GetAsync(_urlGetEstadoDocumento);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
-            integracionConsultarEstadoFEModel.HttpStatus = (int)httpResult.StatusCode;
-            integracionConsultarEstadoFEModel.JsonResult = jsonResult;
+            resultadoConsultarDoc.HttpStatus = (int)httpResult.StatusCode;
+            resultadoConsultarDoc.JsonResult = jsonResult;
 
             if (httpResult.StatusCode == HttpStatusCode.OK)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<RespuestaStatus>>(jsonResult);
                 if (feResult.ResultData != null)
                 {
-                    integracionConsultarEstadoFEModel.Status = feResult.ResultData.Status;
-                    integracionConsultarEstadoFEModel.DocumentStatus = feResult.ResultData.Status;
-
+                    resultadoConsultarDoc.Status = feResult.ResultData.Status;
                     if (feResult.ResultData.Status.Equals("Certified", StringComparison.OrdinalIgnoreCase) && (feResult.ResultData.ValidationErrors == null || !feResult.ResultData.ValidationErrors.Any()))
                     {
-                        integracionConsultarEstadoFEModel.HuboErrorFE = false;
-                        integracionConsultarEstadoFEModel = await ConsultarDatosDocumento(idDocumento);
+                        resultadoConsultarDoc.HuboErrorFE = false;
                     }
                     else
                     {
@@ -180,40 +180,45 @@ public class IntegracionFE
                                 var erroresCode = feResult.ResultData.ValidationErrors.Select(x => x.Code).ToList();
                                 var erroresDesc = feResult.ResultData.ValidationErrors.Select(x => x.Description).ToList();
                                 var errores = feResult.ResultData.ValidationErrors.SelectMany(x => x.ExplanationValues).ToList();
-                                integracionConsultarEstadoFEModel.Errores.AddRange(erroresCode);
-                                integracionConsultarEstadoFEModel.Errores.AddRange(erroresDesc);
-                                integracionConsultarEstadoFEModel.Errores.AddRange(errores);
+                                resultadoConsultarDoc.Errores.AddRange(erroresCode);
+                                resultadoConsultarDoc.Errores.AddRange(erroresDesc);
+                                resultadoConsultarDoc.Errores.AddRange(errores);
                             }
                         }
-                        integracionConsultarEstadoFEModel.HuboErrorFE = true;
+                        resultadoConsultarDoc.HuboErrorFE = true;
                     }
                 }
                 else
                 {
-                    integracionConsultarEstadoFEModel.Errores.Add("Verificar integracion.");
-                    integracionConsultarEstadoFEModel.HuboErrorFE = true;
+                    resultadoConsultarDoc.Errores.Add("Verificar integracion.");
+                    resultadoConsultarDoc.HuboErrorFE = true;
                 }
             }
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<object>>(jsonResult);
-                integracionConsultarEstadoFEModel.Errores = feResult.ListaErrores;
-                integracionConsultarEstadoFEModel.HuboErrorFE = true;
-                integracionConsultarEstadoFEModel.Status = "BadRequest";
+                resultadoConsultarDoc.Errores = feResult.ListaErrores;
+                resultadoConsultarDoc.HuboErrorFE = true;
+                resultadoConsultarDoc.Status = "BadRequest";
             }
         }
         catch (Exception ex)
         {
-            integracionConsultarEstadoFEModel.HuboErrorIntegracion = true;
-            integracionConsultarEstadoFEModel.Errores.Add(ex.GetFullErrorMessage());
+            resultadoConsultarDoc.HuboErrorIntegracion = true;
+            resultadoConsultarDoc.Errores.Add(ex.GetFullErrorMessage());
         }
 
-        return integracionConsultarEstadoFEModel;
+        if (string.IsNullOrWhiteSpace(resultadoConsultarDoc.Status))
+        {
+            resultadoConsultarDoc.Status = "Unmarked";
+        }
+
+        return resultadoConsultarDoc;
     }
 
-    private async Task<IntegracionEnviarFEModel> ConsultarDatosDocumento(Guid idDocumento)
+    public async Task<IntegracionEnviarFEModel> ConsultarDatosDocumento(Guid idDocumento)
     {
-        IntegracionEnviarFEModel integracionConsultarEstadoFEModel = new IntegracionEnviarFEModel();
+        IntegracionEnviarFEModel resultadoConsultarDoc = new IntegracionEnviarFEModel();
         try
         {
             var token = GetToken();
@@ -221,44 +226,49 @@ public class IntegracionFE
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
 
             _urlGetDatosDocumento = string.Format(_urlGetDatosDocumento, _parametrosGenerales.OperadorFE, idDocumento.ToString("D"));
+            resultadoConsultarDoc.Api = _urlGetDatosDocumento;
 
             var httpResult = await http.GetAsync(_urlGetDatosDocumento);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
-            integracionConsultarEstadoFEModel.HttpStatus = (int)httpResult.StatusCode;
-            integracionConsultarEstadoFEModel.JsonResult = jsonResult;
+            resultadoConsultarDoc.HttpStatus = (int)httpResult.StatusCode;
+            resultadoConsultarDoc.JsonResult = jsonResult;
 
             if (httpResult.StatusCode == HttpStatusCode.OK)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<FeRespuestaConsultaDocumento>>(jsonResult);
                 if (feResult.ResultData != null)
                 {
-                    integracionConsultarEstadoFEModel.HuboErrorFE = false;
-                    integracionConsultarEstadoFEModel.Cufe = feResult.ResultData.Cufe;
-                    integracionConsultarEstadoFEModel.IssueDate = feResult.ResultData.CreationDate.ToLocalTime();
-                    integracionConsultarEstadoFEModel.Status = feResult.ResultData.DocumentStatus;
-                    integracionConsultarEstadoFEModel.DocumentStatus = feResult.ResultData.DocumentStatus;
+                    resultadoConsultarDoc.HuboErrorFE = false;
+                    resultadoConsultarDoc.Cufe = feResult.ResultData.Cufe;
+                    resultadoConsultarDoc.IssueDate = feResult.ResultData.CreationDate.ToLocalTime();
+                    resultadoConsultarDoc.Status = feResult.ResultData.DocumentStatus;
                 }
                 else
                 {
-                    integracionConsultarEstadoFEModel.Errores.Add("Verificar integracion.");
-                    integracionConsultarEstadoFEModel.HuboErrorFE = true;
+                    resultadoConsultarDoc.Errores.Add("Verificar integracion.");
+                    resultadoConsultarDoc.HuboErrorFE = true;
                 }
             }
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<object>>(jsonResult);
-                integracionConsultarEstadoFEModel.Errores = feResult.ListaErrores;
-                integracionConsultarEstadoFEModel.HuboErrorFE = true;
-                integracionConsultarEstadoFEModel.Status = "BadRequest";
+                resultadoConsultarDoc.Errores = feResult.ListaErrores;
+                resultadoConsultarDoc.HuboErrorFE = true;
+                resultadoConsultarDoc.Status = "BadRequest";
             }
         }
         catch (Exception ex)
         {
-            integracionConsultarEstadoFEModel.HuboErrorIntegracion = true;
-            integracionConsultarEstadoFEModel.Errores.Add(ex.GetFullErrorMessage());
+            resultadoConsultarDoc.HuboErrorIntegracion = true;
+            resultadoConsultarDoc.Errores.Add(ex.GetFullErrorMessage());
         }
 
-        return integracionConsultarEstadoFEModel;
+        if (string.IsNullOrWhiteSpace(resultadoConsultarDoc.Status))
+        {
+            resultadoConsultarDoc.Status = "Unmarked";
+        }
+
+        return resultadoConsultarDoc;
     }
 
     public async Task<IntegracionXmlFEModel> GetXmlFile(Guid idDocumento)
@@ -271,7 +281,8 @@ public class IntegracionFE
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
 
             _urlGetXmlDocumento = string.Format(_urlGetXmlDocumento, _parametrosGenerales.OperadorFE, idDocumento.ToString("D"));
-            
+            integracionXmlFEModel.Api = _urlGetXmlDocumento;
+
             var httpResult = await http.GetAsync(_urlGetXmlDocumento);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
             integracionXmlFEModel.HttpStatus = (int)httpResult.StatusCode;
@@ -308,6 +319,7 @@ public class IntegracionFE
             var token = GetToken();
             var http = BuildHttpClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
+            integracionSeriesFEModel.Api = _urlGetSeries;
 
             var httpResult = await http.GetAsync(_urlGetSeries);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();

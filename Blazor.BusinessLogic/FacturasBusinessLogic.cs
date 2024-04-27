@@ -9,13 +9,10 @@ using DevExpress.Compression;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
-using DevExpress.XtraRichEdit.Import.Html;
-using DevExpress.XtraSpreadsheet.Model.NumberFormatting;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,12 +20,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
-using static Quartz.Logging.OperationName;
 
 namespace Blazor.BusinessLogic
 {
@@ -49,13 +42,15 @@ namespace Blazor.BusinessLogic
 
         public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(long facturaId, string user, string host)
         {
-            ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
-            resultadoIntegracionFE.CreatedBy = user;
-            resultadoIntegracionFE.UpdatedBy = user;
-            resultadoIntegracionFE.CreationDate = DateTime.Now;
-            resultadoIntegracionFE.LastUpdate = DateTime.Now;
-            IntegracionEnviarFEModel integracionFEModel = new IntegracionEnviarFEModel();
+            ResultadoIntegracionFE enviarDocumento_FE = new ResultadoIntegracionFE();
+            enviarDocumento_FE.CreatedBy = user;
+            enviarDocumento_FE.UpdatedBy = user;
+            enviarDocumento_FE.CreationDate = DateTime.Now;
+            enviarDocumento_FE.LastUpdate = DateTime.Now;
+
+            IntegracionEnviarFEModel enviarDocumento_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
             unitOfWork.BeginTransaction();
             try
             {
@@ -76,79 +71,52 @@ namespace Blazor.BusinessLogic
                     throw new Exception("Esta factura ya fue enviada a la DIAN.");
                 }
 
-                IntegracionFE integracionRips = new IntegracionFE(parametros, host);
+                IntegracionFE integracionFE = new IntegracionFE(parametros, host);
 
-                resultadoIntegracionFE.Tipo = (int)TipoDocumento.Factura;
-                resultadoIntegracionFE.IdTipo = facturaId;
+                enviarDocumento_FE.Tipo = (int)TipoDocumento.Factura;
+                enviarDocumento_FE.IdTipo = facturaId;
 
                 var json = GetFEJson(facturaId);
-                integracionFEModel = await integracionRips.EnviarFacturaDian(json);
+                enviarDocumento_IFE = await integracionFE.EnviarFacturaDian(json);
 
-                resultadoIntegracionFE.HttpStatus = integracionFEModel.HttpStatus;
-                resultadoIntegracionFE.JsonResult = integracionFEModel.JsonResult;
-                resultadoIntegracionFE.HuboError = integracionFEModel.HuboErrorFE || integracionFEModel.HuboErrorIntegracion;
-                resultadoIntegracionFE.Error = string.Join(", ", integracionFEModel.Errores);
+                enviarDocumento_FE.Api = enviarDocumento_IFE.Api;
+                enviarDocumento_FE.HttpStatus = enviarDocumento_IFE.HttpStatus;
+                enviarDocumento_FE.JsonResult = enviarDocumento_IFE.JsonResult;
+                enviarDocumento_FE.HuboError = enviarDocumento_IFE.HuboErrorFE || enviarDocumento_IFE.HuboErrorIntegracion;
+                enviarDocumento_FE.Error = string.Join(", ", enviarDocumento_IFE.Errores);
 
-                if (!resultadoIntegracionFE.HuboError)
+                if (!enviarDocumento_FE.HuboError)
                 {
-                    fac.IdDocumentoFE = integracionFEModel.IdDocumentFE;
+                    fac.IdDocumentoFE = enviarDocumento_IFE.IdDocumentFE;
                     fac.UpdatedBy = user;
                     unitOfWork.Repository<Facturas>().Modify(fac);
                     unitOfWork.CommitTransaction();
-                    integracionFEModel.IdDocumentFE = fac.IdDocumentoFE;
+                    enviarDocumento_IFE.IdDocumentFE = fac.IdDocumentoFE;
 
-                    //await Task.Delay(5000);
-                    integracionFEModel = await ConsultarEstadoDocumento(fac.Id, user, host);
-
-                    integracionFEModel.Errores.AddRange(integracionFEModel.Errores);
-                    integracionFEModel.HuboErrorFE = integracionFEModel.HuboErrorFE;
-                    integracionFEModel.HuboErrorIntegracion = integracionFEModel.HuboErrorIntegracion;
-                    integracionFEModel.HttpStatus = integracionFEModel.HttpStatus;
-
-                    if (integracionFEModel.Status.Equals(_stagedDIAN, StringComparison.OrdinalIgnoreCase) || integracionFEModel.Status.Equals(_badRequestDIAN, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
-                        {
-                            Id = 0,
-                            Host = host,
-                            Tipo = (int)TipoDocumento.Factura,
-                            IdTipo = fac.Id,
-                            Ejecutado = false,
-                            Exitoso = false,
-                            Intentos = 1,
-                            Detalle = $"| Intento 1: {string.Join(", ", integracionFEModel.Errores)} | ",
-                            CreationDate = DateTime.Now,
-                            LastUpdate = DateTime.Now,
-                            CreatedBy = user,
-                            UpdatedBy = user
-                        };
-                        unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
-
-                        throw new Exception("El documento se envio satisfactoriamente y esta pendiente de certificación.");
-                    }
+                    enviarDocumento_IFE = await ConsultarEstadoDocumento(fac.Id, user, host);
                 }
             }
             catch (Exception ex)
             {
-                resultadoIntegracionFE.HuboError = true;
-                resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
-                integracionFEModel.Errores.Add(ex.GetFullErrorMessage());
-                integracionFEModel.HuboErrorFE = true;
+                enviarDocumento_FE.HuboError = true;
+                enviarDocumento_FE.Error = ex.GetFullErrorMessage();
+                enviarDocumento_IFE.Errores.Add(ex.GetFullErrorMessage());
+                enviarDocumento_IFE.HuboErrorFE = true;
             }
 
-            unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(enviarDocumento_FE);
             unitOfWork.CommitTransaction();
-            return integracionFEModel;
+            return enviarDocumento_IFE;
         }
 
-        public async Task<IntegracionEnviarFEModel> ConsultarEstadoDocumento(long facturaId, string user, string host, bool esRutina = false)
+        public async Task<IntegracionEnviarFEModel> ConsultarEstadoDocumento(long facturaId, string user, string host, ResultadoIntegracionFEJob job = null)
         {
-            ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
-            resultadoIntegracionFE.CreatedBy = user;
-            resultadoIntegracionFE.UpdatedBy = user;
-            resultadoIntegracionFE.CreationDate = DateTime.Now;
-            resultadoIntegracionFE.LastUpdate = DateTime.Now;
-            IntegracionEnviarFEModel integracionConsultarEstadoFEModel = new IntegracionEnviarFEModel();
+            ResultadoIntegracionFE consultarEstado_FE = new ResultadoIntegracionFE();
+            consultarEstado_FE.CreatedBy = user;
+            consultarEstado_FE.UpdatedBy = user;
+            consultarEstado_FE.CreationDate = DateTime.Now;
+            consultarEstado_FE.LastUpdate = DateTime.Now;
+            IntegracionEnviarFEModel consultaEstaod_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
             try
@@ -156,69 +124,38 @@ namespace Blazor.BusinessLogic
                 var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
                 var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
 
+                IntegracionFE integracionFE = new IntegracionFE(parametros, host);
 
-                IntegracionFE integracionRips = new IntegracionFE(parametros, host);
+                consultarEstado_FE.Tipo = (int)TipoDocumento.Factura;
+                consultarEstado_FE.IdTipo = facturaId;
 
-                resultadoIntegracionFE.Tipo = (int)TipoDocumento.Factura;
-                resultadoIntegracionFE.IdTipo = facturaId;
+                consultaEstaod_IFE = await integracionFE.ConsultarEstadoDocumento(fac.IdDocumentoFE.Value);
+                consultaEstaod_IFE.IdDocumentFE = fac.IdDocumentoFE;
+                consultarEstado_FE.Api = consultaEstaod_IFE.Api;
+                consultarEstado_FE.HttpStatus = consultaEstaod_IFE.HttpStatus;
+                consultarEstado_FE.JsonResult = consultaEstaod_IFE.JsonResult;
+                consultarEstado_FE.HuboError = consultaEstaod_IFE.HuboErrorFE || consultaEstaod_IFE.HuboErrorIntegracion;
+                consultarEstado_FE.Error = string.Join(", ", consultaEstaod_IFE.Errores);
 
-                integracionConsultarEstadoFEModel = await integracionRips.ConsultarEstadoDocumento(fac.IdDocumentoFE.Value);
-                integracionConsultarEstadoFEModel.IdDocumentFE = fac.IdDocumentoFE;
-
-                resultadoIntegracionFE.HttpStatus = integracionConsultarEstadoFEModel.HttpStatus;
-                resultadoIntegracionFE.JsonResult = integracionConsultarEstadoFEModel.JsonResult;
-                resultadoIntegracionFE.HuboError = integracionConsultarEstadoFEModel.HuboErrorFE || integracionConsultarEstadoFEModel.HuboErrorIntegracion;
-                resultadoIntegracionFE.Error = string.Join(", ", integracionConsultarEstadoFEModel.Errores);
-                
-
-                bool isCertified = integracionConsultarEstadoFEModel.Status.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase);
-                bool isWithErrors = integracionConsultarEstadoFEModel.Status.Equals(_withErrorsDIAN, StringComparison.OrdinalIgnoreCase);
-                if (!resultadoIntegracionFE.HuboError)
+                if (!string.IsNullOrWhiteSpace(consultaEstaod_IFE.Status))
                 {
-                    if (!resultadoIntegracionFE.HuboError)
-                    {
-                        fac.CUFE = integracionConsultarEstadoFEModel.Cufe;
-                        fac.IssueDate = integracionConsultarEstadoFEModel.IssueDate;
-                        fac.UpdatedBy = user;
-                        fac.DIANResponse = integracionConsultarEstadoFEModel.DocumentStatus;
-                        unitOfWork.Repository<Facturas>().Modify(fac);
-                        unitOfWork.CommitTransaction();
-                    }
-
-                    if (isCertified)
-                    {
-                        var envioCorreo = await EnviarEmail(facturaId, "Envio Factura Manual", user, host);
-                        if (!envioCorreo)
-                        {
-                            ConfiguracionEnvioEmailJob configuracionEnvioEmailJob = new ConfiguracionEnvioEmailJob
-                            {
-                                Id = 0,
-                                Host = host,
-                                Tipo = (int)TipoDocumento.Factura,
-                                IdTipo = fac.Id,
-                                Ejecutado = false,
-                                Exitoso = false,
-                                Intentos = 1,
-                                Detalle = $"| Intento 1: {string.Join(", ", integracionConsultarEstadoFEModel.Errores)} | ",
-                                CreationDate = DateTime.Now,
-                                LastUpdate = DateTime.Now,
-                                CreatedBy = user,
-                                UpdatedBy = user
-                            };
-                            unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Add(configuracionEnvioEmailJob);
-                        }
-                    }
-                }
-                else
-                {
-                    fac.DIANResponse = integracionConsultarEstadoFEModel.Status;
+                    fac.DIANResponse = consultaEstaod_IFE.Status;
                     unitOfWork.Repository<Facturas>().Modify(fac);
                     unitOfWork.CommitTransaction();
                 }
 
-                if (esRutina)
+                bool isCertified = consultaEstaod_IFE.Status.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase);
+                bool isWithErrors = consultaEstaod_IFE.Status.Equals(_withErrorsDIAN, StringComparison.OrdinalIgnoreCase);
+                if (!consultarEstado_FE.HuboError)
                 {
-                    var job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table.FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == facturaId);
+                    if (isCertified)
+                    {
+                        consultaEstaod_IFE = await ConsultarDatosDocumento(fac, integracionFE, user, host);
+                    }
+                }
+
+                if (job != null)
+                {
                     if (job != null)
                     {
                         job.Ejecutado = true;
@@ -232,23 +169,121 @@ namespace Blazor.BusinessLogic
                         else
                         {
                             job.Exitoso = false;
-                            job.Detalle += $"| Intento {job.Intentos}: {string.Join(", ", integracionConsultarEstadoFEModel.Errores)} | ";
+                            job.Detalle += $"| Intento {job.Intentos}: {consultaEstaod_IFE.Status} | ";
                         }
                         unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
+                    }
+                }
+                else
+                {
+                    if (!isCertified && !isWithErrors)
+                    {
+                        ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
+                        {
+                            Id = 0,
+                            Host = host,
+                            Tipo = (int)TipoDocumento.Factura,
+                            IdTipo = fac.Id,
+                            Ejecutado = false,
+                            Exitoso = false,
+                            Intentos = 1,
+                            Detalle = $"| Intento 1: {consultaEstaod_IFE.Status} | ",
+                            CreationDate = DateTime.Now,
+                            LastUpdate = DateTime.Now,
+                            CreatedBy = user,
+                            UpdatedBy = user
+                        };
+                        unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
+
+                        throw new Exception("El documento se envio satisfactoriamente y esta pendiente de certificación.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                resultadoIntegracionFE.HuboError = true;
-                resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
-                integracionConsultarEstadoFEModel.Errores.Add(ex.GetFullErrorMessage());
-                integracionConsultarEstadoFEModel.HuboErrorFE = true;
+                consultarEstado_FE.HuboError = true;
+                consultarEstado_FE.Error = ex.GetFullErrorMessage();
+                consultaEstaod_IFE.Errores.Add(ex.GetFullErrorMessage());
+                consultaEstaod_IFE.HuboErrorFE = true;
             }
 
-            unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(consultarEstado_FE);
             unitOfWork.CommitTransaction();
-            return integracionConsultarEstadoFEModel;
+            return consultaEstaod_IFE;
+        }
+
+        private async Task<IntegracionEnviarFEModel> ConsultarDatosDocumento(Facturas fac, IntegracionFE integracionFE, string user, string host)
+        {
+            ResultadoIntegracionFE consultarDatosDoc_FE = new ResultadoIntegracionFE();
+            consultarDatosDoc_FE.CreatedBy = user;
+            consultarDatosDoc_FE.UpdatedBy = user;
+            consultarDatosDoc_FE.CreationDate = DateTime.Now;
+            consultarDatosDoc_FE.LastUpdate = DateTime.Now;
+            IntegracionEnviarFEModel consultarDatosDoc_IFE = new IntegracionEnviarFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                consultarDatosDoc_FE.Tipo = (int)TipoDocumento.Factura;
+                consultarDatosDoc_FE.IdTipo = fac.Id;
+
+                consultarDatosDoc_IFE = await integracionFE.ConsultarDatosDocumento(fac.IdDocumentoFE.Value);
+                consultarDatosDoc_IFE.IdDocumentFE = fac.IdDocumentoFE;
+                consultarDatosDoc_FE.Api = consultarDatosDoc_IFE.Api;
+                consultarDatosDoc_FE.HttpStatus = consultarDatosDoc_IFE.HttpStatus;
+                consultarDatosDoc_FE.JsonResult = consultarDatosDoc_IFE.JsonResult;
+                consultarDatosDoc_FE.HuboError = consultarDatosDoc_IFE.HuboErrorFE || consultarDatosDoc_IFE.HuboErrorIntegracion;
+                consultarDatosDoc_FE.Error = string.Join(", ", consultarDatosDoc_IFE.Errores);
+                fac.DIANResponse = consultarDatosDoc_IFE.Status;
+
+                bool isCertified = consultarDatosDoc_IFE.Status.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase);
+
+                if (!consultarDatosDoc_FE.HuboError)
+                {
+                    fac.CUFE = consultarDatosDoc_IFE.Cufe;
+                    fac.IssueDate = consultarDatosDoc_IFE.IssueDate;
+                    fac.UpdatedBy = user;
+                }
+
+                unitOfWork.Repository<Facturas>().Modify(fac);
+                unitOfWork.CommitTransaction();
+
+                if (isCertified)
+                {
+                    var envioCorreo = await EnviarEmail(fac.Id, "Envio Factura Manual", user, host);
+                    if (!envioCorreo)
+                    {
+                        ConfiguracionEnvioEmailJob configuracionEnvioEmailJob = new ConfiguracionEnvioEmailJob
+                        {
+                            Id = 0,
+                            Host = host,
+                            Tipo = (int)TipoDocumento.Factura,
+                            IdTipo = fac.Id,
+                            Ejecutado = false,
+                            Exitoso = false,
+                            Intentos = 1,
+                            Detalle = $"| Intento 1: {string.Join(", ", consultarDatosDoc_IFE.Errores)} | ",
+                            CreationDate = DateTime.Now,
+                            LastUpdate = DateTime.Now,
+                            CreatedBy = user,
+                            UpdatedBy = user
+                        };
+                        unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Add(configuracionEnvioEmailJob);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                consultarDatosDoc_FE.HuboError = true;
+                consultarDatosDoc_FE.Error = ex.GetFullErrorMessage();
+                consultarDatosDoc_IFE.Errores.Add(ex.GetFullErrorMessage());
+                consultarDatosDoc_IFE.HuboErrorFE = true;
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(consultarDatosDoc_FE);
+            unitOfWork.CommitTransaction();
+            return consultarDatosDoc_IFE;
         }
 
         public async Task<IntegracionXmlFEModel> GetArchivoXmlDIAN(long facturaId, string user, string host)
@@ -336,6 +371,16 @@ namespace Blazor.BusinessLogic
                 throw new Exception($"La factura con el Id {facturaId} no se encuentra registrada en el sistema.");
             }
 
+            var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(parametros.EmailRecepcionFE))
+            {
+                throw new Exception($"El email para recepcionar los documento de la facturacion electronica no se encuentra parametrizado correctamente.");
+            }
+            if (!DApp.Util.EsEmailValido(parametros.EmailRecepcionFE))
+            {
+                throw new Exception($"El email para recepcionar los documento de la facturacion electronica no es valido.");
+            }
+
             var facDetalles = unitOfWork.Repository<FacturasDetalles>().Table
                 .Include(x => x.Servicios)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones)
@@ -346,6 +391,7 @@ namespace Blazor.BusinessLogic
                 .ToList();
 
             FeRootJson feRootJson = new FeRootJson();
+            feRootJson.CustomerParty.Email = parametros.EmailRecepcionFE;
             feRootJson.Currency = "COP";
             feRootJson.SeriePrefix = fac.Documentos.Prefijo;
             feRootJson.SerieNumber = fac.NroConsecutivo.ToString();
@@ -389,7 +435,6 @@ namespace Blazor.BusinessLogic
             if (fac.EsFacturaInstitucional)
             {
                 feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
-                feRootJson.CustomerParty.Email = fac.Entidades.CorreoElectronico;
                 feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
                 feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
                 feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
@@ -406,7 +451,6 @@ namespace Blazor.BusinessLogic
             else
             {
                 feRootJson.CustomerParty.LegalType = "Natural";
-                feRootJson.CustomerParty.Email = fac.Pacientes.CorreoElectronico;
                 feRootJson.CustomerParty.TaxScheme = "ZZ";
                 feRootJson.CustomerParty.ResponsabilityTypes = new List<string>();
                 feRootJson.CustomerParty.ResponsabilityTypes.Add("R-99-PN");

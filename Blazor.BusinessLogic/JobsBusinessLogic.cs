@@ -147,7 +147,7 @@ namespace Blazor.BusinessLogic
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             ResultadoIntegracionFEJob job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table
-                .OrderBy(x => x.CreationDate)
+                .OrderByDescending(x => x.CreationDate)
                 .FirstOrDefault(x => !x.Exitoso && !string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
 
             if (job == null)
@@ -159,7 +159,7 @@ namespace Blazor.BusinessLogic
             {
                 if (job.Tipo == (int)TipoDocumento.Factura) // Tipo factura
                 {
-                    await new FacturasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, true);
+                    await new FacturasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, job);
                 }
                 //else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
                 //{

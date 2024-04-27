@@ -1425,8 +1425,6 @@
                 mensajes = [mensajes];
             }
 
-            console.log("titulo", titulo);
-
             if (titulo == undefined || titulo == '') {
                 titulo = "Mensaje";
             }
@@ -1436,8 +1434,6 @@
                 errores += "<li>" + mensajes[i] + "</li>";
             }
             errores += "</ul>";
-
-            console.log("errores", errores);
 
             DevExpress.ui.dialog.alert(errores, titulo, true);
         }
