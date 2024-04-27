@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Blazor.Infrastructure.Entities.Models;
 
@@ -14,13 +15,42 @@ public class FEResultJson<T>
     public List<string> Warnings { get; set; }
 
     [JsonProperty("Errors")]
-    public List<string> Errors { get; set; }
+    public List<FeErrorStatus400> Errors { get; set; }
 
     [JsonProperty("ResultData")]
     public T ResultData { get; set; }
 
     [JsonProperty("ResultCode")]
     public int ResultCode { get; set; }
+
+    public List<string> ListaErrores
+    {
+        get
+        {
+            if (Errors != null && Errors.Any())
+            {
+                return Errors.Select(x=> $"Codigo:{x.Code}, Campo: {x.Field}").ToList();
+            }else
+            {
+                return new List<string>();
+            }
+        }
+    }
+}
+
+public class FeErrorStatus400
+{
+    [JsonProperty("Code")]
+    public string Code { get; set; }
+
+    [JsonProperty("Description")]
+    public object Description { get; set; }
+
+    [JsonProperty("ExplanationValues")]
+    public List<object> ExplanationValues { get; set; }
+
+    [JsonProperty("Field")]
+    public string Field { get; set; }
 }
 
 public class RespuestaStatus
@@ -139,7 +169,7 @@ public class FeRootJson
     public List<string> Notes { get; set; } = new List<string>();
 
     [JsonProperty("HealthcareData")]
-    public FeHealthcareData HealthcareData { get; set; } = new FeHealthcareData(); 
+    public FeHealthcareData HealthcareData { get; set; } = new FeHealthcareData();
 }
 
 public class FEPaymentMeans

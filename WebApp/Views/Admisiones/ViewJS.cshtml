@@ -61,12 +61,21 @@
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-                $("#mainPanel").html(data);
+
+                console.log("Resultado Envio Factura FE: ", data);
+
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Error Integración FE");
+                    return false;
+                }
+                SetDataIntegracionFE(data);
+                DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
             },
             error: function (xhr) {
                 console.log(xhr);
                 hideLoadIndicator();
-                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error");
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
             }
         });
     }

@@ -123,9 +123,14 @@ public class IntegracionFE
             }
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
-                var feResult = JsonConvert.DeserializeObject<FEResultJson<Guid>>(jsonResult);
-                integracionFEModel.IdDocumentFE = feResult.ResultData;
+                var feResult = JsonConvert.DeserializeObject<FEResultJson<string>>(jsonResult);
                 integracionFEModel.HuboErrorFE = true;
+
+                if (feResult.ListaErrores.Any())
+                {
+                    integracionFEModel.Errores = feResult.ListaErrores;
+                }
+                integracionFEModel.Status = "BadRequest";
             }
         }
         catch (Exception ex)
@@ -159,6 +164,7 @@ public class IntegracionFE
                 if (feResult.ResultData != null)
                 {
                     integracionConsultarEstadoFEModel.Status = feResult.ResultData.Status;
+                    integracionConsultarEstadoFEModel.DocumentStatus = feResult.ResultData.Status;
 
                     if (feResult.ResultData.Status.Equals("Certified", StringComparison.OrdinalIgnoreCase) && (feResult.ResultData.ValidationErrors == null || !feResult.ResultData.ValidationErrors.Any()))
                     {
@@ -167,11 +173,17 @@ public class IntegracionFE
                     }
                     else
                     {
-                        if (feResult.ResultData.ValidationErrors.Any())
+                        if (!feResult.ResultData.Status.Equals("Staged", StringComparison.OrdinalIgnoreCase))
                         {
-                            var erroresCode = feResult.ResultData.ValidationErrors.Select(x => x.Code).ToList();
-                            var errores = feResult.ResultData.ValidationErrors.SelectMany(x => x.ExplanationValues).ToList();
-                            integracionConsultarEstadoFEModel.Errores.AddRange(erroresCode);
+                            if (feResult.ResultData.ValidationErrors != null && feResult.ResultData.ValidationErrors.Any())
+                            {
+                                var erroresCode = feResult.ResultData.ValidationErrors.Select(x => x.Code).ToList();
+                                var erroresDesc = feResult.ResultData.ValidationErrors.Select(x => x.Description).ToList();
+                                var errores = feResult.ResultData.ValidationErrors.SelectMany(x => x.ExplanationValues).ToList();
+                                integracionConsultarEstadoFEModel.Errores.AddRange(erroresCode);
+                                integracionConsultarEstadoFEModel.Errores.AddRange(erroresDesc);
+                                integracionConsultarEstadoFEModel.Errores.AddRange(errores);
+                            }
                         }
                         integracionConsultarEstadoFEModel.HuboErrorFE = true;
                     }
@@ -185,8 +197,9 @@ public class IntegracionFE
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<object>>(jsonResult);
-                integracionConsultarEstadoFEModel.Errores = feResult.Errors;
+                integracionConsultarEstadoFEModel.Errores = feResult.ListaErrores;
                 integracionConsultarEstadoFEModel.HuboErrorFE = true;
+                integracionConsultarEstadoFEModel.Status = "BadRequest";
             }
         }
         catch (Exception ex)
@@ -222,6 +235,7 @@ public class IntegracionFE
                     integracionConsultarEstadoFEModel.HuboErrorFE = false;
                     integracionConsultarEstadoFEModel.Cufe = feResult.ResultData.Cufe;
                     integracionConsultarEstadoFEModel.IssueDate = feResult.ResultData.CreationDate.ToLocalTime();
+                    integracionConsultarEstadoFEModel.Status = feResult.ResultData.DocumentStatus;
                     integracionConsultarEstadoFEModel.DocumentStatus = feResult.ResultData.DocumentStatus;
                 }
                 else
@@ -233,8 +247,9 @@ public class IntegracionFE
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<object>>(jsonResult);
-                integracionConsultarEstadoFEModel.Errores = feResult.Errors;
+                integracionConsultarEstadoFEModel.Errores = feResult.ListaErrores;
                 integracionConsultarEstadoFEModel.HuboErrorFE = true;
+                integracionConsultarEstadoFEModel.Status = "BadRequest";
             }
         }
         catch (Exception ex)
@@ -272,7 +287,7 @@ public class IntegracionFE
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<FeResutoGetXml>>(jsonResult);
-                integracionXmlFEModel.Errores = feResult.Errors;
+                integracionXmlFEModel.Errores = feResult.ListaErrores;
                 integracionXmlFEModel.HuboErrorFE = true;
             }
         }
@@ -308,7 +323,7 @@ public class IntegracionFE
             else if (httpResult.StatusCode == HttpStatusCode.BadRequest)
             {
                 var feResult = JsonConvert.DeserializeObject<FEResultJson<List<FEResultadoSeries>>>(jsonResult);
-                integracionSeriesFEModel.Errores = feResult.Errors;
+                integracionSeriesFEModel.Errores = feResult.ListaErrores;
                 integracionSeriesFEModel.HuboErrorFE = true;
             }
         }

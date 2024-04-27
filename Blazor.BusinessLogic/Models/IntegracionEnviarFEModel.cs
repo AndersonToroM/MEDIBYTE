@@ -31,10 +31,10 @@ namespace Blazor.BusinessLogic.Models
     public class IntegracionEnviarFEModel : IntegracionFEBase
     {
         public Guid? IdDocumentFE { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
         public string Cufe { get; set; }
         public DateTime IssueDate { get; set; }
-        public string DocumentStatus { get; set; }
+        public string DocumentStatus { get; set; } = string.Empty;
     }
 
     public class IntegracionSeriesFEModel : IntegracionFEBase

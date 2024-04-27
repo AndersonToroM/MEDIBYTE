@@ -113,7 +113,7 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             ConfiguracionEnvioEmailJob job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
                 .OrderBy(x => x.CreationDate)
-                .FirstOrDefault(x => !x.Exitoso && string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
+                .FirstOrDefault(x => !x.Exitoso && !string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
 
             if (job == null)
             {
@@ -148,7 +148,7 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             ResultadoIntegracionFEJob job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table
                 .OrderBy(x => x.CreationDate)
-                .FirstOrDefault(x => !x.Exitoso && string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
+                .FirstOrDefault(x => !x.Exitoso && !string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
 
             if (job == null)
             {

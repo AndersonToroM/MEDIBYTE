@@ -65,6 +65,7 @@
             },
             new ButtonToolbar
             {
+                Id = $"{Prefix}BotonEnviarDIAN",
                 Action = $"{Prefix}EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarDIAN"),
                 Disabled = Model.Entity.IsNew || enviadoDian,
