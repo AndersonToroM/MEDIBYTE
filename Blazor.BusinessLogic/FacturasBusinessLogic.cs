@@ -342,15 +342,6 @@ namespace Blazor.BusinessLogic
             feRootJson.IssueDate = fac.Fecha;
             feRootJson.DeliveryDate = fac.Fecha;
             feRootJson.DueDate = fac.ConvenioId.HasValue ? (fac.Convenio.PeriodicidadPago.HasValue ? fac.Fecha.AddDays(fac.Convenio.PeriodicidadPago.Value).ToString("yyyy-MM-dd") : fac.Fecha.ToString("yyyy-MM-dd")) : fac.Fecha.ToString("yyyy-MM-dd");
-
-            string consecutivoEnvioFE = fac.ConsecutivoFE;
-            if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
-            {
-                consecutivoEnvioFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
-                fac.ConsecutivoFE = consecutivoEnvioFE;
-                unitOfWork.Repository<Facturas>().Modify(fac);
-            }
-
             feRootJson.CorrelationDocumentId = fac.ConsecutivoFE;
             feRootJson.SerieExternalKey = fac.Documentos.ExternalKey;
             feRootJson.IssuerParty.Identification.DocumentNumber = fac.Empresas.NumeroIdentificacion;
@@ -910,19 +901,11 @@ namespace Blazor.BusinessLogic
                 else
                     correo = unitOfWork.Repository<Entidades>().GetTable().FirstOrDefault(x => x.Id == factura.EntidadesId)?.CorreoElectronico;
 
-                string consecutivoEnvioFE = factura.ConsecutivoFE;
-                if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
-                {
-                    consecutivoEnvioFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
-                    factura.ConsecutivoFE = consecutivoEnvioFE;
-                    unitOfWork.Repository<Facturas>().Modify(factura);
-                }
-
                 var xmlDian = await GetArchivoXmlDIAN(factura.Id, user, host);
 
                 ZipArchive archive = new ZipArchive();
-                archive.FileName = $"z{consecutivoEnvioFE}.zip";
-                archive.AddFile(GetPdfFacturaReporte(factura, consecutivoEnvioFE, user), "/");
+                archive.FileName = $"z{factura.ConsecutivoFE}.zip";
+                archive.AddFile(GetPdfFacturaReporte(factura, factura.ConsecutivoFE, user), "/");
                 archive.AddFile(xmlDian.PathFile, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -936,7 +919,7 @@ namespace Blazor.BusinessLogic
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
-                envioEmailConfig.ArchivosAdjuntos.Add($"z{consecutivoEnvioFE}.zip", msZip);
+                envioEmailConfig.ArchivosAdjuntos.Add($"z{factura.ConsecutivoFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
                     {"nombreCia",$"{empresas.RazonSocial}" }
@@ -1043,6 +1026,7 @@ namespace Blazor.BusinessLogic
                 factura.AdmisionesId = admision.Id;
                 factura.Fecha = DateTime.Now;
                 factura.DocumentosId = admision.DocumentosId.GetValueOrDefault(0);
+                factura.ConsecutivoFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
 
                 var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == factura.DocumentosId, false);
                 long consecutivo = 0;
@@ -1248,6 +1232,7 @@ namespace Blazor.BusinessLogic
                 factura.AdmisionesId = admision.Id;
                 factura.Fecha = DateTime.Now;
                 factura.DocumentosId = admision.DocumentosId.GetValueOrDefault(0);
+                factura.ConsecutivoFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
 
                 var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == factura.DocumentosId, false);
                 long consecutivo = 0;

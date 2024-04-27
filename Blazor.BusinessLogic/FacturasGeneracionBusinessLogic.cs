@@ -5,6 +5,7 @@ using Dominus.Backend.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.BusinessLogic
 {
@@ -47,6 +48,7 @@ namespace Blazor.BusinessLogic
                             fact.Fecha = DateTime.Now;
                             fact.DocumentosId = factGen.DocumentosId;
                             fact.FormasPagosId = unitOfWork.Repository<Convenios>().FindById(x => x.Id == itemaFact.ConvenioId, false).FormasPagosId;
+                            fact.ConsecutivoFE = new GenericBusinessLogic<Facturas>(unitOfWork).GetConsecutivoParaEnvioFE();
 
                             long consecutivo = 0;
                             var documento = unitOfWork.Repository<Documentos>().FindById(x => x.Id == factGen.DocumentosId, false);
