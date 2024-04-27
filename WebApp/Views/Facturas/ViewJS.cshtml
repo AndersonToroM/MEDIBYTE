@@ -103,7 +103,9 @@
             url: "@UrlEnviarDian",
             type: 'GET',
             success: function (data) {
-                hideLoadIndicator();
+                hideLoadIndicator()
+                $("#mainPanel").html(data);
+                ;
 
                 console.log(data)
 
