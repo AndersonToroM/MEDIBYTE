@@ -162,6 +162,7 @@ namespace Blazor.BusinessLogic
                         job.LastUpdate = DateTime.Now;
                         job.UpdatedBy = user;
                         job.Intentos++;
+                        job.Detalle += $"| Intento {job.Intentos}: {consultaEstaod_IFE.Status} | ";
                         if (isCertified || isWithErrors)
                         {
                             job.Exitoso = true;
@@ -169,7 +170,6 @@ namespace Blazor.BusinessLogic
                         else
                         {
                             job.Exitoso = false;
-                            job.Detalle += $"| Intento {job.Intentos}: {consultaEstaod_IFE.Status} | ";
                         }
                         unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
                     }

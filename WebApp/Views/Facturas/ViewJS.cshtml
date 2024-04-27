@@ -109,7 +109,7 @@
 
                 if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
 
-                    MostrarDialogoDeAlerta(data.Errores, "Error Integración FE");
+                    MostrarDialogoDeAlerta(data.Errores, "Integración FE");
                     $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
                     return false;
                 }
@@ -138,7 +138,7 @@
 
                 if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
 
-                    MostrarDialogoDeAlerta(data.Errores, "Error Consulta de Datos FE");
+                    MostrarDialogoDeAlerta(data.Errores, "Consulta de Datos FE");
                     return false;
                 }
                 SetDataIntegracionFE(data);
