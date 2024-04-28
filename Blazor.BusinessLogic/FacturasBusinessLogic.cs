@@ -195,7 +195,7 @@ namespace Blazor.BusinessLogic
                         };
                         unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
 
-                        throw new Exception("El documento se envio satisfactoriamente y esta pendiente de certificación.");
+                        throw new Exception("El documento se envió satisfactoriamente y esta pendiente de certificación.");
                     }
                 }
             }
@@ -250,7 +250,7 @@ namespace Blazor.BusinessLogic
 
                 if (isCertified)
                 {
-                    var envioCorreo = await EnviarEmail(fac.Id, "Envio Factura Manual", user, host);
+                    var envioCorreo = await EnviarEmail(fac.Id, "Envío automático SIISO", user, host);
                     if (!envioCorreo)
                     {
                         ConfiguracionEnvioEmailJob configuracionEnvioEmailJob = new ConfiguracionEnvioEmailJob
@@ -374,11 +374,11 @@ namespace Blazor.BusinessLogic
             var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
             if (string.IsNullOrWhiteSpace(parametros.EmailRecepcionFE))
             {
-                throw new Exception($"El email para recepcionar los documento de la facturacion electronica no se encuentra parametrizado correctamente.");
+                throw new Exception($"El email para recepcionar los documentos de la facturación electrónica no se encuentra parametrizado correctamente.");
             }
             if (!DApp.Util.EsEmailValido(parametros.EmailRecepcionFE))
             {
-                throw new Exception($"El email para recepcionar los documento de la facturacion electronica no es valido.");
+                throw new Exception($"El email para recepcionar los documentos de la facturación electrónica no es válido.");
             }
 
             var facDetalles = unitOfWork.Repository<FacturasDetalles>().Table
@@ -729,7 +729,7 @@ namespace Blazor.BusinessLogic
 
             if (string.IsNullOrWhiteSpace(fac.XmlUrl))
             {
-                throw new Exception("La factura no tiene registro en la dian o no se le ha generado XML.");
+                throw new Exception("La factura no tiene registro en la DIAN o no se le ha generado XML.");
             }
 
             var facturasDetalles = unitOfWork.Repository<FacturasDetalles>().Table
@@ -954,7 +954,7 @@ namespace Blazor.BusinessLogic
                 !factura.IssueDate.HasValue ||
                 !string.Equals(factura.DIANResponse, _certifiedDIAN, StringComparison.OrdinalIgnoreCase))
             {
-                throw new Exception("La factura no ha sido aceptada por la dian.");
+                throw new Exception("La factura no ha sido aceptada por la DIAN.");
             }
 
             try
@@ -1035,7 +1035,7 @@ namespace Blazor.BusinessLogic
             CiclosCajas cicloCaja = unitOfWork.Repository<CiclosCajas>().FindById(x => x.OpenUsersId == userId && x.CloseUsersId == null, false);
 
             if (admision.Facturado)
-                throw new Exception($"Esta admision ya fue facturada. Factura {admision.FacturaCopagoCuotaModeradora?.Documentos?.Prefijo}-{admision.FacturaCopagoCuotaModeradora?.NroConsecutivo}");
+                throw new Exception($"Esta admisión ya fue facturada. Factura {admision.FacturaCopagoCuotaModeradora?.Documentos?.Prefijo}-{admision.FacturaCopagoCuotaModeradora?.NroConsecutivo}");
 
             if (admision.FormasPagosId == null)
                 throw new Exception($"La forma de pago es obligatoria.");
@@ -1075,7 +1075,7 @@ namespace Blazor.BusinessLogic
 
                 if (admision.ValorCopago <= 0)
                 {
-                    throw new Exception($"El valor a facturar de COPAGO o CUOTA MODERADORA deben ser superiores a cero (0)");
+                    throw new Exception($"El valor a facturar de COPAGO o CUOTA MODERADORA debe ser superiores a cero (0)");
                 }
 
                 Facturas factura = new Facturas();
@@ -1107,11 +1107,11 @@ namespace Blazor.BusinessLogic
                 {
                     if (consecutivo < documento.ConsecutivoDesde || consecutivo > documento.ConsecutivoHasta)
                     {
-                        throw new Exception($"El consecutivo supero la resolucion de la DIAN del documento {documento.Prefijo}.");
+                        throw new Exception($"El consecutivo superó la resolución DIAN del documento {documento.Prefijo}.");
                     }
                     if (DateTime.Now < documento.FechaDesde || DateTime.Now > documento.FechaHasta)
                     {
-                        throw new Exception($"La fecha supero la resolucion de la DIAN del documento {documento.Prefijo}.");
+                        throw new Exception($"La fecha superó la resolución DIAN del documento {documento.Prefijo}.");
                     }
                 }
 
@@ -1313,11 +1313,11 @@ namespace Blazor.BusinessLogic
                 {
                     if (consecutivo < documento.ConsecutivoDesde || consecutivo > documento.ConsecutivoHasta)
                     {
-                        throw new Exception($"El consecutivo supero la resolucion de la DIAN del documento {documento.Prefijo}.");
+                        throw new Exception($"El consecutivo superó la resolución DIAN del documento {documento.Prefijo}.");
                     }
                     if (DateTime.Now < documento.FechaDesde || DateTime.Now > documento.FechaHasta)
                     {
-                        throw new Exception($"La fecha supero la resolucion de la DIAN del documento {documento.Prefijo}.");
+                        throw new Exception($"La fecha superó la resolución DIAN del documento {documento.Prefijo}.");
                     }
                 }
 

@@ -4152,6 +4152,10 @@
     "Description": "Motivo de anulación"
   },
   {
+    "Id": "ParametrosGenerales.EmailRecepcionFE",
+    "Description": "Email recepción Saphety"
+  },
+  {
     "Id": "ParametrosGenerales.EsObligatorioAudioLectura",
     "Description": "¿Es obligatorio audio en lectura?"
   },
