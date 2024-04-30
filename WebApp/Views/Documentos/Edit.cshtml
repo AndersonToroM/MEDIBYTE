@@ -65,7 +65,7 @@
                                      groupItems.AddSimpleFor(m => m.Entity.Descripcion).ColSpan(4)
                                      //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Documentos.Descripcion")))
                                      .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Documentos.Descripcion", 250)))
-                                          .Editor(e => e.TextBox().ID(Prefix + "Descripcion").ReadOnly(true));
+                                          .Editor(e => e.TextBox().ID(Prefix + "Descripcion").ReadOnly(false));
 
                                     groupItems.AddSimpleFor(m => m.Entity.Transaccion).ColSpan(4)
                                      .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Documentos.Transaccion")))
