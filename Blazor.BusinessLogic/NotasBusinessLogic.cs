@@ -83,20 +83,12 @@ namespace Blazor.BusinessLogic
                 content = @"<?xml version='1.0' encoding='UTF-8'?>";
                 content += doc.DocumentElement.ChildNodes[3].InnerXml;
 
-                string consecutivoEnvioFE = nota.ConsecutivoFE;
-                if (string.IsNullOrWhiteSpace(consecutivoEnvioFE))
-                {
-                    consecutivoEnvioFE = new GenericBusinessLogic<Notas>(unitOfWork).GetConsecutivoParaEnvioFE();
-                    nota.ConsecutivoFE = consecutivoEnvioFE;
-                    unitOfWork.Repository<Notas>().Modify(nota);
-                }
-
-                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{consecutivoEnvioFE}.xml");
+                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{nota.ConsecutivoFE}.xml");
                 File.WriteAllText(pathXml, content, Encoding.UTF8);
 
                 ZipArchive archive = new ZipArchive();
-                archive.FileName = $"z{consecutivoEnvioFE}.zip";
-                archive.AddFile(GetPdfNotaReporte(nota, consecutivoEnvioFE, user), "/");
+                archive.FileName = $"z{nota.ConsecutivoFE}.zip";
+                archive.AddFile(GetPdfNotaReporte(nota, nota.ConsecutivoFE, user), "/");
                 archive.AddFile(pathXml, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -110,7 +102,7 @@ namespace Blazor.BusinessLogic
                 envioEmailConfig.MetodoUso = eventoEnvio;
                 envioEmailConfig.Template = "EmailEnvioNotaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
-                envioEmailConfig.ArchivosAdjuntos.Add($"z{consecutivoEnvioFE}.zip", msZip);
+                envioEmailConfig.ArchivosAdjuntos.Add($"z{nota.ConsecutivoFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
                     {"nombreCia",$"{empresas.RazonSocial}" }
@@ -153,6 +145,7 @@ namespace Blazor.BusinessLogic
             try
             {
                 data.Consecutivo = new GenericBusinessLogic<Documentos>(unitOfWork).GetSecuence($"{documento.Prefijo}");
+                data.ConsecutivoFE = new GenericBusinessLogic<Notas>(unitOfWork).GetConsecutivoParaEnvioFE();
                 data = unitOfWork.Repository<Notas>().Add(data);
                 unitOfWork.CommitTransaction();
             }
