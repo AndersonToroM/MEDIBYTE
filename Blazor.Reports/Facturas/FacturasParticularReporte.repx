@@ -316,7 +316,7 @@
             </Item1>
             <Item2 Ref="145" ControlType="XRTableRow" Name="tableRow41" Weight="1.239999389648438" Font="Calibri, 5.5pt">
               <Cells>
-                <Item1 Ref="146" ControlType="XRTableCell" Name="tableCell81" Weight="1" Multiline="true" Text="Proveedor tecnológico ACEPTA S.A.S.&#xD;&#xA;Proveedor de software CLOUDONESOFT S.A.S. NIT 901.298.432-6 &#xD;&#xA;Software SIISO - www.cloudonesoft.com" TextAlignment="BottomRight">
+                <Item1 Ref="146" ControlType="XRTableCell" Name="tableCell81" Weight="1" Multiline="true" Text="Proveedor tecnológico Saphety Transacciones Electrónicas S.A.S. Nit: 900.606.963-4&#xD;&#xA;Representación realizada por el proveedor de software CLOUDONESOFT S.A.S. NIT 901.298.432-6 &#xD;&#xA;Software SIISO - www.cloudonesoft.com - soporte@cloudonesoft.com" TextAlignment="BottomRight">
                   <StylePriority Ref="147" UseTextAlignment="false" />
                 </Item1>
               </Cells>
@@ -428,7 +428,7 @@
               <Cells>
                 <Item1 Ref="193" ControlType="XRTableCell" Name="tableCell24" Weight="1" Multiline="true">
                   <ExpressionBindings>
-                    <Item1 Ref="194" EventName="BeforePrint" PropertyName="Text" Expression="[FACTURA_CUFE]" />
+                    <Item1 Ref="194" EventName="BeforePrint" PropertyName="Text" Expression="Concat('CUFE: ',IsNull([FACTURA_CUFE],''))&#xA;" />
                   </ExpressionBindings>
                 </Item1>
               </Cells>
