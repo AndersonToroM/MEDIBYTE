@@ -173,6 +173,10 @@ namespace Blazor.BusinessLogic
                 nota.ValorDescuentos = detalles.Sum(x => x.SubTotal * (x.PorcDescuento / 100));
                 nota.ValorImpuestos = detalles.Sum(x => (x.SubTotal - (x.SubTotal * (x.PorcDescuento / 100))) * (x.PorcImpuesto / 100));
                 nota.MontoEscrito = DApp.Util.NumeroEnLetras(nota.ValorTotal);
+                if (nota.Documentos.Transaccion == 3 && nota.ValorTotal > nota.Facturas.ValorTotal)
+                {
+                    throw new Exception($"El valor total de la nota crédito no puede ser superior al valor total de la factura. ( ${nota.Facturas.ValorTotal} )");
+                }
                 nota.Estadosid = 10085;
                 nota = unitOfWork.Repository<Notas>().Modify(nota);
 
