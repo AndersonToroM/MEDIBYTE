@@ -559,6 +559,7 @@ namespace Dominus.Backend.Application
         public string PagosCompartidos = "PAGOS_COMPARTIDOS";
 
         public string OperationTypeNotaDebito = "30";
+        public string OperationTypeNotaCredito = "20";
 
 
     }

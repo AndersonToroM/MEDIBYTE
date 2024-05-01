@@ -326,7 +326,7 @@ namespace Blazor.BusinessLogic
             feRootJson.ReasonCredit = nota.NotasConceptos.Codigo;
             feRootJson.SeriePrefix = nota.Documentos.Prefijo;
             feRootJson.SerieNumber = nota.Consecutivo.ToString();
-            feRootJson.OperationType = DApp.Util.Dian.OperationTypeNotaDebito;
+            feRootJson.OperationType = DApp.Util.Dian.OperationTypeNotaCredito;
             feRootJson.IssueDate = nota.Fecha;
             feRootJson.DueDate = nota.FechaVencimiento;
             feRootJson.DeliveryDate = nota.Fecha;
