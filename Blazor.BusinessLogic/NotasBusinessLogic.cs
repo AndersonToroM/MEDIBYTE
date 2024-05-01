@@ -126,7 +126,7 @@ namespace Blazor.BusinessLogic
         }
 
         /// <summary>
-        /// https://localhost:44333/empresas/ObtenerJsonNotaDebitoFE?id=10021
+        /// https://localhost:44333/empresas/ObtenerJsonNotaDebitoFE?id=10022
         /// </summary>
         /// <param name="idNota"></param>
         /// <returns></returns>
@@ -269,7 +269,7 @@ namespace Blazor.BusinessLogic
         }
 
         /// <summary>
-        /// https://localhost:44333/empresas/ObtenerJsonNotaDebitoFE?id=10021
+        /// https://localhost:44333/empresas/ObtenerJsonNotaCreditoFE?id=10021
         /// </summary>
         /// <param name="idNota"></param>
         /// <returns></returns>
