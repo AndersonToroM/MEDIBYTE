@@ -1,4 +1,6 @@
-﻿using Blazor.BusinessLogic.Models.Enums;
+﻿using Blazor.BusinessLogic.Models;
+using Blazor.BusinessLogic.Models.Enums;
+using Blazor.BusinessLogic.ServiciosExternos;
 using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
@@ -10,8 +12,10 @@ using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,6 +25,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
+using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 
 namespace Blazor.BusinessLogic
 {
@@ -32,6 +37,379 @@ namespace Blazor.BusinessLogic
 
         public NotasBusinessLogic(DataBaseSetting configuracionBD) : base(configuracionBD)
         {
+        }
+
+        public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(long notaId, string user, string host)
+        {
+            ResultadoIntegracionFE enviarDocumento_FE = new ResultadoIntegracionFE();
+            enviarDocumento_FE.CreatedBy = user;
+            enviarDocumento_FE.UpdatedBy = user;
+            enviarDocumento_FE.CreationDate = DateTime.Now;
+            enviarDocumento_FE.LastUpdate = DateTime.Now;
+
+            IntegracionEnviarFEModel enviarDocumento_IFE = new IntegracionEnviarFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            unitOfWork.BeginTransaction();
+            try
+            {
+                var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+                var nota = unitOfWork.Repository<Notas>().Table
+                    .Include(x => x.Documentos)
+                    .FirstOrDefault(x => x.Id == notaId);
+
+                if (nota.IdDocumentoFE.HasValue &&
+                    !string.IsNullOrWhiteSpace(nota.DIANResponse) &&
+                    nota.DIANResponse.Equals(DApp.Util.Dian.StatusStaged, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Esta factura ya fue enviada a la DIAN pero no ha sido ceritifcada. Por favor consulte su estado.");
+                }
+
+                if (nota.IdDocumentoFE.HasValue &&
+                    !string.IsNullOrWhiteSpace(nota.DIANResponse) &&
+                    nota.DIANResponse.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Esta factura ya fue enviada a la DIAN.");
+                }
+
+                if (nota.Documentos.Transaccion != 3 && nota.Documentos.Transaccion != 4)
+                {
+                    throw new Exception($"El documento no pertenece a la transacción para nota cretido o debito. Por favor verifique la configuración del documento {nota.Documentos.Prefijo}");
+                }
+
+                IntegracionFE integracionFE = new IntegracionFE(parametros, host);
+
+                enviarDocumento_FE.Tipo = (int)TipoDocumento.Nota;
+                enviarDocumento_FE.IdTipo = notaId;
+
+                if (nota.Documentos.Transaccion == 3) // Nota Credito
+                {
+                    var json = GetFENotaCreditoJson(notaId);
+                    //enviarDocumento_IFE = await integracionFE.EnviarNotaCredito(json);
+                }
+                else if (nota.Documentos.Transaccion == 4) // Nota Debito
+                {
+                    var json = GetFENotaDebitoJson(notaId);
+                    //enviarDocumento_IFE = await integracionFE.EnviarNotaDebito(json);
+                }
+
+
+
+                enviarDocumento_FE.Api = enviarDocumento_IFE.Api;
+                enviarDocumento_FE.HttpStatus = enviarDocumento_IFE.HttpStatus;
+                enviarDocumento_FE.JsonResult = enviarDocumento_IFE.JsonResult;
+                enviarDocumento_FE.HuboError = enviarDocumento_IFE.HuboErrorFE || enviarDocumento_IFE.HuboErrorIntegracion;
+                enviarDocumento_FE.Error = string.Join(", ", enviarDocumento_IFE.Errores);
+
+                if (!enviarDocumento_FE.HuboError)
+                {
+                    nota.IdDocumentoFE = enviarDocumento_IFE.IdDocumentFE;
+                    nota.UpdatedBy = user;
+                    unitOfWork.Repository<Notas>().Modify(nota);
+                    unitOfWork.CommitTransaction();
+                    enviarDocumento_IFE.IdDocumentFE = nota.IdDocumentoFE;
+
+                    //enviarDocumento_IFE = await ConsultarEstadoDocumento(fac.Id, user, host);
+                }
+            }
+            catch (Exception ex)
+            {
+                enviarDocumento_FE.HuboError = true;
+                enviarDocumento_FE.Error = ex.GetFullErrorMessage();
+                enviarDocumento_IFE.Errores.Add(ex.GetFullErrorMessage());
+                enviarDocumento_IFE.HuboErrorFE = true;
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(enviarDocumento_FE);
+            unitOfWork.CommitTransaction();
+            return enviarDocumento_IFE;
+        }
+
+        /// <summary>
+        /// https://localhost:44333/empresas/ObtenerJsonNotaDebitoFE?id=10021
+        /// </summary>
+        /// <param name="idNota"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string GetFENotaDebitoJson(long notaId)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var nota = unitOfWork.Repository<Notas>().Table
+                .Include(x => x.NotasConceptos)
+                .Include(x => x.Facturas.Documentos)
+                .Include(x => x.Empresas.TiposIdentificacion)
+                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
+                .Include(x => x.Documentos)
+                .Include(x => x.Entidades)
+                .Include(x => x.Entidades.TiposPersonas)
+                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
+                .Include(x => x.Entidades.TiposIdentificacion)
+                .Include(x => x.Entidades.EntidadesResponsabilidadesFiscales).ThenInclude(x => x.ResponsabilidadesFiscales)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
+                .Include(x => x.Pacientes.TiposIdentificacion)
+                .Include(x => x.MediosPago)
+                .Include(x => x.FormasPagos)
+                .FirstOrDefault(x => x.Id == notaId);
+
+            if (nota == null)
+            {
+                throw new Exception($"La nota con el Id {notaId} no se encuentra registrada en el sistema.");
+            }
+
+            var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(parametros.EmailRecepcionFE))
+            {
+                throw new Exception($"El email para recepcionar los documentos de la facturación electrónica no se encuentra parametrizado correctamente.");
+            }
+            if (!DApp.Util.EsEmailValido(parametros.EmailRecepcionFE))
+            {
+                throw new Exception($"El email para recepcionar los documentos de la facturación electrónica no es válido.");
+            }
+
+            var notasDetalles = unitOfWork.Repository<NotasDetalles>().Table
+                .Include(x => x.Servicios)
+                .Where(x => x.NotasId == nota.Id)
+                .ToList();
+
+            if (nota.Documentos.Transaccion != 4)
+            {
+                throw new Exception($"El documento {nota.Documentos.Prefijo} no figura como transacción de nota debito.");
+            }
+
+            FeNotaDebitoJson feRootJson = new FeNotaDebitoJson();
+            feRootJson.Currency = DApp.Util.Dian.Currency;
+            feRootJson.ReasonDebit = nota.NotasConceptos.Codigo;
+            feRootJson.SeriePrefix = nota.Documentos.Prefijo;
+            feRootJson.SerieNumber = nota.Consecutivo.ToString();
+            feRootJson.OperationType = DApp.Util.Dian.OperationTypeNotaDebito;
+            feRootJson.IssueDate = nota.Fecha;
+            feRootJson.DueDate = nota.FechaVencimiento;
+            feRootJson.DeliveryDate = nota.Fecha;
+            feRootJson.CorrelationDocumentId = nota.ConsecutivoFE;
+            feRootJson.SerieExternalKey = nota.Documentos.ExternalKey;
+            feRootJson.IssuerParty.Identification.DocumentNumber = nota.Empresas.NumeroIdentificacion;
+            feRootJson.IssuerParty.Identification.DocumentType = nota.Empresas.TiposIdentificacion.CodigoFE;
+            feRootJson.IssuerParty.Identification.CountryCode = nota.Empresas.Ciudades.Departamentos.Paises.Codigo;
+            feRootJson.IssuerParty.Identification.CheckDigit = nota.Empresas.DV;
+
+            FePaymentMean fEPaymentMeans = new FePaymentMean();
+            fEPaymentMeans.Code = nota.MediosPago.Codigo;
+            fEPaymentMeans.Mean = nota.FormasPagos.Codigo;
+            fEPaymentMeans.DueDate = nota.FechaVencimiento.ToString("yyyy-MM-dd");
+            feRootJson.PaymentMeans.Add(fEPaymentMeans);
+
+            feRootJson.Total.GrossAmount = nota.ValorSubtotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.TotalBillableAmount = nota.ValorSubtotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.PayableAmount = nota.ValorTotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.TaxableAmount = "0";
+
+            feRootJson.DocumentReferences.Add(new FeDocumentReference
+            {
+                DocumentReferred = $"{nota.Facturas.Documentos.Prefijo}{nota.Facturas.NroConsecutivo}",
+                IssueDate = nota.Facturas.Fecha.ToString("yyyy-MM-dd"),
+                Type = DApp.Util.Dian.InvoiceReference,
+                DocumentReferredCUFE = nota.Facturas.CUFE
+            });
+
+            feRootJson.CustomerParty.Email = parametros.EmailRecepcionFE; // Es el correo al que van a llegar las notificaciones del provedor de FE
+            if (nota.EsNotaInstitucional)
+            {
+                feRootJson.CustomerParty.LegalType = nota.Entidades.TiposPersonas.NombreFE;
+                feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
+                feRootJson.CustomerParty.ResponsabilityTypes.AddRange(nota.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
+                feRootJson.CustomerParty.Identification.DocumentNumber = nota.Entidades.NumeroIdentificacion;
+                feRootJson.CustomerParty.Identification.DocumentType = nota.Empresas.TiposIdentificacion.CodigoFE;
+                feRootJson.CustomerParty.Identification.CountryCode = nota.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.CustomerParty.Identification.CheckDigit = nota.Entidades.DV;
+                feRootJson.CustomerParty.Name = nota.Entidades.Nombre;
+                feRootJson.CustomerParty.Address.DepartmentCode = nota.Entidades.Ciudades.Departamentos.Codigo;
+                feRootJson.CustomerParty.Address.CityCode = nota.Entidades.Ciudades.Codigo;
+                feRootJson.CustomerParty.Address.AddressLine = nota.Entidades.Direccion;
+                feRootJson.CustomerParty.Address.Country = nota.Entidades.Ciudades.Departamentos.Paises.Codigo;
+            }
+            else
+            {
+                feRootJson.CustomerParty.LegalType = "Natural"; // agregar tipopersona a la tabla pacientes
+                feRootJson.CustomerParty.TaxScheme = "ZZ";
+                feRootJson.CustomerParty.ResponsabilityTypes.Add("R-99-PN");
+                feRootJson.CustomerParty.Identification.DocumentNumber = nota.Pacientes.NumeroIdentificacion;
+                feRootJson.CustomerParty.Identification.DocumentType = nota.Pacientes.TiposIdentificacion.CodigoFE;
+                feRootJson.CustomerParty.Identification.CountryCode = nota.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.CustomerParty.Person.FirstName = nota.Pacientes.PrimerNombre;
+                feRootJson.CustomerParty.Person.MiddleName = nota.Pacientes.SegundoNombre;
+                feRootJson.CustomerParty.Person.FamilyName = nota.Pacientes.PrimerApellido;
+                feRootJson.CustomerParty.Address.DepartmentCode = nota.Pacientes.Ciudades.Departamentos.Codigo;
+                feRootJson.CustomerParty.Address.CityCode = nota.Pacientes.Ciudades.Codigo;
+                feRootJson.CustomerParty.Address.AddressLine = nota.Pacientes.Direccion;
+                feRootJson.CustomerParty.Address.Country = nota.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+            }
+
+            int numberLine = 1;
+            foreach (var notaDetalle in notasDetalles)
+            {
+                FeLine feLine = new FeLine();
+
+                feLine.Number = numberLine.ToString();
+                feLine.Quantity = notaDetalle.Cantidad.ToString("F2", CultureInfo.InvariantCulture);
+                feLine.QuantityUnitOfMeasure = DApp.Util.Dian.QuantityUnitOfMeasure;
+                feLine.ExcludeVat = "true";
+                feLine.UnitPrice = notaDetalle.ValorServicio.ToString(CultureInfo.InvariantCulture);
+                feLine.GrossAmount = notaDetalle.SubTotal.ToString(CultureInfo.InvariantCulture);
+                feLine.NetAmount = notaDetalle.ValorTotal.ToString(CultureInfo.InvariantCulture);
+                feLine.Item.Gtin = notaDetalle.Servicios.Codigo;
+                feLine.Item.Description = notaDetalle.Servicios.Nombre;
+
+                feRootJson.Lines.Add(feLine);
+                numberLine++;
+            }
+
+            return JsonConvert.SerializeObject(feRootJson, Newtonsoft.Json.Formatting.Indented);
+        }
+
+        /// <summary>
+        /// https://localhost:44333/empresas/ObtenerJsonNotaDebitoFE?id=10021
+        /// </summary>
+        /// <param name="idNota"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public string GetFENotaCreditoJson(long notaId)
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var nota = unitOfWork.Repository<Notas>().Table
+                .Include(x => x.NotasConceptos)
+                .Include(x => x.Facturas.Documentos)
+                .Include(x => x.Empresas.TiposIdentificacion)
+                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
+                .Include(x => x.Documentos)
+                .Include(x => x.Entidades)
+                .Include(x => x.Entidades.TiposPersonas)
+                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
+                .Include(x => x.Entidades.TiposIdentificacion)
+                .Include(x => x.Entidades.EntidadesResponsabilidadesFiscales).ThenInclude(x => x.ResponsabilidadesFiscales)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
+                .Include(x => x.Pacientes.TiposIdentificacion)
+                .Include(x => x.MediosPago)
+                .Include(x => x.FormasPagos)
+                .FirstOrDefault(x => x.Id == notaId);
+
+            if (nota == null)
+            {
+                throw new Exception($"La nota con el Id {notaId} no se encuentra registrada en el sistema.");
+            }
+
+            var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(parametros.EmailRecepcionFE))
+            {
+                throw new Exception($"El email para recepcionar los documentos de la facturación electrónica no se encuentra parametrizado correctamente.");
+            }
+            if (!DApp.Util.EsEmailValido(parametros.EmailRecepcionFE))
+            {
+                throw new Exception($"El email para recepcionar los documentos de la facturación electrónica no es válido.");
+            }
+
+            var notasDetalles = unitOfWork.Repository<NotasDetalles>().Table
+                .Include(x => x.Servicios)
+                .Where(x => x.NotasId == nota.Id)
+                .ToList();
+
+            if (nota.Documentos.Transaccion != 3)
+            {
+                throw new Exception($"El documento {nota.Documentos.Prefijo} no figura como transacción de nota credito.");
+            }
+
+            FeNotaCreditoJson feRootJson = new FeNotaCreditoJson();
+            feRootJson.Currency = DApp.Util.Dian.Currency;
+            feRootJson.ReasonCredit = nota.NotasConceptos.Codigo;
+            feRootJson.SeriePrefix = nota.Documentos.Prefijo;
+            feRootJson.SerieNumber = nota.Consecutivo.ToString();
+            feRootJson.OperationType = DApp.Util.Dian.OperationTypeNotaDebito;
+            feRootJson.IssueDate = nota.Fecha;
+            feRootJson.DueDate = nota.FechaVencimiento;
+            feRootJson.DeliveryDate = nota.Fecha;
+            feRootJson.CorrelationDocumentId = nota.ConsecutivoFE;
+            feRootJson.SerieExternalKey = nota.Documentos.ExternalKey;
+            feRootJson.IssuerParty.Identification.DocumentNumber = nota.Empresas.NumeroIdentificacion;
+            feRootJson.IssuerParty.Identification.DocumentType = nota.Empresas.TiposIdentificacion.CodigoFE;
+            feRootJson.IssuerParty.Identification.CountryCode = nota.Empresas.Ciudades.Departamentos.Paises.Codigo;
+            feRootJson.IssuerParty.Identification.CheckDigit = nota.Empresas.DV;
+
+            FePaymentMean fEPaymentMeans = new FePaymentMean();
+            fEPaymentMeans.Code = nota.MediosPago.Codigo;
+            fEPaymentMeans.Mean = nota.FormasPagos.Codigo;
+            fEPaymentMeans.DueDate = nota.FechaVencimiento.ToString("yyyy-MM-dd");
+            feRootJson.PaymentMeans.Add(fEPaymentMeans);
+
+            feRootJson.Total.GrossAmount = nota.ValorSubtotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.TotalBillableAmount = nota.ValorSubtotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.PayableAmount = nota.ValorTotal.ToString(CultureInfo.InvariantCulture);
+            feRootJson.Total.TaxableAmount = "0";
+
+            feRootJson.DocumentReferences.Add(new FeDocumentReference
+            {
+                DocumentReferred = $"{nota.Facturas.Documentos.Prefijo}{nota.Facturas.NroConsecutivo}",
+                IssueDate = nota.Facturas.Fecha.ToString("yyyy-MM-dd"),
+                Type = DApp.Util.Dian.InvoiceReference,
+                DocumentReferredCUFE = nota.Facturas.CUFE
+            });
+
+            feRootJson.CustomerParty.Email = parametros.EmailRecepcionFE; // Es el correo al que van a llegar las notificaciones del provedor de FE
+            if (nota.EsNotaInstitucional)
+            {
+                feRootJson.CustomerParty.LegalType = nota.Entidades.TiposPersonas.NombreFE;
+                feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
+                feRootJson.CustomerParty.ResponsabilityTypes.AddRange(nota.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
+                feRootJson.CustomerParty.Identification.DocumentNumber = nota.Entidades.NumeroIdentificacion;
+                feRootJson.CustomerParty.Identification.DocumentType = nota.Empresas.TiposIdentificacion.CodigoFE;
+                feRootJson.CustomerParty.Identification.CountryCode = nota.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.CustomerParty.Identification.CheckDigit = nota.Entidades.DV;
+                feRootJson.CustomerParty.Name = nota.Entidades.Nombre;
+                feRootJson.CustomerParty.Address.DepartmentCode = nota.Entidades.Ciudades.Departamentos.Codigo;
+                feRootJson.CustomerParty.Address.CityCode = nota.Entidades.Ciudades.Codigo;
+                feRootJson.CustomerParty.Address.AddressLine = nota.Entidades.Direccion;
+                feRootJson.CustomerParty.Address.Country = nota.Entidades.Ciudades.Departamentos.Paises.Codigo;
+            }
+            else
+            {
+                feRootJson.CustomerParty.LegalType = "Natural"; // agregar tipopersona a la tabla pacientes
+                feRootJson.CustomerParty.TaxScheme = "ZZ";
+                feRootJson.CustomerParty.ResponsabilityTypes.Add("R-99-PN");
+                feRootJson.CustomerParty.Identification.DocumentNumber = nota.Pacientes.NumeroIdentificacion;
+                feRootJson.CustomerParty.Identification.DocumentType = nota.Pacientes.TiposIdentificacion.CodigoFE;
+                feRootJson.CustomerParty.Identification.CountryCode = nota.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+                feRootJson.CustomerParty.Person.FirstName = nota.Pacientes.PrimerNombre;
+                feRootJson.CustomerParty.Person.MiddleName = nota.Pacientes.SegundoNombre;
+                feRootJson.CustomerParty.Person.FamilyName = nota.Pacientes.PrimerApellido;
+                feRootJson.CustomerParty.Address.DepartmentCode = nota.Pacientes.Ciudades.Departamentos.Codigo;
+                feRootJson.CustomerParty.Address.CityCode = nota.Pacientes.Ciudades.Codigo;
+                feRootJson.CustomerParty.Address.AddressLine = nota.Pacientes.Direccion;
+                feRootJson.CustomerParty.Address.Country = nota.Pacientes.Ciudades.Departamentos.Paises.Codigo;
+            }
+
+            int numberLine = 1;
+            foreach (var notaDetalle in notasDetalles)
+            {
+                FeLine feLine = new FeLine();
+
+                feLine.Number = numberLine.ToString();
+                feLine.Quantity = notaDetalle.Cantidad.ToString("F2", CultureInfo.InvariantCulture);
+                feLine.QuantityUnitOfMeasure = DApp.Util.Dian.QuantityUnitOfMeasure;
+                feLine.ExcludeVat = "true";
+                feLine.UnitPrice = notaDetalle.ValorServicio.ToString(CultureInfo.InvariantCulture);
+                feLine.GrossAmount = notaDetalle.SubTotal.ToString(CultureInfo.InvariantCulture);
+                feLine.NetAmount = notaDetalle.ValorTotal.ToString(CultureInfo.InvariantCulture);
+                feLine.Item.Gtin = notaDetalle.Servicios.Codigo;
+                feLine.Item.Description = notaDetalle.Servicios.Nombre;
+
+                feRootJson.Lines.Add(feLine);
+                numberLine++;
+            }
+
+
+            return JsonConvert.SerializeObject(feRootJson, Newtonsoft.Json.Formatting.Indented);
         }
 
         private string GetPdfNotaReporte(Notas nota, string nameFaile, string user)
@@ -296,635 +674,6 @@ namespace Blazor.BusinessLogic
                 unitOfWork.RollbackTransaction();
                 throw e;
             }
-        }
-
-        public ECreditNote GetCreditNote(long idNota)
-        {
-            Notas nota = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Notas>()
-                .Tabla().Include(x => x.Empresas)
-                .Include(x => x.Empresas.TiposRegimenContable)
-                .Include(x => x.Empresas.Ciudades)
-                .Include(x => x.Empresas.Ciudades.Departamentos)
-                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
-                .Include(x => x.Empresas.TiposPersonas)
-                .Include(x => x.Empresas.TiposIdentificacion)
-                .Include(x => x.Sedes)
-                .Include(x => x.Sedes.Ciudades)
-                .Include(x => x.Sedes.Ciudades.Departamentos)
-                .Include(x => x.Sedes.Ciudades.Departamentos.Paises)
-                .Include(x => x.Pacientes)
-                .Include(x => x.Pacientes.TiposIdentificacion)
-                .Include(x => x.Pacientes.Ciudades)
-                .Include(x => x.Pacientes.Ciudades.Departamentos)
-                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
-                .Include(x => x.Entidades)
-                .Include(x => x.Entidades.TiposPersonas)
-                .Include(x => x.Entidades.TiposIdentificacion)
-                .Include(x => x.Entidades.Ciudades)
-                .Include(x => x.Entidades.Ciudades.Departamentos)
-                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
-                .Include(x => x.Documentos)
-                .Include(x => x.NotasConceptos)
-                .FirstOrDefault(x => x.Id == idNota);
-            nota.NotasDetalles = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<NotasDetalles>().Tabla()
-                .Include(x => x.Servicios)
-                .Include(x => x.Servicios.Cups)
-                .Include(x => x.Servicios.TiposImpuestos)
-
-                .Where(x => x.NotasId == idNota).ToList();
-
-            Facturas invoiceRef = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Facturas>().FindById(x => x.Id == (long)nota.FacturasId, false);
-
-            TaxScheme taxSchemeClient = null;
-
-            if (nota.Empresas != null)
-            {
-                nota.Empresas.EmpresasEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasEsquemasImpuestos>().FindAll(x => x.EmpresasId == nota.EmpresasId, true);
-                nota.Empresas.EmpresasResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasResponsabilidadesFiscales>().FindAll(x => x.EmpresasId == nota.EmpresasId, true);
-            }
-
-            if (nota.Entidades != null)
-            {
-                nota.Entidades.EntidadesEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EntidadesEsquemasImpuestos>().FindAll(x => x.EntidadesId == nota.EntidadesId, true);
-                nota.Entidades.EntidadesResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EntidadesResponsabilidadesFiscales>().FindAll(x => x.EntidadesId == nota.EntidadesId, true);
-                taxSchemeClient = new TaxScheme { ID = nota.Entidades.GetCodigoImpuestoRecaudados(), Name = nota.Entidades.GetNombreImpuestoRecaudados() };
-            }
-
-            List<TotalByTaxScheme> InvoiceDetailsByTax = nota.NotasDetalles.GroupBy(x => new { x.Servicios.TiposImpuestos.Codigo, x.PorcImpuesto }).Select(g => new TotalByTaxScheme { TaxSchemeCode = g.Key.Codigo, TaxPercentaje = g.Key.PorcImpuesto, Value = g.Sum(x => Math.Round(x.ValorServicio * x.Cantidad, 2)), DiscountValue = g.Sum(x => Math.Round(x.DiscountValue, 2)), TaxValue = g.Sum(x => Math.Round(x.TaxValue, 2)) }).ToList();
-
-            ECreditNote enote = new ECreditNote();
-
-            enote.IssueDate = nota.Fecha;
-            enote.IssueTime = nota.Fecha;
-            enote.CreditNoteTypeCode = "91";
-            if (string.IsNullOrWhiteSpace(nota.Referencia))
-                enote.CustomizationID = "22";
-            else
-                enote.CustomizationID = "20";
-
-            enote.ID = nota.Documentos.Prefijo + "" + nota.Consecutivo.ToString();
-            enote.DocumentCurrencyCode = "COP";
-            if (nota.PeriodoInicial > nota.PeriodoFinal)
-            {
-                enote.CreditNotePeriod = new InvoicePeriod { StartDate = (DateTime)nota.PeriodoInicial, EndDate = (DateTime)nota.PeriodoFinal };
-            }
-
-            enote.DiscrepancyResponse = new DiscrepancyResponse { ReferenceID = nota.Referencia, ResponseCode = nota.NotasConceptos.Codigo, Description = Regex.Replace(nota.NotasConceptos.Descripcion.Replace(";", ""), @"[^a-zA-z0-9 ]+", "") };
-            if (invoiceRef != null)
-            {
-
-                enote.BillingReference = new List<InvoiceDocumentReference>();
-                InvoiceDocumentReference billRef = new InvoiceDocumentReference();
-                billRef.ID = nota.Referencia;
-                billRef.UUID = invoiceRef.CUFE;
-                billRef.IssueDate = invoiceRef.IssueDate.GetValueOrDefault();
-                enote.BillingReference.Add(billRef);
-
-            }
-
-            enote.AccountingSupplierParty = new AccountingSupplierParty();
-            enote.AccountingSupplierParty.AdditionalAccountID = nota.Empresas.TiposPersonas.Codigo;
-            enote.AccountingSupplierParty.Party = new Party();
-            enote.AccountingSupplierParty.Party.PartyIdentification = nota.Empresas.TiposIdentificacion.CodigoAlterno;
-            enote.AccountingSupplierParty.Party.ID = nota.Empresas.NumeroIdentificacion;
-            enote.AccountingSupplierParty.Party.schemeID = nota.Empresas.DV;
-            enote.AccountingSupplierParty.Party.PartyName = new PartyName { Name = nota.Empresas.RazonSocial };
-            enote.AccountingSupplierParty.Party.PhysicalLocation = new PhysicalLocation();
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address = new Address();
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.ID = nota.Empresas.Ciudades.Codigo;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.CityName = nota.Empresas.Ciudades.Nombre;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Empresas.Ciudades.Departamentos.Nombre;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Empresas.Ciudades.Departamentos.Codigo;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Empresas.Direccion };
-
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Empresas.Ciudades.Departamentos.Paises.Codigo, Name = nota.Empresas.Ciudades.Departamentos.Paises.Nombre };
-
-            enote.AccountingSupplierParty.Party.PartyTaxScheme = new PartyTaxScheme { RegistrationName = nota.Empresas.RazonSocial, TaxLevelCode = nota.Empresas.GetResponsabilidadesFiscales(), TaxScheme = new TaxScheme { ID = nota.Empresas.GetCodigoImpuestoRecaudados(), Name = nota.Empresas.GetNombreImpuestoRecaudados() }, ListName = nota.Empresas.TiposRegimenContable.Codigo };
-
-            enote.SellerSupplierParty = new SellerSupplierParty();
-            enote.SellerSupplierParty.ID = nota.Sedes.Codigo;
-            enote.SellerSupplierParty.Party = new Party1();
-
-            enote.SellerSupplierParty.Party.PartyName = new PartyName { Name = nota.Sedes.Nombre };
-            enote.SellerSupplierParty.Party.PhysicalLocation = new PhysicalLocation();
-
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address = new Address();
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.ID = nota.Sedes.Ciudades.Codigo;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.CityName = nota.Sedes.Ciudades.Nombre;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Sedes.Ciudades.Departamentos.Nombre;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Sedes.Ciudades.Departamentos.Codigo;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Sedes.Direccion };
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Sedes.Ciudades.Departamentos.Paises.Codigo, Name = nota.Sedes.Ciudades.Departamentos.Paises.Nombre };
-
-            if (nota.Pacientes != null)
-            {
-                enote.AccountingCustomerParty = new AccountingCustomerParty();
-                enote.AccountingCustomerParty.AdditionalAccountID = "2";
-                enote.AccountingCustomerParty.Party = new Party2();
-                enote.AccountingCustomerParty.Party.PartyIdentification = nota.Pacientes.TiposIdentificacion.CodigoAlterno;
-                enote.AccountingCustomerParty.Party.ID = nota.Pacientes.NumeroIdentificacion.Trim();
-                //enote.AccountingCustomerParty.Party.PartyName
-                enote.AccountingCustomerParty.Party.Person = new Person { FirstName = nota.Pacientes.NombreCompleto, LastName = nota.Pacientes.PrimerNombre + " " + nota.Pacientes.SegundoNombre + " " + nota.Pacientes.SegundoApellido };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.ID = nota.Pacientes.Ciudades.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName = nota.Pacientes.Ciudades.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Pacientes.Ciudades.Departamentos.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Pacientes.Ciudades.Departamentos.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Pacientes.Direccion };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Pacientes.Ciudades.Departamentos.Paises.Codigo, Name = nota.Pacientes.Ciudades.Departamentos.Paises.Nombre };
-
-                enote.AccountingCustomerParty.Party.PartyTaxScheme = new PartyTaxScheme2();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationName = nota.Pacientes.NombreCompleto;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode = "R-99-PN";
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.ListName = "No aplica";
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme = new TaxScheme { ID = "ZZ", Name = "No aplica" };
-            }
-            else
-            {
-                enote.AccountingCustomerParty = new AccountingCustomerParty();
-                enote.AccountingCustomerParty.AdditionalAccountID = nota.Entidades.TiposPersonas.Codigo;
-
-                enote.AccountingCustomerParty.Party = new Party2();
-                enote.AccountingCustomerParty.Party.PartyIdentification = nota.Entidades.TiposIdentificacion.CodigoAlterno;
-                enote.AccountingCustomerParty.Party.ID = nota.Entidades.NumeroIdentificacion.Trim();
-                enote.AccountingCustomerParty.Party.schemeID = nota.Entidades.DV;
-                enote.AccountingCustomerParty.Party.PartyName = new PartyName { Name = nota.Entidades.Nombre };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.ID = nota.Entidades.Ciudades.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName = nota.Entidades.Ciudades.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Entidades.Ciudades.Departamentos.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Entidades.Ciudades.Departamentos.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Entidades.Direccion };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Entidades.Ciudades.Departamentos.Paises.Codigo, Name = nota.Entidades.Ciudades.Departamentos.Paises.Nombre };
-
-                enote.AccountingCustomerParty.Party.PartyTaxScheme = new PartyTaxScheme2();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationName = nota.Entidades.Nombre;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode = nota.Entidades.GetResponsabilidadesFiscales();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.ListName = nota.Entidades.GetRegimenFiscal();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme = new TaxScheme { ID = taxSchemeClient.ID, Name = taxSchemeClient.Name };
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress = new Address();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.ID = nota.Entidades.Ciudades.Codigo;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CityName = nota.Entidades.Ciudades.Nombre;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CountrySubentity = nota.Entidades.Ciudades.Departamentos.Nombre;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CountrySubentityCode = nota.Entidades.Ciudades.Departamentos.Codigo;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.AddressLine = new AddressLine { Line = nota.Entidades.Direccion };
-
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.Country = new CountryE { IdentificationCode = nota.Entidades.Ciudades.Departamentos.Paises.Codigo, Name = nota.Entidades.Ciudades.Departamentos.Paises.Nombre };
-
-            }
-
-            enote.PaymentMeans = new PaymentMeans { ID = ((nota.FormasPagos.Codigo == "1") ? "1" : "2"), PaymentDueDate = nota.Fecha.AddDays((double)nota.FormasPagos.DiasVencimiento) };
-
-            enote.TaxTotal = new List<TaxTotal>();
-
-            foreach (var item in InvoiceDetailsByTax)
-            {
-                if (item.TaxValue > 0)
-                {
-                    TaxTotal tax = new TaxTotal { TaxAmount = item.TaxValue };
-                    tax.TaxSubtotal = new TaxSubtotal();
-                    tax.TaxSubtotal.TaxableAmount = (item.TaxValue > 0) ? item.Value - item.DiscountValue : 0;
-                    tax.TaxSubtotal.TaxAmount = (decimal)item.TaxValue;
-                    if (item.TaxSchemeCode == "22")
-                    {
-                        tax.TaxSubtotal.BaseUnitMeasure = "B%";
-                        tax.TaxSubtotal.UnitCode = "NAR";
-                        tax.TaxSubtotal.PerUnitAmount = new PerUnitAmountType { Value = 50 };
-                    }
-                    tax.TaxSubtotal.TaxCategory = new TaxCategory();
-                    if (item.TaxSchemeCode != "22")
-                        tax.TaxSubtotal.TaxCategory.Percent = new PercentType { Value = item.TaxPercentaje };
-                    tax.TaxSubtotal.TaxCategory.TaxScheme = new TaxScheme { ID = item.TaxSchemeCode, Name = item.TaxSchemeName };
-
-                    enote.TaxTotal.Add(tax);
-                }
-            }
-            if (enote.TaxTotal.Count == 0)
-                enote.TaxTotal = null;
-
-            enote.LegalMonetaryTotal = new LegalMonetaryTotal();
-            enote.LegalMonetaryTotal.LineExtensionAmount = nota.ValorSubtotal - nota.ValorDescuentos;
-            enote.LegalMonetaryTotal.TaxExclusiveAmount = nota.ValorImpuestos;
-
-            enote.LegalMonetaryTotal.TaxExclusiveBaseAmount = nota.ValorImpuestos > 0 ? (nota.ValorSubtotal - nota.ValorDescuentos) : 0;
-
-            enote.LegalMonetaryTotal.TaxInclusiveAmount = (nota.ValorSubtotal - nota.ValorDescuentos + nota.ValorImpuestos);
-            //enote.LegalMonetaryTotal.PrePaidAmount = new PrePaidAmountType { Value = nota.ValorCopagoCuotaModeradora };
-
-            enote.LegalMonetaryTotal.AllowanceLineAmount = new AllowanceLineAmountType { Value = nota.ValorDescuentos };
-            enote.LegalMonetaryTotal.PayableAmount = nota.ValorTotal;
-            enote.LegalMonetaryTotal.PayableExpectedAmount = nota.ValorTotal;
-            //enote.LegalMonetaryTotal.TextAmount = WrittenAmount.ConvertToString(nota.ValorTotal);
-            enote.LegalMonetaryTotal.TextAmount = DApp.Util.NumeroEnLetras(nota.ValorTotal);
-            enote.LegalMonetaryTotal.LineCountNumeric = new LineCountNumericType { Value = nota.NotasDetalles.Count };
-            enote.CreditNoteLine = new List<CreditLine>();
-
-            for (int i = 0; i < nota.NotasDetalles.Count; i++)
-            {
-                CreditLine data = new CreditLine();
-                data.ID = (i + 1);
-                var cup = nota.NotasDetalles[i].Servicios.Cups;
-                if (cup != null)
-                {
-                    data.StandardItemIdentification = new StandardItemIdentification { ID = nota.NotasDetalles[i].Servicios.Cups.Codigo.TrimStart().TrimEnd(), schemeID = "999" };
-                }
-                else
-                {
-                    data.StandardItemIdentification = new StandardItemIdentification { ID = nota.NotasDetalles[i].Servicios.Codigo.TrimStart().TrimEnd(), schemeID = "999" };
-                }
-                data.CreditedQuantity = nota.NotasDetalles[i].Cantidad;
-                data.UnitCode = "NAR";
-                data.LineExtensionAmount = nota.NotasDetalles[i].SubTotalValue - nota.NotasDetalles[i].DiscountValue;
-                //data.NetLineExtensionAmount = new NetLineExtensionAmountType { Value = InvoiceDetails[i].TotalValue }  ;
-                data.Price = new Price { PriceAmount = nota.NotasDetalles[i].ValorServicio, BaseQuantity = nota.NotasDetalles[i].Cantidad };
-                data.Item = new Item { Description = new List<string>() };
-                data.Item.AddDescription(nota.NotasDetalles[i].Servicios.Nombre.Replace("Í", "I"));
-
-                if (nota.NotasDetalles[i].PorcDescuento > 0)
-                {
-                    data.AllowanceCharge = new List<AllowanceCharge>();
-                    AllowanceCharge discount = new AllowanceCharge();
-                    discount.ID = 1;
-                    discount.ChargeIndicator = false;
-                    discount.AllowanceChargeReason = "Descuento general";
-                    discount.MultiplierFactorNumeric = nota.NotasDetalles[i].PorcDescuento;
-                    discount.BaseAmount = nota.NotasDetalles[i].SubTotalValue;
-                    discount.Amount = nota.NotasDetalles[i].DiscountValue;
-                    data.AllowanceCharge.Add(discount);
-                }
-                if (nota.NotasDetalles[i].TaxValue > 0)
-                {
-                    data.TaxTotal = new TaxTotal();
-                    data.TaxTotal.TaxAmount = nota.NotasDetalles[i].TaxValue;
-                    data.TaxTotal.TaxSubtotal = new TaxSubtotal { TaxableAmount = nota.NotasDetalles[i].TaxValue > 0 ? nota.NotasDetalles[i].SubTotalValue - nota.NotasDetalles[i].DiscountValue : 0, TaxAmount = nota.NotasDetalles[i].TaxValue };
-                    data.TaxTotal.TaxSubtotal.TaxCategory = new TaxCategory();
-                    data.TaxTotal.TaxSubtotal.TaxCategory.Percent = new PercentType { Value = nota.NotasDetalles[i].PorcImpuesto };
-                    data.TaxTotal.TaxSubtotal.TaxCategory.TaxScheme = new TaxScheme { ID = nota.NotasDetalles[i].Servicios.TiposImpuestos.Codigo, Name = nota.NotasDetalles[i].Servicios.TiposImpuestos.Descripcion };
-                }
-                enote.CreditNoteLine.Add(data);
-
-            }
-
-            return enote;
-        }
-
-        public async Task<string> SendCreditNoteAsync(long idNota, string urlAcepta)
-        {
-            string content = "";
-            ECreditNote invoice = GetCreditNote(idNota);
-            string xml = invoice.SerializeToXml();
-            //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
-            HttpClient http = new HttpClient();
-            var nvc = new List<KeyValuePair<string, string>>();
-            nvc.Add(new KeyValuePair<string, string>("docid", invoice.ID));
-            nvc.Add(new KeyValuePair<string, string>("comando", "emitir"));
-            nvc.Add(new KeyValuePair<string, string>("parametros", ""));
-            nvc.Add(new KeyValuePair<string, string>("datos", xml));
-
-            var encodedItems = nvc.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
-            var encodedContent = new StringContent(String.Join("&", encodedItems), null, "application/x-www-form-urlencoded");
-
-            var response = await http.PostAsync(urlAcepta, encodedContent);
-
-            //var response = await http.PostAsync(urlAcepta, new FormUrlEncodedContent(nvc));
-            if (response.IsSuccessStatusCode)
-            {
-                content = await response.Content.ReadAsStringAsync();
-            }
-            //if (content.StartsWith("Error"))
-            //    factura.ErrorReference = content;
-
-            //Manager.GetBusinessLogic<InterfaceInvoice>().Modify(factura);
-            return content;
-        }
-
-        public EDebitNote GetDebitNote(long idNota)
-        {
-            Notas nota = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Notas>()
-                .Tabla().Include(x => x.Empresas)
-                .Include(x => x.Empresas.TiposRegimenContable)
-                .Include(x => x.Empresas.Ciudades)
-                .Include(x => x.Empresas.Ciudades.Departamentos)
-                .Include(x => x.Empresas.Ciudades.Departamentos.Paises)
-                .Include(x => x.Empresas.TiposPersonas)
-                .Include(x => x.Empresas.TiposIdentificacion)
-                .Include(x => x.Sedes)
-                .Include(x => x.Sedes.Ciudades)
-                .Include(x => x.Sedes.Ciudades.Departamentos)
-                .Include(x => x.Sedes.Ciudades.Departamentos.Paises)
-                .Include(x => x.Pacientes)
-                .Include(x => x.Pacientes.TiposIdentificacion)
-                .Include(x => x.Pacientes.Ciudades)
-                .Include(x => x.Pacientes.Ciudades.Departamentos)
-                .Include(x => x.Pacientes.Ciudades.Departamentos.Paises)
-                .Include(x => x.Entidades)
-                .Include(x => x.Entidades.TiposPersonas)
-                .Include(x => x.Entidades.TiposIdentificacion)
-                .Include(x => x.Entidades.Ciudades)
-                .Include(x => x.Entidades.Ciudades.Departamentos)
-                .Include(x => x.Entidades.Ciudades.Departamentos.Paises)
-                .Include(x => x.Documentos)
-                .Include(x => x.NotasConceptos)
-                .FirstOrDefault(x => x.Id == idNota);
-            nota.NotasDetalles = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<NotasDetalles>().Tabla()
-                .Include(x => x.Servicios)
-                .Include(x => x.Servicios.Cups)
-                .Include(x => x.Servicios.TiposImpuestos)
-
-                .Where(x => x.NotasId == idNota).ToList();
-
-            Facturas invoiceRef = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Facturas>().FindById(x => x.Id == (long)nota.FacturasId, false);
-
-            TaxScheme taxSchemeClient = null;
-
-            if (nota.Empresas != null)
-            {
-                nota.Empresas.EmpresasEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasEsquemasImpuestos>().FindAll(x => x.EmpresasId == nota.EmpresasId, true);
-                nota.Empresas.EmpresasResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EmpresasResponsabilidadesFiscales>().FindAll(x => x.EmpresasId == nota.EmpresasId, true);
-            }
-
-            if (nota.Entidades != null)
-            {
-                nota.Entidades.EntidadesEsquemasImpuestos = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EntidadesEsquemasImpuestos>().FindAll(x => x.EntidadesId == nota.EntidadesId, true);
-                nota.Entidades.EntidadesResponsabilidadesFiscales = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<EntidadesResponsabilidadesFiscales>().FindAll(x => x.EntidadesId == nota.EntidadesId, true);
-                taxSchemeClient = new TaxScheme { ID = nota.Entidades.GetCodigoImpuestoRecaudados(), Name = nota.Entidades.GetNombreImpuestoRecaudados() };
-            }
-
-            List<TotalByTaxScheme> InvoiceDetailsByTax = nota.NotasDetalles.GroupBy(x => new { x.Servicios.TiposImpuestos.Codigo, x.PorcImpuesto }).Select(g => new TotalByTaxScheme { TaxSchemeCode = g.Key.Codigo, TaxPercentaje = g.Key.PorcImpuesto, Value = g.Sum(x => Math.Round(x.ValorServicio * x.Cantidad, 2)), DiscountValue = g.Sum(x => Math.Round(x.DiscountValue, 2)), TaxValue = g.Sum(x => Math.Round(x.TaxValue, 2)) }).ToList();
-
-            EDebitNote enote = new EDebitNote();
-
-            enote.IssueDate = nota.Fecha;
-            enote.IssueTime = nota.Fecha;
-            enote.DebitNoteTypeCode = "92";
-            if (string.IsNullOrWhiteSpace(nota.Referencia))
-                enote.CustomizationID = "32";
-            else
-                enote.CustomizationID = "30";
-
-            enote.ID = nota.Documentos.Prefijo + "" + nota.Consecutivo.ToString();
-            enote.DocumentCurrencyCode = "COP";
-            if (nota.PeriodoInicial > nota.PeriodoFinal)
-            {
-                enote.DebitNotePeriod = new InvoicePeriod { StartDate = (DateTime)nota.PeriodoInicial, EndDate = (DateTime)nota.PeriodoFinal };
-            }
-
-            enote.DiscrepancyResponse = new DiscrepancyResponse { ReferenceID = nota.Referencia, ResponseCode = nota.NotasConceptos.Codigo, Description = Regex.Replace(nota.NotasConceptos.Descripcion.Replace(";", ""), @"[^a-zA-z0-9 ]+", "") };
-
-            if (invoiceRef != null)
-            {
-
-                enote.BillingReference = new List<InvoiceDocumentReference>();
-                InvoiceDocumentReference billRef = new InvoiceDocumentReference();
-                billRef.ID = nota.Referencia;
-                billRef.UUID = invoiceRef.CUFE;
-                billRef.IssueDate = invoiceRef.IssueDate.GetValueOrDefault();
-                enote.BillingReference.Add(billRef);
-
-            }
-
-            enote.AccountingSupplierParty = new AccountingSupplierParty();
-            enote.AccountingSupplierParty.AdditionalAccountID = nota.Empresas.TiposPersonas.Codigo;
-            enote.AccountingSupplierParty.Party = new Party();
-            enote.AccountingSupplierParty.Party.PartyIdentification = nota.Empresas.TiposIdentificacion.CodigoAlterno;
-            enote.AccountingSupplierParty.Party.ID = nota.Empresas.NumeroIdentificacion;
-            enote.AccountingSupplierParty.Party.schemeID = nota.Empresas.DV;
-            enote.AccountingSupplierParty.Party.PartyName = new PartyName { Name = nota.Empresas.RazonSocial };
-            enote.AccountingSupplierParty.Party.PhysicalLocation = new PhysicalLocation();
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address = new Address();
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.ID = nota.Empresas.Ciudades.Codigo;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.CityName = nota.Empresas.Ciudades.Nombre;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Empresas.Ciudades.Departamentos.Nombre;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Empresas.Ciudades.Departamentos.Codigo;
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Empresas.Direccion };
-
-            enote.AccountingSupplierParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Empresas.Ciudades.Departamentos.Paises.Codigo, Name = nota.Empresas.Ciudades.Departamentos.Paises.Nombre };
-
-            enote.AccountingSupplierParty.Party.PartyTaxScheme = new PartyTaxScheme { RegistrationName = nota.Empresas.RazonSocial, TaxLevelCode = nota.Empresas.GetResponsabilidadesFiscales(), TaxScheme = new TaxScheme { ID = nota.Empresas.GetCodigoImpuestoRecaudados(), Name = nota.Empresas.GetNombreImpuestoRecaudados() }, ListName = nota.Empresas.TiposRegimenContable.Codigo };
-
-            enote.SellerSupplierParty = new SellerSupplierParty();
-            enote.SellerSupplierParty.ID = nota.Sedes.Codigo;
-            enote.SellerSupplierParty.Party = new Party1();
-
-            enote.SellerSupplierParty.Party.PartyName = new PartyName { Name = nota.Sedes.Nombre };
-            enote.SellerSupplierParty.Party.PhysicalLocation = new PhysicalLocation();
-
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address = new Address();
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.ID = nota.Sedes.Ciudades.Codigo;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.CityName = nota.Sedes.Ciudades.Nombre;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Sedes.Ciudades.Departamentos.Nombre;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Sedes.Ciudades.Departamentos.Codigo;
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Sedes.Direccion };
-            enote.SellerSupplierParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Sedes.Ciudades.Departamentos.Paises.Codigo, Name = nota.Sedes.Ciudades.Departamentos.Paises.Nombre };
-
-            if (nota.Pacientes != null)
-            {
-                enote.AccountingCustomerParty = new AccountingCustomerParty();
-                enote.AccountingCustomerParty.AdditionalAccountID = "2";
-                enote.AccountingCustomerParty.Party = new Party2();
-                enote.AccountingCustomerParty.Party.PartyIdentification = nota.Pacientes.TiposIdentificacion.CodigoAlterno;
-                enote.AccountingCustomerParty.Party.ID = nota.Pacientes.NumeroIdentificacion.Trim();
-                enote.AccountingCustomerParty.Party.PartyName = new PartyName { Name = nota.Pacientes.NombreCompleto };
-                enote.AccountingCustomerParty.Party.Person = new Person { FirstName = nota.Pacientes.NombreCompleto, LastName = nota.Pacientes.PrimerNombre + " " + nota.Pacientes.SegundoNombre + " " + nota.Pacientes.SegundoApellido };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.ID = nota.Pacientes.Ciudades.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName = nota.Pacientes.Ciudades.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Pacientes.Ciudades.Departamentos.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Pacientes.Ciudades.Departamentos.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Pacientes.Direccion };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Pacientes.Ciudades.Departamentos.Paises.Codigo, Name = nota.Pacientes.Ciudades.Departamentos.Paises.Nombre };
-
-                enote.AccountingCustomerParty.Party.PartyTaxScheme = new PartyTaxScheme2();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationName = nota.Pacientes.NombreCompleto;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode = "R-99-PN";
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.ListName = "No aplica";
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme = new TaxScheme { ID = "ZZ", Name = "No aplica" };
-            }
-            else
-            {
-                enote.AccountingCustomerParty = new AccountingCustomerParty();
-                enote.AccountingCustomerParty.AdditionalAccountID = nota.Entidades.TiposPersonas.Codigo;
-
-                enote.AccountingCustomerParty.Party = new Party2();
-                enote.AccountingCustomerParty.Party.PartyIdentification = nota.Entidades.TiposIdentificacion.CodigoAlterno;
-                enote.AccountingCustomerParty.Party.ID = nota.Entidades.NumeroIdentificacion.Trim();
-                enote.AccountingCustomerParty.Party.schemeID = nota.Entidades.DV;
-                enote.AccountingCustomerParty.Party.PartyName = new PartyName { Name = nota.Entidades.Nombre };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation = new PhysicalLocation { Address = new Address() };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.ID = nota.Entidades.Ciudades.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CityName = nota.Entidades.Ciudades.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentity = nota.Entidades.Ciudades.Departamentos.Nombre;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.CountrySubentityCode = nota.Entidades.Ciudades.Departamentos.Codigo;
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.AddressLine = new AddressLine { Line = nota.Entidades.Direccion };
-
-                enote.AccountingCustomerParty.Party.PhysicalLocation.Address.Country = new CountryE { IdentificationCode = nota.Entidades.Ciudades.Departamentos.Paises.Codigo, Name = nota.Entidades.Ciudades.Departamentos.Paises.Nombre };
-
-                enote.AccountingCustomerParty.Party.PartyTaxScheme = new PartyTaxScheme2();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationName = nota.Entidades.Nombre;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxLevelCode = nota.Entidades.GetResponsabilidadesFiscales();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.ListName = nota.Entidades.GetRegimenFiscal();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.TaxScheme = new TaxScheme { ID = taxSchemeClient.ID, Name = taxSchemeClient.Name };
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress = new Address();
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.ID = nota.Entidades.Ciudades.Codigo;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CityName = nota.Entidades.Ciudades.Nombre;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CountrySubentity = nota.Entidades.Ciudades.Departamentos.Nombre;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.CountrySubentityCode = nota.Entidades.Ciudades.Departamentos.Codigo;
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.AddressLine = new AddressLine { Line = nota.Entidades.Direccion };
-
-                enote.AccountingCustomerParty.Party.PartyTaxScheme.RegistrationAddress.Country = new CountryE { IdentificationCode = nota.Entidades.Ciudades.Departamentos.Paises.Codigo, Name = nota.Entidades.Ciudades.Departamentos.Paises.Nombre };
-
-            }
-
-            enote.PaymentMeans = new PaymentMeans { ID = ((nota.FormasPagos.Codigo == "1") ? "1" : "2"), PaymentDueDate = nota.Fecha.AddDays((double)nota.FormasPagos.DiasVencimiento) };
-
-            enote.TaxTotal = new List<TaxTotal>();
-
-            foreach (var item in InvoiceDetailsByTax)
-            {
-                if (item.TaxValue > 0)
-                {
-                    TaxTotal tax = new TaxTotal { TaxAmount = item.TaxValue };
-                    tax.TaxSubtotal = new TaxSubtotal();
-                    tax.TaxSubtotal.TaxableAmount = (item.TaxValue > 0) ? item.Value - item.DiscountValue : 0;
-                    tax.TaxSubtotal.TaxAmount = (decimal)item.TaxValue;
-                    if (item.TaxSchemeCode == "22")
-                    {
-                        tax.TaxSubtotal.BaseUnitMeasure = "B%";
-                        tax.TaxSubtotal.UnitCode = "NAR";
-                        tax.TaxSubtotal.PerUnitAmount = new PerUnitAmountType { Value = 50 };
-                    }
-                    tax.TaxSubtotal.TaxCategory = new TaxCategory();
-                    if (item.TaxSchemeCode != "22")
-                        tax.TaxSubtotal.TaxCategory.Percent = new PercentType { Value = item.TaxPercentaje };
-                    tax.TaxSubtotal.TaxCategory.TaxScheme = new TaxScheme { ID = item.TaxSchemeCode, Name = item.TaxSchemeName };
-
-                    enote.TaxTotal.Add(tax);
-                }
-            }
-            if (enote.TaxTotal.Count == 0)
-                enote.TaxTotal = null;
-
-            enote.RequestedMonetaryTotal = new LegalMonetaryTotal();
-            enote.RequestedMonetaryTotal.LineExtensionAmount = nota.ValorSubtotal - nota.ValorDescuentos;
-            enote.RequestedMonetaryTotal.TaxExclusiveAmount = nota.ValorImpuestos;
-
-            enote.RequestedMonetaryTotal.TaxExclusiveBaseAmount = nota.ValorImpuestos > 0 ? (nota.ValorSubtotal - nota.ValorDescuentos) : 0;
-
-            enote.RequestedMonetaryTotal.TaxInclusiveAmount = (nota.ValorSubtotal - nota.ValorDescuentos + nota.ValorImpuestos);
-            //enote.LegalMonetaryTotal.PrePaidAmount = new PrePaidAmountType { Value = nota.ValorCopagoCuotaModeradora };
-
-            enote.RequestedMonetaryTotal.AllowanceLineAmount = new AllowanceLineAmountType { Value = nota.ValorDescuentos };
-            enote.RequestedMonetaryTotal.PayableAmount = nota.ValorTotal;
-            enote.RequestedMonetaryTotal.PayableExpectedAmount = nota.ValorTotal;
-            //enote.RequestedMonetaryTotal.TextAmount = WrittenAmount.ConvertToString(nota.ValorTotal);
-            enote.RequestedMonetaryTotal.TextAmount = DApp.Util.NumeroEnLetras(nota.ValorTotal);
-            enote.RequestedMonetaryTotal.LineCountNumeric = new LineCountNumericType { Value = nota.NotasDetalles.Count };
-            enote.DebitNoteLine = new List<DebitLine>();
-
-            for (int i = 0; i < nota.NotasDetalles.Count; i++)
-            {
-                DebitLine data = new DebitLine();
-                data.ID = (i + 1);
-                data.StandardItemIdentification = new StandardItemIdentification { ID = nota.NotasDetalles[i].Servicios.Codigo.TrimStart().TrimEnd(), schemeID = "999" };
-                data.DebitedQuantity = nota.NotasDetalles[i].Cantidad;
-                data.UnitCode = "NAR";
-                data.LineExtensionAmount = nota.NotasDetalles[i].SubTotalValue - nota.NotasDetalles[i].DiscountValue;
-                //data.NetLineExtensionAmount = new NetLineExtensionAmountType { Value = InvoiceDetails[i].TotalValue }  ;
-                data.Price = new Price { PriceAmount = nota.NotasDetalles[i].ValorServicio, BaseQuantity = nota.NotasDetalles[i].Cantidad };
-                data.Item = new Item { Description = new List<string>() };
-                data.Item.AddDescription(nota.NotasDetalles[i].Servicios.Nombre.Replace("Í", "I"));
-
-                if (nota.NotasDetalles[i].PorcDescuento > 0)
-                {
-                    data.AllowanceCharge = new List<AllowanceCharge>();
-                    AllowanceCharge discount = new AllowanceCharge();
-                    discount.ID = 1;
-                    discount.ChargeIndicator = false;
-                    discount.AllowanceChargeReason = "Descuento general";
-                    discount.MultiplierFactorNumeric = nota.NotasDetalles[i].PorcDescuento;
-                    discount.BaseAmount = nota.NotasDetalles[i].SubTotalValue;
-                    discount.Amount = nota.NotasDetalles[i].DiscountValue;
-                    data.AllowanceCharge.Add(discount);
-                }
-
-                if (nota.NotasDetalles[i].TaxValue > 0)
-                {
-                    data.TaxTotal = new TaxTotal();
-                    data.TaxTotal.TaxAmount = nota.NotasDetalles[i].TaxValue;
-                    data.TaxTotal.TaxSubtotal = new TaxSubtotal { TaxableAmount = nota.NotasDetalles[i].TaxValue > 0 ? nota.NotasDetalles[i].SubTotalValue - nota.NotasDetalles[i].DiscountValue : 0, TaxAmount = nota.NotasDetalles[i].TaxValue };
-                    data.TaxTotal.TaxSubtotal.TaxCategory = new TaxCategory();
-                    data.TaxTotal.TaxSubtotal.TaxCategory.Percent = new PercentType { Value = nota.NotasDetalles[i].PorcImpuesto };
-                    data.TaxTotal.TaxSubtotal.TaxCategory.TaxScheme = new TaxScheme { ID = nota.NotasDetalles[i].Servicios.TiposImpuestos.Codigo, Name = nota.NotasDetalles[i].Servicios.TiposImpuestos.Descripcion };
-                }
-                enote.DebitNoteLine.Add(data);
-
-            }
-
-            return enote;
-        }
-
-        public async Task<string> SendDebitNoteAsync(long idNota, string urlAcepta)
-        {
-            string content = "";
-            EDebitNote invoice = GetDebitNote(idNota);
-            string xml = invoice.SerializeToXml();
-            //.Replace(@"<?xml version=""1.0"" encoding=""utf-8""?>", "");
-            HttpClient http = new HttpClient();
-            var nvc = new List<KeyValuePair<string, string>>();
-            nvc.Add(new KeyValuePair<string, string>("docid", invoice.ID));
-            nvc.Add(new KeyValuePair<string, string>("comando", "emitir"));
-            nvc.Add(new KeyValuePair<string, string>("parametros", ""));
-            nvc.Add(new KeyValuePair<string, string>("datos", xml));
-
-            var encodedItems = nvc.Select(i => WebUtility.UrlEncode(i.Key) + "=" + WebUtility.UrlEncode(i.Value));
-            var encodedContent = new StringContent(String.Join("&", encodedItems), null, "application/x-www-form-urlencoded");
-
-            var response = await http.PostAsync(urlAcepta, encodedContent);
-
-            //var response = await http.PostAsync(urlAcepta, new FormUrlEncodedContent(nvc));
-            if (response.IsSuccessStatusCode)
-            {
-                content = await response.Content.ReadAsStringAsync();
-            }
-            //if (content.StartsWith("Error"))
-            //    factura.ErrorReference = content;
-
-            //Manager.GetBusinessLogic<InterfaceInvoice>().Modify(factura);
-            return content;
-        }
-
-        /// <summary>
-        /// https://localhost:44333/empresas/ObtenerXMLNotaDebito?id=10531
-        /// https://localhost:44333/empresas/ObtenerXMLNotaCredito?id=10531
-        /// </summary>
-        /// <param name="idNota"></param>
-        /// <returns></returns>
-
-        public async Task<string> ObtenerXMLNotaDebito(long idNota)
-        {
-            EDebitNote invoice = GetDebitNote(idNota);
-            string xml = invoice.SerializeToXml();
-            return xml;
-
-        }
-
-        public async Task<string> ObtenerXMLNotaCredito(long idNota)
-        {
-            var invoice = GetCreditNote(idNota);
-            string xml = invoice.SerializeToXml();
-            return xml;
-
         }
     }
 }

@@ -1,4 +1,5 @@
 using Blazor.BusinessLogic;
+using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.Notas;
 using Blazor.WebApp.Models;
@@ -16,6 +17,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -422,6 +427,100 @@ namespace Blazor.WebApp.Controllers
             List<long?> idPacientes = Manager().GetBusinessLogic<ServiciosFacturar>().Tabla(true).Where(x => x.FacturasId == facturaId).Select(x=>x.PacientesId).Distinct().ToList();
             var pacientes = Manager().GetBusinessLogic<Pacientes>().Tabla(true).Where(x => idPacientes.Contains(x.Id));
             return DataSourceLoader.Load(pacientes, loadOptions);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EnviarNotasDIAN(long id)
+        {
+            try
+            {
+                //IntegracionEnviarFEModel result = await Manager().NotasBusinessLogic().EnviarFacturaDian(id, User.Identity.Name, Request.Host.Value);
+                //return Ok(result);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+
+
+            //try
+            //{
+            //    var result = "";
+
+            //    Notas nota = Manager().NotasBusinessLogic().FindById(x => x.Id == id, false);
+            //    var transaction = Manager().GetBusinessLogic<Documentos>().FindById(x => x.Id == nota.DocumentosId, false);
+            //    if (transaction != null && transaction.Transaccion == 3)
+            //        result = await Manager().NotasBusinessLogic().SendCreditNoteAsync(id, DApp.GetTenantService(Request.Host.Host, "Acepta"));
+            //    else if (transaction != null && transaction.Transaccion == 4)
+            //        result = await Manager().NotasBusinessLogic().SendDebitNoteAsync(id, DApp.GetTenantService(Request.Host.Host, "Acepta"));
+
+            //    if (!string.IsNullOrWhiteSpace(result))
+            //    {
+            //        if (result.Contains("ERROR"))
+            //        {
+            //            nota.ErrorReference = result;
+            //            nota.UrlTracking = "";
+            //        }
+            //        else
+            //        {
+            //            nota.ErrorReference = "";
+            //            nota.UrlTracking = result;
+            //        }
+            //        nota = Manager().NotasBusinessLogic().Modify(nota);
+            //    }
+
+            //    return PartialView("Edit", EditModel(id));
+            //}
+            //catch (Exception e)
+            //{
+            //    return new BadRequestObjectResult(e.GetFullErrorMessage());
+            //}
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DownloadInvoiceFileXML(long id)
+        {
+            try
+            {
+                var data = Request.Host.ToString();
+                var factura = Manager().GetBusinessLogic<Notas>().FindById(x => x.Id == id, true);
+
+                byte[] contentarray = null;
+                HttpClient http = new HttpClient();
+                var response = await http.GetAsync(factura.XmlUrl);
+                if (response.IsSuccessStatusCode)
+                    contentarray = await response.Content.ReadAsByteArrayAsync();
+                else
+                    throw new Exception($"Error en descargar XMl desde acepta. | {response.StatusCode} - {response.ReasonPhrase}");
+                string content = Encoding.UTF8.GetString(contentarray);
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(content);
+                content = @"<?xml version='1.0' encoding='UTF-8'?>";
+                content += doc.DocumentElement.ChildNodes[3].InnerXml;
+
+                byte[] fileBytes = Encoding.UTF8.GetBytes(content);
+                string fileName = $"{factura.Documentos.Prefijo}{factura.Consecutivo}.xml";
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EnviarNota(long id)
+        {
+            try
+            {
+                await Manager().NotasBusinessLogic().EnviarEmail(id, "Envio Nota Manual", User.Identity.Name);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
         }
     }
 }

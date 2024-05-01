@@ -35,11 +35,6 @@ namespace Blazor.BusinessLogic
         {
         }
 
-        private const string _certifiedDIAN = "Certified";
-        private const string _stagedDIAN = "Staged";
-        private const string _withErrorsDIAN = "WithErrors";
-        private const string _badRequestDIAN = "BadRequest";
-
         public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(long facturaId, string user, string host)
         {
             ResultadoIntegracionFE enviarDocumento_FE = new ResultadoIntegracionFE();
@@ -59,14 +54,14 @@ namespace Blazor.BusinessLogic
 
                 if (fac.IdDocumentoFE.HasValue &&
                     !string.IsNullOrWhiteSpace(fac.DIANResponse) &&
-                    fac.DIANResponse.Equals(_stagedDIAN, StringComparison.OrdinalIgnoreCase))
+                    fac.DIANResponse.Equals(DApp.Util.Dian.StatusStaged, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new Exception("Esta factura ya fue enviada a la DIAN pero no ha sido ceritifcada. Por favor consulte su estado.");
                 }
 
                 if (fac.IdDocumentoFE.HasValue &&
                     !string.IsNullOrWhiteSpace(fac.DIANResponse) &&
-                    fac.DIANResponse.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase))
+                    fac.DIANResponse.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new Exception("Esta factura ya fue enviada a la DIAN.");
                 }
@@ -144,8 +139,8 @@ namespace Blazor.BusinessLogic
                     unitOfWork.CommitTransaction();
                 }
 
-                bool isCertified = consultaEstaod_IFE.Status.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase);
-                bool isWithErrors = consultaEstaod_IFE.Status.Equals(_withErrorsDIAN, StringComparison.OrdinalIgnoreCase);
+                bool isCertified = consultaEstaod_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
+                bool isWithErrors = consultaEstaod_IFE.Status.Equals(DApp.Util.Dian.StatusWithErrors, StringComparison.OrdinalIgnoreCase);
                 if (!consultarEstado_FE.HuboError)
                 {
                     if (isCertified)
@@ -236,7 +231,7 @@ namespace Blazor.BusinessLogic
                 consultarDatosDoc_FE.Error = string.Join(", ", consultarDatosDoc_IFE.Errores);
                 fac.DIANResponse = consultarDatosDoc_IFE.Status;
 
-                bool isCertified = consultarDatosDoc_IFE.Status.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase);
+                bool isCertified = consultarDatosDoc_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
 
                 if (!consultarDatosDoc_FE.HuboError)
                 {
@@ -298,7 +293,7 @@ namespace Blazor.BusinessLogic
 
                 if (!fac.IdDocumentoFE.HasValue ||
                     !fac.IssueDate.HasValue ||
-                    string.IsNullOrWhiteSpace(fac.DIANResponse) || !fac.DIANResponse.Equals(_certifiedDIAN, StringComparison.OrdinalIgnoreCase))
+                    string.IsNullOrWhiteSpace(fac.DIANResponse) || !fac.DIANResponse.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new Exception("Esta factura no esta validada en la DIAN.");
                 }
@@ -340,7 +335,7 @@ namespace Blazor.BusinessLogic
         }
 
         /// <summary>
-        /// https://localhost:44333/empresas/ObtenerJsonFE?id=68282
+        /// https://localhost:44333/empresas/ObtenerJsonFacturaFE?id=68282
         /// </summary>
         /// <param name="idFactura"></param>
         /// <returns></returns>
@@ -390,18 +385,17 @@ namespace Blazor.BusinessLogic
                 .Where(x => x.FacturasId == fac.Id)
                 .ToList();
 
-            FeRootJson feRootJson = new FeRootJson();
-            feRootJson.CustomerParty.Email = parametros.EmailRecepcionFE;
-            feRootJson.Currency = "COP";
+            FeFacturaJson feRootJson = new FeFacturaJson();
+            feRootJson.Currency = DApp.Util.Dian.Currency;
             feRootJson.SeriePrefix = fac.Documentos.Prefijo;
             feRootJson.SerieNumber = fac.NroConsecutivo.ToString();
             if (fac.EsCopagoModeradora)
             {
-                feRootJson.OperationType = "SS-Recaudo";
+                feRootJson.OperationType = DApp.Util.Dian.OperationTypeSSRecaudo;
             }
             else
             {
-                feRootJson.OperationType = "SS-CUFE";
+                feRootJson.OperationType = DApp.Util.Dian.OperationTypeSSCUFE;
             }
             feRootJson.IssueDate = fac.Fecha;
             feRootJson.DeliveryDate = fac.Fecha;
@@ -413,7 +407,7 @@ namespace Blazor.BusinessLogic
             feRootJson.IssuerParty.Identification.CountryCode = fac.Empresas.Ciudades.Departamentos.Paises.Codigo;
             feRootJson.IssuerParty.Identification.CheckDigit = fac.Empresas.DV;
 
-            FEPaymentMeans fEPaymentMeans = new FEPaymentMeans();
+            FePaymentMean fEPaymentMeans = new FePaymentMean();
             fEPaymentMeans.Code = fac.MediosPago.Codigo;
             fEPaymentMeans.Mean = fac.FormasPagos.Codigo;
             fEPaymentMeans.DueDate = fac.ConvenioId.HasValue ? (fac.Convenio.PeriodicidadPago.HasValue ? fac.Fecha.AddDays(fac.Convenio.PeriodicidadPago.Value).ToString("yyyy-MM-dd") : fac.Fecha.ToString("yyyy-MM-dd")) : fac.Fecha.ToString("yyyy-MM-dd");
@@ -432,6 +426,7 @@ namespace Blazor.BusinessLogic
             else
                 feRootJson.Notes = null;
 
+            feRootJson.CustomerParty.Email = parametros.EmailRecepcionFE; // Es el correo al que van a llegar las notificaciones del provedor de FE
             if (fac.EsFacturaInstitucional)
             {
                 feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
@@ -450,14 +445,12 @@ namespace Blazor.BusinessLogic
             }
             else
             {
-                feRootJson.CustomerParty.LegalType = "Natural";
+                feRootJson.CustomerParty.LegalType = "Natural"; // agregar tipopersona a la tabla pacientes
                 feRootJson.CustomerParty.TaxScheme = "ZZ";
-                feRootJson.CustomerParty.ResponsabilityTypes = new List<string>();
                 feRootJson.CustomerParty.ResponsabilityTypes.Add("R-99-PN");
                 feRootJson.CustomerParty.Identification.DocumentNumber = fac.Pacientes.NumeroIdentificacion;
                 feRootJson.CustomerParty.Identification.DocumentType = fac.Pacientes.TiposIdentificacion.CodigoFE;
                 feRootJson.CustomerParty.Identification.CountryCode = fac.Pacientes.Ciudades.Departamentos.Paises.Codigo;
-                //feRootJson.CustomerParty.Identification.CheckDigit = fac.Pacientes.DV;
                 feRootJson.CustomerParty.Person.FirstName = fac.Pacientes.PrimerNombre;
                 feRootJson.CustomerParty.Person.MiddleName = fac.Pacientes.SegundoNombre;
                 feRootJson.CustomerParty.Person.FamilyName = fac.Pacientes.PrimerApellido;
@@ -475,9 +468,8 @@ namespace Blazor.BusinessLogic
                 {
                     DocumentReferred = fac.ReferenciaFactura,
                     IssueDate = fac.Fecha.ToString("yyyy-MM-dd"),
-                    Type = "OtherReference"
-                }
-                );
+                    Type = DApp.Util.Dian.OtherReference
+                });
             }
 
             if (!string.IsNullOrWhiteSpace(fac.OrdenCompra))
@@ -486,9 +478,8 @@ namespace Blazor.BusinessLogic
                 {
                     DocumentReferred = fac.OrdenCompra,
                     IssueDate = fac.Fecha.ToString("yyyy-MM-dd"),
-                    Type = "OrderReference"
-                }
-                );
+                    Type = DApp.Util.Dian.OrderReference
+                });
             }
 
             int numberLine = 1;
@@ -497,7 +488,7 @@ namespace Blazor.BusinessLogic
                 FeLine feLine = new FeLine();
                 feLine.Number = numberLine.ToString();
                 feLine.Quantity = facDetalle.Cantidad.ToString("F2", CultureInfo.InvariantCulture);
-                feLine.QuantityUnitOfMeasure = "NAR";
+                feLine.QuantityUnitOfMeasure = DApp.Util.Dian.QuantityUnitOfMeasure;
                 feLine.ExcludeVat = "true";
                 feLine.UnitPrice = facDetalle.ValorServicio.ToString(CultureInfo.InvariantCulture);
                 feLine.GrossAmount = facDetalle.SubTotal.ToString(CultureInfo.InvariantCulture);
@@ -509,26 +500,26 @@ namespace Blazor.BusinessLogic
                 {
                     feLine.WithholdingTaxSubTotals.Add(new FeWithholdingTaxSubTotal
                     {
-                        WithholdingTaxCategory = "RETERENTA",
+                        WithholdingTaxCategory = DApp.Util.Dian.Reterenta,
                         TaxPercentage = fac.Entidades.PorcentajeRetefuente.ToString(CultureInfo.InvariantCulture),
                         TaxableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture),
                         TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
                     feLine.WithholdingTaxSubTotals.Add(new FeWithholdingTaxSubTotal
                     {
-                        WithholdingTaxCategory = "RETEICA",
+                        WithholdingTaxCategory = DApp.Util.Dian.Reteica,
                         TaxPercentage = fac.Entidades.PorcentajeReteIca.ToString(CultureInfo.InvariantCulture),
                         TaxableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture),
                         TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
                     feLine.WithholdingTaxTotals.Add(new FeWithholdingTaxTotal
                     {
-                        WithholdingTaxCategory = "RETERENTA",
+                        WithholdingTaxCategory = DApp.Util.Dian.Reterenta,
                         TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeRetefuente / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
                     feLine.WithholdingTaxTotals.Add(new FeWithholdingTaxTotal
                     {
-                        WithholdingTaxCategory = "RETEICA",
+                        WithholdingTaxCategory = DApp.Util.Dian.Reteica,
                         TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
 
@@ -546,55 +537,55 @@ namespace Blazor.BusinessLogic
                     }
 
                     FeCollection feCollection = new FeCollection();
-                    feCollection.Name = "Usuario";
+                    feCollection.Name = DApp.Util.Dian.FeCollectionName;
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "CODIGO_PRESTADOR",
+                        Name = DApp.Util.Dian.CodigoPrestador,
                         Value = fac.Empresas.CodigoReps
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "MODALIDAD_PAGO",
+                        Name = DApp.Util.Dian.ModalidadPago,
                         Value = fac.Convenio.ModalidadesContratacion.Descripcion,
-                        CodeListName = "salud_cobertura.gc",
+                        CodeListName = DApp.Util.Dian.CodeListName,
                         CodeListCode = fac.Convenio.ModalidadesContratacion.CodigoRips
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "OBERTURA_PLAN_BENEFICIOS",
+                        Name = DApp.Util.Dian.OberturaPlanBeneficios,
                         Value = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.Descripcion,
-                        CodeListName = "salud_cobertura.gc",
+                        CodeListName = DApp.Util.Dian.CodeListName,
                         CodeListCode = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.CodigoRips
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "NUMERO_CONTRATO",
+                        Name = DApp.Util.Dian.NumeroContrato,
                         Value = fac.Convenio.NroContrato
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "NUMERO_POLIZA",
+                        Name = DApp.Util.Dian.NumeroPoliza,
                         Value = fac.Convenio.NroPoliza
                     });
                     var admision = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones;
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "COPAGO",
+                        Name = DApp.Util.Dian.Copago,
                         Value = admision.ValorPagoEstadosId == 58 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "CUOTA_MODERADORA",
+                        Name = DApp.Util.Dian.CuotaModeradora,
                         Value = admision.ValorPagoEstadosId == 59 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "CUOTA_RECUPERACION",
+                        Name = DApp.Util.Dian.CuotaRecuperacion,
                         Value = admision.ValorPagoEstadosId == 68 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = "PAGOS_COMPARTIDOS",
+                        Name = DApp.Util.Dian.PagosCompartidos,
                         Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
 
@@ -603,7 +594,7 @@ namespace Blazor.BusinessLogic
                 else
                 {
                     FeCollection feCollection = new FeCollection();
-                    feCollection.Name = "Usuario";
+                    feCollection.Name = DApp.Util.Dian.FeCollectionName;
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = "NA",
@@ -952,7 +943,7 @@ namespace Blazor.BusinessLogic
 
             if (string.IsNullOrWhiteSpace(factura.CUFE) ||
                 !factura.IssueDate.HasValue ||
-                !string.Equals(factura.DIANResponse, _certifiedDIAN, StringComparison.OrdinalIgnoreCase))
+                !string.Equals(factura.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
             {
                 throw new Exception("La factura no ha sido aceptada por la DIAN.");
             }

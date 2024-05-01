@@ -29,8 +29,9 @@ public class FEResultJson<T>
         {
             if (Errors != null && Errors.Any())
             {
-                return Errors.Select(x=> $"Codigo:{x.Code}, Campo: {x.Field}").ToList();
-            }else
+                return Errors.Select(x => $"Codigo:{x.Code}, Campo: {x.Field}").ToList();
+            }
+            else
             {
                 return new List<string>();
             }
@@ -112,7 +113,7 @@ public class RespuestaFeTokenJson
 
 #region Clases para documento
 
-public class FeRootJson
+public class FeFacturaJson
 {
     [JsonProperty("Currency")]
     public string Currency { get; set; }
@@ -145,7 +146,7 @@ public class FeRootJson
     public FeIssuerParty IssuerParty { get; set; } = new FeIssuerParty();
 
     [JsonProperty("PaymentMeans")]
-    public List<FEPaymentMeans> PaymentMeans { get; set; } = new List<FEPaymentMeans>();
+    public List<FePaymentMean> PaymentMeans { get; set; } = new List<FePaymentMean>();
 
     [JsonProperty("BillingPeriod")]
     public FeBillingPeriod BillingPeriod { get; set; } = new FeBillingPeriod();
@@ -172,7 +173,67 @@ public class FeRootJson
     public FeHealthcareData HealthcareData { get; set; } = new FeHealthcareData();
 }
 
-public class FEPaymentMeans
+public class FeNotaDebitoJson : FeNotaJson
+{
+    [JsonProperty("ReasonDebit")]
+    public string ReasonDebit { get; set; }
+}
+
+public class FeNotaCreditoJson : FeNotaJson
+{
+    [JsonProperty("ReasonCredit")]
+    public string ReasonCredit { get; set; }
+}
+
+public class FeNotaJson
+{
+    [JsonProperty("Currency")]
+    public string Currency { get; set; }
+
+    [JsonProperty("SeriePrefix")]
+    public string SeriePrefix { get; set; }
+
+    [JsonProperty("SerieNumber")]
+    public string SerieNumber { get; set; }
+
+    [JsonProperty("OperationType")]
+    public string OperationType { get; set; }
+
+    [JsonProperty("IssueDate")]
+    public DateTime IssueDate { get; set; }
+
+    [JsonProperty("DueDate")]
+    public DateTime DueDate { get; set; }
+
+    [JsonProperty("DeliveryDate")]
+    public DateTime DeliveryDate { get; set; }
+
+    [JsonProperty("CorrelationDocumentId")]
+    public string CorrelationDocumentId { get; set; }
+
+    [JsonProperty("SerieExternalKey")]
+    public string SerieExternalKey { get; set; }
+
+    [JsonProperty("IssuerParty")]
+    public FeIssuerParty IssuerParty { get; set; } = new FeIssuerParty();
+
+    [JsonProperty("PaymentMeans")]
+    public List<FePaymentMean> PaymentMeans { get; set; } = new List<FePaymentMean>();
+
+    [JsonProperty("CustomerParty")]
+    public FeCustomerParty CustomerParty { get; set; } = new FeCustomerParty();
+
+    [JsonProperty("Lines")]
+    public List<FeLine> Lines { get; set; } = new List<FeLine>();
+
+    [JsonProperty("Total")]
+    public FeTotal Total { get; set; } = new FeTotal();
+
+    [JsonProperty("DocumentReferences")]
+    public List<FeDocumentReference> DocumentReferences { get; set; } = new List<FeDocumentReference>();
+}
+
+public class FePaymentMean
 {
     [JsonProperty("Code")]
     public string Code { get; set; }
@@ -255,6 +316,9 @@ public class FeDocumentReference
 
     [JsonProperty("Type")]
     public string Type { get; set; }
+
+    [JsonProperty("DocumentReferredCUFE")]
+    public string DocumentReferredCUFE { get; set; }
 }
 
 public class FeHealthcareData
