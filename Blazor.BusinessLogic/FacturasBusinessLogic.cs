@@ -72,7 +72,7 @@ namespace Blazor.BusinessLogic
                 enviarDocumento_FE.IdTipo = facturaId;
 
                 var json = GetFEJson(facturaId);
-                enviarDocumento_IFE = await integracionFE.EnviarFacturaDian(json);
+                enviarDocumento_IFE = await integracionFE.EnviarDocumento(json, TipoEnvioDocumentoDian.Factura);
 
                 enviarDocumento_FE.Api = enviarDocumento_IFE.Api;
                 enviarDocumento_FE.HttpStatus = enviarDocumento_IFE.HttpStatus;
@@ -119,6 +119,11 @@ namespace Blazor.BusinessLogic
                 var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
                 var fac = unitOfWork.Repository<Facturas>().Table.FirstOrDefault(x => x.Id == facturaId);
 
+                if (string.Equals(DApp.Util.Dian.StatusCertified, fac.DIANResponse, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Ya el documento fue certificado por la dian.");
+                }
+
                 IntegracionFE integracionFE = new IntegracionFE(parametros, host);
 
                 consultarEstado_FE.Tipo = (int)TipoDocumento.Factura;
@@ -151,23 +156,20 @@ namespace Blazor.BusinessLogic
 
                 if (job != null)
                 {
-                    if (job != null)
+                    job.Ejecutado = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"| Intento {job.Intentos}: {consultaEstaod_IFE.Status} | ";
+                    if (isCertified || isWithErrors)
                     {
-                        job.Ejecutado = true;
-                        job.LastUpdate = DateTime.Now;
-                        job.UpdatedBy = user;
-                        job.Intentos++;
-                        job.Detalle += $"| Intento {job.Intentos}: {consultaEstaod_IFE.Status} | ";
-                        if (isCertified || isWithErrors)
-                        {
-                            job.Exitoso = true;
-                        }
-                        else
-                        {
-                            job.Exitoso = false;
-                        }
-                        unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
+                        job.Exitoso = true;
                     }
+                    else
+                    {
+                        job.Exitoso = false;
+                    }
+                    unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
                 }
                 else
                 {
@@ -939,7 +941,11 @@ namespace Blazor.BusinessLogic
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
-            var factura = unitOfWork.Repository<Facturas>().FindById(x => x.Id == facturaId, true);
+            var factura = unitOfWork.Repository<Facturas>().Table
+                .Include(x => x.Pacientes)
+                .Include(x => x.Entidades)
+                .Include(x => x.Empresas)
+                .FirstOrDefault(x => x.Id == facturaId);
 
             if (string.IsNullOrWhiteSpace(factura.CUFE) ||
                 !factura.IssueDate.HasValue ||
@@ -966,8 +972,6 @@ namespace Blazor.BusinessLogic
                 archive.Save(msZip);
                 msZip = new MemoryStream(msZip.ToArray());
 
-                Empresas empresas = unitOfWork.Repository<Empresas>().FindById(x => x.Id == factura.EmpresasId, false);
-
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
                 envioEmailConfig.Asunto = $"{factura.Empresas.NumeroIdentificacion};{factura.Empresas.RazonSocial};{factura.Documentos.Prefijo}{factura.NroConsecutivo};01;{factura.Empresas.RazonSocial}";
@@ -977,12 +981,13 @@ namespace Blazor.BusinessLogic
                 envioEmailConfig.ArchivosAdjuntos.Add($"z{factura.ConsecutivoFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
-                    {"nombreCia",$"{empresas.RazonSocial}" }
+                    {"nombreCia",$"{factura.Empresas.RazonSocial}" }
                 };
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
                 var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                    .OrderBy(c => c.CreationDate)
                     .FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Factura && x.IdTipo == factura.Id && !x.Exitoso);
                 if (job != null)
                 {
@@ -1009,7 +1014,6 @@ namespace Blazor.BusinessLogic
             var factura = new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Facturas>().FindById(x => x.Id == idFactura, false);
             factura.Saldo = factura.Saldo - valor;
             new Dominus.Backend.DataBase.BusinessLogic(this.UnitOfWork.Settings).GetBusinessLogic<Facturas>().Modify(factura);
-
         }
 
         public string FacturaIndividual(long admisionId, long empresaId, long userId)

@@ -3560,12 +3560,20 @@
     "Description": "Consecutivo"
   },
   {
+    "Id": "Notas.ConsultarEstadoDocumentoDIAN",
+    "Description": "Consultar Estado Documento FE"
+  },
+  {
     "Id": "Notas.Cosecutivo",
     "Description": "Consecutivo Factura"
   },
   {
     "Id": "Notas.CUFE",
     "Description": "CUFE"
+  },
+  {
+    "Id": "Notas.DescargarXMLDIAN",
+    "Description": "Descargar XML DIAN"
   },
   {
     "Id": "Notas.DIANResponse",
@@ -3622,6 +3630,10 @@
   {
     "Id": "Notas.IdDbusiness",
     "Description": "Cliente"
+  },
+  {
+    "Id": "Notas.IdDocumentoFE",
+    "Description": "Identificacion Documento FE"
   },
   {
     "Id": "Notas.IssueDate",

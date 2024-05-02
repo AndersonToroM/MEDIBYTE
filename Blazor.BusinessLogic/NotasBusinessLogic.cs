@@ -85,15 +85,13 @@ namespace Blazor.BusinessLogic
                 if (nota.Documentos.Transaccion == 3) // Nota Credito
                 {
                     var json = GetFENotaCreditoJson(notaId);
-                    //enviarDocumento_IFE = await integracionFE.EnviarNotaCredito(json);
+                    enviarDocumento_IFE = await integracionFE.EnviarDocumento(json, TipoEnvioDocumentoDian.NotaCredito);
                 }
                 else if (nota.Documentos.Transaccion == 4) // Nota Debito
                 {
                     var json = GetFENotaDebitoJson(notaId);
-                    //enviarDocumento_IFE = await integracionFE.EnviarNotaDebito(json);
+                    enviarDocumento_IFE = await integracionFE.EnviarDocumento(json, TipoEnvioDocumentoDian.NotaDebito);
                 }
-
-
 
                 enviarDocumento_FE.Api = enviarDocumento_IFE.Api;
                 enviarDocumento_FE.HttpStatus = enviarDocumento_IFE.HttpStatus;
@@ -109,7 +107,7 @@ namespace Blazor.BusinessLogic
                     unitOfWork.CommitTransaction();
                     enviarDocumento_IFE.IdDocumentFE = nota.IdDocumentoFE;
 
-                    //enviarDocumento_IFE = await ConsultarEstadoDocumento(fac.Id, user, host);
+                    enviarDocumento_IFE = await ConsultarEstadoDocumento(nota.Id, user, host);
                 }
             }
             catch (Exception ex)
@@ -123,6 +121,238 @@ namespace Blazor.BusinessLogic
             unitOfWork.Repository<ResultadoIntegracionFE>().Add(enviarDocumento_FE);
             unitOfWork.CommitTransaction();
             return enviarDocumento_IFE;
+        }
+
+        public async Task<IntegracionEnviarFEModel> ConsultarEstadoDocumento(long notaId, string user, string host, ResultadoIntegracionFEJob job = null)
+        {
+            ResultadoIntegracionFE consultarEstado_FE = new ResultadoIntegracionFE();
+            consultarEstado_FE.CreatedBy = user;
+            consultarEstado_FE.UpdatedBy = user;
+            consultarEstado_FE.CreationDate = DateTime.Now;
+            consultarEstado_FE.LastUpdate = DateTime.Now;
+            IntegracionEnviarFEModel consultaEstaod_IFE = new IntegracionEnviarFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+                var nota = unitOfWork.Repository<Notas>().Table.FirstOrDefault(x => x.Id == notaId);
+
+                if (string.Equals(DApp.Util.Dian.StatusCertified, nota.DIANResponse, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Ya el documento fue certificado por la dian.");
+                }
+
+                IntegracionFE integracionFE = new IntegracionFE(parametros, host);
+
+                consultarEstado_FE.Tipo = (int)TipoDocumento.Nota;
+                consultarEstado_FE.IdTipo = notaId;
+
+                consultaEstaod_IFE = await integracionFE.ConsultarEstadoDocumento(nota.IdDocumentoFE.Value);
+                consultaEstaod_IFE.IdDocumentFE = nota.IdDocumentoFE;
+                consultarEstado_FE.Api = consultaEstaod_IFE.Api;
+                consultarEstado_FE.HttpStatus = consultaEstaod_IFE.HttpStatus;
+                consultarEstado_FE.JsonResult = consultaEstaod_IFE.JsonResult;
+                consultarEstado_FE.HuboError = consultaEstaod_IFE.HuboErrorFE || consultaEstaod_IFE.HuboErrorIntegracion;
+                consultarEstado_FE.Error = string.Join(", ", consultaEstaod_IFE.Errores);
+
+                if (!string.IsNullOrWhiteSpace(consultaEstaod_IFE.Status))
+                {
+                    nota.DIANResponse = consultaEstaod_IFE.Status;
+                    unitOfWork.Repository<Notas>().Modify(nota);
+                    unitOfWork.CommitTransaction();
+                }
+
+                bool isCertified = consultaEstaod_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
+                bool isWithErrors = consultaEstaod_IFE.Status.Equals(DApp.Util.Dian.StatusWithErrors, StringComparison.OrdinalIgnoreCase);
+                if (!consultarEstado_FE.HuboError)
+                {
+                    if (isCertified)
+                    {
+                        consultaEstaod_IFE = await ConsultarDatosDocumento(nota, integracionFE, user, host);
+                    }
+                }
+
+                if (job != null)
+                {
+                    job.Ejecutado = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"| Intento {job.Intentos}: {consultaEstaod_IFE.Status} | ";
+                    if (isCertified || isWithErrors)
+                    {
+                        job.Exitoso = true;
+                    }
+                    else
+                    {
+                        job.Exitoso = false;
+                    }
+                    unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
+                }
+                else
+                {
+                    if (!isCertified && !isWithErrors)
+                    {
+                        ResultadoIntegracionFEJob resultadoIntegracionFEJob = new ResultadoIntegracionFEJob
+                        {
+                            Id = 0,
+                            Host = host,
+                            Tipo = (int)TipoDocumento.Nota,
+                            IdTipo = nota.Id,
+                            Ejecutado = false,
+                            Exitoso = false,
+                            Intentos = 1,
+                            Detalle = $"| Intento 1: {consultaEstaod_IFE.Status} | ",
+                            CreationDate = DateTime.Now,
+                            LastUpdate = DateTime.Now,
+                            CreatedBy = user,
+                            UpdatedBy = user
+                        };
+                        unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
+
+                        throw new Exception("El documento se envió satisfactoriamente y esta pendiente de certificación.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                consultarEstado_FE.HuboError = true;
+                consultarEstado_FE.Error = ex.GetFullErrorMessage();
+                consultaEstaod_IFE.Errores.Add(ex.GetFullErrorMessage());
+                consultaEstaod_IFE.HuboErrorFE = true;
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(consultarEstado_FE);
+            unitOfWork.CommitTransaction();
+            return consultaEstaod_IFE;
+        }
+
+        private async Task<IntegracionEnviarFEModel> ConsultarDatosDocumento(Notas nota, IntegracionFE integracionFE, string user, string host)
+        {
+            ResultadoIntegracionFE consultarDatosDoc_FE = new ResultadoIntegracionFE();
+            consultarDatosDoc_FE.CreatedBy = user;
+            consultarDatosDoc_FE.UpdatedBy = user;
+            consultarDatosDoc_FE.CreationDate = DateTime.Now;
+            consultarDatosDoc_FE.LastUpdate = DateTime.Now;
+            IntegracionEnviarFEModel consultarDatosDoc_IFE = new IntegracionEnviarFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            unitOfWork.BeginTransaction();
+            try
+            {
+                consultarDatosDoc_FE.Tipo = (int)TipoDocumento.Nota;
+                consultarDatosDoc_FE.IdTipo = nota.Id;
+
+                consultarDatosDoc_IFE = await integracionFE.ConsultarDatosDocumento(nota.IdDocumentoFE.Value);
+                consultarDatosDoc_IFE.IdDocumentFE = nota.IdDocumentoFE;
+                consultarDatosDoc_FE.Api = consultarDatosDoc_IFE.Api;
+                consultarDatosDoc_FE.HttpStatus = consultarDatosDoc_IFE.HttpStatus;
+                consultarDatosDoc_FE.JsonResult = consultarDatosDoc_IFE.JsonResult;
+                consultarDatosDoc_FE.HuboError = consultarDatosDoc_IFE.HuboErrorFE || consultarDatosDoc_IFE.HuboErrorIntegracion;
+                consultarDatosDoc_FE.Error = string.Join(", ", consultarDatosDoc_IFE.Errores);
+                nota.DIANResponse = consultarDatosDoc_IFE.Status;
+
+                bool isCertified = consultarDatosDoc_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
+
+                if (!consultarDatosDoc_FE.HuboError)
+                {
+                    nota.CUFE = consultarDatosDoc_IFE.Cufe;
+                    nota.IssueDate = consultarDatosDoc_IFE.IssueDate;
+                    nota.UpdatedBy = user;
+                }
+
+                unitOfWork.Repository<Notas>().Modify(nota);
+                unitOfWork.CommitTransaction();
+
+                if (isCertified)
+                {
+                    var envioCorreo = await EnviarEmail(nota.Id, "Envío automático SIISO", user, host);
+                    if (!envioCorreo)
+                    {
+                        ConfiguracionEnvioEmailJob configuracionEnvioEmailJob = new ConfiguracionEnvioEmailJob
+                        {
+                            Id = 0,
+                            Host = host,
+                            Tipo = (int)TipoDocumento.Nota,
+                            IdTipo = nota.Id,
+                            Ejecutado = false,
+                            Exitoso = false,
+                            Intentos = 1,
+                            Detalle = $"| Intento 1: {string.Join(", ", consultarDatosDoc_IFE.Errores)} | ",
+                            CreationDate = DateTime.Now,
+                            LastUpdate = DateTime.Now,
+                            CreatedBy = user,
+                            UpdatedBy = user
+                        };
+                        unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Add(configuracionEnvioEmailJob);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                consultarDatosDoc_FE.HuboError = true;
+                consultarDatosDoc_FE.Error = ex.GetFullErrorMessage();
+                consultarDatosDoc_IFE.Errores.Add(ex.GetFullErrorMessage());
+                consultarDatosDoc_IFE.HuboErrorFE = true;
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(consultarDatosDoc_FE);
+            unitOfWork.CommitTransaction();
+            return consultarDatosDoc_IFE;
+        }
+
+        public async Task<IntegracionXmlFEModel> GetArchivoXmlDIAN(long notaId, string user, string host)
+        {
+            ResultadoIntegracionFE resultadoIntegracionFE = new ResultadoIntegracionFE();
+            IntegracionXmlFEModel integracionXmlFEModel = new IntegracionXmlFEModel();
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            try
+            {
+                var parametros = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+                var nota = unitOfWork.Repository<Notas>().Table.FirstOrDefault(x => x.Id == notaId);
+
+                if (!nota.IdDocumentoFE.HasValue ||
+                    !nota.IssueDate.HasValue ||
+                    string.IsNullOrWhiteSpace(nota.DIANResponse) || !nota.DIANResponse.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception("Esta Nota no esta validada en la DIAN.");
+                }
+
+                IntegracionFE integracionRips = new IntegracionFE(parametros, host);
+
+                resultadoIntegracionFE.CreatedBy = user;
+                resultadoIntegracionFE.UpdatedBy = user;
+                resultadoIntegracionFE.CreationDate = DateTime.Now;
+                resultadoIntegracionFE.LastUpdate = DateTime.Now;
+                resultadoIntegracionFE.Tipo = (int)TipoDocumento.Factura;
+                resultadoIntegracionFE.IdTipo = notaId;
+
+                integracionXmlFEModel = await integracionRips.GetXmlFile(nota.IdDocumentoFE.Value);
+
+                resultadoIntegracionFE.HttpStatus = integracionXmlFEModel.HttpStatus;
+                resultadoIntegracionFE.JsonResult = integracionXmlFEModel.JsonResult;
+                resultadoIntegracionFE.HuboError = integracionXmlFEModel.HuboErrorFE || integracionXmlFEModel.HuboErrorIntegracion;
+                resultadoIntegracionFE.Error = string.Join(", ", integracionXmlFEModel.Errores);
+
+                if (!resultadoIntegracionFE.HuboError)
+                {
+                    string pathXml = Path.Combine(Path.GetTempPath(), integracionXmlFEModel.FileName);
+                    File.WriteAllBytes(pathXml, integracionXmlFEModel.ContentBytes);
+                    integracionXmlFEModel.PathFile = pathXml;
+                }
+            }
+            catch (Exception ex)
+            {
+                resultadoIntegracionFE.HuboError = true;
+                resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
+                integracionXmlFEModel.Errores.Add(ex.GetFullErrorMessage());
+                integracionXmlFEModel.HuboErrorFE = true;
+            }
+
+            unitOfWork.Repository<ResultadoIntegracionFE>().Add(resultadoIntegracionFE);
+            unitOfWork.CommitTransaction();
+            return integracionXmlFEModel;
         }
 
         /// <summary>
@@ -425,70 +655,58 @@ namespace Blazor.BusinessLogic
             return pathPdf;
         }
 
-        public async Task EnviarEmail(long notaId, string eventoEnvio, string user)
+        public async Task<bool> EnviarEmail(long notaId, string eventoEnvio, string user, string host)
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
-            var nota = unitOfWork.Repository<Notas>().FindById(x => x.Id == notaId, true);
+            var nota = unitOfWork.Repository<Notas>().Table
+                .Include(x=>x.Facturas)
+                .Include(x=>x.Pacientes)
+                .Include(x=>x.Entidades)
+                .Include(x=>x.Empresas)
+                .FirstOrDefault(x => x.Id == notaId);
 
-            if (string.IsNullOrWhiteSpace(nota.DIANResponse))
+            if (string.IsNullOrWhiteSpace(nota.CUFE) ||
+                !nota.IssueDate.HasValue ||
+                !string.Equals(nota.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
             {
-                throw new Exception("La nota no ha sido aceptada por la dian.");
-            }
-            else if (!nota.DIANResponse.Contains("DIAN Aceptado"))
-            {
-                throw new Exception("La nota no ha sido aceptada por la dian.");
+                throw new Exception("La factura no ha sido aceptada por la DIAN.");
             }
 
             try
             {
                 string correo = null;
-                if (nota.Facturas.AdmisionesId != null)
-                    correo = unitOfWork.Repository<Pacientes>().GetTable().FirstOrDefault(x => x.Id == nota.PacientesId)?.CorreoElectronico;
+                if (nota.EsNotaInstitucional)
+                    correo = nota.Entidades.CorreoElectronico;
                 else
-                    correo = unitOfWork.Repository<Entidades>().GetTable().FirstOrDefault(x => x.Id == nota.EntidadesId)?.CorreoElectronico;
+                    correo = nota.Pacientes.CorreoElectronico;
 
-                byte[] contentarray = null;
-                HttpClient http = new HttpClient();
-                var response = await http.GetAsync(nota.XmlUrl);
-                if (response.IsSuccessStatusCode)
-                    contentarray = await response.Content.ReadAsByteArrayAsync();
-                else
-                    throw new Exception($"Error en descargar XMl desde acepta. | {response.StatusCode} - {response.ReasonPhrase}");
-                string content = Encoding.UTF8.GetString(contentarray);
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(content);
-                content = @"<?xml version='1.0' encoding='UTF-8'?>";
-                content += doc.DocumentElement.ChildNodes[3].InnerXml;
-
-                string pathXml = Path.Combine(Path.GetTempPath(), $"ad{nota.ConsecutivoFE}.xml");
-                File.WriteAllText(pathXml, content, Encoding.UTF8);
+                var xmlDian = await GetArchivoXmlDIAN(nota.Id, user, host);
 
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"z{nota.ConsecutivoFE}.zip";
                 archive.AddFile(GetPdfNotaReporte(nota, nota.ConsecutivoFE, user), "/");
-                archive.AddFile(pathXml, "/");
+                archive.AddFile(xmlDian.PathFile, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
                 msZip = new MemoryStream(msZip.ToArray());
 
-                Empresas empresas = unitOfWork.Repository<Empresas>().FindById(x => x.Id == nota.EmpresasId, false);
-
                 EmailModelConfig envioEmailConfig = new EmailModelConfig();
                 envioEmailConfig.Origen = DApp.Util.EmailOrigen_Facturacion;
-                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};{(nota.Documentos.Transaccion == 3 ? 91 : 92)};{nota.Empresas.RazonSocial}";
+                envioEmailConfig.Asunto = $"{nota.Empresas.NumeroIdentificacion};{nota.Empresas.RazonSocial};{nota.Documentos.Prefijo}{nota.Consecutivo};01;{nota.Empresas.RazonSocial}";
                 envioEmailConfig.MetodoUso = eventoEnvio;
-                envioEmailConfig.Template = "EmailEnvioNotaElectronica";
+                envioEmailConfig.Template = "EmailEnvioFacturaElectronica";
                 envioEmailConfig.Destinatarios.Add(correo);
                 envioEmailConfig.ArchivosAdjuntos.Add($"z{nota.ConsecutivoFE}.zip", msZip);
                 envioEmailConfig.Datos = new Dictionary<string, string>
                 {
-                    {"nombreCia",$"{empresas.RazonSocial}" }
+                    {"nombreCia",$"{nota.Empresas.RazonSocial}" }
                 };
 
                 new ConfiguracionEnvioEmailBusinessLogic(this.UnitOfWork).EnviarEmail(envioEmailConfig);
 
                 var job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+                    .OrderBy(c => c.CreationDate)
                     .FirstOrDefault(x => x.Tipo == (int)TipoDocumento.Nota && x.IdTipo == nota.Id && !x.Exitoso);
                 if (job != null)
                 {
@@ -497,14 +715,16 @@ namespace Blazor.BusinessLogic
                     job.LastUpdate = DateTime.Now;
                     job.UpdatedBy = user;
                     job.Intentos++;
-                    job.Detalle += $"Intento {job.Intentos}: {eventoEnvio}. ";
+                    job.Detalle += $"| Intento {job.Intentos}: {eventoEnvio} | ";
                     unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
                 }
+
+                return true;
             }
             catch (Exception e)
             {
                 DApp.LogToFile($"{e.GetFullErrorMessage()} | {e.StackTrace}");
-                throw new Exception(e.GetFullErrorMessage());
+                return false;
             }
         }
 

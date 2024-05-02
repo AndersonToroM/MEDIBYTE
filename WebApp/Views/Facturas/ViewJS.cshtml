@@ -6,7 +6,7 @@
     string UrlEnviarRips = Url.Action("EnviarRips", Prefix, new { id = Model.Entity.Id });
     string UrlDescargarJsonRips = Url.Action("DescargarJsonRips", Prefix, new { id = Model.Entity.Id });
     string UrlDescargarXMLDIAN = Url.Action("DescargarXMLDIAN", Prefix, new { id = Model.Entity.Id });
-    string UrlEnviarFactura = Url.Action("EnviarFactura", Prefix, new { id = Model.Entity.Id });
+    string UrlEnviarEmailFactura = Url.Action("EnviarEmailFactura", Prefix, new { id = Model.Entity.Id });
     string UrlModificarDatos = Url.Action("ModificarDatosFactura", Prefix);
     string UrlConsultarEstadoDocumentoDIAN = Url.Action("ConsultarEstadoDocumentoDIAN", Prefix, new { id = Model.Entity.Id });
 }
@@ -79,23 +79,107 @@
         });
     }
 
-    function @(Prefix)EnviarFactura() {
+    function @(Prefix)EnviarRips() {
 
         showLoadIndicator();
         $.ajax({
-            url: "@UrlEnviarFactura",
+            url: "@UrlEnviarRips",
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-                DevExpress.ui.notify("Envio de correo satisfactorio.", "info");
+
+                $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
+
+                if (data.HuboErrorIntegracion) {
+                    $("#@(Prefix)labelRipsResultado").text(data.Error);
+                    $("#@(Prefix)labelRipsResultado").addClass("text-danger");
+                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", true);
+
+                } else {
+
+                    $("#@(Prefix)labelRipsResultado").removeClass("text-danger");
+                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
+                    $("#@(Prefix)GridErroresIntegracionRips").dxDataGrid("instance").option("dataSource", data.Respuesta.resultadosValidacion);
+                    if (data.HuboErrorRips) {
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips presenta errores.");
+                    } else {
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips fue satisfactoria.");
+                    }
+                }
             },
             error: function (xhr) {
+                console.log(xhr);
                 hideLoadIndicator();
-                DevExpress.ui.notify("Error: " + xhr.responseText + " Verificar log de correo.", "error");
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
             }
         });
     }
 
+    function @(Prefix)CerrarPopupErroresIntegracionRIPS() {
+        $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").hide();
+    }
+
+    function @(Prefix)DescargarJSONRips() {
+        DescargarArchivo("@UrlDescargarJsonRips")
+    }
+
+    function @(Prefix)DisplayExprDocumentosId(item) {
+        if (item) {
+            return item.Prefijo + " - " + item.Descripcion;
+        } else {
+            return null;
+        }
+    }
+
+    function @(Prefix)DisplayExprFormasPagosId(item) {
+        if (item) {
+            return item.Codigo + " - " + item.Nombre;
+        } else {
+            return null;
+        }
+    }
+
+    function @(Prefix)FormSuccess(data)
+    {
+        hideLoadIndicator();
+        if ('@ViewData.ModelState.IsValid' == 'True') {
+            if ("@ViewBag.Accion" == "Delete") {
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
+            } else if ("@ViewBag.Accion" == "Save") {
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
+            } else {
+                DevExpress.ui.notify("Error no accion en submit.", "info");
+            }
+        }
+    }
+
+    function @(Prefix)FormFailure(data)
+    {
+        hideLoadIndicator();
+        DevExpress.ui.notify("Error en el formulario", "error");
+    }
+
+    function @(Prefix)FormSuccessDetail(data)
+    {
+        hideLoadIndicator();
+        if ('@ViewData.ModelState.IsValid' == 'True') {
+            $("#FacturasDetalleDataGrid").dxDataGrid("instance").refresh();
+            if ("@ViewBag.Accion" == "Delete") {
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
+            } else if ("@ViewBag.Accion" == "Save") {
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
+            } else {
+                DevExpress.ui.notify("Error no accion en submit.", "info");
+            }
+        }
+    }
+
+    function @(Prefix)FormFailureDetail(data)
+    {
+        hideLoadIndicator();
+        DevExpress.ui.notify("Error en el formulario", "error");
+    }
+        
     function @(Prefix)EnviarDIAN() {
         $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", true);
         showLoadIndicator();
@@ -159,109 +243,25 @@
         $("#@(Prefix)IdDocumentoFE").dxTextBox("instance").option("value", integracion.IdDocumentFE);
     }
 
-    function @(Prefix)EnviarRips() {
+    function @(Prefix)EnviarEmailFactura() {
 
         showLoadIndicator();
         $.ajax({
-            url: "@UrlEnviarRips",
+            url: "@UrlEnviarEmailFactura",
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-
-                $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
-
-                if (data.HuboErrorIntegracion) {
-                    $("#@(Prefix)labelRipsResultado").text(data.Error);
-                    $("#@(Prefix)labelRipsResultado").addClass("text-danger");
-                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", true);
-
-                } else {
-
-                    $("#@(Prefix)labelRipsResultado").removeClass("text-danger");
-                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
-                    $("#@(Prefix)GridErroresIntegracionRips").dxDataGrid("instance").option("dataSource", data.Respuesta.resultadosValidacion);
-                    if (data.HuboErrorRips) {
-                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips presenta errores.");
-                    } else {
-                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips fue satisfactoria.");
-                    }
-                }
+                DevExpress.ui.notify("Envio de correo satisfactorio.", "info");
             },
             error: function (xhr) {
-                console.log(xhr);
                 hideLoadIndicator();
-                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
+                DevExpress.ui.notify("Error: " + xhr.responseText + " Verificar log de correo.", "error");
             }
         });
     }
 
-    function @(Prefix)CerrarPopupErroresIntegracionRIPS() {
-        $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").hide();
-    }
-
-    function @(Prefix)DescargarJSONRips() {
-        DescargarArchivo("@UrlDescargarJsonRips")
-    }
-
     function @(Prefix)DescargarXMLDIAN() {
         DescargarArchivo("@UrlDescargarXMLDIAN")
-    }
-
-    function @(Prefix)DisplayExprDocumentosId(item) {
-        if (item) {
-            return item.Prefijo + " - " + item.Descripcion;
-        } else {
-            return null;
-        }
-    }
-
-    function @(Prefix)DisplayExprFormasPagosId(item) {
-        if (item) {
-            return item.Codigo + " - " + item.Nombre;
-        } else {
-            return null;
-        }
-    }
-
-    function @(Prefix)FormSuccess(data)
-    {
-        hideLoadIndicator();
-        if ('@ViewData.ModelState.IsValid' == 'True') {
-            if ("@ViewBag.Accion" == "Delete") {
-                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
-            } else if ("@ViewBag.Accion" == "Save") {
-                DevExpress.ui.notify("Registro guardado correctamente.", "info");
-            } else {
-                DevExpress.ui.notify("Error no accion en submit.", "info");
-            }
-        }
-    }
-
-    function @(Prefix)FormFailure(data)
-    {
-        hideLoadIndicator();
-        DevExpress.ui.notify("Error en el formulario", "error");
-    }
-
-    function @(Prefix)FormSuccessDetail(data)
-    {
-        hideLoadIndicator();
-        if ('@ViewData.ModelState.IsValid' == 'True') {
-            $("#FacturasDetalleDataGrid").dxDataGrid("instance").refresh();
-            if ("@ViewBag.Accion" == "Delete") {
-                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
-            } else if ("@ViewBag.Accion" == "Save") {
-                DevExpress.ui.notify("Registro guardado correctamente.", "info");
-            } else {
-                DevExpress.ui.notify("Error no accion en submit.", "info");
-            }
-        }
-    }
-
-    function @(Prefix)FormFailureDetail(data)
-    {
-        hideLoadIndicator();
-        DevExpress.ui.notify("Error en el formulario", "error");
     }
 
 </script>

@@ -8,14 +8,13 @@
     string UrlBack = Url.Action("ListPartial", "Facturas");
     string UrlDianXml = Url.Action("DownloadInvoiceFileXML", "Facturas", new { id = Model.Entity.Id });
 
-    bool enviadoDian = false;
-    if (!string.IsNullOrWhiteSpace(Model.Entity.DIANResponse))
-    {
-        if (Model.Entity.DIANResponse.Equals("Certified", StringComparison.OrdinalIgnoreCase))
-        {
-            enviadoDian = true;
-        }
-    }
+    bool enviadoDian = !string.IsNullOrWhiteSpace(Model.Entity.DIANResponse) &&
+     string.Equals(Model.Entity.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase) &&
+     Model.Entity.IdDocumentoFE.HasValue;
+
+    bool puedeConsultarEstadoDian = !string.IsNullOrWhiteSpace(Model.Entity.DIANResponse) &&
+        !string.Equals(Model.Entity.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase) &&
+        Model.Entity.IdDocumentoFE.HasValue;
 
     bool enviadoRips = !string.IsNullOrWhiteSpace(Model.Entity.CodigoUnicoValidacionRips);
     bool esInstitucional = !Model.Entity.PacientesId.HasValue;
@@ -26,7 +25,7 @@
         //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
         .AddButtons(new List<ButtonToolbar>()
-                        {
+                                {
             new ButtonToolbar
             {
                 Action = $"{Prefix}MostrarPopudModificarDatosFactura",
@@ -65,6 +64,24 @@
             },
             new ButtonToolbar
             {
+                Action = $"{Prefix}EnviarRips",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
+                Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional || enviadoRips,
+                Location = ToolbarItemLocation.After,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                Icon = "expand"
+            },
+            new ButtonToolbar
+            {
+                Action = $"{Prefix}DescargarJSONRips",
+                Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarJsonRips"),
+                Disabled = Model.Entity.IsNew,
+                Location = ToolbarItemLocation.Before,
+                LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                Icon = "doc"
+            },
+            new ButtonToolbar
+            {
                 Id = $"{Prefix}BotonEnviarDIAN",
                 Action = $"{Prefix}EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarDIAN"),
@@ -75,18 +92,9 @@
             },
             new ButtonToolbar
             {
-                Action = $"{Prefix}EnviarRips",
-                Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
-                Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional || enviadoRips,
-                Location = ToolbarItemLocation.After,
-                LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
-                Icon = "expand"
-            },
-            new ButtonToolbar
-            {
                 Action = $"{Prefix}ConsultarEstadoDocumentoDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.ConsultarEstadoDocumentoDIAN"),
-                Disabled = Model.Entity.IsNew,
+                Disabled = !puedeConsultarEstadoDian,
                 Location = ToolbarItemLocation.Before,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Icon = "pulldown"
@@ -102,16 +110,7 @@
             },
             new ButtonToolbar
             {
-                Action = $"{Prefix}DescargarJSONRips",
-                Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarJsonRips"),
-                Disabled = Model.Entity.IsNew,
-                Location = ToolbarItemLocation.Before,
-                LocateInMenu = ToolbarItemLocateInMenuMode.Always,
-                Icon = "doc"
-            },
-            new ButtonToolbar
-            {
-                Action = $"{Prefix}EnviarFactura",
+                Action = $"{Prefix}EnviarEmailFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarCorreo"),
                 Disabled = Model.Entity.IsNew || !enviadoDian,
                 Location = ToolbarItemLocation.After,
@@ -127,7 +126,7 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
             }*/
-                        })
+                                })
         .Back(UrlBack);
 
     var DataGridDetailConfig = new DataGridConfiguration<ServiciosFacturar>(Prefix)
@@ -286,18 +285,18 @@
                         .Title(DApp.GetResource("Facturas.FacturacionElectronica"))
                         .Items(tabItem =>
                         {
-                            tabItem.AddSimple().Template(new TemplateName($"{Prefix}BotonValidacionDIAN"));
+                            //tabItem.AddSimple().Template(new TemplateName($"{Prefix}BotonValidacionDIAN"));
                             tabItem.AddSimpleFor(m => m.Entity.CUFE).ColSpan(1)
-                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Facturas.CUFE", 255)))
-                                .Editor(e => e.TextBox().ID(Prefix + "CUFE").ReadOnly(true));
+                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(255).Message(DApp.GetStringLengthResource("Facturas.CUFE", 255)))
+                        .Editor(e => e.TextBox().ID(Prefix + "CUFE").ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.IssueDate).ColSpan(1)
-                                .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "IssueDate")
-                                .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
+                        .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "IssueDate")
+                        .DisplayFormat(DApp.DefaultLanguage.DateFormat).ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.DIANResponse).ColSpan(1)
-                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("Facturas.DIANResponse", 1024)))
-                                .Editor(e => e.TextBox().ID(Prefix + "DIANResponse").ReadOnly(true));
+                        .ValidationRules(rules => rules.AddStringLength().Min(0).Max(1024).Message(DApp.GetStringLengthResource("Facturas.DIANResponse", 1024)))
+                        .Editor(e => e.TextBox().ID(Prefix + "DIANResponse").ReadOnly(true));
                             tabItem.AddSimpleFor(m => m.Entity.IdDocumentoFE).ColSpan(1)
-                                .Editor(e => e.TextBox().ID(Prefix + "IdDocumentoFE").ReadOnly(true));
+                        .Editor(e => e.TextBox().ID(Prefix + "IdDocumentoFE").ReadOnly(true));
                         });
 
                             tabItems.Add()
@@ -471,7 +470,7 @@
     </div>
 }
 
-@using (Html.DevExtreme().NamedTemplate($"{Prefix}BotonValidacionDIAN"))
+@* @using (Html.DevExtreme().NamedTemplate($"{Prefix}BotonValidacionDIAN"))
 {
     @if (string.IsNullOrWhiteSpace(Model.Entity.ErrorReference) && string.IsNullOrWhiteSpace(Model.Entity.UrlTracking) && string.IsNullOrWhiteSpace(Model.Entity.DIANResponse))
     {
@@ -492,16 +491,16 @@
         }
         else
         {
-            @*<DxButton RenderStyle="@ButtonRenderStyle.Warning" RenderStyleMode="@ButtonRenderStyleMode.Contained" Text="@GetResource("Invoice.InformationDian")" SizeMode="@SizeMode.Small" Click="@(x => OpenPopup(GetResource("Invoice.InformationDian"), Model.UrlTracking) )" />*@
+
         }
     }
     else
     {
-        @*<DxButton RenderStyle="@ButtonRenderStyle.Danger" RenderStyleMode="@ButtonRenderStyleMode.Contained" Text="@GetResource("Invoice.ErrorDian")" SizeMode="@SizeMode.Small" Click="@(x=> OpenPopup( GetResource("Invoice.ErrorDian"), Model.ErrorReference ) )" />*@
+
     }
 
-    @*<button class="btn btn-sm btn-outline-warning">Descargar</button>*@
-}
+
+} *@
 
 @(Html.DControls().Popup()
     .ID($"{Prefix}PopupErroresIntegracionRIPS")

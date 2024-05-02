@@ -1,4 +1,5 @@
 ﻿using Blazor.BusinessLogic.Models;
+using Blazor.BusinessLogic.Models.Enums;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Dominus.Backend.Application;
@@ -21,6 +22,8 @@ public class IntegracionFE
 
     private const string _urlGetToken = "v2/auth/gettoken";
     private readonly string _urlEnviarFactura = "v2/{0}/outbounddocuments/salesInvoiceAsync";
+    private readonly string _urlEnviarNotaDebito = "v2/{0}/outbounddocuments/debitNoteAsync";
+    private readonly string _urlEnviarNotaCredito = "v2/{0}/outbounddocuments/creditNoteAsync";
     private readonly string _urlGetSeries = "v2/{0}/companies/{1}/series/getall";
     private string _urlGetEstadoDocumento = "v2/{0}/outbounddocuments/{1}/status";
     private string _urlGetDatosDocumento = "v2/{0}/outbounddocuments/{1}";
@@ -38,6 +41,8 @@ public class IntegracionFE
         ValidarDatos();
 
         _urlEnviarFactura = string.Format(_urlEnviarFactura, _parametrosGenerales.OperadorFE);
+        _urlEnviarNotaDebito = string.Format(_urlEnviarFactura, _parametrosGenerales.OperadorFE);
+        _urlEnviarNotaCredito = string.Format(_urlEnviarFactura, _parametrosGenerales.OperadorFE);
         _urlGetSeries = string.Format(_urlGetSeries, _parametrosGenerales.OperadorFE, _parametrosGenerales.CompanyIdFE);
     }
 
@@ -100,7 +105,7 @@ public class IntegracionFE
         }
     }
 
-    public async Task<IntegracionEnviarFEModel> EnviarFacturaDian(string feJson)
+    public async Task<IntegracionEnviarFEModel> EnviarDocumento(string feJson, TipoEnvioDocumentoDian tipoEnvioDocumentoDian)
     {
         IntegracionEnviarFEModel resultadoEnviarDoc = new IntegracionEnviarFEModel();
         try
@@ -108,10 +113,24 @@ public class IntegracionFE
             var token = GetToken();
             var http = BuildHttpClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Result.AccessToken);
-            resultadoEnviarDoc.Api = _urlEnviarFactura;
+
+            switch (tipoEnvioDocumentoDian)
+            {
+                case TipoEnvioDocumentoDian.Factura:
+                    resultadoEnviarDoc.Api = _urlEnviarFactura;
+                    break;
+                case TipoEnvioDocumentoDian.NotaCredito:
+                    resultadoEnviarDoc.Api = _urlEnviarNotaCredito;
+                    break;
+                case TipoEnvioDocumentoDian.NotaDebito:
+                    resultadoEnviarDoc.Api = _urlEnviarNotaDebito;
+                    break;
+                default:
+                    throw new Exception($"Error en enviar documento. El tipo de envio no se encuentra establecido.");
+            }
 
             var content = new StringContent(feJson, Encoding.UTF8, "application/json");
-            var httpResult = await http.PostAsync(_urlEnviarFactura, content);
+            var httpResult = await http.PostAsync(resultadoEnviarDoc.Api, content);
             var jsonResult = await httpResult.Content.ReadAsStringAsync();
             resultadoEnviarDoc.HttpStatus = (int)httpResult.StatusCode;
             resultadoEnviarDoc.JsonResult = jsonResult;

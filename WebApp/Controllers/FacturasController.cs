@@ -565,7 +565,7 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EnviarFactura(long id)
+        public async Task<IActionResult> EnviarEmailFactura(long id)
         {
             try
             {

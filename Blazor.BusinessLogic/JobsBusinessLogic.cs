@@ -128,7 +128,7 @@ namespace Blazor.BusinessLogic
                 }
                 else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
                 {
-                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem);
+                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem, job.Host);
                 }
             }
             catch (Exception ex)
