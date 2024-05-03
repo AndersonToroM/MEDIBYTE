@@ -46,6 +46,8 @@ namespace Blazor.BusinessLogic
             enviarDocumento_FE.UpdatedBy = user;
             enviarDocumento_FE.CreationDate = DateTime.Now;
             enviarDocumento_FE.LastUpdate = DateTime.Now;
+            enviarDocumento_FE.Tipo = (int)TipoDocumento.Nota;
+            enviarDocumento_FE.IdTipo = notaId;
 
             IntegracionEnviarFEModel enviarDocumento_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
@@ -62,14 +64,14 @@ namespace Blazor.BusinessLogic
                     !string.IsNullOrWhiteSpace(nota.DIANResponse) &&
                     nota.DIANResponse.Equals(DApp.Util.Dian.StatusStaged, StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new Exception("Esta factura ya fue enviada a la DIAN pero no ha sido ceritifcada. Por favor consulte su estado.");
+                    throw new Exception("Esta nota ya fue enviada a la DIAN pero no ha sido ceritifcada. Por favor consulte su estado.");
                 }
 
                 if (nota.IdDocumentoFE.HasValue &&
                     !string.IsNullOrWhiteSpace(nota.DIANResponse) &&
                     nota.DIANResponse.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new Exception("Esta factura ya fue enviada a la DIAN.");
+                    throw new Exception("Esta nota ya fue enviada a la DIAN.");
                 }
 
                 if (nota.Documentos.Transaccion != 3 && nota.Documentos.Transaccion != 4)
@@ -78,9 +80,6 @@ namespace Blazor.BusinessLogic
                 }
 
                 IntegracionFE integracionFE = new IntegracionFE(parametros, host);
-
-                enviarDocumento_FE.Tipo = (int)TipoDocumento.Nota;
-                enviarDocumento_FE.IdTipo = notaId;
 
                 if (nota.Documentos.Transaccion == 3) // Nota Credito
                 {
@@ -130,6 +129,9 @@ namespace Blazor.BusinessLogic
             consultarEstado_FE.UpdatedBy = user;
             consultarEstado_FE.CreationDate = DateTime.Now;
             consultarEstado_FE.LastUpdate = DateTime.Now;
+            consultarEstado_FE.Tipo = (int)TipoDocumento.Nota;
+            consultarEstado_FE.IdTipo = notaId;
+
             IntegracionEnviarFEModel consultaEstaod_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
@@ -144,9 +146,6 @@ namespace Blazor.BusinessLogic
                 }
 
                 IntegracionFE integracionFE = new IntegracionFE(parametros, host);
-
-                consultarEstado_FE.Tipo = (int)TipoDocumento.Nota;
-                consultarEstado_FE.IdTipo = notaId;
 
                 consultaEstaod_IFE = await integracionFE.ConsultarEstadoDocumento(nota.IdDocumentoFE.Value);
                 consultaEstaod_IFE.IdDocumentFE = nota.IdDocumentoFE;
@@ -235,14 +234,14 @@ namespace Blazor.BusinessLogic
             consultarDatosDoc_FE.UpdatedBy = user;
             consultarDatosDoc_FE.CreationDate = DateTime.Now;
             consultarDatosDoc_FE.LastUpdate = DateTime.Now;
+            consultarDatosDoc_FE.Tipo = (int)TipoDocumento.Nota;
+            consultarDatosDoc_FE.IdTipo = nota.Id;
+
             IntegracionEnviarFEModel consultarDatosDoc_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
             try
             {
-                consultarDatosDoc_FE.Tipo = (int)TipoDocumento.Nota;
-                consultarDatosDoc_FE.IdTipo = nota.Id;
-
                 consultarDatosDoc_IFE = await integracionFE.ConsultarDatosDocumento(nota.IdDocumentoFE.Value);
                 consultarDatosDoc_IFE.IdDocumentFE = nota.IdDocumentoFE;
                 consultarDatosDoc_FE.Api = consultarDatosDoc_IFE.Api;
@@ -660,10 +659,10 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
             var nota = unitOfWork.Repository<Notas>().Table
-                .Include(x=>x.Facturas)
-                .Include(x=>x.Pacientes)
-                .Include(x=>x.Entidades)
-                .Include(x=>x.Empresas)
+                .Include(x => x.Facturas)
+                .Include(x => x.Pacientes)
+                .Include(x => x.Entidades)
+                .Include(x => x.Empresas)
                 .FirstOrDefault(x => x.Id == notaId);
 
             if (string.IsNullOrWhiteSpace(nota.CUFE) ||

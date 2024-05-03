@@ -42,6 +42,8 @@ namespace Blazor.BusinessLogic
             enviarDocumento_FE.UpdatedBy = user;
             enviarDocumento_FE.CreationDate = DateTime.Now;
             enviarDocumento_FE.LastUpdate = DateTime.Now;
+            enviarDocumento_FE.Tipo = (int)TipoDocumento.Factura;
+            enviarDocumento_FE.IdTipo = facturaId;
 
             IntegracionEnviarFEModel enviarDocumento_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
@@ -67,9 +69,6 @@ namespace Blazor.BusinessLogic
                 }
 
                 IntegracionFE integracionFE = new IntegracionFE(parametros, host);
-
-                enviarDocumento_FE.Tipo = (int)TipoDocumento.Factura;
-                enviarDocumento_FE.IdTipo = facturaId;
 
                 var json = GetFEJson(facturaId);
                 enviarDocumento_IFE = await integracionFE.EnviarDocumento(json, TipoEnvioDocumentoDian.Factura);
@@ -111,6 +110,9 @@ namespace Blazor.BusinessLogic
             consultarEstado_FE.UpdatedBy = user;
             consultarEstado_FE.CreationDate = DateTime.Now;
             consultarEstado_FE.LastUpdate = DateTime.Now;
+            consultarEstado_FE.Tipo = (int)TipoDocumento.Factura;
+            consultarEstado_FE.IdTipo = facturaId;
+
             IntegracionEnviarFEModel consultaEstaod_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
@@ -125,9 +127,6 @@ namespace Blazor.BusinessLogic
                 }
 
                 IntegracionFE integracionFE = new IntegracionFE(parametros, host);
-
-                consultarEstado_FE.Tipo = (int)TipoDocumento.Factura;
-                consultarEstado_FE.IdTipo = facturaId;
 
                 consultaEstaod_IFE = await integracionFE.ConsultarEstadoDocumento(fac.IdDocumentoFE.Value);
                 consultaEstaod_IFE.IdDocumentFE = fac.IdDocumentoFE;
@@ -216,14 +215,14 @@ namespace Blazor.BusinessLogic
             consultarDatosDoc_FE.UpdatedBy = user;
             consultarDatosDoc_FE.CreationDate = DateTime.Now;
             consultarDatosDoc_FE.LastUpdate = DateTime.Now;
+            consultarDatosDoc_FE.Tipo = (int)TipoDocumento.Factura;
+            consultarDatosDoc_FE.IdTipo = fac.Id;
+
             IntegracionEnviarFEModel consultarDatosDoc_IFE = new IntegracionEnviarFEModel();
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             unitOfWork.BeginTransaction();
             try
             {
-                consultarDatosDoc_FE.Tipo = (int)TipoDocumento.Factura;
-                consultarDatosDoc_FE.IdTipo = fac.Id;
-
                 consultarDatosDoc_IFE = await integracionFE.ConsultarDatosDocumento(fac.IdDocumentoFE.Value);
                 consultarDatosDoc_IFE.IdDocumentFE = fac.IdDocumentoFE;
                 consultarDatosDoc_FE.Api = consultarDatosDoc_IFE.Api;
