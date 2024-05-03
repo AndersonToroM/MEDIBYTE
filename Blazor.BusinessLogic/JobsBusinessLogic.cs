@@ -161,11 +161,10 @@ namespace Blazor.BusinessLogic
                 {
                     await new FacturasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, job);
                 }
-                //else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
-                //{
-                //      await new NotasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host);
-                //    
-                //}
+                else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
+                {
+                     await new NotasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, job);
+                }
             }
             catch (Exception ex)
             {

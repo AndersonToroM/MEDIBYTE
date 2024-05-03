@@ -663,6 +663,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Pacientes)
                 .Include(x => x.Entidades)
                 .Include(x => x.Empresas)
+                .Include(x => x.Documentos)
                 .FirstOrDefault(x => x.Id == notaId);
 
             if (string.IsNullOrWhiteSpace(nota.CUFE) ||
