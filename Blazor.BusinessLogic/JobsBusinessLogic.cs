@@ -147,7 +147,7 @@ namespace Blazor.BusinessLogic
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
             ResultadoIntegracionFEJob job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table
-                .OrderByDescending(x => x.CreationDate)
+                .OrderBy(x => x.CreationDate)
                 .FirstOrDefault(x => !x.Exitoso && !string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
 
             if (job == null)

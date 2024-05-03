@@ -6,6 +6,7 @@ using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Blazor.Reports.Notas;
 using DevExpress.Compression;
+using DevExpress.Xpo;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
@@ -142,7 +143,15 @@ namespace Blazor.BusinessLogic
 
                 if (string.Equals(DApp.Util.Dian.StatusCertified, nota.DIANResponse, StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new Exception("Ya el documento fue certificado por la dian.");
+                    string msg = "Ya el documento fue certificado por la dian.";
+                    job.Exitoso = true;
+                    job.Ejecutado = true;
+                    job.LastUpdate = DateTime.Now;
+                    job.UpdatedBy = user;
+                    job.Intentos++;
+                    job.Detalle += $"| Intento {job.Intentos}: {msg}| ";
+                    unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
+                    throw new Exception(msg);
                 }
 
                 IntegracionFE integracionFE = new IntegracionFE(parametros, host);
