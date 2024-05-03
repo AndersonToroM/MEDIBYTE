@@ -41,8 +41,8 @@ public class IntegracionFE
         ValidarDatos();
 
         _urlEnviarFactura = string.Format(_urlEnviarFactura, _parametrosGenerales.OperadorFE);
-        _urlEnviarNotaDebito = string.Format(_urlEnviarFactura, _parametrosGenerales.OperadorFE);
-        _urlEnviarNotaCredito = string.Format(_urlEnviarFactura, _parametrosGenerales.OperadorFE);
+        _urlEnviarNotaDebito = string.Format(_urlEnviarNotaDebito, _parametrosGenerales.OperadorFE);
+        _urlEnviarNotaCredito = string.Format(_urlEnviarNotaCredito, _parametrosGenerales.OperadorFE);
         _urlGetSeries = string.Format(_urlGetSeries, _parametrosGenerales.OperadorFE, _parametrosGenerales.CompanyIdFE);
     }
 

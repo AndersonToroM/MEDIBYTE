@@ -17,14 +17,14 @@
     .Columns(columns =>
     {
         columns.AddFor(m => m.Documentos.Prefijo).SortIndex(1);
-        columns.AddFor(m => m.Consecutivo).SortIndex(2).SortOrder(SortOrder.Desc);
+        columns.AddFor(m => m.Consecutivo).SortIndex(2);
         columns.AddFor(m => m.Documentos.Transaccion)
         .Lookup(lookup => lookup
                     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Documentos").LoadAction("GetTransaccion").Key("Key"))
                     .DisplayExpr("Value")
                     .ValueExpr("Key")
                 );
-        columns.AddFor(m => m.Fecha);
+        columns.AddFor(m => m.Fecha).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.Estados.Nombre);
         columns.AddFor(m => m.Facturas.Documentos.Prefijo).Caption(DApp.GetResource("Notas.FacturaPrefijo"));
         columns.AddFor(m => m.Facturas.NroConsecutivo).Caption(DApp.GetResource("Notas.Cosecutivo"));
