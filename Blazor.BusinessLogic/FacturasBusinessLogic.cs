@@ -952,6 +952,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Pacientes)
                 .Include(x => x.Entidades)
                 .Include(x => x.Empresas)
+                .Include(x => x.Documentos)
                 .FirstOrDefault(x => x.Id == facturaId);
 
             if (string.IsNullOrWhiteSpace(factura.CUFE) ||
