@@ -9,7 +9,7 @@
   },
   {
     "Id": "AdicionOrdenes",
-    "Description": "Adición Ordenes"
+    "Description": "Adición de Órdenes"
   },
   {
     "Id": "AdicionOrdenes.ErrorEmpleadoUsuario",
@@ -337,7 +337,7 @@
   },
   {
     "Id": "AdmisionesCorrecion",
-    "Description": "Correcciones de auditoria"
+    "Description": "Correcciones de auditoría"
   },
   {
     "Id": "AdmisionesServiciosPrestado.AdmisionesId",
@@ -421,7 +421,7 @@
   },
   {
     "Id": "AgendaMedica",
-    "Description": "Agenda Medica"
+    "Description": "Agenda Médica"
   },
   {
     "Id": "AgendaProgramacion",
@@ -733,7 +733,7 @@
   },
   {
     "Id": "Audit",
-    "Description": "Auditoria"
+    "Description": "Auditoría"
   },
   {
     "Id": "Audit.Column",
@@ -749,7 +749,7 @@
   },
   {
     "Id": "Audits",
-    "Description": "Auditoria"
+    "Description": "Auditoría"
   },
   {
     "Id": "Audits.Action",
@@ -868,6 +868,10 @@
     "Description": "Sede"
   },
   {
+    "Id": "CategoriasIngresos",
+    "Description": "Categoría de ingresos"
+  },
+  {
     "Id": "CategoriasIngresos.Codigo",
     "Description": "Código"
   },
@@ -877,11 +881,11 @@
   },
   {
     "Id": "CategoriasIngresosDetalles.CopagoMaximoAno",
-    "Description": "Maximo Año"
+    "Description": "Máximo Año"
   },
   {
     "Id": "CategoriasIngresosDetalles.CopagoMaximoEvento",
-    "Description": "Maximo Evento"
+    "Description": "Máximo Evento"
   },
   {
     "Id": "CategoriasIngresosDetalles.CuotaModeradora",
@@ -2841,7 +2845,7 @@
   },
   {
     "Id": "HCTipos",
-    "Description": "Tipos Historias Clinicas"
+    "Description": "Tipos Historias Clínicas"
   },
   {
     "Id": "HCTipos.Descripcion",
@@ -2853,7 +2857,7 @@
   },
   {
     "Id": "HCTiposPreguntas",
-    "Description": "Preguntas Historia Clinica"
+    "Description": "Preguntas Historia Clínica"
   },
   {
     "Id": "HCTiposPreguntas.HCPreguntasId",
@@ -2865,11 +2869,11 @@
   },
   {
     "Id": "HistoriasClinicas",
-    "Description": "Historias Clinicas"
+    "Description": "Historias Clínicas"
   },
   {
     "Id": "HistoriasClinicas.AdmisionesId",
-    "Description": "Admision"
+    "Description": "Admisión"
   },
   {
     "Id": "HistoriasClinicas.Altura",
@@ -2893,7 +2897,7 @@
   },
   {
     "Id": "HistoriasClinicas.Consecutivo",
-    "Description": "Numero"
+    "Description": "Número"
   },
   {
     "Id": "HistoriasClinicas.DominanciaEstadosId",
@@ -2937,11 +2941,11 @@
   },
   {
     "Id": "HistoriasClinicas.HCTiposId",
-    "Description": "Tipo Historia Clinica"
+    "Description": "Tipo Historia Clínica"
   },
   {
     "Id": "HistoriasClinicas.HistoriaClinicaPrincipal",
-    "Description": "Historia Clinica Principal"
+    "Description": "Historia Clínica Principal"
   },
   {
     "Id": "HistoriasClinicas.ImprimirDocumentosAPacientes",
@@ -3005,11 +3009,11 @@
   },
   {
     "Id": "HistoriasClinicasDiagnosticos",
-    "Description": "Diagnosticos"
+    "Description": "Diagnósticos"
   },
   {
     "Id": "HistoriasClinicasDiagnosticos.DiagnosticosId",
-    "Description": "Diagnostico"
+    "Description": "Diagnóstico"
   },
   {
     "Id": "HistoriasClinicasDiagnosticos.Principal",
@@ -3017,11 +3021,11 @@
   },
   {
     "Id": "HistoriasClinicasDiagnosticos.TiposDiagnosticosId",
-    "Description": "Tipos de diagnostico"
+    "Description": "Tipos de diagnóstico"
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias",
-    "Description": "Notas Aclaratorias Historias Clinicas"
+    "Description": "Notas Aclaratorias Historias Clínicas"
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias.Aclaracion",
@@ -3033,7 +3037,7 @@
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias.HistoriasClinicasId",
-    "Description": "Historia Clinica"
+    "Description": "Historia Clínica"
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias.ProfesionalId",
@@ -3041,7 +3045,7 @@
   },
   {
     "Id": "HistoriasClinicasRespuestas.HCRespuestasId",
-    "Description": "Metrica"
+    "Description": "Métrica"
   },
   {
     "Id": "HistoriasClinicasRespuestas.RespuestaAbierta",
@@ -3053,7 +3057,7 @@
   },
   {
     "Id": "ImagenesDiagnosticas",
-    "Description": "Imagenes Diagnosticas"
+    "Description": "Imágenes Diagnósticas"
   },
   {
     "Id": "ImagenesDiagnosticas.Fecha",
@@ -3073,7 +3077,7 @@
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.CargarImagenDiagnostica",
-    "Description": "Cargar Imagenes"
+    "Description": "Cargar Imágenes"
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.Nombre",
@@ -3081,7 +3085,7 @@
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.PopupImagenDiagnostica",
-    "Description": "Cargar Imagenes"
+    "Description": "Cargar Imágenes"
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.RefrescarImagenesDiagnosticasDetalle",
@@ -3177,7 +3181,7 @@
   },
   {
     "Id": "IncapacidadesOrigenes",
-    "Description": "Origenes Incacidades"
+    "Description": "Orígenes Incacidades"
   },
   {
     "Id": "IncapacidadesOrigenes.Descripcion",
@@ -3185,7 +3189,7 @@
   },
   {
     "Id": "IndicacionesMedicas",
-    "Description": "Indicaciones Medicas"
+    "Description": "Indicaciones Médicas"
   },
   {
     "Id": "IndicacionesMedicas.Fecha",
@@ -3197,7 +3201,7 @@
   },
   {
     "Id": "IndicacionesMedicas.HistoriasClinicasId",
-    "Description": "Historia Clinica"
+    "Description": "Historia Clínica"
   },
   {
     "Id": "IndicacionesMedicas.NroOrden",
@@ -3225,7 +3229,7 @@
   },
   {
     "Id": "IndicacionesMedicasDetalles",
-    "Description": "Indicaciones Medicas Servicios"
+    "Description": "Indicaciones Médicas Servicios"
   },
   {
     "Id": "IndicacionesMedicasDetalles.Cantidad",
@@ -3461,7 +3465,7 @@
   },
   {
     "Id": "MedicamentosFormasFarmaceuticas",
-    "Description": "Medicamentos Formas Farmaceuticas"
+    "Description": "Medicamentos Formas Farmacéuticas"
   },
   {
     "Id": "MedicamentosFormasFarmaceuticas.Nombre",
@@ -3469,7 +3473,7 @@
   },
   {
     "Id": "MedicamentosViaAdministracion",
-    "Description": "Medicamentos Via de Administración"
+    "Description": "Medicamentos Vía de Administración"
   },
   {
     "Id": "MedicamentosViaAdministracion.Nombre",
@@ -3521,7 +3525,7 @@
   },
   {
     "Id": "MODULE.HC",
-    "Description": "HISTORIAS CLINICAS"
+    "Description": "HISTORIAS CLÍNICAS"
   },
   {
     "Id": "MODULE.IPS",
@@ -3785,7 +3789,7 @@
   },
   {
     "Id": "OrdenesMedicamentos",
-    "Description": "Ordenes de Medicamentos"
+    "Description": "Órdenes de Medicamentos"
   },
   {
     "Id": "OrdenesMedicamentos.Consecutivo",
@@ -3801,7 +3805,7 @@
   },
   {
     "Id": "OrdenesMedicamentos.HIstoriasClinicasId",
-    "Description": "Historia Clinica"
+    "Description": "Historia Clínica"
   },
   {
     "Id": "OrdenesMedicamentos.NroOrden",
@@ -3837,7 +3841,7 @@
   },
   {
     "Id": "OrdenesMedicamentosDetalles.DiasTratamiento",
-    "Description": "Dias Tratamiento"
+    "Description": "Días Tratamiento"
   },
   {
     "Id": "OrdenesMedicamentosDetalles.Dosis",
@@ -3861,7 +3865,7 @@
   },
   {
     "Id": "OrdenesMedicamentosDiagnosticos",
-    "Description": "Diagnosticos"
+    "Description": "Diagnósticos"
   },
   {
     "Id": "OrdenesMedicamentosDiagnosticos.DiagnosticosId",
@@ -3873,11 +3877,11 @@
   },
   {
     "Id": "OrdenesMedicamentosDiagnosticos.TiposDiagnosticosId",
-    "Description": "Tipos de diagnostico"
+    "Description": "Tipos de diagnóstico"
   },
   {
     "Id": "OrdenesServicios",
-    "Description": "Ordenes de Servicios"
+    "Description": "Órdenes de Servicios"
   },
   {
     "Id": "OrdenesServicios.Consecutivo",
@@ -3893,7 +3897,7 @@
   },
   {
     "Id": "OrdenesServicios.HIstoriasClinicasId",
-    "Description": "Historias Clinicas"
+    "Description": "Historias Clínicas"
   },
   {
     "Id": "OrdenesServicios.NroOrden",
@@ -3941,7 +3945,7 @@
   },
   {
     "Id": "OrdenesServiciosDiagnosticos",
-    "Description": "Diagnosticos"
+    "Description": "Diagnósticos"
   },
   {
     "Id": "OrdenesServiciosDiagnosticos.DiagnosticosId",
@@ -3953,7 +3957,7 @@
   },
   {
     "Id": "OrdenesServiciosDiagnosticos.TiposDiagnosticosId",
-    "Description": "Tipos de diagnostico"
+    "Description": "Tipos de diagnóstico"
   },
   {
     "Id": "Pacientes",
@@ -4129,11 +4133,11 @@
   },
   {
     "Id": "ParametrosGenerales",
-    "Description": "Parametros Generales"
+    "Description": "Parámetros Generales"
   },
   {
     "Id": "ParametrosGenerales.AnularAtenciones",
-    "Description": "Cambiar Estado - Anulada en atencion"
+    "Description": "Cambiar Estado - Anulada en atención"
   },
   {
     "Id": "ParametrosGenerales.Atenciones",
@@ -4185,7 +4189,7 @@
   },
   {
     "Id": "ParametrosGenerales.IntegracionFE",
-    "Description": "Parametros Facturacion Electronica"
+    "Description": "Parámetros Facturación Electrónica"
   },
   {
     "Id": "ParametrosGenerales.Lecturas",
@@ -4201,7 +4205,7 @@
   },
   {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",
-    "Description": "Esta función cambiara el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atencion\". "
+    "Description": "Esta función cambiará el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atención\". "
   },
   {
     "Id": "ParametrosGenerales.UsuarioIntegracionFE",
