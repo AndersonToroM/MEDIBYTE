@@ -58,7 +58,7 @@ namespace Blazor.BusinessLogic
                     !string.IsNullOrWhiteSpace(fac.DIANResponse) &&
                     fac.DIANResponse.Equals(DApp.Util.Dian.StatusStaged, StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new Exception("Esta factura ya fue enviada a la DIAN pero no ha sido ceritifcada. Por favor consulte su estado.");
+                    throw new Exception("Esta factura ya fue enviada a la DIAN, pero no ha sido ceritifcada. Por favor consulte su estado.");
                 }
 
                 if (fac.IdDocumentoFE.HasValue &&
@@ -199,7 +199,7 @@ namespace Blazor.BusinessLogic
                         };
                         unitOfWork.Repository<ResultadoIntegracionFEJob>().Add(resultadoIntegracionFEJob);
 
-                        throw new Exception("El documento se envió satisfactoriamente y esta pendiente de certificación.");
+                        throw new Exception("El documento se envió satisfactoriamente y está pendiente de certificación.");
                     }
                 }
             }
