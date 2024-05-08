@@ -108,41 +108,6 @@ namespace Blazor.BusinessLogic
 
         #endregion
 
-        public async Task<bool> EnvioCorreoEventoAcepta()
-        {
-            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            ConfiguracionEnvioEmailJob job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
-                .OrderBy(x => x.CreationDate)
-                .FirstOrDefault(x => !x.Exitoso && !string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
-
-            if (job == null)
-            {
-                return false;
-            }
-
-            try
-            {
-                if (job.Tipo == (int)TipoDocumento.Factura) // Tipo factura
-                {
-                    await new FacturasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Factura Evento DIAN", DApp.Util.UserSystem, job.Host);
-                }
-                else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
-                {
-                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem, job.Host);
-                }
-            }
-            catch (Exception ex)
-            {
-                job.Ejecutado = true;
-                job.Exitoso = false;
-                job.Intentos++;
-                job.Detalle += $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
-                unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
-            }
-
-            return true;
-        }
-
         public async Task<bool> IntegracionConsultaDocumentoFEJob()
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
