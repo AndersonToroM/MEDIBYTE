@@ -142,6 +142,19 @@
                                       .Text(DApp.DefaultLanguage.GetResource("ParametrosGenerales.EsObligatorioAudioLectura"))
                                       );
                             });
+                        items.AddGroup().ColCount(12).ColSpan(6).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.CatalogosDIAN"))
+                        .Items(groupItems =>{
+                            groupItems.AddSimpleFor(m => m.Entity.HabCatalogoDIAN).ColSpan(4)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ParametrosGenerales.HabCatalogoDIAN")))
+                            .Editor(e => e.TextBox().ID(Prefix + "HabCatalogoDIAN")
+                            .ReadOnly(true)
+                            );
+                            groupItems.AddSimpleFor(m => m.Entity.ProdCatalogoDIAN).ColSpan(4)
+                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ParametrosGenerales.ProdCatalogoDIAN")))
+                            .Editor(e => e.TextBox().ID(Prefix + "ProdCatalogoDIAN")
+                            .ReadOnly(true)    
+                            );
+                        });
                     })
                 )
             }

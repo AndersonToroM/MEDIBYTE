@@ -4148,6 +4148,10 @@
     "Description": "Cambiar Estado"
   },
   {
+    "Id": "ParametrosGenerales.CatalogosDIAN",
+    "Description": "Catálogos DIAN"
+  },
+  {
     "Id": "ParametrosGenerales.CompanyIdFE",
     "Description": "Id de la compañía"
   },
@@ -4184,6 +4188,10 @@
     "Description": "Fecha Hasta"
   },
   {
+    "Id": "ParametrosGenerales.HabCatalogoDIAN",
+    "Description": "Habilitación"
+  },
+  {
     "Id": "ParametrosGenerales.HabilitarAnteciones",
     "Description": "Habilitar"
   },
@@ -4202,6 +4210,10 @@
   {
     "Id": "ParametrosGenerales.PasswordIntegracionFE",
     "Description": "Contraseña"
+  },
+  {
+    "Id": "ParametrosGenerales.ProdCatalogoDIAN",
+    "Description": "Producción"
   },
   {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",
