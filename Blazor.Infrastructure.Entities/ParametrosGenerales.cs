@@ -61,16 +61,6 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("ParametrosGenerales.EmailRecepcionFE",250)]
        public virtual String EmailRecepcionFE { get; set; }
 
-       [Column("HabCatalogoDIAN")]
-       [DDisplayName("ParametrosGenerales.HabCatalogoDIAN")]
-       [DStringLength("ParametrosGenerales.HabCatalogoDIAN",50)]
-       public virtual String HabCatalogoDIAN { get; set; }
-
-       [Column("ProdCatalogoDIAN")]
-       [DDisplayName("ParametrosGenerales.ProdCatalogoDIAN")]
-       [DStringLength("ParametrosGenerales.ProdCatalogoDIAN",50)]
-       public virtual String ProdCatalogoDIAN { get; set; }
-
        #endregion
 
        #region Reglas expression
