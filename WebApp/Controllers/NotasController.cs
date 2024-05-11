@@ -336,8 +336,8 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions)
         {
-            //return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).Where(x => x.CUFE != null), loadOptions);
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).Where(x => x.CUFE != null), loadOptions);
+            //return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true), loadOptions);
         }
         [HttpPost]
         public LoadResult GetNotasConceptosId(DataSourceLoadOptions loadOptions)
