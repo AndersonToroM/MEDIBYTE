@@ -13,6 +13,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using Dominus.Backend.Security;
+using Blazor.Infrastructure;
+using DevExpress.Xpo;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -299,7 +301,7 @@ namespace Blazor.WebApp.Controllers
                 historiaClinica.DetalleAnulacion = detalleAnulacionHC;
                 historiaClinica.LastUpdate = DateTime.Now;
                 historiaClinica.UpdatedBy = User.Identity.Name;
-                //Manager().
+                Manager().HistoriasClinicasBusinessLogic().AnularHC(historiaClinica);
                 return Ok();
             }
             catch (Exception e)

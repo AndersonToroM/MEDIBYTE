@@ -2904,6 +2904,10 @@
     "Description": "Número"
   },
   {
+    "Id": "HistoriasClinicas.DetalleAnulacion",
+    "Description": "Motivo de anulación"
+  },
+  {
     "Id": "HistoriasClinicas.DominanciaEstadosId",
     "Description": "Dominancia"
   },
@@ -2962,6 +2966,10 @@
   {
     "Id": "HistoriasClinicas.MostrarPopudModificarDatosAtencion",
     "Description": "Modificar datos atención"
+  },
+  {
+    "Id": "HISTORIASCLINICAS.MOTIVOANULACION",
+    "Description": "HISTORIA CLÍNICA ANULADA"
   },
   {
     "Id": "HistoriasClinicas.MotivoConsulta",
