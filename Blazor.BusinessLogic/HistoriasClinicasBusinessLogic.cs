@@ -27,6 +27,7 @@ namespace Blazor.BusinessLogic
             try
             {
                 data.EstadosId = 81;// Estado anulada
+                data.FechaAnulacion = DateTime.Now;
                 data = unitOfWork.Repository<HistoriasClinicas>().Modify(data);
                 unitOfWork.CommitTransaction();
                 return data;

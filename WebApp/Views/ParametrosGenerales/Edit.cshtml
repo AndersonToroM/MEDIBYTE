@@ -146,9 +146,12 @@
                                       .Editor(e => e.TextBox().ID(Prefix + "ConsecutivoHC")
                                       .ShowClearButton(true)
                                       );
-                                groupItems.AddSimple().ColSpan(10).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.DetalleAnulacionHC")))
+                                groupItems.AddSimple().ColSpan(8).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.DetalleAnulacionHC")))
                                      .Editor(e => e.TextArea().Height(35).ID(Prefix + "DetalleAnulacionHC")
                                       );
+                            groupItems.AddSimple().ColSpan(2).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.FechaAnulacionHC")))
+                                    .Editor(e => e.DateBox().ID(Prefix + "FechaAnulacionHC").Value(DateTime.Now).ReadOnly(true)
+                                );
                                 groupItems.AddButton().ColSpan(12).VerticalAlignment(VerticalAlignment.Center).HorizontalAlignment(HorizontalAlignment.Center)
                                     .ButtonOptions(x => x.Text(DApp.GetResource("ParametrosGenerales.AnularHC")).Type(ButtonType.Default)
                                     .UseSubmitBehavior(false).OnClick($"{Prefix}OnClickCambiarEstadoHC")

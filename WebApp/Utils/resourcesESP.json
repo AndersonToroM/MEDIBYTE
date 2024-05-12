@@ -2932,6 +2932,10 @@
     "Description": "Examen Físico"
   },
   {
+    "Id": "HistoriasClinicas.FechaAnulacionHC",
+    "Description": "Fecha de anulación de la historia clínica"
+  },
+  {
     "Id": "HistoriasClinicas.FechaApertura",
     "Description": "Fecha Apertura"
   },
@@ -4202,6 +4206,10 @@
   {
     "Id": "ParametrosGenerales.EsObligatorioAudioLectura",
     "Description": "¿Es obligatorio audio en lectura?"
+  },
+  {
+    "Id": "ParametrosGenerales.FechaAnulacionHC",
+    "Description": "Fecha de anulación H.C."
   },
   {
     "Id": "ParametrosGenerales.FechaDesdeAtenciones",

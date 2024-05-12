@@ -108,6 +108,10 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("HistoriasClinicas.DetalleAnulacion",500)]
        public virtual String DetalleAnulacion { get; set; }
 
+       [Column("FechaAnulacion", TypeName = "datetime")]
+       [DDisplayName("HistoriasClinicas.FechaAnulacion")]
+       public virtual DateTime? FechaAnulacion { get; set; }
+
        #endregion
 
        #region Columnas referenciales)
