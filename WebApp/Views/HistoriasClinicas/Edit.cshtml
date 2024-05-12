@@ -7,19 +7,21 @@
     string UrlDelete = Url.Action("Delete", "HistoriasClinicas", new { Id = Model.Entity.Id });
     string UrlBack = Url.Action("ListPartial", "HistoriasClinicas");
 
+    bool EstaAbierta = Model.Entity.EstadosId == 18;
     bool EstaCerrada = Model.Entity.EstadosId == 19;
+    bool EstaAnulada = Model.Entity.EstadosId == 81;
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("HistoriasClinicas"))
         .GoInstructionManual("https://cloudonesoft.freshdesk.com/es/support/solutions/articles/70000621114-historia-clínica-siiso")
-        .Save(DApp.ActionViewSecurity(Context, UrlSave) || EstaCerrada || !Model.EsMismoUsuario, Model.Entity.IsNew)
+        .Save(DApp.ActionViewSecurity(Context, UrlSave) || EstaCerrada || EstaAnulada || !Model.EsMismoUsuario, Model.Entity.IsNew)
         .AddButtons(new List<ButtonToolbar>()
         {
             new ButtonToolbar
             {
                 Action = "MostrarPopudModificarDatosAtencion",
                 Text = @DApp.DefaultLanguage.GetResource("HistoriasClinicas.MostrarPopudModificarDatosAtencion"),
-                Disabled = (Model.Entity.IsNew) || EstaCerrada,
+                Disabled = (Model.Entity.IsNew) || EstaCerrada || EstaAnulada,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "background"
@@ -28,7 +30,7 @@
             {
                 Action = "ImprimirDocumentosAPacientes",
                 Text = @DApp.DefaultLanguage.GetResource("HistoriasClinicas.ImprimirDocumentosAPacientes"),
-                Disabled = (Model.Entity.IsNew),
+                Disabled = (Model.Entity.IsNew) || EstaAnulada,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
@@ -37,7 +39,7 @@
             {
                 Action = "ImprimirHCPorId",
                 Text = @DApp.DefaultLanguage.GetResource("DEFAULT.Imprimir"),
-                Disabled = (Model.Entity.IsNew),
+                Disabled = (Model.Entity.IsNew) || EstaAnulada || EstaAbierta,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
@@ -46,7 +48,7 @@
             {
                 Action = $"{Prefix}CerrarHC",
                 Text = @DApp.DefaultLanguage.GetResource("HistoriasClinicas.CerrarHC"),
-                Disabled = !Model.EsMismoUsuario || EstaCerrada,
+                Disabled = !Model.EsMismoUsuario || EstaCerrada || EstaAnulada,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "close"
@@ -262,6 +264,9 @@
 
                                     groupItems.AddSimpleFor(m => m.Entity.Hallazgos).ColSpan(12)
                                          .Editor(e => e.TextArea().Height(100).ID(Prefix + "Hallazgos"));
+
+                                   groupItems.AddSimpleFor(m => m.Entity.DetalleAnulacion).Visible(Model.Entity.EstadosId == 81).ColSpan(12)
+                                        .Editor(e => e.TextArea().Height(100).ID(Prefix + "DetalleAnulacion"));
 
                                 });
 

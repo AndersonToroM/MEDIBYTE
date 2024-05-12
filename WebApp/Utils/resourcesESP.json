@@ -2260,6 +2260,10 @@
     "Description": "Adquitiente P. Natural"
   },
   {
+    "Id": "Facturas.CambioFechaEmision",
+    "Description": "Fecha de emisión"
+  },
+  {
     "Id": "Facturas.CodigoUnicoValidacionRips",
     "Description": "Código Único de validación"
   },
@@ -4140,6 +4144,10 @@
     "Description": "Cambiar Estado - Anulada en atención"
   },
   {
+    "Id": "ParametrosGenerales.AnularHC",
+    "Description": "Anular H.C."
+  },
+  {
     "Id": "ParametrosGenerales.Atenciones",
     "Description": "Atenciones"
   },
@@ -4168,8 +4176,16 @@
     "Description": "Consecutivo Cita"
   },
   {
+    "Id": "ParametrosGenerales.ConsecutivoHC",
+    "Description": "Nro. Consecutivo de la historia clínica"
+  },
+  {
     "Id": "ParametrosGenerales.DetalleAnulacion",
     "Description": "Motivo de anulación"
+  },
+  {
+    "Id": "ParametrosGenerales.DetalleAnulacionHC",
+    "Description": "Motivo de anulación de la historia clínica"
   },
   {
     "Id": "ParametrosGenerales.EmailRecepcionFE",
@@ -4218,6 +4234,10 @@
   {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",
     "Description": "Esta función cambiará el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atención\". "
+  },
+  {
+    "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosHC",
+    "Description": "Esta función cambiará el estado de la historia clínica de \"Abierta\" a \"Anulada\"."
   },
   {
     "Id": "ParametrosGenerales.UsuarioIntegracionFE",

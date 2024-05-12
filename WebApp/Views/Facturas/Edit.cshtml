@@ -441,7 +441,7 @@
 @(Html.DControls().Popup()
             .ID($"{Prefix}PopupModificarDatosFactura")
             .Width(800)
-            .Height(370)
+            .Height(450)
             .ShowTitle(true)
             .Title(DApp.DefaultLanguage.GetResource("Facturas.ModificarDatosFactura"))
             .Visible(false)
@@ -454,8 +454,15 @@
 {
     <div id="@(Prefix)Errores" class="text-danger text-sm-left"></div>
     <div class="form-group">
+        <label for="@($"{Prefix}CambioFechaEmision")">@DApp.DefaultLanguage.GetResource("Facturas.CambioFechaEmision"):</label>
+        @(Html.DControls().DateBox().Min(DateTime.Now).ID(Prefix + "CambioFechaEmision")
+//        .DisplayFormat(DApp.DefaultLanguage.DateFormat)
+//        .Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat))
+        .InputAttr("class", "form-control").Value(DateTime.Now).ReadOnly(true))
+    </div>
+    <div class="form-group">
         <label for="@($"{Prefix}CambioOrdenCompra")">@DApp.DefaultLanguage.GetResource("Facturas.OrdenCompra"):</label>
-        @(Html.DControls().TextBox().ID(Prefix + "CambioOrdenCompra").InputAttr("class", "form-control"))
+        @(Html.DControls().TextBox().ID(Prefix + "CambioOrdenCompra").Placeholder(DApp.DefaultLanguage.GetResource("Facturas.OrdenCompra")).InputAttr("class", "form-control"))
     </div>
     <div class="form-group">
         <label for="@($"{Prefix}CambioReferenciaFactura")">@DApp.DefaultLanguage.GetResource("Facturas.ReferenciaFactura"):</label>
