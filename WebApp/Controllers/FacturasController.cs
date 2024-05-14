@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq.Dynamic.Core;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -460,15 +461,26 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                Facturas factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == Id, true);
+                Facturas factura = Manager().GetBusinessLogic<Facturas>().FindById(x => x.Id == Id, false);
+                var parametrosGenerales = Manager().GetBusinessLogic<ParametrosGenerales>().Tabla().FirstOrDefault();
+
+                if (parametrosGenerales == null || string.IsNullOrWhiteSpace(parametrosGenerales.LinkVerificacionDIAN))
+                {
+                    throw new Exception("El link de validación DIAN no se encuentra parametrizado en el sistema.");
+                }
+
+                var parametrosReporte = new Dictionary<string, object>
+                {
+                    {"p_LinkValidacionDIAN", parametrosGenerales.LinkVerificacionDIAN }
+                };
                 if (factura.AdmisionesId != null)
                 {
-                    var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name);
+                    var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name, parametrosReporte);
                     return PartialView("_ViewerReport", report);
                 }
                 else
                 {
-                    var report = Manager().Report<FacturasReporte>(Id, User.Identity.Name);
+                    var report = Manager().Report<FacturasReporte>(Id, User.Identity.Name, parametrosReporte);
                     return PartialView("_ViewerReport", report);
                 }
             }

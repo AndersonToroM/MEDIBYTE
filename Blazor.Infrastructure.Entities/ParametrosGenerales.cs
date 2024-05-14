@@ -61,6 +61,11 @@ namespace Blazor.Infrastructure.Entities
         [DStringLength("ParametrosGenerales.EmailRecepcionFE", 250)]
         public virtual String EmailRecepcionFE { get; set; }
 
+        [Column("LinkVerificacionDIAN")]
+        [DDisplayName("ParametrosGenerales.LinkVerificacionDIAN")]
+        [DStringLength("ParametrosGenerales.LinkVerificacionDIAN", 2048)]
+        public virtual String LinkVerificacionDIAN { get; set; }
+
         #endregion
 
         #region Reglas expression
