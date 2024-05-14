@@ -13,6 +13,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using Dominus.Backend.Security;
+using Blazor.Infrastructure;
+using DevExpress.Xpo;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -271,6 +273,38 @@ namespace Blazor.WebApp.Controllers
                 atencion.LastUpdate = DateTime.Now;
                 atencion.UpdatedBy = User.Identity.Name;
                 Manager().AtencionesBusinessLogic().AnularAtencion(atencion);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CambiarEstadoHC(string consecutivoHC, string detalleAnulacionHC)
+        {
+            try
+            {
+                if (consecutivoHC == "" || consecutivoHC == null)
+                    throw new Exception($"El consecutivo no es correcto. Historia clínica Nro.: {consecutivoHC}");
+                if (string.IsNullOrWhiteSpace(detalleAnulacionHC))
+                    throw new Exception($"El motivo de anulación es obligatorio.");
+
+                var historiaClinica = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.Consecutivo == consecutivoHC, true);
+                if (historiaClinica == null)
+                    throw new Exception($"La historia clínica No. {consecutivoHC} no existe.");
+
+                if (historiaClinica.EstadosId == 19)
+                    throw new Exception($"No es posible anularla porque se encuentra en estado \"Cerrada\".");
+
+                if (historiaClinica.EstadosId == 81)
+                    throw new Exception($"La historia clínica No. {consecutivoHC} ya se encuentra anulada.");
+
+                historiaClinica.DetalleAnulacion = detalleAnulacionHC;
+                historiaClinica.LastUpdate = DateTime.Now;
+                historiaClinica.UpdatedBy = User.Identity.Name;
+                Manager().HistoriasClinicasBusinessLogic().AnularHC(historiaClinica);
                 return Ok();
             }
             catch (Exception e)

@@ -2260,6 +2260,10 @@
     "Description": "Adquitiente P. Natural"
   },
   {
+    "Id": "Facturas.CambioFechaEmision",
+    "Description": "Fecha de emisión"
+  },
+  {
     "Id": "Facturas.CodigoUnicoValidacionRips",
     "Description": "Código Único de validación"
   },
@@ -2900,6 +2904,10 @@
     "Description": "Número"
   },
   {
+    "Id": "HistoriasClinicas.DetalleAnulacion",
+    "Description": "Motivo de anulación"
+  },
+  {
     "Id": "HistoriasClinicas.DominanciaEstadosId",
     "Description": "Dominancia"
   },
@@ -2922,6 +2930,10 @@
   {
     "Id": "HistoriasClinicas.ExamenFisico",
     "Description": "Examen Físico"
+  },
+  {
+    "Id": "HistoriasClinicas.FechaAnulacionHC",
+    "Description": "Fecha de anulación de la historia clínica"
   },
   {
     "Id": "HistoriasClinicas.FechaApertura",
@@ -2958,6 +2970,10 @@
   {
     "Id": "HistoriasClinicas.MostrarPopudModificarDatosAtencion",
     "Description": "Modificar datos atención"
+  },
+  {
+    "Id": "HISTORIASCLINICAS.MOTIVOANULACION",
+    "Description": "HISTORIA CLÍNICA ANULADA"
   },
   {
     "Id": "HistoriasClinicas.MotivoConsulta",
@@ -4140,12 +4156,20 @@
     "Description": "Cambiar Estado - Anulada en atención"
   },
   {
+    "Id": "ParametrosGenerales.AnularHC",
+    "Description": "Anular H.C."
+  },
+  {
     "Id": "ParametrosGenerales.Atenciones",
     "Description": "Atenciones"
   },
   {
     "Id": "ParametrosGenerales.CambiarEstados",
     "Description": "Cambiar Estado"
+  },
+  {
+    "Id": "ParametrosGenerales.CatalogosDIAN",
+    "Description": "Catálogos DIAN"
   },
   {
     "Id": "ParametrosGenerales.CompanyIdFE",
@@ -4164,8 +4188,16 @@
     "Description": "Consecutivo Cita"
   },
   {
+    "Id": "ParametrosGenerales.ConsecutivoHC",
+    "Description": "Nro. Consecutivo de la historia clínica"
+  },
+  {
     "Id": "ParametrosGenerales.DetalleAnulacion",
     "Description": "Motivo de anulación"
+  },
+  {
+    "Id": "ParametrosGenerales.DetalleAnulacionHC",
+    "Description": "Motivo de anulación de la historia clínica"
   },
   {
     "Id": "ParametrosGenerales.EmailRecepcionFE",
@@ -4176,12 +4208,20 @@
     "Description": "¿Es obligatorio audio en lectura?"
   },
   {
+    "Id": "ParametrosGenerales.FechaAnulacionHC",
+    "Description": "Fecha de anulación H.C."
+  },
+  {
     "Id": "ParametrosGenerales.FechaDesdeAtenciones",
     "Description": "Fecha Desde"
   },
   {
     "Id": "ParametrosGenerales.FechaHastaAtenciones",
     "Description": "Fecha Hasta"
+  },
+  {
+    "Id": "ParametrosGenerales.HabCatalogoDIAN",
+    "Description": "Habilitación"
   },
   {
     "Id": "ParametrosGenerales.HabilitarAnteciones",
@@ -4204,8 +4244,16 @@
     "Description": "Contraseña"
   },
   {
+    "Id": "ParametrosGenerales.ProdCatalogoDIAN",
+    "Description": "Producción"
+  },
+  {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",
     "Description": "Esta función cambiará el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atención\". "
+  },
+  {
+    "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosHC",
+    "Description": "Esta función cambiará el estado de la historia clínica de \"Abierta\" a \"Anulada\"."
   },
   {
     "Id": "ParametrosGenerales.UsuarioIntegracionFE",

@@ -7,19 +7,21 @@
     string UrlDelete = Url.Action("Delete", "HistoriasClinicas", new { Id = Model.Entity.Id });
     string UrlBack = Url.Action("ListPartial", "HistoriasClinicas");
 
+    bool EstaAbierta = Model.Entity.EstadosId == 18;
     bool EstaCerrada = Model.Entity.EstadosId == 19;
+    bool EstaAnulada = Model.Entity.EstadosId == 81;
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("HistoriasClinicas"))
         .GoInstructionManual("https://cloudonesoft.freshdesk.com/es/support/solutions/articles/70000621114-historia-clínica-siiso")
-        .Save(DApp.ActionViewSecurity(Context, UrlSave) || EstaCerrada || !Model.EsMismoUsuario, Model.Entity.IsNew)
+        .Save(DApp.ActionViewSecurity(Context, UrlSave) || EstaCerrada || EstaAnulada || !Model.EsMismoUsuario, Model.Entity.IsNew)
         .AddButtons(new List<ButtonToolbar>()
         {
             new ButtonToolbar
             {
                 Action = "MostrarPopudModificarDatosAtencion",
                 Text = @DApp.DefaultLanguage.GetResource("HistoriasClinicas.MostrarPopudModificarDatosAtencion"),
-                Disabled = (Model.Entity.IsNew) || EstaCerrada,
+                Disabled = (Model.Entity.IsNew) || EstaCerrada || EstaAnulada,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "background"
@@ -28,7 +30,7 @@
             {
                 Action = "ImprimirDocumentosAPacientes",
                 Text = @DApp.DefaultLanguage.GetResource("HistoriasClinicas.ImprimirDocumentosAPacientes"),
-                Disabled = (Model.Entity.IsNew),
+                Disabled = (Model.Entity.IsNew) || EstaAnulada,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
@@ -37,7 +39,7 @@
             {
                 Action = "ImprimirHCPorId",
                 Text = @DApp.DefaultLanguage.GetResource("DEFAULT.Imprimir"),
-                Disabled = (Model.Entity.IsNew),
+                Disabled = (Model.Entity.IsNew) || EstaAnulada || EstaAbierta,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
@@ -46,7 +48,7 @@
             {
                 Action = $"{Prefix}CerrarHC",
                 Text = @DApp.DefaultLanguage.GetResource("HistoriasClinicas.CerrarHC"),
-                Disabled = !Model.EsMismoUsuario || EstaCerrada,
+                Disabled = !Model.EsMismoUsuario || EstaCerrada || EstaAnulada,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "close"
@@ -122,6 +124,17 @@
                 .ID("HistoriasClinicasModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
                 .Items(items =>
                 {
+                       items.AddGroup().Visible(Model.Entity.EstadosId==81).ColSpan(12).Caption(DApp.DefaultLanguage.GetResource("HISTORIASCLINICAS.MOTIVOANULACION"))
+                        .Items(groupItems =>
+                        {
+
+                                        groupItems.AddSimple().ColSpan(6).Label(x => x.Text(DApp.GetResource("HistoriasClinicas.FechaAnulacionHC")))
+                                        .Editor(e => e.DateBox().ID(Prefix + "FechaAnulacionHC").Value(DateTime.Now).ReadOnly(true));
+                                        
+                                        groupItems.AddSimpleFor(m => m.Entity.DetalleAnulacion).Visible(Model.Entity.EstadosId == 81).ColSpan(12)
+                                        .Editor(e => e.TextArea().Height(100).ID(Prefix + "DetalleAnulacion").ReadOnly(true));
+                        });
+
                 items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
                          .Items(groupItems =>
                          {
@@ -201,13 +214,13 @@
                          .Items(groupItems =>{
 
                              groupItems.AddSimpleFor(m => m.Entity.MotivoConsulta).ColSpan(12)
-                                  .Editor(e => e.TextBox().ID(Prefix + "MotivoConsulta"));
+                             .Editor(e => e.TextBox().ID(Prefix + "MotivoConsulta").ReadOnly(EstaAnulada || EstaCerrada));
                              groupItems.AddSimpleFor(m => m.Entity.EnfermedadActual).ColSpan(12)
-                                  .Editor(e => e.TextArea().Height(100).ID(Prefix + "EnfermedadActual"));
+                             .Editor(e => e.TextArea().Height(100).ID(Prefix + "EnfermedadActual").ReadOnly(EstaAnulada || EstaCerrada));
                              groupItems.AddSimpleFor(m => m.Entity.AntecedentesFamiliar).ColSpan(12)
-                                .Editor(e => e.TextArea().Height(100).ID(Prefix + "AntecedentesFamiliar"));
+                             .Editor(e => e.TextArea().Height(100).ID(Prefix + "AntecedentesFamiliar").ReadOnly(EstaAnulada || EstaCerrada));
                              groupItems.AddSimpleFor(m => m.Entity.AntecedentesPersonal).ColSpan(12)
-                                  .Editor(e => e.TextArea().Height(100).ID(Prefix + "AntecedentesPersonal"));
+                             .Editor(e => e.TextArea().Height(100).ID(Prefix + "AntecedentesPersonal").ReadOnly(EstaAnulada || EstaCerrada));
 
                              groupItems.AddSimple().ColSpan(12).Template(new TemplateName($"{Prefix}HistoriasClinicasRespuestasTemplate"));
 
@@ -220,48 +233,48 @@
                                     groupItems.AddSimple().ColSpan(12).Template($"<div class=\"row d-flex justify-content-center subtitle\" >{DApp.DefaultLanguage.GetResource("HistoriasClinicas.SignosVitales")}</div>");
 
                                     groupItems.AddSimpleFor(m => m.Entity.PresionSistolica).ColSpan(2)
-                                        .Editor(e => e.NumberBox().ID(Prefix + "PresionSistolica").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                        .Editor(e => e.NumberBox().ID(Prefix + "PresionSistolica").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
 
                                     groupItems.AddSimpleFor(m => m.Entity.PresionDiastolica).ColSpan(2)
-                                        .Editor(e => e.NumberBox().ID(Prefix + "PresionDiastolica").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                        .Editor(e => e.NumberBox().ID(Prefix + "PresionDiastolica").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
 
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaCardiaca).ColSpan(4)
-                                         .Editor(e => e.NumberBox().ID(Prefix + "FrecuenciaCardiaca").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                         .Editor(e => e.NumberBox().ID(Prefix + "FrecuenciaCardiaca").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
                                     groupItems.AddSimpleFor(m => m.Entity.FrecuenciaRespiratoria).ColSpan(4)
-                                         .Editor(e => e.NumberBox().ID(Prefix + "FrecuenciaRespiratoria").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true)
+                                         .Editor(e => e.NumberBox().ID(Prefix + "FrecuenciaRespiratoria").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
 
                                     groupItems.AddSimpleFor(m => m.Entity.Temperatura).ColSpan(4)
-                                         .Editor(e => e.NumberBox().ID(Prefix + "Temperatura").Format("#,##0.#").Min(29).Max(51).ShowClearButton(true).ShowSpinButtons(true)
+                                         .Editor(e => e.NumberBox().ID(Prefix + "Temperatura").Format("#,##0.#").Min(29).Max(51).ShowClearButton(true).ShowSpinButtons(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
                                     groupItems.AddSimpleFor(m => m.Entity.PerimetroCefalico).ColSpan(4)
-                                        .Editor(e => e.NumberBox().ID(Prefix + "PerimetroCefalico").Format("#,##0.#").ShowClearButton(true).ShowSpinButtons(true)
+                                        .Editor(e => e.NumberBox().ID(Prefix + "PerimetroCefalico").Format("#,##0.#").ShowClearButton(true).ShowSpinButtons(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
                                     groupItems.AddSimpleFor(m => m.Entity.DominanciaEstadosId).ColSpan(4)
                                          .Editor(e => e.SelectBox().ID(Prefix + "DominanciaEstadosId")
                                          .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicas").LoadAction("GetDominanciaEstadosId").Key("Id"))
                                          .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                          .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
-                                         .SearchEnabled(true).ShowClearButton(true)
+                                         .SearchEnabled(true).ShowClearButton(true).ReadOnly(EstaAnulada || EstaCerrada)
                                     );
 
                                     groupItems.AddSimpleFor(m => m.Entity.Peso).ColSpan(4)
                                          .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.Peso")))
                                              .Editor(e => e.NumberBox().ID(Prefix + "Peso").Format("#,##0").Min(0).Max(635).ShowClearButton(true).ShowSpinButtons(true)
-                                             .OnValueChanged($"{Prefix}CalcularIMC")
+                                             .OnValueChanged($"{Prefix}CalcularIMC").ReadOnly(EstaAnulada || EstaCerrada)
                                              );
                                     groupItems.AddSimpleFor(m => m.Entity.Altura).ColSpan(4)
                                           .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("HistoriasClinicas.Altura")))
                                               .Editor(e => e.NumberBox().ID(Prefix + "Altura").Format("#,##0").Min(0).Max(243).ShowClearButton(true).ShowSpinButtons(true)
-                                              .OnValueChanged($"{Prefix}CalcularIMC")
+                                              .OnValueChanged($"{Prefix}CalcularIMC").ReadOnly(EstaAnulada || EstaCerrada)
                                               );
                                     groupItems.AddSimple().ColSpan(4).Template(@<text><label id="@(Prefix)IMC" style=" margin-top: 33px; font-weight: bold; font-size: initial;"></label></text>);
 
                                     groupItems.AddSimpleFor(m => m.Entity.Hallazgos).ColSpan(12)
-                                         .Editor(e => e.TextArea().Height(100).ID(Prefix + "Hallazgos"));
+                                    .Editor(e => e.TextArea().Height(100).ID(Prefix + "Hallazgos").ReadOnly(EstaAnulada || EstaCerrada));
 
                                 });
 
@@ -269,7 +282,7 @@
                                 .Items(groupItems =>
                                 {
                                     groupItems.AddSimpleFor(m => m.Entity.Analisis).ColSpan(12).Label(x => x.Visible(false))
-                                         .Editor(e => e.TextArea().Height(100).ID(Prefix + "Analisis"));
+                                    .Editor(e => e.TextArea().Height(100).ID(Prefix + "Analisis").ReadOnly(EstaAnulada || EstaCerrada));
                                 });
 
                     items.AddGroup().ColSpan(12).ColCount(12).Caption(DApp.DefaultLanguage.GetResource("HistoriasClinicasDiagnosticos"))
@@ -282,7 +295,7 @@
                                 .Items(groupItems =>
                                 {
                                     groupItems.AddSimpleFor(m => m.Entity.PlanManejo).ColSpan(12).Label(x=>x.Visible(false))
-                                        .Editor(e => e.TextArea().Height(100).ID(Prefix + "PlanManejo"));
+                                    .Editor(e => e.TextArea().Height(100).ID(Prefix + "PlanManejo").ReadOnly(EstaAnulada || EstaCerrada));
                                 });
 
                     items.AddSimple().Template(new TemplateName($"{Prefix}MaestrosDetalles"));

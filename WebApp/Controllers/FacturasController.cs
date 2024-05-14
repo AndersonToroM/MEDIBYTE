@@ -502,6 +502,7 @@ namespace Blazor.WebApp.Controllers
                 {
                     throw new Exception("Factura no encontrada.");
                 }
+                factura.Fecha = DateTime.Now; //cambio la fecha de emisión a hoy;
                 factura.OrdenCompra = cambioOrdenCompra;
                 factura.ReferenciaFactura = cambioReferenciaFactura;
                 factura.Observaciones = cambioObservaciones;

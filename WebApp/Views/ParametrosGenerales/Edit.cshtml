@@ -135,6 +135,30 @@
 
                             });
 
+                            items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.AnularHC"))
+                            .Items(groupItems =>
+                            {
+                                groupItems.AddSimple().ColSpan(12).Label(x => x.Text(""))
+                                    .Editor(x => x.TextBox().Height(25).ReadOnly(true).Value(DApp.GetResource("ParametrosGenerales.TextoAyudaCambiarEstadosHC"))
+                                );
+                                    
+                                groupItems.AddSimple().ColSpan(2).Label(x=>x.Text(DApp.GetResource("ParametrosGenerales.ConsecutivoHC")))
+                                      .Editor(e => e.TextBox().ID(Prefix + "ConsecutivoHC")
+                                      .ShowClearButton(true)
+                                      );
+                                groupItems.AddSimple().ColSpan(8).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.DetalleAnulacionHC")))
+                                     .Editor(e => e.TextArea().Height(35).ID(Prefix + "DetalleAnulacionHC")
+                                      );
+                            groupItems.AddSimple().ColSpan(2).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.FechaAnulacionHC")))
+                                    .Editor(e => e.DateBox().ID(Prefix + "FechaAnulacionHC").Value(DateTime.Now).ReadOnly(true)
+                                );
+                                groupItems.AddButton().ColSpan(12).VerticalAlignment(VerticalAlignment.Center).HorizontalAlignment(HorizontalAlignment.Center)
+                                    .ButtonOptions(x => x.Text(DApp.GetResource("ParametrosGenerales.AnularHC")).Type(ButtonType.Default)
+                                    .UseSubmitBehavior(false).OnClick($"{Prefix}OnClickCambiarEstadoHC")
+                                );
+
+                            });
+
                         items.AddGroup().ColCount(12).ColSpan(6).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Lecturas"))
                             .Items(groupItems =>{
                                 groupItems.AddSimpleFor(m => m.Entity.EsObligatorioAudioLectura).Label(x=>x.Visible(false)).ColSpan(12)

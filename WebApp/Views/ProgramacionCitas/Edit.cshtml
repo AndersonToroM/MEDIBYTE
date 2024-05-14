@@ -190,6 +190,7 @@
                                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.Cantidad")));
 
                                             groupItems.AddSimpleFor(m => m.Entity.FechaDeseada).ColSpan(3)
+                                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ProgramacionCitas.FechaDeseada")))
                                                   .Editor(e => e.DateBox().Min(DApp.FechaMinima).Max(DApp.FechaMaxima).ID(Prefix + "FechaDeseada").Type(DateBoxType.Date)
                                                   .DisplayFormat(DApp.DefaultLanguage.DateFormat).Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat)).UseMaskBehavior(true));
 

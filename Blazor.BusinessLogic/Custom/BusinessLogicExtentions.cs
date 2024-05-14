@@ -32,6 +32,8 @@ namespace Blazor.BusinessLogic
                 return new ProgramacionCitasBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(Archivos))
                 return new ArchivosBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
+            if (typeof(T) == typeof(HistoriasClinicas))
+                return new HistoriasClinicasBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(EntregaResultados))
                 return new EntregaResultadosBusinessLogic(logic.settings) as GenericBusinessLogic<T>;
             if (typeof(T) == typeof(EntregaResultadosNoLectura))
@@ -151,6 +153,11 @@ namespace Blazor.BusinessLogic
         public static DocumentosBusinessLogic DocumentosBusinessLogic(this Dominus.Backend.DataBase.BusinessLogic logic)
         {
             return new DocumentosBusinessLogic(logic.settings);
+        }
+
+        public static HistoriasClinicasBusinessLogic HistoriasClinicasBusinessLogic(this Dominus.Backend.DataBase.BusinessLogic logic)
+        {
+            return new HistoriasClinicasBusinessLogic(logic.settings);
         }
 
         #region Identificadores estaticos

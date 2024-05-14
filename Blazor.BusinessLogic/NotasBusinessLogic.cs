@@ -1,4 +1,4 @@
-﻿using Blazor.BusinessLogic.Models;
+using Blazor.BusinessLogic.Models;
 using Blazor.BusinessLogic.Models.Enums;
 using Blazor.BusinessLogic.ServiciosExternos;
 using Blazor.Infrastructure;
