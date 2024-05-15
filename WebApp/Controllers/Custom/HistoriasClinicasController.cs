@@ -211,8 +211,8 @@ namespace Blazor.WebApp.Controllers
                 Manager().AtencionesBusinessLogic().AddAtencion(model.Entity.Atenciones);
                 ViewBag.Accion = "CerrarHC";
             }
-
-            return PartialView("Edit", model);
+            //return model;
+            return Edit(model);
         }
     }
 }
