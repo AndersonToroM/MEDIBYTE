@@ -87,6 +87,10 @@
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("ParametrosGenerales.EmailRecepcionFE", 250)))
                                 .Editor(e => e.TextBox().ShowClearButton(true).ID($"{Prefix}EmailRecepcionFE"));
 
+                            groupItems.AddSimpleFor(x => x.Entity.LinkVerificacionDIAN).ColSpan(4)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2048).Message(DApp.GetStringLengthResource("ParametrosGenerales.LinkVerificacionDIAN", 2048)))
+                                .Editor(e => e.TextBox().ReadOnly(true).ID($"{Prefix}LinkVerificacionDIAN"));
+
                             });
 
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Atenciones"))

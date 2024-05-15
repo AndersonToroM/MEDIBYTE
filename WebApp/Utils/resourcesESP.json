@@ -4236,6 +4236,10 @@
     "Description": "Lectura de resultados"
   },
   {
+    "Id": "ParametrosGenerales.LinkVerificacionDIAN",
+    "Description": "Link Validación DIAN"
+  },
+  {
     "Id": "ParametrosGenerales.OperadorFE",
     "Description": "Operador"
   },
