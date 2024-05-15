@@ -139,6 +139,12 @@ namespace Blazor.WebApp.Controllers
                     }
                     else
                     {
+                        var horaCero = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+                        if (model.Entity.FechaInicio.TimeOfDay == horaCero.TimeOfDay)
+                        {
+                            throw new Exception("Por favor verificar la hora de inicio de la cita");
+                        }
+
                         var citaBd = Manager().GetBusinessLogic<ProgramacionCitas>().FindById(x => x.Id == model.Entity.Id, false);
                         List<long> estados = new List<long> { 4, 5, 6, 7, 8, 9, 10078 };
                         if (!estados.Contains(citaBd.EstadosId))
@@ -153,7 +159,7 @@ namespace Blazor.WebApp.Controllers
                         citaBd.ConsultoriosId = model.Entity.ConsultoriosId;
                         citaBd.Duracion = model.Entity.Duracion;
 
-                        model.Entity = Manager().GetBusinessLogic<ProgramacionCitas>().Modify(model.Entity);
+                        model.Entity = Manager().GetBusinessLogic<ProgramacionCitas>().Modify(citaBd);
                     }
 
                     model = EditModel(model.Entity.Id);
