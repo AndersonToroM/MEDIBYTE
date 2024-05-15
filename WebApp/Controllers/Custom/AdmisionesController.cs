@@ -250,7 +250,20 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name);
+                var parametrosGenerales = Manager().GetBusinessLogic<ParametrosGenerales>().Tabla().FirstOrDefault();
+
+                if (parametrosGenerales == null || string.IsNullOrWhiteSpace(parametrosGenerales.LinkVerificacionDIAN))
+                {
+                    throw new Exception("El link de validación DIAN no se encuentra parametrizado en el sistema.");
+                }
+
+                var parametrosReporte = new Dictionary<string, object>
+                {
+                    {"p_LinkValidacionDIAN", parametrosGenerales.LinkVerificacionDIAN }
+                };
+
+                var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name, parametrosReporte);
+
                 return PartialView("_ViewerReport", report);
 
             }
