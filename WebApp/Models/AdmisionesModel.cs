@@ -19,7 +19,7 @@ namespace Blazor.WebApp.Models
         public bool TieneServiciosFacturadosAEntidad { get; set; } = false;
         public string MotivoAnulacion { get; set; }
 
-      public AdmisionesModel()
+        public AdmisionesModel()
       {
          Entity = new Admisiones();
          Entity.ExoneracionArchivo = new Archivos();

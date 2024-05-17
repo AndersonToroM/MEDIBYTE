@@ -87,7 +87,7 @@
     }
 
     function @(Prefix)OnValueChangedPaises(e) {
-        $("#@(Prefix)Departamentos").dxSelectBox("instance").getDataSource().filter(["PaisesId", "=", e.value]);
+        $("#@(Prefix)Departamentos").dxSelectBox("instance").getDataSource().filter(["PaisId", "=", e.value]);
         $("#@(Prefix)Departamentos").dxSelectBox("instance").getDataSource().reload();
         $("#@(Prefix)Departamentos").dxSelectBox("instance").option("value", null);
     }

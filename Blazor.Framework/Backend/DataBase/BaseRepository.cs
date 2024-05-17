@@ -38,9 +38,12 @@ namespace Dominus.Backend.DataBase
         {
             IQueryable<T> query = this.Entities;
             IEnumerable<INavigation> navigationProperties = work.DbContext.Model.FindEntityType(typeof(T)).GetNavigations();
-            foreach (INavigation navigationProperty in navigationProperties)
+            if(include)
             {
-                query = query.Include(navigationProperty.Name);
+                foreach (INavigation navigationProperty in navigationProperties)
+                {
+                    query = query.Include(navigationProperty.Name);
+                }
             }
            return query;
         }

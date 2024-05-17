@@ -18,8 +18,8 @@
     { 
         columns.AddFor(m => m.Codigo); 
         columns.AddFor(m => m.Nombre); 
-        columns.AddFor(m => m.CodigoInterno); 
-        columns.AddFor(m => m.Duracion); 
+        columns.AddFor(m => m.GrupoServciosRips.Nombre).Caption(DApp.DefaultLanguage.GetResource("Servicios.GrupoServciosRipsId")); 
+        columns.AddFor(m => m.HabilitacionServciosRips.DescripcionCompleta).Caption(DApp.DefaultLanguage.GetResource("Servicios.HabilitacionServciosRipsId")); 
         columns.AddFor(m => m.TarifaPlena); 
         columns.AddFor(m => m.RequiereProfesional); 
         columns.AddFor(m => m.RequiereLecturaResultados); 

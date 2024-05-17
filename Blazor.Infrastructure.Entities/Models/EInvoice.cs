@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 
 namespace Blazor.Infrastructure.Entities.Models
 {
+
     public class TotalByTaxScheme
     {
         public string TaxSchemeCode { get; set; }

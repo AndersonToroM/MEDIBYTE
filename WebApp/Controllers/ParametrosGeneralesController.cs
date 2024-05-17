@@ -12,11 +12,14 @@ using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
+using Dominus.Backend.Security;
+using Blazor.Infrastructure;
+using DevExpress.Xpo;
 
 namespace Blazor.WebApp.Controllers
 {
 
-    [Authorize] 
+    [Authorize]
     public partial class ParametrosGeneralesController : BaseAppController
     {
 
@@ -65,52 +68,55 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel());
         }
 
-        private ParametrosGeneralesModel EditModel() 
-        { 
+        private ParametrosGeneralesModel EditModel()
+        {
             ParametrosGeneralesModel model = new ParametrosGeneralesModel();
             model.Entity = Manager().GetBusinessLogic<ParametrosGenerales>().FindById(x => true, false);
             model.Entity.IsNew = false;
-            return model; 
-        } 
+            return model;
+        }
 
         [HttpPost]
         public IActionResult Edit(ParametrosGeneralesModel model)
         {
-            return PartialView("Edit",EditModel(model));
+            return PartialView("Edit", EditModel(model));
         }
 
-        private ParametrosGeneralesModel EditModel(ParametrosGeneralesModel model) 
-        { 
-            ViewBag.Accion = "Save"; 
-            var OnState = model.Entity.IsNew; 
-            if (ModelState.IsValid) 
-            { 
-                try 
-                { 
-                    model.Entity.LastUpdate = DateTime.Now; 
-                    model.Entity.UpdatedBy = User.Identity.Name; 
-                    if (model.Entity.IsNew) 
-                    { 
-                        model.Entity.CreationDate = DateTime.Now; 
-                        model.Entity.CreatedBy = User.Identity.Name; 
-                        model.Entity = Manager().GetBusinessLogic<ParametrosGenerales>().Add(model.Entity); 
+        private ParametrosGeneralesModel EditModel(ParametrosGeneralesModel model)
+        {
+            ViewBag.Accion = "Save";
+            var OnState = model.Entity.IsNew;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.Entity.LastUpdate = DateTime.Now;
+                    model.Entity.UpdatedBy = User.Identity.Name;
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<ParametrosGenerales>().Add(model.Entity);
                         model.Entity.IsNew = false;
-                    } 
-                    else 
-                    { 
-                        model.Entity = Manager().GetBusinessLogic<ParametrosGenerales>().Modify(model.Entity); 
-                    } 
-                } 
-                catch (Exception e) 
-                { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
-                } 
-            } 
-            else 
-            { 
-                 ModelState.AddModelError("Entity.Id", "Error de codigo, el objeto a guardar tiene campos diferentes a los de la entidad."); 
-            } 
-            return model; 
+                    }
+                    else
+                    {
+                        if (model.ModifyPasswordIntegracionFE)
+                            model.Entity.PasswordIntegracionFE = Cryptography.Encrypt(model.Entity.PasswordIntegracionFE);
+
+                        model.Entity = Manager().GetBusinessLogic<ParametrosGenerales>().Modify(model.Entity);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Entity.Id", "Error de codigo, el objeto a guardar tiene campos diferentes a los de la entidad.");
+            }
+            return model;
         }
 
         //[HttpPost]
@@ -267,6 +273,38 @@ namespace Blazor.WebApp.Controllers
                 atencion.LastUpdate = DateTime.Now;
                 atencion.UpdatedBy = User.Identity.Name;
                 Manager().AtencionesBusinessLogic().AnularAtencion(atencion);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CambiarEstadoHC(string consecutivoHC, string detalleAnulacionHC)
+        {
+            try
+            {
+                if (consecutivoHC == "" || consecutivoHC == null)
+                    throw new Exception($"El consecutivo no es correcto. Historia clínica Nro.: {consecutivoHC}");
+                if (string.IsNullOrWhiteSpace(detalleAnulacionHC))
+                    throw new Exception($"El motivo de anulación es obligatorio.");
+
+                var historiaClinica = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.Consecutivo == consecutivoHC, true);
+                if (historiaClinica == null)
+                    throw new Exception($"La historia clínica No. {consecutivoHC} no existe.");
+
+                if (historiaClinica.EstadosId == 19)
+                    throw new Exception($"No es posible anularla porque se encuentra en estado \"Cerrada\".");
+
+                if (historiaClinica.EstadosId == 81)
+                    throw new Exception($"La historia clínica No. {consecutivoHC} ya se encuentra anulada.");
+
+                historiaClinica.DetalleAnulacion = detalleAnulacionHC;
+                historiaClinica.LastUpdate = DateTime.Now;
+                historiaClinica.UpdatedBy = User.Identity.Name;
+                Manager().HistoriasClinicasBusinessLogic().AnularHC(historiaClinica);
                 return Ok();
             }
             catch (Exception e)

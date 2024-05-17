@@ -37,7 +37,36 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("ParametrosGenerales.EsObligatorioAudioLectura")]
        public virtual Boolean EsObligatorioAudioLectura { get; set; }
 
-       #endregion
+       [Column("UsuarioIntegracionFE")]
+       [DDisplayName("ParametrosGenerales.UsuarioIntegracionFE")]
+       [DStringLength("ParametrosGenerales.UsuarioIntegracionFE",255)]
+       public virtual String UsuarioIntegracionFE { get; set; }
+
+       [Column("PasswordIntegracionFE")]
+       [DDisplayName("ParametrosGenerales.PasswordIntegracionFE")]
+       [DStringLength("ParametrosGenerales.PasswordIntegracionFE",255)]
+       public virtual String PasswordIntegracionFE { get; set; }
+
+       [Column("OperadorFE")]
+       [DDisplayName("ParametrosGenerales.OperadorFE")]
+       [DStringLength("ParametrosGenerales.OperadorFE",30)]
+       public virtual String OperadorFE { get; set; }
+
+       [Column("CompanyIdFE")]
+       [DDisplayName("ParametrosGenerales.CompanyIdFE")]
+       public virtual Guid? CompanyIdFE { get; set; }
+
+       [Column("EmailRecepcionFE")]
+       [DDisplayName("ParametrosGenerales.EmailRecepcionFE")]
+       [DStringLength("ParametrosGenerales.EmailRecepcionFE",250)]
+       public virtual String EmailRecepcionFE { get; set; }
+
+        [Column("LinkVerificacionDIAN")]
+        [DDisplayName("ParametrosGenerales.LinkVerificacionDIAN")]
+        [DStringLength("ParametrosGenerales.LinkVerificacionDIAN", 2048)]
+        public virtual String LinkVerificacionDIAN { get; set; }
+
+        #endregion
 
        #region Reglas expression
 

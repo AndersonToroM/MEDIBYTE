@@ -32,7 +32,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return  DataSourceLoader.Load( Manager().GetBusinessLogic<User>().Tabla(true).Where(x=>x.Id != 1), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<User>().Tabla(true).Where(x => x.Id != 1), loadOptions);
         }
 
         public IActionResult List()
@@ -93,6 +93,7 @@ namespace Blazor.WebApp.Controllers
                         model.Entity.CreationDate = DateTime.Now;
                         model.Entity.CreatedBy = User.Identity.Name;
                         model.Entity.Password = Cryptography.Encrypt(model.Entity.Password);
+                        model.Entity.PasswordRips = Cryptography.Encrypt(model.Entity.PasswordRips);
                         model.Entity = Manager().GetBusinessLogic<User>().Add(model.Entity);
                         model.Entity.IsNew = false;
                     }
@@ -100,6 +101,10 @@ namespace Blazor.WebApp.Controllers
                     {
                         if (model.ModifyPassword)
                             model.Entity.Password = Cryptography.Encrypt(model.Entity.Password);
+
+                        if (model.ModifyPasswordRips)
+                            model.Entity.PasswordRips = Cryptography.Encrypt(model.Entity.PasswordRips);
+
                         model.Entity = Manager().GetBusinessLogic<User>().Modify(model.Entity);
                     }
                 }
@@ -130,7 +135,7 @@ namespace Blazor.WebApp.Controllers
             {
                 try
                 {
-                    model.Entity = Manager().GetBusinessLogic<User>().FindById(x=>x.Id== model.Entity.Id, false);
+                    model.Entity = Manager().GetBusinessLogic<User>().FindById(x => x.Id == model.Entity.Id, false);
                     Manager().GetBusinessLogic<User>().Remove(model.Entity);
                     return newModel;
                 }

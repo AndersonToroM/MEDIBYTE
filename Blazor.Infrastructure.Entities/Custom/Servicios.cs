@@ -19,6 +19,5 @@ namespace Blazor.Infrastructure.Entities
             {
             }
         }
-
     }
 }

@@ -93,7 +93,7 @@
                                       .Editor(e => e.SelectBox().ID(Prefix + "ListaPreciosId")
                                       .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Convenios").LoadAction("GetListaPreciosId").Key("Id"))
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Id")
+                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
                                       .SearchEnabled(true).ShowClearButton(true)
                                  );
 

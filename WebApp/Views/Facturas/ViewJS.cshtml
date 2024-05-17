@@ -3,13 +3,17 @@
     string Prefix = "Facturas";
     string UrlReport = Url.Action("ImprimirFacturaPorId", Prefix, new { Id = Model.Entity.Id });
     string UrlEnviarDian = Url.Action("EnviarFacturaDIAN", Prefix, new { id = Model.Entity.Id });
-    string UrlEnviarFactura = Url.Action("EnviarFactura", Prefix, new { id = Model.Entity.Id });
+    string UrlEnviarRips = Url.Action("EnviarRips", Prefix, new { id = Model.Entity.Id });
+    string UrlDescargarJsonRips = Url.Action("DescargarJsonRips", Prefix, new { id = Model.Entity.Id });
+    string UrlDescargarXMLDIAN = Url.Action("DescargarXMLDIAN", Prefix, new { id = Model.Entity.Id });
+    string UrlEnviarEmailFactura = Url.Action("EnviarEmailFactura", Prefix, new { id = Model.Entity.Id });
     string UrlModificarDatos = Url.Action("ModificarDatosFactura", Prefix);
+    string UrlConsultarEstadoDocumentoDIAN = Url.Action("ConsultarEstadoDocumentoDIAN", Prefix, new { id = Model.Entity.Id });
 }
 
 <script>
 
-    function ImprimirAnexoFactura() {
+    function @(Prefix)ImprimirAnexoFactura() {
         showLoadIndicator();
         $.ajax({
             url: "@Url.Action("ImprimirAnexoFactura", Prefix, new { Id = Model.Entity.Id })",
@@ -27,11 +31,11 @@
         });
     }
 
-    function MostrarPopudModificarDatosFactura() {
+    function @(Prefix)MostrarPopudModificarDatosFactura() {
         $("#@(Prefix)PopupModificarDatosFactura").dxPopup("instance").show();
     }
 
-    function ModificarDatosFactura() {
+    function @(Prefix)ModificarDatosFactura() {
 
         var CambioOrdenCompra = $("#@(Prefix)CambioOrdenCompra").dxTextBox("instance").option("value");
         var CambioReferenciaFactura = $("#@(Prefix)CambioReferenciaFactura").dxTextBox("instance").option("value");
@@ -41,7 +45,7 @@
         $.ajax({
             url: "@UrlModificarDatos",
             type: 'POST',
-            data: { id: @(Model.Entity.Id), cambioOrdenCompra: CambioOrdenCompra, cambioReferenciaFactura: CambioReferenciaFactura, cambioObservaciones: CambioObservaciones},
+            data: { id: @(Model.Entity.Id), cambioOrdenCompra: CambioOrdenCompra, cambioReferenciaFactura: CambioReferenciaFactura, cambioObservaciones: CambioObservaciones },
             success: function (data) {
                 $("#@(Prefix)PopupModificarDatosFactura").dxPopup("instance").hide();
                 hideLoadIndicator();
@@ -56,7 +60,7 @@
         });
     }
 
-    function ImprimirFacturaPorId() {
+    function @(Prefix)ImprimirFacturaPorId() {
 
         showLoadIndicator();
         $.ajax({
@@ -75,33 +79,33 @@
         });
     }
 
-    function EnviarFactura() {
+    function @(Prefix)EnviarRips() {
 
         showLoadIndicator();
         $.ajax({
-            url: "@UrlEnviarFactura",
+            url: "@UrlEnviarRips",
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-                DevExpress.ui.notify("Envio de correo satisfactorio.", "info");
-            },
-            error: function (xhr) {
-                hideLoadIndicator();
-                DevExpress.ui.notify("Error: " + xhr.responseText + " Verificar log de correo.", "error");
-            }
-        });
-    }
 
-    function EnviarDIAN() {
+                $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").show();
 
-        showLoadIndicator();
-        $.ajax({
-            url: "@UrlEnviarDian",
-            type: 'GET',
-            success: function (data) {
-                hideLoadIndicator();
-                DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
-                $("#mainPanel").html(data);
+                if (data.HuboErrorIntegracion) {
+                    $("#@(Prefix)labelRipsResultado").text(data.Error);
+                    $("#@(Prefix)labelRipsResultado").addClass("text-danger");
+                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", true);
+
+                } else {
+
+                    $("#@(Prefix)labelRipsResultado").removeClass("text-danger");
+                    $("#@(Prefix)buttonDescargarJsonRips").prop("disabled", false);
+                    $("#@(Prefix)GridErroresIntegracionRips").dxDataGrid("instance").option("dataSource", data.Respuesta.resultadosValidacion);
+                    if (data.HuboErrorRips) {
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips presenta errores.");
+                    } else {
+                        $("#@(Prefix)labelRipsResultado").text("La validación de los rips fue satisfactoria.");
+                    }
+                }
             },
             error: function (xhr) {
                 console.log(xhr);
@@ -109,6 +113,14 @@
                 DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
             }
         });
+    }
+
+    function @(Prefix)CerrarPopupErroresIntegracionRIPS() {
+        $("#@(Prefix)PopupErroresIntegracionRIPS").dxPopup("instance").hide();
+    }
+
+    function @(Prefix)DescargarJSONRips() {
+        DescargarArchivo("@UrlDescargarJsonRips")
     }
 
     function @(Prefix)DisplayExprDocumentosId(item) {
@@ -130,14 +142,13 @@
     function @(Prefix)FormSuccess(data)
     {
         hideLoadIndicator();
-        if ('@ViewData.ModelState.IsValid' == 'True')
-        {
+        if ('@ViewData.ModelState.IsValid' == 'True') {
             if ("@ViewBag.Accion" == "Delete") {
-                DevExpress.ui.notify("Registro eliminado correctamente.","info");
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
             } else if ("@ViewBag.Accion" == "Save") {
-                DevExpress.ui.notify("Registro guardado correctamente.","info");
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
             } else {
-                DevExpress.ui.notify("Error no accion en submit.","info");
+                DevExpress.ui.notify("Error no accion en submit.", "info");
             }
         }
     }
@@ -145,21 +156,20 @@
     function @(Prefix)FormFailure(data)
     {
         hideLoadIndicator();
-        DevExpress.ui.notify("Error en el formulario","error");
+        DevExpress.ui.notify("Error en el formulario", "error");
     }
 
     function @(Prefix)FormSuccessDetail(data)
     {
         hideLoadIndicator();
-        if ('@ViewData.ModelState.IsValid' == 'True')
-        {
+        if ('@ViewData.ModelState.IsValid' == 'True') {
             $("#FacturasDetalleDataGrid").dxDataGrid("instance").refresh();
             if ("@ViewBag.Accion" == "Delete") {
-                DevExpress.ui.notify("Registro eliminado correctamente.","info");
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
             } else if ("@ViewBag.Accion" == "Save") {
-                DevExpress.ui.notify("Registro guardado correctamente.","info");
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
             } else {
-                DevExpress.ui.notify("Error no accion en submit.","info");
+                DevExpress.ui.notify("Error no accion en submit.", "info");
             }
         }
     }
@@ -167,7 +177,91 @@
     function @(Prefix)FormFailureDetail(data)
     {
         hideLoadIndicator();
-        DevExpress.ui.notify("Error en el formulario","error");
+        DevExpress.ui.notify("Error en el formulario", "error");
+    }
+        
+    function @(Prefix)EnviarDIAN() {
+        $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", true);
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlEnviarDian",
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+
+                console.log("Resultado Envio Factura FE: ", data);
+
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Integración FE");
+                    $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
+                    return false;
+                }
+                SetDataIntegracionFE(data);
+                DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
+            }
+        });
+    }
+
+    function @(Prefix)ConsultarEstadoDocumentoDIAN() {
+
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlConsultarEstadoDocumentoDIAN",
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+
+                console.log("Resultado Consulta documento FE: ", data);
+
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Consulta de Datos FE");
+                    return false;
+                }
+                SetDataIntegracionFE(data);
+                DevExpress.ui.notify("Consulta de Datos FE satisfactorio.", "info");
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
+            }
+        });
+    }
+
+    function SetDataIntegracionFE(integracion) {
+        $("#@(Prefix)CUFE").dxTextBox("instance").option("value", integracion.Cufe);
+        $("#@(Prefix)IssueDate").dxDateBox("instance").option("value", integracion.IssueDate);
+        $("#@(Prefix)DIANResponse").dxTextBox("instance").option("value", integracion.Status);
+        $("#@(Prefix)IdDocumentoFE").dxTextBox("instance").option("value", integracion.IdDocumentFE);
+    }
+
+    function @(Prefix)EnviarEmailFactura() {
+
+        showLoadIndicator();
+        $.ajax({
+            url: "@UrlEnviarEmailFactura",
+            type: 'GET',
+            success: function (data) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Envio de correo satisfactorio.", "info");
+            },
+            error: function (xhr) {
+                hideLoadIndicator();
+                DevExpress.ui.notify("Error: " + xhr.responseText + " Verificar log de correo.", "error");
+            }
+        });
+    }
+
+    function @(Prefix)DescargarXMLDIAN() {
+        DescargarArchivo("@UrlDescargarXMLDIAN")
     }
 
 </script>

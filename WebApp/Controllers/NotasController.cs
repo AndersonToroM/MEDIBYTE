@@ -1,4 +1,5 @@
 using Blazor.BusinessLogic;
+using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.Notas;
 using Blazor.WebApp.Models;
@@ -16,6 +17,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -331,8 +336,8 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult GetFacturasId(DataSourceLoadOptions loadOptions)
         {
-            //return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).Where(x => x.CUFE != null), loadOptions);
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true).Where(x => x.CUFE != null), loadOptions);
+            //return DataSourceLoader.Load(Manager().GetBusinessLogic<Facturas>().Tabla(true), loadOptions);
         }
         [HttpPost]
         public LoadResult GetNotasConceptosId(DataSourceLoadOptions loadOptions)
@@ -422,6 +427,62 @@ namespace Blazor.WebApp.Controllers
             List<long?> idPacientes = Manager().GetBusinessLogic<ServiciosFacturar>().Tabla(true).Where(x => x.FacturasId == facturaId).Select(x=>x.PacientesId).Distinct().ToList();
             var pacientes = Manager().GetBusinessLogic<Pacientes>().Tabla(true).Where(x => idPacientes.Contains(x.Id));
             return DataSourceLoader.Load(pacientes, loadOptions);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EnviarNotasDIAN(long id)
+        {
+            try
+            {
+                IntegracionEnviarFEModel result = await Manager().NotasBusinessLogic().EnviarFacturaDian(id, User.Identity.Name, Request.Host.Value);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConsultarEstadoDocumentoDIAN(long id)
+        {
+            try
+            {
+                IntegracionEnviarFEModel result = await Manager().NotasBusinessLogic().ConsultarEstadoDocumento(id, User.Identity.Name, Request.Host.Value);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EnviarEmailNota(long id)
+        {
+            try
+            {
+                await Manager().NotasBusinessLogic().EnviarEmail(id, "Envio Nota Manual", User.Identity.Name, Request.Host.Value);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DescargarXMLDIAN(int id)
+        {
+            try
+            {
+                var resultado = await Manager().NotasBusinessLogic().GetArchivoXmlDIAN(id, User.Identity.Name, Request.Host.Value);
+                return File(resultado.ContentBytes, resultado.ContentType, resultado.FileName);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
         }
     }
 }

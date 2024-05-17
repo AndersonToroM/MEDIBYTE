@@ -124,6 +124,10 @@ namespace Blazor.Infrastructure.Entities
         [DStringLength("Notas.ConsecutivoFE", 40)]
         public virtual String ConsecutivoFE { get; set; }
 
+        [Column("IdDocumentoFE")]
+        [DDisplayName("Notas.IdDocumentoFE")]
+        public virtual Guid? IdDocumentoFE { get; set; }
+
         #endregion
 
         #region Columnas referenciales)

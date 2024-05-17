@@ -358,12 +358,12 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult ModificarDatosAtencion(long id,long causaExternaId, long finalidadConsultaId, bool esControl)
+        public IActionResult ModificarDatosAtencion(long id,long CausaMotivoAtencionId, long finalidadConsultaId, bool esControl)
         {
             try
             {
                 HistoriasClinicas entity = Manager().GetBusinessLogic<HistoriasClinicas>().Tabla(true).FirstOrDefault(x => x.Id == id);
-                entity.Atenciones.CausasExternasId = causaExternaId;
+                entity.Atenciones.CausaMotivoAtencionId = CausaMotivoAtencionId;
                 entity.Atenciones.FinalidadConsultaId = finalidadConsultaId;
                 entity.Atenciones.UpdatedBy = User.Identity.Name;
                 entity.Atenciones.LastUpdate = DateTime.Now;
@@ -383,6 +383,6 @@ namespace Blazor.WebApp.Controllers
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
         }
-
+        
     }
 }

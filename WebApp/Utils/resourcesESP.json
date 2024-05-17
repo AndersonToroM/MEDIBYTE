@@ -5,11 +5,11 @@
   },
   {
     "Id": "\"ServiciosFacturar.SedesNombre",
-    "Description": null
+    "Description": "Sede"
   },
   {
     "Id": "AdicionOrdenes",
-    "Description": "Adición Ordenes"
+    "Description": "Adición de Órdenes"
   },
   {
     "Id": "AdicionOrdenes.ErrorEmpleadoUsuario",
@@ -212,6 +212,10 @@
     "Description": "Medio de pago"
   },
   {
+    "Id": "Admisiones.ModalidadAtencionId",
+    "Description": "Modalidad de atención"
+  },
+  {
     "Id": "Admisiones.ModalidadesContratacionId",
     "Description": "Modalidades contratación"
   },
@@ -328,8 +332,12 @@
     "Description": "Valor Pago"
   },
   {
+    "Id": "Admisiones.ViaIngresoServicioSaludId",
+    "Description": "Vía de ingreso"
+  },
+  {
     "Id": "AdmisionesCorrecion",
-    "Description": "Correcciones de auditoria"
+    "Description": "Correcciones de auditoría"
   },
   {
     "Id": "AdmisionesServiciosPrestado.AdmisionesId",
@@ -413,7 +421,7 @@
   },
   {
     "Id": "AgendaMedica",
-    "Description": "Agenda Medica"
+    "Description": "Agenda Médica"
   },
   {
     "Id": "AgendaProgramacion",
@@ -530,6 +538,10 @@
   {
     "Id": "Atenciones.Anular",
     "Description": "Anular"
+  },
+  {
+    "Id": "Atenciones.CausaMotivoAtencionId",
+    "Description": "Causa externa o motivo de atención"
   },
   {
     "Id": "Atenciones.CausasExternasId",
@@ -721,7 +733,7 @@
   },
   {
     "Id": "Audit",
-    "Description": "Auditoria"
+    "Description": "Auditoría"
   },
   {
     "Id": "Audit.Column",
@@ -737,7 +749,7 @@
   },
   {
     "Id": "Audits",
-    "Description": "Auditoria"
+    "Description": "Auditoría"
   },
   {
     "Id": "Audits.Action",
@@ -856,6 +868,10 @@
     "Description": "Sede"
   },
   {
+    "Id": "CategoriasIngresos",
+    "Description": "Categoría de ingresos"
+  },
+  {
     "Id": "CategoriasIngresos.Codigo",
     "Description": "Código"
   },
@@ -865,11 +881,11 @@
   },
   {
     "Id": "CategoriasIngresosDetalles.CopagoMaximoAno",
-    "Description": "Maximo Año"
+    "Description": "Máximo Año"
   },
   {
     "Id": "CategoriasIngresosDetalles.CopagoMaximoEvento",
-    "Description": "Maximo Evento"
+    "Description": "Máximo Evento"
   },
   {
     "Id": "CategoriasIngresosDetalles.CuotaModeradora",
@@ -1281,7 +1297,7 @@
   },
   {
     "Id": "Convenios.ModalidadesContratacionId",
-    "Description": "Modalidad de contratación"
+    "Description": "Modalidad de pago"
   },
   {
     "Id": "Convenios.Nombre",
@@ -1516,6 +1532,10 @@
     "Description": "¿Es para facturación de paciente?"
   },
   {
+    "Id": "Documentos.ExternalKey",
+    "Description": "Llave Externa"
+  },
+  {
     "Id": "Documentos.FechaDesde",
     "Description": "Fecha Desde"
   },
@@ -1526,6 +1546,10 @@
   {
     "Id": "Documentos.LlaveUnica",
     "Description": "Llave Unica"
+  },
+  {
+    "Id": "Documentos.ObtenerDatosSeries",
+    "Description": "Obtener Datos FE"
   },
   {
     "Id": "Documentos.Prefijo",
@@ -2236,8 +2260,28 @@
     "Description": "Adquitiente P. Natural"
   },
   {
+    "Id": "Facturas.CambioFechaEmision",
+    "Description": "Fecha de emisión"
+  },
+  {
+    "Id": "Facturas.CodigoUnicoValidacionRips",
+    "Description": "Código Único de validación"
+  },
+  {
+    "Id": "Facturas.ConsultarEstadoDocumentoDIAN",
+    "Description": "Consultar Estado Documento FE"
+  },
+  {
     "Id": "Facturas.CUFE",
     "Description": "CUFE"
+  },
+  {
+    "Id": "Facturas.DescargarJsonRips",
+    "Description": "Descargar Json RIPS"
+  },
+  {
+    "Id": "Facturas.DescargarXMLDIAN",
+    "Description": "Descargar XML DIAN"
   },
   {
     "Id": "Facturas.DescFactura",
@@ -2270,6 +2314,14 @@
   {
     "Id": "Facturas.EnviarDIAN",
     "Description": "Enviar DIAN"
+  },
+  {
+    "Id": "Facturas.EnviarRips",
+    "Description": "Enviar RIPS"
+  },
+  {
+    "Id": "Facturas.ErroresIntegracionRIPS",
+    "Description": "Validación RIPS"
   },
   {
     "Id": "Facturas.ErrorReference",
@@ -2332,6 +2384,10 @@
     "Description": "Fecha Final"
   },
   {
+    "Id": "Facturas.FechaRadicacionRips",
+    "Description": "Fecha de Radicación"
+  },
+  {
     "Id": "Facturas.FehaInicial",
     "Description": "Fecha Inicial"
   },
@@ -2346,6 +2402,10 @@
   {
     "Id": "Facturas.GenerateFileToCobol",
     "Description": "Generar Archivos Siesa 8.5"
+  },
+  {
+    "Id": "Facturas.IdDocumentoFE",
+    "Description": "Identificacion Documento FE"
   },
   {
     "Id": "Facturas.ImprimirAnexo",
@@ -2438,6 +2498,10 @@
   {
     "Id": "Facturas.SedesId",
     "Description": "Sede"
+  },
+  {
+    "Id": "Facturas.TabRips",
+    "Description": "Rips"
   },
   {
     "Id": "Facturas.TieneNotas",
@@ -2785,7 +2849,7 @@
   },
   {
     "Id": "HCTipos",
-    "Description": "Tipos Historias Clinicas"
+    "Description": "Tipos Historias Clínicas"
   },
   {
     "Id": "HCTipos.Descripcion",
@@ -2797,7 +2861,7 @@
   },
   {
     "Id": "HCTiposPreguntas",
-    "Description": "Preguntas Historia Clinica"
+    "Description": "Preguntas Historia Clínica"
   },
   {
     "Id": "HCTiposPreguntas.HCPreguntasId",
@@ -2809,11 +2873,11 @@
   },
   {
     "Id": "HistoriasClinicas",
-    "Description": "Historias Clinicas"
+    "Description": "Historias Clínicas"
   },
   {
     "Id": "HistoriasClinicas.AdmisionesId",
-    "Description": "Admision"
+    "Description": "Admisión"
   },
   {
     "Id": "HistoriasClinicas.Altura",
@@ -2837,7 +2901,11 @@
   },
   {
     "Id": "HistoriasClinicas.Consecutivo",
-    "Description": "Numero"
+    "Description": "Número"
+  },
+  {
+    "Id": "HistoriasClinicas.DetalleAnulacion",
+    "Description": "Motivo de anulación"
   },
   {
     "Id": "HistoriasClinicas.DominanciaEstadosId",
@@ -2864,6 +2932,10 @@
     "Description": "Examen Físico"
   },
   {
+    "Id": "HistoriasClinicas.FechaAnulacionHC",
+    "Description": "Fecha de anulación de la historia clínica"
+  },
+  {
     "Id": "HistoriasClinicas.FechaApertura",
     "Description": "Fecha Apertura"
   },
@@ -2881,11 +2953,11 @@
   },
   {
     "Id": "HistoriasClinicas.HCTiposId",
-    "Description": "Tipo Historia Clinica"
+    "Description": "Tipo Historia Clínica"
   },
   {
     "Id": "HistoriasClinicas.HistoriaClinicaPrincipal",
-    "Description": "Historia Clinica Principal"
+    "Description": "Historia Clínica Principal"
   },
   {
     "Id": "HistoriasClinicas.ImprimirDocumentosAPacientes",
@@ -2898,6 +2970,10 @@
   {
     "Id": "HistoriasClinicas.MostrarPopudModificarDatosAtencion",
     "Description": "Modificar datos atención"
+  },
+  {
+    "Id": "HISTORIASCLINICAS.MOTIVOANULACION",
+    "Description": "HISTORIA CLÍNICA ANULADA"
   },
   {
     "Id": "HistoriasClinicas.MotivoConsulta",
@@ -2949,11 +3025,11 @@
   },
   {
     "Id": "HistoriasClinicasDiagnosticos",
-    "Description": "Diagnosticos"
+    "Description": "Diagnósticos"
   },
   {
     "Id": "HistoriasClinicasDiagnosticos.DiagnosticosId",
-    "Description": "Diagnostico"
+    "Description": "Diagnóstico"
   },
   {
     "Id": "HistoriasClinicasDiagnosticos.Principal",
@@ -2961,11 +3037,11 @@
   },
   {
     "Id": "HistoriasClinicasDiagnosticos.TiposDiagnosticosId",
-    "Description": "Tipos de diagnostico"
+    "Description": "Tipos de diagnóstico"
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias",
-    "Description": "Notas Aclaratorias Historias Clinicas"
+    "Description": "Notas Aclaratorias Historias Clínicas"
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias.Aclaracion",
@@ -2977,7 +3053,7 @@
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias.HistoriasClinicasId",
-    "Description": "Historia Clinica"
+    "Description": "Historia Clínica"
   },
   {
     "Id": "HistoriasClinicasNotasAclaratorias.ProfesionalId",
@@ -2985,7 +3061,7 @@
   },
   {
     "Id": "HistoriasClinicasRespuestas.HCRespuestasId",
-    "Description": "Metrica"
+    "Description": "Métrica"
   },
   {
     "Id": "HistoriasClinicasRespuestas.RespuestaAbierta",
@@ -2997,7 +3073,7 @@
   },
   {
     "Id": "ImagenesDiagnosticas",
-    "Description": "Imagenes Diagnosticas"
+    "Description": "Imágenes Diagnósticas"
   },
   {
     "Id": "ImagenesDiagnosticas.Fecha",
@@ -3017,7 +3093,7 @@
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.CargarImagenDiagnostica",
-    "Description": "Cargar Imagenes"
+    "Description": "Cargar Imágenes"
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.Nombre",
@@ -3025,7 +3101,7 @@
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.PopupImagenDiagnostica",
-    "Description": "Cargar Imagenes"
+    "Description": "Cargar Imágenes"
   },
   {
     "Id": "ImagenesDiagnosticasDetalle.RefrescarImagenesDiagnosticasDetalle",
@@ -3121,7 +3197,7 @@
   },
   {
     "Id": "IncapacidadesOrigenes",
-    "Description": "Origenes Incacidades"
+    "Description": "Orígenes Incacidades"
   },
   {
     "Id": "IncapacidadesOrigenes.Descripcion",
@@ -3129,7 +3205,7 @@
   },
   {
     "Id": "IndicacionesMedicas",
-    "Description": "Indicaciones Medicas"
+    "Description": "Indicaciones Médicas"
   },
   {
     "Id": "IndicacionesMedicas.Fecha",
@@ -3141,7 +3217,7 @@
   },
   {
     "Id": "IndicacionesMedicas.HistoriasClinicasId",
-    "Description": "Historia Clinica"
+    "Description": "Historia Clínica"
   },
   {
     "Id": "IndicacionesMedicas.NroOrden",
@@ -3169,7 +3245,7 @@
   },
   {
     "Id": "IndicacionesMedicasDetalles",
-    "Description": "Indicaciones Medicas Servicios"
+    "Description": "Indicaciones Médicas Servicios"
   },
   {
     "Id": "IndicacionesMedicasDetalles.Cantidad",
@@ -3405,7 +3481,7 @@
   },
   {
     "Id": "MedicamentosFormasFarmaceuticas",
-    "Description": "Medicamentos Formas Farmaceuticas"
+    "Description": "Medicamentos Formas Farmacéuticas"
   },
   {
     "Id": "MedicamentosFormasFarmaceuticas.Nombre",
@@ -3413,7 +3489,7 @@
   },
   {
     "Id": "MedicamentosViaAdministracion",
-    "Description": "Medicamentos Via de Administración"
+    "Description": "Medicamentos Vía de Administración"
   },
   {
     "Id": "MedicamentosViaAdministracion.Nombre",
@@ -3465,7 +3541,7 @@
   },
   {
     "Id": "MODULE.HC",
-    "Description": "HISTORIAS CLINICAS"
+    "Description": "HISTORIAS CLÍNICAS"
   },
   {
     "Id": "MODULE.IPS",
@@ -3504,12 +3580,20 @@
     "Description": "Consecutivo"
   },
   {
+    "Id": "Notas.ConsultarEstadoDocumentoDIAN",
+    "Description": "Consultar Estado Documento FE"
+  },
+  {
     "Id": "Notas.Cosecutivo",
     "Description": "Consecutivo Factura"
   },
   {
     "Id": "Notas.CUFE",
     "Description": "CUFE"
+  },
+  {
+    "Id": "Notas.DescargarXMLDIAN",
+    "Description": "Descargar XML DIAN"
   },
   {
     "Id": "Notas.DIANResponse",
@@ -3566,6 +3650,10 @@
   {
     "Id": "Notas.IdDbusiness",
     "Description": "Cliente"
+  },
+  {
+    "Id": "Notas.IdDocumentoFE",
+    "Description": "Identificacion Documento FE"
   },
   {
     "Id": "Notas.IssueDate",
@@ -3717,7 +3805,7 @@
   },
   {
     "Id": "OrdenesMedicamentos",
-    "Description": "Ordenes de Medicamentos"
+    "Description": "Órdenes de Medicamentos"
   },
   {
     "Id": "OrdenesMedicamentos.Consecutivo",
@@ -3733,7 +3821,7 @@
   },
   {
     "Id": "OrdenesMedicamentos.HIstoriasClinicasId",
-    "Description": "Historia Clinica"
+    "Description": "Historia Clínica"
   },
   {
     "Id": "OrdenesMedicamentos.NroOrden",
@@ -3769,7 +3857,7 @@
   },
   {
     "Id": "OrdenesMedicamentosDetalles.DiasTratamiento",
-    "Description": "Dias Tratamiento"
+    "Description": "Días Tratamiento"
   },
   {
     "Id": "OrdenesMedicamentosDetalles.Dosis",
@@ -3793,7 +3881,7 @@
   },
   {
     "Id": "OrdenesMedicamentosDiagnosticos",
-    "Description": "Diagnosticos"
+    "Description": "Diagnósticos"
   },
   {
     "Id": "OrdenesMedicamentosDiagnosticos.DiagnosticosId",
@@ -3805,11 +3893,11 @@
   },
   {
     "Id": "OrdenesMedicamentosDiagnosticos.TiposDiagnosticosId",
-    "Description": "Tipos de diagnostico"
+    "Description": "Tipos de diagnóstico"
   },
   {
     "Id": "OrdenesServicios",
-    "Description": "Ordenes de Servicios"
+    "Description": "Órdenes de Servicios"
   },
   {
     "Id": "OrdenesServicios.Consecutivo",
@@ -3825,7 +3913,7 @@
   },
   {
     "Id": "OrdenesServicios.HIstoriasClinicasId",
-    "Description": "Historias Clinicas"
+    "Description": "Historias Clínicas"
   },
   {
     "Id": "OrdenesServicios.NroOrden",
@@ -3873,7 +3961,7 @@
   },
   {
     "Id": "OrdenesServiciosDiagnosticos",
-    "Description": "Diagnosticos"
+    "Description": "Diagnósticos"
   },
   {
     "Id": "OrdenesServiciosDiagnosticos.DiagnosticosId",
@@ -3885,7 +3973,7 @@
   },
   {
     "Id": "OrdenesServiciosDiagnosticos.TiposDiagnosticosId",
-    "Description": "Tipos de diagnostico"
+    "Description": "Tipos de diagnóstico"
   },
   {
     "Id": "Pacientes",
@@ -3902,6 +3990,10 @@
   {
     "Id": "Pacientes.CiudadesId",
     "Description": "Ciudad"
+  },
+  {
+    "Id": "Pacientes.CiudadResidencia",
+    "Description": "Ciudad de residencia"
   },
   {
     "Id": "Pacientes.CodigoPostal",
@@ -3956,12 +4048,16 @@
     "Description": "Observaciones"
   },
   {
-    "Id": "Pacientes.PaisesId",
-    "Description": "Pais"
+    "Id": "Pacientes.PaisesOrigenId",
+    "Description": "País de origen"
   },
   {
     "Id": "Pacientes.PaisId",
-    "Description": "Pais"
+    "Description": "País de residencia"
+  },
+  {
+    "Id": "Pacientes.PaisOrigen",
+    "Description": "Nacionalidad"
   },
   {
     "Id": "Pacientes.PrimerApellido",
@@ -4020,6 +4116,10 @@
     "Description": "El paciente ya tiene una EPS asociada activa: "
   },
   {
+    "Id": "Pacientes.ZonaTerritorialResidenciaId",
+    "Description": "Zona territoral"
+  },
+  {
     "Id": "PacientesEntidades",
     "Description": "Entidades"
   },
@@ -4049,11 +4149,15 @@
   },
   {
     "Id": "ParametrosGenerales",
-    "Description": "Parametros Generales"
+    "Description": "Parámetros Generales"
   },
   {
     "Id": "ParametrosGenerales.AnularAtenciones",
-    "Description": "Cambiar Estado - Anulada en atencion"
+    "Description": "Cambiar Estado - Anulada en atención"
+  },
+  {
+    "Id": "ParametrosGenerales.AnularHC",
+    "Description": "Anular H.C."
   },
   {
     "Id": "ParametrosGenerales.Atenciones",
@@ -4064,6 +4168,18 @@
     "Description": "Cambiar Estado"
   },
   {
+    "Id": "ParametrosGenerales.CatalogosDIAN",
+    "Description": "Catálogos DIAN"
+  },
+  {
+    "Id": "ParametrosGenerales.CompanyIdFE",
+    "Description": "Id de la compañía"
+  },
+  {
+    "Id": "ParametrosGenerales.ConfirmarPasswordIntegracionFE",
+    "Description": "Confirmar Contraseña"
+  },
+  {
     "Id": "ParametrosGenerales.ConsecutivoAdmision",
     "Description": "Consecutivo Admisión"
   },
@@ -4072,12 +4188,28 @@
     "Description": "Consecutivo Cita"
   },
   {
+    "Id": "ParametrosGenerales.ConsecutivoHC",
+    "Description": "Nro. Consecutivo de la historia clínica"
+  },
+  {
     "Id": "ParametrosGenerales.DetalleAnulacion",
     "Description": "Motivo de anulación"
   },
   {
+    "Id": "ParametrosGenerales.DetalleAnulacionHC",
+    "Description": "Motivo de anulación de la historia clínica"
+  },
+  {
+    "Id": "ParametrosGenerales.EmailRecepcionFE",
+    "Description": "Email recepción Saphety"
+  },
+  {
     "Id": "ParametrosGenerales.EsObligatorioAudioLectura",
     "Description": "¿Es obligatorio audio en lectura?"
+  },
+  {
+    "Id": "ParametrosGenerales.FechaAnulacionHC",
+    "Description": "Fecha de anulación H.C."
   },
   {
     "Id": "ParametrosGenerales.FechaDesdeAtenciones",
@@ -4088,16 +4220,48 @@
     "Description": "Fecha Hasta"
   },
   {
+    "Id": "ParametrosGenerales.HabCatalogoDIAN",
+    "Description": "Habilitación"
+  },
+  {
     "Id": "ParametrosGenerales.HabilitarAnteciones",
     "Description": "Habilitar"
+  },
+  {
+    "Id": "ParametrosGenerales.IntegracionFE",
+    "Description": "Parámetros Facturación Electrónica"
   },
   {
     "Id": "ParametrosGenerales.Lecturas",
     "Description": "Lectura de resultados"
   },
   {
+    "Id": "ParametrosGenerales.LinkVerificacionDIAN",
+    "Description": "Link Validación DIAN"
+  },
+  {
+    "Id": "ParametrosGenerales.OperadorFE",
+    "Description": "Operador"
+  },
+  {
+    "Id": "ParametrosGenerales.PasswordIntegracionFE",
+    "Description": "Contraseña"
+  },
+  {
+    "Id": "ParametrosGenerales.ProdCatalogoDIAN",
+    "Description": "Producción"
+  },
+  {
     "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosAnteciones",
-    "Description": "Esta función cambiara el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atencion\". "
+    "Description": "Esta función cambiará el estado de la cita, admisión y atención de \"Atendida\" a \"Anulada en Atención\". "
+  },
+  {
+    "Id": "ParametrosGenerales.TextoAyudaCambiarEstadosHC",
+    "Description": "Esta función cambiará el estado de la historia clínica de \"Abierta\" a \"Anulada\"."
+  },
+  {
+    "Id": "ParametrosGenerales.UsuarioIntegracionFE",
+    "Description": "Usuario"
   },
   {
     "Id": "Parentescos.Descripcion",
@@ -4772,6 +4936,14 @@
     "Description": "¿Es gran contribuyente?"
   },
   {
+    "Id": "Servicios.GrupoServciosRipsId",
+    "Description": "Grupo del servicio"
+  },
+  {
+    "Id": "Servicios.HabilitacionServciosRipsId",
+    "Description": "Código grupo del servicio (RIPS)"
+  },
+  {
     "Id": "Servicios.Nombre",
     "Description": "Servicio"
   },
@@ -5058,6 +5230,10 @@
   {
     "Id": "Users.Password",
     "Description": "Contraseña"
+  },
+  {
+    "Id": "Users.PasswordRips",
+    "Description": "Contraseña para integración con RIPS"
   },
   {
     "Id": "Users.UserName",

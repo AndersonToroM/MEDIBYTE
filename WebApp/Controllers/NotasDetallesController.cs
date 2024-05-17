@@ -108,7 +108,8 @@ namespace Blazor.WebApp.Controllers
             {
                 ModelState.AddModelError("Entity.Id", "Error de codigo, el objeto a guardar tiene campos diferentes a los de la entidad.");
             }
-            return model;
+            return NewModelDetail(model.Entity.NotasId);
+            //return model;
         }
 
         [HttpPost]

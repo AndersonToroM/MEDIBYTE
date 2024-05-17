@@ -46,16 +46,16 @@
 
     function @(Prefix)PopupAbrirHC(data)
     {
-        var CausasExternasId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
+        var CausaMotivoAtencionId = $("#@(Prefix)CausaMotivoAtencionId").dxSelectBox("instance").option("value");
         var FinalidadConsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
         var ProgramasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
         var PertenecePrograma = $("#@(Prefix)PertenecePrograma").dxCheckBox("instance").option("value");
         var EnfermedadesHuerfanasId = $("#@(Prefix)EnfermedadesHuerfanasId").dxSelectBox("instance").option("value");
 
-        if (CausasExternasId == null || CausasExternasId == "" || CausasExternasId == 0 ||
+        if (CausaMotivoAtencionId == null || CausaMotivoAtencionId == "" || CausaMotivoAtencionId == 0 ||
             FinalidadConsultaId == null || FinalidadConsultaId == "" || FinalidadConsultaId == 0)
             {
-            DevExpress.ui.notify("La causa externa y la finalidad de la consulta son obligatorias para abrir la historia clinica.", "error");
+            DevExpress.ui.notify("La causa externa o motivo de antención y la finalidad de la consulta son obligatorias para abrir la historia clínica.", "error");
             return false;
         } if ((ProgramasId == null || ProgramasId == "" || ProgramasId == 0) && (PertenecePrograma == true))
         {
@@ -72,7 +72,8 @@
     function @(Prefix)AbrirHC() {
 
         var hcTipoId = $("#@(Prefix)TipoHC").dxSelectBox("instance").option("value");
-        var causaExternaId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
+        //var causaExternaId = $("#@(Prefix)CausasExternasId").dxSelectBox("instance").option("value");
+        var CausaMotivoAtencionId = $("#@(Prefix)CausaMotivoAtencionId").dxSelectBox("instance").option("value");
         var finalidadconsultaId = $("#@(Prefix)FinalidadConsultaId").dxSelectBox("instance").option("value");
         var programasId = $("#@(Prefix)ProgramasId").dxSelectBox("instance").option("value");
         var enfermedadesHuerfanasId = $("#@(Prefix)EnfermedadesHuerfanasId").dxSelectBox("instance").option("value");
@@ -87,7 +88,7 @@
             {
                 atentionId: @Model.Entity.Id,
                 hcTipoId: hcTipoId,
-                causaExternaId: causaExternaId,
+                CausaMotivoAtencionId: CausaMotivoAtencionId,
                 finalidadconsultaId: finalidadconsultaId,
                 programasId: programasId,
                 enfermedadesHuerfanasId: enfermedadesHuerfanasId,

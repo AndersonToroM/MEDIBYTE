@@ -7,10 +7,8 @@ namespace Blazor.Infrastructure.Entities
 
     public partial class Entidades 
     {
-        [NotMapped]
         public List<EntidadesResponsabilidadesFiscales> EntidadesResponsabilidadesFiscales { get; set; }
 
-        [NotMapped]
         public List<EntidadesEsquemasImpuestos> EntidadesEsquemasImpuestos { get; set; }
 
         public string GetResponsabilidadesFiscales()

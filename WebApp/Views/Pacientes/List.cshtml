@@ -105,10 +105,16 @@
             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("Get").Key("Id"))
             .Columns(columns =>
             {
+                columns.AddFor(m => m.Id).SortOrder(SortOrder.Desc).Visible(false);
                 columns.AddFor(m => m.TiposIdentificacion.Nombre).Caption(DApp.GetResource("Empleados.TipoIdentificacion"));
                 columns.AddFor(m => m.NumeroIdentificacion).Caption(DApp.GetResource("Empleados.NumeroIdentificacion"));
                 columns.AddFor(m => m.NombreCompleto).Caption(DApp.GetResource("Empleados.NombresApellidos")).ShowInColumnChooser(false);
                 columns.AddFor(m => m.TiposRegimenes.Nombre);
+                columns.AddFor(m => m.CorreoElectronico);
+                columns.AddFor(m => m.Telefono);
+                columns.AddFor(m => m.Direccion);
+                columns.AddFor(m => m.Ciudades.Nombre).Caption(DApp.GetResource("Pacientes.CiudadResidencia"));
+                columns.AddFor(m => m.PaisesOrigen.Nombre).Caption(DApp.GetResource("Pacientes.PaisOrigen"));
              })
         )
 </div>

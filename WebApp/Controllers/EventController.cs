@@ -93,6 +93,7 @@ namespace Blazor.WebApp.Controllers
                         invoice.XmlUrl = eventR.XmlDoc;
                         invoice = manager.GetBusinessLogic<Facturas>().Modify(invoice);
 
+                        job.Host = Request.Host.Value;
                         job.Tipo = 1;
                         job.IdTipo = invoice.Id;
                         manager.GetBusinessLogic<ConfiguracionEnvioEmailJob>().Add(job);
@@ -117,6 +118,7 @@ namespace Blazor.WebApp.Controllers
                         note.XmlUrl = eventR.XmlDoc;
                         manager.GetBusinessLogic<Notas>().Modify(note);
 
+                        job.Host = Request.Host.Value;
                         job.Tipo = 2;
                         job.IdTipo = note.Id;
                         manager.GetBusinessLogic<ConfiguracionEnvioEmailJob>().Add(job);

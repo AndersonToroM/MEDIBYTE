@@ -7,6 +7,7 @@ using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,10 @@ namespace Blazor.WebApp.Controllers
         private AdmisionesModel EditModel(long Id)
         {
             AdmisionesModel model = new AdmisionesModel();
-            model.Entity = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == Id, true);
+            model.Entity = Manager().GetBusinessLogic<Admisiones>().Tabla(true)
+            .Include(x => x.ProgramacionCitas.Servicios.TiposServicios)
+            .FirstOrDefault(x => x.Id == Id);
+            //model.Entity = Manager().GetBusinessLogic<Admisiones>().FindById(x => x.Id == Id, true);
             model.EntidadesConvenio = GetEntidadesConvenios(model.Entity.ConveniosId);
             model.EmpleadosId = model.Entity.ProgramacionCitas.EmpleadosId;
             model.ConsultoriosId = model.Entity.ProgramacionCitas.ConsultoriosId;
@@ -246,7 +250,20 @@ namespace Blazor.WebApp.Controllers
         {
             try
             {
-                var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name);
+                var parametrosGenerales = Manager().GetBusinessLogic<ParametrosGenerales>().Tabla().FirstOrDefault();
+
+                if (parametrosGenerales == null || string.IsNullOrWhiteSpace(parametrosGenerales.LinkVerificacionDIAN))
+                {
+                    throw new Exception("El link de validación DIAN no se encuentra parametrizado en el sistema.");
+                }
+
+                var parametrosReporte = new Dictionary<string, object>
+                {
+                    {"p_LinkValidacionDIAN", parametrosGenerales.LinkVerificacionDIAN }
+                };
+
+                var report = Manager().Report<FacturasParticularReporte>(Id, User.Identity.Name, parametrosReporte);
+
                 return PartialView("_ViewerReport", report);
 
             }

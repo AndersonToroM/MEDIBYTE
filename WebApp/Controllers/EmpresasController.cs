@@ -291,35 +291,71 @@ namespace Blazor.WebApp.Controllers
             return File(model.Archivo, model.TipoContenido, model.Nombre);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerXMLNotaDebito(int id)
-        {
-            var xml = await Manager().NotasBusinessLogic().ObtenerXMLNotaDebito(id);
-            var path = Path.GetTempFileName();
-            System.IO.File.WriteAllText(path, xml);
-            var bytes = System.IO.File.ReadAllBytes(path);
-            return File(bytes, "text/xml", $"Nota_{id}.xml");
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> ObtenerXMLNotaDebito(int id)
+        //{
+        //    var xml = await Manager().NotasBusinessLogic().ObtenerXMLNotaDebito(id);
+        //    var path = Path.GetTempFileName();
+        //    System.IO.File.WriteAllText(path, xml);
+        //    var bytes = System.IO.File.ReadAllBytes(path);
+        //    return File(bytes, "text/xml", $"Nota_{id}.xml");
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerXMLNotaCredito(int id)
-        {
-            var xml = await Manager().NotasBusinessLogic().ObtenerXMLNotaCredito(id);
-            var path = Path.GetTempFileName();
-            System.IO.File.WriteAllText(path, xml);
-            var bytes = System.IO.File.ReadAllBytes(path);
-            return File(bytes, "text/xml", $"Nota_{id}.xml");
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> ObtenerXMLNotaCredito(int id)
+        //{
+        //    var xml = await Manager().NotasBusinessLogic().ObtenerXMLNotaCredito(id);
+        //    var path = Path.GetTempFileName();
+        //    System.IO.File.WriteAllText(path, xml);
+        //    var bytes = System.IO.File.ReadAllBytes(path);
+        //    return File(bytes, "text/xml", $"Nota_{id}.xml");
+        //}
 
         [HttpGet]
         public async Task<IActionResult> ObtenerXMLFactura(int id)
         {
-            var xml = await Manager().FacturasBusinessLogic().ObtenerXMLFactura(id);
-            var path = Path.GetTempFileName();
-            System.IO.File.WriteAllText(path, xml);
-            var bytes = System.IO.File.ReadAllBytes(path);
-            return File(bytes, "text/xml", $"Factura_{id}.xml");
+            var xmlDian = await Manager().FacturasBusinessLogic().GetArchivoXmlDIAN(id,  User.Identity.Name, Request.Host.Value);
+            return File(xmlDian.ContentBytes, xmlDian.ContentType, xmlDian.FileName);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ObtenerJsonRips(int id)
+        {
+            var json = await Manager().FacturasBusinessLogic().GetRipsJson(id, User.Identity.Name, Request.Host.Value);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, json);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/json", $"Factura_{id}_Rips.json");
+        }
+
+        [HttpGet]
+        public IActionResult ObtenerJsonFacturaFE(int id)
+        {
+            var json = Manager().FacturasBusinessLogic().GetFEJson(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, json);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/json", $"Factura_{id}_FE.json");
+        }
+
+        [HttpGet]
+        public IActionResult ObtenerJsonNotaDebitoFE(int id)
+        {
+            var json = Manager().NotasBusinessLogic().GetFENotaDebitoJson(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, json);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/json", $"NotaDebito_{id}_FE.json");
+        }
+
+        [HttpGet]
+        public IActionResult ObtenerJsonNotaCreditoFE(int id)
+        {
+            var json = Manager().NotasBusinessLogic().GetFENotaCreditoJson(id);
+            var path = Path.GetTempFileName();
+            System.IO.File.WriteAllText(path, json);
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, "application/json", $"NotaCredito_{id}_FE.json");
+        }
     }
 }

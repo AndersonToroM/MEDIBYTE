@@ -81,7 +81,7 @@ namespace Blazor.WebApp.Controllers
             {
                 Ciudades ciudad = Manager().GetBusinessLogic<Ciudades>().FindById(x => x.Id == model.Entity.CiudadesId, true);
                 model.Entity.DepartamentoId = ciudad.DepartamentosId;
-                model.Entity.PaisId = ciudad.Departamentos.PaisesId;
+                model.Entity.PaisesId = ciudad.Departamentos.PaisesId;
                 model.Entity.IsNew = false;
             }
             model.Entity.IsNew = false;
@@ -355,14 +355,19 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposRegimenes>().Tabla(true), loadOptions);
         }
         [HttpPost]
+        public LoadResult GetPaisesId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<Paises>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
         public LoadResult GetDepartamentosId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Departamentos>().Tabla(true), loadOptions);
         }
         [HttpPost]
-        public LoadResult GetPaisesId(DataSourceLoadOptions loadOptions)
+        public LoadResult GetPaisesOrigenId(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Paises>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<PaisesOrigen>().Tabla(true), loadOptions);
         }
 
         [HttpPost]
@@ -384,6 +389,11 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetTiposSangreId(DataSourceLoadOptions loadOptions)
         {
             return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposSangre>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetZonaTerritorialResidenciaId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<ZonaTerritorialResidencia>().Tabla(true), loadOptions);
         }
         [HttpPost]
         public LoadResult GetGenerosId(DataSourceLoadOptions loadOptions)

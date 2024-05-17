@@ -59,7 +59,7 @@ namespace Blazor.Infrastructure.Entities
        {
         var rules = new List<ExpRecurso>();
         Expression<Func<Admisiones, bool>> expression0 = entity => entity.OcupacionesId == this.Id;
-        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Diagnosticos"), typeof(Diagnosticos)));
+        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL", "Admisiones"), typeof(Admisiones)));
 
        return rules;
        }

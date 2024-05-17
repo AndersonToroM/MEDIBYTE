@@ -29,11 +29,16 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("TiposPersonas.Codigo",10)]
        public virtual String Codigo { get; set; }
 
-       #endregion
+        [Column("NombreFE")]
+        [DDisplayName("TiposPersonas.NombreFE")]
+        [DStringLength("TiposPersonas.NombreFE", 30)]
+        public virtual String NombreFE { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        #region Reglas expression
+
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<TiposPersonas, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;

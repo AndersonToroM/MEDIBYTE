@@ -29,6 +29,11 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("Paises.Codigo",5)]
        public virtual String Codigo { get; set; }
 
+       [Column("CodigoISO3166Num")]
+       [DDisplayName("Paises.CodigoISO3166Num")]
+       [DStringLength("Paises.CodigoISO3166Num",5)]
+       public virtual String CodigoISO3166Num { get; set; }
+
        #endregion
 
        #region Reglas expression

@@ -25,7 +25,6 @@ namespace Blazor.Infrastructure.Entities
 
        [Column("Descripcion")]
        [DDisplayName("Documentos.Descripcion")]
-       [DRequired("Documentos.Descripcion")]
        [DStringLength("Documentos.Descripcion",250)]
        public virtual String Descripcion { get; set; }
 
@@ -74,11 +73,16 @@ namespace Blazor.Infrastructure.Entities
        [DStringLength("Documentos.Codigo85",2)]
        public virtual String Codigo85 { get; set; }
 
-       #endregion
+        [Column("ExternalKey")]
+        [DDisplayName("Documentos.ExternalKey")]
+        [DStringLength("Documentos.ExternalKey", 30)]
+        public virtual String ExternalKey { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        #region Reglas expression
+
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<Documentos, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;

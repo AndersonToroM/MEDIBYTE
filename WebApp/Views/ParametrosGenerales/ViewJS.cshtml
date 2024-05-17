@@ -2,6 +2,7 @@
 @{
     string Prefix = "ParametrosGenerales";
     string UrlCambiarEstados = Url.Action("CambiarEstadoAtencion", Prefix, new { id = Model.Entity.Id });
+    string UrlAnularHC = Url.Action("CambiarEstadoHC", Prefix, new { id = Model.Entity.Id });
 }
 
 <script>
@@ -47,6 +48,44 @@
                             DevExpress.ui.notify("Error: " + xhr.responseText, "error", 4000);
                     }
                 });
+        });
+    }
+
+    function @(Prefix)OnClickCambiarEstadoHC(data)
+    {
+        var consecutivoHC = $("#@(Prefix)ConsecutivoHC").dxTextBox("instance").option("value");
+        var detalleAnulacionHC = $("#@(Prefix)DetalleAnulacionHC").dxTextArea("instance").option("value");
+
+        if (consecutivoHC == "" || consecutivoHC == null ||
+            detalleAnulacionHC == "" || detalleAnulacionHC == null) {
+            DevExpress.ui.notify("Error: El consecutivo de la historia clínica y el motivo de anulación son obligatorios.", "error", 4000);
+            return false;
+        }
+
+        var result = DevExpress.ui.dialog.confirm("<i>¿Seguro de cambiar el estado de la historia clínica a \"Anulada\"?</i>", "Confirmar");
+        result.done(function (dialogResult) {
+            if (!dialogResult) {
+                return false;
+            }
+
+            showLoadIndicator();
+            $.ajax({
+                url: "@UrlAnularHC",
+                data: { consecutivoHC: consecutivoHC, detalleAnulacionHC: detalleAnulacionHC },
+                type: 'POST',
+                success: function (data) {
+                    hideLoadIndicator();
+                    DevExpress.ui.notify("El cambio de estado se realizó satisfactoriamente.", "info");
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                    hideLoadIndicator();
+                    if (xhr.responseText == "" || xhr.responseText == null)
+                        DevExpress.ui.notify("Error: " + xhr.status + " - " + xhr.statusText, "error", 4000);
+                    else
+                        DevExpress.ui.notify("Error: " + xhr.responseText, "error", 4000);
+                }
+            });
         });
     }
 
@@ -105,6 +144,41 @@
     {
         hideLoadIndicator();
         DevExpress.ui.notify("Error en el formulario","error");
+    }
+
+    function @(Prefix)ConfirmingPasswordIntegracionFE(params) {
+
+        var PasswordReal = $("#@(Prefix)PasswordIntegracionFE").dxTextBox("instance").option("value");
+        var ConfirmPassword = params.value;
+
+        if (PasswordReal != ConfirmPassword) {
+            params.rule.isValid = false;
+            params.rule.message = "La contraseña y su confirmación no coinciden";
+            params.validator.validate();
+            return false;
+        } else {
+            params.rule.isValid = true;
+            params.rule.message = "";
+            params.validator.validate();
+            return true;
+        }
+        return true;
+    }
+
+    function @(Prefix)OnValueChangedPasswordIntegracionFE(input) {
+        if (input.previousValue != input.value) {
+            $("#@(Prefix)ModifyPasswordIntegracionFE").dxCheckBox("instance").option("value", true);
+        }
+    }
+
+    function @(Prefix)OnClickBotonCambiarModoPasswordIntegracionFE() {
+        var passwordEditor = $("#@(Prefix)PasswordIntegracionFE").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+    }
+
+    function @(Prefix)OnClickBotonCambiarModoConfirmarPasswordIntegracionFE() {
+        var passwordEditor = $("#@(Prefix)ConfirmPasswordIntegracionFE").dxTextBox("instance");
+        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
     }
 
 </script>

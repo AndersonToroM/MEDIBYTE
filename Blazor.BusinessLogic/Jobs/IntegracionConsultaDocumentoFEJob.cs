@@ -1,5 +1,4 @@
 ﻿using Dominus.Backend.Application;
-using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Quartz;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 namespace Blazor.BusinessLogic.Jobs
 {
     [DisallowConcurrentExecution]
-    public class EnvioCorreoEventoAceptaJob : IJob
+    public class IntegracionConsultaDocumentoFEJob : IJob
     {
         public async Task Execute(IJobExecutionContext context)
         {
@@ -17,16 +16,16 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (tenant != null)
                 {
-                    var ejecuto = await new JobsBusinessLogic(tenant.DataBaseSetting).EnvioCorreoEventoAcepta();
+                    var ejecuto = await new JobsBusinessLogic(tenant.DataBaseSetting).IntegracionConsultaDocumentoFEJob();
                     if (ejecuto)
                     {
-                        new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), true, "Envio Correo Accepta");
+                        new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(IntegracionConsultaDocumentoFEJob), true, "Integracion Consulta Documento FE");
                     }
                 }
             }
             catch (System.Exception ex)
             {
-                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(EnvioCorreoEventoAceptaJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
+                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(IntegracionConsultaDocumentoFEJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
             }
         }
     }

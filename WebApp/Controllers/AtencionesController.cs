@@ -150,9 +150,9 @@ namespace Blazor.WebApp.Controllers
                 throw new DAppException($"La cita está programada con el profesional {admision.ProgramacionCitas.Empleados.NombreCompleto}. No es posible continuar la atención.");
             }
 
-            if (model.Entity.PertenecePrograma == true)
+            if (model.Entity.PertenecePrograma == true && model.Entity.ProgramasId == null)
             {
-                throw new DAppException($"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?. No es posible continuar la atención.");
+                throw new DAppException($"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?.");
             }
 
             model.Entity.TiposIdentificacionPacienteAtencionesAperturaId = admision.Pacientes.TiposIdentificacionId;
@@ -215,9 +215,9 @@ namespace Blazor.WebApp.Controllers
 
             var llaves = ModelState.Where(x => x.Key.Contains("Entity.Admisiones.")).Select(x => x.Key).ToList();
 
-            if (model.Entity.PertenecePrograma == true)
+            if (model.Entity.PertenecePrograma == true && model.Entity.ProgramasId == null)
             {
-                ModelState.AddModelError("Entity.Id", $"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?. No es posible continuar la atención.");
+                ModelState.AddModelError("Entity.Id", $"Debe seleccionar el programa al cual pertenece el paciente o desmarcar el campo ¿Pertenece a un programa?.");
             }
 
             foreach (var key in llaves)
@@ -409,6 +409,11 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetEmpleadosId(DataSourceLoadOptions loadOptions)
         { 
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Empleados>().Tabla(true), loadOptions);
+        }
+        [HttpPost]
+        public LoadResult GetCausaMotivoAtencionId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<CausaMotivoAtencion>().Tabla(true), loadOptions);
         }
         [HttpPost]
         public LoadResult GetEstadosId(DataSourceLoadOptions loadOptions)

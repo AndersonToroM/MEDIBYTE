@@ -78,7 +78,7 @@ namespace Blazor.BusinessLogic
             }
         }
 
-        public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null , string error = null)
+        public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null, string error = null)
         {
             try
             {
@@ -108,12 +108,12 @@ namespace Blazor.BusinessLogic
 
         #endregion
 
-        public async Task<bool> EnvioCorreoEventoAcepta()
+        public async Task<bool> IntegracionConsultaDocumentoFEJob()
         {
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-            ConfiguracionEnvioEmailJob job = unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Table
+            ResultadoIntegracionFEJob job = unitOfWork.Repository<ResultadoIntegracionFEJob>().Table
                 .OrderBy(x => x.CreationDate)
-                .FirstOrDefault(x => !x.Exitoso && x.Intentos < 3);
+                .FirstOrDefault(x => !x.Exitoso && !string.IsNullOrWhiteSpace(x.Host) && x.Intentos < 3);
 
             if (job == null)
             {
@@ -124,11 +124,11 @@ namespace Blazor.BusinessLogic
             {
                 if (job.Tipo == (int)TipoDocumento.Factura) // Tipo factura
                 {
-                    await new FacturasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Factura Evento DIAN", DApp.Util.UserSystem);
+                    await new FacturasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, job);
                 }
                 else if (job.Tipo == (int)TipoDocumento.Nota) // Tipo Nota
                 {
-                    await new NotasBusinessLogic(UnitOfWork.Settings).EnviarEmail(job.IdTipo, "Envio Nota Evento DIAN", DApp.Util.UserSystem);
+                     await new NotasBusinessLogic(UnitOfWork.Settings).ConsultarEstadoDocumento(job.IdTipo, DApp.Util.UserSystem, job.Host, job);
                 }
             }
             catch (Exception ex)
@@ -136,8 +136,8 @@ namespace Blazor.BusinessLogic
                 job.Ejecutado = true;
                 job.Exitoso = false;
                 job.Intentos++;
-                job.Detalle +=  $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
-                unitOfWork.Repository<ConfiguracionEnvioEmailJob>().Modify(job);
+                job.Detalle += $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
             }
 
             return true;

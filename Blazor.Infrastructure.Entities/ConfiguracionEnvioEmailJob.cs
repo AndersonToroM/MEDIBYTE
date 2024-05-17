@@ -17,6 +17,11 @@ namespace Blazor.Infrastructure.Entities
 
         #region Columnas normales)
 
+        [Column("Host")]
+        [DDisplayName("ConfiguracionEnvioEmailJob.Host")]
+        [DStringLength("ConfiguracionEnvioEmailJob.Host", 250)]
+        public virtual String Host { get; set; }
+
         [Column("Tipo")]
         [DDisplayName("ConfiguracionEnvioEmailJob.Tipo")]
         [DRequired("ConfiguracionEnvioEmailJob.Tipo")]

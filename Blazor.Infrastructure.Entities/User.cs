@@ -15,116 +15,131 @@ namespace Blazor.Infrastructure.Entities
     public partial class User : BaseEntity
     {
 
-       #region Columnas normales)
+        #region Columnas normales)
 
-       [Column("UserName")]
-       [DDisplayName("Users.UserName")]
-       [DRequired("Users.UserName")]
-       [DStringLength("Users.UserName",50)]
-       public virtual String UserName { get; set; }
+        [Column("UserName")]
+        [DDisplayName("Users.UserName")]
+        [DRequired("Users.UserName")]
+        [DStringLength("Users.UserName", 50)]
+        public virtual String UserName { get; set; }
 
-       [Column("Password")]
-       [DDisplayName("Users.Password")]
-       [DRequired("Users.Password")]
-       [DStringLength("Users.Password",255)]
-       public virtual String Password { get; set; }
+        [Column("Password")]
+        [DDisplayName("Users.Password")]
+        [DRequired("Users.Password")]
+        [DStringLength("Users.Password", 255)]
+        public virtual String Password { get; set; }
 
-       [Column("Email")]
-       [DDisplayName("Users.Email")]
-       [DRequired("Users.Email")]
-       [DStringLength("Users.Email",255)]
-       public virtual String Email { get; set; }
+        [Column("Email")]
+        [DDisplayName("Users.Email")]
+        [DRequired("Users.Email")]
+        [DStringLength("Users.Email", 255)]
+        public virtual String Email { get; set; }
 
-       [Column("Names")]
-       [DDisplayName("Users.Names")]
-       [DStringLength("Users.Names",60)]
-       public virtual String Names { get; set; }
+        [Column("Names")]
+        [DDisplayName("Users.Names")]
+        [DStringLength("Users.Names", 60)]
+        public virtual String Names { get; set; }
 
-       [Column("LastNames")]
-       [DDisplayName("Users.LastNames")]
-       [DStringLength("Users.LastNames",60)]
-       public virtual String LastNames { get; set; }
+        [Column("LastNames")]
+        [DDisplayName("Users.LastNames")]
+        [DStringLength("Users.LastNames", 60)]
+        public virtual String LastNames { get; set; }
 
-       [Column("IdentificationNumber")]
-       [DDisplayName("Users.IdentificationNumber")]
-       [DStringLength("Users.IdentificationNumber",20)]
-       public virtual String IdentificationNumber { get; set; }
-
-       [Column("IdentificationTypeId")]
-       [DDisplayName("Users.IdentificationTypeId")]
-       [DStringLength("Users.IdentificationTypeId",3)]
-       public virtual String IdentificationTypeId { get; set; }
+        [Column("IdentificationNumber")]
+        [DDisplayName("Users.IdentificationNumber")]
+        [DStringLength("Users.IdentificationNumber", 20)]
+        public virtual String IdentificationNumber { get; set; }
 
        [Column("GenderId")]
        [DDisplayName("Users.GenderId")]
        [DStringLength("Users.GenderId",1)]
        public virtual String GenderId { get; set; }
 
-       [Column("IsActive")]
-       [DDisplayName("Users.IsActive")]
-       [DRequired("Users.IsActive")]
-       public virtual Boolean IsActive { get; set; }
+        [Column("IsActive")]
+        [DDisplayName("Users.IsActive")]
+        [DRequired("Users.IsActive")]
+        public virtual Boolean IsActive { get; set; }
 
-       #endregion
+        [Column("PasswordRips")]
+        [DDisplayName("Users.PasswordRips")]
+        [DStringLength("Users.PasswordRips", 255)]
+        public virtual String PasswordRips { get; set; }
 
-       #region Reglas expression
+        #endregion
 
-       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
-       {
-       Expression<Func<User, bool>> expression = entity => entity.Id == this.Id;
-       return expression as Expression<Func<T, bool>>;
-       }
+        #region Columnas referenciales)
 
-       public override List<ExpRecurso> GetAdicionarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<User, bool>> expression = null;
+        [Column("IdentificationTypeId")]
+        [DDisplayName("Users.IdentificationTypeId")]
+        public virtual Int64? IdentificationTypeId { get; set; }
 
-        expression = entity => entity.UserName == this.UserName;
-        rules.Add(new ExpRecurso(expression.ToExpressionNode() , new Recurso("BLL.BUSINESS.UNIQUE", "Users.UserName" )));
+        #endregion
 
-       return rules;
-       }
+        #region Propiedades referencias de entrada)
 
-       public override List<ExpRecurso> GetModificarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<User, bool>> expression = null;
+        [ForeignKey("IdentificationTypeId")]
+        public virtual TiposIdentificacion IdentificationType { get; set; }
 
-        expression = entity => !(entity.Id == this.Id && entity.UserName == this.UserName)
-                               && entity.UserName == this.UserName;
-        rules.Add(new ExpRecurso(expression.ToExpressionNode() , new Recurso("BLL.BUSINESS.UNIQUE", "Users.UserName" )));
+        #endregion
 
-       return rules;
-       }
+        #region Reglas expression
 
-       public override List<ExpRecurso> GetEliminarExpression<T>()
-       {
-        var rules = new List<ExpRecurso>();
-        Expression<Func<Admisiones, bool>> expression0 = entity => entity.UserAproboId == this.Id;
-        rules.Add(new ExpRecurso(expression0.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Admisiones"), typeof(Admisiones)));
+        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+        {
+            Expression<Func<User, bool>> expression = entity => entity.Id == this.Id;
+            return expression as Expression<Func<T, bool>>;
+        }
 
-        Expression<Func<CiclosCajas, bool>> expression1 = entity => entity.CloseUsersId == this.Id;
-        rules.Add(new ExpRecurso(expression1.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","CiclosCajas"), typeof(CiclosCajas)));
+        public override List<ExpRecurso> GetAdicionarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<User, bool>> expression = null;
 
-        Expression<Func<CiclosCajas, bool>> expression2 = entity => entity.OpenUsersId == this.Id;
-        rules.Add(new ExpRecurso(expression2.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","CiclosCajas"), typeof(CiclosCajas)));
+            expression = entity => entity.UserName == this.UserName;
+            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Users.UserName")));
 
-        Expression<Func<Empleados, bool>> expression3 = entity => entity.UserId == this.Id;
-        rules.Add(new ExpRecurso(expression3.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Empleados"), typeof(Empleados)));
+            return rules;
+        }
 
-        Expression<Func<ProfileUser, bool>> expression4 = entity => entity.UserId == this.Id;
-        rules.Add(new ExpRecurso(expression4.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProfileUsers"), typeof(ProfileUser)));
+        public override List<ExpRecurso> GetModificarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<User, bool>> expression = null;
 
-        Expression<Func<Sessions, bool>> expression5 = entity => entity.UserId == this.Id;
-        rules.Add(new ExpRecurso(expression5.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Sessions"), typeof(Sessions)));
+            expression = entity => !(entity.Id == this.Id && entity.UserName == this.UserName)
+                                   && entity.UserName == this.UserName;
+            rules.Add(new ExpRecurso(expression.ToExpressionNode(), new Recurso("BLL.BUSINESS.UNIQUE", "Users.UserName")));
 
-        Expression<Func<UserOffice, bool>> expression6 = entity => entity.UserId == this.Id;
-        rules.Add(new ExpRecurso(expression6.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","UserOffices"), typeof(UserOffice)));
+            return rules;
+        }
 
-       return rules;
-       }
+        public override List<ExpRecurso> GetEliminarExpression<T>()
+        {
+            var rules = new List<ExpRecurso>();
+            Expression<Func<Admisiones, bool>> expression0 = entity => entity.UserAproboId == this.Id;
+            rules.Add(new ExpRecurso(expression0.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "Admisiones"), typeof(Admisiones)));
 
-       #endregion
+            Expression<Func<CiclosCajas, bool>> expression1 = entity => entity.CloseUsersId == this.Id;
+            rules.Add(new ExpRecurso(expression1.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "CiclosCajas"), typeof(CiclosCajas)));
+
+            Expression<Func<CiclosCajas, bool>> expression2 = entity => entity.OpenUsersId == this.Id;
+            rules.Add(new ExpRecurso(expression2.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "CiclosCajas"), typeof(CiclosCajas)));
+
+            Expression<Func<Empleados, bool>> expression3 = entity => entity.UserId == this.Id;
+            rules.Add(new ExpRecurso(expression3.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "Empleados"), typeof(Empleados)));
+
+            Expression<Func<ProfileUser, bool>> expression4 = entity => entity.UserId == this.Id;
+            rules.Add(new ExpRecurso(expression4.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "ProfileUsers"), typeof(ProfileUser)));
+
+            Expression<Func<Sessions, bool>> expression5 = entity => entity.UserId == this.Id;
+            rules.Add(new ExpRecurso(expression5.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "Sessions"), typeof(Sessions)));
+
+            Expression<Func<UserOffice, bool>> expression6 = entity => entity.UserId == this.Id;
+            rules.Add(new ExpRecurso(expression6.ToExpressionNode(), new Recurso("BLL.BUSINESS.DELETE_REL", "UserOffices"), typeof(UserOffice)));
+
+            return rules;
+        }
+
+        #endregion
     }
- }
+}

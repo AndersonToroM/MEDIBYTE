@@ -10,9 +10,7 @@
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("ParametrosGenerales"))
         .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew);
-    //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
-    //.Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
-    //.Back(UrlBack);
+
 }
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" />
@@ -31,11 +29,70 @@
                 @(Html.DControls().DateBoxFor(m => m.Entity.LastUpdate).ID(Prefix + "LastUpdate").Type(DateBoxType.Time).Visible(false))
                 @(Html.DControls().TextBoxFor(m => m.Entity.CreatedBy).ID(Prefix + "CreatedBy").Visible(false))
                 @(Html.DControls().DateBoxFor(m => m.Entity.CreationDate).ID(Prefix + "CreationDate").Type(DateBoxType.Time).Visible(false))
+                @(Html.DControls().CheckBoxFor(m => m.ModifyPasswordIntegracionFE).ID(Prefix + "ModifyPasswordIntegracionFE").Visible(false))
 
                 @(Html.DControls().Form<ParametrosGeneralesModel>()
                     .ID("ParametrosGeneralesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
                     .Items(items =>
                     {
+                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.IntegracionFE"))
+                            .Items(groupItems =>{
+ 
+                                groupItems.AddSimpleFor(m => m.Entity.UsuarioIntegracionFE).ColSpan(4)
+                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("ParametrosGenerales.FechaDesdeAtenciones")))
+                                      .Editor(e=>e.TextBox().ID(Prefix + "UsuarioIntegracionFE")
+                                      .ShowClearButton(true)
+                                      );
+                                groupItems.AddSimpleFor(x=>x.Entity.PasswordIntegracionFE).ColSpan(4)
+                                    .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID($"{Prefix}PasswordIntegracionFE").Value(Model.Entity.PasswordIntegracionFE)
+                                        .OnValueChanged($"{Prefix}OnValueChangedPasswordIntegracionFE")
+                                        .Buttons(buttons =>
+                                        {
+                                            buttons.Add()
+                                                .Name($"{Prefix}BotonCambiarModoPasswordIntegracionFE")
+                                                .Location(TextEditorButtonLocation.After)
+                                                .Widget(w => w.Button()
+                                                    .Type(ButtonType.Normal)
+                                                    .Icon(Url.Content("~/images/eye_open_icon.png"))
+                                                    .OnClick($"{Prefix}OnClickBotonCambiarModoPasswordIntegracionFE")
+                                                );
+                                        })
+                                    );
+
+                                groupItems.AddSimple().Label(l => l.Text(DApp.DefaultLanguage.GetResource("ParametrosGenerales.ConfirmarPasswordIntegracionFE"))).ColSpan(4)
+                                    .Editor(e => e.TextBox().ShowClearButton(true).Mode(TextBoxMode.Password).ID($"{Prefix}ConfirmPasswordIntegracionFE").Value(Model.Entity.PasswordIntegracionFE)
+                                        .Buttons(buttons =>
+                                        {
+                                            buttons.Add()
+                                                .Name($"{Prefix}BotonCambiarModoConfirmarPasswordIntegracionFE")
+                                                .Location(TextEditorButtonLocation.After)
+                                                .Widget(w => w.Button()
+                                                    .Type(ButtonType.Normal)
+                                                    .Icon(Url.Content("~/images/eye_open_icon.png"))
+                                                    .OnClick($"{Prefix}OnClickBotonCambiarModoConfirmarPasswordIntegracionFE")
+                                                );
+                                        })
+                                    )
+                                    .ValidationRules(rules => rules.AddCustom().ValidationCallback($"{Prefix}ConfirmingPasswordIntegracionFE"));
+
+                            groupItems.AddSimpleFor(x => x.Entity.CompanyIdFE).ColSpan(4)
+                                .ValidationRules(rules => rules.AddStringLength().Min(36).Max(36).Message(DApp.GetStringLengthResource("ParametrosGenerales.CompanyIdFE", 36))) 
+                                .Editor(e => e.TextBox().ShowClearButton(true).ID($"{Prefix}CompanyIdFE"));
+
+                            groupItems.AddSimpleFor(x => x.Entity.OperadorFE).ColSpan(4)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(30).Message(DApp.GetStringLengthResource("ParametrosGenerales.OperadorFE", 30)))
+                                .Editor(e => e.TextBox().ShowClearButton(true).ID($"{Prefix}OperadorFE"));
+
+                            groupItems.AddSimpleFor(x => x.Entity.EmailRecepcionFE).ColSpan(4)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("ParametrosGenerales.EmailRecepcionFE", 250)))
+                                .Editor(e => e.TextBox().ShowClearButton(true).ID($"{Prefix}EmailRecepcionFE"));
+
+                            groupItems.AddSimpleFor(x => x.Entity.LinkVerificacionDIAN).ColSpan(4)
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2048).Message(DApp.GetStringLengthResource("ParametrosGenerales.LinkVerificacionDIAN", 2048)))
+                                .Editor(e => e.TextBox().ReadOnly(true).ID($"{Prefix}LinkVerificacionDIAN"));
+
+                            });
+
                         items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Atenciones"))
                             .Items(groupItems =>{
                                 groupItems.AddSimpleFor(m => m.Entity.HabilitarAnteciones).Label(x=>x.Visible(false)).ColSpan(2)
@@ -82,6 +139,30 @@
 
                             });
 
+                            items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.AnularHC"))
+                            .Items(groupItems =>
+                            {
+                                groupItems.AddSimple().ColSpan(12).Label(x => x.Text(""))
+                                    .Editor(x => x.TextBox().Height(25).ReadOnly(true).Value(DApp.GetResource("ParametrosGenerales.TextoAyudaCambiarEstadosHC"))
+                                );
+                                    
+                                groupItems.AddSimple().ColSpan(2).Label(x=>x.Text(DApp.GetResource("ParametrosGenerales.ConsecutivoHC")))
+                                      .Editor(e => e.TextBox().ID(Prefix + "ConsecutivoHC")
+                                      .ShowClearButton(true)
+                                      );
+                                groupItems.AddSimple().ColSpan(8).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.DetalleAnulacionHC")))
+                                     .Editor(e => e.TextArea().Height(35).ID(Prefix + "DetalleAnulacionHC")
+                                      );
+                            groupItems.AddSimple().ColSpan(2).Label(x => x.Text(DApp.GetResource("ParametrosGenerales.FechaAnulacionHC")))
+                                    .Editor(e => e.DateBox().ID(Prefix + "FechaAnulacionHC").Value(DateTime.Now).ReadOnly(true)
+                                );
+                                groupItems.AddButton().ColSpan(12).VerticalAlignment(VerticalAlignment.Center).HorizontalAlignment(HorizontalAlignment.Center)
+                                    .ButtonOptions(x => x.Text(DApp.GetResource("ParametrosGenerales.AnularHC")).Type(ButtonType.Default)
+                                    .UseSubmitBehavior(false).OnClick($"{Prefix}OnClickCambiarEstadoHC")
+                                );
+
+                            });
+
                         items.AddGroup().ColCount(12).ColSpan(6).Caption(DApp.DefaultLanguage.GetResource("ParametrosGenerales.Lecturas"))
                             .Items(groupItems =>{
                                 groupItems.AddSimpleFor(m => m.Entity.EsObligatorioAudioLectura).Label(x=>x.Visible(false)).ColSpan(12)
@@ -89,7 +170,6 @@
                                       .Text(DApp.DefaultLanguage.GetResource("ParametrosGenerales.EsObligatorioAudioLectura"))
                                       );
                             });
-
                     })
                 )
             }

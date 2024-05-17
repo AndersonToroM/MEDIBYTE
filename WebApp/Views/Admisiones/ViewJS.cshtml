@@ -25,6 +25,7 @@
     function @(Prefix)OnValueChangedServiciosId() {
 
         var servicio = $("#@(Prefix)ServiciosId").dxSelectBox("instance").option("selectedItem");
+        
         if (servicio != null) {
             $("#@(Prefix)EstadosIdTipoDuracion").dxSelectBox("instance").option("value", servicio.EstadosIdTipoDuracion);
             $("#@(Prefix)Duracion").dxNumberBox("instance").option("value", servicio.Duracion);
@@ -54,18 +55,30 @@
 
     function @(Prefix)EnviarDIAN() {
 
+        $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", true);
         showLoadIndicator();
         $.ajax({
             url: "@UrlEnviarDian",
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-                $("#mainPanel").html(data);
+
+                console.log("Resultado Envio Factura FE: ", data);
+
+                if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
+
+                    MostrarDialogoDeAlerta(data.Errores, "Integración FE");
+                    $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
+                    return false;
+                }
+
+                DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
             },
             error: function (xhr) {
                 console.log(xhr);
                 hideLoadIndicator();
-                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error");
+                $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
+                DevExpress.ui.notify("Error inesperado " + xhr.responseText, "error", 5000);
             }
         });
     }
@@ -279,6 +292,7 @@
 
     function @(Prefix)OnSelectionChangedCitas(item) {
 
+        var tipoServicio = 0;
         var Cita = item.selectedRowsData[0];
         if (Cita) {
             $("#@(Prefix)CitasId").dxNumberBox("instance").option("value", Cita.Id);
@@ -292,6 +306,18 @@
             $("#@(Prefix)Cantidad").dxNumberBox("instance").option("value", Cita.Cantidad);
             $("#@(Prefix)ValorPagoEstadosId").dxSelectBox("instance").option("value", 10067);
             $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", Cita.PorcDescAutorizado);
+            /*
+            tipoServicio = Cita.Servicios.TiposServiciosId;
+
+            console.log("TS: ", tipoServicio);
+
+            if(tipoServicio == 1)
+            {
+                $("#@(Prefix)ViaIngresoServicioSaludId").dxSelectBox("instance").option("visible", false);
+            }else
+            {
+                $("#@(Prefix)ViaIngresoServicioSaludId").dxSelectBox("instance").option("visible", true);
+            }*/
 
             if (AdmisionNueva) {
                 ValorNormalCita = Cita.Servicios.TarifaPlena * Cita.Cantidad;

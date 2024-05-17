@@ -1,9 +1,7 @@
 ﻿using Dominus.Backend.Data;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 
 namespace Dominus.Backend.Application
 {
@@ -12,6 +10,10 @@ namespace Dominus.Backend.Application
         public string UserSystem = "Sistema SIISO.";
         public string EmailOrigen_PorDefecto = "POR DEFECTO";
         public string EmailOrigen_Facturacion = "FACTURACION";
+        public string ServiceRips = "Rips";
+        public string ServiceFE = "Saphety";
+
+        public Dian Dian = new Dian();
 
         public string QutarTildes(string data)
         {
@@ -525,5 +527,40 @@ namespace Dominus.Backend.Application
             {"swf", "application/x-shockwave-flash"},
             {"xml", "application/xml"}
         };
+    }
+
+    public class Dian
+    {
+        public string StatusCertified = "Certified";
+        public string StatusStaged = "Staged";
+        public string StatusWithErrors = "WithErrors";
+        public string StatusBadRequest = "BadRequest";
+
+        public string Currency = "COP";
+        public string OperationTypeSSRecaudo = "SS-Recaudo";
+        public string OperationTypeSSCUFE = "SS-CUFE";
+        public string OtherReference = "OtherReference";
+        public string OrderReference = "OrderReference";
+        public string InvoiceReference = "InvoiceReference";
+        public string QuantityUnitOfMeasure = "NAR";
+        public string FeCollectionName = "Usuario";
+
+        public string Reterenta = "RETERENTA";
+        public string Reteica = "RETEICA";
+        public string CodigoPrestador = "CODIGO_PRESTADOR";
+        public string CodeListName = "salud_cobertura.gc";
+        public string ModalidadPago = "MODALIDAD_PAGO";
+        public string OberturaPlanBeneficios = "OBERTURA_PLAN_BENEFICIOS";
+        public string NumeroContrato = "NUMERO_CONTRATO";
+        public string NumeroPoliza = "NUMERO_POLIZA";
+        public string Copago = "COPAGO";
+        public string CuotaModeradora = "CUOTA_MODERADORA";
+        public string CuotaRecuperacion = "CUOTA_RECUPERACION";
+        public string PagosCompartidos = "PAGOS_COMPARTIDOS";
+
+        public string OperationTypeNotaDebito = "30";
+        public string OperationTypeNotaCredito = "20";
+
+
     }
 }

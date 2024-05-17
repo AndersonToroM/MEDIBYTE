@@ -12,6 +12,9 @@ namespace Blazor.Infrastructure
     {
         #region Db Set
 
+        public DbSet<ResultadoIntegracionFEJob> ResultadoIntegracionFEJob { get; set; }
+        public DbSet<ResultadoIntegracionFE> ResultadoIntegracionFE { get; set; }
+        public DbSet<ResultadoIntegracionRips> ResultadoIntegracionRips { get; set; }
         public DbSet<AdministracionHonorarios> AdministracionHonorarios { get; set; }
         public DbSet<AdministracionHonorariosLecturas> AdministracionHonorariosLecturas { get; set; }
         public DbSet<AdministracionHonorariosServicios> AdministracionHonorariosServicios { get; set; }
@@ -162,6 +165,10 @@ namespace Blazor.Infrastructure
         public DbSet<Programas> Programas { get; set; }
         public DbSet<EnfermedadesHuerfanas> EnfermedadesHuerfanas { get; set; }
         public DbSet<Ocupaciones> Ocupaciones { get; set; }
+        public DbSet<ViaIngresoServicioSalud> ViaIngresoServicioSalud{ get; set; }
+        public DbSet<ModalidadAtencion> ModalidadAtencion { get; set; }
+        public DbSet<GrupoServciosRips> GrupoServciosRips { get; set; }
+        public DbSet<HabilitacionServciosRips> HabilitacionServciosRips { get; set; }
 
         #region VISTAS
         public DbSet<ServiciosFacturar> ServiciosFacturar { get; set; }

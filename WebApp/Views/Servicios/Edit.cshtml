@@ -43,7 +43,7 @@
                             .Items(groupItems =>
                             {
 
-                                groupItems.AddSimpleFor(m => m.Entity.CupsId).ColSpan(9)
+                                groupItems.AddSimpleFor(m => m.Entity.CupsId).ColSpan(6)
                                         .Editor(e => e.SelectBox().ID("CupsId")
                                         .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Servicios").LoadAction("GetCupsId").Key("Id"))
                                         .DataSourceOptions(o => o.Paginate(true).PageSize(50))
@@ -60,19 +60,41 @@
                                         .ValueExpr("Id").DisplayExpr("Nombre")
                                         .SearchEnabled(true).ShowClearButton(true)
                                         .OnValueChanged(Prefix + "OnValueChangedTiposServiciosId")
+                                        );
+
+                                groupItems.AddSimpleFor(m => m.Entity.GrupoServciosRipsId).ColSpan(3)
+                                .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Servicios.GrupoServciosRipsId")))
+                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Servicios.GrupoServciosRipsId")))
+                                .Editor(e => e.SelectBox().ID("GrupoServciosRipsId")
+                                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Servicios").LoadAction("GetGrupoServciosRipsId").Key("Id"))
+                                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Codigo", "Nombre")
+                                .SearchEnabled(true).ShowClearButton(true)
                                 );
-                                groupItems.AddSimpleFor(m => m.Entity.Codigo).ColSpan(3)
+
+                                groupItems.AddSimpleFor(m => m.Entity.Codigo).ColSpan(2)
                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Servicios.Codigo")))
                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Servicios.Codigo", 45)))
                                         .Editor(e => e.TextBox().ID(Prefix + "Codigo")
                                         .ShowClearButton(true).ReadOnly(!Model.Entity.IsNew)
                                     );
-                                groupItems.AddSimpleFor(m => m.Entity.Nombre).ColSpan(9)
+                                groupItems.AddSimpleFor(m => m.Entity.Nombre).ColSpan(5)
                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Servicios.Nombre")))
                                    .ValidationRules(rules => rules.AddStringLength().Min(0).Max(int.MaxValue).Message(DApp.GetStringLengthResource("Servicios.Nombre", int.MaxValue)))
                                         .Editor(e => e.TextBox().ID(Prefix + "Nombre")
                                         .ShowClearButton(true).ReadOnly(!Model.Entity.IsNew)
                                     );
+
+                                groupItems.AddSimpleFor(m => m.Entity.HabilitacionServciosRipsId).ColSpan(5)
+                                    .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Servicios.HabilitacionServciosRipsId")))
+                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Servicios.HabilitacionServciosRipsId")))
+                                    .Editor(e => e.SelectBox().ID("HabilitacionServciosRipsId")
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Servicios").LoadAction("GetHabilitacionServciosRipsId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .ValueExpr("Id").DisplayExpr("DescripcionCompleta").SearchExpr("Codigo", "Nombre", "Descripcion")
+                                    .SearchEnabled(true).ShowClearButton(true)
+                                    );
+
                                 groupItems.AddSimpleFor(m => m.Entity.EspecialidadesId).ColSpan(6)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Servicios.EspecialidadesId")))
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Servicios.EspecialidadesId")))

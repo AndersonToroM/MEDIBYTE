@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using Dominus.Backend.Data;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -268,6 +269,21 @@ namespace Blazor.WebApp.Controllers
             };
 
             return DataSourceLoader.Load(transacciones, loadOptions);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ObtenerDatosSeries(long Id)
+        {
+            try
+            {
+                var result = await Manager().DocumentosBusinessLogic().ObtenerDatosSeries(Id, Request.Host.Value);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.GetFullErrorMessage());
+            }
+
         }
 
     }

@@ -43,5 +43,15 @@ namespace Blazor.Infrastructure.Entities
                 return $"{Documentos?.Prefijo} - {NroConsecutivo} : Saldo = {Saldo.ToString("N0")}";
             }
         }
+
+        [NotMapped]
+        [DDisplayName("Facturas.EsFacturaInstitucional")]
+        public bool EsFacturaInstitucional
+        {
+            get
+            {
+                return EntidadesId.HasValue;
+            }
+        }
     }
 }
