@@ -4121,7 +4121,7 @@
   },
   {
     "Id": "Pacientes.ZonaTerritorialResidenciaId",
-    "Description": "Zona territoral"
+    "Description": "Zona territorial"
   },
   {
     "Id": "PacientesEntidades",
