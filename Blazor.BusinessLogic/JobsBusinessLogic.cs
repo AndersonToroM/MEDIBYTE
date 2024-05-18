@@ -148,7 +148,7 @@ namespace Blazor.BusinessLogic
             BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
 
             var fechaLimite = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 1, 0, 0);
-            var citas = unitOfWork.Repository<ProgramacionCitas>().Table.Where(x => x.EstadosId == 3 && x.FechaInicio < fechaLimite).ToList();
+            var citas = await unitOfWork.Repository<ProgramacionCitas>().Table.Where(x => x.EstadosId == 3 && x.FechaInicio < fechaLimite).ToListAsync();
 
             if(citas != null && citas.Any())
             {
