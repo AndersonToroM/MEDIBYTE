@@ -14,6 +14,7 @@ using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -1068,10 +1069,15 @@ namespace Blazor.BusinessLogic
             {
                 return FacturaIndividualParticular(admision, empresaId, cicloCaja.Id, usuario.UserName, unitOfWork);
             }
-            else if (admision.ValorPagoEstadosId == 58 || admision.ValorPagoEstadosId == 59 || admision.ValorPagoEstadosId == 68 | admision.ValorPagoEstadosId == 69)
+            else if (admision.ValorPagoEstadosId == 58 || admision.ValorPagoEstadosId == 59 
+                || admision.ValorPagoEstadosId == 68 || admision.ValorPagoEstadosId == 69)
             {
                 return FacturaIndividualCopagoCuotaModeradora(admision, empresaId, cicloCaja.Id, usuario.UserName, unitOfWork);
             }
+            /*else if (admision.ValorPagoEstadosId == 80)
+            {
+                return MetodoFacturaAnticipos;
+            }*/
             else
             {
                 throw new Exception($"Solo se permite facturar valores de COPAGO, CUOTA MODERADORA, CUOTA DE RECUPERACIÓN, PAGOS COMPARTIDOS o PARTICULAR.");

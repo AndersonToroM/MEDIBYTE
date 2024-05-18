@@ -21,8 +21,9 @@
         columns.AddFor(m => m.Entidades.Nombre);
         columns.AddFor(m => m.Nombre);
         columns.AddFor(m => m.Estados.Nombre);
-        columns.AddFor(m => m.FechaInicio);
+        columns.AddFor(m => m.FechaInicio).SortOrder(SortOrder.Asc); ;
         columns.AddFor(m => m.FechaCaducidad);
+        columns.AddFor(m => m.ModalidadesContratacion.Descripcion).Caption(DApp.DefaultLanguage.GetResource("Convenios.ModalidadesContratacion"));
 
     })
 ) 
