@@ -9,9 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using static Quartz.Logging.OperationName;
 
 namespace Blazor.BusinessLogic
 {
