@@ -33,7 +33,7 @@ namespace Blazor.BusinessLogic.Models
         public Guid? IdDocumentFE { get; set; }
         public string Status { get; set; } = string.Empty;
         public string Cufe { get; set; }
-        public DateTime IssueDate { get; set; }
+        public DateTime? IssueDate { get; set; }
     }
 
     public class IntegracionSeriesFEModel : IntegracionFEBase

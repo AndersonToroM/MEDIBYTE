@@ -188,16 +188,13 @@
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-
-                console.log("Resultado Envio Factura FE: ", data);
-
+                SetDataIntegracionFE(data);
                 if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
 
                     MostrarDialogoDeAlerta(data.Errores, "Integración FE");
                     $("#@(Prefix)BotonEnviarDIAN").dxButton("instance").option("disabled", false);
                     return false;
                 }
-                SetDataIntegracionFE(data);
                 DevExpress.ui.notify("Envio a la DIAN Satisfactorio", "info");
             },
             error: function (xhr) {
@@ -217,15 +214,12 @@
             type: 'GET',
             success: function (data) {
                 hideLoadIndicator();
-
-                console.log("Resultado Consulta documento FE: ", data);
-
+                SetDataIntegracionFE(data);
                 if ((data.HuboErrorFE || data.HuboErrorIntegracion) && data.Errores) {
 
                     MostrarDialogoDeAlerta(data.Errores, "Consulta de Datos FE");
                     return false;
                 }
-                SetDataIntegracionFE(data);
                 DevExpress.ui.notify("Consulta de Datos FE satisfactorio.", "info");
             },
             error: function (xhr) {
@@ -237,10 +231,19 @@
     }
 
     function SetDataIntegracionFE(integracion) {
-        $("#@(Prefix)CUFE").dxTextBox("instance").option("value", integracion.Cufe);
-        $("#@(Prefix)IssueDate").dxDateBox("instance").option("value", integracion.IssueDate);
-        $("#@(Prefix)DIANResponse").dxTextBox("instance").option("value", integracion.Status);
-        $("#@(Prefix)IdDocumentoFE").dxTextBox("instance").option("value", integracion.IdDocumentFE);
+
+        if (integracion.Cufe){
+            $("#@(Prefix)CUFE").dxTextBox("instance").option("value", integracion.Cufe);
+        }
+        if (integracion.IssueDate) {
+            $("#@(Prefix)IssueDate").dxDateBox("instance").option("value", integracion.IssueDate);
+        }
+        if (integracion.Status) {
+            $("#@(Prefix)DIANResponse").dxTextBox("instance").option("value", integracion.Status);
+        }
+        if (integracion.IdDocumentFE) {
+            $("#@(Prefix)IdDocumentoFE").dxTextBox("instance").option("value", integracion.IdDocumentFE);
+        }
     }
 
     function @(Prefix)EnviarEmailFactura() {
