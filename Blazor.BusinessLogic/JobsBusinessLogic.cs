@@ -142,5 +142,21 @@ namespace Blazor.BusinessLogic
 
             return true;
         }
+
+        public async Task<bool> CitasNoAsistidasJob()
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var fechaLimite = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 1, 0, 0);
+            var citas = await unitOfWork.Repository<ProgramacionCitas>().Table.Where(x => x.EstadosId == 3 && x.FechaInicio < fechaLimite).ToListAsync();
+
+            if(citas != null && citas.Any())
+            {
+                citas.ForEach(x => x.EstadosId = 9);
+                unitOfWork.Repository<ProgramacionCitas>().ModifyRange(citas);
+            }
+            return true;
+        }
+
     }
 }

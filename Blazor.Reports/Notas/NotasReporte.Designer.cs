@@ -155,6 +155,7 @@ namespace Blazor.Reports.Notas {
 
             // Parameters
             this.P_Ids = reportInitializer.GetParameter("P_Ids");
+            this.p_LinkValidacionDIAN = reportInitializer.GetParameter("p_LinkValidacionDIAN");
 
             // Data Sources
             this.FuenteDatos = reportInitializer.GetDataSource<DevExpress.DataAccess.Sql.SqlDataSource>("FuenteDatos");
@@ -298,5 +299,6 @@ namespace Blazor.Reports.Notas {
         private DevExpress.XtraReports.UI.XRLabel label1;
         private DevExpress.DataAccess.Sql.SqlDataSource FuenteDatos;
         private DevExpress.XtraReports.Parameters.Parameter P_Ids;
+        private DevExpress.XtraReports.Parameters.Parameter p_LinkValidacionDIAN;
     }
 }

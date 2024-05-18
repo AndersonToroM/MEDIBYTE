@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Blazor.BusinessLogic.Jobs
 {
     [DisallowConcurrentExecution]
-    public class IntegracionConsultaDocumentoFEJob : IJob
+    public class CitasNoAsistidasJob : IJob
     {
         public async Task Execute(IJobExecutionContext context)
         {
@@ -16,16 +16,16 @@ namespace Blazor.BusinessLogic.Jobs
             {
                 if (tenant != null)
                 {
-                    var ejecuto = await new JobsBusinessLogic(tenant.DataBaseSetting).IntegracionConsultaDocumentoFEJob();
+                    var ejecuto = await new JobsBusinessLogic(tenant.DataBaseSetting).CitasNoAsistidasJob();
                     if (ejecuto)
                     {
-                        new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(IntegracionConsultaDocumentoFEJob), true, "Integracion Consulta Documento FE");
+                        new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(CitasNoAsistidasJob), true, "Cita no asistida");
                     }
                 }
             }
             catch (System.Exception ex)
             {
-                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(IntegracionConsultaDocumentoFEJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
+                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(CitasNoAsistidasJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
             }
         }
     }
