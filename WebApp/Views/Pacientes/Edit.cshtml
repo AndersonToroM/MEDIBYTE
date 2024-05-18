@@ -199,7 +199,7 @@
                                         .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Pacientes.DepartamentoId")))
                                        .Editor(e => e.SelectBox().ID(Prefix + "Departamentos")
                                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Pacientes").LoadAction("GetDepartamentosId").Key("Id"))
-                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50).Filter("['PaisId','=','"+Model.Entity.PaisesId+"']"))
+                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50).Filter("['PaisesId','=','"+Model.Entity.PaisesId+"']"))
                                        .ValueExpr("Id").DisplayExpr("Nombre")
                                        .SearchEnabled(true).ShowClearButton(true)
                                        .OnValueChanged(Prefix + "OnValueChangedDepartamentos")
