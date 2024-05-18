@@ -658,9 +658,16 @@ namespace Blazor.BusinessLogic
             return JsonConvert.SerializeObject(feRootJson, Newtonsoft.Json.Formatting.Indented);
         }
 
-        private string GetPdfNotaReporte(Notas nota, string nameFaile, string user)
+        private string GetPdfNotaReporte(Notas nota, string nameFaile, string user, ParametrosGenerales parametrosGenerales)
         {
-            XtraReport xtraReport = ReportExtentions.Report<NotasReporte>(this.BusinessLogic, nota.Id, user);
+            XtraReport xtraReport = null;
+
+            var parametrosReporte = new Dictionary<string, object>
+                {
+                    {"p_LinkValidacionDIAN", parametrosGenerales.LinkVerificacionDIAN }
+                };
+
+            xtraReport = ReportExtentions.Report<NotasReporte>(this.BusinessLogic, nota.Id, user, parametrosReporte);
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"{(nota.Documentos.Transaccion == 3 ? "nc" : "nd")}{nameFaile}.pdf");
             PdfExportOptions pdfOptions = new PdfExportOptions();
@@ -700,9 +707,21 @@ namespace Blazor.BusinessLogic
 
                 var xmlDian = await GetArchivoXmlDIAN(nota.Id, user, host);
 
+                var parametrosGenerales = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+
+                if (parametrosGenerales == null)
+                {
+                    throw new Exception("Parametros Generales nulos");
+                }
+
+                if (string.IsNullOrWhiteSpace(parametrosGenerales.LinkVerificacionDIAN))
+                {
+                    throw new Exception($"El link de validacion DIAN no se encuentran configurado correctamente en los parametros generales.");
+                }
+
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"z{nota.ConsecutivoFE}.zip";
-                archive.AddFile(GetPdfNotaReporte(nota, nota.ConsecutivoFE, user), "/");
+                archive.AddFile(GetPdfNotaReporte(nota, nota.ConsecutivoFE, user, parametrosGenerales), "/");
                 archive.AddFile(xmlDian.PathFile, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);

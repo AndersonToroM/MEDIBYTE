@@ -67,6 +67,11 @@ public class IntegracionFE
         {
             throw new Exception($"El el Id de la compañía para la facturacion electronica no se encuentra parametrizado correctamente.");
         }
+
+        if (string.IsNullOrWhiteSpace(_parametrosGenerales.LinkVerificacionDIAN))
+        {
+            throw new Exception($"El link de validacion DIAN no se encuentran configurado correctamente en los parametros generales.");
+        }
     }
 
     private HttpClient BuildHttpClient()

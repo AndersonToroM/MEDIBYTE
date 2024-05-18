@@ -246,7 +246,7 @@ namespace Blazor.BusinessLogic
                 {
                     fac.CUFE = consultarDatosDoc_IFE.Cufe;
                     fac.IssueDate = consultarDatosDoc_IFE.IssueDate;
-                    
+
                     fac.UpdatedBy = user;
                 }
 
@@ -255,7 +255,8 @@ namespace Blazor.BusinessLogic
                 {
                     fac.ValidadoDIAN = true;
                 }
-                else{
+                else
+                {
                     fac.ValidadoDIAN = false;
                 }
 
@@ -933,16 +934,22 @@ namespace Blazor.BusinessLogic
             return JsonConvert.SerializeObject(ripsRootJson, Newtonsoft.Json.Formatting.Indented);
         }
 
-        private string GetPdfFacturaReporte(Facturas factura, string nameFile, string user)
+        private string GetPdfFacturaReporte(Facturas factura, string nameFile, string user, ParametrosGenerales parametrosGenerales)
         {
             XtraReport xtraReport = null;
+
+            var parametrosReporte = new Dictionary<string, object>
+                {
+                    {"p_LinkValidacionDIAN", parametrosGenerales.LinkVerificacionDIAN }
+                };
+
             if (factura.AdmisionesId != null)
             {
-                xtraReport = ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user);
+                xtraReport = ReportExtentions.Report<FacturasParticularReporte>(this.BusinessLogic, factura.Id, user, parametrosReporte);
             }
             else
             {
-                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic, factura.Id, user);
+                xtraReport = ReportExtentions.Report<FacturasReporte>(this.BusinessLogic, factura.Id, user, parametrosReporte);
             }
 
             string pathPdf = Path.Combine(Path.GetTempPath(), $"fv{nameFile}.pdf");
@@ -982,9 +989,21 @@ namespace Blazor.BusinessLogic
 
                 var xmlDian = await GetArchivoXmlDIAN(factura.Id, user, host);
 
+                var parametrosGenerales = unitOfWork.Repository<ParametrosGenerales>().Table.FirstOrDefault();
+
+                if (parametrosGenerales == null)
+                {
+                    throw new Exception("Parametros Generales nulos");
+                }
+
+                if (string.IsNullOrWhiteSpace(parametrosGenerales.LinkVerificacionDIAN))
+                {
+                    throw new Exception($"El link de validacion DIAN no se encuentran configurado correctamente en los parametros generales.");
+                }
+
                 ZipArchive archive = new ZipArchive();
                 archive.FileName = $"z{factura.ConsecutivoFE}.zip";
-                archive.AddFile(GetPdfFacturaReporte(factura, factura.ConsecutivoFE, user), "/");
+                archive.AddFile(GetPdfFacturaReporte(factura, factura.ConsecutivoFE, user, parametrosGenerales), "/");
                 archive.AddFile(xmlDian.PathFile, "/");
                 MemoryStream msZip = new MemoryStream();
                 archive.Save(msZip);
@@ -1069,7 +1088,7 @@ namespace Blazor.BusinessLogic
             {
                 return FacturaIndividualParticular(admision, empresaId, cicloCaja.Id, usuario.UserName, unitOfWork);
             }
-            else if (admision.ValorPagoEstadosId == 58 || admision.ValorPagoEstadosId == 59 
+            else if (admision.ValorPagoEstadosId == 58 || admision.ValorPagoEstadosId == 59
                 || admision.ValorPagoEstadosId == 68 || admision.ValorPagoEstadosId == 69)
             {
                 return FacturaIndividualCopagoCuotaModeradora(admision, empresaId, cicloCaja.Id, usuario.UserName, unitOfWork);
