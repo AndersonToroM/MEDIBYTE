@@ -296,10 +296,13 @@ namespace Blazor.WebApp.Controllers
                     throw new Exception($"La historia clínica No. {consecutivoHC} no existe.");
 
                 if (historiaClinica.EstadosId == 19)
-                    throw new Exception($"No es posible anularla porque se encuentra en estado \"Cerrada\".");
+                    throw new Exception($"No es posible anular la historia clínica porque se encuentra en estado \"Cerrada\".");
 
                 if (historiaClinica.EstadosId == 81)
                     throw new Exception($"La historia clínica No. {consecutivoHC} ya se encuentra anulada.");
+
+                if (historiaClinica.Atenciones.EstadosId != 10077)
+                    throw new Exception($"Para anular la historia clínica No. {consecutivoHC} debe anular la atención del paciente desde Atenciones.");
 
                 historiaClinica.DetalleAnulacion = detalleAnulacionHC;
                 historiaClinica.LastUpdate = DateTime.Now;
