@@ -128,6 +128,10 @@ namespace Blazor.Infrastructure.Entities
         [DDisplayName("Notas.IdDocumentoFE")]
         public virtual Guid? IdDocumentoFE { get; set; }
 
+        [Column("ValidadoDIAN")]
+        [DDisplayName("Facturas.ValidadoDIAN")]
+        public virtual Boolean ValidadoDIAN { get; set; }
+
         #endregion
 
         #region Columnas referenciales)

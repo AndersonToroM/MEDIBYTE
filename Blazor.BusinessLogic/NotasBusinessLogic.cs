@@ -260,13 +260,21 @@ namespace Blazor.BusinessLogic
                 consultarDatosDoc_FE.Error = string.Join(", ", consultarDatosDoc_IFE.Errores);
                 nota.DIANResponse = consultarDatosDoc_IFE.Status;
 
-                bool isCertified = consultarDatosDoc_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
-
                 if (!consultarDatosDoc_FE.HuboError)
                 {
                     nota.CUFE = consultarDatosDoc_IFE.Cufe;
                     nota.IssueDate = consultarDatosDoc_IFE.IssueDate;
                     nota.UpdatedBy = user;
+                }
+
+                bool isCertified = consultarDatosDoc_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
+                if (isCertified)
+                {
+                    nota.ValidadoDIAN = true;
+                }
+                else
+                {
+                    nota.ValidadoDIAN = false;
                 }
 
                 unitOfWork.Repository<Notas>().Modify(nota);
