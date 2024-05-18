@@ -9,7 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using static Quartz.Logging.OperationName;
 
 namespace Blazor.BusinessLogic
 {
@@ -142,5 +144,21 @@ namespace Blazor.BusinessLogic
 
             return true;
         }
+
+        public async Task<bool> CitasNoAsistidasJob()
+        {
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+
+            var fechaLimite = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 1, 0, 0);
+            var citas = unitOfWork.Repository<ProgramacionCitas>().Table.Where(x => x.EstadosId == 3 && x.FechaInicio < fechaLimite).ToList();
+
+            if(citas != null && citas.Any())
+            {
+                citas.ForEach(x => x.EstadosId = 9);
+                unitOfWork.Repository<ProgramacionCitas>().ModifyRange(citas);
+            }
+            return true;
+        }
+
     }
 }

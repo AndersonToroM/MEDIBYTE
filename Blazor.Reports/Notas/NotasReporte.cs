@@ -15,6 +15,7 @@ namespace Blazor.Reports.Notas
         {
             this.P_Ids.Value = InformacionReporte.Ids;
             this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
+            this.p_LinkValidacionDIAN.Value = InformacionReporte.ParametrosAdicionales["p_LinkValidacionDIAN"];
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }

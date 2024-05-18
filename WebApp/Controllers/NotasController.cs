@@ -1,6 +1,7 @@
 using Blazor.BusinessLogic;
 using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure.Entities;
+using Blazor.Reports.Facturas;
 using Blazor.Reports.Notas;
 using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
@@ -368,7 +369,7 @@ namespace Blazor.WebApp.Controllers
 
         [HttpGet]
         public IActionResult ImprimirNotaPorId(int Id)
-        {
+        {/*
             try
             {
                 var report = Manager().Report<NotasReporte>(Id, User.Identity.Name);
@@ -378,6 +379,29 @@ namespace Blazor.WebApp.Controllers
             {
                 return new BadRequestObjectResult(e.GetFullErrorMessage());
             }
+            */
+            try
+            {
+                var parametrosGenerales = Manager().GetBusinessLogic<ParametrosGenerales>().Tabla().FirstOrDefault();
+
+                if (parametrosGenerales == null || string.IsNullOrWhiteSpace(parametrosGenerales.LinkVerificacionDIAN))
+                {
+                    throw new Exception("El link de validación DIAN no se encuentra parametrizado en el sistema.");
+                }
+
+                var parametrosReporte = new Dictionary<string, object>
+                {
+                    {"p_LinkValidacionDIAN", parametrosGenerales.LinkVerificacionDIAN }
+                };
+                
+                var report = Manager().Report<NotasReporte>(Id, User.Identity.Name, parametrosReporte);
+                return PartialView("_ViewerReport", report);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult(e.GetFullErrorMessage());
+            }
+
         }
 
         [HttpPost]
