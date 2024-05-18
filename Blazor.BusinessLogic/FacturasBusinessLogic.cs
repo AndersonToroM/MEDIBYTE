@@ -5,6 +5,7 @@ using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Blazor.Reports.Facturas;
+using DevExpress.CodeParser;
 using DevExpress.Compression;
 using DevExpress.Spreadsheet;
 using DevExpress.XtraPrinting;
@@ -240,13 +241,21 @@ namespace Blazor.BusinessLogic
                 consultarDatosDoc_FE.Error = string.Join(", ", consultarDatosDoc_IFE.Errores);
                 fac.DIANResponse = consultarDatosDoc_IFE.Status;
 
-                bool isCertified = consultarDatosDoc_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
-
                 if (!consultarDatosDoc_FE.HuboError)
                 {
                     fac.CUFE = consultarDatosDoc_IFE.Cufe;
                     fac.IssueDate = consultarDatosDoc_IFE.IssueDate;
+                    
                     fac.UpdatedBy = user;
+                }
+
+                bool isCertified = consultarDatosDoc_IFE.Status.Equals(DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase);
+                if (isCertified)
+                {
+                    fac.ValidadoDIAN = true;
+                }
+                else{
+                    fac.ValidadoDIAN = false;
                 }
 
                 unitOfWork.Repository<Facturas>().Modify(fac);

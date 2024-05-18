@@ -8,13 +8,7 @@
     string UrlBack = Url.Action("ListPartial", "Facturas");
     string UrlDianXml = Url.Action("DownloadInvoiceFileXML", "Facturas", new { id = Model.Entity.Id });
 
-    bool enviadoDian = !string.IsNullOrWhiteSpace(Model.Entity.DIANResponse) &&
-     string.Equals(Model.Entity.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase) &&
-     Model.Entity.IdDocumentoFE.HasValue;
-
-    bool puedeConsultarEstadoDian = !string.IsNullOrWhiteSpace(Model.Entity.DIANResponse) &&
-        !string.Equals(Model.Entity.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase) &&
-        Model.Entity.IdDocumentoFE.HasValue;
+    bool puedeConsultarEstadoDian = !Model.Entity.ValidadoDIAN && Model.Entity.IdDocumentoFE.HasValue;
 
     bool enviadoRips = !string.IsNullOrWhiteSpace(Model.Entity.CodigoUnicoValidacionRips);
     bool esInstitucional = !Model.Entity.PacientesId.HasValue;
@@ -25,7 +19,7 @@
         //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew)
         .AddButtons(new List<ButtonToolbar>()
-                                {
+                                        {
             new ButtonToolbar
             {
                 Action = $"{Prefix}MostrarPopudModificarDatosFactura",
@@ -85,7 +79,7 @@
                 Id = $"{Prefix}BotonEnviarDIAN",
                 Action = $"{Prefix}EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarDIAN"),
-                Disabled = Model.Entity.IsNew || enviadoDian,
+                Disabled = Model.Entity.IsNew || Model.Entity.ValidadoDIAN,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"
@@ -103,7 +97,7 @@
             {
                 Action = $"{Prefix}DescargarXMLDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarXMLDIAN"),
-                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Disabled = Model.Entity.IsNew || !Model.Entity.ValidadoDIAN,
                 Location = ToolbarItemLocation.Before,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Icon = "doc"
@@ -112,7 +106,7 @@
             {
                 Action = $"{Prefix}EnviarEmailFactura",
                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarCorreo"),
-                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Disabled = Model.Entity.IsNew || !Model.Entity.ValidadoDIAN,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "email"
@@ -126,7 +120,7 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
             }*/
-                                })
+                                        })
         .Back(UrlBack);
 
     var DataGridDetailConfig = new DataGridConfiguration<ServiciosFacturar>(Prefix)
@@ -456,9 +450,9 @@
     <div class="form-group">
         <label for="@($"{Prefix}CambioFechaEmision")">@DApp.DefaultLanguage.GetResource("Facturas.CambioFechaEmision"):</label>
         @(Html.DControls().DateBox().Min(DateTime.Now).ID(Prefix + "CambioFechaEmision")
-//        .DisplayFormat(DApp.DefaultLanguage.DateFormat)
-//        .Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat))
-        .InputAttr("class", "form-control").Value(DateTime.Now).ReadOnly(true))
+            //        .DisplayFormat(DApp.DefaultLanguage.DateFormat)
+            //        .Placeholder(DateTime.Now.ToString(DApp.DefaultLanguage.DateFormat))
+            .InputAttr("class", "form-control").Value(DateTime.Now).ReadOnly(true))
     </div>
     <div class="form-group">
         <label for="@($"{Prefix}CambioOrdenCompra")">@DApp.DefaultLanguage.GetResource("Facturas.OrdenCompra"):</label>

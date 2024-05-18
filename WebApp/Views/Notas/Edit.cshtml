@@ -10,13 +10,7 @@
 
     var disable = (Model.Entity.Estadosid == 10085 || Model.Entity.Estadosid == 10086);
 
-    bool enviadoDian = !string.IsNullOrWhiteSpace(Model.Entity.DIANResponse) &&
-     string.Equals(Model.Entity.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase) &&
-     Model.Entity.IdDocumentoFE.HasValue;
-
-    bool puedeConsultarEstadoDian = !string.IsNullOrWhiteSpace(Model.Entity.DIANResponse) &&
-        !string.Equals(Model.Entity.DIANResponse, DApp.Util.Dian.StatusCertified, StringComparison.OrdinalIgnoreCase) &&
-        Model.Entity.IdDocumentoFE.HasValue;
+    bool puedeConsultarEstadoDian = !Model.Entity.ValidadoDIAN && Model.Entity.IdDocumentoFE.HasValue;
 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("Notas"))
@@ -57,7 +51,7 @@
                 Id = $"{Prefix}BotonEnviarDIAN",
                 Action = $"{Prefix}EnviarDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Notas.EnviarDIAN"),
-                Disabled = Model.Entity.IsNew || Model.Entity.Estadosid != 10085 || enviadoDian,
+                Disabled = Model.Entity.IsNew || Model.Entity.Estadosid != 10085 || Model.Entity.ValidadoDIAN,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "expand"
@@ -75,7 +69,7 @@
             {
                 Action = $"{Prefix}DescargarXMLDIAN",
                 Text = @DApp.DefaultLanguage.GetResource("Notas.DescargarXMLDIAN"),
-                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Disabled = Model.Entity.IsNew || !Model.Entity.ValidadoDIAN,
                 Location = ToolbarItemLocation.Before,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Icon = "doc"
@@ -84,7 +78,7 @@
             {
                 Action = $"{Prefix}EnviarEmailNota",
                 Text = @DApp.DefaultLanguage.GetResource("Notas.EnviarCorreo"),
-                Disabled = Model.Entity.IsNew || !enviadoDian,
+                Disabled = Model.Entity.IsNew || !Model.Entity.ValidadoDIAN,
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "email"
