@@ -1296,6 +1296,10 @@
     "Description": "Lista Precios"
   },
   {
+    "Id": "Convenios.ModalidadesContratacion",
+    "Description": "Modalidad de pago"
+  },
+  {
     "Id": "Convenios.ModalidadesContratacionId",
     "Description": "Modalidad de pago"
   },

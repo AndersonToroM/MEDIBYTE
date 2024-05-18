@@ -389,7 +389,7 @@
                     success: function (data) {
                         hideLoadIndicator();
 
-                        if (OpcionPago == 68 || OpcionPago == 69 || OpcionPago == 58 || OpcionPago == 59) {
+                        if (OpcionPago == 68 || OpcionPago == 69 || OpcionPago == 58 || OpcionPago == 59 || OpcionPago == 80) {
                             $("#@(Prefix)PorcDescAutorizado").dxNumberBox("instance").option("value", 0);
                             $("#@(Prefix)ValorCopago").dxNumberBox("instance").option("readOnly", false);
                         }
