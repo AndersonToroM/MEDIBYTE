@@ -430,15 +430,18 @@ body {
     margin-bottom: 5px;
 }
 
-h1 {
+.bienvenido h1 {
     font-size: 60px;
     text-align: center;
     border-radius: 10px;
 }
 
-p {
+.bienvenido p {
     font-size: 40px;
     text-align: center;
     border-radius: 50px;
 }
 
+.divAvistoInformativo{
+    border: none !important;
+}

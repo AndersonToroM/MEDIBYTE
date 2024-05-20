@@ -17,12 +17,12 @@ namespace Blazor.WebApp.Controllers
 {
 
     [Authorize]
-    public partial class JobController : BaseAppController
+    public partial class AvisosInformativosController : BaseAppController
     {
 
-        //private const string Prefix = "Job"; 
+        //private const string Prefix = "AvisosInformativos"; 
 
-        public JobController(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
+        public AvisosInformativosController(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
         }
 
@@ -31,7 +31,7 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public LoadResult Get(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetBusinessLogic<Job>().Tabla(true), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<AvisosInformativos>().Tabla(true), loadOptions);
         }
 
         public IActionResult List()
@@ -50,10 +50,12 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", NewModel());
         }
 
-        private JobModel NewModel()
+        private AvisosInformativosModel NewModel()
         {
-            JobModel model = new JobModel();
+            AvisosInformativosModel model = new AvisosInformativosModel();
             model.Entity.IsNew = true;
+            model.Entity.MostrarHasta = DateTime.Now.AddDays(1);
+            model.Entity.Activo = true;
             return model;
         }
 
@@ -63,32 +65,51 @@ namespace Blazor.WebApp.Controllers
             return PartialView("Edit", EditModel(Id));
         }
 
-        private JobModel EditModel(long Id)
+        private AvisosInformativosModel EditModel(long Id)
         {
-            JobModel model = new JobModel();
-            model.Entity = Manager().GetBusinessLogic<Job>().FindById(x => x.Id == Id, false);
+            AvisosInformativosModel model = new AvisosInformativosModel();
+            model.Entity = Manager().GetBusinessLogic<AvisosInformativos>().FindById(x => x.Id == Id, false);
             model.Entity.IsNew = false;
             return model;
         }
 
         [HttpPost]
-        public IActionResult Edit(JobModel model)
+        public IActionResult Edit(AvisosInformativosModel model)
         {
             return PartialView("Edit", EditModel(model));
         }
 
-        private JobModel EditModel(JobModel model)
+        private AvisosInformativosModel EditModel(AvisosInformativosModel model)
         {
             ViewBag.Accion = "Save";
-            var OnState = model.Entity.IsNew;
+            var existeAviso = Manager().GetBusinessLogic<AvisosInformativos>().Tabla().Where(x => x.Activo);
+            if (!model.Entity.IsNew)
+            {
+                existeAviso = existeAviso.Where(x => x.Id != model.Entity.Id);
+            }
+
+            if (existeAviso.Any())
+            {
+                ModelState.AddModelError("Entity.Id", "Ya existe un aviso que esta activo.");
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
-                    model.Entity = Manager().JobsBusinessLogic().ActualizarJob(model.Entity, Request.Host.Value);
-                    model.Entity.IsNew = false;
+                    if (model.Entity.IsNew)
+                    {
+                        model.Entity.CreationDate = DateTime.Now;
+                        model.Entity.CreatedBy = User.Identity.Name;
+                        model.Entity = Manager().GetBusinessLogic<AvisosInformativos>().Add(model.Entity);
+                        model.Entity.IsNew = false;
+                    }
+                    else
+                    {
+                        model.Entity = Manager().GetBusinessLogic<AvisosInformativos>().Modify(model.Entity);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -103,21 +124,21 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(JobModel model)
+        public IActionResult Delete(AvisosInformativosModel model)
         {
             return PartialView("Edit", DeleteModel(model));
         }
 
-        private JobModel DeleteModel(JobModel model)
+        private AvisosInformativosModel DeleteModel(AvisosInformativosModel model)
         {
             ViewBag.Accion = "Delete";
-            JobModel newModel = NewModel();
+            AvisosInformativosModel newModel = NewModel();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    model.Entity = Manager().GetBusinessLogic<Job>().FindById(x => x.Id == model.Entity.Id, false);
-                    Manager().GetBusinessLogic<Job>().Remove(model.Entity);
+                    model.Entity = Manager().GetBusinessLogic<AvisosInformativos>().FindById(x => x.Id == model.Entity.Id, false);
+                    Manager().GetBusinessLogic<AvisosInformativos>().Remove(model.Entity);
                     return newModel;
                 }
                 catch (Exception e)
@@ -139,9 +160,9 @@ namespace Blazor.WebApp.Controllers
             return PartialView("EditDetail", NewModelDetail(IdFather));
         }
 
-        private JobModel NewModelDetail(long IdFather) 
+        private AvisosInformativosModel NewModelDetail(long IdFather) 
         { 
-            JobModel model = new JobModel(); 
+            AvisosInformativosModel model = new AvisosInformativosModel(); 
             model.Entity.IdFather = IdFather; 
             model.Entity.IsNew = true; 
             return model; 
@@ -154,27 +175,27 @@ namespace Blazor.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditDetail(JobModel model)
+        public IActionResult EditDetail(AvisosInformativosModel model)
         {
             return PartialView("EditDetail",EditModel(model));
         }
 
         [HttpPost]
-        public IActionResult DeleteDetail(JobModel model)
+        public IActionResult DeleteDetail(AvisosInformativosModel model)
         {
             return PartialView("EditDetail", DeleteModelDetail(model));
         }
 
-        private JobModel DeleteModelDetail(JobModel model)
+        private AvisosInformativosModel DeleteModelDetail(AvisosInformativosModel model)
         { 
             ViewBag.Accion = "Delete"; 
-            JobModel newModel = NewModelDetail(model.Entity.IdFather); 
+            AvisosInformativosModel newModel = NewModelDetail(model.Entity.IdFather); 
             if (ModelState.IsValid) 
             { 
                 try 
                 { 
-                    model.Entity = Manager().GetBusinessLogic<Job>().FindById(x => x.Id == model.Entity.Id, false); 
-                    Manager().GetBusinessLogic<Job>().Remove(model.Entity); 
+                    model.Entity = Manager().GetBusinessLogic<AvisosInformativos>().FindById(x => x.Id == model.Entity.Id, false); 
+                    Manager().GetBusinessLogic<AvisosInformativos>().Remove(model.Entity); 
                     return newModel;
                 } 
                 catch (Exception e) 
@@ -192,9 +213,9 @@ namespace Blazor.WebApp.Controllers
         [HttpPost] 
         public IActionResult AddInGrid(string values) 
         { 
-             Job entity = new Job(); 
+             AvisosInformativos entity = new AvisosInformativos(); 
              JsonConvert.PopulateObject(values, entity); 
-             JobModel model = new JobModel(); 
+             AvisosInformativosModel model = new AvisosInformativosModel(); 
              model.Entity = entity; 
              model.Entity.IsNew = true; 
              this.EditModel(model); 
@@ -207,9 +228,9 @@ namespace Blazor.WebApp.Controllers
         [HttpPost] 
         public IActionResult ModifyInGrid(int key, string values) 
         { 
-             Job entity = Manager().GetBusinessLogic<Job>().FindById(x => x.Id == key, false); 
+             AvisosInformativos entity = Manager().GetBusinessLogic<AvisosInformativos>().FindById(x => x.Id == key, false); 
              JsonConvert.PopulateObject(values, entity); 
-             JobModel model = new JobModel(); 
+             AvisosInformativosModel model = new AvisosInformativosModel(); 
              model.Entity = entity; 
              model.Entity.IsNew = false; 
              this.EditModel(model); 
@@ -222,8 +243,8 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public void DeleteInGrid(int key)
         { 
-             Job entity = Manager().GetBusinessLogic<Job>().FindById(x => x.Id == key, false); 
-             Manager().GetBusinessLogic<Job>().Remove(entity); 
+             AvisosInformativos entity = Manager().GetBusinessLogic<AvisosInformativos>().FindById(x => x.Id == key, false); 
+             Manager().GetBusinessLogic<AvisosInformativos>().Remove(entity); 
         } 
 
         */

@@ -796,6 +796,30 @@
     "Description": "Valor Total"
   },
   {
+    "Id": "AvisosInformativos",
+    "Description": "Avisos Informativos"
+  },
+  {
+    "Id": "AvisosInformativos.Activo",
+    "Description": "¿Activo?"
+  },
+  {
+    "Id": "AvisosInformativos.Contenido",
+    "Description": "Contenido"
+  },
+  {
+    "Id": "AvisosInformativos.MostrarAviso",
+    "Description": "Mostrar"
+  },
+  {
+    "Id": "AvisosInformativos.MostrarHasta",
+    "Description": "Mostrar Hasta"
+  },
+  {
+    "Id": "AvisosInformativos.Titulo",
+    "Description": "Titulo"
+  },
+  {
     "Id": "Bancos",
     "Description": "Bancos"
   },
