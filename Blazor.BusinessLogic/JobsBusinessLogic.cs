@@ -25,57 +25,51 @@ namespace Blazor.BusinessLogic
 
         #region Internal methods
 
-        public void ActualizarJob(Job job, string host)
+        public Job ActualizarJob(Job job, string host)
         {
-            try
+            BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
+            var tenant = DApp.GetTenant(host);
+            if (tenant == null)
             {
-                BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
-                var tenant = DApp.GetTenant(host);
-                if (tenant == null)
-                {
-                    throw new Exception($"No existe tenant para el host {host}");
-                }
-
-                var jobBD = unitOfWork.Repository<Job>().FindById(x => x.Id == job.Id, false);
-                if (jobBD == null)
-                {
-                    throw new Exception($"No existe rutina {job.Id}");
-                }
-
-                var jobQuartz = JobExecution.Jobs.FirstOrDefault(x => x.TenantCode.Equals(tenant.Code) && x.IdJob == jobBD.Id && x.Class.Equals(jobBD.Class));
-                if (jobQuartz == null)
-                {
-                    throw new Exception($"No existe un job quartz para {tenant.Code}, {jobBD.Id}, {jobBD.Class}");
-                }
-
-                var jobKey = new JobKey(jobQuartz.JobKey, jobQuartz.Group);
-                var triggerKey = new TriggerKey(jobQuartz.TriggerKey, jobQuartz.Group);
-
-                if (!jobBD.CronSchedule.Equals(job.CronSchedule))
-                {
-                    jobQuartz.ITrigger = TriggerBuilder.Create()
-                                    .WithIdentity(jobQuartz.TriggerKey, jobQuartz.Group)
-                                    .WithCronSchedule(job.CronSchedule)
-                                    .Build();
-
-                    JobExecution.Scheduler.RescheduleJob(triggerKey, jobQuartz.ITrigger).GetAwaiter().GetResult();
-                }
-
-                if (job.Active && !jobBD.Active)
-                {
-                    JobExecution.Scheduler.ResumeJob(jobKey).GetAwaiter().GetResult();
-                }
-                else if (!job.Active && jobBD.Active)
-                {
-                    JobExecution.Scheduler.PauseJob(jobKey).GetAwaiter().GetResult();
-                }
-
-                unitOfWork.Repository<Job>().Modify(job);
+                throw new Exception($"No existe tenant para el host {host}");
             }
-            catch (Exception ex)
+
+            var jobBD = unitOfWork.Repository<Job>().FindById(x => x.Id == job.Id, false);
+            if (jobBD == null)
             {
-                Console.Write(ex.GetFullErrorMessage());
+                throw new Exception($"No existe rutina {job.Id}");
             }
+
+            var jobQuartz = JobExecution.Jobs.FirstOrDefault(x => x.TenantCode.Equals(tenant.Code) && x.IdJob == jobBD.Id && x.Class.Equals(jobBD.Class));
+            if (jobQuartz == null)
+            {
+                throw new Exception($"No existe un job quartz para {tenant.Code}, {jobBD.Id}, {jobBD.Class}");
+            }
+
+            var jobKey = new JobKey(jobQuartz.JobKey, jobQuartz.Group);
+            var triggerKey = new TriggerKey(jobQuartz.TriggerKey, jobQuartz.Group);
+
+            if (!jobBD.CronSchedule.Equals(job.CronSchedule))
+            {
+                jobQuartz.ITrigger = TriggerBuilder.Create()
+                                .WithIdentity(jobQuartz.TriggerKey, jobQuartz.Group)
+                                .WithCronSchedule(job.CronSchedule)
+                                .Build();
+
+                JobExecution.Scheduler.RescheduleJob(triggerKey, jobQuartz.ITrigger).GetAwaiter().GetResult();
+            }
+
+            if (job.Active && !jobBD.Active)
+            {
+                JobExecution.Scheduler.ResumeJob(jobKey).GetAwaiter().GetResult();
+            }
+            else if (!job.Active && jobBD.Active)
+            {
+                JobExecution.Scheduler.PauseJob(jobKey).GetAwaiter().GetResult();
+            }
+
+            unitOfWork.Repository<Job>().Modify(job);
+            return job;
         }
 
         public void SaveJobLog(string nameClass, bool isSuccess, string descripcion = null, string error = null)

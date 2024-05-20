@@ -1,0 +1,24 @@
+@{ 
+    string Prefix = "AvisosInformativos"; 
+    string UrlClick = Url.Action("Edit", "AvisosInformativos"); 
+    string UrlNew = Url.Action("New", "AvisosInformativos"); 
+
+    var DataGridConfig = new DataGridConfiguration<AvisosInformativos>(Prefix) 
+        .OnClick(UrlClick, new { Id = "Id" }) 
+        .New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew)) 
+        .Exports(true,true) 
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("AvisosInformativos"), "mainPanel"); 
+} 
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<AvisosInformativos>(DataGridConfig) 
+    .ID("AvisosInformativosDataGrid") 
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("AvisosInformativos").LoadAction("Get").Key("Id")) 
+    .Columns(columns => 
+    { 
+        columns.AddFor(m => m.Titulo); 
+        columns.AddFor(m => m.MostrarHasta); 
+        columns.AddFor(m => m.Activo); 
+    }) 
+) 
+</div> 

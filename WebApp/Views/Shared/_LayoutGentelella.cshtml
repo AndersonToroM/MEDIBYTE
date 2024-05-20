@@ -15,6 +15,8 @@
 
     <link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
     <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+
+
     <link href="~/Themes/gentelella/vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 
     @*<script src="~/Themes/gentelella/vendors/jquery/dist/jquery.min.js"></script>*@
@@ -49,6 +51,9 @@
     <script src="~/lib/ace-builds/src-min-noconflict/theme-ambiance.js"></script>
     <script src="~/lib/ace-builds/src-min-noconflict/snippets/text.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    @* <script src="~/lib/devextreme/dx-quill.min.js"></script> *@
     <script src="~/lib/devextreme/dx.all.js"></script>
     <script src="~/lib/devexpress/analytics-core/dist/js/dx-analytics-core.min.js"></script>
     <script src="~/lib/devexpress/analytics-core/dist/js/dx-querybuilder.min.js"></script>
@@ -230,6 +235,7 @@
                                         <li> <a class="dropdown-item" href="/Languages/List" target="_blank"><i class="fa fa-language pull-right"></i>Recursos</a></li>
                                         <li> <a class="dropdown-item" href="/Job/List" target="_blank"><i class="fa fa-language pull-right"></i>Rutinas</a></li>
                                         <li> <a class="dropdown-item" href="/Home/LogFileView" target="_blank"><i class="fa fa-file-archive-o pull-right"></i>Logs</a></li>
+                                        <li> <a class="dropdown-item" href="/AvisosInformativos/List" target="_blank"><i class="fa fa-exclamation-triangle pull-right"></i>Avisos</a></li>
                                     }
                                     <li> <a class="dropdown-item" href="https://cloudonesoft.freshdesk.com/support/tickets/new" target="_blank"><i class="fa fa-exclamation-circle pull-right" aria-hidden="true"></i>Reportar incidente</a></li>
                                     <li> <a class="dropdown-item" href="https://cloudonesoft.freshdesk.com/support/solutions/folders/70000474958" target="_blank"><i class="fa fa-book pull-right"></i>Manuales SIISO</a></li>
@@ -343,7 +349,7 @@
         DevExpress.localization.locale('@(DApp.DefaultLanguage.Culture)');
         dataMenuModules = JSON.parse('@Html.Raw(Json.Serialize(menu))');
         SiisoRunGeoLocalizacion();
-
+        let contenedorQuill;
         $(function () {
             $.ajax({
                 url: '@Url.Action("ObtenerPreferenciasUsuario", "Home")',
