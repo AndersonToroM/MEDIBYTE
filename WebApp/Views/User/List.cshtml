@@ -23,8 +23,8 @@
             columns.AddFor(m => m.LastNames);
             columns.AddFor(m => m.IdentificationNumber);
             columns.AddFor(m => m.IdentificationTypeId).Lookup(lookup => lookup
-                        .DataSource(d => d.Mvc().LoadMethod("GET").Controller("User").LoadAction("GetIdentificationTypes").Key("Id"))
-                        .DisplayExpr("Value").ValueExpr("Id"));
+                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("User").LoadAction("GetIdentificationTypes").Key("Id"))
+                        .DisplayExpr("Nombre").ValueExpr("Id"));
             columns.AddFor(m => m.GenderId).Lookup(lookup => lookup
                         .DataSource(d => d.Mvc().LoadMethod("GET").Controller("User").LoadAction("GetGenders").Key("Id"))
                         .DisplayExpr("Value").ValueExpr("Id"));

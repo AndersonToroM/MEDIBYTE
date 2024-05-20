@@ -207,9 +207,9 @@
                                     .ValidationRules(rules => rules.AddStringLength().Min(1).Max(60).Message(DApp.GetStringLengthResource("Users.LastNames", 60)));
                                 groupItems.AddSimpleFor(m => m.Entity.IdentificationTypeId)
                                     .Editor(e => e.SelectBox().SearchEnabled(true).ShowClearButton(true)
-                                        .DataSource(d => d.Mvc().LoadMethod("GET").Controller("User").LoadAction("GetIdentificationTypes").Key("Id"))
-                                        .DisplayExpr("Value").ValueExpr("Id"))
-                                    .ValidationRules(rules => rules.AddStringLength().Min(1).Max(3).Message(DApp.GetStringLengthResource("Users.IdentificationTypeId", 3)));
+                                        .DataSource(d => d.Mvc().LoadMethod("POST").Controller("User").LoadAction("GetIdentificationTypes").Key("Id"))
+                                        .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre", "Codigo"))
+                                        .ValidationRules(rules => rules.AddStringLength().Min(1).Max(3).Message(DApp.GetStringLengthResource("Users.IdentificationTypeId", 3)));
                                 groupItems.AddSimpleFor(m => m.Entity.IdentificationNumber)
                                     .Editor(e => e.TextBox().ShowClearButton(true))
                                     .ValidationRules(rules => rules.AddStringLength().Min(1).Max(20).Message(DApp.GetStringLengthResource("Users.IdentificationNumber", 20)));

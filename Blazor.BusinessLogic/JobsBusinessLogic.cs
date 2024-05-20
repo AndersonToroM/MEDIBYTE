@@ -150,9 +150,9 @@ namespace Blazor.BusinessLogic
             var fechaLimite = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 1, 0, 0);
             var citas = await unitOfWork.Repository<ProgramacionCitas>().Table.Where(x => x.EstadosId == 3 && x.FechaInicio < fechaLimite).ToListAsync();
 
-            if(citas != null && citas.Any())
+            if (citas != null && citas.Any())
             {
-                citas.ForEach(x => x.EstadosId = 9);
+                citas.ForEach(x => { x.EstadosId = 9; x.UpdatedBy = DApp.Util.UserSystem; x.LastUpdate = DateTime.Now; });
                 unitOfWork.Repository<ProgramacionCitas>().ModifyRange(citas);
             }
             return true;
