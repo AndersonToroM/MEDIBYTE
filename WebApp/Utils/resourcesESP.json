@@ -1468,6 +1468,10 @@
     "Description": "Información General"
   },
   {
+    "Id": "DEFAULT.INFORMATIONGENERAL.AUDIT",
+    "Description": "Información General Tabla de Auditoría"
+  },
+  {
     "Id": "DEFAULT.INFORMATIONPATIENTS",
     "Description": "Paciente a Facturar"
   },

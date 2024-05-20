@@ -35,7 +35,7 @@
                     .ID("AuditModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
                     .Items(items =>
                     {
-                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL.AUDIT"))
                             .Items(groupItems =>{
                                 groupItems.AddSimpleFor(m => m.Entity.Id).ColSpan(2).Label(x=>x.Text(DApp.GetResource("Audit.Consecutivo")))
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Audit.Consecutivo")))
@@ -61,9 +61,9 @@
                                 groupItems.AddSimpleFor(m => m.Entity.CreatedBy).ColSpan(3)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Audits.Action", 50)))
                                       .Editor(e => e.TextBox().ID(Prefix + "CreatedBy"));
-                                groupItems.AddSimpleFor(m => m.Entity.UpdatedBy).ColSpan(3)
+                                /*groupItems.AddSimpleFor(m => m.Entity.UpdatedBy).ColSpan(3)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(50).Message(DApp.GetStringLengthResource("Audits.Action", 50)))
-                                      .Editor(e => e.TextBox().ID(Prefix + "UpdatedBy"));
+                                      .Editor(e => e.TextBox().ID(Prefix + "UpdatedBy"));*/
                             });
                     })
                 )
