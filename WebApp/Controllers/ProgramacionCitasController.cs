@@ -128,6 +128,7 @@ namespace Blazor.WebApp.Controllers
             {
                 try
                 {
+
                     model.Entity.LastUpdate = DateTime.Now;
                     model.Entity.UpdatedBy = User.Identity.Name;
                     if (model.Entity.IsNew)
@@ -158,6 +159,8 @@ namespace Blazor.WebApp.Controllers
                         citaBd.HoraFinal = model.Entity.HoraFinal;
                         citaBd.ConsultoriosId = model.Entity.ConsultoriosId;
                         citaBd.Duracion = model.Entity.Duracion;
+                        citaBd.MotivoReprogramacion = model.Entity.MotivoReprogramacion;
+                        citaBd.UpdatedBy = model.Entity.UpdatedBy;
 
                         model.Entity = Manager().GetBusinessLogic<ProgramacionCitas>().Modify(citaBd);
                     }

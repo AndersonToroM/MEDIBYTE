@@ -1444,6 +1444,12 @@
             DevExpress.ui.dialog.alert(errores, titulo, true);
         }
 
+        function IsNullOrWhiteSpace(str) {
+           
+            return str === null || str.match(/^ *$/) !== null;
+           
+        }
+
     </script>
 
 </body>

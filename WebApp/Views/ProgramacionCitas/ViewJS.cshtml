@@ -45,7 +45,7 @@
     function @(Prefix)ConfirmarReprogramarCita() {
 
         var motivoReprogramacion = $("#@(Prefix)MotivoReprogramacionPopup").dxTextArea("instance").option("value");
-        if (motivoReprogramacion != null && motivoReprogramacion != "") {
+        if (!IsNullOrWhiteSpace(motivoReprogramacion)) {
             $("#@(Prefix)MotivoReprogramacion").dxTextBox("instance").option("value", motivoReprogramacion);
             DevExpress.ui.notify("Cita reprogramada.", "info");
             BtnSave_click('@(Prefix)');
@@ -61,7 +61,7 @@
     function @(Prefix)ConfirmarCancelarCita() {
 
         var motivoCancelacion = $("#@(Prefix)MotivoCancelacionPopup").dxTextArea("instance").option("value");
-        if (motivoCancelacion != null && motivoCancelacion != "") {
+        if (!IsNullOrWhiteSpace(motivoCancelacion)) {
             GetViewOnContainer('@Url.Action("CancelarCita", "ProgramacionCitas")', undefined, { Id : @(Model.Entity.Id) , motivoCancelacion: motivoCancelacion });
             DevExpress.ui.notify("Cita cancelada.", "info");
         } else {
