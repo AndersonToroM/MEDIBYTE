@@ -62,6 +62,11 @@ namespace Blazor.WebApp.Controllers
                     x.EstadosId != 10079
                 , true);
 
+            if (citaSeleccionada.Servicios.TiposServiciosId == 2 && model.Entity.ViaIngresoServicioSaludId == null)
+            {
+                ModelState.AddModelError("Entity.ViaIngresoServicioSaludId", DApp.GetRequiredResource("Admisiones.ViaIngresoServicioSaludId"));
+            }
+
             if (citaAdmitida != null && OnState)
             {
                 ModelState.AddModelError("Entity.Id", $"La cita No. {citaSeleccionada.Consecutivo} ya cuenta con la Admisión No. {citaAdmitida.Consecutivo} en proceso. Por favor verifique en el listado de admisiones.");

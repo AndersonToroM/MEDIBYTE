@@ -32,6 +32,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Pacientes)
                 .Include(x => x.Empleados)
                 .Include(x => x.Servicios)
+                .Include(x => x.Sedes)
                 .FirstOrDefault(x => x.Id == citaId);
 
             EmailModelConfig envioEmailConfig = new EmailModelConfig();
@@ -67,6 +68,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Pacientes)
                 .Include(x => x.Empleados)
                 .Include(x => x.Servicios)
+                .Include(x => x.Sedes)
                 .FirstOrDefault(x => x.Id == citaId);
 
             if (!DApp.Util.EsEmailValido(cita.Pacientes.CorreoElectronico))

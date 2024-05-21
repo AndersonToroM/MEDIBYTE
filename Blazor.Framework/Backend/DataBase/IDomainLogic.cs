@@ -418,6 +418,11 @@ namespace Dominus.Backend.DataBase
             //        }
             //    }
             //}
+            var property = entity.GetType().GetProperty("LastUpdate");
+            if (property != null)
+            {
+                entity.GetType().GetProperty("LastUpdate").SetValue(entity, DateTime.Now, null);
+            }
             var rules = entity.GetModificarExpression<T>();
             dynamicRules(rules);
         }

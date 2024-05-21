@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -93,7 +94,10 @@ namespace Blazor.WebApp.Controllers
                         model.Entity.CreationDate = DateTime.Now;
                         model.Entity.CreatedBy = User.Identity.Name;
                         model.Entity.Password = Cryptography.Encrypt(model.Entity.Password);
-                        model.Entity.PasswordRips = Cryptography.Encrypt(model.Entity.PasswordRips);
+                        if (!string.IsNullOrWhiteSpace(model.Entity.PasswordRips))
+                        {
+                            model.Entity.PasswordRips = Cryptography.Encrypt(model.Entity.PasswordRips);
+                        }
                         model.Entity = Manager().GetBusinessLogic<User>().Add(model.Entity);
                         model.Entity.IsNew = false;
                     }
@@ -102,7 +106,7 @@ namespace Blazor.WebApp.Controllers
                         if (model.ModifyPassword)
                             model.Entity.Password = Cryptography.Encrypt(model.Entity.Password);
 
-                        if (model.ModifyPasswordRips)
+                        if (model.ModifyPasswordRips && !string.IsNullOrWhiteSpace(model.Entity.PasswordRips))
                             model.Entity.PasswordRips = Cryptography.Encrypt(model.Entity.PasswordRips);
 
                         model.Entity = Manager().GetBusinessLogic<User>().Modify(model.Entity);
@@ -219,10 +223,10 @@ namespace Blazor.WebApp.Controllers
             return DataSourceLoader.Load(Manager().GetGenders(), loadOptions);
         }
 
-        [HttpGet]
+        [HttpPost]
         public LoadResult GetIdentificationTypes(DataSourceLoadOptions loadOptions)
         {
-            return DataSourceLoader.Load(Manager().GetIdentificationTypes(), loadOptions);
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<TiposIdentificacion>().Tabla(false), loadOptions);
         }
 
         #endregion

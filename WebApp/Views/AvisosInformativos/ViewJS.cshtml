@@ -1,0 +1,86 @@
+@model AvisosInformativosModel
+@{
+    string Prefix = "AvisosInformativos";
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        const options = {
+            modules: {
+                toolbar: '#toolbar-container',
+            },
+            placeholder: 'Contenido del aviso ...',
+            theme: 'snow'
+        };
+
+        contenedorQuill = new Quill("#EditorTextoContenido", options);
+
+        var contenido = $("#@(Prefix)Contenido").dxTextBox("instance").option("value");
+        if (contenido != null && contenido != '') {
+            contenedorQuill.container.firstChild.innerHTML = contenido;
+        }        
+    });
+
+    function @(Prefix)SetContenidoEditor()
+    {
+        var contenidoEditor = contenedorQuill.container.firstChild.innerHTML;
+        $("#@(Prefix)Contenido").dxTextBox("instance").option("value", contenidoEditor);
+        return true;
+    }
+
+    function @(Prefix)CargarContenido()
+    {
+        var contenidoEditor = $("#@(Prefix)Contenido").dxTextBox("instance").option("value");
+        var fixContenidoPopup = `<div class="divAvistoInformativo ql-editor ql-container ql-snow">${contenidoEditor}</div>`;
+        return fixContenidoPopup;
+    }
+
+    function @(Prefix)MostrarAviso()
+    {
+        $("#PopupAnularAdmision").dxPopup("instance").show();
+    }
+
+    function @(Prefix)FormSuccess(data)
+    {
+        hideLoadIndicator();
+        if ('@ViewData.ModelState.IsValid' == 'True') {
+            if ("@ViewBag.Accion" == "Delete") {
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
+            } else if ("@ViewBag.Accion" == "Save") {
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
+            } else {
+                DevExpress.ui.notify("Error no accion en submit.", "info");
+            }
+        }
+    }
+
+    function @(Prefix)FormFailure(data)
+    {
+        hideLoadIndicator();
+        DevExpress.ui.notify("Error en el formulario", "error");
+    }
+
+    function @(Prefix)FormSuccessDetail(data)
+    {
+        hideLoadIndicator();
+        if ('@ViewData.ModelState.IsValid' == 'True') {
+            $("#AvisosInformativosDetalleDataGrid").dxDataGrid("instance").refresh();
+            if ("@ViewBag.Accion" == "Delete") {
+                DevExpress.ui.notify("Registro eliminado correctamente.", "info");
+            } else if ("@ViewBag.Accion" == "Save") {
+                DevExpress.ui.notify("Registro guardado correctamente.", "info");
+            } else {
+                DevExpress.ui.notify("Error no accion en submit.", "info");
+            }
+        }
+    }
+
+    function @(Prefix)FormFailureDetail(data)
+    {
+        hideLoadIndicator();
+        DevExpress.ui.notify("Error en el formulario", "error");
+    }
+
+</script>

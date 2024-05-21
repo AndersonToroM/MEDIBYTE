@@ -183,7 +183,7 @@
                             );
 
                             groupItems.AddSimpleFor(m => m.Entity.ViaIngresoServicioSaludId).ColSpan(4).Visible(!esServicioConsulta)
-                            .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ViaIngresoServicioSaludId")))
+                            //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Admisiones.ViaIngresoServicioSaludId")))
                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Admisiones.ViaIngresoServicioSaludId")))
                             .Editor(e => e.SelectBox().ID(Prefix + "ViaIngresoServicioSaludId")
                             .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Admisiones").LoadAction("GetViaIngresoServicioSaludId").Key("Id"))
