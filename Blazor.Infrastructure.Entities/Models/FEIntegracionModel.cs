@@ -371,18 +371,6 @@ public class FeItem
 
 public class FeLine
 {
-    [JsonProperty("ExcludeVat")]
-    public string ExcludeVat { get; set; }
-
-    [JsonProperty("GrossAmount")]
-    public string GrossAmount { get; set; }
-
-    [JsonProperty("Item")]
-    public FeItem Item { get; set; } = new FeItem();
-
-    [JsonProperty("NetAmount")]
-    public string NetAmount { get; set; }
-
     [JsonProperty("Number")]
     public string Number { get; set; }
 
@@ -392,14 +380,30 @@ public class FeLine
     [JsonProperty("QuantityUnitOfMeasure")]
     public string QuantityUnitOfMeasure { get; set; }
 
+    [JsonProperty("ExcludeVat")]
+    public string ExcludeVat { get; set; }
+
+    [JsonProperty("AllowanceCharges")]
+    public List<FeAllowanceCharges> AllowanceCharges { get; set; } = new List<FeAllowanceCharges>();
+
     [JsonProperty("UnitPrice")]
     public string UnitPrice { get; set; }
 
+    [JsonProperty("GrossAmount")]
+    public string GrossAmount { get; set; }
+
+    [JsonProperty("NetAmount")]
+    public string NetAmount { get; set; }
+
+    [JsonProperty("Item")]
+    public FeItem Item { get; set; } = new FeItem();
+ 
     [JsonProperty("WithholdingTaxSubTotals")]
     public List<FeWithholdingTaxSubTotal> WithholdingTaxSubTotals { get; set; } = new List<FeWithholdingTaxSubTotal>();
 
     [JsonProperty("WithholdingTaxTotals")]
     public List<FeWithholdingTaxTotal> WithholdingTaxTotals { get; set; } = new List<FeWithholdingTaxTotal>();
+
 }
 
 public class FeNameValue
@@ -466,6 +470,31 @@ public class FeWithholdingTaxTotal
 
     [JsonProperty("WithholdingTaxCategory")]
     public string WithholdingTaxCategory { get; set; }
+}
+
+public class FeAllowanceCharges
+{
+    [JsonProperty("ChargeIndicator")]
+    public string ChargeIndicator { get; set; }
+
+    [JsonProperty("BaseAmount")]
+    public string BaseAmount { get; set; }
+
+    [JsonProperty("ReasonCode")]
+    public string ReasonCode { get; set; }
+
+    [JsonProperty("Reason")]
+    public string Reason { get; set; }
+
+    [JsonProperty("Amount")]
+    public string Amount { get; set; }
+
+    [JsonProperty("Percentage")]
+    public string Percentage { get; set; }
+
+    [JsonProperty("SequenceIndicator")]
+    public string SequenceIndicator { get; set; }
+
 }
 
 public class FeRespuestaConsultaDocumento
