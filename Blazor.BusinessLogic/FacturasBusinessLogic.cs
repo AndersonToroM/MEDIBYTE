@@ -441,6 +441,22 @@ namespace Blazor.BusinessLogic
             feRootJson.Total.PayableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture);
             feRootJson.Total.TaxableAmount = "0";
 
+            if(fac.ValorDescuentos > 0)
+            {
+                feRootJson.AllowanceCharges.Add(new FeAllowanceCharges
+                {
+                    ChargeIndicator = "false",
+                    BaseAmount = fac.ValorSubtotal.ToString(CultureInfo.InvariantCulture),
+                    ReasonCode = "00",
+                    Reason = "Descuento no condicionado",
+                    Amount = fac.ValorDescuentos.ToString(CultureInfo.InvariantCulture),
+                    Percentage = ((fac.ValorDescuentos*100)/(fac.ValorSubtotal)).ToString(CultureInfo.InvariantCulture),
+                    SequenceIndicator = "1"
+                });
+            }
+
+            feRootJson.Total.AllowancesTotalAmount = fac.ValorDescuentos.ToString(CultureInfo.InvariantCulture);
+
             if (!string.IsNullOrWhiteSpace(fac.Observaciones))
                 feRootJson.Notes.Add(fac.Observaciones);
             else
@@ -503,7 +519,6 @@ namespace Blazor.BusinessLogic
             }
 
             int numberLine = 1;
-            int secuenceIndicator = 1;
             foreach (var facDetalle in facDetalles)
             {
                 FeLine feLine = new FeLine();
@@ -511,24 +526,9 @@ namespace Blazor.BusinessLogic
                 feLine.Quantity = facDetalle.Cantidad.ToString("F2", CultureInfo.InvariantCulture);
                 feLine.QuantityUnitOfMeasure = DApp.Util.Dian.QuantityUnitOfMeasure;
                 feLine.ExcludeVat = "true";
-
-                if(facDetalle.PorcDescuento > 0)
-                {
-                    feLine.AllowanceCharges.Add(new FeAllowanceCharges
-                    {
-                        ChargeIndicator = "false",
-                        BaseAmount = facDetalle.ValorServicio.ToString(CultureInfo.InvariantCulture),
-                        ReasonCode = "00",
-                        Reason = "Descuento no condicionado",
-                        Amount = fac.ValorDescuentos.ToString(CultureInfo.InvariantCulture),
-                        Percentage = facDetalle.PorcDescuento.ToString(CultureInfo.InvariantCulture),
-                        SequenceIndicator = secuenceIndicator.ToString()
-                    });
-                }
-
                 feLine.UnitPrice = facDetalle.ValorServicio.ToString(CultureInfo.InvariantCulture);
                 feLine.GrossAmount = facDetalle.SubTotal.ToString(CultureInfo.InvariantCulture);
-                feLine.NetAmount = facDetalle.ValorTotal.ToString(CultureInfo.InvariantCulture);
+                feLine.NetAmount = facDetalle.SubTotal.ToString(CultureInfo.InvariantCulture);
                 feLine.Item.Gtin = facDetalle.Servicios.Codigo;
                 feLine.Item.Description = facDetalle.Servicios.Nombre;
 
@@ -642,7 +642,6 @@ namespace Blazor.BusinessLogic
 
                 feRootJson.Lines.Add(feLine);
                 numberLine++;
-                secuenceIndicator++;
             }
 
             return JsonConvert.SerializeObject(feRootJson, Newtonsoft.Json.Formatting.Indented);

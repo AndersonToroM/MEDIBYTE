@@ -157,6 +157,9 @@ public class FeFacturaJson
     [JsonProperty("Lines")]
     public List<FeLine> Lines { get; set; } = new List<FeLine>();
 
+    [JsonProperty("AllowanceCharges")]
+    public List<FeAllowanceCharges> AllowanceCharges { get; set; } = new List<FeAllowanceCharges>();
+
     [JsonProperty("Total")]
     public FeTotal Total { get; set; } = new FeTotal();
 
@@ -383,9 +386,6 @@ public class FeLine
     [JsonProperty("ExcludeVat")]
     public string ExcludeVat { get; set; }
 
-    [JsonProperty("AllowanceCharges")]
-    public List<FeAllowanceCharges> AllowanceCharges { get; set; } = new List<FeAllowanceCharges>();
-
     [JsonProperty("UnitPrice")]
     public string UnitPrice { get; set; }
 
@@ -435,17 +435,21 @@ public class FeTotal
     [JsonProperty("GrossAmount")]
     public string GrossAmount { get; set; }
 
+    [JsonProperty("TotalBillableAmount")]
+    public string TotalBillableAmount { get; set; }
+
     [JsonProperty("PayableAmount")]
     public string PayableAmount { get; set; }
-
-    [JsonProperty("PrePaidTotalAmount")]
-    public string PrePaidTotalAmount { get; set; }
 
     [JsonProperty("TaxableAmount")]
     public string TaxableAmount { get; set; }
 
-    [JsonProperty("TotalBillableAmount")]
-    public string TotalBillableAmount { get; set; }
+    [JsonProperty("AllowancesTotalAmount")]
+    public string AllowancesTotalAmount { get; set; }
+
+    [JsonProperty("PrePaidTotalAmount")]
+    public string PrePaidTotalAmount { get; set; }
+
 }
 
 public class FeWithholdingTaxSubTotal
