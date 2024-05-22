@@ -410,14 +410,14 @@
           <Rows>
             <Item1 Ref="187" ControlType="XRTableRow" Name="tableRow14" Weight="1">
               <Cells>
-                <Item1 Ref="188" ControlType="XRTableCell" Name="tableCell20" Weight="1" Multiline="true" Text="Representación gráfica de la factura electrónica de venta" Font="Calibri, 5pt">
+                <Item1 Ref="188" ControlType="XRTableCell" Name="tableCell20" Weight="1" Multiline="true" Text="Representación gráfica de la factura electrónica de venta" Font="Calibri, 6.5pt">
                   <StylePriority Ref="189" UseFont="false" />
                 </Item1>
               </Cells>
             </Item1>
             <Item2 Ref="190" ControlType="XRTableRow" Name="tableRow15" Weight="1">
               <Cells>
-                <Item1 Ref="191" ControlType="XRTableCell" Name="tableCell22" Weight="1" Multiline="true" Font="Calibri, 5pt">
+                <Item1 Ref="191" ControlType="XRTableCell" Name="tableCell22" Weight="1" Multiline="true" Font="Calibri, 6.5pt">
                   <ExpressionBindings>
                     <Item1 Ref="192" EventName="BeforePrint" PropertyName="Text" Expression="[FACTURA_DIAN]" />
                   </ExpressionBindings>

@@ -571,14 +571,14 @@
           <Rows>
             <Item1 Ref="263" ControlType="XRTableRow" Name="tableRow14" Weight="1">
               <Cells>
-                <Item1 Ref="264" ControlType="XRTableCell" Name="tableCell20" Weight="1" Multiline="true" Text="Representación gráfica de la factura electrónica de venta" Font="Calibri, 5pt">
+                <Item1 Ref="264" ControlType="XRTableCell" Name="tableCell20" Weight="1" Multiline="true" Text="Representación gráfica de la factura electrónica de venta" Font="Calibri, 6.5pt">
                   <StylePriority Ref="265" UseFont="false" />
                 </Item1>
               </Cells>
             </Item1>
             <Item2 Ref="266" ControlType="XRTableRow" Name="tableRow15" Weight="1">
               <Cells>
-                <Item1 Ref="267" ControlType="XRTableCell" Name="tableCell22" Weight="1" Multiline="true" Font="Calibri, 5pt">
+                <Item1 Ref="267" ControlType="XRTableCell" Name="tableCell22" Weight="1" Multiline="true" Font="Calibri, 6.5pt">
                   <ExpressionBindings>
                     <Item1 Ref="268" EventName="BeforePrint" PropertyName="Text" Expression="[FACTURA_DIAN]" />
                   </ExpressionBindings>
@@ -590,7 +590,7 @@
               <Cells>
                 <Item1 Ref="271" ControlType="XRTableCell" Name="tableCell24" Weight="1" Multiline="true">
                   <ExpressionBindings>
-                    <Item1 Ref="272" EventName="BeforePrint" PropertyName="Text" Expression="[FACTURA_CUFE]" />
+                    <Item1 Ref="272" EventName="BeforePrint" PropertyName="Text" Expression="Concat('CUFE: ', IsNull([FACTURA_CUFE], ''))" />
                   </ExpressionBindings>
                 </Item1>
               </Cells>
