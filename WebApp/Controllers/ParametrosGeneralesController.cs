@@ -287,22 +287,22 @@ namespace Blazor.WebApp.Controllers
             try
             {
                 if (consecutivoHC == "" || consecutivoHC == null)
-                    throw new Exception($"El consecutivo no es correcto. Historia clínica Nro.: {consecutivoHC}");
+                    throw new Exception($"El consecutivo no es correcto. Historia clÃ­nica Nro.: {consecutivoHC}");
                 if (string.IsNullOrWhiteSpace(detalleAnulacionHC))
-                    throw new Exception($"El motivo de anulación es obligatorio.");
+                    throw new Exception($"El motivo de anulaciÃ³n es obligatorio.");
 
                 var historiaClinica = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.Consecutivo == consecutivoHC, true);
                 if (historiaClinica == null)
-                    throw new Exception($"La historia clínica No. {consecutivoHC} no existe.");
+                    throw new Exception($"La historia clÃ­nica No. {consecutivoHC} no existe.");
 
                 if (historiaClinica.EstadosId == 19)
-                    throw new Exception($"No es posible anular la historia clínica porque se encuentra en estado \"Cerrada\".");
+                    throw new Exception($"No es posible anular la historia clÃ­nica porque se encuentra en estado \"Cerrada\".");
 
                 if (historiaClinica.EstadosId == 81)
-                    throw new Exception($"La historia clínica No. {consecutivoHC} ya se encuentra anulada.");
+                    throw new Exception($"La historia clÃ­nica No. {consecutivoHC} ya se encuentra anulada.");
 
                 if (historiaClinica.Atenciones.EstadosId != 10077)
-                    throw new Exception($"Para anular la historia clínica No. {consecutivoHC} debe anular la atención del paciente desde Atenciones.");
+                    throw new Exception($"Para anular la historia clÃ­nica No. {consecutivoHC} debe anular la atenciÃ­n del paciente desde Atenciones.");
 
                 historiaClinica.DetalleAnulacion = detalleAnulacionHC;
                 historiaClinica.LastUpdate = DateTime.Now;

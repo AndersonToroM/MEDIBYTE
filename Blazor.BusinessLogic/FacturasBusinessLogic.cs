@@ -85,6 +85,7 @@ namespace Blazor.BusinessLogic
                 {
                     fac.IdDocumentoFE = enviarDocumento_IFE.IdDocumentFE;
                     fac.UpdatedBy = user;
+                    fac.LastUpdate = DateTime.Now;
                     unitOfWork.Repository<Facturas>().Modify(fac);
                     unitOfWork.CommitTransaction();
                     enviarDocumento_IFE.IdDocumentFE = fac.IdDocumentoFE;
@@ -246,7 +247,7 @@ namespace Blazor.BusinessLogic
                 {
                     fac.CUFE = consultarDatosDoc_IFE.Cufe;
                     fac.IssueDate = consultarDatosDoc_IFE.IssueDate;
-
+                    fac.LastUpdate = DateTime.Now;
                     fac.UpdatedBy = user;
                 }
 
