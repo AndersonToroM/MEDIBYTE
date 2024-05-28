@@ -560,7 +560,9 @@ namespace Blazor.BusinessLogic
                         TaxAmount = (fac.ValorTotal * (fac.Entidades.PorcentajeReteIca / 100)).ToString("F2", CultureInfo.InvariantCulture)
                     });
 
-                    if (facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
+                    if (facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 ||
+                        facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59 ||
+                        facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 69)
                     {
                         FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
                         var facturaCopagoCuotaModeradora = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
