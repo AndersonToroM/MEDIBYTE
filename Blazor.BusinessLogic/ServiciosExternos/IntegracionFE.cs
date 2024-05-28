@@ -27,7 +27,7 @@ public class IntegracionFE
     private readonly string _urlGetSeries = "v2/{0}/companies/{1}/series/getall";
     private string _urlGetEstadoDocumento = "v2/{0}/outbounddocuments/{1}/status";
     private string _urlGetDatosDocumento = "v2/{0}/outbounddocuments/{1}";
-    private string _urlGetXmlDocumento = "v2/{0}/outbounddocuments/{1}/ubl";
+    private string _urlGetXmlDocumento = "v2/{0}/outbounddocuments/{1}/attacheddocument";
 
     private readonly ParametrosGenerales _parametrosGenerales;
 
