@@ -1,4 +1,4 @@
-cd /home/cloudonesoftProd
+cd /home/cloudonesoftTest
 chmod -R 777 ./siisoapp
 cd ./siisoapp
 cp appsettings.prod.json appsettings.json
