@@ -24,7 +24,7 @@
     {
         if (!string.IsNullOrWhiteSpace(Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse))
         {
-            if (Model.Entity.FacturaCopagoCuotaModeradora.DIANResponse.Contains("DIAN Aceptado"))
+            if (Model.Entity.FacturaCopagoCuotaModeradora.ValidadoDIAN == true)
             {
                 enviadoDian = true;
             }

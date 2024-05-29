@@ -85,9 +85,10 @@ namespace Blazor.WebApp.Controllers
             var OnState = model.Entity.IsNew;
 
             var hc = Manager().GetBusinessLogic<HistoriasClinicas>().FindById(x => x.Id == model.Entity.HistoriasClinicasId,false);
-            if (hc.CreatedBy != User.Identity.Name)
+            model.EsMismoUsuario = string.Equals(hc.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
+            if (!model.EsMismoUsuario)
             {
-                ModelState.AddModelError("Entity.Id", $"Solo el empleado que creo la historia clinica {hc.Consecutivo} puede agregar notas aclaratorias.");
+                ModelState.AddModelError("Entity.Id", $"Sólo el empleado ({hc.CreatedBy}) que creo la historia clinica Consecutivo ({hc.Consecutivo}), puede agregarle notas aclaratorias.");
             }
 
             if (ModelState.IsValid) 

@@ -15,9 +15,8 @@
     .ID("HistoriasClinicasNotasAclaratoriasDataGrid") 
     .DataSource(d => d.Mvc().LoadMethod("POST").Controller("HistoriasClinicasNotasAclaratorias").LoadAction("Get").Key("Id")) 
     .Columns(columns => 
-    { 
-        columns.AddFor(m => m.CreationDate).Format(DApp.DefaultLanguage.DateTimeFormat).Caption(DApp.DefaultLanguage.GetResource("HistoriasClinicasNotasAclaratorias.FechaCreacion")); 
-        columns.AddFor(m => m.Aclaracion); 
+    {
+        columns.AddFor(m => m.CreationDate).Format(DApp.DefaultLanguage.DateTimeFormat).Caption(DApp.DefaultLanguage.GetResource("HistoriasClinicasNotasAclaratorias.FechaCreacion")).SortOrder(SortOrder.Desc);
         columns.AddFor(m => m.Profesional.NombreCompleto); 
     }) 
 ) 
