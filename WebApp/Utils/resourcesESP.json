@@ -2737,7 +2737,7 @@
   },
   {
     "Id": "Filiales.Nombre",
-    "Description": "Nombre"
+    "Description": "Filial"
   },
   {
     "Id": "Filiales.PaginaWeb",
