@@ -1188,6 +1188,10 @@ namespace Blazor.BusinessLogic
                 factura.FehaInicial = DateTime.Now;
                 factura.FechaFinal = DateTime.Now;
                 factura.MontoEscrito = DApp.Util.NumeroEnLetras(factura.ValorTotal);
+
+                admision.LastUpdate = DateTime.Now;
+                admision.UpdatedBy = userName;
+
                 if (admision.FormasPagos.Codigo == "1")
                     factura.Estadosid = 16;
                 else

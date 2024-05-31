@@ -13,6 +13,7 @@ using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -838,6 +840,7 @@ namespace Blazor.BusinessLogic
                     if (pacientesId.Count > 0)
                     {
                         var listServices = new BlazorUnitWork(UnitOfWork.Settings).Repository<AdmisionesServiciosPrestados>().Table.Include(x => x.Admisiones).Where(x => (x.FacturasId == nota.FacturasId || x.Admisiones.FacturaCopagoCuotaModeradoraId == nota.FacturasId) && pacientesId.Contains(x.Admisiones.PacientesId)).ToList();
+                        /*
                         var listAdminsiones = listServices.Select(x => x.Admisiones).Distinct().ToList();
 
                         if (listAdminsiones != null && listAdminsiones.Count > 0)
@@ -845,8 +848,10 @@ namespace Blazor.BusinessLogic
                             {
                                 adm.Facturado = false;
                                 adm.FacturaCopagoCuotaModeradoraId = null;
+                                adm.LastUpdate = DateTime.Now;
+                                adm.UpdatedBy = nota.UpdatedBy;
                                 unitOfWork.Repository<Admisiones>().Modify(adm);
-                            }
+                            }*/
 
                         if (listServices != null && listServices.Count > 0)
                             foreach (var ser in listServices)
@@ -864,14 +869,26 @@ namespace Blazor.BusinessLogic
                     var listServices = new BlazorUnitWork(UnitOfWork.Settings).Repository<AdmisionesServiciosPrestados>().Table.Include(x => x.Admisiones).Where(x => x.FacturasId == nota.FacturasId || x.Admisiones.FacturaCopagoCuotaModeradoraId == nota.FacturasId).ToList();
                     var listAdminsiones = listServices.Select(x => x.Admisiones).Distinct().ToList();
 
+                    if (nota.PacientesId != null)
+                        foreach (var adm in listAdminsiones)
+                        {
+                            adm.Facturado = false;
+                            adm.FacturaCopagoCuotaModeradoraId = null;
+                            adm.LastUpdate = DateTime.Now;
+                            adm.UpdatedBy = nota.UpdatedBy;
+                            unitOfWork.Repository<Admisiones>().Modify(adm);
+                        }
+                    /*
                     if (listAdminsiones != null && listAdminsiones.Count > 0)
                         foreach (var adm in listAdminsiones)
                         {
                             adm.Facturado = false;
                             adm.FacturaCopagoCuotaModeradoraId = null;
+                            adm.LastUpdate = DateTime.Now;
+                            adm.UpdatedBy = nota.UpdatedBy;
                             unitOfWork.Repository<Admisiones>().Modify(adm);
-                        }
-
+                        }*/
+                        
                     if (listServices != null && listServices.Count > 0)
                         foreach (var ser in listServices)
                         {
