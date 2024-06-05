@@ -356,7 +356,7 @@ namespace Blazor.BusinessLogic
         }
 
         /// <summary>
-        /// https://localhost:44333/empresas/ObtenerJsonFacturaFE?id=68282
+        /// https://localhost:44333/empresas/ObtenerJsonFacturaFE?id=10219
         /// </summary>
         /// <param name="idFactura"></param>
         /// <returns></returns>
@@ -520,6 +520,7 @@ namespace Blazor.BusinessLogic
             }
 
             int numberLine = 1;
+            var facturaYaAgregadaPrepayments = new List<long>();
             foreach (var facDetalle in facDetalles)
             {
                 FeLine feLine = new FeLine();
@@ -564,15 +565,19 @@ namespace Blazor.BusinessLogic
                         facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59 ||
                         facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 69)
                     {
-                        FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
                         var facturaCopagoCuotaModeradora = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
                         if (facturaCopagoCuotaModeradora == null)
                         {
                             throw new Exception($"La admisión numero {facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.Consecutivo} no ha sido facturada.");
                         }
-                        fePrepaidPayment.PaidDate = facturaCopagoCuotaModeradora.Fecha;
-                        fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorTotal.ToString(CultureInfo.InvariantCulture);
-                        feRootJson.PrepaidPayments.Add(fePrepaidPayment);
+                        if (!facturaYaAgregadaPrepayments.Contains(facturaCopagoCuotaModeradora.Id)) // verifica si ya fue agregada la factura de copago y cuota moderadora.
+                        {
+                            FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
+                            fePrepaidPayment.PaidDate = facturaCopagoCuotaModeradora.Fecha;
+                            fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorTotal.ToString(CultureInfo.InvariantCulture);
+                            feRootJson.PrepaidPayments.Add(fePrepaidPayment);
+                            facturaYaAgregadaPrepayments.Add(facturaCopagoCuotaModeradora.Id);
+                        }
                     }
 
                     FeCollection feCollection = new FeCollection();
