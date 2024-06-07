@@ -17,6 +17,7 @@ using DevExpress.CodeParser.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Dominus.Backend.HttpClient;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

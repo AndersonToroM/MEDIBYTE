@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Dominus.Backend.Application
 {
@@ -26,9 +24,9 @@ namespace Dominus.Backend.Application
 
     }
 
-    public static class Menu
+    public static class MenuAplicativo
     {
-        public static List<MenuModel> MenuAplicacion { get; set; } = new List<MenuModel>();
+        public static List<MenuModel> Menus { get; set; } = new List<MenuModel>();
 
         public static List<MenuModel> GetMenu(string pathMenu)
         {

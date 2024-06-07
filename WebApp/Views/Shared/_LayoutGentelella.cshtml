@@ -135,7 +135,7 @@
                         <div class="menu_section">
                             <ul class="nav side-menu" id="sidebar-menu-container-options">
                                 @{
-                                    var menu = Dominus.Backend.Application.Menu.MenuAplicacion;
+                                    var menu = Dominus.Backend.Application.MenuAplicativo.Menus;
                                     foreach (var module in menu)
                                     {
                                         @if (module.Options.Exists(x => x.Havepermission))

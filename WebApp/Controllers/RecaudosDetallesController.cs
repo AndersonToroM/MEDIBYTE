@@ -16,6 +16,7 @@ using Blazor.BusinessLogic;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

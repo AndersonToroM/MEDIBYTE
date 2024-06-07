@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using WidgetGallery;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

@@ -13,6 +13,7 @@ using System;
 using Blazor.BusinessLogic;
 using DevExpress.Data.ODataLinq.Helpers;
 using System.Linq;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

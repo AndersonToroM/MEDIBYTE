@@ -66,6 +66,7 @@ namespace CodeGenerator.Templates.NETCoreMVC
                     sw.WriteLine(@"using System;");
                     sw.WriteLine(@"using System.Linq;");
                     sw.WriteLine(@"using Newtonsoft.Json;");
+                    sw.WriteLine(@"using Dominus.Backend.Application;");
                     sw.WriteLine(@"using {0}.BusinessLogic;",Project);
                     sw.WriteLine();
                     sw.WriteLine(@"namespace {0}.WebApp.Controllers", Project);

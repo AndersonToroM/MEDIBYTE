@@ -28,14 +28,14 @@ namespace Blazor.WebApp.Controllers
             ViewBag.VersionApp = DApp.InfoApp.VersionApp;
             ViewBag.ParcheApp = DApp.InfoApp.ParcheApp;
 
-            if (Dominus.Backend.Application.Menu.MenuAplicacion == null || !Dominus.Backend.Application.Menu.MenuAplicacion.Any())
+            if (MenuAplicativo.Menus == null || !MenuAplicativo.Menus.Any())
             {
                 try
                 {
                     Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
 
                     var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
-                    var menu = Dominus.Backend.Application.Menu.GetMenu(pathMenu);
+                    var menu = MenuAplicativo.GetMenu(pathMenu);
                     menu.ForEach(x =>
                     {
                         x.Options.ForEach(j =>
@@ -46,11 +46,11 @@ namespace Blazor.WebApp.Controllers
                         x.Module = @DApp.DefaultLanguage.GetResource(x.Module);
                     });
 
-                    Dominus.Backend.Application.Menu.MenuAplicacion = menu;
+                    MenuAplicativo.Menus = menu;
                 }
                 catch (Exception ex)
                 {
-                    DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.Index() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                    DApp.LogException(ex);
                 }
             }
 
@@ -152,7 +152,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DownloadLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogException(ex);
                 return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
             }
         }
@@ -172,7 +172,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DeleteLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogException(ex);
                 return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
             }
         }

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

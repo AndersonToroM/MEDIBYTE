@@ -2,6 +2,7 @@ using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.RadicacionCuentas;
 using Blazor.WebApp.Models;
+using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

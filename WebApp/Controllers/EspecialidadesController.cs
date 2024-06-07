@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using Blazor.BusinessLogic;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

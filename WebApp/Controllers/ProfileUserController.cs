@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

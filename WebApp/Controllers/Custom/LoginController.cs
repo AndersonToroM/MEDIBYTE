@@ -140,6 +140,7 @@ namespace Blazor.WebApp.Controllers
 
             //newSession = manager.GetBusinessLogic<Session>().Add(newSession);
 
+            DApp.LogToFile(LogType.Informativo, $"El usuario {model.UserName} inicio sesion.");
             return RedirectToAction("Index", "Home");
         }
 
@@ -181,8 +182,8 @@ namespace Blazor.WebApp.Controllers
             //await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             //return RedirectToAction(conexion, "empresa");
 
-            Dominus.Backend.Application.Menu.MenuAplicacion = null;
-
+            MenuAplicativo.Menus = null;
+            DApp.LogToFile(LogType.Informativo, $"El usuario {User.Identity.Name} cerro sesion.");
             await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("~/");
         }
@@ -235,7 +236,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(LoginController)}.SaveLogFromClient() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogException(ex);
                 return BadRequest();
             }
         }

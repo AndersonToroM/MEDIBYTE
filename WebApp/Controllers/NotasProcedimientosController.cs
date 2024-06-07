@@ -15,7 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WidgetGallery;
-namespace WebApp.Controllers
+using Dominus.Backend.Application;
+
+namespace Blazor.WebApp.Controllers
 {
     [Authorize]
     public class NotasProcedimientosController : BaseAppController

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Blazor.BusinessLogic.Models;
 using WidgetGallery;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

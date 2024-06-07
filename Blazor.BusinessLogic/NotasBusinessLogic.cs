@@ -761,7 +761,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception ex)
             {
-                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(NotasBusinessLogic)}.EnviarEmail() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogException(ex);
                 return false;
             }
         }

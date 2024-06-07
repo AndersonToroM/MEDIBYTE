@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WidgetGallery;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

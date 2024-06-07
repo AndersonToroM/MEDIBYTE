@@ -16,6 +16,7 @@ using Blazor.BusinessLogic;
 using Dominus.Backend.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

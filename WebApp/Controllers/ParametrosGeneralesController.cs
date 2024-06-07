@@ -15,6 +15,7 @@ using Blazor.BusinessLogic;
 using Dominus.Backend.Security;
 using Blazor.Infrastructure;
 using DevExpress.Xpo;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

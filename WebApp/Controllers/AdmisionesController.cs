@@ -16,6 +16,7 @@ using Blazor.BusinessLogic;
 using DevExpress.DataProcessing;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

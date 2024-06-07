@@ -12,6 +12,7 @@ using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Backend.HttpClient;
 using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -1065,7 +1066,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception ex)
             {
-                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(FacturasBusinessLogic)}.EnviarEmail() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogException(ex);
                 return false;
             }
         }
