@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using Blazor.BusinessLogic;
+using System.Linq;
 
 namespace Blazor.WebApp
 {
@@ -17,12 +18,9 @@ namespace Blazor.WebApp
     {
         public AppState(IConfiguration config, IHttpContextAccessor httpContextAccessor) : base(config, httpContextAccessor)
         {
-            SwitchApp = Convert.ToInt16(config["SwitchApp"]);
             SetUser(this.ActualUsuarioId());
             SetEmpresa(this.ActualEmpresaId());
         }
-
-        public short SwitchApp { get; set; }
 
         #region Empresa
 
@@ -50,7 +48,7 @@ namespace Blazor.WebApp
         private void SetUser(long id)
         {
             if (id > 0)
-                Usuario = Manager().GetBusinessLogic<User>().FindById(x=> x.Id ==  id, true);
+                Usuario = Manager().GetBusinessLogic<User>().FindById(x => x.Id == id, true);
 
             if (Usuario == null)
             {
@@ -62,26 +60,6 @@ namespace Blazor.WebApp
         }
 
         #endregion
-
-        public List<Dominus.Backend.Application.MenuModel> GetMenu()
-        {
-            Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
-
-            var pathMenu = System.IO.Path.Combine("Utils","menu.json");
-            List<Dominus.Backend.Application.MenuModel> menu = Dominus.Backend.Application.Menu.GetMenu(pathMenu);
-            menu.ForEach(x => {
-                x.Options.ForEach(j =>
-                {
-                    j.Havepermission = !DApp.ActionViewSecurity(httpContextAccessor.HttpContext, "/" + j.Name + "/List");
-                    j.Resource = @DApp.DefaultLanguage.GetResource(j.Resource);
-                });
-                x.Module = @DApp.DefaultLanguage.GetResource(x.Module);
-            });
-
-
-            return menu;
-        }
-
     }
 
 

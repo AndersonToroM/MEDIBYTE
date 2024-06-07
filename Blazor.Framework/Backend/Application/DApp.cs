@@ -75,7 +75,7 @@ namespace Dominus.Backend.Application
         {
             try
             {
-                string pathFile = Path.Combine(PathDirectoryLogs, "ErrorFile.log");
+                string pathFile = Path.Combine(PathDirectoryLogs, $"ErrorFile{DateTime.Now:yyyyMMdd}.log");
                 File.AppendAllText(pathFile, $"{text}{Environment.NewLine}");
             }
             catch
@@ -176,8 +176,7 @@ namespace Dominus.Backend.Application
             //Se evalua si en la cookie estan los parametros asignados
             if (CConnectionName == null || CProfilesId == null)
             {
-                Console.WriteLine("El claim en el contexto no esta completo, faltan parametros ConnectionName y ProfilesId ");
-                throw new System.Exception(DApp.DefaultLanguage.GetResource("SECURITY.NOCLAIMPARAMETERS"));
+                throw new System.Exception("El claim en el contexto no esta completo, faltan parametros ConnectionName y ProfilesId");
             }
 
             string ConnectionName = CConnectionName.Value;
@@ -247,9 +246,12 @@ namespace Dominus.Backend.Application
 
         public static void UpdateSecurityNavigation(SecurityNavigation seguridad, string host)
         {
-            DApp.Tenants.Find(x => x.Name.Contains(host)).DataBaseSetting.ListSecurityNavigation.RemoveAll(x => x.ProfileId == seguridad.ProfileId);
-            DApp.Tenants.Find(x => x.Name.Contains(host)).DataBaseSetting.ListSecurityNavigation.Add(seguridad);
+            var tenant = DApp.Tenants.Find(x => x.Name.Contains(host));
+            if (tenant != null)
+            {
+                tenant.DataBaseSetting.ListSecurityNavigation.RemoveAll(x => x.ProfileId == seguridad.ProfileId);
+                tenant.DataBaseSetting.ListSecurityNavigation.Add(seguridad);
+            }
         }
-
     }
 }

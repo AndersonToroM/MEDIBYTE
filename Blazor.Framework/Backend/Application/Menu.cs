@@ -28,6 +28,8 @@ namespace Dominus.Backend.Application
 
     public static class Menu
     {
+        public static List<MenuModel> MenuAplicacion { get; set; } = new List<MenuModel>();
+
         public static List<MenuModel> GetMenu(string pathMenu)
         {
             List<MenuModel> menu = new List<MenuModel>();

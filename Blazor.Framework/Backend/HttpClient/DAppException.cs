@@ -1,4 +1,5 @@
-﻿using Dominus.Frontend.Controllers;
+﻿using Dominus.Backend.Application;
+using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,8 @@ namespace Dominus.Backend.HttpClient
                 {
                     Exception ex = context.Features.Get<IExceptionHandlerFeature>().Error;
 
+                    DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(ExceptionHandlerExtension)}.UseDAppExceptionHandler() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                    
                     if (ex is DAppException)
                     {
                         var appEx = ex as DAppException;

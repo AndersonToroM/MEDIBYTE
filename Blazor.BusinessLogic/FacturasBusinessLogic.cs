@@ -1063,9 +1063,9 @@ namespace Blazor.BusinessLogic
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                DApp.LogToFile($"{e.GetFullErrorMessage()} | {e.StackTrace}");
+                DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(FacturasBusinessLogic)}.EnviarEmail() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
                 return false;
             }
         }

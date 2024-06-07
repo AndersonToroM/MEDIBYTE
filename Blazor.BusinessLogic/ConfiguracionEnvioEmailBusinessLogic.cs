@@ -1,6 +1,7 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Frontend.Controllers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,26 +25,26 @@ namespace Blazor.BusinessLogic
 
         public void EnviarEmail(EmailModelConfig data)
         {
+            if (!string.IsNullOrWhiteSpace(data.Origen))
+                data.Server = this.FindById(x => x.Origen.Equals(data.Origen), false);
+            else
+                data.Origen = data.Server.Origen;
+
             ConfiguracionEnvioEmailLog configuracionEnvioEmailLog = new ConfiguracionEnvioEmailLog();
+            configuracionEnvioEmailLog.Id = 0;
+            configuracionEnvioEmailLog.IsNew = true;
+            configuracionEnvioEmailLog.UpdatedBy = DApp.Util.UserSystem;
+            configuracionEnvioEmailLog.CreatedBy = DApp.Util.UserSystem;
+            configuracionEnvioEmailLog.CreationDate = DateTime.Now;
+            configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
+            configuracionEnvioEmailLog.Origen = data.Origen;
+            configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
+            configuracionEnvioEmailLog.Asunto = data.Asunto;
+            configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
+
             List<string> errores = new List<string>();
             try
             {
-                if (!string.IsNullOrWhiteSpace(data.Origen))
-                    data.Server = this.FindById(x => x.Origen.Equals(data.Origen), false);
-                else
-                    data.Origen = data.Server.Origen;
-
-                configuracionEnvioEmailLog.Id = 0;
-                configuracionEnvioEmailLog.IsNew = true;
-                configuracionEnvioEmailLog.UpdatedBy = "admin";
-                configuracionEnvioEmailLog.CreatedBy = "admin";
-                configuracionEnvioEmailLog.CreationDate = DateTime.Now;
-                configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
-                configuracionEnvioEmailLog.Origen = data.Origen;
-                configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
-                configuracionEnvioEmailLog.Asunto = data.Asunto;
-                configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
-
                 if (data.Server != null)
                 {
                     if (string.IsNullOrWhiteSpace(data.Asunto))
@@ -213,18 +214,26 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
-                string fullError = e.Message;
-                while (e.InnerException != null)
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.CorreosDestinatarios))
                 {
-                    e = e.InnerException;
-                    fullError += " | " + e.Message;
+                    configuracionEnvioEmailLog.CorreosDestinatarios = "-";
                 }
-
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.CorreoEnvia))
+                {
+                    configuracionEnvioEmailLog.CorreoEnvia = "-";
+                }
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.Asunto))
+                {
+                    configuracionEnvioEmailLog.Asunto = "-";
+                }
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.MetodoUso))
+                {
+                    configuracionEnvioEmailLog.MetodoUso = "-";
+                }
                 configuracionEnvioEmailLog.Exitoso = false;
-                configuracionEnvioEmailLog.Error = fullError;
+                configuracionEnvioEmailLog.Error = e.GetFullErrorMessage();
                 new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
             }
-
         }
 
         public void ProbarEnvioCorreo(ConfiguracionEnvioEmail data)

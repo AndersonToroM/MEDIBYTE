@@ -15,7 +15,15 @@ namespace Blazor.Reports.Facturas
         {
             this.P_Ids.Value = InformacionReporte.Ids;
             this.logoEmpresa.ImageSource = InformacionReporte.LogoEmpresa;
-            this.p_LinkValidacionDIAN.Value = InformacionReporte.ParametrosAdicionales["p_LinkValidacionDIAN"];
+            if (InformacionReporte.ParametrosAdicionales.ContainsKey("p_LinkValidacionDIAN"))
+            {
+                this.p_LinkValidacionDIAN.Value = InformacionReporte.ParametrosAdicionales["p_LinkValidacionDIAN"];
+            }
+            else
+            {
+                this.p_LinkValidacionDIAN.Value = "-";
+            }
+            
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }

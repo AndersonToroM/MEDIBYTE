@@ -27,6 +27,33 @@ namespace Blazor.WebApp.Controllers
         {
             ViewBag.VersionApp = DApp.InfoApp.VersionApp;
             ViewBag.ParcheApp = DApp.InfoApp.ParcheApp;
+
+            if (Dominus.Backend.Application.Menu.MenuAplicacion == null || !Dominus.Backend.Application.Menu.MenuAplicacion.Any())
+            {
+                try
+                {
+                    Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
+
+                    var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
+                    var menu = Dominus.Backend.Application.Menu.GetMenu(pathMenu);
+                    menu.ForEach(x =>
+                    {
+                        x.Options.ForEach(j =>
+                        {
+                            j.Havepermission = !DApp.ActionViewSecurity(httpContextAccessor.HttpContext, "/" + j.Name + "/List");
+                            j.Resource = @DApp.DefaultLanguage.GetResource(j.Resource);
+                        });
+                        x.Module = @DApp.DefaultLanguage.GetResource(x.Module);
+                    });
+
+                    Dominus.Backend.Application.Menu.MenuAplicacion = menu;
+                }
+                catch (Exception ex)
+                {
+                    DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.Index() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                }
+            }
+
             return View();
         }
 
@@ -123,9 +150,10 @@ namespace Blazor.WebApp.Controllers
                 }
                 else throw new Exception($"Archivo {fileName} no encontrado");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+                DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DownloadLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
             }
         }
 
@@ -142,9 +170,10 @@ namespace Blazor.WebApp.Controllers
                 }
                 else throw new Exception($"Archivo {fileName} no encontrado");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+                DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DeleteLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
             }
         }
     }
