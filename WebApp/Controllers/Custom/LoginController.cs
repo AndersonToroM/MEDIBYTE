@@ -235,7 +235,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(LoginController)}.SaveLogFromClient() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(LoginController)}.SaveLogFromClient() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
                 return BadRequest();
             }
         }

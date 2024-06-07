@@ -71,12 +71,12 @@ namespace Dominus.Backend.Application
             }
         }
 
-        public static void LogToFile(string text)
+        public static void LogToFile(LogType type, string text)
         {
             try
             {
                 string pathFile = Path.Combine(PathDirectoryLogs, $"ErrorFile{DateTime.Now:yyyyMMdd}.log");
-                File.AppendAllText(pathFile, $"{text}{Environment.NewLine}");
+                File.AppendAllText(pathFile, $"{type.ToString()} | {text}{Environment.NewLine}");
             }
             catch
             {

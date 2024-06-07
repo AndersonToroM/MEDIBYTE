@@ -36,8 +36,8 @@ namespace Dominus.Backend.HttpClient
                 {
                     Exception ex = context.Features.Get<IExceptionHandlerFeature>().Error;
 
-                    DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(ExceptionHandlerExtension)}.UseDAppExceptionHandler() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
-                    
+                    DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(ExceptionHandlerExtension)}.UseDAppExceptionHandler() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+
                     if (ex is DAppException)
                     {
                         var appEx = ex as DAppException;

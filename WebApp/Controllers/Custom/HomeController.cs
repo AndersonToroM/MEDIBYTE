@@ -50,7 +50,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception ex)
                 {
-                    DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.Index() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                    DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.Index() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
                 }
             }
 
@@ -123,7 +123,7 @@ namespace Blazor.WebApp.Controllers
         {
             List<ArchivoDescargaModel> logsFiles = new List<ArchivoDescargaModel>();
             if (Directory.Exists(DApp.PathDirectoryLogs))
-            {                
+            {
                 DirectoryInfo dirLog = new DirectoryInfo(DApp.PathDirectoryLogs);
                 dirLog.GetFiles().ToList().ForEach(x =>
                 {
@@ -152,7 +152,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DownloadLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DownloadLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
                 return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
             }
         }
@@ -172,7 +172,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogToFile($"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DeleteLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
+                DApp.LogToFile(LogType.Error, $"{DateTime.Now:yyyy/MM/dd HH:mm:ss} | {nameof(HomeController)}.DeleteLogFile() | {ex.GetFullErrorMessage()} | {ex.StackTrace}");
                 return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
             }
         }
