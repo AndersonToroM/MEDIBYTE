@@ -81,7 +81,7 @@ namespace Dominus.Backend.Application
         {
             try
             {
-                string pathFile = Path.Combine(PathDirectoryLogs, $"ErrorFile{DateTime.Now:yyyyMMdd}.log");
+                string pathFile = Path.Combine(PathDirectoryLogs, $"SiisoLog_{DateTime.Now:yyyyMMdd}.log");
                 File.AppendAllText(pathFile, $"{type.ToString()} , {DateTime.Now:yyyy/MM/dd HH:mm:ss} , {text} {Environment.NewLine}");
             }
             catch

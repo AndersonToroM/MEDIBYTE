@@ -38,7 +38,7 @@ namespace Blazor.BusinessLogic
             configuracionEnvioEmailLog.CreationDate = DateTime.Now;
             configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
             configuracionEnvioEmailLog.Origen = data.Origen;
-            configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
+            configuracionEnvioEmailLog.CorreoEnvia = data.Server?.CorreoElectronico;
             configuracionEnvioEmailLog.Asunto = data.Asunto;
             configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
 
@@ -212,8 +212,10 @@ namespace Blazor.BusinessLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
+
                 if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.CorreosDestinatarios))
                 {
                     configuracionEnvioEmailLog.CorreosDestinatarios = "-";
@@ -231,7 +233,7 @@ namespace Blazor.BusinessLogic
                     configuracionEnvioEmailLog.MetodoUso = "-";
                 }
                 configuracionEnvioEmailLog.Exitoso = false;
-                configuracionEnvioEmailLog.Error = e.GetFullErrorMessage();
+                configuracionEnvioEmailLog.Error = ex.GetFullErrorMessage();
                 new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
             }
         }
