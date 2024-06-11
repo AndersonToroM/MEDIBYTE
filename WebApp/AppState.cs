@@ -60,6 +60,34 @@ namespace Blazor.WebApp
         }
 
         #endregion
+
+        public List<MenuModel> GetPermisosMenu()
+        {
+            if (MenuAplicativo.Menus == null || !MenuAplicativo.Menus.Any())
+            {
+                try
+                {
+                    var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
+                    MenuAplicativo.Menus = MenuAplicativo.GetMenu(pathMenu);
+                }
+                catch (Exception ex)
+                {
+                    DApp.LogException(ex);
+                }
+            }
+
+            Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
+            MenuAplicativo.Menus.ForEach(x => {
+                x.Options.ForEach(j =>
+                {
+                    j.Havepermission = !DApp.ActionViewSecurity(httpContextAccessor.HttpContext, "/" + j.Name + "/List");
+                    j.Resource = @DApp.DefaultLanguage.GetResource(j.Resource);
+                });
+                x.Module = @DApp.DefaultLanguage.GetResource(x.Module);
+            });
+            return MenuAplicativo.Menus;
+        }
+
     }
 
 

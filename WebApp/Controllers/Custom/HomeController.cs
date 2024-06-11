@@ -27,33 +27,6 @@ namespace Blazor.WebApp.Controllers
         {
             ViewBag.VersionApp = DApp.InfoApp.VersionApp;
             ViewBag.ParcheApp = DApp.InfoApp.ParcheApp;
-
-            if (MenuAplicativo.Menus == null || !MenuAplicativo.Menus.Any())
-            {
-                try
-                {
-                    Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
-
-                    var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
-                    var menu = MenuAplicativo.GetMenu(pathMenu);
-                    menu.ForEach(x =>
-                    {
-                        x.Options.ForEach(j =>
-                        {
-                            j.Havepermission = !DApp.ActionViewSecurity(httpContextAccessor.HttpContext, "/" + j.Name + "/List");
-                            j.Resource = @DApp.DefaultLanguage.GetResource(j.Resource);
-                        });
-                        x.Module = @DApp.DefaultLanguage.GetResource(x.Module);
-                    });
-
-                    MenuAplicativo.Menus = menu;
-                }
-                catch (Exception ex)
-                {
-                    DApp.LogException(ex);
-                }
-            }
-
             return View();
         }
 
