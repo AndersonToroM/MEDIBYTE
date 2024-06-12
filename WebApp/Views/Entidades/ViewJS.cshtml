@@ -28,9 +28,24 @@
             $("#@(Prefix)DV").dxTextBox("instance").option("value", CalcularDigitoVerificacion(nit));
         }
     }
+    /*
+    function @(Prefix)OnValueChangedTiposPersonasId() {
 
+        var TipoPersonaId = $("#@(Prefix)TiposPersonasId").dxSelectBox("instance").option("selectedItem");
 
-
+        if (TipoPersonaId == 2) {
+            $("#@(Prefix)PrimerNombre").dxTextBox("instance").option("Visible", false);
+            $("#@(Prefix)SegundoNombre").dxTextBox("instance").option("Visible", false);
+            $("#@(Prefix)PrimerApellido").dxTextBox("instance").option("Visible", false);
+            $("#@(Prefix)SegundoApellido").dxTextBox("instance").option("Visible", false);
+        }else
+        {
+            $("#@(Prefix)PrimerNombre").dxTextBox("instance").option("Visible", true);
+            $("#@(Prefix)SegundoNombre").dxTextBox("instance").option("Visible", true);
+            $("#@(Prefix)PrimerApellido").dxTextBox("instance").option("Visible", true);
+            $("#@(Prefix)SegundoApellido").dxTextBox("instance").option("Visible", true);
+        }
+    }*/
 
     function @(Prefix)FormSuccess(data)
     {

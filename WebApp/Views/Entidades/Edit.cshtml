@@ -37,64 +37,91 @@
                 @(Html.DControls().CheckBoxFor(m => m.Entity.EsFijo).ID(Prefix + "EsFijo").Visible(false))
                 @(Html.DControls().NumberBoxFor(m => m.Entity.ConsecutivoRips).ID(Prefix + "ConsecutivoRips").Visible(false))
 
-                @(Html.DControls().Form<EntidadesModel>()
-                    .ID("EntidadesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
-                    .Items(items =>
-                    {
-                        items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
-                            .Items(groupItems =>
-                            {
+                @(
+                Html.DControls().Form<EntidadesModel>()
+                        .ID("EntidadesModelForm").LabelLocation(FormLabelLocation.Top).ShowValidationSummary(false).FormData(Model)
+                        .Items(items =>
+                        {
+                            items.AddGroup().ColCount(12).Caption(DApp.DefaultLanguage.GetResource("DEFAULT.INFORMATIONGENERAL"))
+                                .Items(groupItems =>
+                                {
                                 groupItems.AddSimpleFor(m => m.Entity.CodigoReps).ColSpan(2)
-                               .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Entidades.CodigoReps", 45)))
-                                    .Editor(e => e.TextBox().ID(Prefix + "CodigoReps").ShowClearButton(true));
+                           .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Entidades.CodigoReps", 45)))
+                                .Editor(e => e.TextBox().ID(Prefix + "CodigoReps").ShowClearButton(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.Alias).ColSpan(5)
-                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(150).Message(DApp.GetStringLengthResource("Entidades.Alias", 150)))
-                                      .Editor(e => e.TextBox().ID(Prefix + "Alias").ShowClearButton(true));
+                             .ValidationRules(rules => rules.AddStringLength().Min(0).Max(150).Message(DApp.GetStringLengthResource("Entidades.Alias", 150)))
+                                  .Editor(e => e.TextBox().ID(Prefix + "Alias").ShowClearButton(true));
                                 groupItems.AddSimpleFor(m => m.Entity.Nombre).ColSpan(5)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.Nombre")))
-                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.Nombre", 250)))
-                                      .Editor(e => e.TextBox().ID(Prefix + "Nombre")
-                                      .ReadOnly(!Model.Entity.IsNew)
-                                      .ShowClearButton(true));
+                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.Nombre")))
+                             .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.Nombre", 250)))
+                                  .Editor(e => e.TextBox().ID(Prefix + "Nombre")
+                                  .ReadOnly(!Model.Entity.IsNew)
+                                  .ShowClearButton(true));
 
                                 groupItems.AddSimpleFor(m => m.Entity.TipoEntidadesId).ColSpan(4)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
-                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
-                                      .Editor(e => e.SelectBox().ID(Prefix + "TipoEntidadesId")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Entidades").LoadAction("GetTipoEntidadesId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre", "Codigo")
-                                      .SearchEnabled(true).ShowClearButton(true)
-                                 );
+                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
+                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
+                                  .Editor(e => e.SelectBox().ID(Prefix + "TipoEntidadesId")
+                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Entidades").LoadAction("GetTipoEntidadesId").Key("Id"))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                  .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre", "Codigo")
+                                  .SearchEnabled(true).ShowClearButton(true)
+                             );
 
                                 groupItems.AddSimpleFor(m => m.Entity.TiposIdentificacionId).ColSpan(2)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
-                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
-                                      .Editor(e => e.SelectBox().ID("TiposIdentificacionId")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Entidades").LoadAction("GetTiposIdentificacionId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("Nombre").ReadOnly(!Model.Entity.IsNew)
-                                      .SearchEnabled(true).ShowClearButton(true)
-                                 );
+                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
+                             .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.TiposIdentificacionId")))
+                                  .Editor(e => e.SelectBox().ID("TiposIdentificacionId")
+                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Entidades").LoadAction("GetTiposIdentificacionId").Key("Id"))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                  .ValueExpr("Id").DisplayExpr("Nombre").ReadOnly(!Model.Entity.IsNew)
+                                  .SearchEnabled(true).ShowClearButton(true)
+                             );
                                 groupItems.AddSimpleFor(m => m.Entity.NumeroIdentificacion).ColSpan(3)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.NumeroIdentificacion")))
-                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Entidades.NumeroIdentificacion", 45)))
-                                      .Editor(e => e.TextBox().ID(Prefix + "NumeroIdentificacion").OnFocusOut("calcularDigito")
-                                      .ReadOnly(!Model.Entity.IsNew)
-                                      .ShowClearButton(true));
+                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.NumeroIdentificacion")))
+                             .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Entidades.NumeroIdentificacion", 45)))
+                                  .Editor(e => e.TextBox().ID(Prefix + "NumeroIdentificacion").OnFocusOut("calcularDigito")
+                                  .ReadOnly(!Model.Entity.IsNew)
+                                  .ShowClearButton(true));
                                 groupItems.AddSimpleFor(m => m.Entity.DV).ColSpan(1)
-                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2).Message(DApp.GetStringLengthResource("Entidades.DV", 2)))
-                                   .Editor(e => e.TextBox().ID(Prefix + "DV").ShowClearButton(true).ReadOnly(true));
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(2).Message(DApp.GetStringLengthResource("Entidades.DV", 2)))
+                               .Editor(e => e.TextBox().ID(Prefix + "DV").ShowClearButton(true).ReadOnly(true));
+
                                 groupItems.AddSimpleFor(m => m.Entity.TiposPersonasId).ColSpan(2)
-                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.TiposPersonasId")))
-                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.TiposPersonasId")))
-                                      .Editor(e => e.SelectBox().ID("TiposPersonasId")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Entidades").LoadAction("GetTiposPersonasId").Key("Id"))
-                                      .DataSourceOptions(o => o.Paginate(true).PageSize(50))
-                                      .ValueExpr("Id").DisplayExpr("Nombre")
-                                      .SearchEnabled(true).ShowClearButton(true)
-                                 );
+                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.TiposPersonasId")))
+                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.TiposPersonasId")))
+                                  .Editor(e => e.SelectBox().ID("TiposPersonasId")
+                                  .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Entidades").LoadAction("GetTiposPersonasId").Key("Id"))
+                                  .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                  .ValueExpr("Id").DisplayExpr("Nombre")
+                                  .SearchEnabled(true).ShowClearButton(true)
+                                  //.OnValueChanged($"{Prefix}OnValueChangedTiposPersonasId")
+                                );
+
+                                groupItems.AddSimpleFor(m => m.Entity.PrimerNombre).ColSpan(3)
+                                //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PrimerNombre")))
+                                .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.PrimerNombre", 250)))
+                                .Editor(e => e.TextBox().ID(Prefix + "PrimerNombre")
+                                .ShowClearButton(true)
+                             );
+                             
+                                groupItems.AddSimpleFor(m => m.Entity.SegundoNombre).ColSpan(3)
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.SegundoNombre", 250)))
+                            .Editor(e => e.TextBox().ID(Prefix + "SegundoNombre")
+                            .ShowClearButton(true)
+                            );
+                            groupItems.AddSimpleFor(m => m.Entity.PrimerApellido).ColSpan(3)
+                            //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PrimerApellido")))
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.PrimerApellido", 250)))
+                            .Editor(e => e.TextBox().ID(Prefix + "PrimerApellido")
+                            .ShowClearButton(true)
+                        );
+                            groupItems.AddSimpleFor(m => m.Entity.SegundoApellido).ColSpan(3)
+                            .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.SegundoApellido", 255)))
+                            .Editor(e => e.TextBox().ID(Prefix + "SegundoApellido")
+                            .ShowClearButton(true)
+                            );
                                 groupItems.AddSimpleFor(m => m.PaisesId).ColSpan(4)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PaisesId")))
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.PaisesId")))

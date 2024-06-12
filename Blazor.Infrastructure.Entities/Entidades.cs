@@ -114,6 +114,26 @@ namespace Blazor.Infrastructure.Entities
        [DDisplayName("Entidades.ConsecutivoRips")]
        public virtual Int32? ConsecutivoRips { get; set; }
 
+       [Column("PrimerNombre")]
+       [DDisplayName("Entidades.PrimerNombre")]
+       [DStringLength("Entidades.PrimerNombre",255)]
+       public virtual String PrimerNombre { get; set; }
+
+       [Column("SegundoNombre")]
+       [DDisplayName("Entidades.SegundoNombre")]
+       [DStringLength("Entidades.SegundoNombre",255)]
+       public virtual String SegundoNombre { get; set; }
+
+       [Column("PrimerApellido")]
+       [DDisplayName("Entidades.PrimerApellido")]
+       [DStringLength("Entidades.PrimerApellido",255)]
+       public virtual String PrimerApellido { get; set; }
+
+       [Column("SegundoApellido")]
+       [DDisplayName("Entidades.SegundoApellido")]
+       [DStringLength("Entidades.SegundoApellido",255)]
+       public virtual String SegundoApellido { get; set; }
+
        #endregion
 
        #region Columnas referenciales)
@@ -234,17 +254,20 @@ namespace Blazor.Infrastructure.Entities
         Expression<Func<PacientesEntidades, bool>> expression7 = entity => entity.EntidadesId == this.Id;
         rules.Add(new ExpRecurso(expression7.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","PacientesEntidades"), typeof(PacientesEntidades)));
 
-        Expression<Func<ProgramacionCitas, bool>> expression8 = entity => entity.EntidadesId == this.Id;
-        rules.Add(new ExpRecurso(expression8.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProgramacionCitas"), typeof(ProgramacionCitas)));
+        Expression<Func<Profile, bool>> expression8 = entity => entity.EntidadesId == this.Id;
+        rules.Add(new ExpRecurso(expression8.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Profiles"), typeof(Profile)));
 
-        Expression<Func<RadicacionCuentas, bool>> expression9 = entity => entity.EntidadesId == this.Id;
-        rules.Add(new ExpRecurso(expression9.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RadicacionCuentas"), typeof(RadicacionCuentas)));
+        Expression<Func<ProgramacionCitas, bool>> expression9 = entity => entity.EntidadesId == this.Id;
+        rules.Add(new ExpRecurso(expression9.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","ProgramacionCitas"), typeof(ProgramacionCitas)));
 
-        Expression<Func<Recaudos, bool>> expression10 = entity => entity.EntidadesId == this.Id;
-        rules.Add(new ExpRecurso(expression10.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Recaudos"), typeof(Recaudos)));
+        Expression<Func<RadicacionCuentas, bool>> expression10 = entity => entity.EntidadesId == this.Id;
+        rules.Add(new ExpRecurso(expression10.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","RadicacionCuentas"), typeof(RadicacionCuentas)));
 
-        Expression<Func<Rips, bool>> expression11 = entity => entity.EntidadesId == this.Id;
-        rules.Add(new ExpRecurso(expression11.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Rips"), typeof(Rips)));
+        Expression<Func<Recaudos, bool>> expression11 = entity => entity.EntidadesId == this.Id;
+        rules.Add(new ExpRecurso(expression11.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Recaudos"), typeof(Recaudos)));
+
+        Expression<Func<Rips, bool>> expression12 = entity => entity.EntidadesId == this.Id;
+        rules.Add(new ExpRecurso(expression12.ToExpressionNode() , new Recurso("BLL.BUSINESS.DELETE_REL","Rips"), typeof(Rips)));
 
        return rules;
        }

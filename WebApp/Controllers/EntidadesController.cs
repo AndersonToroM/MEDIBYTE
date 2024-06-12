@@ -100,6 +100,10 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.CodigoPostal = DApp.Util.QuitarEspacios(model.Entity.CodigoPostal);
                     model.Entity.CodigoReps = DApp.Util.QuitarEspacios(model.Entity.CodigoReps);
                     model.Entity.DV = DApp.Util.CalcularDigitoVerificacion(model.Entity.NumeroIdentificacion);
+                    model.Entity.PrimerNombre = DApp.Util.QuitarEspacios(model.Entity.PrimerNombre);
+                    model.Entity.SegundoNombre = DApp.Util.QuitarEspacios(model.Entity.SegundoNombre);
+                    model.Entity.PrimerApellido = DApp.Util.QuitarEspacios(model.Entity.PrimerApellido);
+                    model.Entity.SegundoApellido = DApp.Util.CalcularDigitoVerificacion(model.Entity.SegundoApellido);
 
                     if (model.Entity.IsNew) 
                     { 

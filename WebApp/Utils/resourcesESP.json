@@ -1956,6 +1956,22 @@
     "Description": "Porcentaje Reteica %"
   },
   {
+    "Id": "Entidades.PrimerApellido",
+    "Description": "Primer apellido"
+  },
+  {
+    "Id": "Entidades.PrimerNombre",
+    "Description": "Primer nombre"
+  },
+  {
+    "Id": "Entidades.SegundoApellido",
+    "Description": "Segundo apellido"
+  },
+  {
+    "Id": "Entidades.SegundoNombre",
+    "Description": "Segundo nombre"
+  },
+  {
     "Id": "Entidades.Telefono",
     "Description": "Teléfono"
   },

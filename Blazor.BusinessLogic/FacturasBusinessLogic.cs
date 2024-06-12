@@ -467,19 +467,47 @@ namespace Blazor.BusinessLogic
             feRootJson.CustomerParty.Email = parametros.EmailRecepcionFE; // Es el correo al que van a llegar las notificaciones del provedor de FE
             if (fac.EsFacturaInstitucional)
             {
-                feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
-                feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
-                feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
-                feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
-                feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
-                feRootJson.CustomerParty.Identification.CountryCode = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
-                feRootJson.CustomerParty.Identification.CheckDigit = fac.Entidades.DV;
-                feRootJson.CustomerParty.Name = fac.Entidades.Nombre;
-                feRootJson.CustomerParty.Address.DepartmentCode = fac.Entidades.Ciudades.Departamentos.Codigo;
-                feRootJson.CustomerParty.Address.CityCode = fac.Entidades.Ciudades.Codigo;
-                feRootJson.CustomerParty.Address.AddressLine = fac.Entidades.Direccion;
-                feRootJson.CustomerParty.Address.Country = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
-                feRootJson.Total.PrePaidTotalAmount = fac.ValorCopagoCuotaModeradora.ToString(CultureInfo.InvariantCulture);
+                if (fac.Entidades.TiposPersonasId == 2)
+                {
+                    feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
+                    feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
+                    feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
+                    feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
+                    feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
+                    feRootJson.CustomerParty.Identification.CountryCode = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                    feRootJson.CustomerParty.Identification.CheckDigit = fac.Entidades.DV;
+                    feRootJson.CustomerParty.Name = fac.Entidades.Nombre;
+                    feRootJson.CustomerParty.Address.DepartmentCode = fac.Entidades.Ciudades.Departamentos.Codigo;
+                    feRootJson.CustomerParty.Address.CityCode = fac.Entidades.Ciudades.Codigo;
+                    feRootJson.CustomerParty.Address.AddressLine = fac.Entidades.Direccion;
+                    feRootJson.CustomerParty.Address.Country = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                    feRootJson.Total.PrePaidTotalAmount = fac.ValorCopagoCuotaModeradora.ToString(CultureInfo.InvariantCulture);
+                }
+                else if (fac.Entidades.TiposPersonasId == 1)
+                {
+                    feRootJson.CustomerParty.LegalType = fac.Entidades.TiposPersonas.NombreFE;
+                    feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
+                    feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
+                    feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
+                    feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
+                    feRootJson.CustomerParty.Identification.CountryCode = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                    if (fac.Entidades.TiposIdentificacion.CodigoFE == "NIT")
+                    {
+                        feRootJson.CustomerParty.Identification.CheckDigit = fac.Entidades.DV;
+                    }
+                    else
+                    {
+                        feRootJson.CustomerParty.Identification.CheckDigit = null;
+                    }
+                    feRootJson.CustomerParty.Person.FirstName = fac.Entidades.PrimerNombre;
+                    feRootJson.CustomerParty.Person.MiddleName = fac.Entidades.SegundoNombre;
+                    feRootJson.CustomerParty.Person.FamilyName = fac.Entidades.PrimerApellido;
+                    feRootJson.CustomerParty.Address.DepartmentCode = fac.Entidades.Ciudades.Departamentos.Codigo;
+                    feRootJson.CustomerParty.Address.CityCode = fac.Entidades.Ciudades.Codigo;
+                    feRootJson.CustomerParty.Address.AddressLine = fac.Entidades.Direccion;
+                    feRootJson.CustomerParty.Address.Country = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
+                    feRootJson.Total.PrePaidTotalAmount = fac.ValorCopagoCuotaModeradora.ToString(CultureInfo.InvariantCulture);
+                }
             }
             else
             {
