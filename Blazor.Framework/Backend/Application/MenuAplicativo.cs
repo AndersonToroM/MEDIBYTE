@@ -28,19 +28,17 @@ namespace Dominus.Backend.Application
     {
         public static List<MenuModel> Menus { get; set; } = new List<MenuModel>();
 
-        public static List<MenuModel> GetMenu(string pathMenu)
+        public static void GetMenu(string pathMenu)
         {
             List<MenuModel> menu = new List<MenuModel>();
             if (File.Exists(pathMenu))
             {
-                menu = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText(pathMenu));
+                Menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText(pathMenu));
             }
             else
             {
-                menu.Add(new MenuModel { Module = "MODULE.DISPENSATION",Icon= "fas fa-project-diagram", Options = new List<Option> { new Option { Name = "MedicalOrder", Resource = "MedicalOrders" } } });
-                File.WriteAllText(pathMenu, JsonConvert.SerializeObject(menu));
+                DApp.LogToFile(LogType.Error, $"El archivo para el menu {pathMenu} no existe.");
             }
-            return menu;
         }
 
     }

@@ -135,7 +135,8 @@
                         <div class="menu_section">
                             <ul class="nav side-menu" id="sidebar-menu-container-options">
                                 @{
-                                    var menu = appstate.GetPermisosMenu();
+                                    appstate.GetPermisosMenu();
+                                    var menu = MenuAplicativo.Menus;
                                     foreach (var module in menu)
                                     {
                                         @if (module.Options.Exists(x => x.Havepermission))

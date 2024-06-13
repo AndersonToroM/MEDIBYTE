@@ -182,7 +182,6 @@ namespace Blazor.WebApp.Controllers
             //await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             //return RedirectToAction(conexion, "empresa");
 
-            MenuAplicativo.Menus = null;
             //DApp.LogToFile(LogType.Informativo, $"El usuario {User.Identity.Name} cerro sesion.");
             await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("~/");
