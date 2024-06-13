@@ -123,7 +123,7 @@ namespace Blazor.WebApp
                     configure.JsonSerializerOptions.AllowTrailingCommas = true;
                 }).AddXmlSerializerFormatters();
 
-       
+
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
@@ -141,7 +141,8 @@ namespace Blazor.WebApp
             //        .AllowAnyHeader());
             //});
 
-            services.ConfigureReportingServices(configurator => {
+            services.ConfigureReportingServices(configurator =>
+            {
                 configurator.DisableCheckForCustomControllers();
             });
 
@@ -251,18 +252,8 @@ namespace Blazor.WebApp
             //    throw new Exception("Error en la configuracion de la base de datos.");
 
             //Se carga el menu del aplicativo
-            if (!MenuAplicativo.Menus.Any())
-            {
-                try
-                {
-                    var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
-                    MenuAplicativo.Menus = MenuAplicativo.GetMenu(pathMenu);
-                }
-                catch (Exception ex)
-                {
-                    DApp.LogException(ex);
-                }
-            }
+            var pathMenu = Path.Combine("Utils", "menu.json");
+            MenuAplicativo.GetMenu(pathMenu);
 
             foreach (var item in DApp.Tenants)
             {
@@ -271,7 +262,8 @@ namespace Blazor.WebApp
 
             RetryPolicy retryIfException = Policy.Handle<Exception>().WaitAndRetry(5, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(100, retryAttempt) / 100));
             Dictionary<string, string> resources = null;
-            retryIfException.Execute(() => {
+            retryIfException.Execute(() =>
+            {
                 var logic = new Dominus.Backend.DataBase.BusinessLogic(DApp.Tenants.FirstOrDefault().DataBaseSetting);
                 resources = logic.GetBusinessLogic<LanguageResource>().FindAll(x => x.LanguageId == int.Parse(DApp.DefaultLanguage.Id)).ToDictionary(y => y.ResourceKey, z => z.ResourceValue);
             });

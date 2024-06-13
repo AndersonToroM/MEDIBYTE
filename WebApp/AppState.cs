@@ -60,7 +60,7 @@ namespace Blazor.WebApp
 
         #endregion
 
-        public List<MenuModel> GetPermisosMenu()
+        public void GetPermisosMenu()
         {
             Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
             MenuAplicativo.Menus.ForEach(x =>
@@ -72,10 +72,6 @@ namespace Blazor.WebApp
                 });
                 x.Module = @DApp.DefaultLanguage.GetResource(x.Module);
             });
-            return MenuAplicativo.Menus;
         }
-
     }
-
-
 }
