@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WidgetGallery;
+
 using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
@@ -177,7 +177,7 @@ namespace Blazor.WebApp.Controllers
             } 
             else 
             { 
-                 ModelState.AddModelError("Entity.Id", $"Error: " + ModelState.GetFullErrorMessage()); 
+                 ModelState.AddModelError("Entity.Id", $"Error: " + ModelState.GetModelFullError()); 
             } 
             return model; 
         } 

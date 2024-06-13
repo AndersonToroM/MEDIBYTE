@@ -1,13 +1,9 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
-using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Dominus.Backend.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Blazor.BusinessLogic
 {

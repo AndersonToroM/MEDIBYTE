@@ -1,12 +1,10 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
-using DevExpress.Export.Xl;
+using DevExpress.Spreadsheet;
 using Dominus.Backend.DataBase;
 using System;
-using System.Linq;
-using DevExpress.Spreadsheet;
-using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Blazor.BusinessLogic
 {

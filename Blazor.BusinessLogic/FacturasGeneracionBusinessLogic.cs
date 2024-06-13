@@ -5,7 +5,6 @@ using Dominus.Backend.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
 
 namespace Blazor.BusinessLogic
 {

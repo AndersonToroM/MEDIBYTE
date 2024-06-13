@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
-using WidgetGallery;
+
 using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
@@ -108,7 +108,7 @@ namespace Blazor.WebApp.Controllers
             } 
             else 
             { 
-                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage()); 
+                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError()); 
             } 
             return model; 
         } 
