@@ -1,13 +1,12 @@
-﻿using Blazor.Infrastructure.Entities;
+﻿using Blazor.BusinessLogic;
+using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
-using WidgetGallery;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using Blazor.BusinessLogic;
 using System.Linq;
 
 namespace Blazor.WebApp
@@ -63,16 +62,19 @@ namespace Blazor.WebApp
 
         public List<MenuModel> GetPermisosMenu()
         {
-            if (MenuAplicativo.Menus == null || !MenuAplicativo.Menus.Any())
+            lock (MenuAplicativo.Menus)
             {
-                try
+                if (MenuAplicativo.Menus == null || !MenuAplicativo.Menus.Any())
                 {
-                    var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
-                    MenuAplicativo.Menus = MenuAplicativo.GetMenu(pathMenu);
-                }
-                catch (Exception ex)
-                {
-                    DApp.LogException(ex);
+                    try
+                    {
+                        var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
+                        MenuAplicativo.Menus = MenuAplicativo.GetMenu(pathMenu);
+                    }
+                    catch (Exception ex)
+                    {
+                        DApp.LogException(ex);
+                    }
                 }
             }
 

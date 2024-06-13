@@ -1,5 +1,5 @@
 using DevExtreme.AspNet.Data;
-using WidgetGallery;
+
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -103,7 +103,7 @@ namespace Blazor.WebApp.Controllers
                     model.Entity.PrimerNombre = DApp.Util.QuitarEspacios(model.Entity.PrimerNombre);
                     model.Entity.SegundoNombre = DApp.Util.QuitarEspacios(model.Entity.SegundoNombre);
                     model.Entity.PrimerApellido = DApp.Util.QuitarEspacios(model.Entity.PrimerApellido);
-                    model.Entity.SegundoApellido = DApp.Util.CalcularDigitoVerificacion(model.Entity.SegundoApellido);
+                    model.Entity.SegundoApellido = DApp.Util.QuitarEspacios(model.Entity.SegundoApellido);
 
                     if (model.Entity.IsNew) 
                     { 
@@ -124,7 +124,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
             }
             return model; 
         } 

@@ -6,29 +6,18 @@ using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Blazor.Reports.Notas;
 using DevExpress.Compression;
-using DevExpress.Xpo;
 using DevExpress.XtraPrinting;
 using DevExpress.XtraReports.UI;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
-using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
-using static DevExpress.Xpo.Helpers.AssociatedCollectionCriteriaHelper;
 
 namespace Blazor.BusinessLogic
 {

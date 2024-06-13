@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using WidgetGallery;
+
 
 namespace Blazor.WebApp.Controllers
 {
@@ -106,7 +106,7 @@ namespace Blazor.WebApp.Controllers
             } 
             else 
             { 
-                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage()); 
+                 ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError()); 
             } 
             return model; 
         } 

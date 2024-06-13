@@ -2,8 +2,6 @@
     Layout = null;
 }
 
-@using Dominus.Backend.Application
-@inject Blazor.WebApp.AppState appstate
 @model Blazor.Infrastructure.Models.SingInModel
 
 <!DOCTYPE html>
@@ -58,7 +56,7 @@
 
     @using (Html.DevExtreme().NamedTemplate("TemplateValidation"))
     {
-        @(Html.DControls().ValidationSummary().ValidationGroup("LoginValidationGroup").ElementAttr("class","ErrorValidationSummary"))
+        @(Html.DControls().ValidationSummary().ValidationGroup("LoginValidationGroup").ElementAttr("class", "ErrorValidationSummary"))
     }
 
     <div id="mainPanel">
@@ -83,7 +81,7 @@
             <div class="col-sm-12">
                 <div class="login-empresa">
                     <div>
-                       @if (!string.IsNullOrWhiteSpace(Model.Logo))
+                        @if (!string.IsNullOrWhiteSpace(Model.Logo))
                         {
                             <img class="img-fluid img-logo" src="@(String.Format("data:image/gif;base64,{0}", Model.Logo))" title="logo_@(Model.RazonSocialEmpresa)" />
                         }
@@ -97,44 +95,47 @@
                     <form casp-controller="Login" asp-action="SingIn" asp-area="" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post" onsubmit="showLoadIndicator()">
                         @using (Html.DevExtreme().ValidationGroup("LoginValidationGroup"))
                         {
-                            @Html.DControls().TextBoxFor(x => x.RazonSocialEmpresa).Visible(false);
-                            @Html.DControls().TextBoxFor(x => x.Logo).Visible(false);
-                            @Html.DControls().TextBoxFor(x => x.ConnectionId).Visible(false);
+                            @Html.DControls().TextBoxFor(x => x.RazonSocialEmpresa).Visible(false)
+                            ;
+                            @Html.DControls().TextBoxFor(x => x.Logo).Visible(false)
+                            ;
+                            @Html.DControls().TextBoxFor(x => x.ConnectionId).Visible(false)
+                            ;
 
                             @(Html.DevExtreme().Form<SingInModel>()
-                                        //.ShowValidationSummary(true)
-                                        .LabelLocation(FormLabelLocation.Top)
-                                        .Items(items =>
-                                        {
-                                            items.AddGroup()
-                                            .Caption("Inicio de Sesión")
-                                            .ColCount(1)
-                                            .Items(groupItems =>
-                                            {
-                                                groupItems.AddSimple().Template(new TemplateName("TemplateValidation"));
+                                //.ShowValidationSummary(true)
+                                .LabelLocation(FormLabelLocation.Top)
+                                .Items(items =>
+                                {
+                                    items.AddGroup()
+                                    .Caption("Inicio de Sesión")
+                                    .ColCount(1)
+                                    .Items(groupItems =>
+                                    {
+                                        groupItems.AddSimple().Template(new TemplateName("TemplateValidation"));
 
-                                                groupItems.AddSimpleFor(m => m.UserName)
-                                                    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Usuario"))
-                                                    .Editor(e => e.TextBox().ID("UserName").Mode(TextBoxMode.Text)
-                                                );
+                                        groupItems.AddSimpleFor(m => m.UserName)
+                                    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Usuario"))
+                                    .Editor(e => e.TextBox().ID("UserName").Mode(TextBoxMode.Text)
+                                    );
 
-                                                groupItems.AddSimpleFor(m => m.Password)
-                                                    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Contraseña"))
-                                                    .Editor(e => e.TextBox().Mode(TextBoxMode.Password)
-                                                );
+                                        groupItems.AddSimpleFor(m => m.Password)
+                                    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Contraseña"))
+                                    .Editor(e => e.TextBox().Mode(TextBoxMode.Password)
+                                    );
 
-                                                groupItems.AddButton()
-                                                .HorizontalAlignment(HorizontalAlignment.Center)
-                                                .ButtonOptions(b => b.Text("Ingresar").StylingMode(ButtonStylingMode.Contained)
-                                                    .Type(ButtonType.Default)
-                                                    .UseSubmitBehavior(true));
+                                        groupItems.AddButton()
+                                    .HorizontalAlignment(HorizontalAlignment.Center)
+                                    .ButtonOptions(b => b.Text("Ingresar").StylingMode(ButtonStylingMode.Contained)
+                                    .Type(ButtonType.Default)
+                                    .UseSubmitBehavior(true));
 
-                                            });
+                                    });
 
-                                        })
-                                        .FormData(Model)
-                                    //.OnContentReady("SigInOnContentReady")
-                                    )
+                                })
+                                .FormData(Model)
+                                //.OnContentReady("SigInOnContentReady")
+                                )
                         }
                     </form>
                 </div>
@@ -160,98 +161,4 @@
 
 </body>
 
-@*<body class="login" style="background-color:white !important">
-
-
-        <div>
-            <a class="hiddenanchor" id="signup"></a>
-            <a class="hiddenanchor" id="signin"></a>
-
-            <div class="login_wrapper">
-                <div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div>
-                                @if (appstate.SwitchApp == 1)
-                                {
-                                    <img class="img-fluid" src="~/images/logo_all_azul-G.png" width="330" height="330" />
-                                }
-                                else
-                                {
-                                    <label style="font-size: 5em;">Siesa (Blazor con MVC)</label>
-                                }
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <form casp-controller="Login" asp-action="SingIn" asp-area="" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
-
-                                @(Html.DControls().TextBoxFor(x=>x.ConnectionId).Visible(false))
-
-                                @using (Html.DevExtreme().ValidationGroup())
-                                {
-                                    @(Html.DevExtreme().Form<SingInModel>()
-                                        //.ShowValidationSummary(true)
-                                        .LabelLocation(FormLabelLocation.Top)
-                                        .Items(items =>
-                                        {
-                                            items.AddGroup().CssClass("loginFields")
-                                            .Caption("Inicio de Sesión")
-                                            .ColCount(1)
-                                            .Items(groupItems =>
-                                            {
-                                                //groupItems.AddSimpleFor(m => m.ConnectionId).Visible(true)
-                                                //    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Conexion"))
-                                                //    .Editor(e => e.SelectBox()
-                                                //    .DataSource(DApp.DataBaseSettings)
-                                                //    .DisplayExpr("Name").ValueExpr("Name").ID("ConnectionName").Placeholder("Conectarse a")
-                                                //    //.OnValueChanged("SearchDataByUser")
-                                                //);
-
-                                                groupItems.AddSimpleFor(x => x.RazonSocialEmpresa).Visible(true)
-                                                .Editor(e=>e.TextBox().ReadOnly(true));
-
-                                                groupItems.AddSimpleFor(m => m.UserName)
-                                                    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Usuario"))
-                                                    .Editor(e => e.TextBox().ID("UserName").Mode(TextBoxMode.Text)
-                                                    //.OnValueChanged("SearchDataByUser")
-                                                );
-
-                                                groupItems.AddSimpleFor(m => m.Password)
-                                                    .Label(x => x.Alignment(HorizontalAlignment.Left).Text("Contraseña"))
-                                                    .Editor(e => e.TextBox().Mode(TextBoxMode.Password));
-
-                                                //groupItems.AddSimpleFor(m => m.EmpresaId)
-                                                //    .Editor(e => e.SelectBox().ID("EntidadId")
-                                                //    .ValueExpr("Id").DisplayExpr("RazonSocial")
-                                                //    .SearchEnabled(true).ShowClearButton(true)
-                                                //);
-
-                                                groupItems.AddButton()
-                                                .HorizontalAlignment(HorizontalAlignment.Center)
-                                                .ButtonOptions(b => b.Text("Ingresar")
-                                                    .Type(ButtonType.Default)
-                                                    .UseSubmitBehavior(true));
-
-                                            });
-
-                                        })
-                                        .FormData(Model)
-                                        //.OnContentReady("SigInOnContentReady")
-                                    )
-                                }
-                            </form>
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer">
-            <label>Version App: <b>@(ViewBag.VersionApp).@(ViewBag.ParcheApp)</b></label>
-        </div>
-        <script>
-            BorrarStorageGrids();
-        </script>
-
-    </body>*@
 </html>

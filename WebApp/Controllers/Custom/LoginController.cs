@@ -140,7 +140,7 @@ namespace Blazor.WebApp.Controllers
 
             //newSession = manager.GetBusinessLogic<Session>().Add(newSession);
 
-            DApp.LogToFile(LogType.Informativo, $"El usuario {model.UserName} inicio sesion.");
+            //DApp.LogToFile(LogType.Informativo, $"El usuario {model.UserName} inicio sesion.");
             return RedirectToAction("Index", "Home");
         }
 
@@ -183,7 +183,7 @@ namespace Blazor.WebApp.Controllers
             //return RedirectToAction(conexion, "empresa");
 
             MenuAplicativo.Menus = null;
-            DApp.LogToFile(LogType.Informativo, $"El usuario {User.Identity.Name} cerro sesion.");
+            //DApp.LogToFile(LogType.Informativo, $"El usuario {User.Identity.Name} cerro sesion.");
             await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("~/");
         }
@@ -236,7 +236,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                DApp.LogException(ex);
+                //DApp.LogException(ex);
                 return BadRequest();
             }
         }

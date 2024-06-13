@@ -1,10 +1,7 @@
-﻿using Blazor.Infrastructure;
-using Blazor.Infrastructure.Entities;
+﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using System;
-using System.Drawing;
-using System.IO;
 using System.Linq.Expressions;
 
 namespace Blazor.BusinessLogic
