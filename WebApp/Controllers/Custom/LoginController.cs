@@ -134,6 +134,7 @@ namespace Blazor.WebApp.Controllers
             //DApp.DataBaseSettings[DApp.DataBaseSettings.FindIndex(x => x.Name == model.ConnectionId)] = currentConnection;
             DApp.Tenants[DApp.Tenants.FindIndex(x => x.Name.Contains(Request.Host.Value))].DataBaseSetting = currentConnection;
 
+            DApp.LogToFile(TypeLog.Informativo, $"El usuario {loggedUser.NombreCompleto} inicio sesion.");
             return RedirectToAction("Index", "Home");
         }
 
