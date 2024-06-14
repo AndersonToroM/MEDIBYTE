@@ -485,7 +485,7 @@ namespace Blazor.BusinessLogic
                     feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
                     feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
                     feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
-                    feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
+                    feRootJson.CustomerParty.Identification.DocumentType = fac.Entidades.TiposIdentificacion.CodigoFE;
                     feRootJson.CustomerParty.Identification.CountryCode = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
                     if (fac.Entidades.TiposIdentificacion.CodigoFE == "NIT")
                     {
