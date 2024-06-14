@@ -1,5 +1,4 @@
 ﻿using Dominus.Backend.Application;
-using Dominus.Frontend.Controllers;
 using Quartz;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace Blazor.BusinessLogic.Jobs
             }
             catch (System.Exception ex)
             {
-                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(CitasNoAsistidasJob), false, "Error Ejecutando Rutina", ex.GetFullErrorMessage());
+                new JobsBusinessLogic(tenant.DataBaseSetting).SaveJobLog(nameof(CitasNoAsistidasJob), false, "Error Ejecutando Rutina", ex.GetBackFullErrorMessage());
             }
         }
     }

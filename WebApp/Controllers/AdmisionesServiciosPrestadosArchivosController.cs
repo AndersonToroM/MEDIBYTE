@@ -1,17 +1,19 @@
-using Blazor.BusinessLogic;
-using Blazor.Infrastructure.Entities;
-using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
+using Blazor.Infrastructure.Entities;
+using Blazor.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
+using Newtonsoft.Json;
+using Blazor.BusinessLogic;
 using System.Collections.Generic;
+using Blazor.BusinessLogic.Models;
 using System.IO;
 
 namespace Blazor.WebApp.Controllers
@@ -102,7 +104,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             else 
@@ -132,7 +134,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             return model; 
@@ -279,7 +281,7 @@ namespace Blazor.WebApp.Controllers
             {
                 Response.StatusCode = StatusCodes.Status500InternalServerError;
                 result.Add("TieneErrores", true);
-                result.Add("Errores", new List<string> { "Error en subir imagen diagnostica a la cuenta de alamcenamiento de azure. | " + e.GetFullErrorMessage() });
+                result.Add("Errores", new List<string> { "Error en subir imagen diagnostica a la cuenta de alamcenamiento de azure. | " + e.GetFrontFullErrorMessage() });
                 return new BadRequestObjectResult(result);
             }
         }
@@ -305,7 +307,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
             }
             
         }
@@ -328,7 +330,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
             }
         }
 

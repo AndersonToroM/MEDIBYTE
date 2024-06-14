@@ -96,7 +96,7 @@ namespace Blazor.WebApp.Controllers
         {
             List<ArchivoDescargaModel> logsFiles = new List<ArchivoDescargaModel>();
             if (Directory.Exists(DApp.PathDirectoryLogs))
-            {
+            {                
                 DirectoryInfo dirLog = new DirectoryInfo(DApp.PathDirectoryLogs);
                 dirLog.GetFiles().ToList().ForEach(x =>
                 {
@@ -123,10 +123,9 @@ namespace Blazor.WebApp.Controllers
                 }
                 else throw new Exception($"Archivo {fileName} no encontrado");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                DApp.LogException(ex);
-                return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
             }
         }
 
@@ -143,10 +142,9 @@ namespace Blazor.WebApp.Controllers
                 }
                 else throw new Exception($"Archivo {fileName} no encontrado");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                DApp.LogException(ex);
-                return new BadRequestObjectResult("Error en servidor. " + ex.GetFullErrorMessage());
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
             }
         }
     }

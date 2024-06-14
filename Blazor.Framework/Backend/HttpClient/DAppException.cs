@@ -49,7 +49,7 @@ namespace Dominus.Backend.HttpClient
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         context.Response.ContentType = "text/plain charset=utf-8";
-                        await context.Response.WriteAsync(ex.GetFullErrorMessage(), Encoding.UTF8);
+                        await context.Response.WriteAsync(ex.GetBackFullErrorMessage(), Encoding.UTF8);
                     }
                 });
             });

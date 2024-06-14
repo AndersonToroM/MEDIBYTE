@@ -22,26 +22,28 @@ namespace Blazor.BusinessLogic
 
         public void EnviarEmail(EmailModelConfig data)
         {
+            ConfiguracionEnvioEmailLog configuracionEnvioEmailLog = new ConfiguracionEnvioEmailLog();
+
             if (!string.IsNullOrWhiteSpace(data.Origen))
                 data.Server = this.FindById(x => x.Origen.Equals(data.Origen), false);
             else
                 data.Origen = data.Server.Origen;
 
-            ConfiguracionEnvioEmailLog configuracionEnvioEmailLog = new ConfiguracionEnvioEmailLog();
             configuracionEnvioEmailLog.Id = 0;
             configuracionEnvioEmailLog.IsNew = true;
-            configuracionEnvioEmailLog.UpdatedBy = DApp.Util.UserSystem;
-            configuracionEnvioEmailLog.CreatedBy = DApp.Util.UserSystem;
+            configuracionEnvioEmailLog.UpdatedBy = "admin";
+            configuracionEnvioEmailLog.CreatedBy = "admin";
             configuracionEnvioEmailLog.CreationDate = DateTime.Now;
             configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
             configuracionEnvioEmailLog.Origen = data.Origen;
-            configuracionEnvioEmailLog.CorreoEnvia = data.Server?.CorreoElectronico;
+            configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
             configuracionEnvioEmailLog.Asunto = data.Asunto;
             configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
 
             List<string> errores = new List<string>();
             try
             {
+
                 if (data.Server != null)
                 {
                     if (string.IsNullOrWhiteSpace(data.Asunto))
@@ -186,7 +188,7 @@ namespace Blazor.BusinessLogic
                             configuracionEnvioEmailLog.CorreosDestinatarios += " | CCO Configurado: " + data.Server.CorreoCopiaOculta;
                         }
 
-                        if(errores.Count > 0)
+                        if (errores.Count > 0)
                             configuracionEnvioEmailLog.ErrorDeDatos = string.Join(" | ", errores);
 
                         if (mailMessage.To.Count <= 0)
@@ -213,9 +215,9 @@ namespace Blazor.BusinessLogic
             {
                 DApp.LogException(ex);
 
-                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.CorreosDestinatarios))
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.Origen))
                 {
-                    configuracionEnvioEmailLog.CorreosDestinatarios = "-";
+                    configuracionEnvioEmailLog.Origen = "-";
                 }
                 if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.CorreoEnvia))
                 {
@@ -230,9 +232,10 @@ namespace Blazor.BusinessLogic
                     configuracionEnvioEmailLog.MetodoUso = "-";
                 }
                 configuracionEnvioEmailLog.Exitoso = false;
-                configuracionEnvioEmailLog.Error = ex.GetFullErrorMessage();
+                configuracionEnvioEmailLog.Error = ex.GetBackFullErrorMessage();
                 new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
             }
+
         }
 
         public void ProbarEnvioCorreo(ConfiguracionEnvioEmail data)

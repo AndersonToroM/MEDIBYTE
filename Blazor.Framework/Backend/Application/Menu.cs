@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Dominus.Backend.Application
 {
@@ -24,21 +26,21 @@ namespace Dominus.Backend.Application
 
     }
 
-    public static class MenuAplicativo
+    public static class Menu
     {
-        public static List<MenuModel> Menus { get; set; } = new List<MenuModel>();
-
-        public static void GetMenu(string pathMenu)
+        public static List<MenuModel> GetMenu(string pathMenu)
         {
             List<MenuModel> menu = new List<MenuModel>();
             if (File.Exists(pathMenu))
             {
-                Menus = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText(pathMenu));
+                menu = JsonConvert.DeserializeObject<List<MenuModel>>(File.ReadAllText(pathMenu));
             }
             else
             {
-                DApp.LogToFile(LogType.Error, $"El archivo para el menu {pathMenu} no existe.");
+                menu.Add(new MenuModel { Module = "MODULE.DISPENSATION",Icon= "fas fa-project-diagram", Options = new List<Option> { new Option { Name = "MedicalOrder", Resource = "MedicalOrders" } } });
+                File.WriteAllText(pathMenu, JsonConvert.SerializeObject(menu));
             }
+            return menu;
         }
 
     }

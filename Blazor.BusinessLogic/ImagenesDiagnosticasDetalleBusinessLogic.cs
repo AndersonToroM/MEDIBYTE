@@ -1,6 +1,7 @@
 ﻿using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
+using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using System;
 using System.Collections.Generic;

@@ -2301,11 +2301,11 @@
   },
   {
     "Id": "Facturas.AdquirienteJuridico",
-    "Description": "Adquiriente P. Jurídica"
+    "Description": "Adquiriente Institucional"
   },
   {
     "Id": "Facturas.AdquirienteNatural",
-    "Description": "Adquitiente P. Natural"
+    "Description": "Adquiriente Paciente"
   },
   {
     "Id": "Facturas.CambioFechaEmision",

@@ -93,8 +93,8 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 enviarDocumento_FE.HuboError = true;
-                enviarDocumento_FE.Error = ex.GetFullErrorMessage();
-                enviarDocumento_IFE.Errores.Add(ex.GetFullErrorMessage());
+                enviarDocumento_FE.Error = ex.GetBackFullErrorMessage();
+                enviarDocumento_IFE.Errores.Add(ex.GetBackFullErrorMessage());
                 enviarDocumento_IFE.HuboErrorFE = true;
             }
 
@@ -206,8 +206,8 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 consultarEstado_FE.HuboError = true;
-                consultarEstado_FE.Error = ex.GetFullErrorMessage();
-                consultaEstaod_IFE.Errores.Add(ex.GetFullErrorMessage());
+                consultarEstado_FE.Error = ex.GetBackFullErrorMessage();
+                consultaEstaod_IFE.Errores.Add(ex.GetBackFullErrorMessage());
                 consultaEstaod_IFE.HuboErrorFE = true;
             }
 
@@ -289,8 +289,8 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 consultarDatosDoc_FE.HuboError = true;
-                consultarDatosDoc_FE.Error = ex.GetFullErrorMessage();
-                consultarDatosDoc_IFE.Errores.Add(ex.GetFullErrorMessage());
+                consultarDatosDoc_FE.Error = ex.GetBackFullErrorMessage();
+                consultarDatosDoc_IFE.Errores.Add(ex.GetBackFullErrorMessage());
                 consultarDatosDoc_IFE.HuboErrorFE = true;
             }
 
@@ -342,8 +342,8 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 resultadoIntegracionFE.HuboError = true;
-                resultadoIntegracionFE.Error = ex.GetFullErrorMessage();
-                integracionXmlFEModel.Errores.Add(ex.GetFullErrorMessage());
+                resultadoIntegracionFE.Error = ex.GetBackFullErrorMessage();
+                integracionXmlFEModel.Errores.Add(ex.GetBackFullErrorMessage());
                 integracionXmlFEModel.HuboErrorFE = true;
             }
 
@@ -439,7 +439,7 @@ namespace Blazor.BusinessLogic
             feRootJson.Total.PayableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture);
             feRootJson.Total.TaxableAmount = "0";
 
-            if(fac.ValorDescuentos > 0)
+            if (fac.ValorDescuentos > 0)
             {
                 feRootJson.AllowanceCharges.Add(new FeAllowanceCharges
                 {
@@ -448,7 +448,7 @@ namespace Blazor.BusinessLogic
                     ReasonCode = "00",
                     Reason = "Descuento no condicionado",
                     Amount = fac.ValorDescuentos.ToString(CultureInfo.InvariantCulture),
-                    Percentage = ((fac.ValorDescuentos*100)/(fac.ValorSubtotal)).ToString(CultureInfo.InvariantCulture),
+                    Percentage = ((fac.ValorDescuentos * 100) / (fac.ValorSubtotal)).ToString(CultureInfo.InvariantCulture),
                     SequenceIndicator = "1"
                 });
             }
@@ -485,7 +485,7 @@ namespace Blazor.BusinessLogic
                     feRootJson.CustomerParty.TaxScheme = "ZZ"; //Identificador del Régimen Fiscal del adquirente ???
                     feRootJson.CustomerParty.ResponsabilityTypes.AddRange(fac.Entidades.EntidadesResponsabilidadesFiscales.Select(x => x.ResponsabilidadesFiscales.Codigo));
                     feRootJson.CustomerParty.Identification.DocumentNumber = fac.Entidades.NumeroIdentificacion;
-                    feRootJson.CustomerParty.Identification.DocumentType = fac.Empresas.TiposIdentificacion.CodigoFE;
+                    feRootJson.CustomerParty.Identification.DocumentType = fac.Entidades.TiposIdentificacion.CodigoFE;
                     feRootJson.CustomerParty.Identification.CountryCode = fac.Entidades.Ciudades.Departamentos.Paises.Codigo;
                     if (fac.Entidades.TiposIdentificacion.CodigoFE == "NIT")
                     {
@@ -723,7 +723,7 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 resultadoIntegracionRips.HuboError = true;
-                resultadoIntegracionRips.Error = ex.GetFullErrorMessage();
+                resultadoIntegracionRips.Error = ex.GetBackFullErrorMessage();
             }
 
             unitOfWork.Repository<ResultadoIntegracionRips>().Add(resultadoIntegracionRips);
@@ -1352,6 +1352,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
+                DApp.LogException(e);
                 unitOfWork.RollbackTransaction();
                 throw (e);
             }
@@ -1530,6 +1531,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
+                DApp.LogException(e);
                 unitOfWork.RollbackTransaction();
                 throw (e);
             }
@@ -1643,8 +1645,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }
@@ -1717,8 +1720,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }
@@ -1787,8 +1791,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }

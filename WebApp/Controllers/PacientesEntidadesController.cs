@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -125,7 +124,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             return model;
@@ -151,7 +150,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             return model;
@@ -208,7 +207,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             return model;
@@ -230,7 +229,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetModelFullError());
+                return BadRequest(ModelState.GetModelFullErrorMessage());
         }
 
         [HttpPost]
@@ -245,7 +244,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetModelFullError());
+                return BadRequest(ModelState.GetModelFullErrorMessage());
         }
 
         [HttpPost]

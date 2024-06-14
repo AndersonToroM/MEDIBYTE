@@ -58,5 +58,4 @@ namespace Dominus.Frontend.Controllers
         }
 
     }
-
 }

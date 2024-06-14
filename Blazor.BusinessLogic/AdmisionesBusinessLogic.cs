@@ -1,10 +1,13 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
-using DevExpress.Spreadsheet;
+using DevExpress.Export.Xl;
 using Dominus.Backend.DataBase;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using DevExpress.Spreadsheet;
+using System.IO;
+using System.Collections.Generic;
+using Dominus.Backend.Application;
 
 namespace Blazor.BusinessLogic
 {
@@ -102,8 +105,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }
@@ -182,8 +186,9 @@ namespace Blazor.BusinessLogic
                 BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
                 return unitOfWork.Repository<Admisiones>().Table.Max(x => x.Consecutivo) + 1;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 return 1;
             }
         }
@@ -259,6 +264,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
+                DApp.LogException(e);
                 logicaData.RollbackTransaction();
                 throw e;
             }
@@ -291,8 +297,9 @@ namespace Blazor.BusinessLogic
                 logicaData.CommitTransaction();
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 logicaData.RollbackTransaction();
                 throw;
             }
@@ -309,8 +316,9 @@ namespace Blazor.BusinessLogic
                 unitOfWork.CommitTransaction();
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 unitOfWork.RollbackTransaction();
                 throw;
             }
@@ -337,6 +345,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
+                DApp.LogException(e);
                 unitOfWork.RollbackTransaction();
                 throw e;
             }

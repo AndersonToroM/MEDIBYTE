@@ -65,7 +65,7 @@
                 Action = $"{Prefix}FacturaIndividual",
                 Id = $"{Prefix}FacturaIndividual",
                 Text = @DApp.DefaultLanguage.GetResource("Admisiones.Facturar"),
-                Disabled = Model.Entity.IsNew || (Model.Entity.EstadosId == 61) || Model.Entity.Facturado,
+                Disabled = Model.Entity.IsNew || (Model.Entity.EstadosId == 61) || Model.Entity.Facturado || (Model.Entity.EstadosId == 10079),
                 Location = ToolbarItemLocation.After,
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "doc"

@@ -19,11 +19,6 @@ namespace Blazor.Reports.Facturas
             {
                 this.p_LinkValidacionDIAN.Value = InformacionReporte.ParametrosAdicionales["p_LinkValidacionDIAN"];
             }
-            else
-            {
-                this.p_LinkValidacionDIAN.Value = "-";
-            }
-            
             this.P_Ids.Visible = false;
             base.OnReportInitialize();
         }

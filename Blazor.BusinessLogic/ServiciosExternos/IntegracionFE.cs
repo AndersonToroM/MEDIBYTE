@@ -4,7 +4,6 @@ using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Dominus.Backend.Application;
 using Dominus.Backend.Security;
-using Dominus.Frontend.Controllers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -162,7 +161,7 @@ public class IntegracionFE
         catch (Exception ex)
         {
             resultadoEnviarDoc.HuboErrorIntegracion = true;
-            resultadoEnviarDoc.Errores.Add(ex.GetFullErrorMessage());
+            resultadoEnviarDoc.Errores.Add(ex.GetBackFullErrorMessage());
         }
 
         return resultadoEnviarDoc;
@@ -229,7 +228,7 @@ public class IntegracionFE
         catch (Exception ex)
         {
             resultadoConsultarDoc.HuboErrorIntegracion = true;
-            resultadoConsultarDoc.Errores.Add(ex.GetFullErrorMessage());
+            resultadoConsultarDoc.Errores.Add(ex.GetBackFullErrorMessage());
         }
 
         if (string.IsNullOrWhiteSpace(resultadoConsultarDoc.Status))
@@ -284,7 +283,7 @@ public class IntegracionFE
         catch (Exception ex)
         {
             resultadoConsultarDoc.HuboErrorIntegracion = true;
-            resultadoConsultarDoc.Errores.Add(ex.GetFullErrorMessage());
+            resultadoConsultarDoc.Errores.Add(ex.GetBackFullErrorMessage());
         }
 
         if (string.IsNullOrWhiteSpace(resultadoConsultarDoc.Status))
@@ -329,7 +328,7 @@ public class IntegracionFE
         catch (Exception ex)
         {
             integracionXmlFEModel.HuboErrorIntegracion = true;
-            integracionXmlFEModel.Errores.Add(ex.GetFullErrorMessage());
+            integracionXmlFEModel.Errores.Add(ex.GetBackFullErrorMessage());
         }
 
         return integracionXmlFEModel;
@@ -366,7 +365,7 @@ public class IntegracionFE
         catch (Exception ex)
         {
             integracionSeriesFEModel.HuboErrorIntegracion = true;
-            integracionSeriesFEModel.Errores.Add(ex.GetFullErrorMessage());
+            integracionSeriesFEModel.Errores.Add(ex.GetBackFullErrorMessage());
         }
 
         return integracionSeriesFEModel;

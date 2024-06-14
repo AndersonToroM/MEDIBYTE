@@ -1,21 +1,20 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
-using DevExpress.Data.ODataLinq.Helpers;
 using DevExtreme.AspNet.Data;
+
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-
+using DevExpress.Data.ODataLinq.Helpers;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -121,12 +120,12 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullErrorMessage());
             }
             return model;
         }
@@ -151,7 +150,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             return model;
@@ -215,7 +214,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             return model;
@@ -323,7 +322,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
 
@@ -357,7 +356,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
     }

@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -172,12 +171,12 @@ namespace Blazor.WebApp.Controllers
                 catch (Exception e) 
                 {
                     ViewBag.EsError = true;
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             else 
             { 
-                 ModelState.AddModelError("Entity.Id", $"Error: " + ModelState.GetModelFullError()); 
+                 ModelState.AddModelError("Entity.Id", $"Error: " + ModelState.GetModelFullErrorMessage()); 
             } 
             return model; 
         } 
@@ -202,7 +201,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             return model; 

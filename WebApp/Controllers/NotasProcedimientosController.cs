@@ -15,9 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Dominus.Backend.Application;
-
-namespace Blazor.WebApp.Controllers
+namespace WebApp.Controllers
 {
     [Authorize]
     public class NotasProcedimientosController : BaseAppController
@@ -90,7 +88,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
 

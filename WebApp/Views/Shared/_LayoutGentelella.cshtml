@@ -107,23 +107,32 @@
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0; padding: 0;">
                         <a href="/" class="site_title">
-                            @try
+                            @*<i class="fa fa-paw"></i>*@
+                            @if (appstate.SwitchApp == 1)
                             {
-                                if (appstate.Empresa.LogoArchivos != null)
+                                @try
                                 {
-                                    <img src="@(String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(appstate.Empresa.LogoArchivos.Archivo)))" width="55" height="40">
+                                    if (appstate.Empresa.LogoArchivos != null)
+                                    {
+                                        <img src="@(String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(appstate.Empresa.LogoArchivos.Archivo)))" width="55" height="40">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/logo_nube_azul-G.png" width="55" height="40">
+                                    }
                                 }
-                                else
+                                catch (Exception)
                                 {
                                     <img src="~/images/logo_nube_azul-G.png" width="55" height="40">
                                 }
-                            }
-                            catch (Exception)
-                            {
-                                <img src="~/images/logo_nube_azul-G.png" width="55" height="40">
-                            }
 
-                            <span>@appstate.Empresa.Alias</span>
+                                <span>@appstate.Empresa.Alias</span>
+                            }
+                            else if (appstate.SwitchApp == 0)
+                            {
+                                <img src="~/images/logoSiesa.png" width="55" height="40">
+                                <span>SIESA BLAZOR</span>
+                            }
                         </a>
                     </div>
                     <div class="clearfix"></div>
@@ -135,37 +144,39 @@
                         <div class="menu_section">
                             <ul class="nav side-menu" id="sidebar-menu-container-options">
                                 @{
-                                    appstate.GetPermisosMenu();
-                                    var menu = MenuAplicativo.Menus;
-                                    foreach (var module in menu)
+                                    var menu = appstate.GetMenu();
+                                    @if (appstate.SwitchApp == 1)
                                     {
-                                        @if (module.Options.Exists(x => x.Havepermission))
+                                        foreach (var module in menu)
                                         {
-                                            <li style="width: 100%;">
-                                                <a><i class="@module.Icon"></i> @module.Module <span class="fa fa-chevron-down"></span></a>
-                                                <ul class="nav child_menu">
-                                                    @foreach (var option in module.Options)
-                                                    {
-                                                        if (option.Havepermission)
+                                            @if (module.Options.Exists(x => x.Havepermission))
+                                            {
+                                                <li style="width: 100%;">
+                                                    <a><i class="@module.Icon"></i> @module.Module <span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        @foreach (var option in module.Options)
                                                         {
-                                                            <li class="menu-option">
-                                                                @if (option.Name.Equals("VisorDicom"))
-                                                                {
-                                                                    <a href="@Url.Action("DicomViewer","Home")" target="_blank">
-                                                                        @option.Resource
-                                                                    </a>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <a onclick="GetViewOnContainer('@Url.Action("ListPartial",option.Name)')" dataTargetOption="@option.Name" href="javascript:void(0);">
-                                                                        @option.Resource
-                                                                    </a>
-                                                                }
-                                                            </li>
+                                                            if (option.Havepermission)
+                                                            {
+                                                                <li class="menu-option">
+                                                                    @if (option.Name.Equals("VisorDicom"))
+                                                                    {
+                                                                        <a href="@Url.Action("DicomViewer","Home")" target="_blank">
+                                                                            @option.Resource
+                                                                        </a>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <a onclick="GetViewOnContainer('@Url.Action("ListPartial",option.Name)')" dataTargetOption="@option.Name" href="javascript:void(0);">
+                                                                            @option.Resource
+                                                                        </a>
+                                                                    }
+                                                                </li>
+                                                            }
                                                         }
-                                                    }
-                                                </ul>
-                                            </li>
+                                                    </ul>
+                                                </li>
+                                            }
                                         }
                                     }
                                 }

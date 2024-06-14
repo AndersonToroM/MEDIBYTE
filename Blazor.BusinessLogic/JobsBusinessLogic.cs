@@ -95,7 +95,8 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception ex)
             {
-                Console.Write(ex.GetFullErrorMessage());
+                DApp.LogException(ex);
+                Console.Write(ex.GetBackFullErrorMessage());
             }
         }
 
@@ -129,7 +130,7 @@ namespace Blazor.BusinessLogic
                 job.Ejecutado = true;
                 job.Exitoso = false;
                 job.Intentos++;
-                job.Detalle += $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                job.Detalle += $"Intento {job.Intentos}: {ex.GetBackFullErrorMessage()}. ";
                 unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
             }
 

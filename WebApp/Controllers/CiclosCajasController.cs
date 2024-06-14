@@ -16,7 +16,6 @@ using Blazor.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using Blazor.Infrastructure;
 using DevExpress.Xpo;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -147,12 +146,12 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 } 
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullErrorMessage());
             }
             return model; 
         } 
@@ -177,7 +176,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             return model; 

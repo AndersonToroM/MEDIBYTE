@@ -21,7 +21,7 @@ namespace Blazor.WebApp.Controllers
         [Route("GetNavigationProfile")]
         public List<ProfileMethodModel> GetNavigationProfile(int ProfileId)
         {
-            var menuJson = Dominus.Backend.Application.MenuAplicativo.Menus;
+            var menuJson = new AppState(config,httpContextAccessor).GetMenu();
             List<ProfileMethodModel> data = (
                 from ProfileNavigation in Manager().GetBusinessLogic<ProfileNavigation>().FindAll(x => x.ProfileId == ProfileId)
                 join Masters in Manager().GetBusinessLogic<Infrastructure.Entities.Menu>().FindAll(null)
@@ -59,7 +59,7 @@ namespace Blazor.WebApp.Controllers
         [Route("GetNavigationMaster")]
         public List<ProfileMethodModel> GetNavigationMaster(int ProfileId)
         {
-            List<MenuModel> menuJson = Dominus.Backend.Application.MenuAplicativo.Menus;
+            List<MenuModel> menuJson = new AppState(config, httpContextAccessor).GetMenu();
             List<Option> opcionesMenuJson = new List<Option>();
             foreach (var item in menuJson)
             {

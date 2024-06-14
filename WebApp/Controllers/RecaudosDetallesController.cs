@@ -16,7 +16,6 @@ using Blazor.BusinessLogic;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -144,12 +143,12 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullErrorMessage());
             }
             return NewModelDetail(model.Entity.RecaudosId);
         } 
@@ -174,7 +173,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             return model; 
@@ -243,7 +242,7 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             return model;
@@ -276,11 +275,11 @@ namespace Blazor.WebApp.Controllers
                 if (ModelState.IsValid)
                     return Ok(ModelState);
                 else
-                    return BadRequest(ModelState.GetModelFullError());
+                    return BadRequest(ModelState.GetModelFullErrorMessage());
             }
             catch (Exception e)
             {
-                return BadRequest(e.GetFullErrorMessage());
+                return BadRequest(e.GetFrontFullErrorMessage());
             }
         }
 
@@ -322,11 +321,11 @@ namespace Blazor.WebApp.Controllers
                 if (ModelState.IsValid)
                     return Ok(ModelState);
                 else
-                    return BadRequest(ModelState.GetModelFullError());
+                    return BadRequest(ModelState.GetModelFullErrorMessage());
             }
             catch (Exception e)
             {
-                return BadRequest(e.GetFullErrorMessage());
+                return BadRequest(e.GetFrontFullErrorMessage());
             }
 
             

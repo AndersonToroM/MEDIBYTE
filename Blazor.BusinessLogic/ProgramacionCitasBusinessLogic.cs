@@ -4,10 +4,13 @@ using Blazor.Infrastructure.Models;
 using DevExpress.Spreadsheet;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Backend.Security;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blazor.BusinessLogic
 {
@@ -660,8 +663,9 @@ namespace Blazor.BusinessLogic
                 BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
                 return unitOfWork.Repository<ProgramacionCitas>().Table.Max(x => x.Consecutivo) + 1;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 return 1;
             }
         }

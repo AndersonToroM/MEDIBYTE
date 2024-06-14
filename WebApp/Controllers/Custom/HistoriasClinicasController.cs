@@ -1,7 +1,6 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -205,7 +204,7 @@ namespace Blazor.WebApp.Controllers
                 catch (Exception e)
                 {
                     model.Entity.EstadosId = estadoIncial;
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                     return PartialView("Edit", model);
                 }
 

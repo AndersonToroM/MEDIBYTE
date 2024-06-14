@@ -61,7 +61,7 @@ namespace Blazor.BusinessLogic
             catch (Exception ex)
             {
                 integracionSeriesFEModel.HuboErrorIntegracion = true;
-                integracionSeriesFEModel.Errores.Add(ex.GetFullErrorMessage());
+                integracionSeriesFEModel.Errores.Add(ex.GetBackFullErrorMessage());
             }
 
             integracionSeriesFEModel.ResultadoSeries = null;

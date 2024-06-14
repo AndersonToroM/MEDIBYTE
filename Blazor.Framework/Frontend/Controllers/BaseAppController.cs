@@ -3,7 +3,6 @@ using Dominus.Backend.DataBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
 
 namespace Dominus.Frontend.Controllers
 {

@@ -11,9 +11,9 @@ namespace Dominus.Backend.Application
 
         public bool SendNotifications { get; set; }
 
-        public DataBaseSetting DataBaseSetting { get; set; } = new DataBaseSetting();
+        public DataBaseSetting DataBaseSetting { get; set; }
 
-        public Dictionary<string, string> Services { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Services { get; set; }
 
         public bool LoadDefaultData { get; set; }
 
