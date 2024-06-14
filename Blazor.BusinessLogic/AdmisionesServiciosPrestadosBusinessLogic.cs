@@ -1,5 +1,6 @@
 ﻿using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
+using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using System;
 using System.Linq;
@@ -26,10 +27,11 @@ namespace Blazor.BusinessLogic
                 ActualizarValoresAdmision(unitOfWork, data, data.EsCorrecion);
                 unitOfWork.CommitTransaction();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 unitOfWork.RollbackTransaction();
-                throw (e);
+                throw (ex);
             }
 
             return data;
@@ -64,10 +66,11 @@ namespace Blazor.BusinessLogic
                 ActualizarValoresAdmision(logicaData.UnitOfWork, data, data.EsCorrecion);
                 logicaData.CommitTransaction();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 logicaData.RollbackTransaction();
-                throw (e);
+                throw (ex);
             }
 
             return data;

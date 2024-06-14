@@ -1,14 +1,12 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Dominus.Frontend.Controllers;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blazor.BusinessLogic.Jobs
@@ -80,7 +78,7 @@ namespace Blazor.BusinessLogic.Jobs
                                     }
                                     catch (Exception ex)
                                     {
-                                        Console.WriteLine(ex.GetFullErrorMessage());
+                                        Console.WriteLine(ex.GetBackFullErrorMessage());
                                     }
                                 }
                                 else

@@ -1,5 +1,5 @@
 using DevExtreme.AspNet.Data;
-using WidgetGallery;
+
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -102,12 +102,12 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 } 
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullErrorMessage());
             }
             return model; 
         } 
@@ -132,7 +132,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 } 
             } 
             return model; 
@@ -215,7 +215,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetFullErrorMessage());
+                return BadRequest(ModelState.GetModelFullErrorMessage());
         }
 
         [HttpPost]
@@ -230,7 +230,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetFullErrorMessage());
+                return BadRequest(ModelState.GetModelFullErrorMessage());
         }
 
         [HttpPost]

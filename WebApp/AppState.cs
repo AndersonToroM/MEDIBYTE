@@ -1,6 +1,6 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
-using WidgetGallery;
+
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

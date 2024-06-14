@@ -3,7 +3,7 @@ using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
 using DevExpress.DataProcessing;
 using Dominus.Backend.Application;
-using WidgetGallery;
+
 using Dominus.Backend.Security;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

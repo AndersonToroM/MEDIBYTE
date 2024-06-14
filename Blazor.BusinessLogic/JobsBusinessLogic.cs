@@ -4,7 +4,6 @@ using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System;
@@ -96,7 +95,8 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception ex)
             {
-                Console.Write(ex.GetFullErrorMessage());
+                DApp.LogException(ex);
+                Console.Write(ex.GetBackFullErrorMessage());
             }
         }
 
@@ -130,7 +130,7 @@ namespace Blazor.BusinessLogic
                 job.Ejecutado = true;
                 job.Exitoso = false;
                 job.Intentos++;
-                job.Detalle += $"Intento {job.Intentos}: {ex.GetFullErrorMessage()}. ";
+                job.Detalle += $"Intento {job.Intentos}: {ex.GetBackFullErrorMessage()}. ";
                 unitOfWork.Repository<ResultadoIntegracionFEJob>().Modify(job);
             }
 

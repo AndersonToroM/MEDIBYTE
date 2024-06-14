@@ -439,7 +439,7 @@ namespace Blazor.BusinessLogic
             feRootJson.Total.PayableAmount = fac.ValorTotal.ToString(CultureInfo.InvariantCulture);
             feRootJson.Total.TaxableAmount = "0";
 
-            if(fac.ValorDescuentos > 0)
+            if (fac.ValorDescuentos > 0)
             {
                 feRootJson.AllowanceCharges.Add(new FeAllowanceCharges
                 {
@@ -448,7 +448,7 @@ namespace Blazor.BusinessLogic
                     ReasonCode = "00",
                     Reason = "Descuento no condicionado",
                     Amount = fac.ValorDescuentos.ToString(CultureInfo.InvariantCulture),
-                    Percentage = ((fac.ValorDescuentos*100)/(fac.ValorSubtotal)).ToString(CultureInfo.InvariantCulture),
+                    Percentage = ((fac.ValorDescuentos * 100) / (fac.ValorSubtotal)).ToString(CultureInfo.InvariantCulture),
                     SequenceIndicator = "1"
                 });
             }
@@ -1090,7 +1090,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception ex)
             {
-                //DApp.LogException(ex);
+                DApp.LogException(ex);
                 return false;
             }
         }
@@ -1352,6 +1352,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
+                DApp.LogException(e);
                 unitOfWork.RollbackTransaction();
                 throw (e);
             }
@@ -1530,6 +1531,7 @@ namespace Blazor.BusinessLogic
             }
             catch (Exception e)
             {
+                DApp.LogException(e);
                 unitOfWork.RollbackTransaction();
                 throw (e);
             }
@@ -1643,8 +1645,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }
@@ -1717,8 +1720,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }
@@ -1787,8 +1791,9 @@ namespace Blazor.BusinessLogic
                 workbook.Dispose();
                 return book;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 throw;
             }
         }

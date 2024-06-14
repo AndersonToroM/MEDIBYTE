@@ -3,7 +3,7 @@ using System;
 
 namespace Dominus.Backend.Application
 {
-    public static class BackendExtension
+    public static class BackExtension
     {
         public static string GetBackFullErrorMessage(this Exception exeption)
         {
@@ -15,5 +15,12 @@ namespace Dominus.Backend.Application
             }
             return String.Join(" ", messages);
         }
+    }
+
+    public enum TypeLog
+    {
+        Error = 1,
+        Informativo = 2,
+        Advertencia = 3
     }
 }

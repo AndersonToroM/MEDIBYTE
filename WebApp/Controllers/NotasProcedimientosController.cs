@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WidgetGallery;
+
 namespace WebApp.Controllers
 {
     [Authorize]
@@ -88,7 +88,7 @@ namespace WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
 

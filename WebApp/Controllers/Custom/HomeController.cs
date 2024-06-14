@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using WidgetGallery;
+
 
 namespace Blazor.WebApp.Controllers
 {
@@ -125,7 +125,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
             }
         }
 
@@ -144,7 +144,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult("Error en servidor. " + e.GetFullErrorMessage());
+                return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
             }
         }
     }

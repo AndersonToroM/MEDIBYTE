@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WidgetGallery;
+
 
 namespace Blazor.WebApp.Controllers
 {
@@ -154,12 +154,12 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullErrorMessage());
             }
             return model;
         }
@@ -240,7 +240,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 return PartialView("Edit", model);
             }
 
@@ -274,7 +274,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
 
@@ -288,7 +288,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
 
         }
@@ -313,7 +313,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
 
@@ -332,7 +332,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
         }
 

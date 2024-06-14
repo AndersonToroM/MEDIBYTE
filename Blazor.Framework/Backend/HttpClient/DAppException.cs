@@ -1,4 +1,5 @@
-﻿using Dominus.Frontend.Controllers;
+﻿using Dominus.Backend.Application;
+using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,8 @@ namespace Dominus.Backend.HttpClient
                 {
                     Exception ex = context.Features.Get<IExceptionHandlerFeature>().Error;
 
+                    DApp.LogException(ex);
+
                     if (ex is DAppException)
                     {
                         var appEx = ex as DAppException;
@@ -46,7 +49,7 @@ namespace Dominus.Backend.HttpClient
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         context.Response.ContentType = "text/plain charset=utf-8";
-                        await context.Response.WriteAsync(ex.GetFullErrorMessage(), Encoding.UTF8);
+                        await context.Response.WriteAsync(ex.GetBackFullErrorMessage(), Encoding.UTF8);
                     }
                 });
             });

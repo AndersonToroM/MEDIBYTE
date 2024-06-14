@@ -2,7 +2,7 @@
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
-using WidgetGallery;
+
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Backend.Security;
@@ -114,12 +114,12 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullErrorMessage());
             }
             model.ModifyPassword = false;
             return model;

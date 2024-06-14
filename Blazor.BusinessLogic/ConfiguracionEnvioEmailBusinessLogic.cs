@@ -1,11 +1,9 @@
 ﻿using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
 
@@ -25,24 +23,26 @@ namespace Blazor.BusinessLogic
         public void EnviarEmail(EmailModelConfig data)
         {
             ConfiguracionEnvioEmailLog configuracionEnvioEmailLog = new ConfiguracionEnvioEmailLog();
+
+            if (!string.IsNullOrWhiteSpace(data.Origen))
+                data.Server = this.FindById(x => x.Origen.Equals(data.Origen), false);
+            else
+                data.Origen = data.Server.Origen;
+
+            configuracionEnvioEmailLog.Id = 0;
+            configuracionEnvioEmailLog.IsNew = true;
+            configuracionEnvioEmailLog.UpdatedBy = "admin";
+            configuracionEnvioEmailLog.CreatedBy = "admin";
+            configuracionEnvioEmailLog.CreationDate = DateTime.Now;
+            configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
+            configuracionEnvioEmailLog.Origen = data.Origen;
+            configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
+            configuracionEnvioEmailLog.Asunto = data.Asunto;
+            configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
+
             List<string> errores = new List<string>();
             try
             {
-                if (!string.IsNullOrWhiteSpace(data.Origen))
-                    data.Server = this.FindById(x => x.Origen.Equals(data.Origen), false);
-                else
-                    data.Origen = data.Server.Origen;
-
-                configuracionEnvioEmailLog.Id = 0;
-                configuracionEnvioEmailLog.IsNew = true;
-                configuracionEnvioEmailLog.UpdatedBy = "admin";
-                configuracionEnvioEmailLog.CreatedBy = "admin";
-                configuracionEnvioEmailLog.CreationDate = DateTime.Now;
-                configuracionEnvioEmailLog.LastUpdate = DateTime.Now;
-                configuracionEnvioEmailLog.Origen = data.Origen;
-                configuracionEnvioEmailLog.CorreoEnvia = data.Server.CorreoElectronico;
-                configuracionEnvioEmailLog.Asunto = data.Asunto;
-                configuracionEnvioEmailLog.MetodoUso = data.MetodoUso;
 
                 if (data.Server != null)
                 {
@@ -188,7 +188,7 @@ namespace Blazor.BusinessLogic
                             configuracionEnvioEmailLog.CorreosDestinatarios += " | CCO Configurado: " + data.Server.CorreoCopiaOculta;
                         }
 
-                        if(errores.Count > 0)
+                        if (errores.Count > 0)
                             configuracionEnvioEmailLog.ErrorDeDatos = string.Join(" | ", errores);
 
                         if (mailMessage.To.Count <= 0)
@@ -211,17 +211,28 @@ namespace Blazor.BusinessLogic
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                string fullError = e.Message;
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                    fullError += " | " + e.Message;
-                }
+                DApp.LogException(ex);
 
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.Origen))
+                {
+                    configuracionEnvioEmailLog.Origen = "-";
+                }
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.CorreoEnvia))
+                {
+                    configuracionEnvioEmailLog.CorreoEnvia = "-";
+                }
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.Asunto))
+                {
+                    configuracionEnvioEmailLog.Asunto = "-";
+                }
+                if (string.IsNullOrWhiteSpace(configuracionEnvioEmailLog.MetodoUso))
+                {
+                    configuracionEnvioEmailLog.MetodoUso = "-";
+                }
                 configuracionEnvioEmailLog.Exitoso = false;
-                configuracionEnvioEmailLog.Error = fullError;
+                configuracionEnvioEmailLog.Error = ex.GetBackFullErrorMessage();
                 new GenericBusinessLogic<ConfiguracionEnvioEmailLog>(this.UnitOfWork.Settings).Add(configuracionEnvioEmailLog);
             }
 

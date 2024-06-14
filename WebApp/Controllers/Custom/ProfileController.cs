@@ -1,6 +1,6 @@
 ﻿using Blazor.BusinessLogic;
 using Dominus.Backend.Application;
-using WidgetGallery;
+
 using Dominus.Backend.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

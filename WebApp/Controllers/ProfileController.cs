@@ -2,7 +2,7 @@
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
-using WidgetGallery;
+
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -111,12 +111,12 @@ namespace Blazor.WebApp.Controllers
                 }
                 catch (Exception e)
                 {
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage());
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage());
                 }
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", ModelState.GetFullErrorMessage());
+                ModelState.AddModelError("Entity.Id", ModelState.GetModelFullErrorMessage());
             }
             return model;
         }

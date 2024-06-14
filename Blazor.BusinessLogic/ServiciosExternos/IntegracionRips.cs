@@ -3,7 +3,6 @@ using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
 using Dominus.Backend.Application;
 using Dominus.Backend.Security;
-using Dominus.Frontend.Controllers;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -137,7 +136,7 @@ public class IntegracionRips
         catch (Exception ex)
         {
             integracionRipsModel.HuboErrorIntegracion = true;
-            integracionRipsModel.Error = ex.GetFullErrorMessage();
+            integracionRipsModel.Error = ex.GetBackFullErrorMessage();
         }
 
         return integracionRipsModel;

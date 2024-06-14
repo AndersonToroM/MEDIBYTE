@@ -91,7 +91,7 @@ namespace Blazor.WebApp.Controllers
             }
             catch (Exception e)
             {
-                return new BadRequestObjectResult(e.GetFullErrorMessage());
+                return new BadRequestObjectResult(e.GetFrontFullErrorMessage());
             }
 
         }

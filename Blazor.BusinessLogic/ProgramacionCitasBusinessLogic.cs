@@ -663,8 +663,9 @@ namespace Blazor.BusinessLogic
                 BlazorUnitWork unitOfWork = new BlazorUnitWork(UnitOfWork.Settings);
                 return unitOfWork.Repository<ProgramacionCitas>().Table.Max(x => x.Consecutivo) + 1;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 return 1;
             }
         }

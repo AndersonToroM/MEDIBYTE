@@ -1,5 +1,6 @@
 ﻿using Blazor.Infrastructure.Entities;
 using DevExpress.Spreadsheet;
+using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
 using System;
 using System.Collections.Generic;
@@ -108,24 +109,19 @@ namespace Blazor.BusinessLogic
                                         }
                                     }
                                 }
-                                catch (Exception e)
+                                catch (Exception ex)
                                 {
-                                    var error = "";
-                                    while (e.InnerException != null)
-                                    {
-                                        error += $"{e.Message}. ";
-                                        e = e.InnerException;
-                                    }
-                                    erroresExcel.Add($"Fila {i + 1}", new List<string> { error });
+                                    erroresExcel.Add($"Fila {i + 1}", new List<string> { ex.GetBackFullErrorMessage() });
                                 }
                             }
                         }
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                erroresExcel.Add("Error Plantilla", new List<string> { $"Error en leer la plantilla. | {e.Message}" });
+                DApp.LogException(ex);
+                erroresExcel.Add("Error Plantilla", new List<string> { $"Error en leer la plantilla. | {ex.Message}" });
             }
 
 

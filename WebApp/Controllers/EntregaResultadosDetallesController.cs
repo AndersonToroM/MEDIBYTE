@@ -106,7 +106,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             else 
@@ -136,7 +136,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             return model; 
@@ -192,7 +192,7 @@ namespace Blazor.WebApp.Controllers
                 } 
                 catch (Exception e) 
                 { 
-                    ModelState.AddModelError("Entity.Id", e.GetFullErrorMessage()); 
+                    ModelState.AddModelError("Entity.Id", e.GetFrontFullErrorMessage()); 
                 } 
             } 
             return model; 

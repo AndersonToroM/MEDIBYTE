@@ -145,37 +145,37 @@
                             <ul class="nav side-menu" id="sidebar-menu-container-options">
                                 @{
                                     var menu = appstate.GetMenu();
-                                                @if (appstate.SwitchApp == 1)
+                                    @if (appstate.SwitchApp == 1)
                                     {
                                         foreach (var module in menu)
                                         {
-                                                        @if (module.Options.Exists(x => x.Havepermission))
+                                            @if (module.Options.Exists(x => x.Havepermission))
                                             {
-                                                            <li style="width: 100%;">
-                                                                <a><i class="@module.Icon"></i> @module.Module <span class="fa fa-chevron-down"></span></a>
-                                                                <ul class="nav child_menu">
-                                                                    @foreach (var option in module.Options)
+                                                <li style="width: 100%;">
+                                                    <a><i class="@module.Icon"></i> @module.Module <span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        @foreach (var option in module.Options)
                                                         {
                                                             if (option.Havepermission)
                                                             {
-                                                                            <li class="menu-option">
-                                                                                @if (option.Name.Equals("VisorDicom"))
+                                                                <li class="menu-option">
+                                                                    @if (option.Name.Equals("VisorDicom"))
                                                                     {
-                                                                                    <a href="@Url.Action("DicomViewer","Home")" target="_blank">
-                                                                                        @option.Resource
-                                                                                    </a>
+                                                                        <a href="@Url.Action("DicomViewer","Home")" target="_blank">
+                                                                            @option.Resource
+                                                                        </a>
                                                                     }
                                                                     else
                                                                     {
-                                                                                    <a onclick="GetViewOnContainer('@Url.Action("ListPartial",option.Name)')" dataTargetOption="@option.Name" href="javascript:void(0);">
-                                                                                        @option.Resource
-                                                                                    </a>
+                                                                        <a onclick="GetViewOnContainer('@Url.Action("ListPartial",option.Name)')" dataTargetOption="@option.Name" href="javascript:void(0);">
+                                                                            @option.Resource
+                                                                        </a>
                                                                     }
-                                                                            </li>
+                                                                </li>
                                                             }
                                                         }
-                                                                </ul>
-                                                            </li>
+                                                    </ul>
+                                                </li>
                                             }
                                         }
                                     }
@@ -1426,7 +1426,7 @@
         }
 
         function MostrarDialogoDeAlerta(mensajes, titulo) {
-           
+
             if (!Array.isArray(mensajes)) {
                 mensajes = [mensajes];
             }
@@ -1445,9 +1445,9 @@
         }
 
         function IsNullOrWhiteSpace(str) {
-           
+
             return str === null || str.match(/^ *$/) !== null;
-           
+
         }
 
     </script>

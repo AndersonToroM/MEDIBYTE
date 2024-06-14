@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Dominus.Backend.Application
 {
@@ -71,12 +72,17 @@ namespace Dominus.Backend.Application
             }
         }
 
-        public static void LogToFile(string text)
+        public static void LogException(Exception ex)
+        {
+            LogToFile(TypeLog.Error, $"{ex.GetBackFullErrorMessage()} , {ex.StackTrace}");
+        }
+
+        public static void LogToFile(TypeLog type, string text)
         {
             try
             {
-                string pathFile = Path.Combine(PathDirectoryLogs, "ErrorFile.log");
-                File.AppendAllText(pathFile, $"{text}{Environment.NewLine}");
+                string pathFile = Path.Combine(PathDirectoryLogs, $"SIISO_LogFile_{DateTime.Now:yyyyMMdd}.log");
+                File.AppendAllText(pathFile, $"{type} , {DateTime.Now:yyyy-MM-dd HH:mm:ss} , {text} , {Environment.NewLine}");
             }
             catch
             {

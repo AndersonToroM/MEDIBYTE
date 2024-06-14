@@ -39,8 +39,9 @@ namespace Blazor.BusinessLogic
                 }
                 unitOfWork.CommitTransaction();
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 unitOfWork.RollbackTransaction();
                 throw;
             }
@@ -84,8 +85,9 @@ namespace Blazor.BusinessLogic
 
                 unitOfWork.CommitTransaction();
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 unitOfWork.RollbackTransaction();
                 throw;
             }
@@ -142,8 +144,9 @@ namespace Blazor.BusinessLogic
 
                 return atencionesResultado;
             }
-            catch
+            catch (Exception ex)
             {
+                DApp.LogException(ex);
                 unitOfWork.RollbackTransaction();
                 throw;
             }
