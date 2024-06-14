@@ -1,14 +1,19 @@
 using DevExtreme.AspNet.Data;
+using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
+using Blazor.Infrastructure.Entities;
+using Blazor.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
+using System.Linq;
+using Newtonsoft.Json;
+using Blazor.BusinessLogic;
+using Dominus.Backend.Application;
 using System.Collections.Generic;
 
 namespace Blazor.WebApp.Controllers
@@ -67,7 +72,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetModelFullError());
+                return BadRequest(ModelState.GetFullErrorMessage());
         }
 
         [HttpPost]
@@ -80,7 +85,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetModelFullError());
+                return BadRequest(ModelState.GetFullErrorMessage());
         }
 
         [HttpPost]

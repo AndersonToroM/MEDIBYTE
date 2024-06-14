@@ -4,7 +4,6 @@ using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +13,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -109,7 +108,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
             return model; 
         } 
@@ -213,7 +212,7 @@ namespace Blazor.WebApp.Controllers
              if(ModelState.IsValid) 
                  return Ok(ModelState); 
              else 
-                 return BadRequest(ModelState.GetModelFullError()); 
+                 return BadRequest(ModelState.GetFullErrorMessage()); 
         } 
 
         [HttpPost] 
@@ -228,7 +227,7 @@ namespace Blazor.WebApp.Controllers
              if(ModelState.IsValid) 
                  return Ok(ModelState); 
              else 
-                 return BadRequest(ModelState.GetModelFullError()); 
+                 return BadRequest(ModelState.GetFullErrorMessage()); 
         } 
 
         [HttpPost]

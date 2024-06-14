@@ -563,11 +563,4 @@ namespace Dominus.Backend.Application
 
 
     }
-
-    public enum LogType
-    {
-        Error = 1,
-        Informativo = 2,
-        Advertencia = 3,
-    }
 }

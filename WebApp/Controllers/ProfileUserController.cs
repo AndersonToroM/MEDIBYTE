@@ -2,7 +2,7 @@
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
-
+using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

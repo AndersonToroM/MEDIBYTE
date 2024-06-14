@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Dominus.Backend.Application
 {
@@ -72,17 +71,12 @@ namespace Dominus.Backend.Application
             }
         }
 
-        public static void LogException(Exception ex)
-        {
-            LogToFile(LogType.Error, $"{ex.GetFullErrorMessage()} | {ex.StackTrace}");
-        }
-
-        public static void LogToFile(LogType type, string text)
+        public static void LogToFile(string text)
         {
             try
             {
-                string pathFile = Path.Combine(PathDirectoryLogs, $"SiisoLog_{DateTime.Now:yyyyMMdd}.log");
-                File.AppendAllText(pathFile, $"{type.ToString()} , {DateTime.Now:yyyy/MM/dd HH:mm:ss} , {text} {Environment.NewLine}");
+                string pathFile = Path.Combine(PathDirectoryLogs, "ErrorFile.log");
+                File.AppendAllText(pathFile, $"{text}{Environment.NewLine}");
             }
             catch
             {
@@ -182,7 +176,8 @@ namespace Dominus.Backend.Application
             //Se evalua si en la cookie estan los parametros asignados
             if (CConnectionName == null || CProfilesId == null)
             {
-                throw new System.Exception("El claim en el contexto no esta completo, faltan parametros ConnectionName y ProfilesId");
+                Console.WriteLine("El claim en el contexto no esta completo, faltan parametros ConnectionName y ProfilesId ");
+                throw new System.Exception(DApp.DefaultLanguage.GetResource("SECURITY.NOCLAIMPARAMETERS"));
             }
 
             string ConnectionName = CConnectionName.Value;
@@ -252,12 +247,9 @@ namespace Dominus.Backend.Application
 
         public static void UpdateSecurityNavigation(SecurityNavigation seguridad, string host)
         {
-            var tenant = DApp.Tenants.Find(x => x.Name.Contains(host));
-            if (tenant != null)
-            {
-                tenant.DataBaseSetting.ListSecurityNavigation.RemoveAll(x => x.ProfileId == seguridad.ProfileId);
-                tenant.DataBaseSetting.ListSecurityNavigation.Add(seguridad);
-            }
+            DApp.Tenants.Find(x => x.Name.Contains(host)).DataBaseSetting.ListSecurityNavigation.RemoveAll(x => x.ProfileId == seguridad.ProfileId);
+            DApp.Tenants.Find(x => x.Name.Contains(host)).DataBaseSetting.ListSecurityNavigation.Add(seguridad);
         }
+
     }
 }

@@ -4,6 +4,7 @@ using Blazor.Infrastructure;
 using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
 using Dominus.Backend.DataBase;
+using Dominus.Frontend.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System;

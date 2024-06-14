@@ -1,5 +1,5 @@
 using DevExtreme.AspNet.Data;
-
+using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -16,7 +16,6 @@ using Blazor.BusinessLogic;
 using DevExpress.DataProcessing;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

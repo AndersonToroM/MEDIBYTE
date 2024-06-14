@@ -222,7 +222,6 @@ function SiisoGetMensajeGeoLocalizacion() {
 var SiisoPingStorage = "SiisoPingLog";
 var SiisoPingTimeOut = 2;
 var isSendeingPingLog = false;
-var saveLogPingServer = false;
 
 function PingServersIfErrorTimeOut() {
 
@@ -245,7 +244,7 @@ function PingServersIfErrorTimeOut() {
                     localStorage.setItem(SiisoPingStorage, JSON.stringify(logs));
                 }
                 else {
-                    if (logs.length >= 50 && !isSendeingPingLog && saveLogPingServer)
+                    if (logs.length >= 50 && !isSendeingPingLog)
                         SendLogPingServer(logs);
                 }
             }
@@ -293,7 +292,6 @@ var downloadSize = 53479; //bytes
 var speedLimitKB = 200;
 var SiisoSpeedTestStorage = "SiisoSpeedTestStorage";
 var isSendingLogSpeedTest = false;
-var saveLogSpeedTest = false;
 
 function InitiateSpeedDetection() {
     var logSpeedTest = [];
@@ -327,9 +325,10 @@ function MeasureConnectionSpeed(logSpeedTest) {
         var bitsLoaded = downloadSize * 8;
         var speedBps = (bitsLoaded / duration).toFixed(2);
         var speedKbps = (speedBps / 1024).toFixed(2);
+        /*        var speedMbps = (speedKbps / 1024).toFixed(2);*/
         if (speedKbps <= speedLimitKB)
             DevExpress.ui.notify(`Su conexion de internet esta presentando lentitud. (${speedKbps} Kbps)`, "warning", 1000);
-        if (logSpeedTest.length >= 500 && !isSendingLogSpeedTest && saveLogSpeedTest)
+        if (logSpeedTest.length >= 500 && !isSendingLogSpeedTest)
             SendLogSpeedTestServer(logSpeedTest);
         //if (logSpeedTest.length % 10 == 0)
         //    console.info(`Tiempo promedio descarga de 0.5 MG: ${speedKbps} Kbps`);

@@ -13,7 +13,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using Blazor.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {

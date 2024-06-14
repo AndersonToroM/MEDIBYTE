@@ -1,7 +1,6 @@
 using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.WebApp.Models;
-using Dominus.Backend.Application;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

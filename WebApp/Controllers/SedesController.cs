@@ -1,5 +1,5 @@
 using DevExtreme.AspNet.Data;
-
+using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using Blazor.BusinessLogic;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -112,7 +111,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
             return model; 
         } 

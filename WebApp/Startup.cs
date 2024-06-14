@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Polly;
@@ -24,6 +26,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Blazor.WebApp
 {
@@ -123,7 +126,7 @@ namespace Blazor.WebApp
                     configure.JsonSerializerOptions.AllowTrailingCommas = true;
                 }).AddXmlSerializerFormatters();
 
-
+       
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
@@ -141,8 +144,7 @@ namespace Blazor.WebApp
             //        .AllowAnyHeader());
             //});
 
-            services.ConfigureReportingServices(configurator =>
-            {
+            services.ConfigureReportingServices(configurator => {
                 configurator.DisableCheckForCustomControllers();
             });
 
@@ -251,19 +253,16 @@ namespace Blazor.WebApp
             //else
             //    throw new Exception("Error en la configuracion de la base de datos.");
 
-            //Se carga el menu del aplicativo
-            var pathMenu = Path.Combine("Utils", "menu.json");
-            MenuAplicativo.GetMenu(pathMenu);
 
             foreach (var item in DApp.Tenants)
             {
                 item.DataBaseSetting.MenuActionName = new UserBusinessLogic(item.DataBaseSetting).GetMenuActionsNames();
             }
 
+
             RetryPolicy retryIfException = Policy.Handle<Exception>().WaitAndRetry(5, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(100, retryAttempt) / 100));
             Dictionary<string, string> resources = null;
-            retryIfException.Execute(() =>
-            {
+            retryIfException.Execute(() => {
                 var logic = new Dominus.Backend.DataBase.BusinessLogic(DApp.Tenants.FirstOrDefault().DataBaseSetting);
                 resources = logic.GetBusinessLogic<LanguageResource>().FindAll(x => x.LanguageId == int.Parse(DApp.DefaultLanguage.Id)).ToDictionary(y => y.ResourceKey, z => z.ResourceValue);
             });

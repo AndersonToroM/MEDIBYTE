@@ -16,8 +16,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Dominus.Backend.Application;
+using WidgetGallery;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -230,7 +229,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetModelFullError());
+                return BadRequest(ModelState.GetFullErrorMessage());
         }
 
         [HttpPost]
@@ -245,7 +244,7 @@ namespace Blazor.WebApp.Controllers
             if (ModelState.IsValid)
                 return Ok(ModelState);
             else
-                return BadRequest(ModelState.GetModelFullError());
+                return BadRequest(ModelState.GetFullErrorMessage());
         }
 
         [HttpPost]

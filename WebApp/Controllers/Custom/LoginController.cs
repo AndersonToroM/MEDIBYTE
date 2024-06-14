@@ -2,6 +2,7 @@
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Models;
 using Dominus.Backend.Application;
+using WidgetGallery;
 using Dominus.Backend.DataBase;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authentication;
@@ -13,10 +14,12 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
+using System.Text;
+using System.IO;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -122,8 +125,8 @@ namespace Blazor.WebApp.Controllers
             var authProperties = new AuthenticationProperties();
             authProperties.RedirectUri = httpContextAccessor.HttpContext.Request.Host.Value;
             authProperties.IsPersistent = true;
-            var fechaExpirar = DateTime.Now.AddDays(1);
-            authProperties.ExpiresUtc = new DateTimeOffset(fechaExpirar.Year, fechaExpirar.Month, fechaExpirar.Day, 1, 0, 0, TimeSpan.Zero);
+            var fechaExpirar = DateTime.Now.AddDays(2);
+            authProperties.ExpiresUtc = new DateTimeOffset(fechaExpirar.Year, fechaExpirar.Month, fechaExpirar.Day, 3, 0, 0, TimeSpan.Zero);
 
             await httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(principal), authProperties);
 
@@ -140,7 +143,6 @@ namespace Blazor.WebApp.Controllers
 
             //newSession = manager.GetBusinessLogic<Session>().Add(newSession);
 
-            //DApp.LogToFile(LogType.Informativo, $"El usuario {model.UserName} inicio sesion.");
             return RedirectToAction("Index", "Home");
         }
 
@@ -182,7 +184,6 @@ namespace Blazor.WebApp.Controllers
             //await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             //return RedirectToAction(conexion, "empresa");
 
-            //DApp.LogToFile(LogType.Informativo, $"El usuario {User.Identity.Name} cerro sesion.");
             await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return LocalRedirect("~/");
         }
@@ -233,9 +234,8 @@ namespace Blazor.WebApp.Controllers
                 System.IO.File.AppendAllLines(pathFile, logs);
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //DApp.LogException(ex);
                 return BadRequest();
             }
         }

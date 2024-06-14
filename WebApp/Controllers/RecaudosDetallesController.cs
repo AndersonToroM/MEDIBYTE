@@ -1,5 +1,5 @@
 using DevExtreme.AspNet.Data;
-
+using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -16,7 +16,6 @@ using Blazor.BusinessLogic;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using static DevExpress.Data.Filtering.Helpers.SubExprHelper.ThreadHoppingFiltering;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -149,7 +148,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
             return NewModelDetail(model.Entity.RecaudosId);
         } 
@@ -276,7 +275,7 @@ namespace Blazor.WebApp.Controllers
                 if (ModelState.IsValid)
                     return Ok(ModelState);
                 else
-                    return BadRequest(ModelState.GetModelFullError());
+                    return BadRequest(ModelState.GetFullErrorMessage());
             }
             catch (Exception e)
             {
@@ -322,7 +321,7 @@ namespace Blazor.WebApp.Controllers
                 if (ModelState.IsValid)
                     return Ok(ModelState);
                 else
-                    return BadRequest(ModelState.GetModelFullError());
+                    return BadRequest(ModelState.GetFullErrorMessage());
             }
             catch (Exception e)
             {

@@ -1,5 +1,5 @@
 using DevExtreme.AspNet.Data;
-
+using WidgetGallery;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
 using Dominus.Frontend.Controllers;
@@ -17,7 +17,6 @@ using DevExpress.CodeParser.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Dominus.Backend.HttpClient;
-using Dominus.Backend.Application;
 
 namespace Blazor.WebApp.Controllers
 {
@@ -130,7 +129,7 @@ namespace Blazor.WebApp.Controllers
             }
             else
             {
-                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetModelFullError());
+                ModelState.AddModelError("Entity.Id", $"Error en vista, diferencia con base de datos. | " + ModelState.GetFullErrorMessage());
             }
             model.EsMismoUsuario = string.Equals(model.Entity.CreatedBy, User.Identity.Name, StringComparison.OrdinalIgnoreCase);
             return model;
