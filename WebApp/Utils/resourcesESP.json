@@ -3240,6 +3240,10 @@
     "Description": "Recomendaciones"
   },
   {
+    "Id": "Incapacidades.Retroactiva",
+    "Description": "¿Es retroactiva?"
+  },
+  {
     "Id": "IncapacidadesDetalle.DiagnosticosDescripcion",
     "Description": "Diagnóstico"
   },
