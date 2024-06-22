@@ -100,6 +100,10 @@ namespace Blazor.Reports.Incapacidades {
             this.tableRow40 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow40");
             this.tableCell86 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell86");
             this.tableCell84 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell84");
+            this.tableRow13 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow13");
+            this.tableCell31 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell31");
+            this.tableRow22 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableRow>("tableRow22");
+            this.tableCell33 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRTableCell>("tableCell33");
 
             // Parameters
             this.P_Ids = reportInitializer.GetParameter("P_Ids");
@@ -198,5 +202,9 @@ namespace Blazor.Reports.Incapacidades {
         private DevExpress.XtraReports.Parameters.Parameter P_Ids;
         private DevExpress.XtraReports.Parameters.Parameter P_HC_ID;
         private DevExpress.XtraReports.Parameters.Parameter P_UsuarioGenero;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow13;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell31;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow22;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell33;
     }
 }
