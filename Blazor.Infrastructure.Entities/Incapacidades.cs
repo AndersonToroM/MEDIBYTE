@@ -51,6 +51,11 @@ namespace Blazor.Infrastructure.Entities
        [DRequired("Incapacidades.FechaFinalizacion")]
        public virtual DateTime FechaFinalizacion { get; set; }
 
+       [Column("Retroactiva")]
+       [DDisplayName("Incapacidades.Retroactiva")]
+       [DRequired("Incapacidades.Retroactiva")]
+       public virtual Boolean Retroactiva { get; set; }
+
        #endregion
 
        #region Columnas referenciales)
@@ -85,12 +90,15 @@ namespace Blazor.Infrastructure.Entities
        [DRequiredFK("Incapacidades.IncapacidadesOrigenesId")]
        public virtual Int64 IncapacidadesOrigenesId { get; set; }
 
+       [Column("MotivoIncapacidadRetroactivaId")]
+       [DDisplayName("Incapacidades.MotivoIncapacidadRetroactivaId")]
+       public virtual Int64? MotivoIncapacidadRetroactivaId { get; set; }
 
-        #endregion
+       #endregion
 
-        #region Propiedades referencias de entrada)
+       #region Propiedades referencias de entrada)
 
-        [ForeignKey("DiagnosticosId")]
+       [ForeignKey("DiagnosticosId")]
        public virtual Diagnosticos Diagnosticos { get; set; }
 
        [ForeignKey("ProfesionalId")]
@@ -102,14 +110,17 @@ namespace Blazor.Infrastructure.Entities
        [ForeignKey("IncapacidadesOrigenesId")]
        public virtual IncapacidadesOrigenes IncapacidadesOrigenes { get; set; }
 
+       [ForeignKey("MotivoIncapacidadRetroactivaId")]
+       public virtual MotivoIncapacidadRetroactiva MotivoIncapacidadRetroactiva { get; set; }
+
        [ForeignKey("PacientesId")]
        public virtual Pacientes Pacientes { get; set; }
 
-        #endregion
+       #endregion
 
-        #region Reglas expression
+       #region Reglas expression
 
-        public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
+       public override Expression<Func<T, bool>> PrimaryKeyExpression<T>()
        {
        Expression<Func<Incapacidades, bool>> expression = entity => entity.Id == this.Id;
        return expression as Expression<Func<T, bool>>;

@@ -92,14 +92,18 @@
                                     );
 
 
-                                groupItems.AddSimpleFor(m => m.Entity.NroDias).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.NroDias).ColSpan(2)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.NroDias")))
                                 .Editor(e => e.NumberBox().ID(Prefix + "NroDias").Disabled(true)
                                 );
 
-                                groupItems.AddSimpleFor(m => m.Entity.EsProrroga).Label(x => x.Visible(false)).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.EsProrroga).Label(x => x.Visible(false)).ColSpan(2)
                                        .Editor(e => e.CheckBox().ID(Prefix + "EsProrroga").Text(DApp.DefaultLanguage.GetResource("Incapacidades.EsProrroga")).Disabled(true)
                                        );
+
+                                groupItems.AddSimpleFor(m => m.Entity.Retroactiva).Label(x => x.Visible(false)).ColSpan(2)
+                                .Editor(e => e.CheckBox().ID(Prefix + "Retroactiva").Text(DApp.DefaultLanguage.GetResource("Incapacidades.Retroactiva")).Disabled(true)
+                                );
 
                                 groupItems.AddSimpleFor(m => m.Entity.DiagnosticosId).ColSpan(6)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.DiagnosticosId")))
