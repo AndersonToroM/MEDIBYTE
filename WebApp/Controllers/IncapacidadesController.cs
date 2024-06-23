@@ -91,11 +91,11 @@ namespace Blazor.WebApp.Controllers
                 }
                 if (model.Entity.Fecha <= model.Entity.FechaInicio && model.Entity.MotivoIncapacidadRetroactivaId != null)
                 {
-                    throw new DAppException("La fecha de inicio debe ser inferior a la fecha de expedición, para que la incapacidad sea considerada retroactiva.");
+                    throw new DAppException("La fecha de inicio debe ser inferior a la fecha de expediciÃ³n, para que la incapacidad sea considerada retroactiva.");
                 }
                 if (model.Entity.Fecha > model.Entity.FechaInicio && model.Entity.MotivoIncapacidadRetroactivaId == null)
                 {
-                    throw new DAppException("La fecha de inicio debe ser igual o superior a la fecha de expedición, para que la incapacidad no sea considerada retroactiva.");
+                    throw new DAppException("La fecha de inicio debe ser igual o superior a la fecha de expediciÃ³n, para que la incapacidad no sea considerada retroactiva.");
                 }
                 try 
                 { 
