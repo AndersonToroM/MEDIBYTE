@@ -127,6 +127,15 @@
                                      .SearchEnabled(true).ShowClearButton(true).Disabled(true)
                                 );
 
+                                groupItems.AddSimpleFor(m => m.Entity.MotivoIncapacidadRetroactivaId).ColSpan(12)
+                                .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.MotivoIncapacidadRetroactivaId")))
+                                .Editor(e => e.SelectBox().ID(Prefix + "MotivoIncapacidadRetroactivaId").ReadOnly(true)
+                                .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetMotivoIncapacidadRetroactivaId").Key("Id"))
+                                .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
+                                .SearchEnabled(true).ShowClearButton(true).Disabled(true)
+                                );
+
                                 groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(12)
                                       .Editor(e => e.TextArea().ID(Prefix + "Observaciones").Height(200).ReadOnly(true));
                             });

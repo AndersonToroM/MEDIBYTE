@@ -3177,7 +3177,7 @@
   },
   {
     "Id": "Incapacidades.Fecha",
-    "Description": "Fecha"
+    "Description": "Fecha de expedición"
   },
   {
     "Id": "Incapacidades.FechaFinalizacion",
@@ -3202,6 +3202,10 @@
   {
     "Id": "Incapacidades.IncapacidadesOrigenesId",
     "Description": "Origen Incapacidad"
+  },
+  {
+    "Id": "Incapacidades.MotivoIncapacidadRetroactivaId",
+    "Description": "Causa de la retroactividad"
   },
   {
     "Id": "Incapacidades.NroDias",

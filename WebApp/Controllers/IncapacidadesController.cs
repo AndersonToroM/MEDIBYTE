@@ -5,6 +5,7 @@ using Blazor.WebApp.Models;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Data.ResponseModel;
 using DevExtreme.AspNet.Mvc;
+using Dominus.Backend.HttpClient;
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -83,7 +84,19 @@ namespace Blazor.WebApp.Controllers
             ViewBag.Accion = "Save"; 
             var OnState = model.Entity.IsNew; 
             if (ModelState.IsValid) 
-            { 
+            {
+                if (model.Entity.Retroactiva == true && model.Entity.MotivoIncapacidadRetroactivaId == null)
+                {
+                    throw new DAppException("Debe seleccionar la causa de retroactividad de la incapacidad.");
+                }
+                if (model.Entity.Fecha <= model.Entity.FechaInicio && model.Entity.MotivoIncapacidadRetroactivaId != null)
+                {
+                    throw new DAppException("La fecha de inicio debe ser inferior a la fecha de expedición, para que la incapacidad sea considerada retroactiva.");
+                }
+                if (model.Entity.Fecha > model.Entity.FechaInicio && model.Entity.MotivoIncapacidadRetroactivaId == null)
+                {
+                    throw new DAppException("La fecha de inicio debe ser igual o superior a la fecha de expedición, para que la incapacidad no sea considerada retroactiva.");
+                }
                 try 
                 { 
                     model.Entity.LastUpdate = DateTime.Now; 
@@ -266,6 +279,12 @@ namespace Blazor.WebApp.Controllers
         public LoadResult GetPacientesId(DataSourceLoadOptions loadOptions)
         { 
             return DataSourceLoader.Load(Manager().GetBusinessLogic<Pacientes>().Tabla(true), loadOptions);
+        }
+
+        [HttpPost]
+        public LoadResult GetMotivoIncapacidadRetroactivaId(DataSourceLoadOptions loadOptions)
+        {
+            return DataSourceLoader.Load(Manager().GetBusinessLogic<MotivoIncapacidadRetroactiva>().Tabla(true), loadOptions);
         }
 
         [HttpPost]

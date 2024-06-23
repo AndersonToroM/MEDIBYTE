@@ -30,6 +30,16 @@
         });
     }
 
+    function @(Prefix)OnValueChangedEstadoRetroactiva(input) {
+
+        if (input.value == true) {
+            $("#@(Prefix)MotivoIncapacidadRetroactivaId").dxSelectBox("instance").option("readOnly", false);
+        } else {
+            $("#@(Prefix)MotivoIncapacidadRetroactivaId").dxSelectBox("instance").option("readOnly", true);
+            $("#@(Prefix)MotivoIncapacidadRetroactivaId").dxSelectBox("instance").option("value", null);
+        }
+    }
+
     function @(Prefix)FormSuccess(data)
     {
         hideLoadIndicator();
