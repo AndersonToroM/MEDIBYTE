@@ -1,4 +1,4 @@
-using Blazor.BusinessLogic;
+﻿using Blazor.BusinessLogic;
 using Blazor.Infrastructure.Entities;
 using Blazor.Reports.Incapacidades;
 using Blazor.WebApp.Models;
