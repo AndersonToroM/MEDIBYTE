@@ -63,7 +63,7 @@
 
                                 groupItems.AddEmpty().ColSpan(3);
 
-                                groupItems.AddSimpleFor(m => m.Entity.DiagnosticosId).ColSpan(5)
+                                groupItems.AddSimpleFor(m => m.Entity.DiagnosticosId).ColSpan(4)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.DiagnosticosId")))
                                 .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.DiagnosticosId")))
                                     .Editor(e => e.SelectBox().ID(Prefix + "DiagnosticosId")
@@ -75,7 +75,7 @@
                                     .SearchEnabled(true).ShowClearButton(true)
                                );
 
-                                groupItems.AddSimpleFor(m => m.Entity.IncapacidadesOrigenesId).ColSpan(5)
+                                groupItems.AddSimpleFor(m => m.Entity.IncapacidadesOrigenesId).ColSpan(4)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Incapacidades.IncapacidadesOrigenesId")))
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.IncapacidadesOrigenesId")))
                                      .Editor(e => e.SelectBox().ID(Prefix + "IncapacidadesOrigenesId")
@@ -88,6 +88,19 @@
                                 groupItems.AddSimpleFor(m => m.Entity.EsProrroga).Label(x => x.Visible(false)).ColSpan(2)
                                        .Editor(e => e.CheckBox().ID(Prefix + "EsProrroga").Text(DApp.DefaultLanguage.GetResource("Incapacidades.EsProrroga")));
 
+                                groupItems.AddSimpleFor(m => m.Entity.Retroactiva).Label(x => x.Visible(false)).ColSpan(2)
+                                .Editor(e => e.CheckBox().ID(Prefix + "Retroactiva").Text(DApp.DefaultLanguage.GetResource("Incapacidades.Retroactiva"))
+                                .OnValueChanged($"{Prefix}OnValueChangedEstadoRetroactiva")
+                                );
+
+                                    groupItems.AddSimpleFor(m => m.Entity.MotivoIncapacidadRetroactivaId).ColSpan(12)
+                                    .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Incapacidades.MotivoIncapacidadRetroactivaId")))
+                                    .Editor(e => e.SelectBox().ID(Prefix + "MotivoIncapacidadRetroactivaId").ReadOnly(true)
+                                    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Incapacidades").LoadAction("GetMotivoIncapacidadRetroactivaId").Key("Id"))
+                                    .DataSourceOptions(o => o.Paginate(true).PageSize(50))
+                                    .ValueExpr("Id").DisplayExpr("Nombre").SearchExpr("Nombre")
+                                    .SearchEnabled(true).ShowClearButton(true)
+                                );
 
                                 groupItems.AddSimpleFor(m => m.Entity.Observaciones).ColSpan(12)
                                       .Editor(e => e.TextArea().ID(Prefix + "Observaciones").Height(200));

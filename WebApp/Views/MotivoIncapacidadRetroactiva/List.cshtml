@@ -1,0 +1,23 @@
+@{ 
+    string Prefix = "MotivoIncapacidadRetroactiva"; 
+    string UrlClick = Url.Action("Edit", "MotivoIncapacidadRetroactiva"); 
+    string UrlNew = Url.Action("New", "MotivoIncapacidadRetroactiva"); 
+
+    var DataGridConfig = new DataGridConfiguration<MotivoIncapacidadRetroactiva>(Prefix) 
+        .OnClick(UrlClick, new { Id = "Id" }) 
+        .New(UrlNew,DApp.ActionViewSecurity(Context,UrlNew)) 
+        .Exports(true,true) 
+        .ToolbarTop(DApp.DefaultLanguage.GetResource("MotivoIncapacidadRetroactiva"), "mainPanel"); 
+} 
+
+<div class="box-body table-responsive no-padding"> 
+@(Html.DControls().DataGridSimple<MotivoIncapacidadRetroactiva>(DataGridConfig) 
+    .ID("MotivoIncapacidadRetroactivaDataGrid") 
+    .DataSource(d => d.Mvc().LoadMethod("POST").Controller("MotivoIncapacidadRetroactiva").LoadAction("Get").Key("Id")) 
+    .Columns(columns => 
+    { 
+        columns.AddFor(m => m.Codigo); 
+        columns.AddFor(m => m.Nombre); 
+    }) 
+) 
+</div> 
