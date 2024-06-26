@@ -786,8 +786,8 @@ namespace Blazor.BusinessLogic
             {
                 throw new Exception("La factura no es de tipo institucional.");
             }
-
-            if (string.IsNullOrWhiteSpace(fac.XmlUrl))
+            
+            if (string.IsNullOrWhiteSpace(fac.CUFE))
             {
                 throw new Exception("La factura no tiene registro en la DIAN o no se le ha generado XML.");
             }
