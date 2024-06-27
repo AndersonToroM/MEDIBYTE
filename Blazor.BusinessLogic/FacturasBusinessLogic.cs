@@ -866,7 +866,7 @@ namespace Blazor.BusinessLogic
 
                         consultaRips.Consecutivo = consecutivoConsulta;
                         consultaRips.CodPrestador = fac.Empresas?.CodigoReps;
-                        consultaRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd");
+                        consultaRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
                         consultaRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados?.Atenciones?.Admisiones.NroAutorizacion;
                         if (servicio.Servicios.CupsId != null)
                         {
@@ -876,6 +876,7 @@ namespace Blazor.BusinessLogic
                         {
                             consultaRips.CodConsulta = servicio.Servicios?.Codigo;
                         }
+                        consultaRips.conceptoRecaudo = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
                         consultaRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
                         consultaRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
                         consultaRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
@@ -950,7 +951,7 @@ namespace Blazor.BusinessLogic
                             procedimientoRips.CodProcedimiento = servicio.Servicios?.Codigo;
                         }
                         procedimientoRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
-                        procedimientoRips.TipoPagoModerador = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
+                        procedimientoRips.conceptoRecaudo = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
                         procedimientoRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
                         procedimientoRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.FinalidadProcedimiento?.CodigoRips;
                         procedimientoRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;

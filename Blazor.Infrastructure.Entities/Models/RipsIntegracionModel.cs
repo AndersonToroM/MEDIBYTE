@@ -52,8 +52,8 @@ public class ProcedimientoRips
     [JsonProperty("codServicio")]
     public int? CodServicio { get; set; }
 
-    [JsonProperty("tipoPagoModerador")]
-    public string TipoPagoModerador { get; set; }
+    [JsonProperty("conceptoRecaudo")]
+    public string conceptoRecaudo { get; set; }
 
     [JsonProperty("fechaInicioAtencion")]
     public string FechaInicioAtencion { get; set; }
@@ -148,8 +148,8 @@ public class ConsultaRips
     [JsonProperty("vrServicio")]
     public long VrServicio { get; set; }
 
-    [JsonProperty("tipoPagoModerador")]
-    public string TipoPagoModerador { get; set; }
+    [JsonProperty("conceptoRecaudo")]
+    public string conceptoRecaudo { get; set; }
 
     [JsonProperty("valorPagoModerador")]
     public long ValorPagoModerador { get; set; }
@@ -167,7 +167,7 @@ public class ServiciosRips
     public List<ProcedimientoRips> Procedimientos { get; set; } = new List<ProcedimientoRips>();
 
     [JsonProperty("consultas")]
-    public List<ConsultaRips> Consultas { get; set; }
+    public List<ConsultaRips> Consultas { get; set; } = new List<ConsultaRips>();
 }
 
 public class UsuarioRips
