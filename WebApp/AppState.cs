@@ -1,13 +1,12 @@
-﻿using Blazor.Infrastructure.Entities;
+﻿using Blazor.BusinessLogic;
+using Blazor.Infrastructure.Entities;
 using Dominus.Backend.Application;
-
 using Dominus.Frontend.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using Blazor.BusinessLogic;
 
 namespace Blazor.WebApp
 {
@@ -50,7 +49,7 @@ namespace Blazor.WebApp
         private void SetUser(long id)
         {
             if (id > 0)
-                Usuario = Manager().GetBusinessLogic<User>().FindById(x=> x.Id ==  id, true);
+                Usuario = Manager().GetBusinessLogic<User>().FindById(x => x.Id == id, true);
 
             if (Usuario == null)
             {
@@ -63,13 +62,14 @@ namespace Blazor.WebApp
 
         #endregion
 
-        public List<Dominus.Backend.Application.MenuModel> GetMenu()
+        public List<MenuModel> GetMenu()
         {
             Manager().UserBusinessLogic().UpdateSecurityNavigation(null, 0, httpContextAccessor.HttpContext.Request.Host.Value);
 
-            var pathMenu = System.IO.Path.Combine("Utils","menu.json");
+            var pathMenu = System.IO.Path.Combine("Utils", "menu.json");
             List<Dominus.Backend.Application.MenuModel> menu = Dominus.Backend.Application.Menu.GetMenu(pathMenu);
-            menu.ForEach(x => {
+            menu.ForEach(x =>
+            {
                 x.Options.ForEach(j =>
                 {
                     j.Havepermission = !DApp.ActionViewSecurity(httpContextAccessor.HttpContext, "/" + j.Name + "/List");
@@ -82,7 +82,49 @@ namespace Blazor.WebApp
             return menu;
         }
 
+        public AvisosInformativos MostrarAvisoInformativo()
+        {
+            var aviso = Manager().GetBusinessLogic<AvisosInformativos>().FindById(x => x.Activo && x.MostrarHasta >= DateTime.Now, false);
+            if (aviso != null)
+            {
+                aviso.MostrarMensaje = false;
+
+                var avisoUser = Manager().GetBusinessLogic<AvisosInformativosUsuarios>().FindById(x => x.UserId == Usuario.Id && x.AvisosInformativosId == aviso.Id, false);
+                if (avisoUser != null)
+                {
+                    if (!avisoUser.AceptoMensaje)
+                    {
+                        avisoUser.CantidadMostroMensaje++;
+                        avisoUser.UpdatedBy = Usuario.UserName;
+                        avisoUser.LastUpdate = DateTime.Now;
+                        Manager().GetBusinessLogic<AvisosInformativosUsuarios>().Modify(avisoUser);
+                        aviso.MostrarMensaje = true;
+                    }
+                }
+                else
+                {
+                    avisoUser = new AvisosInformativosUsuarios
+                    {
+                        Id = 0,
+                        AvisosInformativosId = aviso.Id,
+                        UserId = Usuario.Id,
+                        AceptoMensaje = false,
+                        CantidadMostroMensaje = 1,
+                        CreatedBy = DApp.Util.UserSystem,
+                        UpdatedBy = DApp.Util.UserSystem,
+                        CreationDate = DateTime.Now,
+                        LastUpdate = DateTime.Now
+                    };
+                    Manager().GetBusinessLogic<AvisosInformativosUsuarios>().Add(avisoUser);
+                    aviso.MostrarMensaje = true;
+                }
+
+                return aviso;
+            }
+            else
+            {
+                return new AvisosInformativos { MostrarMensaje = false };
+            }
+        }
     }
-
-
 }

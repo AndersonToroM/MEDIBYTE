@@ -68,8 +68,10 @@ namespace Blazor.WebApp.Controllers
         [HttpPost]
         public Dictionary<string, object> ObtenerPreferenciasUsuario(bool bloqueoPantalla)
         {
-            Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("BloqueoPantalla", bloqueoPantalla);
+            Dictionary<string, object> data = new Dictionary<string, object>
+            {
+                { "BloqueoPantalla", bloqueoPantalla }
+            };
             return data;
         }
 
@@ -145,6 +147,33 @@ namespace Blazor.WebApp.Controllers
             catch (Exception e)
             {
                 return new BadRequestObjectResult("Error en servidor. " + e.GetFrontFullErrorMessage());
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AceptarAvisoInformativo(long avisoId)
+        {
+            try
+            {
+                var userId = this.ActualUsuarioId();
+                var avisoUsuario = Manager().GetBusinessLogic<AvisosInformativosUsuarios>().FindById(x => x.AvisosInformativosId == avisoId && x.UserId == userId, false);
+                if (avisoUsuario != null)
+                {
+                    avisoUsuario.AceptoMensaje = true;
+                    avisoUsuario.UpdatedBy = User.Identity.Name;
+                    Manager().GetBusinessLogic<AvisosInformativosUsuarios>().Modify(avisoUsuario);
+                }
+                else
+                {
+                    throw new Exception($"Aviso con el Id {avisoId} para el usuario {User.Identity.Name} con el UserId: {userId} no encontrado");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                DApp.LogException(ex);
+                return BadRequest(ex.GetFrontFullErrorMessage());
             }
         }
     }
