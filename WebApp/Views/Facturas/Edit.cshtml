@@ -56,24 +56,24 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
             },
-            // new ButtonToolbar
-            // {
-            //     Action = $"{Prefix}EnviarRips",
-            //     Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
-            //     Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional || enviadoRips,
-            //     Location = ToolbarItemLocation.After,
-            //     LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
-            //     Icon = "expand"
-            // },
-            // new ButtonToolbar
-            // {
-            //     Action = $"{Prefix}DescargarJSONRips",
-            //     Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarJsonRips"),
-            //     Disabled = Model.Entity.IsNew,
-            //     Location = ToolbarItemLocation.Before,
-            //     LocateInMenu = ToolbarItemLocateInMenuMode.Always,
-            //     Icon = "doc"
-            // },
+             new ButtonToolbar
+             {
+                 Action = $"{Prefix}EnviarRips",
+                 Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
+                 Disabled = Model.Entity.IsNew /*|| !enviadoDian*/ || !esInstitucional || enviadoRips,
+                 Location = ToolbarItemLocation.After,
+                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
+                 Icon = "expand"
+             },
+             new ButtonToolbar
+             {
+                 Action = $"{Prefix}DescargarJSONRips",
+                 Text = @DApp.DefaultLanguage.GetResource("Facturas.DescargarJsonRips"),
+                 Disabled = Model.Entity.IsNew,
+                 Location = ToolbarItemLocation.Before,
+                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
+                 Icon = "doc"
+             },
             new ButtonToolbar
             {
                 Id = $"{Prefix}BotonEnviarDIAN",

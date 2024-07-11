@@ -550,7 +550,7 @@ namespace Dominus.Backend.Application
         public string CodigoPrestador = "CODIGO_PRESTADOR";
         public string CodeListName = "salud_cobertura.gc";
         public string ModalidadPago = "MODALIDAD_PAGO";
-        public string OberturaPlanBeneficios = "OBERTURA_PLAN_BENEFICIOS";
+        public string CoberturaPlanBeneficios = "COBERTURA_PLAN_BENEFICIOS";
         public string NumeroContrato = "NUMERO_CONTRATO";
         public string NumeroPoliza = "NUMERO_POLIZA";
         public string Copago = "COPAGO";
