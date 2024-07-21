@@ -80,8 +80,8 @@
 
 @(Html.DControls().Popup()
     .ID("PopupAnularAdmision")
-    .FullScreen(true).CloseOnOutsideClick(false)
-    .Title(Model.Entity.Titulo).ShowTitle(true).ShowCloseButton(false)
+    .FullScreen(true).CloseOnOutsideClick(true)
+    .Title($"{DApp.GetResource("SIISO.ModalAvisoInformativo")}: {Model.Entity.Titulo}").ShowTitle(true).ShowCloseButton(true)
     .Visible(false).DragEnabled(false)
     .ContentTemplate(new JS($"{Prefix}CargarContenido"))
 )

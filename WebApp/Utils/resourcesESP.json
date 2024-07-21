@@ -5152,6 +5152,10 @@
     "Description": "Sede"
   },
   {
+    "Id": "SIISO.ModalAvisoInformativo",
+    "Description": "Aviso Informativo SIISO"
+  },
+  {
     "Id": "TiposAfiliados",
     "Description": "Tipos de afiliados"
   },

@@ -51,9 +51,9 @@
     <script src="~/lib/ace-builds/src-min-noconflict/theme-ambiance.js"></script>
     <script src="~/lib/ace-builds/src-min-noconflict/snippets/text.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-    @* <script src="~/lib/devextreme/dx-quill.min.js"></script> *@
+    <script src="~/lib/quill/quill-2.0.2.js"></script>
+    <link href="~/lib/quill/quill-2.0.2.css" rel="stylesheet" />
+
     <script src="~/lib/devextreme/dx.all.js"></script>
     <script src="~/lib/devexpress/analytics-core/dist/js/dx-analytics-core.min.js"></script>
     <script src="~/lib/devexpress/analytics-core/dist/js/dx-querybuilder.min.js"></script>
@@ -332,6 +332,41 @@
         <div class="modal-body" id="ContenidoReporte" style="height:100%;"></div>
     }
 
+    @{
+        var aviso = appstate.MostrarAvisoInformativo();
+    }
+    @if (aviso.MostrarMensaje)
+    {
+        <!-- Modal para mostrar los avisos informativos -->
+        @(Html.DControls().Popup()
+            .ID("PopupAvisosInformativos")
+            .FullScreen(true).CloseOnOutsideClick(false)
+            .Title($"{DApp.GetResource("SIISO.ModalAvisoInformativo")}: {aviso.Titulo}").ShowTitle(true).ShowCloseButton(true)
+            .Visible(aviso.MostrarMensaje).DragEnabled(false)
+            .ContentTemplate(new TemplateName("TemplateAvisosInformativos"))
+            )
+        @using (Html.DevExtreme().NamedTemplate("TemplateAvisosInformativos"))
+        {
+            <div style="height:90%;">
+                <div class="divAvistoInformativo ql-editor ql-container ql-snow">@Html.Raw(aviso.Contenido)</div>
+            </div>
+            <div class="form-group">
+                <div class="row justify-content-center">
+                    <label class="container-check">
+                        Acepta haber leido el aviso y estar informado de las nuevas funcionalidades del sistema SIISO.
+                        <input type="checkbox" checked="checked" id="checkAvisoInformativo">
+                        <span class="checkmark-box"></span>
+                    </label>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-block" id="buttonAceptarAvisoInformativo">ACEPTAR</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
     <!-- jQuery Smart Wizard -->
     <script src="~/lib/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <!-- Custom Theme Scripts -->
@@ -365,6 +400,31 @@
                     ControlErrorExceptionForApp(xhr);
                 }
             });
+
+            $("#checkAvisoInformativo").on("click", function () {
+                var checked = $("#checkAvisoInformativo").is(":checked");
+                if (checked) {
+                    $("#buttonAceptarAvisoInformativo").prop('disabled', false);
+                } else {
+                    $("#buttonAceptarAvisoInformativo").prop('disabled', true);
+                }
+            });
+
+            $("#buttonAceptarAvisoInformativo").on("click", function () {
+                $.ajax({
+                    url: '@Url.Action("AceptarAvisoInformativo", "Home")',
+                    data: { avisoId: @aviso.Id },
+                    type: 'POST',
+                    success: function (data) {
+                        hideLoadIndicator();
+                        $("#PopupAvisosInformativos").dxPopup("instance").hide();
+                    },
+                    error: function (xhr) {
+                        ControlErrorExceptionForApp(xhr);
+                    }
+                });
+            });
+
         });
 
         var showLoadIndicator = function () {

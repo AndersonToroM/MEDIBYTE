@@ -397,7 +397,7 @@ namespace Blazor.BusinessLogic
             var facDetalles = unitOfWork.Repository<FacturasDetalles>().Table
                 .Include(x => x.Servicios)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones)
-                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora.Admisiones.ValorPagoEstados)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios)
                 .Where(x => x.FacturasId == fac.Id)
@@ -598,6 +598,8 @@ namespace Blazor.BusinessLogic
                         if (!facturaYaAgregadaPrepayments.Contains(facturaCopagoCuotaModeradora.Id)) // verifica si ya fue agregada la factura de copago y cuota moderadora.
                         {
                             FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
+                            fePrepaidPayment.PaidID = facturaCopagoCuotaModeradora.Admisiones?.ValorPagoEstados?.CodigoRips;
+                            fePrepaidPayment.PaidSchemeID = facturaCopagoCuotaModeradora.Admisiones?.ValorPagoEstados?.Nombre;
                             fePrepaidPayment.PaidDate = facturaCopagoCuotaModeradora.Fecha;
                             fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorTotal.ToString(CultureInfo.InvariantCulture);
                             feRootJson.PrepaidPayments.Add(fePrepaidPayment);
@@ -621,7 +623,7 @@ namespace Blazor.BusinessLogic
                     });
                     feCollection.NameValues.Add(new FeNameValue
                     {
-                        Name = DApp.Util.Dian.OberturaPlanBeneficios,
+                        Name = DApp.Util.Dian.CoberturaPlanBeneficios,
                         Value = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.Descripcion,
                         CodeListName = DApp.Util.Dian.CodeListName,
                         CodeListCode = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones.CoberturaPlanBeneficios.CodigoRips
@@ -786,8 +788,8 @@ namespace Blazor.BusinessLogic
             {
                 throw new Exception("La factura no es de tipo institucional.");
             }
-
-            if (string.IsNullOrWhiteSpace(fac.XmlUrl))
+            
+            if (string.IsNullOrWhiteSpace(fac.CUFE))
             {
                 throw new Exception("La factura no tiene registro en la DIAN o no se le ha generado XML.");
             }
@@ -818,6 +820,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.Pacientes.PaisesOrigen)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstados)
                 .Include(x => x.AdmisionesServiciosPrestados.Atenciones.FinalidadProcedimiento)
+                .Include(x => x.AdmisionesServiciosPrestados.Atenciones.CausaMotivoAtencion)
                 .Where(x => x.FacturasId == fac.Id)
                 .ToList();
 
@@ -866,7 +869,7 @@ namespace Blazor.BusinessLogic
 
                         consultaRips.Consecutivo = consecutivoConsulta;
                         consultaRips.CodPrestador = fac.Empresas?.CodigoReps;
-                        consultaRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd");
+                        consultaRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
                         consultaRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados?.Atenciones?.Admisiones.NroAutorizacion;
                         if (servicio.Servicios.CupsId != null)
                         {
@@ -876,11 +879,12 @@ namespace Blazor.BusinessLogic
                         {
                             consultaRips.CodConsulta = servicio.Servicios?.Codigo;
                         }
+                        consultaRips.conceptoRecaudo = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
                         consultaRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
                         consultaRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
                         consultaRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
                         consultaRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados?.Atenciones?.FinalidadConsulta?.CodigoRips;
-                        consultaRips.CausaMotivoAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.CausasExternas?.CodigoRips;
+                        consultaRips.CausaMotivoAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.CausaMotivoAtencion?.Codigo;
 
                         var diagonosticos = unitOfWork.Repository<HistoriasClinicasDiagnosticos>().Table
                             .Include(x => x.Diagnosticos)
@@ -920,16 +924,21 @@ namespace Blazor.BusinessLogic
                         consultaRips.NumDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Empleados?.NumeroIdentificacion;
                         consultaRips.TipoDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones.Empleados?.TiposIdentificacion?.Codigo;
                         consultaRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
-                        consultaRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
+                        
 
                         if (servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
                         {
                             var facturaCopagoCuotaModeradora = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
                             consultaRips.NumFEVPagoModerador = $"{facturaCopagoCuotaModeradora.Documentos.Prefijo}{facturaCopagoCuotaModeradora.NroConsecutivo}";
+                            consultaRips.ValorPagoModerador = Convert.ToInt32(facturaCopagoCuotaModeradora.ValorTotal);
                         }
 
                         consecutivoConsulta++;
                         usuarioRips.Servicios.Consultas.Add(consultaRips);
+                    }
+                    else
+                    {
+                        usuarioRips.Servicios.Consultas = null;
                     }
 
                     if (servicio.Servicios.TiposServiciosId == 2) // Procedimiento
@@ -950,11 +959,11 @@ namespace Blazor.BusinessLogic
                             procedimientoRips.CodProcedimiento = servicio.Servicios?.Codigo;
                         }
                         procedimientoRips.CodServicio = servicio.Servicios?.HabilitacionServciosRips?.Codigo;
-                        procedimientoRips.TipoPagoModerador = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
+                        procedimientoRips.conceptoRecaudo = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ValorPagoEstados?.CodigoRips;
                         procedimientoRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
                         procedimientoRips.FinalidadTecnologiaSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.FinalidadProcedimiento?.CodigoRips;
                         procedimientoRips.GrupoServicios = servicio.Servicios?.GrupoServciosRips?.Codigo;
-                        procedimientoRips.IdMIPRES = null;
+                        //procedimientoRips.IdMIPRES = null;
                         procedimientoRips.ModalidadGrupoServicioTecSal = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ModalidadAtencion?.Codigo;
                         procedimientoRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.NroAutorizacion;
                         procedimientoRips.NumDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Empleados?.NumeroIdentificacion;
@@ -973,7 +982,10 @@ namespace Blazor.BusinessLogic
                         consecutivoProcedimiento++;
                         usuarioRips.Servicios.Procedimientos.Add(procedimientoRips);
                     }
-
+                    else
+                    {
+                        usuarioRips.Servicios.Procedimientos = null;
+                    }
                 }
 
                 consecutivoUsuario++;

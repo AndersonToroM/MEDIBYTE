@@ -1,6 +1,7 @@
 ﻿using Blazor.BusinessLogic.Models;
 using Blazor.Infrastructure.Entities;
 using Blazor.Infrastructure.Entities.Models;
+using DevExpress.Pdf.Native.BouncyCastle.Ocsp;
 using Dominus.Backend.Application;
 using Dominus.Backend.Security;
 using Newtonsoft.Json;
@@ -8,6 +9,8 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +36,10 @@ public class IntegracionRips
     private HttpClient BuildHttpClient()
     {
         var services = DApp.GetTenant(_host).Services;
-        var urlRips = services[DApp.Util.ServiceFE];
+        var urlRips = services[DApp.Util.ServiceRips];
+
+        //var handler = new HttpClientHandler();
+        //handler.ClientCertificates.Add(new X509Certificate2("D:\\SIISO\\FEV_Rips\\build_docker\\fevripsapilocal.pfx", "2024"));
         HttpClient http = new HttpClient();
         http.BaseAddress = new Uri(urlRips);
         http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -77,7 +83,7 @@ public class IntegracionRips
         loginIntegracionRips.Clave = Cryptography.Decrypt(_user.PasswordRips);
         loginIntegracionRips.Reps = true;
 
-        var jsonLogin = JsonConvert.SerializeObject(loginIntegracionRips, Newtonsoft.Json.Formatting.Indented);
+        var jsonLogin = JsonConvert.SerializeObject(loginIntegracionRips, Formatting.Indented);
         var content = new StringContent(jsonLogin, Encoding.UTF8, "application/json");
         var httpResult = await http.PostAsync(_urlLoginSISPRO, content);
         var jsonResult = await httpResult.Content.ReadAsStringAsync();

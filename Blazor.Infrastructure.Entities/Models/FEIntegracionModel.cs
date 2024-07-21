@@ -423,6 +423,12 @@ public class FeNameValue
 
 public class FePrepaidPayment
 {
+    [JsonProperty("PaidID")]
+    public string PaidID { get; set; }
+
+    [JsonProperty("PaidSchemeID")]
+    public string PaidSchemeID { get; set; }
+
     [JsonProperty("PaidAmount")]
     public string PaidAmount { get; set; }
 
