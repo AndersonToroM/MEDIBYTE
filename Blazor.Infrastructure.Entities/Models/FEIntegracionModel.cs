@@ -429,6 +429,9 @@ public class FePrepaidPayment
     [JsonProperty("PaidSchemeID")]
     public string PaidSchemeID { get; set; }
 
+    [JsonProperty("ReceivedDate")]
+    public DateTime ReceivedDate { get; set; }
+
     [JsonProperty("PaidAmount")]
     public string PaidAmount { get; set; }
 

@@ -600,6 +600,7 @@ namespace Blazor.BusinessLogic
                             FePrepaidPayment fePrepaidPayment = new FePrepaidPayment();
                             fePrepaidPayment.PaidID = facturaCopagoCuotaModeradora.Admisiones?.ValorPagoEstados?.CodigoRips;
                             fePrepaidPayment.PaidSchemeID = facturaCopagoCuotaModeradora.Admisiones?.ValorPagoEstados?.Nombre;
+                            fePrepaidPayment.ReceivedDate = facturaCopagoCuotaModeradora.Fecha;
                             fePrepaidPayment.PaidDate = facturaCopagoCuotaModeradora.Fecha;
                             fePrepaidPayment.PaidAmount = facturaCopagoCuotaModeradora.ValorTotal.ToString(CultureInfo.InvariantCulture);
                             feRootJson.PrepaidPayments.Add(fePrepaidPayment);

@@ -56,11 +56,11 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "print"
             },
-             /*new ButtonToolbar
+             new ButtonToolbar
              {
                  Action = $"{Prefix}EnviarRips",
                  Text = @DApp.DefaultLanguage.GetResource("Facturas.EnviarRips"),
-                 Disabled = Model.Entity.IsNew || !enviadoDian || !esInstitucional || enviadoRips,
+                 Disabled = Model.Entity.IsNew || /*!enviadoDian ||*/ !esInstitucional || enviadoRips,
                  Location = ToolbarItemLocation.After,
                  LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                  Icon = "expand"
@@ -73,7 +73,7 @@
                  Location = ToolbarItemLocation.Before,
                  LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                  Icon = "doc"
-             },*/
+             },
             new ButtonToolbar
             {
                 Id = $"{Prefix}BotonEnviarDIAN",
