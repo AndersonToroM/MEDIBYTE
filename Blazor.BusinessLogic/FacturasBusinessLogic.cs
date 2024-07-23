@@ -948,7 +948,7 @@ namespace Blazor.BusinessLogic
                         ProcedimientoRips procedimientoRips = new ProcedimientoRips();
 
                         procedimientoRips.Consecutivo = consecutivoProcedimiento;
-                        procedimientoRips.CodPrestador = fac.Empresas?.CodigoReps;
+                        procedimientoRips.CodPrestador = $"{fac.Empresas?.CodigoReps}{fac.Sedes.Codigo}";
                         procedimientoRips.CodComplicacion = null;
                         procedimientoRips.CodDiagnosticoPrincipal = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones?.Diagnosticos?.Codigo;
                         procedimientoRips.CodDiagnosticoRelacionado = null;
