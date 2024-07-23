@@ -377,6 +377,7 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Convenio.ModalidadesContratacion)
                 .Include(x => x.MediosPago)
                 .Include(x => x.FormasPagos)
+                .Include(x => x.Sedes)
                 .FirstOrDefault(x => x.Id == facturaId);
 
             if (fac == null)
@@ -613,8 +614,8 @@ namespace Blazor.BusinessLogic
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = DApp.Util.Dian.CodigoPrestador,
-                        Value = fac.Empresas.CodigoReps
-                    });
+                        Value = $"{fac.Empresas.CodigoReps}{fac.Sedes.Codigo}"
+                });
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = DApp.Util.Dian.ModalidadPago,

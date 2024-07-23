@@ -825,7 +825,7 @@
   },
   {
     "Id": "Bancos.Codigo",
-    "Description": "Codigo"
+    "Description": "Código"
   },
   {
     "Id": "Bancos.Descripcion",
@@ -4889,7 +4889,7 @@
   },
   {
     "Id": "Sedes.Codigo",
-    "Description": "Codigo"
+    "Description": "Código SISPRO"
   },
   {
     "Id": "Sedes.CodigoPostal",
@@ -4897,7 +4897,7 @@
   },
   {
     "Id": "Sedes.CorreoElectronico",
-    "Description": "Correo Electronico"
+    "Description": "Correo Electrónico"
   },
   {
     "Id": "Sedes.Departamentos",
@@ -4913,7 +4913,7 @@
   },
   {
     "Id": "Sedes.Fax",
-    "Description": "Telefono"
+    "Description": "Teléfono"
   },
   {
     "Id": "Sedes.Nombre",
@@ -4921,15 +4921,15 @@
   },
   {
     "Id": "Sedes.NroMatriculaMercantil",
-    "Description": "Numero de Matricula Mercantil"
+    "Description": "Número de Matrícula Mercantil"
   },
   {
     "Id": "Sedes.PaginaWeb",
-    "Description": "Pagina Web"
+    "Description": "Página Web"
   },
   {
     "Id": "Sedes.Paises",
-    "Description": "Pais"
+    "Description": "País"
   },
   {
     "Id": "SedesDocumentos",
