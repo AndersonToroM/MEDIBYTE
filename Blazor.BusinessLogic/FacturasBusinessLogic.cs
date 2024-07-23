@@ -969,7 +969,7 @@ namespace Blazor.BusinessLogic
                         procedimientoRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.NroAutorizacion;
                         procedimientoRips.NumDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones?.Empleados?.NumeroIdentificacion;
                         procedimientoRips.TipoDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones.Empleados?.TiposIdentificacion?.Codigo;
-                        procedimientoRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
+                        //procedimientoRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
                         procedimientoRips.ViaIngresoServicioSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ViaIngresoServicioSalud?.Codigo;
                         procedimientoRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
                         procedimientoRips.NumFEVPagoModerador = null;
@@ -978,6 +978,7 @@ namespace Blazor.BusinessLogic
                         {
                             var facturaCopagoCuotaModeradora = servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.FacturaCopagoCuotaModeradora;
                             procedimientoRips.NumFEVPagoModerador = $"{facturaCopagoCuotaModeradora.Documentos.Prefijo}{facturaCopagoCuotaModeradora.NroConsecutivo}";
+                            procedimientoRips.ValorPagoModerador = Convert.ToInt32(facturaCopagoCuotaModeradora.ValorTotal);
                         }
 
                         consecutivoProcedimiento++;
