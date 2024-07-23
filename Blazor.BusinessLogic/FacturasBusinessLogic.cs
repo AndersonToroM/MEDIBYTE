@@ -377,7 +377,6 @@ namespace Blazor.BusinessLogic
                 .Include(x => x.Convenio.ModalidadesContratacion)
                 .Include(x => x.MediosPago)
                 .Include(x => x.FormasPagos)
-                .Include(x => x.Sedes)
                 .FirstOrDefault(x => x.Id == facturaId);
 
             if (fac == null)
@@ -614,8 +613,8 @@ namespace Blazor.BusinessLogic
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = DApp.Util.Dian.CodigoPrestador,
-                        Value = $"{fac.Empresas.CodigoReps}{fac.Sedes.Codigo}"
-                });
+                        Value = fac.Empresas.CodigoReps
+                    });
                     feCollection.NameValues.Add(new FeNameValue
                     {
                         Name = DApp.Util.Dian.ModalidadPago,
@@ -779,6 +778,7 @@ namespace Blazor.BusinessLogic
             var fac = unitOfWork.Repository<Facturas>().Table
                 .Include(x => x.Empresas)
                 .Include(x => x.Documentos)
+                .Include(x => x.Sedes)
                 .FirstOrDefault(x => x.Id == facturaId);
 
             if (fac == null)
@@ -870,7 +870,7 @@ namespace Blazor.BusinessLogic
                         ConsultaRips consultaRips = new ConsultaRips();
 
                         consultaRips.Consecutivo = consecutivoConsulta;
-                        consultaRips.CodPrestador = fac.Empresas?.CodigoReps;
+                        consultaRips.CodPrestador = $"{fac.Empresas?.CodigoReps}{fac.Sedes.Codigo}";
                         consultaRips.FechaInicioAtencion = servicio.AdmisionesServiciosPrestados?.Atenciones?.FechaAtencion.ToString("yyyy-MM-dd HH:mm");
                         consultaRips.NumAutorizacion = servicio.AdmisionesServiciosPrestados?.Atenciones?.Admisiones.NroAutorizacion;
                         if (servicio.Servicios.CupsId != null)
