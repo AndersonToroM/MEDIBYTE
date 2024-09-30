@@ -639,6 +639,7 @@ namespace Blazor.BusinessLogic
                         Name = DApp.Util.Dian.NumeroPoliza,
                         Value = fac.Convenio.NroPoliza
                     });
+                    /*
                     var admision = facDetalle.AdmisionesServiciosPrestados.Atenciones.Admisiones;
                     feCollection.NameValues.Add(new FeNameValue
                     {
@@ -660,6 +661,7 @@ namespace Blazor.BusinessLogic
                         Name = DApp.Util.Dian.PagosCompartidos,
                         Value = admision.ValorPagoEstadosId == 69 ? admision.ValorCopago.ToString(CultureInfo.InvariantCulture) : "0"
                     });
+                    */
 
                     feRootJson.HealthcareData.Collections.Add(feCollection);
                 }
@@ -972,7 +974,7 @@ namespace Blazor.BusinessLogic
                         procedimientoRips.TipoDocumentoIdentificacion = servicio.AdmisionesServiciosPrestados.Atenciones.Empleados?.TiposIdentificacion?.Codigo;
                         //procedimientoRips.ValorPagoModerador = Convert.ToInt32(servicio.Facturas.ValorTotal);
                         procedimientoRips.ViaIngresoServicioSalud = servicio.AdmisionesServiciosPrestados.Atenciones?.Admisiones?.ViaIngresoServicioSalud?.Codigo;
-                        procedimientoRips.VrServicio = Convert.ToInt32(servicio.ValorServicio);
+                        procedimientoRips.VrServicio = Convert.ToInt32((servicio.AdmisionesServiciosPrestados.ValorServicio*servicio.AdmisionesServiciosPrestados.Cantidad));
                         procedimientoRips.NumFEVPagoModerador = null;
 
                         if (servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 58 || servicio.AdmisionesServiciosPrestados.Atenciones.Admisiones.ValorPagoEstadosId == 59)
