@@ -13,7 +13,7 @@
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
         .Back(UrlBack)
-        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000626713-crear-empleado");
+        .GoInstructionManual("https://dev.azure.com/TriviTheOne/MEDIBYTE/_wiki/wikis/MEDIBYTE.wiki/5/MANUEALES-DEL-USUARIO-MEDIBYTE");
 
     //Configuracion necesaria para la carga de archivos
     Model.Entity.FirmaDigitalArchivo.Maestro = Model.Entity.SelloDigitalArchivo.Maestro = Prefix;
@@ -121,8 +121,8 @@
                                 groupItems.AddSimpleFor(m => m.Entity.TipoEmpleados).ColSpan(6)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Empleados.TipoEmpleados")))
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Empleados.TipoEmpleados")))
-                                      .Editor(e => e.SelectBox().ID(Prefix + "TipoEmpleados")
-                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Empleados").LoadAction("GetTipoEmpleados").Key("Id"))
+                                      .Editor(e => e.SelectBox().ID(Prefix + "TipoEmpleados").ReadOnly(true)
+                                      .DataSource(d => d.Mvc().LoadMethod("POST").Controller("Empleados").LoadAction("GetTipoEmpleados").Key("Id")).Value(1)
                                       .DataSourceOptions(o => o.Paginate(true).PageSize(50))
                                       .ValueExpr("Id").DisplayExpr("Nombre")
                                       .OnSelectionChanged(Prefix + "OnTipoEmpleadosChanged")
@@ -130,7 +130,7 @@
 
                                 groupItems.AddSimpleFor(m => m.Entity.RegistroMedico).ColSpan(6)
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(60).Message(DApp.GetStringLengthResource("Empleados.RegistroMedico", 60)))
-                                     .Editor(e => e.TextBox().ID(Prefix + "SSRegistroMedico").ShowClearButton(true));
+                                     .Editor(e => e.TextBox().ID(Prefix + "SSRegistroMedico").ShowClearButton(true)).Visible(false);
                                 groupItems.AddSimpleFor(m => m.Entity.Telefono).ColSpan(6)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Empleados.Telefono", 45)))
                                       .Editor(e => e.TextBox().ID(Prefix + "Telefono").ShowClearButton(true));
@@ -144,7 +144,7 @@
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Empleados.SegundaDireccion", 250)))
                                       .Editor(e => e.TextBox().ID(Prefix + "SegundaDireccion").ShowClearButton(true));
                                 groupItems.AddSimpleFor(m => m.Entity.AutorizaDescuento).Label(x => x.Visible(false)).ColSpan(6)
-                                       .Editor(e => e.CheckBox().ID(Prefix + "AutorizaDescuento").Text(DApp.DefaultLanguage.GetResource("Empleados.AutorizaDescuento")));
+                                       .Editor(e => e.CheckBox().ID(Prefix + "AutorizaDescuento").Text(DApp.DefaultLanguage.GetResource("Empleados.AutorizaDescuento")).Visible(false));
 
                                 groupItems.AddSimpleFor(m => m.Entity.CreatedBy).ColSpan(3)
                                                 .Editor(e => e.TextBox().ReadOnly(true));
@@ -186,7 +186,7 @@
 
         </form>
 
-        @* Si el maestro maneja detalle descomentar el siguiente codigo y remplazar la palabra "VISTADETALLE" y "RECURSODETALLE" *@
+        @* Si el maestro maneja detalle descomentar el siguiente codigo y remplazar la palabra "VISTADETALLE" y "RECURSODETALLE" 
 
         <div>
             <ul class="nav nav-tabs" role="tablist">
@@ -223,7 +223,7 @@
                     </div>
                 }
             </div>
-        </div>
+        </div>*@
 
     </div>
 </div>

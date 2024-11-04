@@ -13,7 +13,7 @@
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
         .Back(UrlBack)
-        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000626711-crear-entidad");
+        .GoInstructionManual("https://dev.azure.com/TriviTheOne/MEDIBYTE/_wiki/wikis/MEDIBYTE.wiki/3/Crear-Entidad");
 }
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" />
@@ -98,7 +98,7 @@
                                   .SearchEnabled(true).ShowClearButton(true)
                                   //.OnValueChanged($"{Prefix}OnValueChangedTiposPersonasId")
                                 );
-
+                                /*
                                 groupItems.AddSimpleFor(m => m.Entity.PrimerNombre).ColSpan(3)
                                 //.ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PrimerNombre")))
                                 .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.PrimerNombre", 250)))
@@ -121,7 +121,7 @@
                             .ValidationRules(rules => rules.AddStringLength().Min(0).Max(250).Message(DApp.GetStringLengthResource("Entidades.SegundoApellido", 255)))
                             .Editor(e => e.TextBox().ID(Prefix + "SegundoApellido")
                             .ShowClearButton(true)
-                            );
+                            );*/
                                 groupItems.AddSimpleFor(m => m.PaisesId).ColSpan(4)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PaisesId")))
                                  .ValidationRules(rules => rules.AddRange().Min(1).Message(DApp.GetRequiredResource("Entidades.PaisesId")))
@@ -190,11 +190,11 @@
                                     .ValidationRules(rules => rules.AddStringLength().Min(0).Max(20).Message(DApp.GetStringLengthResource("Entidades.CodigoPostal", 20)))
                                     .Editor(e => e.TextBox().ID(Prefix + "CodigoPostal").ShowClearButton(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.PorcentajeRetefuente).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.PorcentajeRetefuente).ColSpan(3).Visible(false)
                             .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PorcentajeRetefuente")))
                                 .Editor(e => e.NumberBox().ID(Prefix + "PorcentajeRetefuente").Format("#0.##").Min(0).Max(100).ShowClearButton(true).ShowSpinButtons(true));
 
-                                groupItems.AddSimpleFor(m => m.Entity.PorcentajeReteIca).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.PorcentajeReteIca).ColSpan(3).Visible(false)
                                  .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Entidades.PorcentajeReteIca")))
                                      .Editor(e => e.NumberBox().ID(Prefix + "PorcentajeReteIca").Format("#0.##").Min(0).Max(100).ShowClearButton(true).ShowSpinButtons(true));
 
@@ -235,7 +235,7 @@
         </form>
 
         @* Si el maestro maneja detalle descomentar el siguiente codigo y remplazar la palabra "VISTADETALLE" y "RECURSODETALLE" *@
-
+        @*
         <div>
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
@@ -264,7 +264,7 @@
                 <div role="tabpanel" class="tab-pane" id="EntidadesResponsabilidadesFiscales">
                     <partial name="../EntidadesResponsabilidadesFiscales/ListDetail.cshtml" model=Model view-data="ViewData" />
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>

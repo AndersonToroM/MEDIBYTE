@@ -7,7 +7,7 @@
         .OnClick(UrlClick, new { Id = "Id" })
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Exports(true, true).SetStorage()
-        .AddButtons(new List<ButtonToolbar>
+        /*.AddButtons(new List<ButtonToolbar>
         {
             new ButtonToolbar
             {
@@ -25,7 +25,7 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
             }
-                })
+                })*/
         .ToolbarTop(DApp.DefaultLanguage.GetResource("Empleados"), "mainPanel");
 }
 

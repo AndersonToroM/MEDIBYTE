@@ -12,7 +12,8 @@
         .Save(DApp.ActionViewSecurity(Context, UrlSave), Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         .Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
-        .Back(UrlBack);
+        .Back(UrlBack)
+        .GoInstructionManual("https://dev.azure.com/TriviTheOne/MEDIBYTE/_wiki/wikis/MEDIBYTE.wiki/5/MANUEALES-DEL-USUARIO-MEDIBYTE");
 }
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" />
@@ -134,20 +135,20 @@
                                 );
                                 groupItems.AddSimpleFor(m => m.Entity.Duracion).ColSpan(3)
                                       .Editor(e => e.NumberBox().ID(Prefix + "Duracion").Format("#,##0").ShowClearButton(true).ShowSpinButtons(true));
-                                groupItems.AddSimpleFor(m => m.Entity.CodigoInterno).ColSpan(3)
+                                groupItems.AddSimpleFor(m => m.Entity.CodigoInterno).ColSpan(3).Visible(false)
                                  .ValidationRules(rules => rules.AddStringLength().Min(0).Max(45).Message(DApp.GetStringLengthResource("Servicios.CodigoInterno", 45)))
                                       .Editor(e => e.TextBox().ID(Prefix + "CodigoInterno").ShowClearButton(true));
                                 groupItems.AddSimpleFor(m => m.Entity.TarifaPlena).ColSpan(3)
                                 .ValidationRules(rules => rules.AddRequired().Message(DApp.GetRequiredResource("Servicios.TarifaPlena")))
                                     .Editor(e=>e.NumberBox().ID(Prefix + "TarifaPlena").Format("#,##0.##").Min(0).ShowClearButton(true).ShowSpinButtons(true));
                                 groupItems.AddEmpty().ColSpan(3);
-                                groupItems.AddSimpleFor(m => m.Entity.RequiereProfesional).ColSpan(3).Label(x => x.Visible(false))
+                                groupItems.AddSimpleFor(m => m.Entity.RequiereProfesional).ColSpan(3).Label(x => x.Visible(false)).Visible(false)
                                       .Editor(e => e.CheckBox().ID(Prefix + "RequiereProfesional").Text(DApp.DefaultLanguage.GetResource("Servicios.RequiereProfesional")));
 
-                                groupItems.AddSimpleFor(m => m.Entity.RequiereLecturaResultados).ColSpan(3).Label(x => x.Visible(false))
+                                groupItems.AddSimpleFor(m => m.Entity.RequiereLecturaResultados).ColSpan(3).Label(x => x.Visible(false)).Visible(false)
                                       .Editor(e => e.CheckBox().ID(Prefix + "RequiereLecturaResultados").Text(DApp.DefaultLanguage.GetResource("Servicios.RequiereLecturaResultados")));
 
-                                groupItems.AddSimpleFor(m => m.Entity.EsQuirurgico).ColSpan(3).Label(x => x.Visible(false))
+                                groupItems.AddSimpleFor(m => m.Entity.EsQuirurgico).ColSpan(3).Label(x => x.Visible(false)).Visible(false)
                                       .Editor(e => e.CheckBox().ID(Prefix + "EsQuirurgico").Text(DApp.DefaultLanguage.GetResource("Servicios.EsQuirurgico")));
 
                                 groupItems.AddEmpty().ColSpan(3);
