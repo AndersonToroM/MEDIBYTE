@@ -12,7 +12,8 @@
         .Save(DApp.ActionViewSecurity(Context, UrlSave),Model.Entity.IsNew) 
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew)) 
         .Delete(UrlDelete,DApp.ActionViewSecurity(Context,UrlDelete),UrlBack,Model.Entity.IsNew) 
-        .Back(UrlBack); 
+        .Back(UrlBack)
+        .GoInstructionManual("https://dev.azure.com/TriviTheOne/MEDIBYTE/_wiki/wikis/MEDIBYTE.wiki/5/MANUEALES-DEL-USUARIO-MEDIBYTE");
 }
 
 <partial name="ViewJS.cshtml" model="Model" view-data="ViewData" /> 
