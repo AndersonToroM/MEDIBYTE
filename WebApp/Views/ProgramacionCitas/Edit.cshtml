@@ -13,7 +13,7 @@
         */ 
     var ToolbarConfig = new ToolbarConfiguration(Prefix)
         .Title(DApp.DefaultLanguage.GetResource("ProgramacionCitas"))
-        .GoInstructionManual("https://cloudonesoft.freshdesk.com/support/solutions/articles/70000620008-programaci%C3%B3n-de-citas")
+        .GoInstructionManual("https://dev.azure.com/TriviTheOne/MEDIBYTE/_wiki/wikis/MEDIBYTE.wiki/5/MANUALES-DEL-USUARIO-MEDIBYTE")
         .Save(DApp.ActionViewSecurity(Context, UrlSave) || (Model.Entity.EstadosId != 3), Model.Entity.IsNew)
         .New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
         //.Delete(UrlDelete, DApp.ActionViewSecurity(Context, UrlDelete), UrlBack, Model.Entity.IsNew)
