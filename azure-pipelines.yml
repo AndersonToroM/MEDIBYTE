@@ -16,7 +16,7 @@
   'Servidor-Personal'
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'LAPTOP-JJCBKVG3'
 
 variables:
   solution: '**/*.sln'
