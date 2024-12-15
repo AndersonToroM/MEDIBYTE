@@ -6,7 +6,7 @@
     var DataGridConfig = new DataGridConfiguration<Admisiones>(Prefix)
         .OnClick(UrlClick, new { Id = "Id" })
         //.New(UrlNew, DApp.ActionViewSecurity(Context, UrlNew))
-        .AddButtons(new List<ButtonToolbar>()
+        /*.AddButtons(new List<ButtonToolbar>()
         {
             new ButtonToolbar
             {
@@ -24,7 +24,7 @@
                 LocateInMenu = ToolbarItemLocateInMenuMode.Auto,
                 Icon = "detailslayout"
             }
-        })
+        })*/
         .Exports(true, true).SetStorage()
         .ToolbarTop(DApp.DefaultLanguage.GetResource("Atenciones"), "mainPanel");
 }
@@ -101,7 +101,7 @@
 
             columns.AddFor(m => m.ProgramacionCitas.Entidades.Nombre).Caption(DApp.DefaultLanguage.GetResource("Atenciones.Entidad"));
             columns.AddFor(m => m.Convenios.Nombre);
-            columns.AddFor(m => m.Filiales.Nombre).Caption(DApp.DefaultLanguage.GetResource("Atenciones.Filial"));
+            //columns.AddFor(m => m.Filiales.Nombre).Caption(DApp.DefaultLanguage.GetResource("Atenciones.Filial"));
             columns.AddFor(m => m.ProgramacionCitas.Sedes.Nombre);
             columns.AddFor(m => m.ProgramacionCitas.Consultorios.Nombre);
 

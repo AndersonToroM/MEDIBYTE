@@ -18,14 +18,14 @@
             //    LocateInMenu = ToolbarItemLocateInMenuMode.Always,
             //    Location = ToolbarItemLocation.Before
             //},
-            new ButtonToolbar
+            /*new ButtonToolbar
             {
                 Action = $"{Prefix}MostrarModalDescargarXLSXReporteEntregaProduccion",
                 Icon = "xlsxfile",
                 Text = DApp.DefaultLanguage.GetResource("Admisiones.DescargarXLSXReporteEntregaProduccion"),
                 LocateInMenu = ToolbarItemLocateInMenuMode.Always,
                 Location = ToolbarItemLocation.Before
-            }
+            }*/
         })
         .ToolbarTop(DApp.DefaultLanguage.GetResource("Admisiones"), "mainPanel");
 }
@@ -108,15 +108,15 @@
         columns.AddFor(m => m.ProgramacionCitas.Servicios.Nombre);
         columns.AddFor(m => m.ProgramacionCitas.FechaInicio).Format("dd/MM/yyyy");
         columns.AddFor(m => m.ProgramacionCitas.FechaInicio).Caption(DApp.DefaultLanguage.GetResource("Admisiones.HoraInicio")).Format("HH:mm");
-        columns.AddFor(m => m.ProgramacionCitas.Servicios.RequiereProfesional);
+        //columns.AddFor(m => m.ProgramacionCitas.Servicios.RequiereProfesional);
         columns.AddFor(m => m.ProgramacionCitas.Consultorios.Nombre);
-        columns.AddFor(m => m.ProgramacionCitas.Empleados.NombreCompleto);
+        //columns.AddFor(m => m.ProgramacionCitas.Empleados.NombreCompleto);
         columns.AddFor(m => m.Convenios.Nombre);
-        columns.AddFor(m => m.Filiales.Nombre);
+        //columns.AddFor(m => m.Filiales.Nombre);
         columns.AddFor(m => m.Estados.Nombre);
-        columns.AddFor(m => m.PorcDescAutorizado);
-        columns.AddFor(m => m.ValorPagoEstados.Nombre).Caption(DApp.DefaultLanguage.GetResource("Admisiones.ValorPagoEstados"));
-        columns.AddFor(m => m.Facturado);
+        //columns.AddFor(m => m.PorcDescAutorizado);
+        //columns.AddFor(m => m.ValorPagoEstados.Nombre).Caption(DApp.DefaultLanguage.GetResource("Admisiones.ValorPagoEstados"));
+        //columns.AddFor(m => m.Facturado);
         })
 ) 
 </div> 
