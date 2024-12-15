@@ -1,4 +1,10 @@
 # ASP.NET
+- task: AzureStaticWebApp@0
+  inputs:
+    skip_app_build: true
+    skip_api_build: true
+    is_static_export: true
+    azure_static_web_apps_api_token: '06d5f480fca808b076345c6e8d95a9d764602317fa20544972c89374ee5b010504-3635e74d-23ee-4070-aa2e-56495703f37301013050fc67c710'
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
